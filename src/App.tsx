@@ -107,7 +107,7 @@ function App(this: any) {
 				</Navbar>
 
 				{/* Content*/}
-				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-gray-800/10'>
+				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-slate-800/20'>
 					{/* Controls Tree */}
 					<div className='flex flex-col bg-base-200 p-2 gap-2'>
 						{/* Code Control */}
