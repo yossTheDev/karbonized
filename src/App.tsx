@@ -2,13 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
 import './App.module.css';
 import './utils.css';
-import {
-	IconCode,
-	IconFlask,
-	IconLetterT,
-	IconQrcode,
-	IconTrash,
-} from '@tabler/icons';
+import { IconCode, IconFlask, IconLetterT, IconQrcode } from '@tabler/icons';
 import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import karbonized from './assets/karbonized.svg';
