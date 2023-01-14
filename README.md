@@ -13,6 +13,6 @@ Free and Open Source carbon App. Made with ❤️ and ReactJS from 🇨🇺. Sty
 * Completely **Free** and **Open Source**
 * Made with React
 
-## Preview
+## 🌐 Preview
 
 ![carbonizedscreen](./img/screen.png)
