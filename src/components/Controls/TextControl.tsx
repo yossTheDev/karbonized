@@ -28,7 +28,7 @@ export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 							menu={
 								<div className='flex flex-row m-2 gap-2'>
 									<IconLetterT></IconLetterT>
-									<p>Text</p>
+									<p className='my-auto'>Text</p>
 								</div>
 							}
 						>
