@@ -1,7 +1,7 @@
 # Karbonized
 
 ![carbonizedlogo](./img/banner.png)
-Free and Open Source carbon App. Made with ❤️ and ReactJS from 🇨🇺
+Free and Open Source carbon App. Made with ❤️ and ReactJS from 🇨🇺. Styling your code with Karbonized and share it with the world
 
 [Test it out](https://karbonized.onrender.com)
 
