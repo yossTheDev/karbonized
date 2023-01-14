@@ -1,13 +1,12 @@
 import { IconCode, IconDots, IconPalette } from '@tabler/icons';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { Checkbox, Collapse, Input, Select, Textarea } from 'react-daisyui';
+import { Checkbox, Input, Select, Textarea } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { refractor } from 'refractor/lib/all';
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomCollapse';
-//const { refractor } = await import('refractor/lib/all');
 
 export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 	/* Component States */
@@ -19,6 +18,7 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 	const [title, setTitle] = useState('Code');
 	const [showLineNumbers, setShowLineNumbers] = useState(false);
 	const [wrapLines, setWrapLines] = useState(false);
+
 	return (
 		<>
 			<ControlTemplate
