@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read
@@ -33,10 +33,10 @@ jobs:
           node-version: 16
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn install
 
       - name: Build project
-        run: npm run build
+        run: yarn run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
