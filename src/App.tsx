@@ -8,11 +8,13 @@ import {
 	IconLetterT,
 	IconPhoto,
 	IconQrcode,
+	IconShare,
 } from '@tabler/icons';
 import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
 import { KarbonizedLogo } from './components/General/Icons';
+import { toBlob } from 'html-to-image';
 
 function App(this: any) {
 	const addControl = useStoreActions((state) => state.addControl);
@@ -38,6 +40,27 @@ function App(this: any) {
 				console.log(err);
 			});
 	}, [ref]);
+
+	const handleShare = async () => {
+		const newFile = await toBlob(ref.current as HTMLElement);
+		if (newFile) {
+			const data = {
+				files: [
+					new File([newFile], 'image.png', {
+						type: newFile.type,
+					}),
+				],
+				title: 'Image',
+				text: 'image',
+			};
+
+			try {
+				await navigator.share(data);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
 
 	return (
 		<>
@@ -68,6 +91,10 @@ function App(this: any) {
 							</Menu.Item>
 							{/* Save Button */}
 							<Menu.Item>
+								<Button className='rounded mr-3' onClick={handleShare}>
+									<IconShare className='text-white'></IconShare>
+									<p className='text-white'>Share</p>
+								</Button>
 								<button
 									onClick={onButtonClick}
 									className=' border-primary border rounded-2xl text-white font-bold flex flex-row'
