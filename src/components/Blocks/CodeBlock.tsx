@@ -62,7 +62,8 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 
 							<p>Code</p>
 							<Textarea
-								className=' h-22 resize-none flex flex-auto'
+								spellCheck={false}
+								className=' h-32 resize-none flex flex-auto'
 								value={code}
 								onChange={(ev) => setCode(ev.target.value)}
 							></Textarea>

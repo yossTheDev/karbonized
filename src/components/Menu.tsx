@@ -1,6 +1,6 @@
-import { IconPalette } from '@tabler/icons';
-import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
+import { IconBox, IconPalette, IconShape, IconSquare } from '@tabler/icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { TabSelector } from './TabsSelector';
@@ -30,12 +30,13 @@ export const Menu: React.FC = () => {
 	return (
 		<div className='flex flex-auto flex-col'>
 			{/* Seletors */}
-			<div className='flex flex-auto  max-h-8 flex-row gap-4 mb-2'>
+			<div className='flex flex-auto  max-h-8 flex-row gap-4'>
 				<TabSelector
 					isActive={selectedTab === 'control'}
 					onClick={() => setSelectedTab('control')}
 				>
-					<div className=''>
+					<div className='flex flex-auto flex-row'>
+						<IconShape className='mr-2' size={18}></IconShape>
 						<p>Control</p>
 					</div>
 				</TabSelector>
@@ -44,12 +45,15 @@ export const Menu: React.FC = () => {
 					isActive={selectedTab === 'workspace'}
 					onClick={() => setSelectedTab('workspace')}
 				>
-					<div>Workspace</div>
+					<div className='flex flex-auto flex-row'>
+						<IconSquare className='mr-2' size={18}></IconSquare>
+						<div>Workspace</div>
+					</div>
 				</TabSelector>
 			</div>
 
 			{/* Tab Panels */}
-			<div className='flex flex-auto flex-col'>
+			<div className='flex flex-auto flex-col mt-4'>
 				{/* Workspace */}
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}
@@ -63,11 +67,11 @@ export const Menu: React.FC = () => {
 							<IconPalette size={22}></IconPalette>
 							<p className='font-bold my-auto'>Background</p>
 						</div>
-						<HexColorPicker
+						<HexAlphaColorPicker
 							color={workspaceColor}
 							onChange={setWorkspaceColor}
 							className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-						></HexColorPicker>
+						></HexAlphaColorPicker>
 					</div>
 				</TabPanel>
 

@@ -7,6 +7,7 @@ import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import karbonized from './assets/karbonized.svg';
 import { Menu as ControlsMenu } from './components/Menu';
+import { KarbonizedLogo } from './components/General/Icons';
 
 interface Item {
 	id: string;
@@ -53,10 +54,9 @@ function App(this: any) {
 				className='bg-base-200 h-screen w-screen flex flex-col flex-auto overflow-hidden'
 			>
 				{/* Nav Bar */}
-				<Navbar>
-					<div className='flex-1 '>
-						<img className='h-8 ml-2' src={karbonized}></img>
-						<p className='text-2xl font-bold text-white ml-2'>Karbonized</p>
+				<Navbar className='flex shrink-0'>
+					<div className='flex-1'>
+						<KarbonizedLogo className='h-12 fill-white w-40'></KarbonizedLogo>
 					</div>
 					<div className='flex-none'>
 						<Menu horizontal className='p-0'>
