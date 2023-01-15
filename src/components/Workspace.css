@@ -1,0 +1,11 @@
+.workspace {
+	height: 350px;
+	width: 350px;
+}
+
+@media (min-width: 1024px) {
+	.lg\:workspace {
+		height: 450px;
+		width: 700px;
+	}
+}

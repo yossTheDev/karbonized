@@ -6,6 +6,7 @@ import { Portal } from 'react-portal';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
+import './Workspace.css';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;
@@ -20,11 +21,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			<TransformWrapper disabled centerOnInit>
 				<TransformComponent>
 					<div
-						style={{
-							backgroundColor: workspaceColor,
-							width: Capacitor.getPlatform() === 'android' ? '400px' : '700px',
-							height: '450px',
-						}}
+						className={`bg-gradient-to-br from-blue-300  to-blue-500 workspace lg:workspace`}
 						ref={reference}
 					>
 						{controls.map((el, i) => (

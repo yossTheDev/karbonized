@@ -5,7 +5,6 @@ import './utils.css';
 import { IconCode, IconFlask, IconLetterT, IconQrcode } from '@tabler/icons';
 import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
-import karbonized from './assets/karbonized.svg';
 import { Menu as ControlsMenu } from './components/Menu';
 import { KarbonizedLogo } from './components/General/Icons';
 
@@ -17,11 +16,6 @@ interface Item {
 function App(this: any) {
 	const addControl = useStoreActions((state) => state.addControl);
 
-	const [controlsTree, setControlsTree] = useState<Item[]>([
-		{ id: 'myid', type: 'code' },
-	]);
-	const [imageClassName, setImageClassName] = useState('');
-
 	const ref = useRef<HTMLDivElement>(null);
 
 	const onButtonClick = useCallback(async () => {
@@ -29,18 +23,15 @@ function App(this: any) {
 		if (ref.current === null) {
 			return;
 		}
-		setImageClassName('');
 
 		toPng(ref.current, {
 			cacheBust: true,
 		})
 			.then((dataUrl) => {
 				const link = document.createElement('a');
-				link.download = 'my-image-name.png';
+				link.download = 'code-karbonized.png';
 				link.href = dataUrl;
 				link.click();
-
-				setImageClassName('');
 			})
 			.catch((err) => {
 				console.log(err);
@@ -65,19 +56,7 @@ function App(this: any) {
 								<Dropdown className='text-white hidden' color='ghost'>
 									<p>Controls</p>
 									<Dropdown.Menu className='bg-gray-800'>
-										<Dropdown.Item
-											onClick={() =>
-												setControlsTree((e) => {
-													let copy = [...controlsTree];
-													copy = [
-														...copy,
-														{ id: Math.random().toString(), type: 'code' },
-													];
-													console.log(e);
-													return copy;
-												})
-											}
-										>
+										<Dropdown.Item>
 											<div className='flex flex-row gap-2'>
 												<IconCode></IconCode>
 												<p>Code</p>
@@ -103,7 +82,7 @@ function App(this: any) {
 				{/* Content*/}
 				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-base-100'>
 					{/* Controls Tree */}
-					<div className='flex flex-col bg-base-200 p-2 gap-2'>
+					<div className='flex flex-row lg:flex-col bg-base-200 p-2 gap-2'>
 						{/* Code Control */}
 						<Button onClick={() => addControl({ type: 'code' })}>
 							<IconCode className='text-white'></IconCode>
@@ -126,7 +105,7 @@ function App(this: any) {
 					</div>
 
 					{/* Menu */}
-					<div className='flex flex-auto flex-col max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'>
+					<div className='flex flex-auto flex-col lg:max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>

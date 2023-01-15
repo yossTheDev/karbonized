@@ -7,7 +7,7 @@ import { ControlTemplate } from './ControlTemplate';
 
 export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 	/* Component States */
-	const [text, setText] = useState('hello');
+	const [text, setText] = useState('lorem');
 	const [color, setColor] = useState('#f3f4f6');
 	const [textSize, setTextSize] = useState('24');
 	const [isBold, setIsBold] = useState(false);

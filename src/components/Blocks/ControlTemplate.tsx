@@ -1,7 +1,7 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
-import { IconAxisX, IconAxisY, IconTrash } from '@tabler/icons';
-import React, { ReactNode, useState } from 'react';
-import { Collapse, Input } from 'react-daisyui';
+import { IconAxisX, IconAxisY, IconCamera, IconTrash } from '@tabler/icons';
+import React, { ReactNode, useRef, useState } from 'react';
+import { Button, Collapse, Input } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { Rnd } from 'react-rnd';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -37,18 +37,18 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const currentControlID = useStoreState((state) => state.currentControlID);
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
-	const [ondrag, setOndrag] = useState(false);
-
 	// Component States
 	const [disable, setDisable] = useState(false);
 	const [zIndex, setzIndex] = useState('0');
 	const [visibility, setVisibility] = useState(true);
-	const [tooltipVisibility, settooltipVisibility] = useState(false);
+	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(10), flip(), shift()],
-		placement: 'top',
+		placement: 'right',
 	});
+	const [ondrag, setOndrag] = useState(false);
 	const [position, setPosition] = useState({ x: 209, y: 191 });
+	const ref = useRef<HTMLDivElement>(null);
 
 	return (
 		<>
@@ -59,12 +59,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						setID(id);
 					}}
 					onResizeStart={() => {
+						setContextMenu(false);
 						setOndrag(true);
 					}}
 					onResizeStop={() => {
 						setOndrag(false);
 					}}
-					onDragStart={() => setOndrag(true)}
+					onDragStart={() => {
+						setOndrag(true);
+						setContextMenu(false);
+					}}
 					onDragStop={(e, d) => {
 						setOndrag(false);
 						setPosition({ x: d.x, y: d.y });
@@ -83,20 +87,25 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					bounds='parent'
 				>
 					<div
-						style={{
-							backgroundColor: color,
-						}}
-						ref={reference}
-						onContextMenu={(e) => {
-							settooltipVisibility(true);
-							//setDisable(true);
-							e.preventDefault();
-						}}
 						className={`flex flex-auto flex-col h-full rounded ${
 							ondrag && 'border-2 border-blue-500 rounded'
 						}`}
+						style={{
+							backgroundColor: color,
+						}}
+						ref={ref}
 					>
-						{children}
+						<div
+							className='flex flex-auto flex-col h-full'
+							ref={reference}
+							onContextMenu={(e) => {
+								setContextMenu(!contextMenu);
+								//setDisable(true);
+								e.preventDefault();
+							}}
+						>
+							{children}
+						</div>
 					</div>
 				</Rnd>
 			)}
@@ -157,14 +166,49 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			)}
 
 			{/* Tooltip */}
-			{tooltipVisibility && tooltip && (
+			{contextMenu && currentControlID === id && (
 				<div
-					onMouseLeave={() => settooltipVisibility(false)}
-					className='transition absolute  ease-in-out delay-150  hover:scale-110 duration-300  bg-white shadow   text-black h  p-3 rounded flex flex-auto  flex-row'
+					className='z-50'
 					ref={floating}
 					style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 				>
-					<div className='flex flex-row flex-auto gap-10'>{tooltip}</div>
+					<div className='flex flex-col flex-auto gap-2'>
+						{/* Delete Block */}
+						<Button
+							onClick={() => {
+								setID('');
+								setVisibility(false);
+							}}
+						>
+							<IconTrash></IconTrash>
+						</Button>
+
+						{/* Capture Block */}
+						<Button
+							onClick={async () => {
+								const { toPng } = await import('html-to-image');
+								console.log('capturando');
+								if (ref.current === null) {
+									return;
+								}
+
+								toPng(ref.current, {
+									cacheBust: true,
+								})
+									.then((dataUrl) => {
+										const link = document.createElement('a');
+										link.download = 'code-karbonized.png';
+										link.href = dataUrl;
+										link.click();
+									})
+									.catch((err) => {
+										console.log(err);
+									});
+							}}
+						>
+							<IconCamera></IconCamera>
+						</Button>
+					</div>
 				</div>
 			)}
 		</>
