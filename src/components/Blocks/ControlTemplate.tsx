@@ -104,51 +104,51 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{/* Menu */}
 			{currentControlID === id && (
 				<Portal node={document.getElementById('menu')}>
-					<div className='select-none flex flex-auto flex-col'>
-						{/* Position */}
-						<CustomCollapse
-							menu={
-								<div className='flex flex-row m-2 gap-2'>
-									<IconAxisY size={22}></IconAxisY>
-									<p className='font-bold my-auto'>Position</p>
-								</div>
-							}
-						>
-							<div className='flex flex-row flex-wrap text-xs'>
-								<div className='flex flex-auto  p-2 '>
-									<p className='p-2 my-auto'>X:</p>
-									<div className='bg-base-100 p-2 rounded-xl  w-full'>
-										{position.x}
-									</div>
-								</div>
-								<div className='flex flex-auto  p-2 text-xs'>
-									<p className='p-2 my-auto'>Y:</p>
-									<div className=' bg-base-100 rounded-xl p-2 w-full'>
-										{position.y}
-									</div>
-								</div>
-
-								<div className='flex flex-auto p-2 text-xs'>
-									<p className='p-2'>Z:</p>
-									<Input
-										onChange={(ev) => setzIndex(ev.target.value)}
-										value={zIndex}
-										className='bg-base-100 h-9 my-auto mx-auto'
-									></Input>
+					{/* Position */}
+					<CustomCollapse
+						menu={
+							<div className='flex flex-row m-2 gap-2'>
+								<IconAxisY size={22}></IconAxisY>
+								<p className='font-bold my-auto'>Position</p>
+							</div>
+						}
+					>
+						<div className='flex flex-row flex-wrap text-xs'>
+							<div className='flex flex-auto  p-2 '>
+								<p className='p-2 my-auto'>X:</p>
+								<div className='bg-base-100 p-2 rounded-xl  w-full'>
+									{position.x}
 								</div>
 							</div>
-						</CustomCollapse>
+							<div className='flex flex-auto  p-2 text-xs'>
+								<p className='p-2 my-auto'>Y:</p>
+								<div className=' bg-base-100 rounded-xl p-2 w-full'>
+									{position.y}
+								</div>
+							</div>
 
-						{menu}
+							<div className='flex flex-auto p-2 text-xs'>
+								<p className='p-2'>Z:</p>
+								<Input
+									onChange={(ev) => setzIndex(ev.target.value)}
+									value={zIndex}
+									className='bg-base-100 h-9 my-auto mx-auto'
+								></Input>
+							</div>
+						</div>
+					</CustomCollapse>
 
-						{/* Delete */}
-						<div
-							onClick={() => {
-								setID('');
-								setVisibility(false);
-							}}
-							className='mt-auto p-4 bg-gray-800/20 hover:bg-red-600 rounded flex flex-auto flex-row gap-2 max-h-14 cursor-pointer'
-						>
+					{menu}
+
+					{/* Delete */}
+					<div
+						onClick={() => {
+							setID('');
+							setVisibility(false);
+						}}
+						className='mt-auto  bg-gray-800/20 hover:bg-red-600 rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
+					>
+						<div className='flex flex-row gap-2 mx-auto my-auto'>
 							<IconTrash></IconTrash>
 							<p>Delete Component</p>
 						</div>

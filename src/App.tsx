@@ -6,6 +6,7 @@ import { IconCode, IconFlask, IconLetterT, IconQrcode } from '@tabler/icons';
 import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import karbonized from './assets/karbonized.svg';
+import { Menu as ControlsMenu } from './components/Menu';
 
 interface Item {
 	id: string;
@@ -21,7 +22,6 @@ function App(this: any) {
 	const [imageClassName, setImageClassName] = useState('');
 
 	const ref = useRef<HTMLDivElement>(null);
-	const menuref = useRef<HTMLDivElement>(null);
 
 	const onButtonClick = useCallback(async () => {
 		const { toPng } = await import('html-to-image');
@@ -126,11 +126,8 @@ function App(this: any) {
 					</div>
 
 					{/* Menu */}
-					<div
-						ref={menuref}
-						className='flex flex-auto flex-col max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'
-					>
-						<div id='menu' className='flex flex-auto flex-col gap-2'></div>
+					<div className='flex flex-auto flex-col max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'>
+						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>
 			</div>
