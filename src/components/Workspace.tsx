@@ -1,8 +1,4 @@
-import { Capacitor } from '@capacitor/core';
-import { IconPalette } from '@tabler/icons';
-import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
-import { Portal } from 'react-portal';
+import React, { RefObject } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
