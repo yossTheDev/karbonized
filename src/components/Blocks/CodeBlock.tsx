@@ -25,8 +25,8 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 				id={id}
 				color={color}
 				minHeight='100px'
-				maxWidth='600px'
-				maxHeight='400px'
+				maxWidth='620px'
+				maxHeight='450px'
 				menu={
 					<>
 						{/* Code Settings */}
@@ -40,7 +40,6 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 							}
 						>
 							<p>Languaje</p>
-
 							<Select
 								tabIndex={0}
 								value={languaje}
@@ -62,9 +61,8 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 							></Input>
 
 							<p>Code</p>
-
 							<Textarea
-								className=' h-16 resize-none flex flex-auto'
+								className=' h-22 resize-none flex flex-auto'
 								value={code}
 								onChange={(ev) => setCode(ev.target.value)}
 							></Textarea>

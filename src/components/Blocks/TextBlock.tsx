@@ -34,7 +34,7 @@ export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 						>
 							<p>Text Style</p>
 							{/* Text */}
-							<ButtonGroup className='flex flex-auto'>
+							<ButtonGroup className='flex flex-auto mx-auto'>
 								<Button
 									active={isBold}
 									onClick={() => setIsBold(!isBold)}

@@ -15,14 +15,12 @@ export const TabSelector: React.FC<Props> = ({
 		<button
 			className={
 				isActive
-					? 'text-black dark:text-white font-bold text-xs delay-75 transition-all'
-					: ' text-gray-500'
+					? ' dark:text-white font-bold text-xs'
+					: ' text-gray-500 text-xs select-none'
 			}
 			onClick={onClick}
 		>
 			{children}
-
-			<div className={isActive ? `bg-primary  p-0.5 rounded ` : ''}></div>
 		</button>
 	);
 };
