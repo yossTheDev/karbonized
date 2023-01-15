@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
 import './App.module.css';
 import './utils.css';
@@ -7,11 +7,6 @@ import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
 import { KarbonizedLogo } from './components/General/Icons';
-
-interface Item {
-	id: string;
-	type: string;
-}
 
 function App(this: any) {
 	const addControl = useStoreActions((state) => state.addControl);
@@ -82,7 +77,7 @@ function App(this: any) {
 				{/* Content*/}
 				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-base-100'>
 					{/* Controls Tree */}
-					<div className='flex flex-row lg:flex-col bg-base-200 p-2 gap-2'>
+					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2'>
 						{/* Code Control */}
 						<Button onClick={() => addControl({ type: 'code' })}>
 							<IconCode className='text-white'></IconCode>
@@ -100,12 +95,12 @@ function App(this: any) {
 					</div>
 
 					{/* Workspace */}
-					<div className='mx-auto my-auto'>
+					<div className='order-2 mx-auto my-auto'>
 						<Workspace reference={ref}></Workspace>
 					</div>
 
 					{/* Menu */}
-					<div className='flex flex-auto flex-col lg:max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'>
+					<div className='order-3 flex flex-auto flex-col lg:max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>
