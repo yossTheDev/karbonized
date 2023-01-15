@@ -1,6 +1,8 @@
+import { IconPalette } from '@tabler/icons';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
+import { HexColorPicker } from 'react-colorful';
 import { TabPanel, useTabs } from 'react-headless-tabs';
-import { useStoreState } from '../stores/Hooks';
+import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { TabSelector } from './TabsSelector';
 
 export const Menu: React.FC = () => {
@@ -11,6 +13,8 @@ export const Menu: React.FC = () => {
 	// App Store
 	const controls = useStoreState((state) => state.ControlsTree);
 	const currentID = useStoreState((state) => state.currentControlID);
+	const workspaceColor = useStoreState((state) => state.workspaceColor);
+	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
 
 	const reference = useRef<HTMLDivElement>(null);
 
@@ -18,22 +22,20 @@ export const Menu: React.FC = () => {
 		if (reference.current?.childNodes)
 			if (reference.current?.childNodes.length > 1) {
 				setIsEmpty(false);
-				console.log(reference.current?.childNodes.length);
 			} else {
 				setIsEmpty(true);
-				console.log(reference.current?.childNodes.length);
 			}
 	}, [controls, isEmpty, currentID]);
 
 	return (
 		<div className='flex flex-auto flex-col'>
 			{/* Seletors */}
-			<div className='flex flex-auto  max-h-8 flex-row gap-4'>
+			<div className='flex flex-auto  max-h-8 flex-row gap-4 mb-2'>
 				<TabSelector
 					isActive={selectedTab === 'control'}
 					onClick={() => setSelectedTab('control')}
 				>
-					<div>
+					<div className=''>
 						<p>Control</p>
 					</div>
 				</TabSelector>
@@ -48,14 +50,31 @@ export const Menu: React.FC = () => {
 
 			{/* Tab Panels */}
 			<div className='flex flex-auto flex-col'>
+				{/* Workspace */}
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}
-					className={`${selectedTab === 'workspace' && 'flex flex-auto'}`}
-				></TabPanel>
+					className={`${
+						selectedTab === 'workspace' && 'flex flex-auto text-gray-400'
+					}`}
+					id='workspace'
+				>
+					<div id='workspace' className='flex flex-auto flex-col'>
+						<div className='flex flex-row m-2 gap-2 '>
+							<IconPalette size={22}></IconPalette>
+							<p className='font-bold my-auto'>Background</p>
+						</div>
+						<HexColorPicker
+							color={workspaceColor}
+							onChange={setWorkspaceColor}
+							className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+						></HexColorPicker>
+					</div>
+				</TabPanel>
 
+				{/* Controls */}
 				<TabPanel
 					className={`${
-						selectedTab === 'control' && 'flex flex-auto flex-col'
+						selectedTab === 'control' && 'flex flex-auto flex-col text-gray-400'
 					}`}
 					hidden={selectedTab !== 'control'}
 				>

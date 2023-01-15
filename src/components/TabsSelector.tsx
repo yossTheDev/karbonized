@@ -15,8 +15,8 @@ export const TabSelector: React.FC<Props> = ({
 		<button
 			className={
 				isActive
-					? ' dark:text-white font-bold text-xs'
-					: ' text-gray-500 text-xs select-none'
+					? ' dark:text-white font-bold text-xs bg-base-100 p-4 rounded'
+					: ' text-gray-500 text-xs select-none p-4 rounded'
 			}
 			onClick={onClick}
 		>

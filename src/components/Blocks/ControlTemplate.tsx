@@ -146,7 +146,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							setID('');
 							setVisibility(false);
 						}}
-						className='mt-auto  bg-gray-800/20 hover:bg-red-600 rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
+						className='mt-auto  bg-gray-800/20 hover:bg-red-600 hover:text-white rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
 					>
 						<div className='flex flex-row gap-2 mx-auto my-auto'>
 							<IconTrash></IconTrash>
