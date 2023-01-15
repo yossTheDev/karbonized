@@ -16,6 +16,7 @@ Controls
 * Now you can manually define size and position of all controls
 * Now you can change background color
 * Now you can define colors of QR control
+* Added context menu for delete component and take an individual screenshot
 * Added Image Control
 * Improve UI/UX
 * Improve website for mobile devices
