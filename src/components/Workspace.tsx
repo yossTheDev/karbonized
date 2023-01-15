@@ -2,7 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import React, { RefObject } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { useStoreState } from '../stores/Hooks';
-import { ControlHandler } from './Controls/ControlHandler';
+import { ControlHandler } from './Blocks/ControlHandler';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;

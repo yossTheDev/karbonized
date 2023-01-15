@@ -101,7 +101,7 @@ function App(this: any) {
 				</Navbar>
 
 				{/* Content*/}
-				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-slate-800/20'>
+				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-base-100'>
 					{/* Controls Tree */}
 					<div className='flex flex-col bg-base-200 p-2 gap-2'>
 						{/* Code Control */}
@@ -128,7 +128,7 @@ function App(this: any) {
 					{/* Menu */}
 					<div
 						ref={menuref}
-						className='flex flex-auto max-w-xs p-2  text-white bg-base-200'
+						className='flex flex-auto flex-col max-w-xs p-2  text-white bg-base-200'
 					>
 						<div
 							id='menu'

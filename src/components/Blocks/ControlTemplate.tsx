@@ -48,7 +48,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		middleware: [offset(10), flip(), shift()],
 		placement: 'top',
 	});
-	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const [position, setPosition] = useState({ x: 209, y: 191 });
 
 	return (
 		<>
@@ -65,12 +65,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						setOndrag(false);
 					}}
 					onDragStart={() => setOndrag(true)}
-					default={{ height: '50px', width: '80px', x: 0, y: 0 }}
-					position={{ x: position.x, y: position.y }}
 					onDragStop={(e, d) => {
 						setOndrag(false);
 						setPosition({ x: d.x, y: d.y });
 					}}
+					default={{ height: '50px', width: '80px', x: 0, y: 0 }}
+					position={{ x: position.x, y: position.y }}
 					disableDragging={disable}
 					maxHeight={maxHeight}
 					maxWidth={maxWidth}

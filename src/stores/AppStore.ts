@@ -16,7 +16,7 @@ export interface AppStoreModel {
 
 export const AppStore = createStore<AppStoreModel>({
 	/* Store */
-	ControlsTree: [],
+	ControlsTree: [{ type: 'code' }],
 	currentControlID: '',
 
 	addControl: action((state, payload) => {

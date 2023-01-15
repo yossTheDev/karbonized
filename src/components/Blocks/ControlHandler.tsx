@@ -1,7 +1,7 @@
 import React from 'react';
-import { CodeControl } from './CodeControl';
-import { QrControl } from './QrControl';
-import { TextControl } from './TextControl';
+import { CodeControl } from './CodeBlock';
+import { QrControl } from './QrBlock';
+import { TextControl } from './TextBlock';
 
 interface Props {
 	type: string;

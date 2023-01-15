@@ -20,17 +20,16 @@ export const CustomCollapse: React.FC<Props> = ({
 			<Collapse open={open} tabIndex={0} className=''>
 				<Collapse.Title
 					onClick={() => setOpen(!open)}
-					className='text-xs font-bold hover:bg-slate-800/10 rounded flex-row p-2 cursor-pointer'
+					className='text-xs font-bold hover:bg-slate-800/10 rounded flex-row p-1 cursor-pointer'
 				>
 					<div className='flex flex-auto flex-row my-auto'>
 						{menu}
 						<div className='ml-auto my-auto'>
-							<Swap
-								onChange={(ev) => setOpen(!open)}
-								active={open}
-								onElement={<IconChevronUp></IconChevronUp>}
-								offElement={<IconChevronDown></IconChevronDown>}
-							></Swap>
+							{open ? (
+								<IconChevronUp></IconChevronUp>
+							) : (
+								<IconChevronDown></IconChevronDown>
+							)}
 						</div>
 					</div>
 				</Collapse.Title>
