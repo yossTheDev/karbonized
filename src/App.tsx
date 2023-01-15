@@ -2,7 +2,13 @@ import { useCallback, useRef } from 'react';
 import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
 import './App.module.css';
 import './utils.css';
-import { IconCode, IconFlask, IconLetterT, IconQrcode } from '@tabler/icons';
+import {
+	IconCode,
+	IconFlask,
+	IconLetterT,
+	IconPhoto,
+	IconQrcode,
+} from '@tabler/icons';
 import { useStoreActions } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
@@ -91,6 +97,11 @@ function App(this: any) {
 						{/* Qr Control */}
 						<Button onClick={() => addControl({ type: 'qr' })}>
 							<IconQrcode className='text-white'></IconQrcode>
+						</Button>
+
+						{/* Image Control */}
+						<Button onClick={() => addControl({ type: 'image' })}>
+							<IconPhoto className='text-white'></IconPhoto>
 						</Button>
 					</div>
 

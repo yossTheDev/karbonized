@@ -1,5 +1,6 @@
 import React from 'react';
 import { CodeControl } from './CodeBlock';
+import { ImageBlock } from './ImageBlock';
 import { QrControl } from './QrBlock';
 import { TextControl } from './TextBlock';
 
@@ -16,6 +17,8 @@ export const ControlHandler: React.FC<Props> = ({ type }) => {
 			return <TextControl id={Math.random().toString()}></TextControl>;
 		case 'qr':
 			return <QrControl id={Math.random().toString()}></QrControl>;
+		case 'image':
+			return <ImageBlock id={Math.random().toString()}></ImageBlock>;
 		default:
 			return <></>;
 	}

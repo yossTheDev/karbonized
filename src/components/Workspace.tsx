@@ -17,7 +17,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			<TransformWrapper disabled centerOnInit>
 				<TransformComponent>
 					<div
-						className={`bg-gradient-to-br from-blue-300  to-blue-500 workspace lg:workspace`}
+						style={{ backgroundColor: workspaceColor }}
+						className={`workspace lg:workspace`}
 						ref={reference}
 					>
 						{controls.map((el, i) => (

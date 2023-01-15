@@ -11,7 +11,6 @@ interface ControlProps {
 	id: string;
 	color?: string;
 	children?: ReactNode;
-	tooltip?: ReactNode;
 	menu?: ReactNode;
 	maxHeight?: string;
 	maxWidth?: string;
@@ -24,7 +23,6 @@ interface ControlProps {
 export const ControlTemplate: React.FC<ControlProps> = ({
 	id,
 	color,
-	tooltip,
 	children,
 	menu,
 	onClick,
@@ -48,6 +46,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 	const [ondrag, setOndrag] = useState(false);
 	const [position, setPosition] = useState({ x: 209, y: 191 });
+	const [size, setSize] = useState({ w: '300px', h: '100px' });
 	const ref = useRef<HTMLDivElement>(null);
 
 	return (
@@ -62,8 +61,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						setContextMenu(false);
 						setOndrag(true);
 					}}
-					onResizeStop={() => {
+					onResizeStop={(e, d, r) => {
 						setOndrag(false);
+						setSize({ w: r.style.width, h: r.style.height });
 					}}
 					onDragStart={() => {
 						setOndrag(true);
@@ -81,6 +81,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					minHeight={minHeight}
 					minWidth={minWidth}
 					className=''
+					size={{ height: size.h, width: size.w }}
 					style={{
 						zIndex: zIndex,
 					}}
@@ -123,26 +124,73 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						}
 					>
 						<div className='flex flex-row flex-wrap text-xs'>
-							<div className='flex flex-auto  p-2 '>
-								<p className='p-2 my-auto'>X:</p>
-								<div className='bg-base-100 p-2 rounded-xl  w-full'>
-									{position.x}
+							{/* Position */}
+							<div className='flex flex-auto flex-row'>
+								{/* Position X */}
+								<div className='flex flex-auto  p-2 '>
+									<p className='p-2 my-auto'>X:</p>
+									<Input
+										type={'number'}
+										className='bg-base-100 p-2 rounded-xl  w-full'
+										onChange={(ev) =>
+											setPosition({
+												x: ev.target.value as unknown as number,
+												y: position.y,
+											})
+										}
+										value={position.x}
+									></Input>
 								</div>
-							</div>
-							<div className='flex flex-auto  p-2 text-xs'>
-								<p className='p-2 my-auto'>Y:</p>
-								<div className=' bg-base-100 rounded-xl p-2 w-full'>
-									{position.y}
+								{/* Position Y */}
+								<div className='flex flex-auto  p-2 text-xs'>
+									<p className='p-2 my-auto'>Y:</p>
+									<Input
+										type={'number'}
+										className='bg-base-100 p-2 rounded-xl  w-full'
+										onChange={(ev) =>
+											setPosition({
+												y: ev.target.value as unknown as number,
+												x: position.x,
+											})
+										}
+										value={position.y}
+									></Input>
 								</div>
 							</div>
 
 							<div className='flex flex-auto p-2 text-xs'>
-								<p className='p-2'>Z:</p>
+								<p className='p-2 my-auto'>Z:</p>
 								<Input
+									type={'number'}
+									className='bg-base-100 p-2 rounded-xl  w-full'
 									onChange={(ev) => setzIndex(ev.target.value)}
 									value={zIndex}
-									className='bg-base-100 h-9 my-auto mx-auto'
 								></Input>
+							</div>
+
+							{/* Size */}
+							<div className='flex flex-row'>
+								<div className='flex flex-auto  p-2 '>
+									<p className='p-2 my-auto'>W:</p>
+									<Input
+										className='bg-base-100 p-2 rounded-xl  w-full'
+										onChange={(ev) =>
+											setSize({ w: ev.target.value, h: size.h })
+										}
+										value={size.w}
+									></Input>
+								</div>
+
+								<div className='flex flex-auto  p-2 '>
+									<p className='p-2 my-auto'>H:</p>
+									<Input
+										className='bg-base-100 p-2 rounded-xl  w-full'
+										onChange={(ev) =>
+											setSize({ w: size.w, h: ev.target.value })
+										}
+										value={size.h}
+									></Input>
+								</div>
 							</div>
 						</div>
 					</CustomCollapse>

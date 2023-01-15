@@ -67,6 +67,7 @@ export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 							<p>Font Size</p>
 							<div className='flex flex-row flex-auto'>
 								<Input
+									type={'number'}
 									onChange={(ev) => setTextSize(ev.target.value)}
 									value={textSize}
 									className=' w-24'
