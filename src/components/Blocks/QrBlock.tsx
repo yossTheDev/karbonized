@@ -1,7 +1,7 @@
 import { IconQrcode } from '@tabler/icons';
 import React, { useState } from 'react';
 import { Input } from 'react-daisyui';
-import { CustomCollapse } from '../CustomCollapse';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { QRCodeSVG } from 'qrcode.react';
 

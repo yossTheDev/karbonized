@@ -6,7 +6,7 @@ import { ControlTemplate } from './ControlTemplate';
 import { refractor } from 'refractor/lib/all';
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { CustomCollapse } from '../CustomCollapse';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 	/* Component States */

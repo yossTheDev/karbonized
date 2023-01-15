@@ -5,7 +5,7 @@ import { Collapse, Input } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { Rnd } from 'react-rnd';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { CustomCollapse } from '../CustomCollapse';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 interface ControlProps {
 	id: string;

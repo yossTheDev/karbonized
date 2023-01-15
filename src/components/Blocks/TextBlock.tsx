@@ -2,7 +2,7 @@ import { IconLetterT } from '@tabler/icons';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { Button, ButtonGroup, Input } from 'react-daisyui';
-import { CustomCollapse } from '../CustomCollapse';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 
 export const TextControl: React.FC<{ id: string }> = ({ id }) => {

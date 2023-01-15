@@ -128,12 +128,9 @@ function App(this: any) {
 					{/* Menu */}
 					<div
 						ref={menuref}
-						className='flex flex-auto flex-col max-w-xs p-2  text-white bg-base-200'
+						className='flex flex-auto flex-col max-w-xs p-2  text-white bg-base-200 overflow-y-auto overflow-x-hidden'
 					>
-						<div
-							id='menu'
-							className='flex flex-auto flex-col mx-auto gap-2 overflow-y-auto overflow-x-hidden'
-						></div>
+						<div id='menu' className='flex flex-auto flex-col gap-2'></div>
 					</div>
 				</div>
 			</div>
