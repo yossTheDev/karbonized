@@ -15,7 +15,10 @@ import { TabSelector } from './TabsSelector';
 
 export const Menu: React.FC = () => {
 	// Component Store
-	const [selectedTab, setSelectedTab] = useTabs(['workspace', 'control']);
+	const [selectedTab, setSelectedTab] = useTabs(
+		['workspace', 'control'],
+		'control'
+	);
 	const [isEmpty, setIsEmpty] = useState(true);
 
 	// App Store
@@ -99,9 +102,9 @@ export const Menu: React.FC = () => {
 								<IconAspectRatio size={22}></IconAspectRatio>
 								<p className='font-bold my-auto'>Size</p>
 							</div>
-							<div className='flex flex-auto flex-row max-h-14 p-2'>
+							<div className='flex flex-auto flex-row max-h-16 p-2'>
 								{/* Size W */}
-								<div className='flex flex-auto flex-row '>
+								<div className='flex flex-auto flex-row'>
 									<p className='my-auto mr-2'>W:</p>
 									<Input
 										type={'number'}

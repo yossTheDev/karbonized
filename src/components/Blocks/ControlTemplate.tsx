@@ -45,7 +45,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		placement: 'right',
 	});
 	const [ondrag, setOndrag] = useState(false);
-	const [position, setPosition] = useState({ x: 209, y: 191 });
+	const [position, setPosition] = useState({ x: 107, y: 226 });
 	const [size, setSize] = useState({ w: 300, h: 100 });
 	const ref = useRef<HTMLDivElement>(null);
 

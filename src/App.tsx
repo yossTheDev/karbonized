@@ -77,7 +77,7 @@ function App(this: any) {
 				{/* Nav Bar */}
 				<Navbar className='flex shrink-0'>
 					<div className='flex-1'>
-						<p className='text-white poppins-font-family ml-2 text-xl'>
+						<p className='text-white poppins-font-family ml-2 text-2xl'>
 							Karbonized
 						</p>
 						<KarbonizedLogo className='hidden h-12 fill-white w-40'></KarbonizedLogo>
@@ -106,7 +106,7 @@ function App(this: any) {
 								</Button>
 								<button
 									onClick={onButtonClick}
-									className=' border-primary border rounded-2xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-400 to-blue-500'
+									className=' border-primary border rounded-3xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-400 to-blue-500'
 								>
 									<IconFlask></IconFlask>
 									Save
@@ -117,7 +117,7 @@ function App(this: any) {
 				</Navbar>
 
 				{/* Content*/}
-				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-base-100'>
+				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden'>
 					{/* Controls Tree */}
 					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 w-18'>
 						{/* Code Control */}
@@ -144,7 +144,7 @@ function App(this: any) {
 					{/* Workspace */}
 					<div
 						style={{ width: '700px', height: '512px' }}
-						className='order-2 mx-auto my-auto overflow-auto flex flex-auto flex-col'
+						className='order-2 mx-auto my-auto overflow-auto flex flex-auto flex-col  bg-base-100 rounded'
 					>
 						<Workspace reference={ref}></Workspace>
 					</div>

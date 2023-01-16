@@ -29,8 +29,8 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	workspaceName: 'karbonized-code',
 	workspaceColor: '#5895c8',
-	workspaceHeight: '450',
-	workspaceWidth: '700',
+	workspaceHeight: '512',
+	workspaceWidth: '512',
 
 	setWorkspaceColor: action((state, payload) => {
 		state.workspaceColor = payload;
