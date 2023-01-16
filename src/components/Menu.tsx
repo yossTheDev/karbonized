@@ -1,6 +1,14 @@
-import { IconBox, IconPalette, IconShape, IconSquare } from '@tabler/icons';
+import {
+	IconAspectRatio,
+	IconBox,
+	IconPalette,
+	IconShape,
+	IconSquare,
+	IconTag,
+} from '@tabler/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
+import { Input } from 'react-daisyui';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { TabSelector } from './TabsSelector';
@@ -11,10 +19,16 @@ export const Menu: React.FC = () => {
 	const [isEmpty, setIsEmpty] = useState(true);
 
 	// App Store
+	const workspaceName = useStoreState((state) => state.workspaceName);
+	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
+	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+
 	const controls = useStoreState((state) => state.ControlsTree);
 	const currentID = useStoreState((state) => state.currentControlID);
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
+	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
+	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 
 	const reference = useRef<HTMLDivElement>(null);
 
@@ -62,16 +76,74 @@ export const Menu: React.FC = () => {
 					}`}
 					id='workspace'
 				>
-					<div id='workspace' className='flex flex-auto flex-col'>
-						<div className='flex flex-row m-2 gap-2 '>
-							<IconPalette size={22}></IconPalette>
-							<p className='font-bold my-auto'>Background</p>
-						</div>
-						<HexAlphaColorPicker
-							color={workspaceColor}
-							onChange={setWorkspaceColor}
-							className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-						></HexAlphaColorPicker>
+					<div className='flex flex-auto flex-col p-2 text-xs'>
+						{/* Workspace Name */}
+						<>
+							<div className='flex flex-row m-2 gap-2'>
+								<IconTag size={22}></IconTag>
+								<p className='font-bold my-auto'>Workspace Name</p>
+							</div>
+							<div className='flex flex-auto flex-row max-h-14 p-2'>
+								<Input
+									className='bg-base-100 p-2 rounded-xl my-auto  w-full'
+									onChange={(ev) => setWorkspaceName(ev.target.value)}
+									value={workspaceName}
+								></Input>
+							</div>
+						</>
+
+						{/* Size */}
+						<>
+							<div className='flex flex-row m-2 gap-2 '>
+								<IconAspectRatio size={22}></IconAspectRatio>
+								<p className='font-bold my-auto'>Size</p>
+							</div>
+							<div className='flex flex-auto flex-row max-h-14 p-2'>
+								{/* Size W */}
+								<div className='flex flex-auto flex-row '>
+									<p className='my-auto mr-2'>W:</p>
+									<Input
+										type={'number'}
+										className='bg-base-100 p-2 rounded-xl my-auto  w-full'
+										onChange={(ev) =>
+											setWorkspaceSize({
+												width: ev.target.value,
+												height: workspaceHeight,
+											})
+										}
+										value={workspaceWidth}
+									></Input>
+								</div>
+								{/* Size H */}
+								<div className='flex flex-auto flex-row ml-2'>
+									<p className='my-auto mr-2'>H:</p>
+									<Input
+										type={'number'}
+										className='bg-base-100 p-2 rounded-xl my-auto  w-full'
+										onChange={(ev) =>
+											setWorkspaceSize({
+												height: ev.target.value,
+												width: workspaceWidth,
+											})
+										}
+										value={workspaceHeight}
+									></Input>
+								</div>
+							</div>
+						</>
+
+						{/* Background Color */}
+						<>
+							<div className='flex flex-row m-2 gap-2 '>
+								<IconPalette size={22}></IconPalette>
+								<p className='font-bold my-auto'>Background</p>
+							</div>
+							<HexAlphaColorPicker
+								color={workspaceColor}
+								onChange={setWorkspaceColor}
+								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+							></HexAlphaColorPicker>
+						</>
 					</div>
 				</TabPanel>
 

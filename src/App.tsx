@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
-import './App.module.css';
+import './App.css';
 import './utils.css';
 import {
 	IconCode,
@@ -10,17 +10,21 @@ import {
 	IconQrcode,
 	IconShare,
 } from '@tabler/icons';
-import { useStoreActions } from './stores/Hooks';
+import { useStoreActions, useStoreState } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
 import { KarbonizedLogo } from './components/General/Icons';
 import { toBlob } from 'html-to-image';
 
 function App(this: any) {
+	// App Store
 	const addControl = useStoreActions((state) => state.addControl);
+	const workspaceName = useStoreState((state) => state.workspaceName);
 
+	// Component Store and Actions
 	const ref = useRef<HTMLDivElement>(null);
 
+	// Save Image
 	const onButtonClick = useCallback(async () => {
 		const { toPng } = await import('html-to-image');
 		if (ref.current === null) {
@@ -32,15 +36,16 @@ function App(this: any) {
 		})
 			.then((dataUrl) => {
 				const link = document.createElement('a');
-				link.download = 'code-karbonized.png';
+				link.download = workspaceName + '.png';
 				link.href = dataUrl;
 				link.click();
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [ref]);
+	}, [ref, workspaceName]);
 
+	// Share Image
 	const handleShare = async () => {
 		const newFile = await toBlob(ref.current as HTMLElement);
 		if (newFile) {
@@ -71,7 +76,10 @@ function App(this: any) {
 				{/* Nav Bar */}
 				<Navbar className='flex shrink-0'>
 					<div className='flex-1'>
-						<KarbonizedLogo className='h-12 fill-white w-40'></KarbonizedLogo>
+						<p className='text-white poppins-font-family ml-2 text-xl'>
+							Karbonized
+						</p>
+						<KarbonizedLogo className='hidden h-12 fill-white w-40'></KarbonizedLogo>
 					</div>
 					<div className='flex-none'>
 						<Menu horizontal className='p-0'>
@@ -91,13 +99,13 @@ function App(this: any) {
 							</Menu.Item>
 							{/* Save Button */}
 							<Menu.Item>
-								<Button className='rounded mr-3' onClick={handleShare}>
+								<Button className='rounded mr-3 ' onClick={handleShare}>
 									<IconShare className='text-white'></IconShare>
 									<p className='text-white'>Share</p>
 								</Button>
 								<button
 									onClick={onButtonClick}
-									className=' border-primary border rounded-2xl text-white font-bold flex flex-row'
+									className=' border-primary border rounded-2xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-400 to-blue-500'
 								>
 									<IconFlask></IconFlask>
 									Save
@@ -110,30 +118,33 @@ function App(this: any) {
 				{/* Content*/}
 				<div className='flex flex-auto flex-col lg:flex-row overflow-hidden bg-base-100'>
 					{/* Controls Tree */}
-					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2'>
+					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 w-18'>
 						{/* Code Control */}
-						<Button onClick={() => addControl({ type: 'code' })}>
+						<Button color='ghost' onClick={() => addControl({ type: 'code' })}>
 							<IconCode className='text-white'></IconCode>
 						</Button>
 
 						{/* Text Control */}
-						<Button onClick={() => addControl({ type: 'text' })}>
+						<Button color='ghost' onClick={() => addControl({ type: 'text' })}>
 							<IconLetterT className='text-white'></IconLetterT>
 						</Button>
 
 						{/* Qr Control */}
-						<Button onClick={() => addControl({ type: 'qr' })}>
+						<Button color='ghost' onClick={() => addControl({ type: 'qr' })}>
 							<IconQrcode className='text-white'></IconQrcode>
 						</Button>
 
 						{/* Image Control */}
-						<Button onClick={() => addControl({ type: 'image' })}>
+						<Button color='ghost' onClick={() => addControl({ type: 'image' })}>
 							<IconPhoto className='text-white'></IconPhoto>
 						</Button>
 					</div>
 
 					{/* Workspace */}
-					<div className='order-2 mx-auto my-auto'>
+					<div
+						style={{ width: '700px', height: '512px' }}
+						className='order-2 mx-auto my-auto overflow-auto flex flex-auto flex-col'
+					>
 						<Workspace reference={ref}></Workspace>
 					</div>
 
@@ -142,6 +153,9 @@ function App(this: any) {
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>
+
+				{/* Status Bar */}
+				<div>Status Bar</div>
 			</div>
 		</>
 	);
