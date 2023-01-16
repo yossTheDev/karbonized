@@ -3,6 +3,7 @@ import { CodeControl } from './CodeBlock';
 import { ImageBlock } from './ImageBlock';
 import { QrControl } from './QrBlock';
 import { TextControl } from './TextBlock';
+import { WindowBlock } from './WindowBlock';
 
 interface Props {
 	type: string;
@@ -19,6 +20,8 @@ export const ControlHandler: React.FC<Props> = ({ type }) => {
 			return <QrControl id={Math.random().toString()}></QrControl>;
 		case 'image':
 			return <ImageBlock id={Math.random().toString()}></ImageBlock>;
+		case 'window':
+			return <WindowBlock id={Math.random().toString()}></WindowBlock>;
 		default:
 			return <></>;
 	}

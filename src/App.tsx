@@ -3,17 +3,18 @@ import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
+	IconAppWindow,
 	IconCode,
 	IconFlask,
 	IconLetterT,
 	IconPhoto,
 	IconQrcode,
 	IconShare,
+	IconWindow,
 } from '@tabler/icons';
 import { useStoreActions, useStoreState } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
-import { KarbonizedLogo } from './components/General/Icons';
 import { toBlob } from 'html-to-image';
 import { StatusBar } from './components/StatusBar';
 
@@ -77,10 +78,9 @@ function App(this: any) {
 				{/* Nav Bar */}
 				<Navbar className='flex shrink-0'>
 					<div className='flex-1'>
-						<p className='text-white poppins-font-family ml-2 text-2xl'>
+						<p className='text-white poppins-font-family ml-2 text-2xl select-none'>
 							Karbonized
 						</p>
-						<KarbonizedLogo className='hidden h-12 fill-white w-40'></KarbonizedLogo>
 					</div>
 					<div className='flex-none'>
 						<Menu horizontal className='p-0'>
@@ -138,6 +138,14 @@ function App(this: any) {
 						{/* Image Control */}
 						<Button color='ghost' onClick={() => addControl({ type: 'image' })}>
 							<IconPhoto className='text-white'></IconPhoto>
+						</Button>
+
+						{/* Window Control */}
+						<Button
+							color='ghost'
+							onClick={() => addControl({ type: 'window' })}
+						>
+							<IconAppWindow className='text-white'></IconAppWindow>
 						</Button>
 					</div>
 

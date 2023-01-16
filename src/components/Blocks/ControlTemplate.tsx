@@ -224,51 +224,53 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				</Portal>
 			)}
 
-			{/* Tooltip */}
+			{/* Context Menu */}
 			{contextMenu && currentControlID === id && (
-				<div
-					className='z-50'
-					ref={floating}
-					style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-				>
-					<div className='flex flex-col flex-auto gap-2'>
-						{/* Delete Block */}
-						<Button
-							onClick={() => {
-								setID('');
-								setVisibility(false);
-							}}
-						>
-							<IconTrash></IconTrash>
-						</Button>
+				<Portal>
+					<div
+						className='z-50'
+						ref={floating}
+						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+					>
+						<div className='flex flex-col flex-auto gap-2'>
+							{/* Delete Block */}
+							<Button
+								onClick={() => {
+									setID('');
+									setVisibility(false);
+								}}
+							>
+								<IconTrash></IconTrash>
+							</Button>
 
-						{/* Capture Block */}
-						<Button
-							onClick={async () => {
-								const { toPng } = await import('html-to-image');
-								console.log('capturando');
-								if (ref.current === null) {
-									return;
-								}
+							{/* Capture Block */}
+							<Button
+								onClick={async () => {
+									const { toPng } = await import('html-to-image');
+									console.log('capturando');
+									if (ref.current === null) {
+										return;
+									}
 
-								toPng(ref.current, {
-									cacheBust: true,
-								})
-									.then((dataUrl) => {
-										const link = document.createElement('a');
-										link.download = 'code-karbonized.png';
-										link.href = dataUrl;
-										link.click();
+									toPng(ref.current, {
+										cacheBust: true,
 									})
-									.catch((err) => {
-										console.log(err);
-									});
-							}}
-						>
-							<IconCamera></IconCamera>
-						</Button>
+										.then((dataUrl) => {
+											const link = document.createElement('a');
+											link.download = 'code-karbonized.png';
+											link.href = dataUrl;
+											link.click();
+										})
+										.catch((err) => {
+											console.log(err);
+										});
+								}}
+							>
+								<IconCamera></IconCamera>
+							</Button>
+						</div>
 					</div>
-				</div>
+				</Portal>
 			)}
 		</>
 	);
