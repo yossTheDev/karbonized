@@ -46,7 +46,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 	const [ondrag, setOndrag] = useState(false);
 	const [position, setPosition] = useState({ x: 209, y: 191 });
-	const [size, setSize] = useState({ w: '300px', h: '100px' });
+	const [size, setSize] = useState({ w: 300, h: 100 });
 	const ref = useRef<HTMLDivElement>(null);
 
 	return (
@@ -63,7 +63,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					}}
 					onResizeStop={(e, d, r) => {
 						setOndrag(false);
-						setSize({ w: r.style.width, h: r.style.height });
+						setSize({
+							w: r.style.width.replace('px', '') as unknown as number,
+							h: r.style.height.replace('px', '') as unknown as number,
+						});
 					}}
 					onDragStart={() => {
 						setOndrag(true);
@@ -81,7 +84,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					minHeight={minHeight}
 					minWidth={minWidth}
 					className=''
-					size={{ height: size.h, width: size.w }}
+					size={{ height: size.h + 'px', width: size.w + 'px' }}
 					style={{
 						zIndex: zIndex,
 					}}
@@ -173,9 +176,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<div className='flex flex-auto  p-2 '>
 									<p className='p-2 my-auto'>W:</p>
 									<Input
+										type={'number'}
 										className='bg-base-100 p-2 rounded-xl  w-full'
 										onChange={(ev) =>
-											setSize({ w: ev.target.value, h: size.h })
+											setSize({
+												w: ev.target.value as unknown as number,
+												h: size.h,
+											})
 										}
 										value={size.w}
 									></Input>
@@ -184,9 +191,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<div className='flex flex-auto  p-2 '>
 									<p className='p-2 my-auto'>H:</p>
 									<Input
+										type={'number'}
 										className='bg-base-100 p-2 rounded-xl  w-full'
 										onChange={(ev) =>
-											setSize({ w: size.w, h: ev.target.value })
+											setSize({
+												w: size.w,
+												h: ev.target.value as unknown as number,
+											})
 										}
 										value={size.h}
 									></Input>

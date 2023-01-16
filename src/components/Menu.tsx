@@ -85,6 +85,7 @@ export const Menu: React.FC = () => {
 							</div>
 							<div className='flex flex-auto flex-row max-h-14 p-2'>
 								<Input
+									spellCheck={false}
 									className='bg-base-100 p-2 rounded-xl my-auto  w-full'
 									onChange={(ev) => setWorkspaceName(ev.target.value)}
 									value={workspaceName}

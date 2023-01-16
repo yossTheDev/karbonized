@@ -15,6 +15,7 @@ import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
 import { KarbonizedLogo } from './components/General/Icons';
 import { toBlob } from 'html-to-image';
+import { StatusBar } from './components/StatusBar';
 
 function App(this: any) {
 	// App Store
@@ -155,7 +156,7 @@ function App(this: any) {
 				</div>
 
 				{/* Status Bar */}
-				<div>Status Bar</div>
+				<StatusBar></StatusBar>
 			</div>
 		</>
 	);
