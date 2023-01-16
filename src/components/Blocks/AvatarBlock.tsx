@@ -20,6 +20,7 @@ export const AvatarBlock: React.FC<{ id: string }> = ({ id }) => {
 				maxHeight={'500px'}
 				defaultHeight={'100px'}
 				defaultWidth={'100px'}
+				borderEditable={false}
 				lockAspectRatio
 				menu={
 					<>
