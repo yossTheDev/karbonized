@@ -1,7 +1,13 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
-import { IconAxisX, IconAxisY, IconCamera, IconTrash } from '@tabler/icons';
+import {
+	IconAxisX,
+	IconAxisY,
+	IconBorderStyle,
+	IconCamera,
+	IconTrash,
+} from '@tabler/icons';
 import React, { ReactNode, useRef, useState } from 'react';
-import { Button, Collapse, Input } from 'react-daisyui';
+import { Button, Collapse, Input, Range } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { Rnd } from 'react-rnd';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -12,6 +18,11 @@ interface ControlProps {
 	color?: string;
 	children?: ReactNode;
 	menu?: ReactNode;
+	lockAspectRatio?: boolean;
+	border?: number;
+	borderEditable?: boolean;
+	defaultHeight?: string;
+	defaultWidth?: string;
 	maxHeight?: string;
 	maxWidth?: string;
 	minHeight?: string;
@@ -26,10 +37,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	children,
 	menu,
 	onClick,
+	lockAspectRatio = false,
+	border = 2,
+	borderEditable = true,
 	maxHeight = '400px',
 	maxWidth = '400px',
 	minHeight = '150px',
 	minWidth = '300px',
+	defaultHeight = '50px',
+	defaultWidth = '80px',
 }) => {
 	// App Store
 	const currentControlID = useStoreState((state) => state.currentControlID);
@@ -46,7 +62,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 	const [ondrag, setOndrag] = useState(false);
 	const [position, setPosition] = useState({ x: 107, y: 226 });
-	const [size, setSize] = useState({ w: 300, h: 100 });
+	const [size, setSize] = useState({
+		w: defaultWidth.replace('px', '') as unknown as number,
+		h: defaultHeight.replace('px', '') as unknown as number,
+	});
+	const [borderRadious, setBorderRadious] = useState(border);
 	const ref = useRef<HTMLDivElement>(null);
 
 	return (
@@ -76,14 +96,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						setOndrag(false);
 						setPosition({ x: d.x, y: d.y });
 					}}
-					default={{ height: '50px', width: '80px', x: 0, y: 0 }}
+					default={{ height: defaultHeight, width: defaultWidth, x: 0, y: 0 }}
 					position={{ x: position.x, y: position.y }}
 					disableDragging={disable}
 					maxHeight={maxHeight}
 					maxWidth={maxWidth}
 					minHeight={minHeight}
 					minWidth={minWidth}
-					className=''
+					lockAspectRatio={lockAspectRatio}
 					size={{ height: size.h + 'px', width: size.w + 'px' }}
 					style={{
 						zIndex: zIndex,
@@ -94,12 +114,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						className={`flex flex-auto flex-col h-full rounded ${
 							ondrag && 'border-2 border-blue-500 rounded'
 						}`}
-						style={{
-							backgroundColor: color,
-						}}
+						style={{}}
 						ref={ref}
 					>
 						<div
+							style={{
+								borderRadius: borderRadious + 'px',
+								backgroundColor: color,
+							}}
 							className='flex flex-auto flex-col h-full'
 							ref={reference}
 							onContextMenu={(e) => {
@@ -205,6 +227,33 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							</div>
 						</div>
 					</CustomCollapse>
+
+					{/* Border  */}
+					{borderEditable && (
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconBorderStyle size={22}></IconBorderStyle>
+									<p className='font-bold my-auto'>Borders</p>
+								</div>
+							}
+						>
+							<div className='flex flex-row flex-wrap text-xs'>
+								<div className='flex flex-auto  p-2 '>
+									<p className='p-2 my-auto'>Radius:</p>
+									<Range
+										className='my-auto'
+										color='primary'
+										onChange={(ev) =>
+											setBorderRadious(ev.target.value as unknown as number)
+										}
+										value={borderRadious}
+										max={'22'}
+									></Range>
+								</div>
+							</div>
+						</CustomCollapse>
+					)}
 
 					{menu}
 

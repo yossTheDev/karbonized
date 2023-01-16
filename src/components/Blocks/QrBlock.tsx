@@ -16,6 +16,8 @@ export const QrControl: React.FC<{ id: string }> = ({ id }) => {
 		<>
 			<ControlTemplate
 				id={id}
+				defaultHeight='50px'
+				defaultWidth='50px'
 				minHeight={'50px'}
 				minWidth={'100px'}
 				maxWidth={'100px'}

@@ -19,6 +19,9 @@ export const WindowBlock: React.FC<{ id: string }> = ({ id }) => {
 				minHeight='100px'
 				maxWidth='620px'
 				maxHeight='450px'
+				border={6}
+				defaultHeight={'200px'}
+				defaultWidth={'350px'}
 				color={color}
 				menu={
 					<>

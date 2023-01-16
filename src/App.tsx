@@ -10,7 +10,7 @@ import {
 	IconPhoto,
 	IconQrcode,
 	IconShare,
-	IconWindow,
+	IconUserCircle,
 } from '@tabler/icons';
 import { useStoreActions, useStoreState } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
@@ -146,6 +146,14 @@ function App(this: any) {
 							onClick={() => addControl({ type: 'window' })}
 						>
 							<IconAppWindow className='text-white'></IconAppWindow>
+						</Button>
+
+						{/* Avatar Control */}
+						<Button
+							color='ghost'
+							onClick={() => addControl({ type: 'avatar' })}
+						>
+							<IconUserCircle className='text-white'></IconUserCircle>
 						</Button>
 					</div>
 

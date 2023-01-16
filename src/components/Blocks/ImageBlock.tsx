@@ -1,7 +1,6 @@
-import { IconLetterT, IconPhoto } from '@tabler/icons';
+import { IconBorderStyle, IconPhoto } from '@tabler/icons';
 import React, { useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
-import { Button, ButtonGroup, Checkbox, FileInput, Input } from 'react-daisyui';
+import { FileInput, Range } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
@@ -9,18 +8,48 @@ import karbonized from '../../assets/karbonized.svg';
 export const ImageBlock: React.FC<{ id: string }> = ({ id }) => {
 	/* Component States */
 	const [src, setSrc] = useState(karbonized);
-	const [rounded, setRounded] = useState(false);
+	const [borderRadious, setBorderRadious] = useState(3);
 
 	return (
 		<>
 			<ControlTemplate
 				id={id}
+				border={0}
+				borderEditable={false}
 				minHeight={'20px'}
 				minWidth={'50px'}
 				maxWidth={'700px'}
 				maxHeight={'500px'}
+				defaultHeight={'100px'}
+				defaultWidth={'100px'}
 				menu={
 					<>
+						{/* Border Settings */}
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconBorderStyle size={22}></IconBorderStyle>
+									<p className='font-bold my-auto'>Borders</p>
+								</div>
+							}
+						>
+							<div className='flex flex-row flex-wrap text-xs'>
+								<div className='flex flex-auto  p-2 '>
+									<p className='p-2 my-auto'>Radius:</p>
+									<Range
+										className='my-auto'
+										color='primary'
+										onChange={(ev) =>
+											setBorderRadious(ev.target.value as unknown as number)
+										}
+										value={borderRadious}
+										max={'22'}
+									></Range>
+								</div>
+							</div>
+						</CustomCollapse>
+
+						{/* Image Settings */}
 						<CustomCollapse
 							isOpen
 							menu={
@@ -44,22 +73,13 @@ export const ImageBlock: React.FC<{ id: string }> = ({ id }) => {
 									}
 								}}
 							></FileInput>
-
-							{/* Rounded */}
-							<div className='flex flex-row m-2 gap-2'>
-								<p>Rounded</p>
-								<Checkbox
-									color='primary'
-									onChange={(ev) => setRounded(ev.currentTarget.checked)}
-									checked={rounded}
-								></Checkbox>
-							</div>
 						</CustomCollapse>
 					</>
 				}
 			>
 				<img
-					className={`flex flex-auto h-full ${rounded && 'rounded-full'}`}
+					style={{ borderRadius: borderRadious + 'px' }}
+					className={`flex flex-auto h-full w-full rounded-3xl `}
 					src={src}
 				></img>
 			</ControlTemplate>

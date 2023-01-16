@@ -18,6 +18,8 @@ export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 		<>
 			<ControlTemplate
 				id={id}
+				defaultHeight='45px'
+				defaultWidth='85px'
 				minHeight={'20px'}
 				minWidth={'50px'}
 				maxWidth={'500px'}

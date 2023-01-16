@@ -23,6 +23,9 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 			<ControlTemplate
 				id={id}
 				color={color}
+				border={6}
+				defaultHeight='140px'
+				defaultWidth='300px'
 				minHeight='100px'
 				maxWidth='620px'
 				maxHeight='450px'
