@@ -1,6 +1,7 @@
 import {
 	IconAspectRatio,
 	IconBox,
+	IconBrandGravatar,
 	IconPalette,
 	IconShape,
 	IconSquare,
@@ -45,32 +46,31 @@ export const Menu: React.FC = () => {
 	}, [controls, isEmpty, currentID]);
 
 	return (
-		<div className='flex flex-auto flex-col'>
-			{/* Seletors */}
-			<div className='flex flex-auto  max-h-8 flex-row gap-4'>
-				<TabSelector
-					isActive={selectedTab === 'control'}
-					onClick={() => setSelectedTab('control')}
-				>
-					<div className='flex flex-auto flex-row'>
-						<IconShape className='mr-2' size={18}></IconShape>
-						<p>Control</p>
-					</div>
-				</TabSelector>
+		<div className='flex flex-auto flex-row overflow-auto'>
+			{/* Selectors */}
+			<div className='flex grow shrink-0 flex-col overflow-hidden'>
+				{/* Seletors */}
+				<div className='flex flex-auto flex-col gap-4'>
+					<TabSelector
+						isActive={selectedTab === 'control'}
+						onClick={() => setSelectedTab('control')}
+					>
+						<IconShape size={18} className='mx-auto'></IconShape>
+						<p className='rotate-90 mx-auto mt-6'>Control</p>
+					</TabSelector>
 
-				<TabSelector
-					isActive={selectedTab === 'workspace'}
-					onClick={() => setSelectedTab('workspace')}
-				>
-					<div className='flex flex-auto flex-row'>
-						<IconSquare className='mr-2' size={18}></IconSquare>
-						<div>Workspace</div>
-					</div>
-				</TabSelector>
+					<TabSelector
+						isActive={selectedTab === 'workspace'}
+						onClick={() => setSelectedTab('workspace')}
+					>
+						<IconSquare className='mx-auto' size={18}></IconSquare>
+						<div className='rotate-90 mx-auto mt-6'>Workspace</div>
+					</TabSelector>
+				</div>
 			</div>
 
 			{/* Tab Panels */}
-			<div className='flex flex-auto flex-col mt-4'>
+			<div className='flex flex-auto w-full flex-col ml-2 overflow-y-auto'>
 				{/* Workspace */}
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}

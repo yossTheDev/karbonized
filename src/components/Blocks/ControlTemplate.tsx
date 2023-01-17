@@ -48,6 +48,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 }) => {
 	// App Store
 	const controlID = useStoreState((state) => state.currentControlID);
+	const readyToSave = useStoreState((state) => state.readyToSave);
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
@@ -76,10 +77,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						onClick={() => {
 							console.log('store id ' + controlID);
 							console.log('control id ' + id);
-
-							setDisable(!disable);
+							setDisable(true);
+							//setDisable(!disable);
 						}}
 						onMouseDown={() => {
+							setDisable(true);
 							setID(id);
 						}}
 						id={id}
@@ -138,7 +140,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<p className='p-2 my-auto'>X:</p>
 									<Input
 										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full'
+										className='bg-base-100 p-2 text-xs rounded-xl  w-full'
 										onChange={(ev) =>
 											setPosition({
 												x: ev.target.value as unknown as number,
@@ -153,7 +155,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<p className='p-2 my-auto'>Y:</p>
 									<Input
 										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full'
+										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
 										onChange={(ev) =>
 											setPosition({
 												y: ev.target.value as unknown as number,
@@ -169,7 +171,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<p className='p-2 my-auto'>Z:</p>
 								<Input
 									type={'number'}
-									className='bg-base-100 p-2 rounded-xl  w-full'
+									className='bg-base-100 p-2 rounded-xl  w-full text-xs'
 									onChange={(ev) => setzIndex(ev.target.value)}
 									value={zIndex}
 								></Input>
@@ -181,7 +183,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<p className='p-2 my-auto'>W:</p>
 									<Input
 										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full'
+										className='bg-base-100 p-2 rounded-xl text-xs w-full'
 										onChange={(ev) =>
 											setSize({
 												w: ev.target.value as unknown as number,
@@ -196,7 +198,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<p className='p-2 my-auto'>H:</p>
 									<Input
 										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full'
+										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
 										onChange={(ev) =>
 											setSize({
 												w: size.w,
@@ -305,8 +307,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			)}
 
 			{/* Moveable Control */}
-			{disable && (
+			{disable && readyToSave === false && controlID === id && (
 				<Moveable
+					snappable
 					target={document.getElementById(id) as HTMLElement}
 					origin={true}
 					/* Resize event edges */
@@ -343,7 +346,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						//console.log('onDragEnd', target, isDrag);
 					}}
 					/* When resize or scale, keeps a ratio of the width, height. */
-					keepRatio={true}
+					keepRatio={false}
 					/* resizable*/
 					/* Only one of resizable, scalable, warpable can be used. */
 					resizable={true}
