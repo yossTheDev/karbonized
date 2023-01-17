@@ -7,24 +7,25 @@ import { TextControl } from './TextBlock';
 import { WindowBlock } from './WindowBlock';
 
 interface Props {
+	id: string;
 	type: string;
 }
 
-export const ControlHandler: React.FC<Props> = ({ type }) => {
+export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 	// Store Actions
 	switch (type) {
 		case 'code':
-			return <CodeControl id={Math.random().toString()}></CodeControl>;
+			return <CodeControl id={id}></CodeControl>;
 		case 'text':
-			return <TextControl id={Math.random().toString()}></TextControl>;
+			return <TextControl id={id}></TextControl>;
 		case 'qr':
-			return <QrControl id={Math.random().toString()}></QrControl>;
+			return <QrControl id={id}></QrControl>;
 		case 'image':
-			return <ImageBlock id={Math.random().toString()}></ImageBlock>;
+			return <ImageBlock id={id}></ImageBlock>;
 		case 'window':
-			return <WindowBlock id={Math.random().toString()}></WindowBlock>;
+			return <WindowBlock id={id}></WindowBlock>;
 		case 'avatar':
-			return <AvatarBlock id={Math.random().toString()}></AvatarBlock>;
+			return <AvatarBlock id={id}></AvatarBlock>;
 		default:
 			return <></>;
 	}

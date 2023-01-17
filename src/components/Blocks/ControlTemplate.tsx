@@ -1,15 +1,14 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
 import {
-	IconAxisX,
 	IconAxisY,
 	IconBorderStyle,
 	IconCamera,
 	IconTrash,
 } from '@tabler/icons';
 import React, { ReactNode, useRef, useState } from 'react';
-import { Button, Collapse, Input, Range } from 'react-daisyui';
+import { Button, Input, Range } from 'react-daisyui';
+import Moveable, { OnDrag, OnResize, OnRotate, OnScale } from 'react-moveable';
 import { Portal } from 'react-portal';
-import { Rnd } from 'react-rnd';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
@@ -48,7 +47,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	defaultWidth = '80px',
 }) => {
 	// App Store
-	const currentControlID = useStoreState((state) => state.currentControlID);
+	const controlID = useStoreState((state) => state.currentControlID);
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
@@ -72,50 +71,33 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	return (
 		<>
 			{visibility && (
-				<Rnd
-					onMouseDown={() => {
-						onClick && onClick();
-						setID(id);
-					}}
-					onResizeStart={() => {
-						setContextMenu(false);
-						setOndrag(true);
-					}}
-					onResizeStop={(e, d, r) => {
-						setOndrag(false);
-						setSize({
-							w: r.style.width.replace('px', '') as unknown as number,
-							h: r.style.height.replace('px', '') as unknown as number,
-						});
-					}}
-					onDragStart={() => {
-						setOndrag(true);
-						setContextMenu(false);
-					}}
-					onDragStop={(e, d) => {
-						setOndrag(false);
-						setPosition({ x: d.x, y: d.y });
-					}}
-					default={{ height: defaultHeight, width: defaultWidth, x: 0, y: 0 }}
-					position={{ x: position.x, y: position.y }}
-					disableDragging={disable}
-					maxHeight={maxHeight}
-					maxWidth={maxWidth}
-					minHeight={minHeight}
-					minWidth={minWidth}
-					lockAspectRatio={lockAspectRatio}
-					size={{ height: size.h + 'px', width: size.w + 'px' }}
-					style={{
-						zIndex: zIndex,
-					}}
-					bounds='parent'
-				>
+				<div style={{ zIndex: zIndex }} className='absolute target'>
 					<div
+						onClick={() => {
+							console.log('store id ' + controlID);
+							console.log('control id ' + id);
+
+							setDisable(!disable);
+						}}
+						onMouseDown={() => {
+							setID(id);
+						}}
+						id={id}
 						className={`flex flex-auto flex-col h-full rounded ${
 							ondrag && 'border-2 border-blue-500 rounded'
 						}`}
-						style={{}}
 						ref={ref}
+						style={{
+							//height: defaultHeight,
+							//width: defaultWidth,
+							maxHeight: maxHeight,
+							maxWidth: maxWidth,
+							minHeight: minHeight,
+							minWidth: minWidth,
+							zIndex: zIndex,
+							left: position.x,
+							top: position.y,
+						}}
 					>
 						<div
 							style={{
@@ -133,11 +115,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							{children}
 						</div>
 					</div>
-				</Rnd>
+				</div>
 			)}
 
 			{/* Menu */}
-			{currentControlID === id && (
+			{controlID === id && (
 				<Portal node={document.getElementById('menu')}>
 					{/* Position */}
 					<CustomCollapse
@@ -274,7 +256,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			)}
 
 			{/* Context Menu */}
-			{contextMenu && currentControlID === id && (
+			{contextMenu && controlID === id && (
 				<Portal>
 					<div
 						className='z-50'
@@ -320,6 +302,136 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						</div>
 					</div>
 				</Portal>
+			)}
+
+			{/* Moveable Control */}
+			{disable && (
+				<Moveable
+					target={document.getElementById(id) as HTMLElement}
+					origin={true}
+					/* Resize event edges */
+					edge={false}
+					/* draggable */
+					draggable={true}
+					translateZ={zIndex}
+					throttleDrag={0}
+					onDragStart={({ target, clientX, clientY }) => {
+						//console.log('onDragStart', target);
+					}}
+					onDrag={({
+						target,
+						beforeDelta,
+						beforeDist,
+						left,
+						top,
+						right,
+						bottom,
+						delta,
+						dist,
+						transform,
+						clientX,
+						clientY,
+					}: OnDrag) => {
+						//console.log('onDrag left, top', left, top);
+						// target!.style.left = `${left}px`;
+						// target!.style.top = `${top}px`;
+						//console.log('onDrag translate', dist);
+						target!.style.transform = transform;
+						setPosition({ x: left, y: top });
+					}}
+					onDragEnd={({ target, isDrag, clientX, clientY }) => {
+						//console.log('onDragEnd', target, isDrag);
+					}}
+					/* When resize or scale, keeps a ratio of the width, height. */
+					keepRatio={true}
+					/* resizable*/
+					/* Only one of resizable, scalable, warpable can be used. */
+					resizable={true}
+					throttleResize={0}
+					onResizeStart={({ target, clientX, clientY }) => {
+						//console.log('onResizeStart', target);
+					}}
+					onResize={({
+						target,
+						width,
+						height,
+						dist,
+						delta,
+						direction,
+						clientX,
+						clientY,
+					}: OnResize) => {
+						//console.log('onResize', target);
+						delta[0] && (target!.style.width = `${width}px`);
+						delta[1] && (target!.style.height = `${height}px`);
+						console.log('height' + target!.style.height);
+						setSize({
+							w: target!.style.width.replace('px', '') as unknown as number,
+							h: target!.style.height.replace('px', '') as unknown as number,
+						});
+					}}
+					onResizeEnd={({ target, isDrag, clientX, clientY }) => {
+						console.log('onResizeEnd', target, isDrag);
+					}}
+					/* scalable */
+					/* Only one of resizable, scalable, warpable can be used. */
+					scalable={true}
+					throttleScale={0}
+					onScaleStart={({ target, clientX, clientY }) => {
+						//console.log('onScaleStart', target);
+					}}
+					onScale={({
+						target,
+						scale,
+						dist,
+						delta,
+						transform,
+						clientX,
+						clientY,
+					}: OnScale) => {
+						//console.log('onScale scale', scale);
+						target!.style.transform = transform;
+					}}
+					onScaleEnd={({ target, isDrag, clientX, clientY }) => {
+						//console.log('onScaleEnd', target, isDrag);
+					}}
+					/* rotatable */
+					rotatable={true}
+					warpable={true}
+					throttleRotate={0}
+					onRotateStart={({ target, clientX, clientY }) => {
+						console.log('onRotateStart', target);
+					}}
+					onRotate={({
+						target,
+						delta,
+						dist,
+						transform,
+						clientX,
+						clientY,
+					}: OnRotate) => {
+						//console.log('onRotate', dist);
+						target!.style.transform = transform;
+					}}
+					onRotateEnd={({ target, isDrag, clientX, clientY }) => {
+						//console.log('onRotateEnd', target, isDrag);
+					}}
+					// Enabling pinchable lets you use events that
+					// can be used in draggable, resizable, scalable, and rotateable.
+					pinchable={true}
+					onPinchStart={({ target, clientX, clientY, datas }) => {
+						// pinchStart event occur before dragStart, rotateStart, scaleStart, resizeStart
+						//console.log('onPinchStart');
+					}}
+					onPinch={({ target, clientX, clientY, datas }) => {
+						// pinch event occur before drag, rotate, scale, resize
+						//console.log('onPinch');
+					}}
+					onPinchEnd={({ isDrag, target, clientX, clientY, datas }) => {
+						// pinchEnd event occur before dragEnd, rotateEnd, scaleEnd, resizeEnd
+						//console.log('onPinchEnd');
+					}}
+				/>
 			)}
 		</>
 	);

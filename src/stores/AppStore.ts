@@ -1,5 +1,4 @@
 import { Action, action, createStore, persist } from 'easy-peasy';
-import React, { ReactElement } from 'react';
 
 interface Item {
 	type: string;
@@ -9,12 +8,15 @@ export interface AppStoreModel {
 	/* App States and Actions */
 	ControlsTree: Item[];
 	currentControlID: string;
+	currentControlSize: { w: string; h: string };
 
 	/* Workspace */
 	workspaceName: string;
 	workspaceColor: string;
 	workspaceWidth: string;
 	workspaceHeight: string;
+
+	setControlSize: Action<AppStoreModel, { w: string; h: string }>;
 
 	setWorkspaceName: Action<AppStoreModel, string>;
 	setWorkspaceColor: Action<AppStoreModel, string>;
@@ -27,10 +29,15 @@ export const AppStore = createStore<AppStoreModel>({
 	/* Store */
 	ControlsTree: [{ type: 'code' }],
 	currentControlID: '',
+	currentControlSize: { w: '0', h: '0' },
 	workspaceName: 'karbonized-code',
 	workspaceColor: '#5895c8',
 	workspaceHeight: '512',
 	workspaceWidth: '512',
+
+	setControlSize: action((state, payload) => {
+		state.currentControlSize = payload;
+	}),
 
 	setWorkspaceColor: action((state, payload) => {
 		state.workspaceColor = payload;

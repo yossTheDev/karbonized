@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { LegacyRef, useCallback, useEffect, useRef } from 'react';
 import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
@@ -17,19 +17,35 @@ import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
 import { toBlob } from 'html-to-image';
 import { StatusBar } from './components/StatusBar';
+import InfiniteViewer from 'react-infinite-viewer';
+
+import Guides from '@scena/react-guides';
+import Selecto from 'react-selecto';
 
 function App(this: any) {
 	// App Store
 	const addControl = useStoreActions((state) => state.addControl);
 	const workspaceName = useStoreState((state) => state.workspaceName);
 
+	const controlID = useStoreState((state) => state.currentControlID);
+
 	// Component Store and Actions
 	const ref = useRef<HTMLDivElement>(null);
+	const workspace = useRef<HTMLDivElement>(null);
+	const guidex = useRef<Guides>(null);
+	const guidey = useRef<Guides>(null);
 
+	useEffect(() => {
+		console.log('resize guides');
+		guidex.current?.resize();
+		guidey.current?.resize();
+	});
 	// Save Image
 	const onButtonClick = useCallback(async () => {
 		const { toPng } = await import('html-to-image');
 		if (ref.current === null) {
+			console.log('NULL');
+
 			return;
 		}
 
@@ -41,6 +57,7 @@ function App(this: any) {
 				link.download = workspaceName + '.png';
 				link.href = dataUrl;
 				link.click();
+				console.log('SAVED');
 			})
 			.catch((err) => {
 				console.log(err);
@@ -157,12 +174,97 @@ function App(this: any) {
 						</Button>
 					</div>
 
-					{/* Workspace */}
-					<div
-						style={{ width: '700px', height: '512px' }}
-						className='order-2 mx-auto my-auto overflow-auto flex flex-auto flex-col  bg-base-100 rounded'
-					>
-						<Workspace reference={ref}></Workspace>
+					{/* Ruler Vertical */}
+					<div className='ruler vertical flex flex-auto flex-col max-w-xs grow-0 w-8 rounded-2xl mr-2'>
+						<Guides
+							ref={guidey}
+							type='vertical'
+							backgroundColor='#090b11'
+							textColor='#525863'
+							lineColor='#525863'
+							rulerStyle={{
+								height: 'calc(100%)',
+							}}
+							displayDragPos={true}
+							onChangeGuides={({ guides }) => {
+								console.log('vertical', guides);
+							}}
+							onDragStart={(e) => {
+								console.log('dragStart', e);
+							}}
+							onDrag={(e) => {
+								console.log('drag', e);
+							}}
+							onDragEnd={(e) => {
+								console.log('dragEnd', e);
+							}}
+						/>
+					</div>
+
+					<div className='flex flex-auto flex-col'>
+						<InfiniteViewer
+							className='viewer flex flex-auto bg-base-100 rounded-2xl'
+							margin={0}
+							zoom={0.8}
+							threshold={0}
+							rangeX={[-250, 250]}
+							rangeY={[-250, 250]}
+							useWheelScroll
+							useAutoZoom
+							onPinch={(e) => console.log(e)}
+							onScroll={(e) => {
+								console.log('scroll' + e.scrollLeft);
+							}}
+						>
+							<div className='viewport'>
+								<div className='container'>
+									<Workspace reference={ref}></Workspace>
+								</div>
+							</div>
+						</InfiniteViewer>
+
+						{/* Ruler Horizontal */}
+						<div
+							className='ruler horizontal flex flex-auto flex-col grow-0 p-2 rounded'
+							style={{}}
+						>
+							<Guides
+								ref={guidex}
+								type='horizontal'
+								zoom={37.7}
+								unit={1}
+								backgroundColor='#090b11'
+								textColor='#525863'
+								lineColor='#525863'
+								snapThreshold={0}
+								textFormat={(v) => `${v}px`}
+								snaps={[1, 2, 3]}
+								digit={1}
+								style={{ height: '30px' }}
+								rulerStyle={{
+									width: 'calc(100%)',
+									height: '100%',
+								}}
+								dragPosFormat={(v) => `${v}cm`}
+								displayDragPos={true}
+								displayGuidePos={true}
+								onChangeGuides={({ guides }) => {
+									console.log('horizontal', guides);
+								}}
+								onDragStart={(e) => {
+									console.log('dragStart', e);
+								}}
+								onDrag={(e) => {
+									console.log('drag', e);
+								}}
+								onDragEnd={(e) => {
+									console.log('dragEnd', e);
+								}}
+								onClickRuler={(e) => {
+									console.log('?', e);
+								}}
+							/>
+						</div>
 					</div>
 
 					{/* Menu */}
