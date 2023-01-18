@@ -12,6 +12,7 @@ import {
 	IconLetterT,
 	IconMouse,
 	IconPhoto,
+	IconPointer,
 	IconQrcode,
 	IconShare,
 	IconUserCircle,
@@ -125,7 +126,7 @@ function App(this: any) {
 				{/* Nav Bar */}
 				<Navbar className='flex shrink h-2'>
 					<div className='flex-1'>
-						<p className='text-white poppins-font-family ml-2 text-2xl select-none'>
+						<p className='dark:text-white text-black poppins-font-family ml-2 text-2xl select-none'>
 							Karbonized
 						</p>
 					</div>
@@ -169,28 +170,31 @@ function App(this: any) {
 					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 w-16 overflow-y-auto'>
 						{/* Actions */}
 
-						{/* Hand */}
-						<Button
-							color='ghost'
-							className={`${drag && 'bg-primary'} p-1`}
-							onClick={() => {
-								setDrag(!drag);
-								setEditing(false);
-							}}
-						>
-							<IconHandFinger size={18} className='text-white'></IconHandFinger>
-						</Button>
-
 						{/* Select */}
 						<Button
 							color='ghost'
-							className={`${editing && 'bg-primary'} p-1`}
+							className={`${editing && 'bg-primary text-white'} p-1`}
 							onClick={() => {
 								setEditing(!editing);
 								setDrag(false);
 							}}
 						>
-							<IconMouse size={18} className='text-white'></IconMouse>
+							<IconPointer size={18} className='dark:text-white'></IconPointer>
+						</Button>
+
+						{/* Hand */}
+						<Button
+							color='ghost'
+							className={`${drag && 'bg-primary text-white'} p-1`}
+							onClick={() => {
+								setDrag(!drag);
+								setEditing(false);
+							}}
+						>
+							<IconHandFinger
+								size={18}
+								className='dark:text-white'
+							></IconHandFinger>
 						</Button>
 
 						{/* Zoom In */}
@@ -199,7 +203,7 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => setZoom(zoom + 0.2)}
 						>
-							<IconZoomIn size={18} className='text-white'></IconZoomIn>
+							<IconZoomIn size={18} className='dark:text-white'></IconZoomIn>
 						</Button>
 
 						{/* Zoom Out */}
@@ -208,12 +212,15 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => setZoom(zoom - 0.2)}
 						>
-							<IconZoomOut size={18} className='text-white'></IconZoomOut>
+							<IconZoomOut size={18} className='dark:text-white'></IconZoomOut>
 						</Button>
 
 						{/* Zoom Reset */}
 						<Button className='p-1' color='ghost' onClick={() => setZoom(0.7)}>
-							<IconZoomReset size={18} className='text-white'></IconZoomReset>
+							<IconZoomReset
+								size={18}
+								className='dark:text-white'
+							></IconZoomReset>
 						</Button>
 
 						<p className='p-0.5 rounded bg-base-100'></p>
@@ -224,7 +231,7 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'code' })}
 						>
-							<IconCode size={18} className='text-white'></IconCode>
+							<IconCode size={18} className='dark:text-white'></IconCode>
 						</Button>
 
 						{/* Text Control */}
@@ -233,7 +240,7 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'text' })}
 						>
-							<IconLetterT size={18} className='text-white'></IconLetterT>
+							<IconLetterT size={18} className='dark:text-white'></IconLetterT>
 						</Button>
 
 						{/* Qr Control */}
@@ -242,7 +249,7 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'qr' })}
 						>
-							<IconQrcode size={18} className='text-white'></IconQrcode>
+							<IconQrcode size={18} className='dark:text-white'></IconQrcode>
 						</Button>
 
 						{/* Image Control */}
@@ -251,7 +258,7 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'image' })}
 						>
-							<IconPhoto size={18} className='text-white'></IconPhoto>
+							<IconPhoto size={18} className='dark:text-white'></IconPhoto>
 						</Button>
 
 						{/* Window Control */}
@@ -260,7 +267,10 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'window' })}
 						>
-							<IconAppWindow size={18} className='text-white'></IconAppWindow>
+							<IconAppWindow
+								size={18}
+								className='dark:text-white'
+							></IconAppWindow>
 						</Button>
 
 						{/* Avatar Control */}
@@ -269,7 +279,10 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'avatar' })}
 						>
-							<IconUserCircle size={18} className='text-white'></IconUserCircle>
+							<IconUserCircle
+								size={18}
+								className='dark:text-white'
+							></IconUserCircle>
 						</Button>
 					</div>
 

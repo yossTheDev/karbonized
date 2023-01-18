@@ -5,7 +5,7 @@ import {
 	IconCamera,
 	IconTrash,
 } from '@tabler/icons';
-import React, { ReactNode, useId, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { Button, Input, Range } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';

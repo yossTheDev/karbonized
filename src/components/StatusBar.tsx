@@ -25,16 +25,19 @@ export const StatusBar: React.FC = () => {
 	return (
 		<>
 			<div className='flex flex-row p-1 text-gray-500 select-none'>
-				<p className='text-xs my-auto'>
-					Workspace: {workspaceName} Size: {workspaceWidth} X {workspaceHeight}
-				</p>
+				<div className='flex flex-row flex-auto my-auto'>
+					<p className='ml-2 text-xs my-auto'>
+						Workspace: {workspaceName} Size: {workspaceWidth} X{' '}
+						{workspaceHeight}
+					</p>
 
-				<div
-					onMouseDown={() => setShowAbout(true)}
-					className='ml-auto flex flex-row gap-2 hover:bg-base-100 hover:rounded cursor-pointer p-1'
-				>
-					<p className='text-xs my-auto'>Karbonized V1.0.0</p>
-					<p className='text-xs my-auto'>made by @yossthedev</p>
+					<div
+						onMouseDown={() => setShowAbout(true)}
+						className='ml-auto flex flex-row gap-2 hover:bg-base-100 hover:rounded cursor-pointer p-1'
+					>
+						<p className='text-xs my-auto'>Karbonized V1.0.0</p>
+						<p className='text-xs my-auto'>made by @yossthedev</p>
+					</div>
 				</div>
 			</div>
 

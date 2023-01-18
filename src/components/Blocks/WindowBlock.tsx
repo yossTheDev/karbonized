@@ -78,7 +78,7 @@ export const WindowBlock: React.FC = () => {
 						<div className='my-auto flex flex-row flex-auto'>
 							<div
 								spellCheck={false}
-								className='text-gray-600 text-center mb-auto mt-auto m-2 hover:border-none'
+								className='text-gray-600 text-center select-none mb-auto mt-auto m-2 hover:border-none'
 							>
 								{title}
 							</div>

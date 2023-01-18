@@ -16,7 +16,7 @@ export const TabSelector: React.FC<Props> = ({
 			style={{ height: '240px' }}
 			className={
 				isActive
-					? ' dark:text-white font-bold bg-base-100 text-xs select-none p-1 rounded  w-8'
+					? ' dark:text-white text-black font-bold bg-base-100 text-xs select-none p-1 rounded  w-8'
 					: ' text-gray-500 text-xs select-none p-1 rounded  w-8'
 			}
 			onClick={onClick}

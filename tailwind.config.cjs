@@ -12,7 +12,32 @@ module.exports = {
     // themes: true,
     themes: [
       {
-        'karbonized-website': {
+        light: {
+          primary: '#0ea5e9',
+
+          secondary: '#263F40',
+
+          accent: '#d97706',
+
+          neutral: '#0E111A',
+
+          'base-100': '#D9D9D9',
+
+          info: '#22d3ee',
+
+          success: '#9CB686',
+
+          warning: '#FFD261',
+
+          error: '#FC9783',
+
+          'base-200': '#FFFFFF',
+          'base-300': '#ced3d9',
+          'base-content': '#000000'
+
+        },
+
+        dark: {
           primary: '#0ea5e9',
 
           secondary: '#263F40',

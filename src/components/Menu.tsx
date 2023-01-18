@@ -75,7 +75,8 @@ export const Menu: React.FC = () => {
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}
 					className={`${
-						selectedTab === 'workspace' && 'flex flex-auto text-gray-400'
+						selectedTab === 'workspace' &&
+						'flex flex-auto dark:text-gray-400 text-black'
 					}`}
 					id='workspace'
 				>
@@ -154,7 +155,8 @@ export const Menu: React.FC = () => {
 				{/* Controls */}
 				<TabPanel
 					className={`${
-						selectedTab === 'control' && 'flex flex-auto flex-col text-gray-400'
+						selectedTab === 'control' &&
+						'flex flex-auto flex-col dark:text-gray-400 text-black'
 					}`}
 					hidden={selectedTab !== 'control'}
 				>

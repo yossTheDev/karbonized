@@ -38,6 +38,7 @@
 		"react-dom": "^18.2.0",
 		"react-headless-tabs": "^6.0.3",
 		"react-infinite-viewer": "^0.19.2",
+		"react-movable": "^3.0.4",
 		"react-moveable": "^0.45.1",
 		"react-portal": "^4.2.2",
 		"react-rnd": "^10.3.7",

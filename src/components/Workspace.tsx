@@ -58,6 +58,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 			{editing && (
 				<Moveable
+					edgeDraggable={true}
 					warpable={true}
 					originDraggable={true}
 					target={document.getElementById(controlID)}
