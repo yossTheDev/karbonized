@@ -309,6 +309,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{/* Moveable Control */}
 			{disable && readyToSave === false && controlID === id && (
 				<Moveable
+					groupable
 					snappable
 					target={document.getElementById(id) as HTMLElement}
 					origin={true}

@@ -21,7 +21,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 	return (
 		<>
-			<div className='mx-auto my-auto'>
+			<div className='top-44 left-48'>
 				<div
 					ref={reference}
 					id='workspace'
