@@ -20,3 +20,10 @@ Controls
 * Added Image Control
 * Improve UI/UX
 * Improve website for mobile devices
+
+## 1.0.2
+
+* Added Light Theme
+* Resizeable Workspace
+* More control over workspace
+* VArious improvements and Bug Fixed
