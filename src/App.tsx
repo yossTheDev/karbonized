@@ -6,9 +6,11 @@ import {
 	IconAppWindow,
 	IconBrandGravatar,
 	IconCode,
+	IconCursorOff,
 	IconFlask,
 	IconHandFinger,
 	IconLetterT,
+	IconMouse,
 	IconPhoto,
 	IconQrcode,
 	IconShare,
@@ -26,29 +28,37 @@ import InfiniteViewer from 'react-infinite-viewer';
 
 import Guides from '@scena/react-guides';
 import Selecto from 'react-selecto';
+import Moveable, {
+	OnResize,
+	OnScale,
+	OnRotate,
+	OnDrag,
+	OnDragGroup,
+	OnResizeGroup,
+	OnRotateGroup,
+	OnScaleGroup,
+} from 'react-moveable';
+import { HorizontalGuide } from './components/Rulers/HorizontalGuide';
+import { VerticalGuide } from './components/Rulers/VerticalGuide';
 
 function App(this: any) {
 	// App Store
 	const addControl = useStoreActions((state) => state.addControl);
+	const setEditing = useStoreActions((state) => state.setEditing);
 	const setReady = useStoreActions((state) => state.setReadyToSave);
 	const workspaceName = useStoreState((state) => state.workspaceName);
+	const editing = useStoreState((state) => state.editing);
 
-	const controlID = useStoreState((state) => state.currentControlID);
+	const [selectoEnable, setSelectoEnable] = useState(true);
+
+	const [targets, setTargets] = useState<HTMLElement[]>([]);
+	const [target, setTarget] = useState<HTMLElement>();
 
 	// Component Store and Actions
 	const [drag, setDrag] = useState(false);
 	const [zoom, setZoom] = useState(0.7);
 
 	const ref = useRef<HTMLDivElement>(null);
-	const workspace = useRef<HTMLDivElement>(null);
-	const guidex = useRef<Guides>(null);
-	const guidey = useRef<Guides>(null);
-
-	useEffect(() => {
-		console.log('resize guides');
-		guidex.current?.resize();
-		guidey.current?.resize();
-	});
 
 	// Save Image
 	const onButtonClick = useCallback(async () => {
@@ -105,11 +115,15 @@ function App(this: any) {
 	return (
 		<>
 			<div
+				onClick={() => {
+					setTargets([]);
+					setSelectoEnable(true);
+				}}
 				id='body'
 				className='bg-base-200 h-screen w-screen flex flex-col flex-auto overflow-hidden'
 			>
 				{/* Nav Bar */}
-				<Navbar className='flex shrink-0'>
+				<Navbar className='flex shrink h-2'>
 					<div className='flex-1'>
 						<p className='text-white poppins-font-family ml-2 text-2xl select-none'>
 							Karbonized
@@ -154,18 +168,35 @@ function App(this: any) {
 					{/* Controls Tree */}
 					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 w-16 overflow-y-auto'>
 						{/* Actions */}
+
+						{/* Hand */}
 						<Button
 							color='ghost'
 							className={`${drag && 'bg-primary'} p-1`}
-							onClick={() => setDrag(!drag)}
+							onClick={() => {
+								setDrag(!drag);
+								setEditing(false);
+							}}
 						>
 							<IconHandFinger size={18} className='text-white'></IconHandFinger>
+						</Button>
+
+						{/* Select */}
+						<Button
+							color='ghost'
+							className={`${editing && 'bg-primary'} p-1`}
+							onClick={() => {
+								setEditing(!editing);
+								setDrag(false);
+							}}
+						>
+							<IconMouse size={18} className='text-white'></IconMouse>
 						</Button>
 
 						{/* Zoom In */}
 						<Button
 							className='p-1'
-							color='primary'
+							color='ghost'
 							onClick={() => setZoom(zoom + 0.2)}
 						>
 							<IconZoomIn size={18} className='text-white'></IconZoomIn>
@@ -243,90 +274,27 @@ function App(this: any) {
 					</div>
 
 					{/* Ruler Vertical */}
-					<div className='ruler vertical flex flex-auto flex-col max-w-xs grow-0 w-6 rounded-2xl mr-0.2 p-1 bg-base-100'>
-						<Guides
-							ref={guidey}
-							type='vertical'
-							backgroundColor='#090b11'
-							textColor='#525863'
-							lineColor='#525863'
-							zoom={1}
-							unit={50}
-							dragPosFormat={(v) => `${v}cm`}
-							textFormat={(v) => `${v}px`}
-							rulerStyle={{
-								height: 'calc(100%)',
-								width: '100%',
-							}}
-							displayDragPos={true}
-							onChangeGuides={({ guides }) => {
-								console.log('vertical', guides);
-							}}
-							onDragStart={(e) => {
-								console.log('dragStart', e);
-							}}
-							onDrag={(e) => {
-								console.log('drag', e);
-							}}
-							onDragEnd={(e) => {
-								console.log('dragEnd', e);
-							}}
-						/>
+					<div className='hidden'>
+						<VerticalGuide></VerticalGuide>
 					</div>
 
 					{/* Workspace */}
-					<div className='flex flex-auto flex-col'>
+					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
 						{/* Ruler Horizontal */}
-						<div className='ruler horizontal flex flex-auto flex-col grow-0 p-1 h-8  rounded bg-base-100'>
-							<Guides
-								ref={guidex}
-								type='horizontal'
-								zoom={37.7}
-								textOffset={[0, 50]}
-								unit={1}
-								backgroundColor='#090b11'
-								textColor='#525863'
-								lineColor='#525863'
-								snapThreshold={0}
-								textFormat={(v) => `${v}px`}
-								snaps={[1, 2, 3]}
-								digit={1}
-								style={{ height: '30px' }}
-								rulerStyle={{
-									width: 'calc(100%)',
-									height: '100%',
-								}}
-								dragPosFormat={(v) => `${v}cm`}
-								displayDragPos={true}
-								displayGuidePos={true}
-								onChangeGuides={({ guides }) => {
-									console.log('horizontal', guides);
-								}}
-								onDragStart={(e) => {
-									console.log('dragStart', e);
-								}}
-								onDrag={(e) => {
-									console.log('drag', e);
-								}}
-								onDragEnd={(e) => {
-									console.log('dragEnd', e);
-								}}
-								onClickRuler={(e) => {
-									console.log('?', e);
-								}}
-							/>
+						<div className='hidden'>
+							<HorizontalGuide></HorizontalGuide>
 						</div>
 
 						<InfiniteViewer
 							className='viewer flex flex-auto bg-base-100 rounded-2xl'
 							useMouseDrag={drag}
+							useAutoZoom
 							margin={0}
 							zoom={zoom}
 							threshold={0}
 							rangeX={[-250, 250]}
 							rangeY={[-250, 250]}
 							useWheelScroll
-							useAutoZoom
 							onPinch={(e) => console.log(e)}
 							onScroll={(e) => {
 								console.log('scroll' + e.scrollLeft);

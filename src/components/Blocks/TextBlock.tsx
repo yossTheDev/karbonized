@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Input } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 
-export const TextControl: React.FC<{ id: string }> = ({ id }) => {
+export const TextControl: React.FC = () => {
 	/* Component States */
 	const [text, setText] = useState('lorem');
 	const [color, setColor] = useState('#f3f4f6');
@@ -17,7 +17,6 @@ export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 	return (
 		<>
 			<ControlTemplate
-				id={id}
 				defaultHeight='45px'
 				defaultWidth='85px'
 				minHeight={'20px'}
@@ -89,7 +88,7 @@ export const TextControl: React.FC<{ id: string }> = ({ id }) => {
 			>
 				<p
 					style={{ color: color, fontSize: textSize + 'px' }}
-					className={`my-auto flex flex-auto whitespace-pre-wrap overflow-hidden hover:border-blue-500 hover:border ${
+					className={`my-auto flex flex-auto whitespace-pre-wrap overflow-hidden select-none hover:border-blue-500 hover:border ${
 						isBold && 'font-bold'
 					} ${isItalic && 'italic'} ${isUnderline && 'underline'}`}
 				>

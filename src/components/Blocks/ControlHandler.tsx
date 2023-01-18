@@ -15,17 +15,17 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 	// Store Actions
 	switch (type) {
 		case 'code':
-			return <CodeControl id={id}></CodeControl>;
+			return <CodeControl></CodeControl>;
 		case 'text':
-			return <TextControl id={id}></TextControl>;
+			return <TextControl></TextControl>;
 		case 'qr':
-			return <QrControl id={id}></QrControl>;
+			return <QrControl></QrControl>;
 		case 'image':
-			return <ImageBlock id={id}></ImageBlock>;
+			return <ImageBlock></ImageBlock>;
 		case 'window':
-			return <WindowBlock id={id}></WindowBlock>;
+			return <WindowBlock></WindowBlock>;
 		case 'avatar':
-			return <AvatarBlock id={id}></AvatarBlock>;
+			return <AvatarBlock></AvatarBlock>;
 		default:
 			return <></>;
 	}

@@ -5,15 +5,13 @@ import {
 	IconCamera,
 	IconTrash,
 } from '@tabler/icons';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useId, useRef, useState } from 'react';
 import { Button, Input, Range } from 'react-daisyui';
-import Moveable, { OnDrag, OnResize, OnRotate, OnScale } from 'react-moveable';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 interface ControlProps {
-	id: string;
 	color?: string;
 	children?: ReactNode;
 	menu?: ReactNode;
@@ -31,7 +29,6 @@ interface ControlProps {
 }
 
 export const ControlTemplate: React.FC<ControlProps> = ({
-	id,
 	color,
 	children,
 	menu,
@@ -47,7 +44,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	defaultWidth = '80px',
 }) => {
 	// App Store
+	const ID = useId();
 	const controlID = useStoreState((state) => state.currentControlID);
+
+	const controlSize = useStoreState((state) => state.controlSize);
+	const setControlSize = useStoreActions((state) => state.setControlSize);
+	const constrlPos = useStoreState((state) => state.controlPosition);
+	const setControlPos = useStoreActions((state) => state.setControlPosition);
+
 	const readyToSave = useStoreState((state) => state.readyToSave);
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
@@ -72,23 +76,27 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	return (
 		<>
 			{visibility && (
-				<div style={{ zIndex: zIndex }} className='absolute target'>
+				<div
+					onContextMenu={(e) => {
+						console.log('Context');
+						setContextMenu(!contextMenu);
+						//setDisable(true);
+						e.preventDefault();
+					}}
+					style={{ top: '121px', left: '160px' }}
+					className='absolute target'
+				>
 					<div
-						onClick={() => {
-							console.log('store id ' + controlID);
-							console.log('control id ' + id);
-							setDisable(true);
-							//setDisable(!disable);
-						}}
+						id={ID}
 						onMouseDown={() => {
-							setDisable(true);
-							setID(id);
+							//setDisable(true);
+							console.log(ID);
+							setID(ID);
 						}}
-						id={id}
 						className={`flex flex-auto flex-col h-full rounded ${
 							ondrag && 'border-2 border-blue-500 rounded'
 						}`}
-						ref={ref}
+						ref={reference}
 						style={{
 							//height: defaultHeight,
 							//width: defaultWidth,
@@ -102,17 +110,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						}}
 					>
 						<div
+							ref={ref}
 							style={{
 								borderRadius: borderRadious + 'px',
 								backgroundColor: color,
 							}}
 							className='flex flex-auto flex-col h-full'
-							ref={reference}
-							onContextMenu={(e) => {
-								setContextMenu(!contextMenu);
-								//setDisable(true);
-								e.preventDefault();
-							}}
 						>
 							{children}
 						</div>
@@ -121,7 +124,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			)}
 
 			{/* Menu */}
-			{controlID === id && (
+			{controlID === ID && (
 				<Portal node={document.getElementById('menu')}>
 					{/* Position */}
 					<CustomCollapse
@@ -139,15 +142,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<div className='flex flex-auto  p-2 '>
 									<p className='p-2 my-auto'>X:</p>
 									<Input
+										disabled
 										type={'number'}
 										className='bg-base-100 p-2 text-xs rounded-xl  w-full'
 										onChange={(ev) =>
-											setPosition({
+											setControlPos({
 												x: ev.target.value as unknown as number,
 												y: position.y,
 											})
 										}
-										value={position.x}
+										value={constrlPos?.x}
 									></Input>
 								</div>
 								{/* Position Y */}
@@ -155,19 +159,21 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<p className='p-2 my-auto'>Y:</p>
 									<Input
 										type={'number'}
+										disabled
 										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
 										onChange={(ev) =>
-											setPosition({
+											setControlPos({
 												y: ev.target.value as unknown as number,
 												x: position.x,
 											})
 										}
-										value={position.y}
+										value={constrlPos?.y}
 									></Input>
 								</div>
 							</div>
 
-							<div className='flex flex-auto p-2 text-xs'>
+							{/* Position Z */}
+							<div className=' flex-auto p-2 text-xs hidden'>
 								<p className='p-2 my-auto'>Z:</p>
 								<Input
 									type={'number'}
@@ -182,30 +188,32 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<div className='flex flex-auto  p-2 '>
 									<p className='p-2 my-auto'>W:</p>
 									<Input
+										disabled
 										type={'number'}
 										className='bg-base-100 p-2 rounded-xl text-xs w-full'
 										onChange={(ev) =>
-											setSize({
+											setControlSize({
 												w: ev.target.value as unknown as number,
 												h: size.h,
 											})
 										}
-										value={size.w}
+										value={controlSize?.w}
 									></Input>
 								</div>
 
 								<div className='flex flex-auto  p-2 '>
 									<p className='p-2 my-auto'>H:</p>
 									<Input
+										disabled
 										type={'number'}
 										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
 										onChange={(ev) =>
-											setSize({
+											setControlSize({
 												w: size.w,
 												h: ev.target.value as unknown as number,
 											})
 										}
-										value={size.h}
+										value={controlSize?.h}
 									></Input>
 								</div>
 							</div>
@@ -258,7 +266,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			)}
 
 			{/* Context Menu */}
-			{contextMenu && controlID === id && (
+			{contextMenu && controlID === ID && (
 				<Portal>
 					<div
 						className='z-50'
@@ -304,138 +312,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						</div>
 					</div>
 				</Portal>
-			)}
-
-			{/* Moveable Control */}
-			{disable && readyToSave === false && controlID === id && (
-				<Moveable
-					groupable
-					snappable
-					target={document.getElementById(id) as HTMLElement}
-					origin={true}
-					/* Resize event edges */
-					edge={false}
-					/* draggable */
-					draggable={true}
-					translateZ={zIndex}
-					throttleDrag={0}
-					onDragStart={({ target, clientX, clientY }) => {
-						//console.log('onDragStart', target);
-					}}
-					onDrag={({
-						target,
-						beforeDelta,
-						beforeDist,
-						left,
-						top,
-						right,
-						bottom,
-						delta,
-						dist,
-						transform,
-						clientX,
-						clientY,
-					}: OnDrag) => {
-						//console.log('onDrag left, top', left, top);
-						// target!.style.left = `${left}px`;
-						// target!.style.top = `${top}px`;
-						//console.log('onDrag translate', dist);
-						target!.style.transform = transform;
-						setPosition({ x: left, y: top });
-					}}
-					onDragEnd={({ target, isDrag, clientX, clientY }) => {
-						//console.log('onDragEnd', target, isDrag);
-					}}
-					/* When resize or scale, keeps a ratio of the width, height. */
-					keepRatio={false}
-					/* resizable*/
-					/* Only one of resizable, scalable, warpable can be used. */
-					resizable={true}
-					throttleResize={0}
-					onResizeStart={({ target, clientX, clientY }) => {
-						//console.log('onResizeStart', target);
-					}}
-					onResize={({
-						target,
-						width,
-						height,
-						dist,
-						delta,
-						direction,
-						clientX,
-						clientY,
-					}: OnResize) => {
-						//console.log('onResize', target);
-						delta[0] && (target!.style.width = `${width}px`);
-						delta[1] && (target!.style.height = `${height}px`);
-						console.log('height' + target!.style.height);
-						setSize({
-							w: target!.style.width.replace('px', '') as unknown as number,
-							h: target!.style.height.replace('px', '') as unknown as number,
-						});
-					}}
-					onResizeEnd={({ target, isDrag, clientX, clientY }) => {
-						console.log('onResizeEnd', target, isDrag);
-					}}
-					/* scalable */
-					/* Only one of resizable, scalable, warpable can be used. */
-					scalable={true}
-					throttleScale={0}
-					onScaleStart={({ target, clientX, clientY }) => {
-						//console.log('onScaleStart', target);
-					}}
-					onScale={({
-						target,
-						scale,
-						dist,
-						delta,
-						transform,
-						clientX,
-						clientY,
-					}: OnScale) => {
-						//console.log('onScale scale', scale);
-						target!.style.transform = transform;
-					}}
-					onScaleEnd={({ target, isDrag, clientX, clientY }) => {
-						//console.log('onScaleEnd', target, isDrag);
-					}}
-					/* rotatable */
-					rotatable={true}
-					warpable={true}
-					throttleRotate={0}
-					onRotateStart={({ target, clientX, clientY }) => {
-						console.log('onRotateStart', target);
-					}}
-					onRotate={({
-						target,
-						delta,
-						dist,
-						transform,
-						clientX,
-						clientY,
-					}: OnRotate) => {
-						//console.log('onRotate', dist);
-						target!.style.transform = transform;
-					}}
-					onRotateEnd={({ target, isDrag, clientX, clientY }) => {
-						//console.log('onRotateEnd', target, isDrag);
-					}}
-					// Enabling pinchable lets you use events that
-					// can be used in draggable, resizable, scalable, and rotateable.
-					pinchable={true}
-					onPinchStart={({ target, clientX, clientY, datas }) => {
-						// pinchStart event occur before dragStart, rotateStart, scaleStart, resizeStart
-						//console.log('onPinchStart');
-					}}
-					onPinch={({ target, clientX, clientY, datas }) => {
-						// pinch event occur before drag, rotate, scale, resize
-						//console.log('onPinch');
-					}}
-					onPinchEnd={({ isDrag, target, clientX, clientY, datas }) => {
-						// pinchEnd event occur before dragEnd, rotateEnd, scaleEnd, resizeEnd
-						//console.log('onPinchEnd');
-					}}
-				/>
 			)}
 		</>
 	);

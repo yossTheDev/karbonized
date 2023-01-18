@@ -6,7 +6,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/image-example.png';
 
-export const WindowBlock: React.FC<{ id: string }> = ({ id }) => {
+export const WindowBlock: React.FC = () => {
 	/* Component States */
 	const [title, setTitle] = useState('lorem');
 	const [color, setColor] = useState('#0f172a');
@@ -15,7 +15,6 @@ export const WindowBlock: React.FC<{ id: string }> = ({ id }) => {
 	return (
 		<>
 			<ControlTemplate
-				id={id}
 				minHeight='100px'
 				maxWidth='620px'
 				maxHeight='450px'
@@ -76,17 +75,19 @@ export const WindowBlock: React.FC<{ id: string }> = ({ id }) => {
 				<div className='flex flex-auto flex-col overflow-hidden shadow-2xl rounded'>
 					{/* Title */}
 					<div className='flex flex-auto max-h-8 p-2'>
-						<div
-							spellCheck={false}
-							className='text-gray-600 text-center mb-auto mt-auto m-2 hover:border-none'
-						>
-							{title}
-						</div>
+						<div className='my-auto flex flex-row flex-auto'>
+							<div
+								spellCheck={false}
+								className='text-gray-600 text-center mb-auto mt-auto m-2 hover:border-none'
+							>
+								{title}
+							</div>
 
-						<div className='ml-auto flex flex-row'>
-							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
-							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
-							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
+							<div className='ml-auto flex flex-row'>
+								<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
+								<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
+								<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
+							</div>
 						</div>
 					</div>
 

@@ -9,7 +9,15 @@ export interface AppStoreModel {
 	ControlsTree: Item[];
 	currentControlID: string;
 	readyToSave: boolean;
+	editing: boolean;
 
+	controlSize?: { w: number; h: number };
+	controlPosition?: { x: number; y: number };
+
+	setControlPosition: Action<AppStoreModel, { x: number; y: number }>;
+	setControlSize: Action<AppStoreModel, { w: number; h: number }>;
+
+	setEditing: Action<AppStoreModel, boolean>;
 	setReadyToSave: Action<AppStoreModel, boolean>;
 
 	/* Workspace */
@@ -30,12 +38,24 @@ export const AppStore = createStore<AppStoreModel>({
 	ControlsTree: [{ type: 'code' }],
 	readyToSave: false,
 	currentControlID: '',
+	editing: true,
 
 	workspaceName: 'karbonized-code',
 	workspaceColor: '#5895c8',
 	workspaceHeight: '512',
 	workspaceWidth: '512',
 
+	setControlSize: action((state, payload) => {
+		state.controlSize = payload;
+	}),
+
+	setControlPosition: action((state, payload) => {
+		state.controlPosition = payload;
+	}),
+
+	setEditing: action((state, payload) => {
+		state.editing = payload;
+	}),
 	setReadyToSave: action((state, payload) => {
 		state.readyToSave = payload;
 	}),

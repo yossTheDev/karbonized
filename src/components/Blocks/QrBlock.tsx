@@ -6,7 +6,7 @@ import { ControlTemplate } from './ControlTemplate';
 import { QRCodeSVG } from 'qrcode.react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 
-export const QrControl: React.FC<{ id: string }> = ({ id }) => {
+export const QrControl: React.FC = () => {
 	/* Component States */
 	const [text, setText] = useState('karbonized');
 	const [backgroundColor, setBackgroundColor] = useState('#1e408400');
@@ -15,7 +15,6 @@ export const QrControl: React.FC<{ id: string }> = ({ id }) => {
 	return (
 		<>
 			<ControlTemplate
-				id={id}
 				defaultHeight='50px'
 				defaultWidth='50px'
 				minHeight={'50px'}

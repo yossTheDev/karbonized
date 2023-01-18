@@ -7,7 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
-export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
+export const CodeControl: React.FC = () => {
 	/* Component States */
 	const [languaje, setLanguaje] = useState('tsx');
 	const [code, setCode] = useState(
@@ -21,7 +21,6 @@ export const CodeControl: React.FC<{ id: string }> = ({ id }) => {
 	return (
 		<>
 			<ControlTemplate
-				id={id}
 				color={color}
 				border={6}
 				defaultHeight='140px'

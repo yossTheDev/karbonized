@@ -5,7 +5,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import example from '../../assets/example-user.png';
 
-export const AvatarBlock: React.FC<{ id: string }> = ({ id }) => {
+export const AvatarBlock: React.FC = () => {
 	/* Component States */
 
 	const [src, setSrc] = useState(example);
@@ -13,7 +13,6 @@ export const AvatarBlock: React.FC<{ id: string }> = ({ id }) => {
 	return (
 		<>
 			<ControlTemplate
-				id={id}
 				minHeight={'20px'}
 				minWidth={'50px'}
 				maxWidth={'500px'}

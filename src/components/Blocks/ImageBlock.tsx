@@ -5,7 +5,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
 
-export const ImageBlock: React.FC<{ id: string }> = ({ id }) => {
+export const ImageBlock: React.FC = () => {
 	/* Component States */
 	const [src, setSrc] = useState(karbonized);
 	const [borderRadious, setBorderRadious] = useState(3);
@@ -13,7 +13,6 @@ export const ImageBlock: React.FC<{ id: string }> = ({ id }) => {
 	return (
 		<>
 			<ControlTemplate
-				id={id}
 				border={0}
 				borderEditable={false}
 				minHeight={'20px'}
@@ -79,7 +78,7 @@ export const ImageBlock: React.FC<{ id: string }> = ({ id }) => {
 			>
 				<img
 					style={{ borderRadius: borderRadious + 'px' }}
-					className={`flex flex-auto h-full w-full rounded-3xl `}
+					className={`flex flex-auto h-full w-full rounded-3xl select-none `}
 					src={src}
 				></img>
 			</ControlTemplate>
