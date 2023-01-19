@@ -104,7 +104,7 @@ export const StatusBar: React.FC = () => {
 							<a
 								href='https://github.com/yossthedev'
 								target={'_blank'}
-								className='flex flex-row gap-1 p-2 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br  from-base-100 to bg-gray-900'
+								className='flex flex-row gap-1 p-2 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br  from-gray-800 to-gray-900 '
 							>
 								<IconBrandGithub></IconBrandGithub>
 								<p className='my-auto font-bold'>GitHub</p>

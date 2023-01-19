@@ -215,6 +215,15 @@ function App(this: any) {
 							<IconLetterT size={18} className='dark:text-white'></IconLetterT>
 						</Button>
 
+						{/* Arrow Control */}
+						<Button
+							className='p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'arrow' })}
+						>
+							<ArrowSvg className='h-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
+						</Button>
+
 						{/* Qr Control */}
 						<Button
 							className='p-1'
@@ -231,15 +240,6 @@ function App(this: any) {
 							onClick={() => addControl({ type: 'image' })}
 						>
 							<IconPhoto size={18} className='dark:text-white'></IconPhoto>
-						</Button>
-
-						{/* Arrow Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'arrow' })}
-						>
-							<ArrowSvg className='h-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
 						</Button>
 
 						{/* Window Control */}

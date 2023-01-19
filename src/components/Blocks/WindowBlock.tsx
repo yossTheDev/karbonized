@@ -1,9 +1,4 @@
-import {
-	IconAppWindow,
-	IconLetterT,
-	IconMaximize,
-	IconMinimize,
-} from '@tabler/icons';
+import { IconAppWindow } from '@tabler/icons';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { FileInput, Input, Select } from 'react-daisyui';
