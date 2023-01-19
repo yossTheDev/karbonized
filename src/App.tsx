@@ -122,7 +122,7 @@ function App(this: any) {
 								{/* Save Button */}
 								<button
 									onClick={onButtonClick}
-									className=' border-primary border rounded-3xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-500 to-primary'
+									className='lg:flex hidden border-primary border rounded-3xl text-white font-bold  flex-row bg-gradient-to-br from-blue-500 to-primary'
 								>
 									<IconFlask></IconFlask>
 									Save
@@ -135,7 +135,7 @@ function App(this: any) {
 				{/* Content*/}
 				<div className='flex flex-auto flex-col md:flex-row overflow-hidden'>
 					{/* Controls Tree */}
-					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 w-16 overflow-y-auto'>
+					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 lg:w-16 overflow-y-auto'>
 						{/* Actions */}
 
 						{/* Select */}
@@ -221,7 +221,7 @@ function App(this: any) {
 							color='ghost'
 							onClick={() => addControl({ type: 'arrow' })}
 						>
-							<ArrowSvg className='h-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
+							<ArrowSvg className='h-4 w-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
 						</Button>
 
 						{/* Qr Control */}
@@ -285,6 +285,7 @@ function App(this: any) {
 							useAutoZoom
 							margin={0}
 							zoom={zoom}
+							usePinch={!drag}
 							threshold={0}
 							rangeX={[-250, 250]}
 							rangeY={[-250, 250]}
@@ -303,7 +304,7 @@ function App(this: any) {
 					</div>
 
 					{/* Menu */}
-					<div className='order-3 flex shrink-0 grow-0 flex-col lg:max-w-xs w-72  p-2  text-white bg-base-200'>
+					<div className='max-h-72 lg:max-h-full order-3 flex shrink-0 grow-0 flex-col lg:max-w-xs w-full  p-2  text-white bg-base-200'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>

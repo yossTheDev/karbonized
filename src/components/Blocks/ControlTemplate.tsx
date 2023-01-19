@@ -176,6 +176,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				>
 					<div
 						className='flex flex-auto'
+						onTouchStart={() => {
+							//setDisable(true);
+							console.log('touch');
+							setID(ID);
+						}}
 						onMouseDown={() => {
 							//setDisable(true);
 							console.log(ID);
