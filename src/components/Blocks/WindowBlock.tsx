@@ -93,12 +93,13 @@ export const WindowBlock: React.FC = () => {
 						<div className='my-auto flex flex-row flex-auto'>
 							<div className='flex flex-auto flex-row text-gray-600'>
 								{windowStyle === 'window' && (
-									<p className='text-center mx-auto'>{title}</p>
+									<p className='text-left'>{title}</p>
 								)}
 							</div>
+
 							<div
 								spellCheck={false}
-								className='text-gray-600 select-none flex flex-auto flex-row mx-auto'
+								className='text-gray-600 select-none flex flex-auto flex-row'
 							>
 								{windowStyle === 'mac' && (
 									<p className='text-center mx-auto'>{title}</p>
