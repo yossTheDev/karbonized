@@ -10,6 +10,9 @@ export interface AppStoreModel {
 	currentControlID: string;
 	readyToSave: boolean;
 	editing: boolean;
+	lockAspect: boolean;
+
+	setLockAspect: Action<AppStoreModel, boolean>;
 
 	controlSize?: { w: number; h: number };
 	controlPosition?: { x: number; y: number };
@@ -39,11 +42,16 @@ export const AppStore = createStore<AppStoreModel>({
 	readyToSave: false,
 	currentControlID: '',
 	editing: true,
+	lockAspect: false,
 
-	workspaceName: 'karbonized-code',
+	workspaceName: 'karbonized-image',
 	workspaceColor: '#5895c8',
 	workspaceHeight: '512',
 	workspaceWidth: '512',
+
+	setLockAspect: action((state, payload) => {
+		state.lockAspect = payload;
+	}),
 
 	setControlSize: action((state, payload) => {
 		state.controlSize = payload;

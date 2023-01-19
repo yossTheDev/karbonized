@@ -24,6 +24,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
 	const editing = useStoreState((state) => state.editing);
+	const lockAspect = useStoreState((state) => state.lockAspect);
 
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
@@ -58,9 +59,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 			{editing && (
 				<Moveable
-					edgeDraggable={true}
-					warpable={true}
-					originDraggable={true}
 					target={document.getElementById(controlID)}
 					origin={true}
 					/* Resize event edges */
@@ -97,7 +95,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							el!.style.left = `${left}px`;
 							el!.style.top = `${top}px`;
 						});
-						console.log('group drag');
+						//console.log('group drag');
 						//setPosition({ x: left, y: top });
 					}}
 					onDrag={({
@@ -125,7 +123,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						//console.log('onDragEnd', target, isDrag);
 					}}
 					/* When resize or scale, keeps a ratio of the width, height. */
-					keepRatio={false}
+					keepRatio={lockAspect}
 					/* resizable*/
 					/* Only one of resizable, scalable, warpable can be used. */
 					resizable={true}
@@ -146,7 +144,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						//console.log('onResize', target);
 						delta[0] && (target!.style.width = `${width}px`);
 						delta[1] && (target!.style.height = `${height}px`);
-						console.log('height' + target!.style.height);
+						//console.log('height' + target!.style.height);
 						setControlSize({
 							w: target!.style.width.replace('px', '') as unknown as number,
 							h: target!.style.height.replace('px', '') as unknown as number,
@@ -168,14 +166,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							delta[1] && (el!.style.height = `${height}px`);
 						});
 
-						console.log('height' + target!.style.height);
+						//console.log('height' + target!.style.height);
 						/*setSize({
 							w: target!.style.width.replace('px', '') as unknown as number,
 							h: target!.style.height.replace('px', '') as unknown as number,
 						});*/
 					}}
 					onResizeEnd={({ target, isDrag, clientX, clientY }) => {
-						console.log('onResizeEnd', target, isDrag);
+						//console.log('onResizeEnd', target, isDrag);
 					}}
 					/* scalable */
 					/* Only one of resizable, scalable, warpable can be used. */
@@ -280,7 +278,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// pinchEnd event occur before dragEnd, rotateEnd, scaleEnd, resizeEnd
 						//console.log('onPinchEnd');
 					}}
-					preventClickEventOnDrag
 					defaultGroupOrigin=''
 				/>
 			)}

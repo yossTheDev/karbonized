@@ -3,10 +3,19 @@ import {
 	IconAxisY,
 	IconBorderStyle,
 	IconCamera,
+	IconLock,
 	IconTrash,
 } from '@tabler/icons';
-import React, { ReactNode, useEffect, useId, useRef, useState } from 'react';
-import { Button, Input, Range } from 'react-daisyui';
+import { toPng } from 'html-to-image';
+import React, {
+	ReactNode,
+	useCallback,
+	useEffect,
+	useId,
+	useRef,
+	useState,
+} from 'react';
+import { Button, Input, Range, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -51,6 +60,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const constrlPos = useStoreState((state) => state.controlPosition);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
+	const aspectRatio = useStoreState((state) => state.lockAspect);
+	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 
 	const readyToSave = useStoreState((state) => state.readyToSave);
 	const setID = useStoreActions((state) => state.setcurrentControlID);
@@ -73,41 +84,59 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [borderRadious, setBorderRadious] = useState(border);
 	const ref = useRef<HTMLDivElement>(null);
 
+	// Component Actions
+	const handleTakeCapture = useCallback(() => {
+		console.log('capturando');
+		if (ref.current === null) {
+			return;
+		}
+
+		toPng(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = 'code-karbonized.png';
+				link.href = dataUrl;
+				link.click();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [ref]);
+
 	return (
 		<>
 			{visibility && (
 				<div
+					id={ID}
 					onContextMenu={(e) => {
 						console.log('Context');
 						setContextMenu(!contextMenu);
 						//setDisable(true);
 						e.preventDefault();
 					}}
-					style={{ top: '121px', left: '160px' }}
-					className='absolute target'
+					className='absolute flex flex-auto select-none'
+					style={{
+						zIndex: zIndex,
+						//height: defaultHeight,
+						//width: defaultWidth,
+						maxHeight: maxHeight,
+						maxWidth: maxWidth,
+						minHeight: minHeight,
+						minWidth: minWidth,
+						left: position.x,
+						top: position.y,
+					}}
 				>
 					<div
-						id={ID}
+						className='flex flex-auto'
 						onMouseDown={() => {
 							//setDisable(true);
 							console.log(ID);
 							setID(ID);
 						}}
-						className={`flex flex-auto flex-col h-full rounded ${
-							ondrag && 'border-2 border-blue-500 rounded'
-						}`}
 						ref={reference}
-						style={{
-							//height: defaultHeight,
-							//width: defaultWidth,
-							maxHeight: maxHeight,
-							maxWidth: maxWidth,
-							minHeight: minHeight,
-							minWidth: minWidth,
-							zIndex: zIndex,
-							left: position.x,
-							top: position.y,
-						}}
 					>
 						<div
 							ref={ref}
@@ -173,7 +202,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							</div>
 
 							{/* Position Z */}
-							<div className=' flex-auto p-2 text-xs hidden'>
+							<div className='flex flex-auto p-2 text-xs '>
 								<p className='p-2 my-auto'>Z:</p>
 								<Input
 									type={'number'}
@@ -275,40 +304,35 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					>
 						<div className='flex flex-col flex-auto gap-2'>
 							{/* Delete Block */}
-							<Button
-								onClick={() => {
-									setID('');
-									setVisibility(false);
-								}}
-							>
-								<IconTrash></IconTrash>
-							</Button>
+							<Tooltip message='Delete Block'>
+								<Button
+									onClick={() => {
+										setID('');
+										setVisibility(false);
+									}}
+								>
+									<IconTrash></IconTrash>
+								</Button>
+							</Tooltip>
 
 							{/* Capture Block */}
-							<Button
-								onClick={async () => {
-									const { toPng } = await import('html-to-image');
-									console.log('capturando');
-									if (ref.current === null) {
-										return;
-									}
+							<Tooltip message='Take Capture'>
+								<Button onClick={handleTakeCapture}>
+									<IconCamera></IconCamera>
+								</Button>
+							</Tooltip>
 
-									toPng(ref.current, {
-										cacheBust: true,
-									})
-										.then((dataUrl) => {
-											const link = document.createElement('a');
-											link.download = 'code-karbonized.png';
-											link.href = dataUrl;
-											link.click();
-										})
-										.catch((err) => {
-											console.log(err);
-										});
-								}}
-							>
-								<IconCamera></IconCamera>
-							</Button>
+							{/* Aspect Ratio Block */}
+							<Tooltip message='Lock aspect ratio'>
+								<Button
+									className={`${aspectRatio && 'bg-primary border-primary'}`}
+									onClick={() => {
+										setAspectRatio(!aspectRatio);
+									}}
+								>
+									<IconLock></IconLock>
+								</Button>
+							</Tooltip>
 						</div>
 					</div>
 				</Portal>

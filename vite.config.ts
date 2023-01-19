@@ -7,6 +7,9 @@ export default defineConfig({
 	plugins: [
 		react(),
 		VitePWA({
+			workbox: {
+				globPatterns: ['**/*.{js,css,html,ico,png,svg,ttf}'],
+			},
 			registerType: 'autoUpdate',
 			includeAssets: ['fonts/*.ttf', 'images/*.png'],
 			manifest: {

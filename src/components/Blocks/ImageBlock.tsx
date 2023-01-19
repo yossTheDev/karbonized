@@ -15,7 +15,7 @@ export const ImageBlock: React.FC = () => {
 			<ControlTemplate
 				border={0}
 				borderEditable={false}
-				minHeight={'20px'}
+				minHeight={'50px'}
 				minWidth={'50px'}
 				maxWidth={'700px'}
 				maxHeight={'500px'}

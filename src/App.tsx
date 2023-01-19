@@ -1,5 +1,5 @@
 import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Dropdown, Menu, Navbar } from 'react-daisyui';
+import { Button, Dropdown, Menu, Navbar, Tooltip } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
@@ -173,9 +173,11 @@ function App(this: any) {
 						{/* Select */}
 						<Button
 							color='ghost'
-							className={`${editing && 'bg-primary text-white'} p-1`}
+							className={`${
+								editing && 'bg-primary text-white'
+							} p-1 hover:bg-primary`}
 							onClick={() => {
-								setEditing(!editing);
+								setEditing(true);
 								setDrag(false);
 							}}
 						>
@@ -185,9 +187,11 @@ function App(this: any) {
 						{/* Hand */}
 						<Button
 							color='ghost'
-							className={`${drag && 'bg-primary text-white'} p-1`}
+							className={`${
+								drag && 'bg-primary text-white hover:bg-primary'
+							} p-1`}
 							onClick={() => {
-								setDrag(!drag);
+								setDrag(true);
 								setEditing(false);
 							}}
 						>

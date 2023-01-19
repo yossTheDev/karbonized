@@ -1,14 +1,15 @@
 # Changelog
 
-## 1.0.0
+## 1.0.2
 
-First Version
-
-Controls
-
-* Text
-* Qr
-* Code
+* Added Light Theme
+* Karbonized is now a PWA with offline support
+* Added Window Control
+* Replaced React-rnd for react-moveable
+* Resizeable Workspace
+* More control over workspace
+* Now you can define Workspace Name and Size
+* Various improvements and Bug Fixed
 
 ## 1.0.1
 
@@ -21,9 +22,12 @@ Controls
 * Improve UI/UX
 * Improve website for mobile devices
 
-## 1.0.2
+## 1.0.0
 
-* Added Light Theme
-* Resizeable Workspace
-* More control over workspace
-* VArious improvements and Bug Fixed
+First Version
+
+Controls
+
+* Text
+* Qr
+* Code

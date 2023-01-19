@@ -15,7 +15,7 @@ export const WindowBlock: React.FC = () => {
 	return (
 		<>
 			<ControlTemplate
-				minHeight='100px'
+				minHeight='200px'
 				maxWidth='620px'
 				maxHeight='450px'
 				border={6}

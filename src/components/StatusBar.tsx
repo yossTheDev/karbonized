@@ -9,6 +9,8 @@ import {
 	IconCoinBitcoin,
 	IconCreditCard,
 	IconCurrencyDogecoin,
+	IconHeart,
+	IconHierarchy,
 	IconPhone,
 } from '@tabler/icons';
 import { Clipboard } from '@capacitor/clipboard';
@@ -26,17 +28,37 @@ export const StatusBar: React.FC = () => {
 		<>
 			<div className='flex flex-row p-1 text-gray-500 select-none'>
 				<div className='flex flex-row flex-auto my-auto'>
+					<IconHierarchy className='my-auto' size={18}></IconHierarchy>
 					<p className='ml-2 text-xs my-auto'>
 						Workspace: {workspaceName} Size: {workspaceWidth} X{' '}
 						{workspaceHeight}
 					</p>
 
-					<div
-						onMouseDown={() => setShowAbout(true)}
-						className='ml-auto flex flex-row gap-2 hover:bg-base-100 hover:rounded cursor-pointer p-1'
-					>
-						<p className='text-xs my-auto'>Karbonized V1.0.0</p>
-						<p className='text-xs my-auto'>made by @yossthedev</p>
+					<div className='flex flex-row my-auto ml-auto'>
+						<div
+							onMouseDown={() => setShowAbout(true)}
+							className='flex flex-row gap-2 hover:bg-base-100 hover:rounded cursor-pointer p-1'
+						>
+							<p className='text-xs my-auto'>
+								Made With
+								<span>
+									<IconHeart
+										size={18}
+										className='inline-flex my-auto mx-1'
+									></IconHeart>
+								</span>
+								By @yossthedev
+							</p>
+						</div>
+
+						<a
+							href='https://github.com/yossthedev/karbonized/'
+							target={'_blank'}
+							className='flex flex-auto flex-row my-auto mx-2 hover:rounded hover:bg-base-100 cursor-pointer p-1'
+						>
+							<IconBrandGithub className='my-auto' size={18}></IconBrandGithub>
+							<p className='text-xs my-auto ml-1'>Open Source</p>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -62,7 +84,7 @@ export const StatusBar: React.FC = () => {
 						</p>
 
 						{/* Social Networks */}
-						<div className='m-2 mt-4 p-2 flex flex-auto flex-row gap-2 mx-auto  w-fit'>
+						<div className='m-2 mt-4 p-2 flex flex-auto flex-row flex-wrap gap-2 mx-auto  w-fit'>
 							<a
 								href='https://twitter.com/yossthedev'
 								target={'_blank'}
@@ -94,7 +116,7 @@ export const StatusBar: React.FC = () => {
 						<p className='text-gray-500 text-center m-2'>Or make a donation</p>
 
 						{/* Donations*/}
-						<div className='m-2 mt-4 p-2 flex flex-auto flex-row gap-2 mx-auto  w-fit'>
+						<div className='m-2 mt-4 p-2 flex flex-auto flex-row flex-wrap gap-2 mx-auto  w-fit'>
 							<div
 								className='flex flex-row gap-1 p-2 w-24 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br from-yellow-400 to to-yellow-500  '
 								onClick={async () => {
