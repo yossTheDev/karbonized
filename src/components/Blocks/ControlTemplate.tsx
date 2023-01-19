@@ -32,6 +32,7 @@ interface ControlProps {
 	border?: number;
 	borderEditable?: boolean;
 	shadowEditable?: boolean;
+	maskEditable?: boolean;
 	defaultHeight?: string;
 	defaultWidth?: string;
 	maxHeight?: string;
@@ -49,6 +50,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	onClick,
 	lockAspectRatio = false,
 	shadowEditable = true,
+	maskEditable = true,
 	border = 2,
 	borderEditable = true,
 	maxHeight = '400px',
@@ -92,8 +94,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [borderRadious, setBorderRadious] = useState(border);
 
 	/* Shadow */
-	const [shadowX, setShadowX] = useState(shadowEditable ? 4 : 0);
-	const [shadowY, setShadowY] = useState(shadowEditable ? 10 : 0);
+	const [shadowX, setShadowX] = useState(0);
+	const [shadowY, setShadowY] = useState(0);
 	const [shadowSpread, setShadowSpread] = useState(shadowEditable ? 2 : 0);
 	const [shadowBlur, setShadowBlur] = useState(shadowEditable ? 16 : 0);
 	const [shadowColor, setShadowColor] = useState('#090b11');
@@ -406,43 +408,45 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					)}
 
 					{/* Mask */}
-					<CustomCollapse
-						menu={
-							<div className='flex flex-row m-2 gap-2'>
-								<IconMask size={22}></IconMask>
-								<p className='font-bold my-auto'>Mask</p>
-							</div>
-						}
-					>
-						<div className='flex flex-row flex-wrap text-xs'>
-							{/* Select Mask */}
-							<div className='flex flex-auto p-2 '>
-								<Select
-									defaultValue={'default'}
-									tabIndex={0}
-									value={mask}
-									onChange={(e) => setMask(e)}
-								>
-									{Masks.map((i) => {
-										return (
-											<option key={i} value={i}>
-												{i}
-											</option>
-										);
-									})}
-								</Select>
-							</div>
+					{maskEditable && (
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconMask size={22}></IconMask>
+									<p className='font-bold my-auto'>Mask</p>
+								</div>
+							}
+						>
+							<div className='flex flex-row flex-wrap text-xs'>
+								{/* Select Mask */}
+								<div className='flex flex-auto p-2 '>
+									<Select
+										defaultValue={'default'}
+										tabIndex={0}
+										value={mask}
+										onChange={(e) => setMask(e)}
+									>
+										{Masks.map((i) => {
+											return (
+												<option key={i} value={i}>
+													{i}
+												</option>
+											);
+										})}
+									</Select>
+								</div>
 
-							<div className='flex flex-row m-2 gap-2'>
-								<p className='my-auto text-xs'>Mask Repeat</p>
-								<Checkbox
-									color='primary'
-									onChange={(ev) => setMaskRepeat(ev.currentTarget.checked)}
-									checked={maskRepeat}
-								></Checkbox>
+								<div className='flex flex-row m-2 gap-2'>
+									<p className='my-auto text-xs'>Mask Repeat</p>
+									<Checkbox
+										color='primary'
+										onChange={(ev) => setMaskRepeat(ev.currentTarget.checked)}
+										checked={maskRepeat}
+									></Checkbox>
+								</div>
 							</div>
-						</div>
-					</CustomCollapse>
+						</CustomCollapse>
+					)}
 
 					{menu}
 

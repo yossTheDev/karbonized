@@ -1,5 +1,4 @@
 import React, { RefObject, useEffect } from 'react';
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import './Workspace.css';
@@ -13,7 +12,6 @@ import Moveable, {
 	OnResizeGroup,
 	OnRotateGroup,
 } from 'react-moveable';
-import Ruler from '@scena/react-ruler';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;

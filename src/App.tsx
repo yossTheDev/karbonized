@@ -1,16 +1,14 @@
-import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Dropdown, Menu, Navbar, Tooltip } from 'react-daisyui';
+import { useCallback, useRef, useState } from 'react';
+import { Button, Menu, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
 	IconAppWindow,
-	IconBrandGravatar,
+	IconArrowBack,
 	IconCode,
-	IconCursorOff,
 	IconFlask,
 	IconHandFinger,
 	IconLetterT,
-	IconMouse,
 	IconPhoto,
 	IconPointer,
 	IconQrcode,
@@ -23,24 +21,13 @@ import {
 import { useStoreActions, useStoreState } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
-import { toBlob } from 'html-to-image';
+import { toBlob, toPng } from 'html-to-image';
 import { StatusBar } from './components/StatusBar';
 import InfiniteViewer from 'react-infinite-viewer';
 
-import Guides from '@scena/react-guides';
-import Selecto from 'react-selecto';
-import Moveable, {
-	OnResize,
-	OnScale,
-	OnRotate,
-	OnDrag,
-	OnDragGroup,
-	OnResizeGroup,
-	OnRotateGroup,
-	OnScaleGroup,
-} from 'react-moveable';
 import { HorizontalGuide } from './components/Rulers/HorizontalGuide';
 import { VerticalGuide } from './components/Rulers/VerticalGuide';
+import { ArrowSvg } from './components/General/Icons';
 
 function App(this: any) {
 	// App Store
@@ -50,11 +37,6 @@ function App(this: any) {
 	const workspaceName = useStoreState((state) => state.workspaceName);
 	const editing = useStoreState((state) => state.editing);
 
-	const [selectoEnable, setSelectoEnable] = useState(true);
-
-	const [targets, setTargets] = useState<HTMLElement[]>([]);
-	const [target, setTarget] = useState<HTMLElement>();
-
 	// Component Store and Actions
 	const [drag, setDrag] = useState(false);
 	const [zoom, setZoom] = useState(0.7);
@@ -63,7 +45,6 @@ function App(this: any) {
 
 	// Save Image
 	const onButtonClick = useCallback(async () => {
-		const { toPng } = await import('html-to-image');
 		setReady(true);
 
 		if (ref.current === null) {
@@ -116,9 +97,8 @@ function App(this: any) {
 	return (
 		<>
 			<div
-				onClick={() => {
-					setTargets([]);
-					setSelectoEnable(true);
+				onContextMenu={(e) => {
+					e.preventDefault();
 				}}
 				id='body'
 				className='bg-base-200 h-screen w-screen flex flex-col flex-auto overflow-hidden'
@@ -142,7 +122,7 @@ function App(this: any) {
 								{/* Save Button */}
 								<button
 									onClick={onButtonClick}
-									className=' border-primary border rounded-3xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-400 to-blue-500'
+									className=' border-primary border rounded-3xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-500 to-primary'
 								>
 									<IconFlask></IconFlask>
 									Save
@@ -251,6 +231,15 @@ function App(this: any) {
 							onClick={() => addControl({ type: 'image' })}
 						>
 							<IconPhoto size={18} className='dark:text-white'></IconPhoto>
+						</Button>
+
+						{/* Arrow Control */}
+						<Button
+							className='p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'arrow' })}
+						>
+							<ArrowSvg className='h-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
 						</Button>
 
 						{/* Window Control */}

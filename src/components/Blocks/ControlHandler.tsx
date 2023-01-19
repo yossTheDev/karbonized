@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArrowBlock } from './ArrowBlock';
 import { AvatarBlock } from './AvatarBlock';
 import { CodeControl } from './CodeBlock';
 import { ImageBlock } from './ImageBlock';
@@ -26,6 +27,8 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 			return <WindowBlock></WindowBlock>;
 		case 'avatar':
 			return <AvatarBlock></AvatarBlock>;
+		case 'arrow':
+			return <ArrowBlock></ArrowBlock>;
 		default:
 			return <></>;
 	}

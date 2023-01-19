@@ -24,6 +24,7 @@
 		"@tiptap/starter-kit": "^2.0.0-beta.202",
 		"daisyui": "^2.41.0",
 		"easy-peasy": "^5.2.0",
+		"electron": "^22.0.3",
 		"file-saver": "^2.0.5",
 		"hast-to-hyperscript": "^10.0.1",
 		"hast-util-to-html": "^8.0.3",

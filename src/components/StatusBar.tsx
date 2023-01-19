@@ -7,11 +7,9 @@ import {
 	IconBrandTelegram,
 	IconBrandTwitter,
 	IconCoinBitcoin,
-	IconCreditCard,
 	IconCurrencyDogecoin,
 	IconHeart,
 	IconHierarchy,
-	IconPhone,
 } from '@tabler/icons';
 import { Clipboard } from '@capacitor/clipboard';
 import qvapay from '../assets/qvapay.svg';
