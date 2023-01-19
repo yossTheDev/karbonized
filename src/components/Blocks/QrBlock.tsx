@@ -15,6 +15,7 @@ export const QrControl: React.FC = () => {
 	return (
 		<>
 			<ControlTemplate
+				shadowEditable={false}
 				defaultHeight='50px'
 				defaultWidth='50px'
 				minHeight={'50px'}

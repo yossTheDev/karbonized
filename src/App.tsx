@@ -132,26 +132,14 @@ function App(this: any) {
 					</div>
 					<div className='flex-none'>
 						<Menu horizontal className='p-0'>
-							{/* Add Control Button */}
 							<Menu.Item>
-								<Dropdown className='text-white hidden' color='ghost'>
-									<p>Controls</p>
-									<Dropdown.Menu className='bg-gray-800'>
-										<Dropdown.Item>
-											<div className='flex flex-row gap-2'>
-												<IconCode></IconCode>
-												<p>Code</p>
-											</div>
-										</Dropdown.Item>
-									</Dropdown.Menu>
-								</Dropdown>
-							</Menu.Item>
-							{/* Save Button */}
-							<Menu.Item>
+								{/* Share Button */}
 								<Button className='rounded mr-3 ' onClick={handleShare}>
 									<IconShare className='text-white'></IconShare>
 									<p className='text-white'>Share</p>
 								</Button>
+
+								{/* Save Button */}
 								<button
 									onClick={onButtonClick}
 									className=' border-primary border rounded-3xl text-white font-bold flex flex-row bg-gradient-to-br from-blue-400 to-blue-500'
@@ -279,7 +267,7 @@ function App(this: any) {
 
 						{/* Avatar Control */}
 						<Button
-							className='p-1'
+							className='p-1 hidden'
 							color='ghost'
 							onClick={() => addControl({ type: 'avatar' })}
 						>
