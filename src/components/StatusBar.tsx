@@ -9,7 +9,7 @@ import {
 	IconCoinBitcoin,
 	IconCurrencyDogecoin,
 	IconHeart,
-	IconHierarchy,
+	IconSquareRotated,
 } from '@tabler/icons';
 import { Clipboard } from '@capacitor/clipboard';
 import qvapay from '../assets/qvapay.svg';
@@ -25,9 +25,9 @@ export const StatusBar: React.FC = () => {
 	return (
 		<>
 			<div className='flex flex-row p-1 text-gray-500 select-none'>
-				<div className='flex flex-row flex-auto my-auto'>
-					<IconHierarchy className='my-auto' size={18}></IconHierarchy>
-					<p className='ml-2 text-xs my-auto'>
+				<div className='flex flex-row flex-auto my-auto '>
+					<IconSquareRotated className='my-auto' size={18}></IconSquareRotated>
+					<p className='ml-2 text-xs my-auto text-center'>
 						Workspace: {workspaceName} Size: {workspaceWidth} X{' '}
 						{workspaceHeight}
 					</p>
@@ -55,7 +55,7 @@ export const StatusBar: React.FC = () => {
 							className='flex flex-auto flex-row my-auto mx-2 hover:rounded hover:bg-base-100 cursor-pointer p-1'
 						>
 							<IconBrandGithub className='my-auto' size={18}></IconBrandGithub>
-							<p className='text-xs my-auto ml-1'>Open Source</p>
+							<p className='text-xs my-auto ml-1'>Source Code</p>
 						</a>
 					</div>
 				</div>

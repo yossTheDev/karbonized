@@ -25,3 +25,60 @@ export const ArrowSvg: React.FC<Props> = ({ className, style }) => {
 		</svg>
 	);
 };
+
+export const MiniminizeSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='256px'
+			height='256px'
+			viewBox='0 0 256 256'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<defs>
+				<rect width='256' height='256' id='artboard_1' />
+			</defs>
+			<g id='Artboard-15' clip-path='url(#clip_1)'>
+				<path
+					d='M22 216L234 216L234 226L22 226L22 216Z'
+					id='Rectangle'
+					stroke='none'
+				/>
+			</g>
+		</svg>
+	);
+};
+
+export const CloseSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='256px'
+			height='256px'
+			viewBox='0 0 256 256'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<defs>
+				<rect width='256' height='256' id='artboard_1' />
+			</defs>
+			<g id='Artboard-17' clip-path='url(#clip_1)'>
+				<path
+					d='M55.2231 50.7695L207.723 198.037L200.777 205.23L48.2766 57.9629L55.2231 50.7695Z'
+					id='Rectangle'
+					fill-rule='evenodd'
+					stroke='none'
+				/>
+				<path
+					d='M201.053 51.2L48.5534 198.467L55.4999 205.661L208 58.3934L201.053 51.2Z'
+					id='Rectangle-2'
+					fill-rule='evenodd'
+					stroke='none'
+				/>
+			</g>
+		</svg>
+	);
+};
