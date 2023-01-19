@@ -17,6 +17,8 @@ export const TextControl: React.FC = () => {
 	return (
 		<>
 			<ControlTemplate
+				borderEditable={false}
+				shadowEditable={false}
 				defaultHeight='45px'
 				defaultWidth='85px'
 				minHeight={'20px'}

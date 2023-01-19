@@ -3,7 +3,10 @@ import {
 	IconAxisY,
 	IconBorderStyle,
 	IconCamera,
+	IconHierarchy,
 	IconLock,
+	IconMask,
+	IconShadow,
 	IconTrash,
 } from '@tabler/icons';
 import { toPng } from 'html-to-image';
@@ -15,7 +18,8 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Input, Range, Tooltip } from 'react-daisyui';
+import { HexAlphaColorPicker } from 'react-colorful';
+import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -27,6 +31,7 @@ interface ControlProps {
 	lockAspectRatio?: boolean;
 	border?: number;
 	borderEditable?: boolean;
+	shadowEditable?: boolean;
 	defaultHeight?: string;
 	defaultWidth?: string;
 	maxHeight?: string;
@@ -43,6 +48,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	menu,
 	onClick,
 	lockAspectRatio = false,
+	shadowEditable = true,
 	border = 2,
 	borderEditable = true,
 	maxHeight = '400px',
@@ -76,12 +82,47 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		placement: 'right',
 	});
 	const [ondrag, setOndrag] = useState(false);
+
+	/* Position and Size */
 	const [position, setPosition] = useState({ x: 107, y: 226 });
 	const [size, setSize] = useState({
 		w: defaultWidth.replace('px', '') as unknown as number,
 		h: defaultHeight.replace('px', '') as unknown as number,
 	});
 	const [borderRadious, setBorderRadious] = useState(border);
+
+	/* Shadow */
+	const [shadowX, setShadowX] = useState(shadowEditable ? 4 : 0);
+	const [shadowY, setShadowY] = useState(shadowEditable ? 10 : 0);
+	const [shadowSpread, setShadowSpread] = useState(shadowEditable ? 2 : 0);
+	const [shadowBlur, setShadowBlur] = useState(shadowEditable ? 16 : 0);
+	const [shadowColor, setShadowColor] = useState('#090b11');
+
+	const [mask, setMask] = useState('');
+	const [maskRepeat, setMaskRepeat] = useState(false);
+
+	const Masks = [
+		'default',
+		'mask-squircle',
+		'mask-decagon',
+		'mask-diamond',
+		'mask-heart',
+		'mask-hexagon',
+		'mask-circle',
+		'mask-parallelogram',
+		'mask-parallelogram-2',
+		'mask-parallelogram-3',
+		'mask-parallelogram-4',
+		'mask-pentagon',
+		'mask-square',
+		'mask-star',
+		'mask-star-2',
+		'mask-triangle',
+		'mask-triangle-2',
+		'mask-triangle-3',
+		'mask-triangle-4',
+	];
+
 	const ref = useRef<HTMLDivElement>(null);
 
 	// Component Actions
@@ -116,7 +157,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						//setDisable(true);
 						e.preventDefault();
 					}}
-					className='absolute flex flex-auto select-none'
+					className={`absolute flex flex-auto select-none ${
+						!maskRepeat && 'mask'
+					}  ${mask}`}
 					style={{
 						zIndex: zIndex,
 						//height: defaultHeight,
@@ -141,6 +184,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						<div
 							ref={ref}
 							style={{
+								boxShadow:
+									shadowX +
+									'px ' +
+									shadowY +
+									'px ' +
+									shadowBlur +
+									'px ' +
+									shadowSpread +
+									'px ' +
+									shadowColor,
 								borderRadius: borderRadious + 'px',
 								backgroundColor: color,
 							}}
@@ -159,7 +212,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					<CustomCollapse
 						menu={
 							<div className='flex flex-row m-2 gap-2'>
-								<IconAxisY size={22}></IconAxisY>
+								<IconHierarchy size={22}></IconHierarchy>
 								<p className='font-bold my-auto'>Position</p>
 							</div>
 						}
@@ -249,6 +302,82 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						</div>
 					</CustomCollapse>
 
+					{/* Shadow Config */}
+					{shadowEditable && (
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconShadow size={22}></IconShadow>
+									<p className='font-bold my-auto'>Shadow</p>
+								</div>
+							}
+						>
+							<div className='flex flex-row flex-wrap text-xs'>
+								{/* Position */}
+								<div className='flex flex-auto flex-row'>
+									{/* Shadow X */}
+									<div className='flex flex-auto  p-2 '>
+										<p className='p-2 my-auto'>X:</p>
+										<Input
+											type={'number'}
+											className='bg-base-100 p-2 text-xs rounded-xl  w-full'
+											onChange={(ev) =>
+												setShadowX(ev.target.value as unknown as number)
+											}
+											value={shadowX}
+										></Input>
+									</div>
+									{/* Shadow Y */}
+									<div className='flex flex-auto  p-2 text-xs'>
+										<p className='p-2 my-auto'>Y:</p>
+										<Input
+											type={'number'}
+											className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+											onChange={(ev) =>
+												setShadowY(ev.target.value as unknown as number)
+											}
+											value={shadowY}
+										></Input>
+									</div>
+								</div>
+
+								{/* Shadow Spread */}
+								<div className='flex flex-auto p-2 text-xs '>
+									<p className='p-2 my-auto'>Spread:</p>
+									<Input
+										type={'number'}
+										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+										onChange={(ev) =>
+											setShadowSpread(ev.target.value as unknown as number)
+										}
+										value={shadowSpread}
+									></Input>
+								</div>
+
+								{/* Shadow Blur */}
+								<div className='flex flex-auto p-2 text-xs '>
+									<p className='p-2 my-auto'>Blur:</p>
+									<Input
+										type={'number'}
+										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+										onChange={(ev) =>
+											setShadowBlur(ev.target.value as unknown as number)
+										}
+										value={shadowBlur}
+									></Input>
+								</div>
+
+								{/* Shadow Color */}
+								<p className='ml-2'>Shadow Color</p>
+								<HexAlphaColorPicker
+									color={shadowColor}
+									onChange={setShadowColor}
+									className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+								></HexAlphaColorPicker>
+							</div>
+						</CustomCollapse>
+					)}
+
 					{/* Border  */}
 					{borderEditable && (
 						<CustomCollapse
@@ -260,7 +389,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
-								<div className='flex flex-auto  p-2 '>
+								<div className='flex flex-auto p-2'>
 									<p className='p-2 my-auto'>Radius:</p>
 									<Range
 										className='my-auto'
@@ -275,6 +404,45 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							</div>
 						</CustomCollapse>
 					)}
+
+					{/* Mask */}
+					<CustomCollapse
+						menu={
+							<div className='flex flex-row m-2 gap-2'>
+								<IconMask size={22}></IconMask>
+								<p className='font-bold my-auto'>Mask</p>
+							</div>
+						}
+					>
+						<div className='flex flex-row flex-wrap text-xs'>
+							{/* Select Mask */}
+							<div className='flex flex-auto p-2 '>
+								<Select
+									defaultValue={'default'}
+									tabIndex={0}
+									value={mask}
+									onChange={(e) => setMask(e)}
+								>
+									{Masks.map((i) => {
+										return (
+											<option key={i} value={i}>
+												{i}
+											</option>
+										);
+									})}
+								</Select>
+							</div>
+
+							<div className='flex flex-row m-2 gap-2'>
+								<p className='my-auto text-xs'>Mask Repeat</p>
+								<Checkbox
+									color='primary'
+									onChange={(ev) => setMaskRepeat(ev.currentTarget.checked)}
+									checked={maskRepeat}
+								></Checkbox>
+							</div>
+						</div>
+					</CustomCollapse>
 
 					{menu}
 
