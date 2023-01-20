@@ -16,15 +16,19 @@ export const ColorPicker: React.FC<Props> = ({
 	color = '#5895c8',
 	onColorChange,
 }) => {
+	/* Compomnent Store */
 	const [showColor, setShowColor] = useState(false);
 	const [ccolor, setColor] = useState(color);
 	const { x, y, reference, floating, strategy } = useFloating({
-		middleware: [offset(10), flip(), shift()],
+		middleware: [offset(2), flip(), shift()],
 		placement: 'top',
 	});
 	return (
 		<>
 			<div
+				onMouseLeave={() => {
+					setShowColor(false);
+				}}
 				onMouseDown={() => {
 					setShowColor(!showColor);
 				}}
@@ -48,6 +52,9 @@ export const ColorPicker: React.FC<Props> = ({
 			{showColor && (
 				<Portal>
 					<div
+						onTouchEnd={() => setShowColor(false)}
+						onMouseEnter={() => setShowColor(true)}
+						onMouseLeave={() => setShowColor(false)}
 						className='z-40'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
