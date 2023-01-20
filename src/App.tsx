@@ -30,6 +30,7 @@ import { HorizontalGuide } from './components/Rulers/HorizontalGuide';
 import { VerticalGuide } from './components/Rulers/VerticalGuide';
 import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
+import { Tooltip } from './components/CustomControls/Tooltip';
 
 function App(this: any) {
 	// App Store
@@ -161,132 +162,155 @@ function App(this: any) {
 						{/* Actions */}
 
 						{/* Select */}
-						<Button
-							color='ghost'
-							className={`${
-								editing && 'bg-primary text-white'
-							} p-1 hover:bg-primary`}
-							onClick={() => {
-								setEditing(true);
-								setDrag(false);
-							}}
-						>
-							<IconPointer size={18} className='dark:text-white'></IconPointer>
-						</Button>
+						<Tooltip className='flex flex-auto' messsage='Select'>
+							<Button
+								color='ghost'
+								className={`flex flex-auto flex-col ${
+									editing && 'bg-primary text-white'
+								} p-1 hover:bg-primary`}
+								onClick={() => {
+									setEditing(true);
+									setDrag(false);
+								}}
+							>
+								<IconPointer
+									size={18}
+									className='dark:text-white'
+								></IconPointer>
+							</Button>
+						</Tooltip>
 
 						{/* Hand */}
-						<Button
-							color='ghost'
-							className={`${
-								drag && 'bg-primary text-white hover:bg-primary'
-							} p-1`}
-							onClick={() => {
-								setDrag(true);
-								setEditing(false);
-							}}
-						>
-							<IconHandFinger
-								size={18}
-								className='dark:text-white'
-							></IconHandFinger>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Hand'>
+							<Button
+								color='ghost'
+								className={`flex flex-auto flex-col ${
+									drag && 'bg-primary text-white hover:bg-primary'
+								} p-1`}
+								onClick={() => {
+									setDrag(true);
+									setEditing(false);
+								}}
+							>
+								<IconHandFinger
+									size={18}
+									className='dark:text-white'
+								></IconHandFinger>
+							</Button>
+						</Tooltip>
 
 						{/* Zoom In */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => setZoom(zoom + 0.2)}
-						>
-							<IconZoomIn size={18} className='dark:text-white'></IconZoomIn>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Zoom In'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => setZoom(zoom + 0.2)}
+							>
+								<IconZoomIn size={18} className='dark:text-white'></IconZoomIn>
+							</Button>
+						</Tooltip>
 
 						{/* Zoom Out */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => setZoom(zoom - 0.2)}
-						>
-							<IconZoomOut size={18} className='dark:text-white'></IconZoomOut>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Zoom Out'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => setZoom(zoom - 0.2)}
+							>
+								<IconZoomOut
+									size={18}
+									className='dark:text-white'
+								></IconZoomOut>
+							</Button>
+						</Tooltip>
 
 						{/* Zoom Reset */}
-						<Button className='p-1' color='ghost' onClick={() => setZoom(0.7)}>
-							<IconZoomReset
-								size={18}
-								className='dark:text-white'
-							></IconZoomReset>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Zoom Reset'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => setZoom(0.7)}
+							>
+								<IconZoomReset
+									size={18}
+									className='dark:text-white'
+								></IconZoomReset>
+							</Button>
+						</Tooltip>
 
 						<p className='p-0.5 rounded bg-base-100'></p>
 
 						{/* Code Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'code' })}
-						>
-							<IconCode size={18} className='dark:text-white'></IconCode>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Code'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'code' })}
+							>
+								<IconCode size={18} className='dark:text-white'></IconCode>
+							</Button>
+						</Tooltip>
 
 						{/* Text Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'text' })}
-						>
-							<IconLetterT size={18} className='dark:text-white'></IconLetterT>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Text'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'text' })}
+							>
+								<IconLetterT
+									size={18}
+									className='dark:text-white'
+								></IconLetterT>
+							</Button>
+						</Tooltip>
 
 						{/* Arrow Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'arrow' })}
-						>
-							<ArrowSvg className='h-4 w-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Arrow'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'arrow' })}
+							>
+								<ArrowSvg className='h-4 w-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
+							</Button>
+						</Tooltip>
 
 						{/* Qr Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'qr' })}
-						>
-							<IconQrcode size={18} className='dark:text-white'></IconQrcode>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='QR'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'qr' })}
+							>
+								<IconQrcode size={18} className='dark:text-white'></IconQrcode>
+							</Button>
+						</Tooltip>
 
 						{/* Image Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'image' })}
-						>
-							<IconPhoto size={18} className='dark:text-white'></IconPhoto>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Image'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'image' })}
+							>
+								<IconPhoto size={18} className='dark:text-white'></IconPhoto>
+							</Button>
+						</Tooltip>
 
 						{/* Window Control */}
-						<Button
-							className='p-1'
-							color='ghost'
-							onClick={() => addControl({ type: 'window' })}
-						>
-							<IconAppWindow
-								size={18}
-								className='dark:text-white'
-							></IconAppWindow>
-						</Button>
-
-						{/* Avatar Control */}
-						<Button
-							className='p-1 hidden'
-							color='ghost'
-							onClick={() => addControl({ type: 'avatar' })}
-						>
-							<IconUserCircle
-								size={18}
-								className='dark:text-white'
-							></IconUserCircle>
-						</Button>
+						<Tooltip className='flex flex-auto ' messsage='Window'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'window' })}
+							>
+								<IconAppWindow
+									size={18}
+									className='dark:text-white'
+								></IconAppWindow>
+							</Button>
+						</Tooltip>
 					</div>
 
 					{/* Ruler Vertical */}
