@@ -19,9 +19,9 @@ module.exports = {
 
           accent: '#d97706',
 
-          neutral: '#0E111A',
+          neutral: '#e5e7eb',
 
-          'base-100': '#EFEFEF',
+          'base-100': '#e5e7eb',
 
           info: '#22d3ee',
 
@@ -31,7 +31,7 @@ module.exports = {
 
           error: '#FC9783',
 
-          'base-200': '#FFFFFF',
+          'base-200': '#f3f4f6',
           'base-300': '#ced3d9',
           'base-content': '#000000'
 

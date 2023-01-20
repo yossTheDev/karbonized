@@ -167,7 +167,7 @@ function App(this: any) {
 								color='ghost'
 								className={`flex flex-auto flex-col ${
 									editing && 'bg-primary text-white'
-								} p-1 hover:bg-primary`}
+								} p-1`}
 								onClick={() => {
 									setEditing(true);
 									setDrag(false);
