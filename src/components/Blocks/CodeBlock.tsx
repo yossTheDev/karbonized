@@ -6,6 +6,7 @@ import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 
 export const CodeControl: React.FC = () => {
 	/* Component States */
@@ -75,15 +76,15 @@ export const CodeControl: React.FC = () => {
 							menu={
 								<div className='flex flex-row m-2 gap-2'>
 									<IconPalette size={22}></IconPalette>
-									<p className='font-bold my-auto'>Background Color</p>
+									<p className='font-bold my-auto'>Colors</p>
 								</div>
 							}
 						>
-							<HexColorPicker
+							<ColorPicker
+								label='Window Color'
 								color={color}
-								onChange={setColor}
-								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-							></HexColorPicker>
+								onColorChange={setColor}
+							></ColorPicker>
 						</CustomCollapse>
 
 						{/* Other Options */}

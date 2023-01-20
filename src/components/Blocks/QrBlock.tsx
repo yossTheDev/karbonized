@@ -5,6 +5,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { QRCodeSVG } from 'qrcode.react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 
 export const QrControl: React.FC = () => {
 	/* Component States */
@@ -51,19 +52,18 @@ export const QrControl: React.FC = () => {
 								</div>
 							}
 						>
-							<p>Background Color</p>
-							<HexAlphaColorPicker
+							<ColorPicker
+								type='HexAlpha'
 								color={backgroundColor}
-								onChange={setBackgroundColor}
-								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-							></HexAlphaColorPicker>
+								onColorChange={setBackgroundColor}
+								label='Background Color'
+							></ColorPicker>
 
-							<p>Foreground Color</p>
-							<HexColorPicker
+							<ColorPicker
 								color={foregroundColor}
-								onChange={setforegroundColor}
-								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-							></HexColorPicker>
+								onColorChange={setforegroundColor}
+								label='Foreground Color'
+							></ColorPicker>
 						</CustomCollapse>
 					</>
 				}

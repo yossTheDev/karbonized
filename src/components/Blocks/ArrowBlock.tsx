@@ -4,6 +4,7 @@ import { HexColorPicker } from 'react-colorful';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { ArrowSvg } from '../General/Icons';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 
 export const ArrowBlock: React.FC = () => {
 	/* Component States */
@@ -36,12 +37,11 @@ export const ArrowBlock: React.FC = () => {
 								</div>
 							}
 						>
-							<p>Color</p>
-							<HexColorPicker
+							<ColorPicker
+								label='Color'
 								color={color}
-								onChange={setColor}
-								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-							></HexColorPicker>
+								onColorChange={(color) => setColor(color)}
+							></ColorPicker>
 						</CustomCollapse>
 					</>
 				}

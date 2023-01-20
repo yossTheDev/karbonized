@@ -6,11 +6,14 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/image-example.png';
 import { CloseSvg, MiniminizeSvg } from '../General/Icons';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 
 export const WindowBlock: React.FC = () => {
 	/* Component States */
 	const [title, setTitle] = useState('lorem');
 	const [color, setColor] = useState('#0f172a');
+	const [controlsColor, setControlsColor] = useState('#1f2937');
+
 	const [windowStyle, setWindowStyle] = useState('mac');
 
 	const [src, setSrc] = useState(karbonized);
@@ -75,13 +78,19 @@ export const WindowBlock: React.FC = () => {
 								></FileInput>
 							</>
 
+							{/* Colors */}
 							<>
-								<p>Window Color</p>
-								<HexColorPicker
+								<ColorPicker
 									color={color}
-									onChange={setColor}
-									className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-								></HexColorPicker>
+									onColorChange={setColor}
+									label='Window Color'
+								></ColorPicker>
+
+								<ColorPicker
+									color={controlsColor}
+									onColorChange={setControlsColor}
+									label='Controls Color'
+								></ColorPicker>
 							</>
 						</CustomCollapse>
 					</>
@@ -93,7 +102,9 @@ export const WindowBlock: React.FC = () => {
 						<div className='my-auto flex flex-row flex-auto'>
 							<div className='flex flex-auto flex-row text-gray-600'>
 								{windowStyle === 'window' && (
-									<p className='text-left'>{title}</p>
+									<p style={{ color: controlsColor }} className='text-left'>
+										{title}
+									</p>
 								)}
 							</div>
 
@@ -102,20 +113,40 @@ export const WindowBlock: React.FC = () => {
 								className='text-gray-600 select-none flex flex-auto flex-row'
 							>
 								{windowStyle === 'mac' && (
-									<p className='text-center mx-auto'>{title}</p>
+									<p
+										style={{ color: controlsColor }}
+										className='text-center mx-auto'
+									>
+										{title}
+									</p>
 								)}
 							</div>
 
 							{windowStyle === 'mac' ? (
 								<div className='flex flex-row flex-auto'>
-									<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1 ml-auto'></div>
-									<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
-									<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
+									<div
+										style={{ backgroundColor: controlsColor }}
+										className='p-1 w-4  h-4 rounded-full m-1 ml-auto'
+									></div>
+									<div
+										style={{ backgroundColor: controlsColor }}
+										className='p-1 w-4  h-4 rounded-full m-1'
+									></div>
+									<div
+										style={{ backgroundColor: controlsColor }}
+										className='p-1 w-4  h-4 rounded-full m-1'
+									></div>
 								</div>
 							) : (
 								<div className='flex flex-row flex-auto'>
-									<MiniminizeSvg className='h-4 w-4 fill-black ml-auto'></MiniminizeSvg>
-									<CloseSvg className='h-4 w-4 fill-black ml-2'></CloseSvg>
+									<MiniminizeSvg
+										style={{ fill: controlsColor }}
+										className='h-4 w-4 ml-auto'
+									></MiniminizeSvg>
+									<CloseSvg
+										style={{ fill: controlsColor }}
+										className='h-4 w-4  ml-2'
+									></CloseSvg>
 								</div>
 							)}
 						</div>

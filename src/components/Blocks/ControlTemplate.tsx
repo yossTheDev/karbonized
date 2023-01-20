@@ -22,6 +22,7 @@ import { HexAlphaColorPicker } from 'react-colorful';
 import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 interface ControlProps {
@@ -234,12 +235,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										disabled
 										type={'number'}
 										className='bg-base-100 p-2 text-xs rounded-xl  w-full'
-										onChange={(ev) =>
+										onChange={(ev) => {
 											setControlPos({
 												x: ev.target.value as unknown as number,
 												y: position.y,
-											})
-										}
+											});
+										}}
 										value={constrlPos?.x}
 									></Input>
 								</div>
@@ -375,12 +376,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								</div>
 
 								{/* Shadow Color */}
-								<p className='ml-2'>Shadow Color</p>
-								<HexAlphaColorPicker
-									color={shadowColor}
-									onChange={setShadowColor}
-									className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-								></HexAlphaColorPicker>
+								<div className='flex flex-col flex-auto'>
+									<ColorPicker
+										label='Shadow Color'
+										color={shadowColor}
+										onColorChange={(color) => setShadowColor(color)}
+									></ColorPicker>
+								</div>
 							</div>
 						</CustomCollapse>
 					)}

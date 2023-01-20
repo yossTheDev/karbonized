@@ -2,6 +2,7 @@ import { IconLetterT } from '@tabler/icons';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { Button, ButtonGroup, Input } from 'react-daisyui';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 
@@ -78,12 +79,11 @@ export const TextControl: React.FC = () => {
 								<p className='my-auto ml-2'>px</p>
 							</div>
 
-							<p>Text Color</p>
-							<HexColorPicker
+							<ColorPicker
 								color={color}
-								onChange={setColor}
-								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-							></HexColorPicker>
+								onColorChange={setColor}
+								label='Text Color'
+							></ColorPicker>
 						</CustomCollapse>
 					</>
 				}

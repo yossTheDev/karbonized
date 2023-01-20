@@ -12,6 +12,7 @@ import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { Input } from 'react-daisyui';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
+import { ColorPicker } from './CustomControls/ColorPicker';
 import { TabSelector } from './TabsSelector';
 
 export const Menu: React.FC = () => {
@@ -145,15 +146,16 @@ export const Menu: React.FC = () => {
 
 						{/* Background Color */}
 						<>
-							<div className='flex flex-row m-2 gap-2 '>
-								<IconPalette size={22}></IconPalette>
-								<p className='font-bold my-auto'>Background</p>
+							<div className='flex flex-col'>
+								<div className='flex flex-row m-2 gap-2 '>
+									<IconPalette size={22}></IconPalette>
+									<p className='font-bold my-auto'>Background</p>
+								</div>
+								<ColorPicker
+									color={workspaceColor}
+									onColorChange={setWorkspaceColor}
+								></ColorPicker>
 							</div>
-							<HexAlphaColorPicker
-								color={workspaceColor}
-								onChange={setWorkspaceColor}
-								className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
-							></HexAlphaColorPicker>
 						</>
 					</div>
 				</TabPanel>
