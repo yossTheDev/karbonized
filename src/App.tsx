@@ -112,7 +112,8 @@ function App(this: any) {
 					<Navbar.Start>
 						{/* About Button */}
 						<Button
-							className='md:hidden rounded-full ml-2  bg-base-100 border-base-100  hover:bg-base-200 hover:border-base-200'
+							color='ghost'
+							className='md:hidden rounded-full ml-2   hover:bg-base-100 hover:border-base-100'
 							onClick={() => setShowAbout(true)}
 						>
 							<IconInfoCircle className='dark:text-white text-black'></IconInfoCircle>
@@ -135,7 +136,8 @@ function App(this: any) {
 					<Navbar.End>
 						{/* Share Button */}
 						<Button
-							className='rounded-full mr-2 bg-base-100 border-base-100 hover:bg-base-200 hover:border-base-200'
+							color='ghost'
+							className='rounded-full mr-2 md:bg-base-100 md:border-base-100 hover:bg-base-200 hover:border-base-200'
 							onClick={handleShare}
 						>
 							<IconShare className='dark:text-white text-black'></IconShare>
@@ -167,7 +169,7 @@ function App(this: any) {
 								color='ghost'
 								className={`flex flex-auto flex-col ${
 									editing && 'bg-primary text-white'
-								} p-1`}
+								} p-1 hover:bg-primary`}
 								onClick={() => {
 									setEditing(true);
 									setDrag(false);
