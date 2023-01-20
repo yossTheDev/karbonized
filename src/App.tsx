@@ -8,6 +8,7 @@ import {
 	IconCode,
 	IconFlask,
 	IconHandFinger,
+	IconInfoCircle,
 	IconLetterT,
 	IconPhoto,
 	IconPointer,
@@ -28,6 +29,7 @@ import InfiniteViewer from 'react-infinite-viewer';
 import { HorizontalGuide } from './components/Rulers/HorizontalGuide';
 import { VerticalGuide } from './components/Rulers/VerticalGuide';
 import { ArrowSvg } from './components/General/Icons';
+import { AboutModal } from './components/Modals/AboutModal';
 
 function App(this: any) {
 	// App Store
@@ -40,6 +42,7 @@ function App(this: any) {
 	// Component Store and Actions
 	const [drag, setDrag] = useState(false);
 	const [zoom, setZoom] = useState(0.7);
+	const [showAbout, setShowAbout] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -105,31 +108,50 @@ function App(this: any) {
 			>
 				{/* Nav Bar */}
 				<Navbar className='flex shrink h-2'>
-					<div className='flex-1'>
-						<p className='dark:text-white text-black poppins-font-family ml-2 text-2xl select-none'>
+					<Navbar.Start>
+						{/* About Button */}
+						<Button
+							className='md:hidden rounded-full ml-2  bg-base-100 border-base-100  hover:bg-base-200 hover:border-base-200'
+							onClick={() => setShowAbout(true)}
+						>
+							<IconInfoCircle className='dark:text-white text-black'></IconInfoCircle>
+							<p className='dark:text-white text-black md:flex hidden ml-2'>
+								Share
+							</p>
+						</Button>
+
+						<p className='md:flex hidden dark:text-white text-black poppins-font-family ml-2 text-2xl select-none'>
 							Karbonized
 						</p>
-					</div>
-					<div className='flex-none'>
-						<Menu horizontal className='p-0'>
-							<Menu.Item>
-								{/* Share Button */}
-								<Button className='rounded mr-3 ' onClick={handleShare}>
-									<IconShare className='text-white'></IconShare>
-									<p className='text-white'>Share</p>
-								</Button>
+					</Navbar.Start>
 
-								{/* Save Button */}
-								<button
-									onClick={onButtonClick}
-									className='lg:flex hidden border-primary border rounded-3xl text-white font-bold  flex-row bg-gradient-to-br from-blue-500 to-primary'
-								>
-									<IconFlask></IconFlask>
-									Save
-								</button>
-							</Menu.Item>
-						</Menu>
-					</div>
+					<Navbar.Center>
+						<p className='md:hidden flex dark:text-white text-black poppins-font-family ml-2 text-2xl select-none'>
+							Karbonized
+						</p>
+					</Navbar.Center>
+
+					<Navbar.End>
+						{/* Share Button */}
+						<Button
+							className='rounded-full mr-2 bg-base-100 border-base-100 hover:bg-base-200 hover:border-base-200'
+							onClick={handleShare}
+						>
+							<IconShare className='dark:text-white text-black'></IconShare>
+							<p className='dark:text-white text-black md:flex hidden ml-2'>
+								Share
+							</p>
+						</Button>
+
+						{/* Save Button */}
+						<Button
+							onClick={onButtonClick}
+							className='hidden md:flex rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l '
+						>
+							<IconFlask className='text-white'></IconFlask>
+							<p className='text-white md:flex hidden'>Save</p>
+						</Button>
+					</Navbar.End>
 				</Navbar>
 
 				{/* Content*/}
@@ -295,7 +317,7 @@ function App(this: any) {
 							}}
 						>
 							<div className='viewport'>
-								<div className='container md:ml-96 md:mt-20'>
+								<div className='container'>
 									<Workspace reference={ref}></Workspace>
 								</div>
 							</div>
@@ -303,7 +325,7 @@ function App(this: any) {
 					</div>
 
 					{/* Menu */}
-					<div className='max-h-72 md:max-h-full order-3 flex shrink-0 grow-0 flex-col md:max-w-xs w-full  p-2  text-white bg-base-200'>
+					<div className='max-h-72 h-60 md:h-full md:max-h-full order-3 flex shrink-0 grow-0 flex-col md:max-w-xs w-full  p-2  text-white bg-base-200'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>
@@ -311,6 +333,11 @@ function App(this: any) {
 				{/* Status Bar */}
 				<StatusBar></StatusBar>
 			</div>
+
+			{/* Modals */}
+			{showAbout && (
+				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
+			)}
 		</>
 	);
 }

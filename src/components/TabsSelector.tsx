@@ -16,12 +16,12 @@ export const TabSelector: React.FC<Props> = ({
 			style={{ height: '240px' }}
 			className={
 				isActive
-					? ' dark:text-white text-black font-bold bg-base-100 text-xs select-none p-1 rounded  w-8'
-					: ' text-gray-500 text-xs select-none p-1 rounded  w-8'
+					? ' dark:text-white text-black font-bold bg-base-100 max-h-12 md:max-h-full text-xs select-none w-11 rounded flex flex-auto'
+					: ' text-gray-500 text-xs select-none max-h-12 md:max-h-full rounded flex flex-auto  w-11'
 			}
 			onClick={onClick}
 		>
-			<div className='mx-auto my-auto'>{children}</div>
+			<div className='mx-auto my-auto w-11'>{children}</div>
 		</button>
 	);
 };

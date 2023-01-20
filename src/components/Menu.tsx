@@ -46,25 +46,31 @@ export const Menu: React.FC = () => {
 	}, [controls, isEmpty, currentID]);
 
 	return (
-		<div className='flex flex-auto flex-row overflow-auto'>
+		<div className='flex flex-auto flex-row overflow-y-auto overflow-x-hidden'>
 			{/* Selectors */}
 			<div className='flex grow shrink-0 flex-col overflow-y-auto'>
 				{/* Seletors */}
-				<div className='flex flex-auto flex-col gap-4'>
+				<div className='flex flex-auto flex-col'>
 					<TabSelector
 						isActive={selectedTab === 'control'}
 						onClick={() => setSelectedTab('control')}
 					>
-						<IconShape size={18} className='mx-auto'></IconShape>
-						<p className='rotate-90 mx-auto mt-6'>Control</p>
+						<div className='mx-auto'>
+							<IconShape className='mx-auto' size={18}></IconShape>
+							<p className='hidden md:flex rotate-90 mt-6'>Control</p>
+						</div>
 					</TabSelector>
 
 					<TabSelector
 						isActive={selectedTab === 'workspace'}
 						onClick={() => setSelectedTab('workspace')}
 					>
-						<IconSquare className='mx-auto' size={18}></IconSquare>
-						<div className='rotate-90 mx-auto mt-6'>Workspace</div>
+						<div className='mx-auto'>
+							<IconSquare className='mx-auto' size={18}></IconSquare>
+							<div className='hidden md:flex rotate-90 mx-auto mt-6'>
+								Workspace
+							</div>
+						</div>
 					</TabSelector>
 				</div>
 			</div>

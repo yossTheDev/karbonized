@@ -31,7 +31,9 @@ export const CustomCollapse: React.FC<Props> = ({
 				</div>
 			</div>
 			{open && (
-				<div className='mt-2 flex flex-auto flex-col gap-4 p-2'>{children}</div>
+				<div className='mt-2 flex flex-auto flex-col gap-4 p-2 select-none'>
+					{children}
+				</div>
 			)}
 		</div>
 	);

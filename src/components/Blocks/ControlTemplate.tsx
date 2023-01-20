@@ -86,7 +86,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [ondrag, setOndrag] = useState(false);
 
 	/* Position and Size */
-	const [position, setPosition] = useState({ x: 300, y: 208 });
+	const [position, setPosition] = useState({ x: 98, y: 190 });
 	const [size, setSize] = useState({
 		w: defaultWidth.replace('px', '') as unknown as number,
 		h: defaultHeight.replace('px', '') as unknown as number,
