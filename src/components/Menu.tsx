@@ -13,6 +13,7 @@ import { Input } from 'react-daisyui';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ColorPicker } from './CustomControls/ColorPicker';
+import { NumberInput } from './CustomControls/NumberInput';
 import { TabSelector } from './TabsSelector';
 
 export const Menu: React.FC = () => {
@@ -114,32 +115,28 @@ export const Menu: React.FC = () => {
 								{/* Size W */}
 								<div className='flex flex-auto flex-row'>
 									<p className='my-auto mr-2'>W:</p>
-									<Input
-										type={'number'}
-										className='bg-base-100 p-2 rounded-xl my-auto  w-full'
-										onChange={(ev) =>
+									<NumberInput
+										onChange={(number) => {
 											setWorkspaceSize({
-												width: ev.target.value,
+												width: number.toString(),
 												height: workspaceHeight,
-											})
-										}
-										value={workspaceWidth}
-									></Input>
+											});
+										}}
+										number={parseInt(workspaceWidth)}
+									></NumberInput>
 								</div>
 								{/* Size H */}
 								<div className='flex flex-auto flex-row ml-2'>
 									<p className='my-auto mr-2'>H:</p>
-									<Input
-										type={'number'}
-										className='bg-base-100 p-2 rounded-xl my-auto  w-full'
-										onChange={(ev) =>
+									<NumberInput
+										onChange={(number) => {
 											setWorkspaceSize({
-												height: ev.target.value,
+												height: number.toString(),
 												width: workspaceWidth,
-											})
-										}
-										value={workspaceHeight}
-									></Input>
+											});
+										}}
+										number={parseInt(workspaceHeight)}
+									></NumberInput>
 								</div>
 							</div>
 						</>

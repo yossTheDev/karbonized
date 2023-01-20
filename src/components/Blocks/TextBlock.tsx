@@ -4,6 +4,7 @@ import { HexColorPicker } from 'react-colorful';
 import { Button, ButtonGroup, Input } from 'react-daisyui';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { NumberInput } from '../CustomControls/NumberInput';
 import { ControlTemplate } from './ControlTemplate';
 
 export const TextControl: React.FC = () => {
@@ -38,44 +39,50 @@ export const TextControl: React.FC = () => {
 						>
 							<p>Text Style</p>
 							{/* Text */}
-							<ButtonGroup className='flex flex-auto mx-auto'>
+							<ButtonGroup className='flex flex-auto mx-auto w-full'>
 								<Button
 									active={isBold}
 									onClick={() => setIsBold(!isBold)}
-									className='font-bold'
+									className='font-bold flex flex-auto'
 								>
 									B
 								</Button>
 								<Button
 									active={isItalic}
 									onClick={() => setIsItalic(!isItalic)}
-									className='italic'
+									className='italic flex flex-auto'
 								>
 									I
 								</Button>
 								<Button
 									active={isUnderline}
 									onClick={() => setIsUnderline(!isUnderline)}
-									className='underline'
+									className='underline flex flex-auto'
 								>
 									U
 								</Button>
 							</ButtonGroup>
 
-							<p>Value</p>
-							<Input
-								onChange={(ev) => setText(ev.target.value)}
-								value={text}
-							></Input>
+							<div className='flex flex-row flex-auto text-xs'>
+								<p className='my-auto'>Text</p>
 
-							<p>Font Size</p>
-							<div className='flex flex-row flex-auto'>
 								<Input
-									type={'number'}
-									onChange={(ev) => setTextSize(ev.target.value)}
-									value={textSize}
-									className=' w-24'
+									className='ml-2 flex flex-auto'
+									onChange={(ev) => setText(ev.target.value)}
+									value={text}
 								></Input>
+							</div>
+
+							<div className='flex flex-row flex-auto text-xs'>
+								<p className='my-auto'>Font Size</p>
+
+								<NumberInput
+									onChange={(number) => {
+										setTextSize(number.toString());
+									}}
+									number={parseInt(textSize)}
+								></NumberInput>
+
 								<p className='my-auto ml-2'>px</p>
 							</div>
 

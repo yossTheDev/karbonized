@@ -40,7 +40,7 @@ export const WindowBlock: React.FC = () => {
 							}
 						>
 							<>
-								<p>Window Style</p>
+								<p className='text-xs'>Window Style</p>
 								<Select
 									defaultValue={'mac'}
 									tabIndex={0}
@@ -52,7 +52,7 @@ export const WindowBlock: React.FC = () => {
 								</Select>
 							</>
 							<>
-								<p>Title</p>
+								<p className='text-xs'>Title</p>
 								<Input
 									spellCheck={false}
 									onChange={(ev) => setTitle(ev.target.value)}
@@ -63,7 +63,7 @@ export const WindowBlock: React.FC = () => {
 
 							<>
 								{/* Source */}
-								<p>Source</p>
+								<p className='text-xs'>Source</p>
 								<FileInput
 									accept='image/*'
 									onChange={(e) => {
@@ -79,6 +79,7 @@ export const WindowBlock: React.FC = () => {
 							</>
 
 							{/* Colors */}
+							<p className='text-xs'>Colors</p>
 							<>
 								<ColorPicker
 									color={color}

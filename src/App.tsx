@@ -349,7 +349,7 @@ function App(this: any) {
 					</div>
 
 					{/* Menu */}
-					<div className='max-h-72 h-60 md:h-full md:max-h-full order-3 flex shrink-0 grow-0 flex-col md:max-w-xs w-full  p-2  text-white bg-base-200'>
+					<div className='max-h-72 h-60 md:h-full md:max-h-full order-3 flex shrink-0 grow-0 flex-col md:max-w-xs lg:max-w-sm w-full  p-2  text-white bg-base-200'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>

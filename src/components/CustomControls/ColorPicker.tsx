@@ -40,7 +40,7 @@ export const ColorPicker: React.FC<Props> = ({
 
 					<div className='flex flex-row ml-auto mr-2'>
 						<div
-							className='p-4 rounded my-auto'
+							className='p-4 rounded my-auto border-2 border-base-100'
 							style={{ backgroundColor: ccolor }}
 						></div>
 						<p className='my-auto ml-2 select-none'>{ccolor}</p>

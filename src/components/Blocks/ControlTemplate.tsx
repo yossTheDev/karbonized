@@ -24,6 +24,7 @@ import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { NumberInput } from '../CustomControls/NumberInput';
 
 interface ControlProps {
 	color?: string;
@@ -265,12 +266,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							{/* Position Z */}
 							<div className='flex flex-auto p-2 text-xs '>
 								<p className='p-2 my-auto'>Z:</p>
-								<Input
-									type={'number'}
-									className='bg-base-100 p-2 rounded-xl  w-full text-xs'
-									onChange={(ev) => setzIndex(ev.target.value)}
-									value={zIndex}
-								></Input>
+								<NumberInput
+									onChange={(number) => {
+										setzIndex(number.toString());
+									}}
+									number={parseInt(zIndex)}
+								></NumberInput>
 							</div>
 
 							{/* Size */}
@@ -326,53 +327,51 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									{/* Shadow X */}
 									<div className='flex flex-auto  p-2 '>
 										<p className='p-2 my-auto'>X:</p>
-										<Input
-											type={'number'}
-											className='bg-base-100 p-2 text-xs rounded-xl  w-full'
-											onChange={(ev) =>
-												setShadowX(ev.target.value as unknown as number)
-											}
-											value={shadowX}
-										></Input>
+										<NumberInput
+											onChange={(number) => {
+												setShadowX(number);
+											}}
+											number={shadowX}
+										></NumberInput>
 									</div>
 									{/* Shadow Y */}
 									<div className='flex flex-auto  p-2 text-xs'>
 										<p className='p-2 my-auto'>Y:</p>
-										<Input
-											type={'number'}
-											className='bg-base-100 p-2 rounded-xl  w-full text-xs'
-											onChange={(ev) =>
-												setShadowY(ev.target.value as unknown as number)
-											}
-											value={shadowY}
-										></Input>
+										<NumberInput
+											onChange={(number) => {
+												setShadowY(number);
+											}}
+											number={shadowY}
+										></NumberInput>
 									</div>
 								</div>
 
 								{/* Shadow Spread */}
 								<div className='flex flex-auto p-2 text-xs '>
 									<p className='p-2 my-auto'>Spread:</p>
-									<Input
-										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+									<Range
+										className='my-auto'
+										color='primary'
 										onChange={(ev) =>
 											setShadowSpread(ev.target.value as unknown as number)
 										}
 										value={shadowSpread}
-									></Input>
+										max={'100'}
+									></Range>
 								</div>
 
 								{/* Shadow Blur */}
 								<div className='flex flex-auto p-2 text-xs '>
 									<p className='p-2 my-auto'>Blur:</p>
-									<Input
-										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+									<Range
+										className='my-auto'
+										color='primary'
 										onChange={(ev) =>
 											setShadowBlur(ev.target.value as unknown as number)
 										}
 										value={shadowBlur}
-									></Input>
+										max={'100'}
+									></Range>
 								</div>
 
 								{/* Shadow Color */}
