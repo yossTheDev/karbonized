@@ -48,7 +48,7 @@ export const Menu: React.FC = () => {
 	return (
 		<div className='flex flex-auto flex-row overflow-auto'>
 			{/* Selectors */}
-			<div className='flex grow shrink-0 flex-col overflow-hidden'>
+			<div className='flex grow shrink-0 flex-col overflow-y-auto'>
 				{/* Seletors */}
 				<div className='flex flex-auto flex-col gap-4'>
 					<TabSelector
@@ -70,7 +70,7 @@ export const Menu: React.FC = () => {
 			</div>
 
 			{/* Tab Panels */}
-			<div className='flex flex-auto w-full flex-col ml-2 overflow-y-auto'>
+			<div className='flex flex-auto w-full flex-col ml-2 overflow-y-auto overflow-x-hidden'>
 				{/* Workspace */}
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}

@@ -135,7 +135,7 @@ function App(this: any) {
 				{/* Content*/}
 				<div className='flex flex-auto flex-col md:flex-row overflow-hidden'>
 					{/* Controls Tree */}
-					<div className='flex order-3 lg:order-first flex-row lg:flex-col bg-base-200 p-2 gap-2 lg:w-16 overflow-y-auto'>
+					<div className='flex order-3 md:order-first flex-row md:flex-col bg-base-200 p-2 gap-2 md:w-16 overflow-y-auto'>
 						{/* Actions */}
 
 						{/* Select */}
@@ -280,23 +280,22 @@ function App(this: any) {
 						</div>
 
 						<InfiniteViewer
-							className='viewer flex flex-auto bg-base-100 rounded-2xl'
+							className='viewer flex flex-auto bg-base-100 items-center rounded-2xl'
 							useMouseDrag={drag}
 							useAutoZoom
 							margin={0}
 							zoom={zoom}
 							usePinch={!drag}
 							threshold={0}
-							rangeX={[-250, 250]}
-							rangeY={[-250, 250]}
+							rangeX={[-120, 120]}
+							rangeY={[-120, 120]}
 							useWheelScroll
-							onPinch={(e) => console.log(e)}
 							onScroll={(e) => {
-								console.log('scroll' + e.scrollLeft);
+								//console.log('scroll' + e.scrollLeft);
 							}}
 						>
 							<div className='viewport'>
-								<div className='container'>
+								<div className='container md:ml-96 md:mt-20'>
 									<Workspace reference={ref}></Workspace>
 								</div>
 							</div>
@@ -304,7 +303,7 @@ function App(this: any) {
 					</div>
 
 					{/* Menu */}
-					<div className='max-h-72 lg:max-h-full order-3 flex shrink-0 grow-0 flex-col lg:max-w-xs w-full  p-2  text-white bg-base-200'>
+					<div className='max-h-72 md:max-h-full order-3 flex shrink-0 grow-0 flex-col md:max-w-xs w-full  p-2  text-white bg-base-200'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>

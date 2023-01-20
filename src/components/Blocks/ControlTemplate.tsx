@@ -86,7 +86,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [ondrag, setOndrag] = useState(false);
 
 	/* Position and Size */
-	const [position, setPosition] = useState({ x: 107, y: 226 });
+	const [position, setPosition] = useState({ x: 300, y: 208 });
 	const [size, setSize] = useState({
 		w: defaultWidth.replace('px', '') as unknown as number,
 		h: defaultHeight.replace('px', '') as unknown as number,
@@ -96,8 +96,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	/* Shadow */
 	const [shadowX, setShadowX] = useState(0);
 	const [shadowY, setShadowY] = useState(0);
-	const [shadowSpread, setShadowSpread] = useState(shadowEditable ? 2 : 0);
-	const [shadowBlur, setShadowBlur] = useState(shadowEditable ? 16 : 0);
+	const [shadowSpread, setShadowSpread] = useState(0);
+	const [shadowBlur, setShadowBlur] = useState(0);
 	const [shadowColor, setShadowColor] = useState('#090b11');
 
 	const [mask, setMask] = useState('');

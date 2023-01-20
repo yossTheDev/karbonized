@@ -24,7 +24,7 @@ export const StatusBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='hidden lg:flex flex-row p-1 text-gray-500 select-none'>
+			<div className='hidden md:flex flex-row p-1 text-gray-500 select-none'>
 				<div className='flex flex-row flex-auto my-auto '>
 					<IconSquareRotated className='my-auto' size={18}></IconSquareRotated>
 					<p className='ml-2 text-xs my-auto text-center'>
