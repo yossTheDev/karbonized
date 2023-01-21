@@ -4,6 +4,7 @@ import { AvatarBlock } from './AvatarBlock';
 import { BlockLoader } from './BlockLoader';
 //import FaIconBlock from './FaIconBlock';
 import { ImageBlock } from './ImageBlock';
+import { PhoneBlock } from './PhoneBlock';
 import { QrControl } from './QrBlock';
 import { TextControl } from './TextBlock';
 import { WindowBlock } from './WindowBlock';
@@ -37,6 +38,8 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 			return <AvatarBlock></AvatarBlock>;
 		case 'arrow':
 			return <ArrowBlock></ArrowBlock>;
+		case 'phone_mockup':
+			return <PhoneBlock></PhoneBlock>;
 		case 'faicon':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>

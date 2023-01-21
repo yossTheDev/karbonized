@@ -35,7 +35,7 @@ export const ColorPicker: React.FC<Props> = ({
 				ref={reference}
 				className='flex flex-col flex-auto'
 			>
-				<div className='flex flex-auto flex-row py-2 hover:bg-base-200'>
+				<div className='flex flex-auto flex-row py-2 rounded hover:bg-base-100'>
 					<p className='my-auto ml-2 select-none mr-2 text-xs text-left'>
 						{label}
 					</p>

@@ -1,10 +1,11 @@
 import { useCallback, useRef, useState } from 'react';
-import { Button, Navbar } from 'react-daisyui';
+import { Button, Navbar, PhoneMockup } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
 	IconAppWindow,
 	IconCode,
+	IconDeviceMobile,
 	IconFlask,
 	IconHandFinger,
 	IconInfoCircle,
@@ -31,6 +32,8 @@ import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
 import React from 'react';
+
+import yoss from './assets/yoss.png';
 
 const App: React.FC = () => {
 	// App Store
@@ -325,6 +328,20 @@ const App: React.FC = () => {
 									size={18}
 									className='dark:text-white'
 								></IconAppWindow>
+							</Button>
+						</Tooltip>
+
+						{/* Phone Mockup Control */}
+						<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'phone_mockup' })}
+							>
+								<IconDeviceMobile
+									size={18}
+									className='dark:text-white'
+								></IconDeviceMobile>
 							</Button>
 						</Tooltip>
 					</div>

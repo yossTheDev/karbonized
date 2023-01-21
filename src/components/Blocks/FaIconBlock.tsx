@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { FaIcon } from '../FaIcon';
-import { FaFontAwesomeAlt } from 'react-icons/fa';
 import { IconType } from '../../utils/FaIconList';
 import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
-import { IconSearch } from '@tabler/icons';
+import { IconSearch, IconSticker } from '@tabler/icons';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 
@@ -44,7 +43,7 @@ const FaIconBlock: React.FC = () => {
 							isOpen
 							menu={
 								<div className='flex flex-row m-2 gap-2'>
-									<FaFontAwesomeAlt className='dark:text-white text-xl'></FaFontAwesomeAlt>
+									<IconSticker className='dark:text-white text-xl'></IconSticker>
 									<p className='my-auto'>Font Awesome Icon</p>
 								</div>
 							}
