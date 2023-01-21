@@ -1,10 +1,9 @@
-import { useCallback, useRef, useState } from 'react';
-import { Button, Menu, Navbar } from 'react-daisyui';
+import { ComponentType, useCallback, useRef, useState } from 'react';
+import { Button, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
 	IconAppWindow,
-	IconArrowBack,
 	IconCode,
 	IconFlask,
 	IconHandFinger,
@@ -14,7 +13,6 @@ import {
 	IconPointer,
 	IconQrcode,
 	IconShare,
-	IconUserCircle,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
@@ -31,9 +29,10 @@ import { VerticalGuide } from './components/Rulers/VerticalGuide';
 import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
-import { FaFontAwesome } from 'react-icons/fa';
+import { FaIcon } from './components/FaIcon';
+import React from 'react';
 
-function App(this: any) {
+const App: React.FC = () => {
 	// App Store
 	const addControl = useStoreActions((state) => state.addControl);
 	const setEditing = useStoreActions((state) => state.setEditing);
@@ -261,7 +260,10 @@ function App(this: any) {
 								color='ghost'
 								onClick={() => addControl({ type: 'faicon' })}
 							>
-								<FaFontAwesome className='dark:text-white text-xl'></FaFontAwesome>
+								<FaIcon
+									className='mx auto dark:text-white text-xl'
+									icon='FaFontAwesome'
+								></FaIcon>
 							</Button>
 						</Tooltip>
 
@@ -378,6 +380,6 @@ function App(this: any) {
 			)}
 		</>
 	);
-}
+};
 
 export default App;

@@ -1,9 +1,8 @@
-import React, { createElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import { IconType as Icon } from 'react-icons';
 import { FaIcon } from '../FaIcon';
-import { FaFontAwesome, FaFontAwesomeAlt } from 'react-icons/fa';
+import { FaFontAwesomeAlt } from 'react-icons/fa';
 import { IconType } from '../../utils/FaIconList';
 import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
@@ -11,7 +10,7 @@ import { IconSearch } from '@tabler/icons';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 
-export const FaIconBlock: React.FC = () => {
+const FaIconBlock: React.FC = () => {
 	/* Component States */
 	const [icon, setIcon] = useState('FaFontAwesome');
 	const [iconSize, setIconSize] = useState(120);
@@ -19,20 +18,6 @@ export const FaIconBlock: React.FC = () => {
 	const [query, setQuery] = useState('');
 	const [showIconPicker, setShowIconPicker] = useState(false);
 	const [faIcons, setFaIcons] = useState<IconType[]>();
-
-	useEffect(() => {
-		const getIcon = async () => {
-			const icons = await import('../../utils/FaIconList');
-			//setIcon(faFontIcon.FaFontAwesome);
-
-			function findIcon(): IconType {
-				const iconSelected = icons.iconFaList.find((i) => i.label === icon);
-				return iconSelected ? iconSelected : icons.iconFaList[0];
-			}
-		};
-
-		getIcon();
-	}, [icon]);
 
 	useEffect(() => {
 		const getIconList = async () => {
@@ -164,3 +149,5 @@ export const FaIconBlock: React.FC = () => {
 		</>
 	);
 };
+
+export default FaIconBlock;
