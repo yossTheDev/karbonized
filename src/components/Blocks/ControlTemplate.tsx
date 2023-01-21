@@ -3,6 +3,8 @@ import {
 	IconAxisY,
 	IconBorderStyle,
 	IconCamera,
+	IconFlipHorizontal,
+	IconFlipVertical,
 	IconHierarchy,
 	IconLock,
 	IconMask,
@@ -52,8 +54,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	color,
 	children,
 	menu,
-	onClick,
-	lockAspectRatio = false,
 	shadowEditable = true,
 	maskEditable = true,
 	border = 2,
@@ -76,11 +76,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 
-	const readyToSave = useStoreState((state) => state.readyToSave);
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
-	const [disable, setDisable] = useState(false);
 	const [zIndex, setzIndex] = useState('0');
 	const [visibility, setVisibility] = useState(true);
 	const [contextMenu, setContextMenu] = useState(false);
@@ -88,7 +86,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		middleware: [offset(10), flip(), shift()],
 		placement: 'right',
 	});
-	const [ondrag, setOndrag] = useState(false);
 
 	/* Position and Size */
 	const [position, setPosition] = useState({ x: 98, y: 190 });
@@ -97,6 +94,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		h: defaultHeight.replace('px', '') as unknown as number,
 	});
 	const [borderRadious, setBorderRadious] = useState(border);
+
+	/* Flip */
+
+	const [flipX, setFlipX] = useState(false);
+	const [flipY, setFlipY] = useState(false);
 
 	/* Shadow */
 	const [shadowX, setShadowX] = useState(0);
@@ -183,15 +185,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						className='flex flex-auto'
 						onTouchStart={() => {
 							//setDisable(true);
-							console.log('touch');
+							//console.log('touch');
 							setID(ID);
 						}}
 						onMouseDown={() => {
 							//setDisable(true);
-							console.log(ID);
+							//console.log(ID);
 							setID(ID);
 						}}
 						ref={reference}
+						style={{ transform: flipY ? 'scaleY(-1)' : '' + ' ' }}
 					>
 						<div
 							ref={ref}
@@ -208,6 +211,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									shadowColor,
 								borderRadius: borderRadious + 'px',
 								backgroundColor: color,
+								transform: flipX ? 'scaleX(-1)' : '' + ' ',
 							}}
 							className='flex flex-auto flex-col h-full'
 						>
@@ -220,6 +224,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{/* Menu */}
 			{controlID === ID && (
 				<Portal node={document.getElementById('menu')}>
+					{/* Flip Options */}
+					<div></div>
+
 					{/* Position */}
 					<CustomCollapse
 						menu={
@@ -230,6 +237,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						}
 					>
 						<div className='flex flex-row flex-wrap text-xs'>
+							{/* Flip Options */}
+							<div className='flex flex-auto gap-2'>
+								<Button
+									className='flex flex-auto'
+									onClick={() => setFlipX(!flipX)}
+								>
+									<IconFlipVertical></IconFlipVertical>
+								</Button>
+								<Button
+									className='flex flex-auto'
+									onClick={() => setFlipY(!flipY)}
+								>
+									<IconFlipHorizontal></IconFlipHorizontal>
+								</Button>
+							</div>
+
 							{/* Position */}
 							<div className='flex flex-auto flex-row'>
 								{/* Position X */}

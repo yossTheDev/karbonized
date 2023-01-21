@@ -47,7 +47,7 @@ export const ArrowBlock: React.FC = () => {
 				}
 			>
 				<ArrowSvg
-					style={{ fill: color }}
+					style={{ fill: color, transform: 'scaleX(-1)' }}
 					className='flex flex-auto w-full h-full'
 				></ArrowSvg>
 			</ControlTemplate>
