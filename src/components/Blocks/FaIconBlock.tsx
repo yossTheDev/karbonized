@@ -12,7 +12,6 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 const FaIconBlock: React.FC = () => {
 	/* Component States */
 	const [icon, setIcon] = useState('FaFontAwesome');
-	const [iconSize, setIconSize] = useState(120);
 	const [iconColor, setIconColor] = useState('#ffffff');
 	const [query, setQuery] = useState('');
 	const [showIconPicker, setShowIconPicker] = useState(false);
@@ -34,17 +33,18 @@ const FaIconBlock: React.FC = () => {
 				shadowEditable={false}
 				defaultHeight='120px'
 				defaultWidth='120px'
-				minHeight={'20px'}
-				minWidth={'50px'}
-				maxWidth={'500px'}
+				minHeight={'100px'}
+				minWidth={'120px'}
+				maxWidth={'800px'}
+				maxHeight={'800px'}
 				menu={
 					<>
 						<CustomCollapse
 							isOpen
 							menu={
 								<div className='flex flex-row m-2 gap-2'>
-									<IconSticker className='dark:text-white text-xl'></IconSticker>
-									<p className='my-auto'>Font Awesome Icon</p>
+									<IconSticker className='dark:text-gray-400 text-xl'></IconSticker>
+									<p className='my-auto'>Icon</p>
 								</div>
 							}
 						>
@@ -62,15 +62,6 @@ const FaIconBlock: React.FC = () => {
 								</div>
 							</div>
 
-							{/* Icon Size */}
-							<div className='flex flex-auto flex-row'>
-								<p className='text-xs my-auto'>Icon Size</p>
-								<NumberInput
-									onChange={(num) => setIconSize(num)}
-									number={iconSize}
-								></NumberInput>
-							</div>
-
 							{/* Icon Color */}
 							<ColorPicker
 								type='HexAlpha'
@@ -85,8 +76,8 @@ const FaIconBlock: React.FC = () => {
 				}
 			>
 				<FaIcon
-					className='flex flex-auto'
-					style={{ fontSize: iconSize + 'px', color: iconColor }}
+					className='flex flex-auto max-w-full max-h-full select-none w-full'
+					style={{ color: iconColor }}
 					icon={icon}
 				></FaIcon>
 			</ControlTemplate>
