@@ -149,6 +149,7 @@ export const Menu: React.FC = () => {
 									<p className='font-bold my-auto'>Background</p>
 								</div>
 								<ColorPicker
+									type='HexAlpha'
 									color={workspaceColor}
 									onColorChange={setWorkspaceColor}
 								></ColorPicker>

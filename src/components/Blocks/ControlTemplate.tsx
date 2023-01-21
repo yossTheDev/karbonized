@@ -11,6 +11,7 @@ import {
 } from '@tabler/icons';
 import { toPng } from 'html-to-image';
 import React, {
+	createElement,
 	ReactNode,
 	useCallback,
 	useEffect,
@@ -22,9 +23,11 @@ import { HexAlphaColorPicker } from 'react-colorful';
 import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { IconType } from '../../utils/FaIconList';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
+import { FaIcon } from '../FaIcon';
 
 interface ControlProps {
 	color?: string;
@@ -377,6 +380,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Shadow Color */}
 								<div className='flex flex-col flex-auto'>
 									<ColorPicker
+										type='HexAlpha'
 										label='Shadow Color'
 										color={shadowColor}
 										onColorChange={(color) => setShadowColor(color)}

@@ -8,7 +8,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 
-export const CodeControl: React.FC = () => {
+const CodeControl: React.FC = () => {
 	/* Component States */
 	const [languaje, setLanguaje] = useState('tsx');
 	const [code, setCode] = useState(
@@ -169,3 +169,5 @@ export const CodeControl: React.FC = () => {
 		</>
 	);
 };
+
+export default CodeControl;

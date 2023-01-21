@@ -1,11 +1,13 @@
 import React from 'react';
 import { ArrowBlock } from './ArrowBlock';
 import { AvatarBlock } from './AvatarBlock';
-import { CodeControl } from './CodeBlock';
+import { FaIconBlock } from './FaIconBlock';
 import { ImageBlock } from './ImageBlock';
 import { QrControl } from './QrBlock';
 import { TextControl } from './TextBlock';
 import { WindowBlock } from './WindowBlock';
+
+const CodeControl = React.lazy(() => import('./CodeBlock'));
 
 interface Props {
 	id: string;
@@ -29,6 +31,8 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 			return <AvatarBlock></AvatarBlock>;
 		case 'arrow':
 			return <ArrowBlock></ArrowBlock>;
+		case 'faicon':
+			return <FaIconBlock></FaIconBlock>;
 		default:
 			return <></>;
 	}

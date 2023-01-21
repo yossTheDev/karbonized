@@ -31,6 +31,7 @@ import { VerticalGuide } from './components/Rulers/VerticalGuide';
 import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
+import { FaFontAwesome } from 'react-icons/fa';
 
 function App(this: any) {
 	// App Store
@@ -250,6 +251,17 @@ function App(this: any) {
 								onClick={() => addControl({ type: 'code' })}
 							>
 								<IconCode size={18} className='dark:text-white'></IconCode>
+							</Button>
+						</Tooltip>
+
+						{/* FaIcon Control */}
+						<Tooltip className='flex flex-auto ' messsage='Font Awesome Icon'>
+							<Button
+								className='p-1 flex flex-auto'
+								color='ghost'
+								onClick={() => addControl({ type: 'faicon' })}
+							>
+								<FaFontAwesome className='dark:text-white text-xl'></FaFontAwesome>
 							</Button>
 						</Tooltip>
 
