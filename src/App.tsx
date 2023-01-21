@@ -1,4 +1,4 @@
-import { ComponentType, useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Button, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
@@ -13,6 +13,7 @@ import {
 	IconPointer,
 	IconQrcode,
 	IconShare,
+	IconSticker,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
@@ -29,7 +30,6 @@ import { VerticalGuide } from './components/Rulers/VerticalGuide';
 import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
-import { FaIcon } from './components/FaIcon';
 import React from 'react';
 
 const App: React.FC = () => {
@@ -117,7 +117,7 @@ const App: React.FC = () => {
 							onClick={() => setShowAbout(true)}
 						>
 							<IconInfoCircle className='dark:text-white text-black'></IconInfoCircle>
-							<p className='dark:text-white text-black md:flex hidden ml-2'>
+							<p className='dark:text-white text-black md:flex hidden md:ml-2'>
 								Share
 							</p>
 						</Button>
@@ -141,7 +141,7 @@ const App: React.FC = () => {
 							onClick={handleShare}
 						>
 							<IconShare className='dark:text-white text-black'></IconShare>
-							<p className='dark:text-white text-black md:flex hidden ml-2'>
+							<p className='dark:text-white text-black md:flex hidden md:ml-2'>
 								Share
 							</p>
 						</Button>
@@ -260,10 +260,7 @@ const App: React.FC = () => {
 								color='ghost'
 								onClick={() => addControl({ type: 'faicon' })}
 							>
-								<FaIcon
-									className='mx auto dark:text-white text-xl'
-									icon='FaFontAwesome'
-								></FaIcon>
+								<IconSticker className='dark:text-white'></IconSticker>
 							</Button>
 						</Tooltip>
 

@@ -24,7 +24,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='bg-base-200'
+			className='bg-base-100'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
 				<p className='text-center md:text-left md:text-xl text-2xl poppins-font-family'>

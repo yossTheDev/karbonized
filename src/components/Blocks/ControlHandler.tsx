@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { ArrowBlock } from './ArrowBlock';
 import { AvatarBlock } from './AvatarBlock';
+import { BlockLoader } from './BlockLoader';
 //import FaIconBlock from './FaIconBlock';
 import { ImageBlock } from './ImageBlock';
 import { QrControl } from './QrBlock';
@@ -20,7 +21,7 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 	switch (type) {
 		case 'code':
 			return (
-				<Suspense fallback={<></>}>
+				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<CodeControl></CodeControl>
 				</Suspense>
 			);
@@ -38,7 +39,7 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 			return <ArrowBlock></ArrowBlock>;
 		case 'faicon':
 			return (
-				<Suspense fallback={<></>}>
+				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<FaIconBlock></FaIconBlock>
 				</Suspense>
 			);
