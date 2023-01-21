@@ -107,7 +107,8 @@ const FaIconBlock: React.FC = () => {
 							</p>
 						</Modal.Header>
 
-						<Modal.Body className='select-none overflow-y-scroll flex flex-auto flex-col'>
+						<Modal.Body className='select-none overflow-hidden flex flex-auto flex-col'>
+							{/* Search */}
 							<div className='flex flex-auto flex-row'>
 								<IconSearch className='dark:text-white my-auto mr-2'></IconSearch>
 								<Input
@@ -116,7 +117,34 @@ const FaIconBlock: React.FC = () => {
 									className='flex flex-auto text-gray-400'
 								></Input>
 							</div>
-							<div className='flex flex-auto flex-row flex-wrap gap-3 overflow-y-auto mt-2'>
+
+							{/* Licence */}
+							<p className='text-xs text-gray-500 my-2'>
+								Icons From{' '}
+								<span>
+									<a
+										className='text-gray-400'
+										href='https://fontawesome.com/'
+										target={'_blank'}
+									>
+										Font Awesome
+									</a>
+								</span>
+								<span> Licence:</span>
+								<span>
+									<a
+										className='text-gray-400'
+										href='https://creativecommons.org/licenses/by/4.0/'
+										target={'_blank'}
+									>
+										{' '}
+										CC BY 4.0 License
+									</a>
+								</span>
+							</p>
+
+							{/* Icon List */}
+							<div className='flex flex-auto flex-row flex-wrap gap-3 overflow-y-auto mt-2 max-h-64'>
 								{faIcons
 									?.filter(
 										(icon) =>
@@ -124,7 +152,7 @@ const FaIconBlock: React.FC = () => {
 									)
 									.map((el, i) => (
 										<div
-											className='inline-flex flex-auto cursor-pointer text-gray-400 text-3xl p-2 rounded bg-base-100 hover:bg-base-200'
+											className='inline-flex flex-auto cursor-pointer dark:text-gray-400 text-3xl p-2 rounded bg-base-100 hover:bg-base-200'
 											onMouseDown={() => setIcon(el.label)}
 										>
 											<div className='mx-auto my-auto'>

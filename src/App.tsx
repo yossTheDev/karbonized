@@ -260,7 +260,10 @@ const App: React.FC = () => {
 								color='ghost'
 								onClick={() => addControl({ type: 'faicon' })}
 							>
-								<IconSticker className='dark:text-white'></IconSticker>
+								<IconSticker
+									size={18}
+									className='dark:text-white'
+								></IconSticker>
 							</Button>
 						</Tooltip>
 
