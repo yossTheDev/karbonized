@@ -37,6 +37,7 @@
 		"react-daisyui": "^2.4.6",
 		"react-dom": "^18.2.0",
 		"react-headless-tabs": "^6.0.3",
+		"react-icons": "^4.7.1",
 		"react-infinite-viewer": "^0.19.2",
 		"react-movable": "^3.0.4",
 		"react-moveable": "^0.45.1",

@@ -335,8 +335,8 @@ function App(this: any) {
 							zoom={zoom}
 							usePinch={!drag}
 							threshold={0}
-							rangeX={[-120, 120]}
-							rangeY={[-120, 120]}
+							rangeX={[-512, 512]}
+							rangeY={[-512, 512]}
 							useWheelScroll
 							onScroll={(e) => {
 								//console.log('scroll' + e.scrollLeft);
