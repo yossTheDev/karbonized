@@ -1,4 +1,4 @@
-import { IconDeviceMobile, IconPhoto } from '@tabler/icons';
+import { IconBorderStyle, IconDeviceMobile, IconPhoto } from '@tabler/icons';
 import React, { useState } from 'react';
 import { FileInput, Range, PhoneMockup } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
@@ -9,6 +9,8 @@ export const PhoneBlock: React.FC = () => {
 	/* Component States */
 	const [src, setSrc] = useState(karbonized);
 	const [notchWidth, setNotchWidth] = useState(100);
+	const [screenRadius, setScreenRadius] = useState(20);
+	const [phoneRadius, setPhoneRadius] = useState(30);
 
 	return (
 		<>
@@ -23,6 +25,44 @@ export const PhoneBlock: React.FC = () => {
 				defaultWidth={'100px'}
 				menu={
 					<>
+						{/* Border Settings */}
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconBorderStyle></IconBorderStyle>
+									<p className='my-auto'>Borders</p>
+								</div>
+							}
+						>
+							{/* Phone Radius */}
+							<div className='flex flex-auto p-2 text-xs '>
+								<p className='p-2 my-auto'>Phone Radius:</p>
+								<Range
+									className='my-auto'
+									color='primary'
+									onChange={(ev) =>
+										setPhoneRadius(ev.target.value as unknown as number)
+									}
+									value={phoneRadius}
+									max={'130'}
+								></Range>
+							</div>
+
+							{/* Screen Radius*/}
+							<div className='flex flex-auto p-2 text-xs '>
+								<p className='p-2 my-auto'>Screen Radius:</p>
+								<Range
+									className='my-auto'
+									color='primary'
+									onChange={(ev) =>
+										setScreenRadius(ev.target.value as unknown as number)
+									}
+									value={screenRadius}
+									max={'130'}
+								></Range>
+							</div>
+						</CustomCollapse>
+
 						{/* Image Settings */}
 						<CustomCollapse
 							isOpen
@@ -68,9 +108,13 @@ export const PhoneBlock: React.FC = () => {
 					</>
 				}
 			>
-				<div className='flex flex-auto flex-col bg-black p-3 rounded-3xl select-none'>
+				<div
+					style={{ borderRadius: phoneRadius + 'px' }}
+					className='flex flex-auto flex-col bg-black p-3 select-none'
+				>
 					<img
-						className='flex flex-auto rounded-2xl h-56 bg-slate-700 max-w-full max-h-full select-none'
+						style={{ borderRadius: screenRadius + 'px' }}
+						className='flex flex-auto h-56 bg-slate-700 max-w-full max-h-full select-none'
 						src={src}
 					></img>
 
