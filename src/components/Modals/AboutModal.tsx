@@ -32,7 +32,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 				</p>
 			</Modal.Header>
 
-			<Modal.Body className='select-none overflow-y-scroll flex flex-auto flex-col max-h-80'>
+			<Modal.Body className='select-none overflow-y-scroll flex flex-auto flex-col '>
 				<img className='h-36 rounded-full mx-auto' src={yoss}></img>
 				<p className='dark:text-white font-bold text-2xl m-2 text-center'>
 					Hi I am Yoannis Sánchez Soto
