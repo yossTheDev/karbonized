@@ -17,8 +17,8 @@ export const ImageBlock: React.FC = () => {
 				borderEditable={false}
 				minHeight={'50px'}
 				minWidth={'50px'}
-				maxWidth={'700px'}
-				maxHeight={'500px'}
+				maxWidth={'5000px'}
+				maxHeight={'5000px'}
 				defaultHeight={'100px'}
 				defaultWidth={'100px'}
 				menu={

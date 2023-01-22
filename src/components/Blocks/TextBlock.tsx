@@ -24,7 +24,8 @@ export const TextControl: React.FC = () => {
 				defaultWidth='85px'
 				minHeight={'20px'}
 				minWidth={'50px'}
-				maxWidth={'500px'}
+				maxWidth={'2000px'}
+				maxHeight={'2000px'}
 				menu={
 					<>
 						<CustomCollapse

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Dropdown, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
@@ -50,6 +50,16 @@ const App: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
+	const refe = useRef<InfiniteViewer>(null);
+
+	// Auto Scroll to Center o Init
+	useEffect(() => {
+		refe.current?.scrollCenter();
+		refe.current?.scrollTo(
+			refe.current.getScrollLeft() - 180,
+			refe.current.getScrollTop()
+		);
+	}, []);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
@@ -138,7 +148,7 @@ const App: React.FC = () => {
 	}, [ref, workspaceName]);
 
 	// Share Image
-	const handleShare = async () => {
+	const handleShare = useCallback(async () => {
 		const newFile = await toBlob(ref.current as HTMLElement);
 		if (newFile) {
 			const data = {
@@ -157,7 +167,7 @@ const App: React.FC = () => {
 				console.log(err);
 			}
 		}
-	};
+	}, [ref]);
 
 	return (
 		<>
@@ -208,10 +218,10 @@ const App: React.FC = () => {
 						</Button>
 
 						<Dropdown vertical='end' className=''>
-							<Button className='hidden md:flex rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
+							<div className='hidden md:flex rounded-full mr-2 p-3 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
 								<IconFlask className='text-white'></IconFlask>
 								<p className='text-white md:flex hidden'>Save</p>
-							</Button>
+							</div>
 
 							<Dropdown.Menu className='w-52 text-gray-400'>
 								<Dropdown.Item onMouseDown={exportAsPng}>
@@ -439,10 +449,10 @@ const App: React.FC = () => {
 						</div>
 
 						<InfiniteViewer
-							className='viewer flex flex-auto bg-base-100 items-center rounded-2xl'
+							ref={refe}
+							className='viewer flex flex-auto bg-base-100  rounded-2xl'
 							useMouseDrag={drag}
 							useAutoZoom
-							margin={0}
 							zoom={zoom}
 							usePinch={!drag}
 							threshold={0}
