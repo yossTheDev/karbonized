@@ -15,7 +15,8 @@ export default defineConfig({
 			manifest: {
 				name: 'Karbonized',
 				display: 'standalone',
-				description: 'Share your code with the World with Karbonized',
+				description:
+					'Make amazing images of your screenshots or your code and share them with the world',
 				theme_color: '#07090d',
 				background_color: '#07090d',
 				icons: [

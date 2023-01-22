@@ -3,7 +3,7 @@
 ![carbonizedlogo](./img/banner.png)
 
 <p align="center">
-Styling your code with Karbonized and share it with the world</p>
+⭐ Make amazing images of your screenshots or your code and share them with the world 🌎</p>
 
 <p align="center"><b>Free</b> and <b>Open Source</b>  carbon App. Made with ❤️ and ReactJS in 🇨🇺.</p>
 
