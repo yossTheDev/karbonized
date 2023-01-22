@@ -27,8 +27,8 @@ const CodeControl: React.FC = () => {
 				defaultHeight='140px'
 				defaultWidth='300px'
 				minHeight='100px'
-				maxWidth='620px'
-				maxHeight='450px'
+				maxWidth='1020px'
+				maxHeight='850px'
 				menu={
 					<>
 						{/* Code Settings */}
@@ -128,14 +128,11 @@ const CodeControl: React.FC = () => {
 				<div className='flex flex-auto flex-col p-2 overflow-hidden select-none'>
 					{/* Title */}
 					<div className='flex flex-auto max-h-8'>
-						<div
-							spellCheck={false}
-							className='text-gray-600 text-center mb-auto mt-auto m-2 hover:border-none'
-						>
+						<p className='text-gray-600 text-center mb-auto my-auto m-2 hover:border-none flex flex-auto w-20 overflow-hidden'>
 							{title}
-						</div>
+						</p>
 
-						<div className='ml-auto flex flex-row'>
+						<div className='ml-auto my-auto flex flex-row'>
 							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
 							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
 							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>

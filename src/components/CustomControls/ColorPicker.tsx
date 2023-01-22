@@ -1,6 +1,7 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
 import React, { useState } from 'react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
+import { Input } from 'react-daisyui';
 import { Portal } from 'react-portal';
 
 interface Props {
@@ -18,7 +19,6 @@ export const ColorPicker: React.FC<Props> = ({
 }) => {
 	/* Compomnent Store */
 	const [showColor, setShowColor] = useState(false);
-	const [ccolor, setColor] = useState(color);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(2), flip(), shift()],
 		placement: 'top',
@@ -43,9 +43,14 @@ export const ColorPicker: React.FC<Props> = ({
 					<div className='flex flex-row ml-auto mr-2'>
 						<div
 							className='p-4 rounded my-auto border-2 border-base-100'
-							style={{ backgroundColor: ccolor }}
+							style={{ backgroundColor: color }}
 						></div>
-						<p className='my-auto ml-2 select-none'>{ccolor}</p>
+						<Input
+							spellCheck={false}
+							onInput={(ev) => onColorChange(ev.currentTarget.value)}
+							className='flex flex-auto w-24 my-auto ml-2'
+							value={color}
+						></Input>
 					</div>
 				</div>
 			</div>
@@ -67,18 +72,16 @@ export const ColorPicker: React.FC<Props> = ({
 							</p>
 							{type === 'Hex' ? (
 								<HexColorPicker
-									color={ccolor}
+									color={color}
 									onChange={(color) => {
-										setColor(color);
 										onColorChange(color);
 									}}
 									className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
 								></HexColorPicker>
 							) : (
 								<HexAlphaColorPicker
-									color={ccolor}
+									color={color}
 									onChange={(color) => {
-										setColor(color);
 										onColorChange(color);
 									}}
 									className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'

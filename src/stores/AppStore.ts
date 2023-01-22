@@ -23,6 +23,10 @@ export interface AppStoreModel {
 	setEditing: Action<AppStoreModel, boolean>;
 	setReadyToSave: Action<AppStoreModel, boolean>;
 
+	/* Tabs */
+	selectedTab: 'workspace' | 'control';
+	setSelectedTab: Action<AppStoreModel, 'workspace' | 'control'>;
+
 	/* Workspace */
 	workspaceName: string;
 	workspaceColor: string;
@@ -34,6 +38,7 @@ export interface AppStoreModel {
 	setWorkspaceSize: Action<AppStoreModel, { height: string; width: string }>;
 	addControl: Action<AppStoreModel, Item>;
 	setcurrentControlID: Action<AppStoreModel, string>;
+	cleanWorkspace: Action<AppStoreModel>;
 }
 
 export const AppStore = createStore<AppStoreModel>({
@@ -44,6 +49,13 @@ export const AppStore = createStore<AppStoreModel>({
 	editing: true,
 	lockAspect: false,
 
+	/* Tabs */
+	selectedTab: 'control',
+	setSelectedTab: action((state, payload) => {
+		state.selectedTab = payload;
+	}),
+
+	/* Workspace */
 	workspaceName: 'karbonized-image',
 	workspaceColor: '#5895c8',
 	workspaceHeight: '512',
@@ -80,6 +92,10 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 	addControl: action((state, payload) => {
 		state.ControlsTree.push(payload);
+	}),
+
+	cleanWorkspace: action((state, payload) => {
+		state.ControlsTree = [];
 	}),
 
 	setcurrentControlID: action((state, payload) => {

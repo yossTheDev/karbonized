@@ -1,19 +1,8 @@
-import {
-	IconAspectRatio,
-	IconBox,
-	IconBrandGravatar,
-	IconPalette,
-	IconShape,
-	IconSquare,
-	IconTag,
-} from '@tabler/icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
-import { Input } from 'react-daisyui';
+import { IconShape, IconSquare } from '@tabler/icons';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
-import { ColorPicker } from './CustomControls/ColorPicker';
-import { NumberInput } from './CustomControls/NumberInput';
+import { WorkspacePanel } from './Panels/WorkspacePanel';
 import { TabSelector } from './TabsSelector';
 
 export const Menu: React.FC = () => {
@@ -25,16 +14,10 @@ export const Menu: React.FC = () => {
 	const [isEmpty, setIsEmpty] = useState(true);
 
 	// App Store
-	const workspaceName = useStoreState((state) => state.workspaceName);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-
 	const controls = useStoreState((state) => state.ControlsTree);
 	const currentID = useStoreState((state) => state.currentControlID);
-	const workspaceColor = useStoreState((state) => state.workspaceColor);
-	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
-	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
-	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
+	const workspaceTab = useStoreState((state) => state.selectedTab);
+	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	const reference = useRef<HTMLDivElement>(null);
 
@@ -47,6 +30,10 @@ export const Menu: React.FC = () => {
 			}
 	}, [controls, isEmpty, currentID]);
 
+	useEffect(() => {
+		setSelectedTab(workspaceTab);
+	}, [workspaceTab]);
+
 	return (
 		<div className='flex flex-auto flex-row overflow-y-auto overflow-x-hidden'>
 			{/* Selectors */}
@@ -55,7 +42,10 @@ export const Menu: React.FC = () => {
 				<div className='flex flex-auto flex-col'>
 					<TabSelector
 						isActive={selectedTab === 'control'}
-						onClick={() => setSelectedTab('control')}
+						onClick={() => {
+							setSelectedTab('control');
+							setWorkspaceTab('control');
+						}}
 					>
 						<div className='mx-auto'>
 							<IconShape className='mx-auto' size={18}></IconShape>
@@ -65,7 +55,10 @@ export const Menu: React.FC = () => {
 
 					<TabSelector
 						isActive={selectedTab === 'workspace'}
-						onClick={() => setSelectedTab('workspace')}
+						onClick={() => {
+							setSelectedTab('workspace');
+							setWorkspaceTab('workspace');
+						}}
 					>
 						<div className='mx-auto'>
 							<IconSquare className='mx-auto' size={18}></IconSquare>
@@ -88,74 +81,7 @@ export const Menu: React.FC = () => {
 					}`}
 					id='workspace'
 				>
-					<div className='flex flex-auto flex-col p-2 text-xs'>
-						{/* Workspace Name */}
-						<>
-							<div className='flex flex-row m-2 gap-2'>
-								<IconTag size={22}></IconTag>
-								<p className='font-bold my-auto'>Workspace Name</p>
-							</div>
-							<div className='flex flex-auto flex-row max-h-14 p-2'>
-								<Input
-									spellCheck={false}
-									className='bg-base-100 p-2 rounded-xl my-auto  w-full'
-									onChange={(ev) => setWorkspaceName(ev.target.value)}
-									value={workspaceName}
-								></Input>
-							</div>
-						</>
-
-						{/* Size */}
-						<>
-							<div className='flex flex-row m-2 gap-2 '>
-								<IconAspectRatio size={22}></IconAspectRatio>
-								<p className='font-bold my-auto'>Size</p>
-							</div>
-							<div className='flex flex-auto flex-row max-h-16 p-2'>
-								{/* Size W */}
-								<div className='flex flex-auto flex-row'>
-									<p className='my-auto mr-2'>W:</p>
-									<NumberInput
-										onChange={(number) => {
-											setWorkspaceSize({
-												width: number.toString(),
-												height: workspaceHeight,
-											});
-										}}
-										number={parseInt(workspaceWidth)}
-									></NumberInput>
-								</div>
-								{/* Size H */}
-								<div className='flex flex-auto flex-row ml-2'>
-									<p className='my-auto mr-2'>H:</p>
-									<NumberInput
-										onChange={(number) => {
-											setWorkspaceSize({
-												height: number.toString(),
-												width: workspaceWidth,
-											});
-										}}
-										number={parseInt(workspaceHeight)}
-									></NumberInput>
-								</div>
-							</div>
-						</>
-
-						{/* Background Color */}
-						<>
-							<div className='flex flex-col'>
-								<div className='flex flex-row m-2 gap-2 '>
-									<IconPalette size={22}></IconPalette>
-									<p className='font-bold my-auto'>Background</p>
-								</div>
-								<ColorPicker
-									type='HexAlpha'
-									color={workspaceColor}
-									onColorChange={setWorkspaceColor}
-								></ColorPicker>
-							</div>
-						</>
-					</div>
+					<WorkspacePanel></WorkspacePanel>
 				</TabPanel>
 
 				{/* Controls */}

@@ -72,6 +72,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
+	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
@@ -116,7 +117,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	/* Shadow */
 	const [shadowX, setShadowX] = useState(0);
 	const [shadowY, setShadowY] = useState(0);
-	const [shadowSpread, setShadowSpread] = useState(0);
 	const [shadowBlur, setShadowBlur] = useState(0);
 	const [shadowColor, setShadowColor] = useState('#090b11');
 
@@ -180,7 +180,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					id={ID}
 					onMouseEnter={() => setContextMenu(false)}
 					onContextMenu={(e) => {
-						console.log('Context');
 						setContextMenu(!contextMenu);
 						//setDisable(true);
 						e.preventDefault();
@@ -206,11 +205,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							//setDisable(true);
 							//console.log('touch');
 							setID(ID);
+							setWorkspaceTab('control');
 						}}
 						onMouseDown={() => {
 							//setDisable(true);
 							//console.log(ID);
 							setID(ID);
+							setWorkspaceTab('control');
 						}}
 						ref={reference}
 						style={{}}
@@ -510,8 +511,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Select Mask */}
 								<div className='flex flex-auto p-2 '>
 									<Select
-										defaultValue={'default'}
 										tabIndex={0}
+										className='flex flex-auto'
 										value={mask}
 										onChange={(e) => setMask(e)}
 									>
