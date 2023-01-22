@@ -8,6 +8,7 @@ import {
 	IconHierarchy,
 	IconLock,
 	IconMask,
+	IconReload,
 	IconShadow,
 	IconTrash,
 } from '@tabler/icons';
@@ -99,6 +100,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 	const [flipX, setFlipX] = useState(false);
 	const [flipY, setFlipY] = useState(false);
+
+	/* Rotation */
+
+	const [rotateX, setRotateX] = useState(0);
+	const [rotateY, setRotateY] = useState(0);
 
 	/* Shadow */
 	const [shadowX, setShadowX] = useState(0);
@@ -194,7 +200,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							setID(ID);
 						}}
 						ref={reference}
-						style={{ transform: flipY ? 'scaleY(-1)' : '' + ' ' }}
+						style={{}}
 					>
 						<div
 							ref={ref}
@@ -211,7 +217,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									shadowColor,
 								borderRadius: borderRadious + 'px',
 								backgroundColor: color,
-								transform: flipX ? 'scaleX(-1)' : '' + ' ',
+								transform: `${flipX ? 'scaleX(-1)' : ''} ${
+									flipY ? 'scaleY(-1)' : ''
+								} rotateY(${rotateY + 'deg'}) rotateX(${rotateX + 'deg'})`,
 							}}
 							className='flex flex-auto flex-col h-full'
 						>
@@ -236,7 +244,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							</div>
 						}
 					>
-						<div className='flex flex-row flex-wrap text-xs'>
+						<div className='flex flex-col flex-wrap text-xs'>
 							{/* Flip Options */}
 							<div className='flex flex-auto gap-2'>
 								<Button
@@ -333,6 +341,48 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={controlSize?.h}
 									></Input>
 								</div>
+							</div>
+
+							{/* Rotation */}
+							<p>Rotation</p>
+
+							<div className='flex flex-auto flex-row'>
+								{/* Rotation X */}
+								<div className='flex flex-auto  p-2 text-xs my-auto'>
+									<p className='p-2 my-auto'>X:</p>
+									<Range
+										color='primary'
+										min={-180}
+										max={180}
+										onChange={(ev) => {
+											setRotateX(ev.currentTarget.value as unknown as number);
+										}}
+										value={rotateX}
+									></Range>
+								</div>
+								{/* Rotation Y */}
+								<div className='flex flex-auto  p-2 text-xs my-auto'>
+									<p className='p-2 my-auto'>Y:</p>
+									<Range
+										color='primary'
+										min={-180}
+										max={180}
+										onChange={(ev) => {
+											setRotateY(ev.currentTarget.value as unknown as number);
+										}}
+										value={rotateY}
+									></Range>
+								</div>
+
+								<Button
+									onMouseDown={() => {
+										setRotateX(0);
+										setRotateY(0);
+									}}
+									className='flex flex-auto my-auto'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
 							</div>
 						</div>
 					</CustomCollapse>

@@ -33,8 +33,8 @@ const FaIconBlock: React.FC = () => {
 				shadowEditable={false}
 				defaultHeight='120px'
 				defaultWidth='120px'
-				minHeight={'100px'}
-				minWidth={'120px'}
+				minHeight={'20px'}
+				minWidth={'20px'}
 				maxWidth={'800px'}
 				maxHeight={'800px'}
 				menu={

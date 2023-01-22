@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { Button, Navbar, PhoneMockup } from 'react-daisyui';
+import { Button, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
@@ -32,8 +32,6 @@ import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
 import React from 'react';
-
-import yoss from './assets/yoss.png';
 
 const App: React.FC = () => {
 	// App Store
@@ -152,7 +150,7 @@ const App: React.FC = () => {
 						{/* Save Button */}
 						<Button
 							onClick={onButtonClick}
-							className='hidden md:flex rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l '
+							className='hidden md:flex rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'
 						>
 							<IconFlask className='text-white'></IconFlask>
 							<p className='text-white md:flex hidden'>Save</p>

@@ -125,7 +125,7 @@ const CodeControl: React.FC = () => {
 					</>
 				}
 			>
-				<div className='flex flex-auto flex-col p-2 overflow-hidden shadow-2xl select-none'>
+				<div className='flex flex-auto flex-col p-2 overflow-hidden select-none'>
 					{/* Title */}
 					<div className='flex flex-auto max-h-8'>
 						<div
