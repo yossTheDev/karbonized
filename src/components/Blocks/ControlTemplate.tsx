@@ -518,7 +518,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										{Masks.map((i) => {
 											return (
 												<option key={i} value={i}>
-													{i}
+													{i.replace('mask-', '').replace('-', ' ')}
 												</option>
 											);
 										})}
