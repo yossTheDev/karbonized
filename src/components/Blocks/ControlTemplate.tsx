@@ -361,6 +361,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										color='primary'
 										min={-180}
 										max={180}
+										className='my-auto'
 										onChange={(ev) => {
 											setRotateX(ev.currentTarget.value as unknown as number);
 										}}
@@ -372,6 +373,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<p className='p-2 my-auto'>Y:</p>
 									<Range
 										color='primary'
+										className='my-auto'
 										min={-180}
 										max={180}
 										onChange={(ev) => {
@@ -386,7 +388,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										setRotateX(0);
 										setRotateY(0);
 									}}
-									className='flex flex-auto my-auto'
+									className='flex flex-auto my-auto p-1'
 								>
 									<IconReload size={18}></IconReload>
 								</Button>

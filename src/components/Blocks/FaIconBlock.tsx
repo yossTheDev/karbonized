@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { FaIcon } from '../FaIcon';
@@ -141,14 +141,19 @@ const FaIconBlock: React.FC = () => {
 											icon.label.toUpperCase().indexOf(query.toUpperCase()) > -1
 									)
 									.map((el, i) => (
-										<div
-											className='inline-flex flex-auto cursor-pointer dark:text-gray-400 text-3xl p-2 rounded bg-base-100 hover:bg-base-200'
-											onMouseDown={() => setIcon(el.label)}
-										>
-											<div className='mx-auto my-auto'>
-												<FaIcon icon={el.label}></FaIcon>
+										<Suspense fallback={<></>}>
+											<div
+												className='inline-flex flex-auto cursor-pointer dark:text-gray-400 text-3xl p-2 rounded bg-base-100 hover:bg-base-200'
+												onMouseDown={() => {
+													setIcon(el.label);
+													setShowIconPicker(false);
+												}}
+											>
+												<div className='mx-auto my-auto'>
+													<FaIcon icon={el.label}></FaIcon>
+												</div>
 											</div>
-										</div>
+										</Suspense>
 									))}
 							</div>
 						</Modal.Body>
