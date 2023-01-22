@@ -1,6 +1,5 @@
 import { IconAppWindow } from '@tabler/icons';
 import React, { useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
 import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';

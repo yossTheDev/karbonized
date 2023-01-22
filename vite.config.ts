@@ -69,6 +69,7 @@ export default defineConfig({
 						purpose: 'maskable any',
 					},
 				],
+				categories: ['personalization', 'photo', 'productivity', 'utilities'],
 			},
 		}),
 	],
