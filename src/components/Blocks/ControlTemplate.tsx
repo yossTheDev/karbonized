@@ -13,7 +13,14 @@ import {
 	IconTrash,
 } from '@tabler/icons';
 import { toPng } from 'html-to-image';
-import React, { ReactNode, useCallback, useId, useRef, useState } from 'react';
+import React, {
+	ReactNode,
+	useCallback,
+	useEffect,
+	useId,
+	useRef,
+	useState,
+} from 'react';
 import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -139,6 +146,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	];
 
 	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		setControlPos({ x: 98, y: 190 });
+		setControlSize({ w: parseInt(defaultWidth), h: parseInt(defaultHeight) });
+	}, []);
 
 	// Component Actions
 	const handleTakeCapture = useCallback(() => {
