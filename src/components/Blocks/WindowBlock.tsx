@@ -22,8 +22,8 @@ export const WindowBlock: React.FC = () => {
 		<>
 			<ControlTemplate
 				minHeight='200px'
-				maxWidth='920px'
-				maxHeight='650px'
+				maxWidth='3000px'
+				maxHeight='2000px'
 				border={6}
 				defaultHeight={'200px'}
 				defaultWidth={'350px'}
@@ -97,7 +97,7 @@ export const WindowBlock: React.FC = () => {
 					</>
 				}
 			>
-				<div className='flex flex-auto flex-col overflow-hidden shadow-2xl rounded'>
+				<div className='flex flex-auto flex-col overflow-hidden rounded'>
 					{/* Title */}
 					<div className='flex flex-auto max-h-8 p-2'>
 						<div className='my-auto flex flex-row flex-auto'>

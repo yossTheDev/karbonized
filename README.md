@@ -1,17 +1,21 @@
-# Karbonized
+<h1 align="center">Karbonized</h1>
 
 ![carbonizedlogo](./img/banner.png)
-**Free** and **Open Source** carbon App. Made with ❤️ and ReactJS from 🇨🇺. Styling your code with Karbonized and share it with the world
+
+<p align="center">
+Styling your code with Karbonized and share it with the world</p>
+
+<p align="center"><b>Free</b> and <b>Open Source</b>  carbon App. Made with ❤️ and ReactJS in 🇨🇺.</p>
 
 [Check it out](https://karbonized.onrender.com)
 
 ## 🚀 Features
 
-* Based on **blocks** (Code,Text,QR and more coming soon)
+* Based on **blocks** (Code,Text,QR, Mobile Mockup, Icons and more)
+* Completely **Free** and **Open Source**
 * Without Registration
 * Without Limits
-* Completely **Free** and **Open Source**
-* Made with React
+* Made with ReactJS 😎
 
 ## 🌐 Preview
 
