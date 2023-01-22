@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { Button, Navbar } from 'react-daisyui';
+import { Button, Dropdown, Navbar } from 'react-daisyui';
 import './App.css';
 import './utils.css';
 import {
@@ -9,12 +9,15 @@ import {
 	IconFlask,
 	IconHandFinger,
 	IconInfoCircle,
+	IconJpg,
 	IconLetterT,
 	IconPhoto,
+	IconPng,
 	IconPointer,
 	IconQrcode,
 	IconShare,
 	IconSticker,
+	IconSvg,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
@@ -22,7 +25,7 @@ import {
 import { useStoreActions, useStoreState } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';
-import { toBlob, toPng } from 'html-to-image';
+import { toBlob, toJpeg, toPng, toSvg } from 'html-to-image';
 import { StatusBar } from './components/StatusBar';
 import InfiniteViewer from 'react-infinite-viewer';
 
@@ -48,8 +51,8 @@ const App: React.FC = () => {
 
 	const ref = useRef<HTMLDivElement>(null);
 
-	// Save Image
-	const onButtonClick = useCallback(async () => {
+	// Save Image as PNG
+	const exportAsPng = useCallback(async () => {
 		setReady(true);
 
 		if (ref.current === null) {
@@ -65,6 +68,63 @@ const App: React.FC = () => {
 			.then((dataUrl) => {
 				const link = document.createElement('a');
 				link.download = workspaceName + '.png';
+				link.href = dataUrl;
+				link.click();
+				console.log('SAVED');
+
+				setReady(false);
+			})
+			.catch((err) => {
+				setReady(false);
+				console.log(err);
+			});
+	}, [ref, workspaceName]);
+
+	// Save Image as SVG
+	const exportAsSvg = useCallback(async () => {
+		setReady(true);
+
+		if (ref.current === null) {
+			console.log('NULL');
+			setReady(false);
+
+			return;
+		}
+
+		toSvg(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = workspaceName + '.svg';
+				link.href = dataUrl;
+				link.click();
+				console.log('SAVED');
+
+				setReady(false);
+			})
+			.catch((err) => {
+				setReady(false);
+				console.log(err);
+			});
+	}, [ref, workspaceName]);
+
+	const exportAsJpeg = useCallback(async () => {
+		setReady(true);
+
+		if (ref.current === null) {
+			console.log('NULL');
+			setReady(false);
+
+			return;
+		}
+
+		toJpeg(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = workspaceName + '.jpeg';
 				link.href = dataUrl;
 				link.click();
 				console.log('SAVED');
@@ -147,10 +207,32 @@ const App: React.FC = () => {
 							</p>
 						</Button>
 
+						<Dropdown vertical='end' className=''>
+							<Button className='hidden md:flex rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
+								<IconFlask className='text-white'></IconFlask>
+								<p className='text-white md:flex hidden'>Save</p>
+							</Button>
+
+							<Dropdown.Menu className='w-52 text-gray-400'>
+								<Dropdown.Item onMouseDown={exportAsPng}>
+									<IconPng></IconPng>
+									<p>Export as PNG</p>
+								</Dropdown.Item>
+								<Dropdown.Item onMouseDown={exportAsJpeg}>
+									<IconJpg></IconJpg>
+									<p>Export as JPG</p>
+								</Dropdown.Item>
+								<Dropdown.Item onMouseDown={exportAsSvg}>
+									<IconSvg></IconSvg>
+									<p>Export as SVG</p>
+								</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
+
 						{/* Save Button */}
 						<Button
-							onClick={onButtonClick}
-							className='hidden md:flex rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'
+							onClick={exportAsPng}
+							className='hidden rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'
 						>
 							<IconFlask className='text-white'></IconFlask>
 							<p className='text-white md:flex hidden'>Save</p>

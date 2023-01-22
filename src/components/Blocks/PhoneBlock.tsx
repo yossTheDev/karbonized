@@ -19,10 +19,10 @@ export const PhoneBlock: React.FC = () => {
 				borderEditable={false}
 				minHeight={'470px'}
 				minWidth={'280px'}
-				maxWidth={'500px'}
-				maxHeight={'1300px'}
-				defaultHeight={'100px'}
-				defaultWidth={'100px'}
+				maxWidth={'1000px'}
+				maxHeight={'2000px'}
+				defaultHeight={'538px'}
+				defaultWidth={'280px'}
 				menu={
 					<>
 						{/* Border Settings */}
