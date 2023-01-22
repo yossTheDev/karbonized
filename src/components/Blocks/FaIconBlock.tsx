@@ -30,7 +30,6 @@ const FaIconBlock: React.FC = () => {
 		<>
 			<ControlTemplate
 				borderEditable={false}
-				shadowEditable={false}
 				defaultHeight='120px'
 				defaultWidth='120px'
 				minHeight={'20px'}

@@ -177,8 +177,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					}  ${mask}`}
 					style={{
 						zIndex: zIndex,
-						//height: defaultHeight,
-						//width: defaultWidth,
+						height: defaultHeight,
+						width: defaultWidth,
 						maxHeight: maxHeight,
 						maxWidth: maxWidth,
 						minHeight: minHeight,
@@ -205,16 +205,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						<div
 							ref={ref}
 							style={{
-								boxShadow:
-									shadowX +
-									'px ' +
-									shadowY +
-									'px ' +
-									shadowBlur +
-									'px ' +
-									shadowSpread +
-									'px ' +
-									shadowColor,
 								borderRadius: borderRadious + 'px',
 								backgroundColor: color,
 								transform: `${flipX ? 'scaleX(-1)' : ''} ${
@@ -229,7 +219,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									invert + '%'
 								}) opacity(${opacity + '%'}) saturate(${
 									saturate + '%'
-								}) sepia(${sepia + '%'})`,
+								}) sepia(${sepia + '%'}) drop-shadow(${
+									shadowX +
+									'px ' +
+									shadowY +
+									'px ' +
+									shadowBlur +
+									'px ' +
+									shadowColor
+								})`,
 							}}
 							className='flex flex-auto flex-col h-full'
 						>
@@ -431,22 +429,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 								</div>
 
-								{/* Shadow Spread */}
-								<div className='flex flex-auto p-2 text-xs '>
-									<p className='p-2 my-auto'>Spread:</p>
-									<Range
-										className='my-auto'
-										color='primary'
-										onChange={(ev) =>
-											setShadowSpread(ev.target.value as unknown as number)
-										}
-										value={shadowSpread}
-										max={'100'}
-									></Range>
-								</div>
-
 								{/* Shadow Blur */}
-								<div className='flex flex-auto p-2 text-xs '>
+								<div className='flex flex-auto  text-xs '>
 									<p className='p-2 my-auto'>Blur:</p>
 									<Range
 										className='my-auto'
