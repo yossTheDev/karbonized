@@ -166,6 +166,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{visibility && (
 				<div
 					id={ID}
+					onMouseEnter={() => setContextMenu(false)}
 					onContextMenu={(e) => {
 						console.log('Context');
 						setContextMenu(!contextMenu);
@@ -767,6 +768,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						className='z-50'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+						onMouseLeave={() => setContextMenu(false)}
 					>
 						<div className='flex flex-col flex-auto gap-2'>
 							{/* Delete Block */}
