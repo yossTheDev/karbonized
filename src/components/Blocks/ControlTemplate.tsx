@@ -1,8 +1,8 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
 import {
-	IconAxisY,
 	IconBorderStyle,
 	IconCamera,
+	IconColorFilter,
 	IconFlipHorizontal,
 	IconFlipVertical,
 	IconHierarchy,
@@ -13,24 +13,13 @@ import {
 	IconTrash,
 } from '@tabler/icons';
 import { toPng } from 'html-to-image';
-import React, {
-	createElement,
-	ReactNode,
-	useCallback,
-	useEffect,
-	useId,
-	useRef,
-	useState,
-} from 'react';
-import { HexAlphaColorPicker } from 'react-colorful';
+import React, { ReactNode, useCallback, useId, useRef, useState } from 'react';
 import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { IconType } from '../../utils/FaIconList';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
-import { FaIcon } from '../FaIcon';
 
 interface ControlProps {
 	color?: string;
@@ -105,6 +94,17 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 	const [rotateX, setRotateX] = useState(0);
 	const [rotateY, setRotateY] = useState(0);
+
+	/* Filters */
+	const [blur, setBlur] = useState(0);
+	const [brightness, setBrightness] = useState(100);
+	const [contrast, setContrast] = useState(100);
+	const [grayscale, setGrayscale] = useState(0);
+	const [huerotate, setHueRotate] = useState(0);
+	const [invert, setInvert] = useState(0);
+	const [saturate, setSaturate] = useState(100);
+	const [opacity, setOpacity] = useState(100);
+	const [sepia, setSepia] = useState(0);
 
 	/* Shadow */
 	const [shadowX, setShadowX] = useState(0);
@@ -220,6 +220,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								transform: `${flipX ? 'scaleX(-1)' : ''} ${
 									flipY ? 'scaleY(-1)' : ''
 								} rotateY(${rotateY + 'deg'}) rotateX(${rotateX + 'deg'})`,
+
+								filter: `blur(${blur + 'px'}) brightness(${
+									brightness + '%'
+								}) contrast(${contrast + '%'})  grayscale(${
+									grayscale + '%'
+								}) hue-rotate(${huerotate + 'deg'}) invert(${
+									invert + '%'
+								}) opacity(${opacity + '%'}) saturate(${
+									saturate + '%'
+								}) sepia(${sepia + '%'})`,
 							}}
 							className='flex flex-auto flex-col h-full'
 						>
@@ -232,9 +242,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{/* Menu */}
 			{controlID === ID && (
 				<Portal node={document.getElementById('menu')}>
-					{/* Flip Options */}
-					<div></div>
-
 					{/* Position */}
 					<CustomCollapse
 						menu={
@@ -530,6 +537,224 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							</div>
 						</CustomCollapse>
 					)}
+
+					<CustomCollapse
+						menu={
+							<div className='flex flex-row m-2 gap-2'>
+								<IconColorFilter size={22}></IconColorFilter>
+								<p className='font-bold my-auto'>Filters</p>
+							</div>
+						}
+					>
+						<div className='flex flex-col flex-wrap text-xs gap-2'>
+							{/* Blur Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Blur:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setBlur(ev.currentTarget.value as unknown as number);
+									}}
+									value={blur}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setBlur(0);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Brightness Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Brightness:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={1}
+									max={200}
+									onChange={(ev) => {
+										setBrightness(ev.currentTarget.value as unknown as number);
+									}}
+									value={brightness}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setBrightness(100);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Contrast Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Contrast:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={100}
+									max={300}
+									onChange={(ev) => {
+										setContrast(ev.currentTarget.value as unknown as number);
+									}}
+									value={contrast}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setContrast(100);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Grayscale Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Grayscale:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setGrayscale(ev.currentTarget.value as unknown as number);
+									}}
+									value={grayscale}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setGrayscale(0);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Hue Rotate Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Hue Rotate:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={359}
+									onChange={(ev) => {
+										setHueRotate(ev.currentTarget.value as unknown as number);
+									}}
+									value={huerotate}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setHueRotate(0);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Invert Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Invert:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setInvert(ev.currentTarget.value as unknown as number);
+									}}
+									value={invert}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setInvert(0);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Saturate Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Saturate:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={200}
+									onChange={(ev) => {
+										setSaturate(ev.currentTarget.value as unknown as number);
+									}}
+									value={saturate}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setSaturate(100);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Sepia Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Sepia:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setSepia(ev.currentTarget.value as unknown as number);
+									}}
+									value={sepia}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setSepia(0);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+
+							{/* Opacity Options */}
+							<div className='flex flex-auto flex-row gap-2'>
+								<p className='p-2 my-auto'>Opacity:</p>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setOpacity(ev.currentTarget.value as unknown as number);
+									}}
+									value={opacity}
+								></Range>
+								<Button
+									onMouseDown={() => {
+										setOpacity(100);
+									}}
+									className='flex flex-auto my-auto p-1'
+								>
+									<IconReload size={18}></IconReload>
+								</Button>
+							</div>
+						</div>
+					</CustomCollapse>
 
 					{menu}
 
