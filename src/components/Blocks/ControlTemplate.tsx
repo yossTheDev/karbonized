@@ -104,7 +104,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [rotateY, setRotateY] = useState(0);
 
 	/* Filters */
-	const [blur, setBlur] = useState(0);
+	const [blur, setBlur] = useState(-1);
 	const [brightness, setBrightness] = useState(100);
 	const [contrast, setContrast] = useState(100);
 	const [grayscale, setGrayscale] = useState(0);
@@ -225,7 +225,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									flipY ? 'scaleY(-1)' : ''
 								} rotateY(${rotateY + 'deg'}) rotateX(${rotateX + 'deg'})`,
 
-								filter: `blur(${blur + 'px'}) brightness(${
+								filter: `blur(${blur + '%'}) brightness(${
 									brightness + '%'
 								}) contrast(${contrast + '%'})  grayscale(${
 									grayscale + '%'
@@ -538,6 +538,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						</CustomCollapse>
 					)}
 
+					{/* Filters */}
 					<CustomCollapse
 						menu={
 							<div className='flex flex-row m-2 gap-2'>
@@ -553,7 +554,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<Range
 									color='primary'
 									className='my-auto'
-									min={0}
+									min={-1}
 									max={100}
 									onChange={(ev) => {
 										setBlur(ev.currentTarget.value as unknown as number);
@@ -562,7 +563,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								></Range>
 								<Button
 									onMouseDown={() => {
-										setBlur(0);
+										setBlur(-1 * 1);
 									}}
 									className='flex flex-auto my-auto p-1'
 								>

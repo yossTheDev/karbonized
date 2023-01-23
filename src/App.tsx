@@ -7,6 +7,7 @@ import {
 	IconCode,
 	IconDeviceMobile,
 	IconFlask,
+	IconFocusCentered,
 	IconHandFinger,
 	IconInfoCircle,
 	IconJpg,
@@ -46,7 +47,7 @@ const App: React.FC = () => {
 
 	// Component Store and Actions
 	const [drag, setDrag] = useState(false);
-	const [zoom, setZoom] = useState(0.7);
+	const [zoom, setZoom] = useState(0.9);
 	const [showAbout, setShowAbout] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
@@ -249,6 +250,21 @@ const App: React.FC = () => {
 						</Button>
 					</Navbar.End>
 				</Navbar>
+
+				<div className='lg:flex hidden absolute z-50'>
+					<Button
+						onClick={() => {
+							refe.current?.scrollCenter();
+							refe.current?.scrollTo(
+								refe.current.getScrollLeft() - 180,
+								refe.current.getScrollTop()
+							);
+						}}
+						className='ml-20 mt-20 z-50'
+					>
+						<IconFocusCentered></IconFocusCentered>
+					</Button>
+				</div>
 
 				{/* Content*/}
 				<div className='flex flex-auto flex-col md:flex-row overflow-hidden'>
@@ -456,8 +472,8 @@ const App: React.FC = () => {
 							zoom={zoom}
 							usePinch={!drag}
 							threshold={0}
-							rangeX={[-512, 512]}
-							rangeY={[-512, 512]}
+							rangeX={[-2048, 2048]}
+							rangeY={[-2048, 2048]}
 							useWheelScroll
 							onScroll={(e) => {
 								//console.log('scroll' + e.scrollLeft);
