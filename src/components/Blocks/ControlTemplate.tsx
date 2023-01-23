@@ -104,7 +104,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [rotateY, setRotateY] = useState(0);
 
 	/* Filters */
-	const [blur, setBlur] = useState(-1);
+	const [blur, setBlur] = useState(0);
 	const [brightness, setBrightness] = useState(100);
 	const [contrast, setContrast] = useState(100);
 	const [grayscale, setGrayscale] = useState(0);
@@ -225,7 +225,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									flipY ? 'scaleY(-1)' : ''
 								} rotateY(${rotateY + 'deg'}) rotateX(${rotateX + 'deg'})`,
 
-								filter: `blur(${blur + '%'}) brightness(${
+								filter: `blur(${blur + 'px'}) brightness(${
 									brightness + '%'
 								}) contrast(${contrast + '%'})  grayscale(${
 									grayscale + '%'
