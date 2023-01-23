@@ -5,7 +5,6 @@ import {
 	IconPalette,
 } from '@tabler/icons';
 import React, { useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
 import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';

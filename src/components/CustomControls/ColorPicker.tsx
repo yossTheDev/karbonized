@@ -44,7 +44,7 @@ export const ColorPicker: React.FC<Props> = ({
 	const isHorizontal = useScreenDirection();
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(isHorizontal ? 12 : 2), flip(), shift()],
-		placement: isHorizontal ? 'left-start' : 'top',
+		placement: isHorizontal ? 'left-end' : 'top',
 	});
 	return (
 		<>

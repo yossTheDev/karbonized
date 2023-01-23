@@ -6,7 +6,6 @@ import {
 	IconFlipHorizontal,
 	IconFlipVertical,
 	IconHierarchy,
-	IconLock,
 	IconMask,
 	IconReload,
 	IconShadow,
@@ -71,14 +70,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const constrlPos = useStoreState((state) => state.controlPosition);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
-	const aspectRatio = useStoreState((state) => state.lockAspect);
-	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
-	const [isFocused, setIsFocused] = useState(false);
 	const [zIndex, setzIndex] = useState('0');
 	const [visibility, setVisibility] = useState(true);
 	const [contextMenu, setContextMenu] = useState(false);
