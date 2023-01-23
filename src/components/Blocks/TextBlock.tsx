@@ -86,6 +86,7 @@ export const TextControl: React.FC = () => {
 							</div>
 
 							<ColorPicker
+								isGradientEnable={false}
 								color={color}
 								onColorChange={setColor}
 								label='Text Color'

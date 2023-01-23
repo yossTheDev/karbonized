@@ -1,7 +1,12 @@
-import { IconCode, IconDots, IconPalette } from '@tabler/icons';
+import {
+	IconBorderStyle,
+	IconCode,
+	IconDots,
+	IconPalette,
+} from '@tabler/icons';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { Checkbox, Input, Select, Textarea } from 'react-daisyui';
+import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -18,12 +23,18 @@ const CodeControl: React.FC = () => {
 	const [title, setTitle] = useState('Code');
 	const [showLineNumbers, setShowLineNumbers] = useState(false);
 	const [wrapLines, setWrapLines] = useState(false);
+	const [border, setBorder] = useState(4);
+
+	const [colorMode, setColorMode] = useState('Single');
+	const [gColor1, setGColor1] = useState('#0da2e7');
+	const [gColor2, setGColor2] = useState('#5895c8');
+	const [gradientDeg, setGradientDeg] = useState(22);
 
 	return (
 		<>
 			<ControlTemplate
-				color={color}
 				border={6}
+				borderEditable={false}
 				defaultHeight='140px'
 				defaultWidth='300px'
 				minHeight='100px'
@@ -31,6 +42,31 @@ const CodeControl: React.FC = () => {
 				maxHeight='850px'
 				menu={
 					<>
+						{/* Border  */}
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconBorderStyle size={22}></IconBorderStyle>
+									<p className='font-bold my-auto'>Borders</p>
+								</div>
+							}
+						>
+							<div className='flex flex-row flex-wrap text-xs'>
+								<div className='flex flex-auto p-2'>
+									<p className='p-2 my-auto'>Radius:</p>
+									<Range
+										className='my-auto'
+										color='primary'
+										onChange={(ev) =>
+											setBorder(ev.target.value as unknown as number)
+										}
+										value={border}
+										max={'22'}
+									></Range>
+								</div>
+							</div>
+						</CustomCollapse>
+
 						{/* Code Settings */}
 						<CustomCollapse
 							isOpen
@@ -82,7 +118,17 @@ const CodeControl: React.FC = () => {
 						>
 							<ColorPicker
 								label='Window Color'
+								onModeChange={(mode) => setColorMode(mode)}
+								onGradientChange={(color1, color2) => {
+									setGColor1(color1);
+									setGColor2(color2);
+								}}
+								onGradientDegChange={(deg) => setGradientDeg(deg)}
 								color={color}
+								mode={colorMode}
+								gradientDeg={gradientDeg}
+								colorGradient1={gColor1}
+								colorGradient2={gColor2}
 								onColorChange={setColor}
 							></ColorPicker>
 						</CustomCollapse>
@@ -125,7 +171,16 @@ const CodeControl: React.FC = () => {
 					</>
 				}
 			>
-				<div className='flex flex-auto flex-col p-2 overflow-hidden select-none'>
+				<div
+					style={{
+						borderRadius: border + 'px',
+						background:
+							colorMode === 'Single'
+								? color
+								: `linear-gradient(${gradientDeg}deg, ${gColor1},${gColor2})`,
+					}}
+					className='flex flex-auto flex-col p-2 overflow-hidden select-none'
+				>
 					{/* Title */}
 					<div className='flex flex-auto max-h-8'>
 						<p className='text-gray-600 text-center mb-auto my-auto m-2 hover:border-none flex flex-auto w-20 overflow-hidden'>

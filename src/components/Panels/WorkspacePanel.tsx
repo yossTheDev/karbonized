@@ -47,9 +47,19 @@ export const WorkspacePanel: React.FC = () => {
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
+	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
+	const workspaceGadient = useStoreState(
+		(state) => state.workspaceGradientSettings
+	);
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
+	const setWorkspaceGradient = useStoreActions(
+		(state) => state.setWorkspaceGradient
+	);
+	const setWorkspaceColorMode = useStoreActions(
+		(state) => state.setWorkspaceColorMode
+	);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
 
 	return (
@@ -139,8 +149,28 @@ export const WorkspacePanel: React.FC = () => {
 						<IconPalette size={22}></IconPalette>
 						<p className='font-bold my-auto'>Background</p>
 					</div>
+
 					<ColorPicker
 						type='HexAlpha'
+						colorGradient1={workspaceGadient.color1}
+						colorGradient2={workspaceGadient.color2}
+						gradientDeg={workspaceGadient.deg}
+						onGradientChange={(color: any, color2: any) => {
+							setWorkspaceGradient({
+								color1: color,
+								color2: color2,
+								deg: workspaceGadient.deg,
+							});
+						}}
+						onGradientDegChange={(deg) => {
+							setWorkspaceGradient({
+								color1: workspaceGadient.color1,
+								color2: workspaceGadient.color2,
+								deg: deg,
+							});
+						}}
+						onModeChange={(mode) => setWorkspaceColorMode(mode)}
+						mode={workspaceColorMode}
 						color={workspaceColor}
 						onColorChange={setWorkspaceColor}
 					></ColorPicker>

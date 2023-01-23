@@ -45,9 +45,12 @@ const App: React.FC = () => {
 	const setEditing = useStoreActions((state) => state.setEditing);
 	const setReady = useStoreActions((state) => state.setReadyToSave);
 	const workspaceName = useStoreState((state) => state.workspaceName);
+	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const editing = useStoreState((state) => state.editing);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
+
 	// Component Store and Actions
 	const [drag, setDrag] = useState(false);
 	const [zoom, setZoom] = useState(0.9);
@@ -61,8 +64,6 @@ const App: React.FC = () => {
 	// Auto Scroll to Center o Init
 	useEffect(() => {
 		refe.current?.scrollCenter();
-
-		console.log('windowsize' + windowSize.width);
 
 		if (windowSize.width && windowSize.width > 640)
 			refe.current?.scrollTo(
@@ -500,7 +501,9 @@ const App: React.FC = () => {
 							rangeY={[-2048, 2048]}
 							useWheelScroll
 							onScroll={(e) => {
-								//console.log('scroll' + e.scrollLeft);
+								console.log(
+									'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
+								);
 							}}
 						>
 							<div className='viewport'>

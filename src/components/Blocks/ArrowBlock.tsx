@@ -32,6 +32,7 @@ export const ArrowBlock: React.FC = () => {
 						>
 							<ColorPicker
 								label='Color'
+								isGradientEnable={false}
 								color={color}
 								onColorChange={(color) => setColor(color)}
 							></ColorPicker>

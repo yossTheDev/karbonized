@@ -66,6 +66,7 @@ const FaIconBlock: React.FC = () => {
 								type='HexAlpha'
 								label='Icon Color'
 								color={iconColor}
+								isGradientEnable={false}
 								onColorChange={(color) => setIconColor(color)}
 							></ColorPicker>
 

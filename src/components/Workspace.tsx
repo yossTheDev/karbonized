@@ -27,6 +27,11 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+	/* Workspace Colors */
+	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
+	const workspaceGradient = useStoreState(
+		(state) => state.workspaceGradientSettings
+	);
 
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
@@ -40,7 +45,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					ref={reference}
 					id='workspace'
 					style={{
-						backgroundColor: workspaceColor,
+						background:
+							workspaceColorMode === 'Single'
+								? workspaceColor
+								: `linear-gradient(${workspaceGradient.deg}deg, ${workspaceGradient.color1},${workspaceGradient.color2})`,
 						height: workspaceHeight + 'px',
 						width: workspaceWidth + 'px',
 					}}

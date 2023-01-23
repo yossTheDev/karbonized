@@ -83,12 +83,14 @@ export const WindowBlock: React.FC = () => {
 								<ColorPicker
 									color={color}
 									onColorChange={setColor}
+									isGradientEnable={false}
 									label='Window Color'
 								></ColorPicker>
 
 								<ColorPicker
 									color={controlsColor}
 									onColorChange={setControlsColor}
+									isGradientEnable={false}
 									label='Controls Color'
 								></ColorPicker>
 							</>

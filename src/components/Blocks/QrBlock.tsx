@@ -54,6 +54,7 @@ export const QrControl: React.FC = () => {
 							}
 						>
 							<ColorPicker
+								isGradientEnable={false}
 								type='HexAlpha'
 								color={backgroundColor}
 								onColorChange={setBackgroundColor}
@@ -61,6 +62,8 @@ export const QrControl: React.FC = () => {
 							></ColorPicker>
 
 							<ColorPicker
+								isGradientEnable={false}
+								type='HexAlpha'
 								color={foregroundColor}
 								onColorChange={setforegroundColor}
 								label='Foreground Color'

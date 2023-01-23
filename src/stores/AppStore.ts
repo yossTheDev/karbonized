@@ -30,9 +30,15 @@ export interface AppStoreModel {
 	/* Workspace */
 	workspaceName: string;
 	workspaceColor: string;
+	workspaceColorMode: string;
 	workspaceWidth: string;
 	workspaceHeight: string;
-
+	workspaceGradientSettings: { color1: string; color2: string; deg: number };
+	setWorkspaceGradient: Action<
+		AppStoreModel,
+		{ color1: string; color2: string; deg: number }
+	>;
+	setWorkspaceColorMode: Action<AppStoreModel, string>;
 	setWorkspaceName: Action<AppStoreModel, string>;
 	setWorkspaceColor: Action<AppStoreModel, string>;
 	setWorkspaceSize: Action<AppStoreModel, { height: string; width: string }>;
@@ -48,6 +54,7 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
+	workspaceGradientSettings: { color1: '#bf86da', color2: '#144ab4', deg: 98 },
 
 	/* Tabs */
 	selectedTab: 'control',
@@ -58,8 +65,17 @@ export const AppStore = createStore<AppStoreModel>({
 	/* Workspace */
 	workspaceName: 'karbonized-image',
 	workspaceColor: '#5895c8',
+	workspaceColorMode: 'Gradient',
 	workspaceHeight: '512',
 	workspaceWidth: '512',
+
+	setWorkspaceGradient: action((state, payload) => {
+		state.workspaceGradientSettings = payload;
+	}),
+
+	setWorkspaceColorMode: action((state, payload) => {
+		state.workspaceColorMode = payload;
+	}),
 
 	setLockAspect: action((state, payload) => {
 		state.lockAspect = payload;
