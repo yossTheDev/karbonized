@@ -251,6 +251,21 @@ const App: React.FC = () => {
 					</Navbar.End>
 				</Navbar>
 
+				<div className='hidden absolute z-50'>
+					<Button
+						onClick={() => {
+							refe.current?.scrollCenter();
+							refe.current?.scrollTo(
+								refe.current.getScrollLeft() - 180,
+								refe.current.getScrollTop()
+							);
+						}}
+						className='ml-20 mt-20 z-50'
+					>
+						<IconFocusCentered></IconFocusCentered>
+					</Button>
+				</div>
+
 				{/* Content*/}
 				<div className='flex flex-auto flex-col md:flex-row overflow-hidden'>
 					{/* Controls Tree */}
