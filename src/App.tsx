@@ -12,6 +12,7 @@ import {
 	IconInfoCircle,
 	IconJpg,
 	IconLetterT,
+	IconLock,
 	IconPhoto,
 	IconPng,
 	IconPointer,
@@ -36,6 +37,7 @@ import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
 import React from 'react';
+import { useWindowsSize } from './hooks/useWindowsSize';
 
 const App: React.FC = () => {
 	// App Store
@@ -44,7 +46,8 @@ const App: React.FC = () => {
 	const setReady = useStoreActions((state) => state.setReadyToSave);
 	const workspaceName = useStoreState((state) => state.workspaceName);
 	const editing = useStoreState((state) => state.editing);
-
+	const aspectRatio = useStoreState((state) => state.lockAspect);
+	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 	// Component Store and Actions
 	const [drag, setDrag] = useState(false);
 	const [zoom, setZoom] = useState(0.9);
@@ -53,13 +56,19 @@ const App: React.FC = () => {
 	const ref = useRef<HTMLDivElement>(null);
 	const refe = useRef<InfiniteViewer>(null);
 
+	const windowSize = useWindowsSize();
+
 	// Auto Scroll to Center o Init
 	useEffect(() => {
 		refe.current?.scrollCenter();
-		refe.current?.scrollTo(
-			refe.current.getScrollLeft() - 180,
-			refe.current.getScrollTop()
-		);
+
+		console.log('windowsize' + windowSize.width);
+
+		if (windowSize.width && windowSize.width > 640)
+			refe.current?.scrollTo(
+				refe.current.getScrollLeft() - 180,
+				refe.current.getScrollTop()
+			);
 	}, []);
 
 	// Save Image as PNG
@@ -218,10 +227,12 @@ const App: React.FC = () => {
 							</p>
 						</Button>
 
-						<Dropdown vertical='end' className=''>
-							<div className='hidden md:flex rounded-full mr-2 p-3 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
+						<Dropdown vertical='end' hover>
+							<div className='hidden md:flex rounded-full mr-2 p-3 w-24 cursor-pointer bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
 								<IconFlask className='text-white'></IconFlask>
-								<p className='text-white md:flex hidden'>Save</p>
+								<p className='text-white md:flex hidden font-bold mx-auto'>
+									SAVE
+								</p>
 							</div>
 
 							<Dropdown.Menu className='w-52 text-gray-400'>
@@ -251,19 +262,32 @@ const App: React.FC = () => {
 					</Navbar.End>
 				</Navbar>
 
-				<div className='hidden absolute z-50'>
-					<Button
-						onClick={() => {
-							refe.current?.scrollCenter();
-							refe.current?.scrollTo(
-								refe.current.getScrollLeft() - 180,
-								refe.current.getScrollTop()
-							);
-						}}
-						className='ml-20 mt-20 z-50'
-					>
-						<IconFocusCentered></IconFocusCentered>
-					</Button>
+				{/* Quick Bar */}
+				<div className='absolute lg:flex hidden ml-20 mt-20  z-50'>
+					<Tooltip messsage='Center View'>
+						<Button
+							onClick={() => {
+								refe.current?.scrollCenter();
+								refe.current?.scrollTo(
+									refe.current.getScrollLeft() - 180,
+									refe.current.getScrollTop()
+								);
+							}}
+						>
+							<IconFocusCentered></IconFocusCentered>
+						</Button>
+					</Tooltip>
+
+					<Tooltip messsage='Lock Aspect Ratio'>
+						<Button
+							className={`ml-2 ${aspectRatio && 'bg-primary border-primary'}`}
+							onClick={() => {
+								setAspectRatio(!aspectRatio);
+							}}
+						>
+							<IconLock></IconLock>
+						</Button>
+					</Tooltip>
 				</div>
 
 				{/* Content*/}

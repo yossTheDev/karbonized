@@ -23,6 +23,7 @@ import React, {
 } from 'react';
 import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
+import { useKeyPress } from '../../hooks/useKeyPress';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -77,6 +78,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
+	const [isFocused, setIsFocused] = useState(false);
 	const [zIndex, setzIndex] = useState('0');
 	const [visibility, setVisibility] = useState(true);
 	const [contextMenu, setContextMenu] = useState(false);
@@ -122,6 +124,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 	const [mask, setMask] = useState('');
 	const [maskRepeat, setMaskRepeat] = useState(false);
+
+	/* Delete Element when Delete Key is pressed */
+	const isPressed = useKeyPress('Delete');
+	useEffect(() => {
+		if (controlID === ID) {
+			setVisibility(false);
+			setID('');
+		}
+	}, [isPressed]);
 
 	const Masks = [
 		'default',
@@ -779,14 +790,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{contextMenu && controlID === ID && (
 				<Portal>
 					<div
-						className='z-50'
+						className='z-50 absolute'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						onMouseLeave={() => setContextMenu(false)}
 					>
 						<div className='flex flex-col flex-auto gap-2'>
 							{/* Delete Block */}
-							<Tooltip message='Delete Block'>
+							<Tooltip position='right' message='Delete Block'>
 								<Button
 									onClick={() => {
 										setID('');
@@ -798,21 +809,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							</Tooltip>
 
 							{/* Capture Block */}
-							<Tooltip message='Take Capture'>
+							<Tooltip position='right' message='Take Capture'>
 								<Button onClick={handleTakeCapture}>
 									<IconCamera></IconCamera>
-								</Button>
-							</Tooltip>
-
-							{/* Aspect Ratio Block */}
-							<Tooltip message='Lock aspect ratio'>
-								<Button
-									className={`${aspectRatio && 'bg-primary border-primary'}`}
-									onClick={() => {
-										setAspectRatio(!aspectRatio);
-									}}
-								>
-									<IconLock></IconLock>
 								</Button>
 							</Tooltip>
 						</div>

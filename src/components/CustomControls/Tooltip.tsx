@@ -39,7 +39,7 @@ export const Tooltip: React.FC<Props> = ({ children, messsage, className }) => {
 							onTouchEnd={() => setShowTooltip(false)}
 							onMouseEnter={() => setShowTooltip(true)}
 							onMouseLeave={() => setShowTooltip(false)}
-							className='z-40'
+							className='z-50'
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						>

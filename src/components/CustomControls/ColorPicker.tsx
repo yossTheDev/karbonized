@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { Input } from 'react-daisyui';
 import { Portal } from 'react-portal';
+import { useScreenDirection } from '../../hooks/useScreenDirection';
 
 interface Props {
 	type?: 'HexAlpha' | 'Hex';
@@ -19,16 +20,14 @@ export const ColorPicker: React.FC<Props> = ({
 }) => {
 	/* Compomnent Store */
 	const [showColor, setShowColor] = useState(false);
+	const isHorizontal = useScreenDirection();
 	const { x, y, reference, floating, strategy } = useFloating({
-		middleware: [offset(2), flip(), shift()],
-		placement: 'top',
+		middleware: [offset(isHorizontal ? 12 : 2), flip(), shift()],
+		placement: isHorizontal ? 'left' : 'top',
 	});
 	return (
 		<>
 			<div
-				onMouseLeave={() => {
-					setShowColor(false);
-				}}
 				onMouseDown={() => {
 					setShowColor(!showColor);
 				}}
@@ -59,14 +58,13 @@ export const ColorPicker: React.FC<Props> = ({
 			{showColor && (
 				<Portal>
 					<div
-						onTouchEnd={() => setShowColor(false)}
 						onMouseEnter={() => setShowColor(true)}
 						onMouseLeave={() => setShowColor(false)}
 						className='z-40'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 					>
-						<div className='flex flex-auto flex-col w-60 p-4 bg-base-100 shadow-xl rounded-xl'>
+						<div className='flex flex-auto flex-col w-60 p-4 bg-base-100 shadow-2xl rounded-xl'>
 							<p className='dark:text-white font-bold mb-2 text-center md:text-left'>
 								Color Picker
 							</p>

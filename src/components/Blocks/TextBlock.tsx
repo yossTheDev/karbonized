@@ -1,6 +1,5 @@
 import { IconLetterT } from '@tabler/icons';
 import React, { useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
 import { Button, ButtonGroup, Input } from 'react-daisyui';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
