@@ -3,30 +3,76 @@ import {
 	IconBorderStyle,
 	IconCode,
 	IconDots,
-	IconPalette,
-	IconWindow,
 	IconX,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import * as prismThemes from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CloseSvg, MiniminizeSvg } from '../General/Icons';
 import { LanguajeTabIcon } from './LanguajeTabIcon';
 
+interface Style {
+	label: string;
+	theme: {};
+}
+
+const themes: Style[] = [
+	{ label: 'a11yDark', theme: prismThemes.a11yDark },
+	{ label: 'atomDark', theme: prismThemes.atomDark },
+	{
+		label: 'base16AteliersulphurpoolLight',
+		theme: prismThemes.base16AteliersulphurpoolLight,
+	},
+	{ label: 'cb', theme: prismThemes.cb },
+	{ label: 'coldarkCold', theme: prismThemes.coldarkCold },
+	{ label: 'coldarkDark', theme: prismThemes.coldarkDark },
+	{ label: 'coy', theme: prismThemes.coy },
+	{ label: 'darcula', theme: prismThemes.darcula },
+	{ label: 'duotoneDark', theme: prismThemes.duotoneDark },
+	{ label: 'duotoneEarth', theme: prismThemes.duotoneEarth },
+	{ label: 'duotoneForest', theme: prismThemes.duotoneForest },
+	{ label: 'duotoneLight', theme: prismThemes.duotoneLight },
+	{ label: 'duotoneSea', theme: prismThemes.duotoneSea },
+	{ label: 'duotoneSpace', theme: prismThemes.duotoneSpace },
+	{ label: 'funky', theme: prismThemes.funky },
+	{ label: 'ghcolors', theme: prismThemes.ghcolors },
+	{ label: 'gruvboxDark', theme: prismThemes.gruvboxDark },
+	{ label: 'gruvboxLight', theme: prismThemes.gruvboxLight },
+	{ label: 'hopscotch', theme: prismThemes.hopscotch },
+	{ label: 'materialDark', theme: prismThemes.materialDark },
+	{ label: 'materialLight', theme: prismThemes.materialLight },
+	{ label: 'materialOceanic', theme: prismThemes.materialOceanic },
+	{ label: 'nord', theme: prismThemes.nord },
+	{ label: 'okaidia', theme: prismThemes.okaidia },
+	{ label: 'oneDark', theme: prismThemes.oneDark },
+	{ label: 'oneLight', theme: prismThemes.oneLight },
+	{ label: 'pojoaque', theme: prismThemes.pojoaque },
+	{ label: 'prism', theme: prismThemes.prism },
+	{ label: 'shadesOfPurple', theme: prismThemes.shadesOfPurple },
+	{ label: 'solarizedlight', theme: prismThemes.solarizedlight },
+	{ label: 'synthwave84', theme: prismThemes.synthwave84 },
+	{ label: 'tomorrow', theme: prismThemes.tomorrow },
+	{ label: 'twilight', theme: prismThemes.twilight },
+	{ label: 'vs', theme: prismThemes.vs },
+	{ label: 'vscDarkPlus', theme: prismThemes.vscDarkPlus },
+	{ label: 'xonokai', theme: prismThemes.xonokai },
+];
+
 const CodeControl: React.FC = () => {
 	/* Component States */
-	const [languaje, setLanguaje] = useState('tsx');
+	const [theme, setTheme] = useState('coldarkDark');
+	const [languaje, setLanguaje] = useState('jsx');
 	const [code, setCode] = useState(
 		`<pre><code class="language-${languaje}"></code></pre>`
 	);
-	const [color, setColor] = useState('#040711');
+	const [color, setColor] = useState('#111b28');
 	const [controlsColor, setControlsColor] = useState('#565656');
-	const [showTabs, setShowTabs] = useState(false);
-	const [title, setTitle] = useState('Code');
+	const [showTabs, setShowTabs] = useState(true);
+	const [title, setTitle] = useState('Code.jsx');
 	const [showLineNumbers, setShowLineNumbers] = useState(false);
 	const [wrapLines, setWrapLines] = useState(false);
 	const [border, setBorder] = useState(8);
@@ -37,13 +83,32 @@ const CodeControl: React.FC = () => {
 	const [gColor2, setGColor2] = useState('#5895c8');
 	const [gradientDeg, setGradientDeg] = useState(22);
 
+	const handleChangeTheme = (theme: string) => {
+		return themes.find((value) => value.label === theme)?.theme;
+	};
+
+	/* Handle Change Theme Colors */
+	useEffect(() => {
+		const newTheme = themes.find((value) => value.label === theme)?.theme;
+
+		if (
+			(newTheme as any)[':not(pre) > code[class*="language-"]'] !== undefined &&
+			(newTheme as any)[':not(pre) > code[class*="language-"]'].background !==
+				undefined &&
+			(newTheme as any)[':not(pre) > code[class*="language-"]'].background
+		)
+			setColor(
+				(newTheme as any)[':not(pre) > code[class*="language-"]'].background
+			);
+	}, [theme]);
+
 	return (
 		<>
 			<ControlTemplate
 				border={6}
 				borderEditable={false}
 				defaultHeight='140px'
-				defaultWidth='300px'
+				defaultWidth='460px'
 				minHeight='100px'
 				maxWidth='1020px'
 				maxHeight='850px'
@@ -88,12 +153,31 @@ const CodeControl: React.FC = () => {
 							<Select
 								tabIndex={0}
 								value={languaje}
-								onChange={(e) => setLanguaje(e)}
+								onChange={(e) => {
+									setLanguaje(e);
+								}}
 							>
 								{SyntaxHighlighter.supportedLanguages.map((i) => {
 									return (
 										<option key={i} value={i}>
 											{i}
+										</option>
+									);
+								})}
+							</Select>
+
+							<p>Theme</p>
+							<Select
+								tabIndex={0}
+								value={theme.toString()}
+								onChange={(e) => {
+									setTheme(e);
+								}}
+							>
+								{themes.map((i) => {
+									return (
+										<option key={i.label} value={i.label}>
+											{i.label}
 										</option>
 									);
 								})}
@@ -291,7 +375,6 @@ const CodeControl: React.FC = () => {
 							customStyle={{
 								display: 'flex',
 								flex: '1 1 auto',
-								background: 'transparent',
 								textDecorationThickness: '0px',
 								textEmphasisColor: 'darkolivegreen',
 								textShadow: 'none',
@@ -305,7 +388,7 @@ const CodeControl: React.FC = () => {
 							showLineNumbers={showLineNumbers}
 							wrapLines={wrapLines}
 							language={languaje}
-							style={vscDarkPlus}
+							style={handleChangeTheme(theme)}
 						>
 							{code}
 						</SyntaxHighlighter>

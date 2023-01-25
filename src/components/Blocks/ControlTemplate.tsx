@@ -85,7 +85,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 
 	/* Position and Size */
-	const [position, setPosition] = useState({ x: 98, y: 190 });
+	const [position, setPosition] = useState({ x: 33, y: 190 });
 	const [size, setSize] = useState({
 		w: defaultWidth.replace('px', '') as unknown as number,
 		h: defaultHeight.replace('px', '') as unknown as number,
