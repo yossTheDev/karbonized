@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 
 export const useScreenDirection = () => {
 	// Initialize state with undefines Height and Width
-	const [isHorizontal, setIsHorizontal] = useState(false);
+	const [isHorizontal, setIsHorizontal] = useState(
+		window.innerHeight < window.innerWidth ? true : false
+	);
 
 	useEffect(() => {
 		// Handler to call on Window Resize

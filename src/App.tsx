@@ -38,6 +38,7 @@ import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
 import React from 'react';
 import { useWindowsSize } from './hooks/useWindowsSize';
+import { useScreenDirection } from './hooks/useScreenDirection';
 
 const App: React.FC = () => {
 	// App Store
@@ -52,24 +53,31 @@ const App: React.FC = () => {
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 
 	// Component Store and Actions
+
 	const [drag, setDrag] = useState(false);
-	const [zoom, setZoom] = useState(0.9);
 	const [showAbout, setShowAbout] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
 	const refe = useRef<InfiniteViewer>(null);
 
-	const windowSize = useWindowsSize();
+	const isHorizontal = useScreenDirection();
+
+	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
 
 	// Auto Scroll to Center o Init
 	useEffect(() => {
 		refe.current?.scrollCenter();
-
-		if (windowSize.width && windowSize.width > 640)
+		if (isHorizontal) {
 			refe.current?.scrollTo(
-				refe.current.getScrollLeft() - 180,
+				refe.current.getScrollLeft() - 250,
 				refe.current.getScrollTop()
 			);
+		} else {
+			refe.current?.scrollTo(
+				refe.current.getScrollLeft() + 60,
+				refe.current.getScrollTop()
+			);
+		}
 	}, []);
 
 	// Save Image as PNG

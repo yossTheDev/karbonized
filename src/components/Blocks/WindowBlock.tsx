@@ -20,7 +20,7 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 
 export const WindowBlock: React.FC = () => {
 	/* Component States */
-	const [title, setTitle] = useState('lorem');
+	const [title, setTitle] = useState('Karbonized');
 	const [url, setUrl] = useState('karbonized.onrender.com');
 	const [color, setColor] = useState('#ffffff');
 	const [controlsColor, setControlsColor] = useState('#0e111b');

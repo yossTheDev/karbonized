@@ -1,8 +1,11 @@
 import {
+	IconAppWindow,
 	IconBorderStyle,
 	IconCode,
 	IconDots,
 	IconPalette,
+	IconWindow,
+	IconX,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
@@ -11,6 +14,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { CloseSvg, MiniminizeSvg } from '../General/Icons';
+import { LanguajeTabIcon } from './LanguajeTabIcon';
 
 const CodeControl: React.FC = () => {
 	/* Component States */
@@ -18,11 +23,14 @@ const CodeControl: React.FC = () => {
 	const [code, setCode] = useState(
 		`<pre><code class="language-${languaje}"></code></pre>`
 	);
-	const [color, setColor] = useState('#0f172a');
+	const [color, setColor] = useState('#040711');
+	const [controlsColor, setControlsColor] = useState('#565656');
+	const [showTabs, setShowTabs] = useState(false);
 	const [title, setTitle] = useState('Code');
 	const [showLineNumbers, setShowLineNumbers] = useState(false);
 	const [wrapLines, setWrapLines] = useState(false);
-	const [border, setBorder] = useState(4);
+	const [border, setBorder] = useState(8);
+	const [windowStyle, setWindowStyle] = useState('mac');
 
 	const [colorMode, setColorMode] = useState('Single');
 	const [gColor1, setGColor1] = useState('#0da2e7');
@@ -106,15 +114,37 @@ const CodeControl: React.FC = () => {
 							></Textarea>
 						</CustomCollapse>
 
-						{/* Background Color Picker */}
+						{/* Window Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
-									<IconPalette size={22}></IconPalette>
-									<p className='font-bold my-auto'>Colors</p>
+								<div className='flex flex-row m-2 gap-2 '>
+									<IconAppWindow size={22}></IconAppWindow>
+									<p className='font-bold my-auto'>Window</p>
 								</div>
 							}
 						>
+							<p className='text-xs'>Window Style</p>
+							<Select
+								defaultValue={'mac'}
+								tabIndex={0}
+								value={windowStyle}
+								onChange={(e) => setWindowStyle(e)}
+							>
+								<option value={'mac'}>mac</option>
+								<option value={'window'}>window</option>
+							</Select>
+
+							{/* Show Tabs */}
+							<div className='flex flex-row m-2 gap-2'>
+								<p className='my-auto text-xs'>Show Tabs</p>
+								<Checkbox
+									color='primary'
+									onChange={(ev) => setShowTabs(ev.currentTarget.checked)}
+									checked={showTabs}
+								></Checkbox>
+							</div>
+
+							{/* Background */}
 							<ColorPicker
 								label='Window Color'
 								onModeChange={(mode) => setColorMode(mode)}
@@ -129,6 +159,14 @@ const CodeControl: React.FC = () => {
 								colorGradient1={gColor1}
 								colorGradient2={gColor2}
 								onColorChange={setColor}
+							></ColorPicker>
+
+							{/* Controls */}
+							<ColorPicker
+								color={controlsColor}
+								onColorChange={setControlsColor}
+								isGradientEnable={false}
+								label='Controls Color'
 							></ColorPicker>
 						</CustomCollapse>
 
@@ -178,25 +216,81 @@ const CodeControl: React.FC = () => {
 								? color
 								: `linear-gradient(${gradientDeg}deg, ${gColor1},${gColor2})`,
 					}}
-					className='flex flex-auto flex-col p-2 overflow-hidden select-none'
+					className='flex flex-auto flex-col p-2 overflow-hidden select-none '
 				>
 					{/* Title */}
-					<div className='flex flex-auto max-h-8'>
-						<p className='text-gray-600 text-center mb-auto my-auto m-2 hover:border-none flex flex-auto w-20 overflow-hidden'>
-							{title}
-						</p>
+					<div className='flex flex-auto max-h-12 p-1'>
+						<div className='flex flex-auto flex-row w-1/3 my-auto'>
+							{windowStyle === 'window' ? (
+								<>
+									{!showTabs && (
+										<p
+											style={{ color: controlsColor }}
+											className='text-center mb-auto my-auto hover:border-none flex flex-auto w-20 overflow-hidden'
+										>
+											{title}
+										</p>
+									)}
+								</>
+							) : (
+								<div className='my-auto flex  flex-row gap-1 mr-2'>
+									<div className='p-1 w-4  h-4 rounded-full bg-red-500 my-auto'></div>
+									<div className='p-1 w-4  h-4 rounded-full bg-yellow-300 my-auto'></div>
+									<div className='p-1 w-4  h-4 rounded-full  bg-green-500 my-auto'></div>
+								</div>
+							)}
 
-						<div className='ml-auto my-auto flex flex-row'>
-							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
-							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
-							<div className='bg-gray-800 p-1 w-4  h-4 rounded-full m-1'></div>
+							{/* Tabs */}
+							{showTabs && (
+								<div className='bg-slate-500/5 p-1 rounded-box flex  flex-row gap-2 text-gray-400 max-h-10 h-10 w-40 overflow-hidden mr-auto'>
+									<div className='my-auto flex flex-auto  flex-row gap-1'>
+										<div className='text-xs mr-auto'></div>
+										<LanguajeTabIcon languaje={languaje}></LanguajeTabIcon>
+
+										<p className=''>{title}</p>
+										<IconX className='mx-auto my-auto mr-2' size={15}></IconX>
+									</div>
+								</div>
+							)}
+						</div>
+
+						{!showTabs && (
+							<>
+								<div className='flex flex-auto flex-row w-1/3 my-auto '>
+									{windowStyle === 'mac' && !showTabs && (
+										<p
+											style={{ color: controlsColor }}
+											className='text-center mx-auto my-auto'
+										>
+											{title}
+										</p>
+									)}
+								</div>
+							</>
+						)}
+
+						<div className='flex flex-auto flex-row w-1/3 my-auto'>
+							{windowStyle === 'window' && (
+								<div className='flex flex-row flex-auto w-1/3 my-auto'>
+									<MiniminizeSvg
+										style={{ fill: controlsColor }}
+										className='h-4 w-4 ml-auto my-auto'
+									></MiniminizeSvg>
+									<CloseSvg
+										style={{ fill: controlsColor }}
+										className='h-4 w-4  ml-2 my-auto'
+									></CloseSvg>
+								</div>
+							)}
 						</div>
 					</div>
 
 					{/* Code */}
-					<div className='flex flex-auto'>
+					<div className='flex flex-auto '>
 						<SyntaxHighlighter
 							customStyle={{
+								display: 'flex',
+								flex: '1 1 auto',
 								background: 'transparent',
 								textDecorationThickness: '0px',
 								textEmphasisColor: 'darkolivegreen',
@@ -204,6 +298,7 @@ const CodeControl: React.FC = () => {
 								boxShadow: 'none',
 								color: '#f25555',
 								whiteSpace: 'pre-wrap',
+								borderRadius: '0.25rem',
 								overflow: 'hidden',
 							}}
 							wrapLongLines
