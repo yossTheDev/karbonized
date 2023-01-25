@@ -61,17 +61,13 @@ export const ColorPicker: React.FC<Props> = ({
 					</p>
 
 					{mode === 'Single' ? (
-						<div className='flex flex-row ml-auto mr-2'>
+						<div className='flex flex-row ml-auto mr-2 gap-2'>
+							<p className='my-auto'>{color}</p>
+
 							<div
 								className='p-4 rounded my-auto border-2 border-base-100'
 								style={{ backgroundColor: color }}
 							></div>
-							<Input
-								spellCheck={false}
-								onInput={(ev) => onColorChange(ev.currentTarget.value)}
-								className='flex flex-auto w-24 my-auto ml-2'
-								value={color}
-							></Input>
 						</div>
 					) : (
 						<div className='flex flex-row ml-auto mr-2'>
@@ -89,7 +85,7 @@ export const ColorPicker: React.FC<Props> = ({
 				</div>
 			</div>
 
-			{/* Tooltip */}
+			{/* Menu */}
 			{showColor && (
 				<Portal>
 					<div
@@ -106,25 +102,30 @@ export const ColorPicker: React.FC<Props> = ({
 
 						{/* Tabs */}
 						{isGradientEnable && (
-							<div className='flex flex-auto flex-row gap-2'>
-								<Button
-									className='flex flex-auto'
+							<div className='flex flex-auto flex-row gap-2 select-none dark:text-gray-400 text-black'>
+								<div
 									onClick={() => {
 										mode = 'Single';
 										onModeChange && onModeChange('Single');
 									}}
+									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl ${
+										mode === 'Single' && 'border-primary border-2'
+									}`}
 								>
-									<IconColorPicker></IconColorPicker>
-								</Button>
-								<Button
-									className='flex flex-auto'
+									<p className='mx-auto my-auto'>Single</p>
+								</div>
+
+								<div
 									onClick={() => {
 										mode = 'Gradient';
 										onModeChange && onModeChange('Gradient');
 									}}
+									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl  ${
+										mode === 'Gradient' && 'border-primary border-2'
+									}`}
 								>
-									<IconColorSwatch></IconColorSwatch>
-								</Button>
+									<p className='mx-auto my-auto'>Gradient</p>
+								</div>
 							</div>
 						)}
 
@@ -148,6 +149,18 @@ export const ColorPicker: React.FC<Props> = ({
 										className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
 									></HexAlphaColorPicker>
 								)}
+								<div className='flex flex-auto flex-row dark:text-gray-400 text-black'>
+									<div
+										className='p-4 rounded my-auto border-2 border-base-100'
+										style={{ backgroundColor: color }}
+									></div>
+									<Input
+										spellCheck={false}
+										onInput={(ev) => onColorChange(ev.currentTarget.value)}
+										className='flex flex-auto w-24 my-auto ml-2'
+										value={color}
+									></Input>
+								</div>
 							</>
 						)}
 
@@ -175,7 +188,7 @@ export const ColorPicker: React.FC<Props> = ({
 								)}
 
 								{/* Preview Colors */}
-								<div className=' flex flex-auto flex-row gap-2 mt-2'>
+								<div className=' flex flex-auto flex-row gap-2 mt-2 dark:text-gray-400 text-black'>
 									<div
 										className={`flex flex-auto p-4 rounded-xl border-2 border-base-200 h-4 ${
 											gradientMode === 'Color1' && 'border-gray-400'
@@ -208,7 +221,7 @@ export const ColorPicker: React.FC<Props> = ({
 										value={gradientDeg}
 										className='my-auto'
 									></Range>
-									<p className='my-auto text-gray-400'>deg</p>
+									<p className='my-auto  ml-2'>deg</p>
 								</div>
 							</>
 						)}

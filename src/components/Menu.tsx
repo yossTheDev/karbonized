@@ -12,6 +12,7 @@ export const Menu: React.FC = () => {
 		'control'
 	);
 	const [isEmpty, setIsEmpty] = useState(true);
+	const [showMenu, setShowMenu] = useState(true);
 
 	// App Store
 	const controls = useStoreState((state) => state.ControlsTree);
@@ -37,7 +38,7 @@ export const Menu: React.FC = () => {
 	return (
 		<div className='flex flex-auto flex-row overflow-y-auto overflow-x-hidden'>
 			{/* Selectors */}
-			<div className='flex grow shrink-0 flex-col overflow-y-auto'>
+			<div className='flex grow shrink-0 flex-col overflow-y-auto '>
 				{/* Seletors */}
 				<div className='flex flex-auto flex-col'>
 					<TabSelector
@@ -46,6 +47,7 @@ export const Menu: React.FC = () => {
 							setSelectedTab('control');
 							setWorkspaceTab('control');
 						}}
+						onDoubleClick={() => setShowMenu(!showMenu)}
 					>
 						<div className='mx-auto'>
 							<IconShape className='mx-auto' size={18}></IconShape>
@@ -72,34 +74,42 @@ export const Menu: React.FC = () => {
 
 			{/* Tab Panels */}
 			<div className='flex flex-auto w-full flex-col ml-2 overflow-y-auto overflow-x-hidden'>
-				{/* Workspace */}
-				<TabPanel
-					hidden={selectedTab !== 'workspace'}
-					className={`${
-						selectedTab === 'workspace' &&
-						'flex flex-auto dark:text-gray-400 text-black'
-					}`}
-					id='workspace'
-				>
-					<WorkspacePanel></WorkspacePanel>
-				</TabPanel>
+				{showMenu && (
+					<>
+						{/* Workspace */}
+						<TabPanel
+							hidden={selectedTab !== 'workspace'}
+							className={`${
+								selectedTab === 'workspace' &&
+								'flex flex-auto dark:text-gray-400 text-black'
+							}`}
+							id='workspace'
+						>
+							<WorkspacePanel></WorkspacePanel>
+						</TabPanel>
 
-				{/* Controls */}
-				<TabPanel
-					className={`${
-						selectedTab === 'control' &&
-						'flex flex-auto flex-col dark:text-gray-400 text-black'
-					}`}
-					hidden={selectedTab !== 'control'}
-				>
-					<div id='menu' ref={reference} className='flex flex-auto flex-col'>
-						{isEmpty && (
-							<p className='mx-auto my-auto text-center text-xs text-gray-700'>
-								Select a control to start editing it
-							</p>
-						)}
-					</div>
-				</TabPanel>
+						{/* Controls */}
+						<TabPanel
+							className={`${
+								selectedTab === 'control' &&
+								'flex flex-auto flex-col dark:text-gray-400 text-black'
+							}`}
+							hidden={selectedTab !== 'control'}
+						>
+							<div
+								id='menu'
+								ref={reference}
+								className='flex flex-auto flex-col'
+							>
+								{isEmpty && (
+									<p className='mx-auto my-auto text-center text-xs text-gray-700'>
+										Select a control to start editing it
+									</p>
+								)}
+							</div>
+						</TabPanel>
+					</>
+				)}
 			</div>
 		</div>
 	);

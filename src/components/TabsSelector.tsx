@@ -4,12 +4,14 @@ interface Props {
 	isActive: boolean;
 	children: ReactNode;
 	onClick: () => void;
+	onDoubleClick?: () => void;
 }
 
 export const TabSelector: React.FC<Props> = ({
 	isActive,
 	children,
 	onClick,
+	onDoubleClick,
 }) => {
 	return (
 		<button
@@ -20,6 +22,7 @@ export const TabSelector: React.FC<Props> = ({
 					: ' text-gray-500 text-xs select-none max-h-12 md:max-h-full rounded flex flex-auto  w-11'
 			}
 			onClick={onClick}
+			onDoubleClick={onDoubleClick && onDoubleClick}
 		>
 			<div className='mx-auto my-auto w-11'>{children}</div>
 		</button>

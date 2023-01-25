@@ -281,7 +281,9 @@ const App: React.FC = () => {
 
 					<Tooltip messsage='Lock Aspect Ratio'>
 						<Button
-							className={`ml-2 ${aspectRatio && 'bg-primary border-primary'}`}
+							className={`ml-2 ${
+								aspectRatio && 'bg-primary border-primary text-white'
+							}`}
 							onClick={() => {
 								setAspectRatio(!aspectRatio);
 							}}
