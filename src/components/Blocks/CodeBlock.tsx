@@ -83,6 +83,7 @@ const CodeControl: React.FC = () => {
 	const [gColor2, setGColor2] = useState('#5895c8');
 	const [gradientDeg, setGradientDeg] = useState(22);
 
+	/* Handle Chage Theme */
 	const handleChangeTheme = (theme: string) => {
 		return themes.find((value) => value.label === theme)?.theme;
 	};
@@ -110,8 +111,8 @@ const CodeControl: React.FC = () => {
 				defaultHeight='140px'
 				defaultWidth='460px'
 				minHeight='100px'
-				maxWidth='1020px'
-				maxHeight='850px'
+				maxWidth='2050px'
+				maxHeight='2050px'
 				menu={
 					<>
 						{/* Border  */}

@@ -159,7 +159,7 @@ export const WindowBlock: React.FC = () => {
 												></IconBrandChrome>
 												<div className='p-2 bg-slate-500/10  rounded flex flex-row gap-1'>
 													<IconFile size={15}></IconFile>
-													<p className='text-xs my-auto'>New Page</p>
+													<p className='text-xs my-auto'>{title}</p>
 												</div>
 											</div>
 										)}
@@ -173,7 +173,7 @@ export const WindowBlock: React.FC = () => {
 											<div className='p-1 w-4  h-4 rounded-full bg-yellow-300 my-auto'></div>
 											<div className='p-1 w-4  h-4 rounded-full  bg-green-500 my-auto'></div>
 
-											{/* Back Next Buttons Mac*/}
+											{/* Browser Buttons Mac*/}
 											{windowType === 'browser' && (
 												<div className='flex  flex-row my-auto gap-1 ml-2'>
 													<div className='bg-slate-500/20 p-1 rounded'>
@@ -218,7 +218,7 @@ export const WindowBlock: React.FC = () => {
 							{windowStyle === 'mac' ? (
 								<div className='flex flex-row flex-auto w-1/3'></div>
 							) : (
-								<div className='flex flex-row flex-auto w-1/3 my-auto'>
+								<div className='flex flex-row flex-auto w-1/3 my-auto mr-2'>
 									<MiniminizeSvg
 										style={{ fill: controlsColor }}
 										className='h-4 w-4 ml-auto'

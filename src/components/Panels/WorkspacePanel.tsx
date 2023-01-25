@@ -64,7 +64,7 @@ export const WorkspacePanel: React.FC = () => {
 
 	return (
 		<>
-			<div className='flex flex-auto flex-col p-2 text-xs'>
+			<div className='flex flex-auto flex-col p-2 text-xs select-none'>
 				{/* Workspace Name */}
 				<>
 					<div className='flex flex-row m-2 gap-2'>

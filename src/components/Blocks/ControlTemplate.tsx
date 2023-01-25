@@ -209,8 +209,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					}}
 					initial={{ opacity: 0.9 }}
 					animate={{ opacity: 1 }}
-					exit={{ scale: 0, opacity: 0 }}
-					transition={{ duration: 0.2 }}
+					exit={{ opacity: 0 }}
+					transition={{ duration: 0.1 }}
 				>
 					<div
 						className='flex flex-auto'

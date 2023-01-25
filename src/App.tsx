@@ -511,9 +511,9 @@ const App: React.FC = () => {
 							rangeY={[-2048, 2048]}
 							useWheelScroll
 							onScroll={(e) => {
-								console.log(
+								/*console.log(
 									'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
-								);
+								);*/
 							}}
 						>
 							<div className='viewport'>
