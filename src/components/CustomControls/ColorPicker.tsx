@@ -53,10 +53,10 @@ export const ColorPicker: React.FC<Props> = ({
 					setShowColor(!showColor);
 				}}
 				ref={reference}
-				className='flex flex-col flex-auto'
+				className='flex flex-col flex-auto select-none'
 			>
-				<div className='flex flex-auto flex-row py-2 rounded hover:bg-base-100'>
-					<p className='my-auto ml-2 select-none mr-2 text-xs text-left'>
+				<div className='flex flex-auto flex-row py-2 rounded hover:bg-base-100 select-none'>
+					<p className='my-auto ml-2 select-none mr-2 text-xs text-left '>
 						{label}
 					</p>
 
@@ -93,7 +93,7 @@ export const ColorPicker: React.FC<Props> = ({
 						onMouseLeave={() => setShowColor(false)}
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-						className='flex flex-auto flex-col w-60 p-4 bg-base-100 shadow-2xl rounded-xl z-40 gap-2'
+						className='flex flex-auto flex-col w-60 p-4 bg-base-100 shadow-2xl rounded-xl z-40 gap-2 select-none'
 					>
 						{/* Header */}
 						<p className='dark:text-white font-bold mb-2 text-center md:text-left'>
@@ -108,7 +108,7 @@ export const ColorPicker: React.FC<Props> = ({
 										mode = 'Single';
 										onModeChange && onModeChange('Single');
 									}}
-									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl ${
+									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer ${
 										mode === 'Single' && 'border-primary border-2'
 									}`}
 								>
@@ -120,7 +120,7 @@ export const ColorPicker: React.FC<Props> = ({
 										mode = 'Gradient';
 										onModeChange && onModeChange('Gradient');
 									}}
-									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl  ${
+									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer  ${
 										mode === 'Gradient' && 'border-primary border-2'
 									}`}
 								>
