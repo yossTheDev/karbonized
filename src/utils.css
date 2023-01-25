@@ -15,3 +15,7 @@
 ::-webkit-scrollbar-track {
 	background-color: rgba(0, 0, 0, 0);
 }
+
+img {
+	pointer-events: none;
+}

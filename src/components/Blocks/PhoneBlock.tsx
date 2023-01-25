@@ -4,7 +4,7 @@ import {
 	IconPhoto,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { FileInput, Range, PhoneMockup } from 'react-daisyui';
+import { FileInput, Range } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';

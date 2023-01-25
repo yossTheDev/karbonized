@@ -11,6 +11,7 @@ import Moveable, {
 	OnDragGroup,
 	OnResizeGroup,
 	OnRotateGroup,
+	OnSnap,
 } from 'react-moveable';
 
 interface Props {
