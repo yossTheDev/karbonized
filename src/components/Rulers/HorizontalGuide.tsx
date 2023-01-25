@@ -1,5 +1,5 @@
 import Guides from '@scena/react-guides';
-import { IconRuler } from '@tabler/icons';
+import { IconRuler } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 export const HorizontalGuide: React.FC = () => {

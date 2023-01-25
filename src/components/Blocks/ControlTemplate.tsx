@@ -27,6 +27,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ControlProps {
 	color?: string;
@@ -181,10 +182,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	}, [ref]);
 
 	return (
-		<>
+		<AnimatePresence>
 			{visibility && (
-				<div
+				<motion.div
 					id={ID}
+					key={ID}
 					onMouseEnter={() => setContextMenu(false)}
 					onContextMenu={(e) => {
 						setContextMenu(!contextMenu);
@@ -205,6 +207,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						left: position.x,
 						top: position.y,
 					}}
+					initial={{ opacity: 0.9 }}
+					animate={{ opacity: 1 }}
+					exit={{ scale: 0, opacity: 0 }}
+					transition={{ duration: 0.2 }}
 				>
 					<div
 						className='flex flex-auto'
@@ -255,7 +261,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							{children}
 						</div>
 					</div>
-				</div>
+				</motion.div>
 			)}
 
 			{/* Menu */}
@@ -814,6 +820,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					</div>
 				</Portal>
 			)}
-		</>
+		</AnimatePresence>
 	);
 };
