@@ -1,4 +1,4 @@
-import { IconPalette, IconQrcode } from '@tabler/icons';
+import { IconPalette, IconQrcode } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Input } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';

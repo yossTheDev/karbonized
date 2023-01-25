@@ -1,4 +1,4 @@
-import { IconLetterT } from '@tabler/icons';
+import { IconLetterT } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Input } from 'react-daisyui';
 import { ColorPicker } from '../CustomControls/ColorPicker';

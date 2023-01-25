@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
-import { Modal } from 'react-daisyui';
 import { useStoreState } from '../stores/Hooks';
-import yoss from '../assets/yoss.png';
 import {
 	IconBrandGithub,
-	IconBrandTelegram,
-	IconBrandTwitter,
-	IconCoinBitcoin,
-	IconCurrencyDogecoin,
 	IconHeart,
 	IconSquareRotated,
-} from '@tabler/icons';
-import { Clipboard } from '@capacitor/clipboard';
-import qvapay from '../assets/qvapay.svg';
+} from '@tabler/icons-react';
 import { AboutModal } from './Modals/AboutModal';
 
 export const StatusBar: React.FC = () => {

@@ -3,7 +3,7 @@ import {
 	IconCode,
 	IconDots,
 	IconPalette,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';

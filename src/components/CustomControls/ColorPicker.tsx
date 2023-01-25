@@ -1,5 +1,5 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
-import { IconColorPicker, IconColorSwatch } from '@tabler/icons';
+import { IconColorPicker, IconColorSwatch } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { Button, Input, Range } from 'react-daisyui';

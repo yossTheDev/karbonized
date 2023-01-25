@@ -1,4 +1,4 @@
-import { IconHexagon } from '@tabler/icons';
+import { IconHexagon } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';

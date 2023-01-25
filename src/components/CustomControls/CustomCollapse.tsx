@@ -1,4 +1,4 @@
-import { IconChevronDown, IconChevronUp } from '@tabler/icons';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Collapse, Swap } from 'react-daisyui';
 

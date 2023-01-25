@@ -1,4 +1,4 @@
-import { IconCaretDown, IconCaretUp } from '@tabler/icons';
+import { IconCaretDown, IconCaretUp } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Input } from 'react-daisyui';
 
@@ -19,7 +19,7 @@ export const NumberInput: React.FC<Props> = ({
 				onChange={(e) => {
 					onChange(parseInt(e.currentTarget.value));
 				}}
-				value={number}
+				value={number ? number : 0}
 			></Input>
 
 			<div className='flex flex-auto flex-col ml-2'>

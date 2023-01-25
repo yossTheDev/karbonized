@@ -23,7 +23,7 @@ import {
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import { useStoreActions, useStoreState } from './stores/Hooks';
 import { Workspace } from './components/Workspace';
 import { Menu as ControlsMenu } from './components/Menu';

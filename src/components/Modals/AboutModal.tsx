@@ -5,7 +5,7 @@ import {
 	IconBrandTwitter,
 	IconCoinBitcoin,
 	IconCurrencyDogecoin,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import React from 'react';
 import { Button, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';

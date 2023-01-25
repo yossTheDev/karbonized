@@ -1,5 +1,4 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
-import { Icon24Hours } from '@tabler/icons';
 import React, { ReactNode, useState } from 'react';
 import { Portal } from 'react-portal';
 

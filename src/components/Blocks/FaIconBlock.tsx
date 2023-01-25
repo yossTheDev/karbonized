@@ -5,7 +5,7 @@ import { FaIcon } from '../FaIcon';
 import { IconType } from '../../utils/FaIconList';
 import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
-import { IconSearch, IconSticker } from '@tabler/icons';
+import { IconSearch, IconSticker } from '@tabler/icons-react';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 

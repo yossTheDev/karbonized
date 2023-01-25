@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IconShape, IconSquare } from '@tabler/icons';
+import { IconShape, IconSquare } from '@tabler/icons-react';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { WorkspacePanel } from './Panels/WorkspacePanel';

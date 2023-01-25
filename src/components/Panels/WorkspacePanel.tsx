@@ -3,7 +3,7 @@ import {
 	IconPalette,
 	IconTag,
 	IconTrash,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import React from 'react';
 import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';

@@ -1,4 +1,4 @@
-import { IconLetterT, IconPhoto } from '@tabler/icons';
+import { IconLetterT, IconPhoto } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { FileInput } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';

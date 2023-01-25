@@ -1,4 +1,4 @@
-import { IconAppWindow } from '@tabler/icons';
+import { IconAppWindow } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';

@@ -1,4 +1,8 @@
-import { IconBorderStyle, IconDeviceMobile, IconPhoto } from '@tabler/icons';
+import {
+	IconBorderStyle,
+	IconDeviceMobile,
+	IconPhoto,
+} from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { FileInput, Range, PhoneMockup } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';

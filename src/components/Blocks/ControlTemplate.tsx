@@ -10,7 +10,7 @@ import {
 	IconReload,
 	IconShadow,
 	IconTrash,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import { toPng } from 'html-to-image';
 import React, {
 	ReactNode,
