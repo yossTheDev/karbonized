@@ -70,7 +70,7 @@ const CodeControl: React.FC = () => {
 		`<pre><code class="language-${languaje}"></code></pre>`
 	);
 	const [color, setColor] = useState('#111b28');
-	const [controlsColor, setControlsColor] = useState('#565656');
+	const [controlsColor, setControlsColor] = useState('#b4b4b4');
 	const [showTabs, setShowTabs] = useState(true);
 	const [title, setTitle] = useState('Code.jsx');
 	const [showLineNumbers, setShowLineNumbers] = useState(false);
@@ -327,13 +327,22 @@ const CodeControl: React.FC = () => {
 
 							{/* Tabs */}
 							{showTabs && (
-								<div className='bg-slate-500/5 p-1 rounded-box flex  flex-row gap-2 text-gray-400 max-h-10 h-10 w-40 overflow-hidden mr-auto'>
-									<div className='my-auto flex flex-auto  flex-row gap-1'>
+								<div className='bg-slate-500/5 p-1 rounded-box flex  flex-row gap-2 max-h-10 h-10 w-40 overflow-hidden mr-auto'>
+									<div
+										style={{ color: controlsColor }}
+										className='my-auto flex flex-auto  flex-row gap-1'
+									>
 										<div className='text-xs mr-auto'></div>
 										<LanguajeTabIcon languaje={languaje}></LanguajeTabIcon>
 
-										<p className=''>{title}</p>
-										<IconX className='mx-auto my-auto mr-2' size={15}></IconX>
+										<p style={{ color: controlsColor }} className=''>
+											{title}
+										</p>
+										<IconX
+											style={{ color: controlsColor }}
+											className='mx-auto my-auto mr-2'
+											size={15}
+										></IconX>
 									</div>
 								</div>
 							)}
@@ -384,7 +393,10 @@ const CodeControl: React.FC = () => {
 								whiteSpace: 'pre-wrap',
 								borderRadius: '0.25rem',
 								overflow: 'hidden',
-								background: color,
+								background:
+									colorMode === 'Single'
+										? color
+										: `linear-gradient(${gradientDeg}deg, ${gColor1},${gColor2})`,
 							}}
 							wrapLongLines
 							showLineNumbers={showLineNumbers}
