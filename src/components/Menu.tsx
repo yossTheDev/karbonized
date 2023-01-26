@@ -23,15 +23,6 @@ export const Menu: React.FC = () => {
 	const reference = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (reference.current?.childNodes)
-			if (reference.current?.childNodes.length > 1) {
-				setIsEmpty(false);
-			} else {
-				setIsEmpty(true);
-			}
-	}, [controls, isEmpty, currentID]);
-
-	useEffect(() => {
 		setSelectedTab(workspaceTab);
 	}, [workspaceTab]);
 
@@ -94,7 +85,7 @@ export const Menu: React.FC = () => {
 					hidden={selectedTab !== 'control'}
 				>
 					<div id='menu' ref={reference} className='flex flex-auto flex-col'>
-						{isEmpty && (
+						{currentID === '' && (
 							<p className='mx-auto my-auto text-center text-xs text-gray-700'>
 								Select a control to start editing it
 							</p>

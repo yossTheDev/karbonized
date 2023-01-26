@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { ShapeBlock } from './ArrowBlock';
 import { AvatarBlock } from './AvatarBlock';
 import { BlockLoader } from './BlockLoader';
-//import FaIconBlock from './FaIconBlock';
 import { ImageBlock } from './ImageBlock';
 import { PhoneBlock } from './PhoneBlock';
 import { QrControl } from './QrBlock';
