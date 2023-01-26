@@ -1,8 +1,7 @@
 import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
-import { IconColorPicker, IconColorSwatch } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
-import { Button, Input, Range } from 'react-daisyui';
+import { Input, Range } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 
