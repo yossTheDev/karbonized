@@ -48,49 +48,49 @@ export const ShapeBlock: React.FC = () => {
 									onClick={() => setShape('arrow')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
-									<ArrowSvg className='flex flex-auto h-full w-full fill-white'></ArrowSvg>
+									<ArrowSvg className='flex flex-auto h-full w-full dark:fill-white'></ArrowSvg>
 								</div>
 
 								<div
 									onClick={() => setShape('oval')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
-									<OvalSvg className='flex flex-auto h-full w-full fill-white'></OvalSvg>
+									<OvalSvg className='flex flex-auto h-full w-full dark:fill-white'></OvalSvg>
 								</div>
 
 								<div
 									onClick={() => setShape('star')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
-									<StarSvg className='flex flex-auto h-full w-full fill-white'></StarSvg>
+									<StarSvg className='flex flex-auto h-full w-full dark:fill-white'></StarSvg>
 								</div>
 
 								<div
 									onClick={() => setShape('poligon')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
-									<PoligonSvg className='flex flex-auto h-full w-full fill-white'></PoligonSvg>
+									<PoligonSvg className='flex flex-auto h-full w-full dark:fill-white'></PoligonSvg>
 								</div>
 
 								<div
 									onClick={() => setShape('triangle')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
-									<Trianglevg className='flex flex-auto h-full w-full fill-white'></Trianglevg>
+									<Trianglevg className='flex flex-auto h-full w-full dark:fill-white'></Trianglevg>
 								</div>
 
 								<div
 									onClick={() => setShape('rectangle')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
-									<RectangleSvg className='flex flex-auto h-full w-full fill-white'></RectangleSvg>
+									<RectangleSvg className='flex flex-auto h-full w-full dark:fill-white'></RectangleSvg>
 								</div>
 
 								<div
 									onClick={() => setShape('line')}
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto'
 								>
-									<LineSvg className='flex flex-auto h-full w-full stroke-white'></LineSvg>
+									<LineSvg className='flex flex-auto h-full w-full stroke-black dark:stroke-white'></LineSvg>
 								</div>
 							</div>
 

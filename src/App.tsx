@@ -244,7 +244,7 @@ const App: React.FC = () => {
 								</p>
 							</div>
 
-							<Dropdown.Menu className='w-52 text-gray-400'>
+							<Dropdown.Menu className='w-52 dark:text-gray-400'>
 								<Dropdown.Item onMouseDown={exportAsPng}>
 									<IconPng></IconPng>
 									<p>Export as PNG</p>

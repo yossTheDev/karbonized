@@ -874,12 +874,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{contextMenu && controlID === ID && (
 				<Portal node={document.getElementById('body')}>
 					<div
-						className='z-50 absolute'
+						className=''
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						onMouseLeave={() => setContextMenu(false)}
 					>
-						<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl text-gray-400'>
+						<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl dark:text-gray-400'>
 							<div className='flex flex-auto flex-row gap-2'>
 								<IconEye className='my-auto ml-2' size={22}></IconEye>
 								<Range
@@ -897,13 +897,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							{/* Capture Block */}
 							<Dropdown vertical='middle' horizontal='right' hover>
 								<div className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'>
-									<div className='flex flex-auto flex-row text-gray-400 my-auto gap-2'>
+									<div className='flex flex-auto flex-row my-auto gap-2'>
 										<IconCamera className='my-auto' size={22}></IconCamera>
 										<p className='my-auto'>Save Component</p>
 									</div>
 								</div>
 
-								<Dropdown.Menu className='w-52 text-gray-400 absolute'>
+								<Dropdown.Menu className='w-52  absolute'>
 									<Dropdown.Item onMouseDown={exportAsPng}>
 										<IconPng></IconPng>
 										<p>Export as PNG</p>
@@ -927,7 +927,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								}}
 								className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
 							>
-								<div className='flex flex-auto flex-row text-gray-400 my-auto gap-2'>
+								<div className='flex flex-auto flex-row my-auto gap-2'>
 									<IconTrash className='my-auto' size={22}></IconTrash>
 									<p className='my-auto'>Delete Component</p>
 								</div>
