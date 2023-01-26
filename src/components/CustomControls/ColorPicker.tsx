@@ -323,7 +323,7 @@ export const ColorPicker: React.FC<Props> = ({
 										value={gradientDeg}
 										className='my-auto'
 									></Range>
-									<p className='my-auto  ml-2'>deg</p>
+									<p className='my-auto  ml-2 text-gray-400'>deg</p>
 								</div>
 							</>
 						)}
