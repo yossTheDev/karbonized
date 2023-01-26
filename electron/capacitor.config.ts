@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-	appId: 'com.yossthedev.mathster',
-	appName: 'Mathster',
+	appId: 'com.yossthedev.karbonized',
+	appName: 'Karbonized',
 	webDir: 'dist',
 	bundledWebRuntime: false,
 };

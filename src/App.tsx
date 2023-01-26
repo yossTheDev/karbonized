@@ -37,7 +37,6 @@ import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
 import React from 'react';
-import { useWindowsSize } from './hooks/useWindowsSize';
 import { useScreenDirection } from './hooks/useScreenDirection';
 
 const App: React.FC = () => {
@@ -69,7 +68,7 @@ const App: React.FC = () => {
 		refe.current?.scrollCenter();
 		if (isHorizontal) {
 			refe.current?.scrollTo(
-				refe.current.getScrollLeft() - 250,
+				refe.current.getScrollLeft() - 180,
 				refe.current.getScrollTop()
 			);
 		} else {
