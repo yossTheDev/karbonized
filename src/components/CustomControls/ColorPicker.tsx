@@ -149,6 +149,50 @@ export const ColorPicker: React.FC<Props> = ({
 										className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
 									></HexAlphaColorPicker>
 								)}
+								{/* Predefined colors */}
+								<div className='flex flex-auto flex-row gap-x-0.5'>
+									<div
+										style={{ background: '#dc4040' }}
+										onClick={() => onColorChange('#dc4040')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100 cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: '#db8f40' }}
+										onClick={() => onColorChange('#db8f40')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: '#6ebb45' }}
+										onClick={() => onColorChange('#6ebb45')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: '#45ba97' }}
+										onClick={() => onColorChange('#45ba97')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: '#4582ba' }}
+										onClick={() => onColorChange('#4582ba')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: '#5545ba' }}
+										onClick={() => onColorChange('#5545ba')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+									<div
+										style={{ background: '#cc63b5' }}
+										onClick={() => onColorChange('#cc63b5')}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+								</div>
+								{/* Input */}
 								<div className='flex flex-auto flex-row dark:text-gray-400 text-black'>
 									<div
 										className='p-4 rounded my-auto border-2 border-base-100'
@@ -186,6 +230,65 @@ export const ColorPicker: React.FC<Props> = ({
 										}}
 									></HexAlphaColorPicker>
 								)}
+
+								{/* Predefined Gradients */}
+								<div className='flex flex-auto flex-row gap-0.5'>
+									<div
+										style={{ background: 'linear-gradient(#bf86da,#144ab4)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#bf86da', '#144ab4')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: 'linear-gradient(#9796F0,#FBC7D4)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#9796F0', '#FBC7D4')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: 'linear-gradient(#06BEB6,#48B1BF)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#06BEB6', '#48B1BF')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: 'linear-gradient(#00B4DB,#0083B0)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#00B4DB', '#0083B0')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: 'linear-gradient(#FF9A9E,#FECFEF)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#FF9A9E', '#FECFEF')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: 'linear-gradient(#5adb00,#0083b0)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#5adb00', '#0083b0')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+
+									<div
+										style={{ background: 'linear-gradient(#ed7b6b,#b07f00)' }}
+										onClick={() =>
+											onGradientChange && onGradientChange('#ed7b6b', '#b07f00')
+										}
+										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+									></div>
+								</div>
 
 								{/* Preview Colors */}
 								<div className=' flex flex-auto flex-row gap-2 mt-2 dark:text-gray-400 text-black'>
