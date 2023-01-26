@@ -233,7 +233,7 @@ export const WindowBlock: React.FC = () => {
 					</div>
 
 					{windowStyle === 'window' && windowType === 'browser' && (
-						<div className='flex flex-auto flex-row gap-2'>
+						<div className='flex flex-auto flex-row gap-2 max-h-10'>
 							{/* Browser Controls */}
 							<div
 								className='flex  gap-1 ml-2 my-auto p-1'
