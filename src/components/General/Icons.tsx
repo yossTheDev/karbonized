@@ -25,6 +25,134 @@ export const ArrowSvg: React.FC<Props> = ({ className, style }) => {
 	);
 };
 
+export const StarSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='512px'
+			height='512px'
+			viewBox='0 0 512 512'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<path
+				d='M256 0L331.236 152.446L499.47 176.891L377.735 295.554L406.473 463.108L256 384L105.528 463.109L134.265 295.555L12.5292 176.893L180.763 152.446L256 0Z'
+				id='Star'
+				fill-rule='evenodd'
+				stroke='none'
+			/>
+		</svg>
+	);
+};
+
+export const PoligonSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='512px'
+			height='512px'
+			viewBox='0 0 512 512'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<path
+				d='M256 0L499.47 176.891L406.473 463.108L105.528 463.109L12.5292 176.893L256 0Z'
+				id='Polygon'
+				fill-rule='evenodd'
+				stroke='none'
+			/>
+		</svg>
+	);
+};
+
+export const Trianglevg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='512px'
+			height='512px'
+			viewBox='0 0 512 512'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<path
+				d='M256 0L512 512L0 512L256 0Z'
+				id='Triangle'
+				fill-rule='evenodd'
+				stroke='none'
+			/>
+		</svg>
+	);
+};
+
+export const LineSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='15px'
+			height='512px'
+			viewBox='0 0 15 512'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<path
+				d='M7.5 0L7.5 512'
+				id='Line'
+				fill='none'
+				fill-rule='evenodd'
+				stroke-width='13'
+				stroke-linecap='square'
+			/>
+		</svg>
+	);
+};
+
+export const RectangleSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='512px'
+			height='512px'
+			viewBox='0 0 512 512'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<path
+				d='M0 0L512 0L512 512L0 512L0 0Z'
+				id='Rectangle'
+				fill-rule='evenodd'
+				stroke='none'
+			/>
+		</svg>
+	);
+};
+
+export const OvalSvg: React.FC<Props> = ({ className, style }) => {
+	return (
+		<svg
+			style={style}
+			className={className}
+			width='512px'
+			height='512px'
+			viewBox='0 0 512 512'
+			version='1.1'
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<path
+				d='M0 256C0 114.615 114.615 0 256 0C397.385 0 512 114.615 512 256C512 397.385 397.385 512 256 512C114.615 512 0 397.385 0 256Z'
+				id='Oval'
+				fill-rule='evenodd'
+				stroke='none'
+			/>
+		</svg>
+	);
+};
+
 export const MiniminizeSvg: React.FC<Props> = ({ className, style }) => {
 	return (
 		<svg

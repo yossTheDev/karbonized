@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { ArrowBlock } from './ArrowBlock';
+import { ShapeBlock } from './ArrowBlock';
 import { AvatarBlock } from './AvatarBlock';
 import { BlockLoader } from './BlockLoader';
 //import FaIconBlock from './FaIconBlock';
@@ -37,7 +37,7 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 		case 'avatar':
 			return <AvatarBlock></AvatarBlock>;
 		case 'arrow':
-			return <ArrowBlock></ArrowBlock>;
+			return <ShapeBlock></ShapeBlock>;
 		case 'phone_mockup':
 			return <PhoneBlock></PhoneBlock>;
 		case 'faicon':

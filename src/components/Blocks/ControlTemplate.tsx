@@ -94,8 +94,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [visibility, setVisibility] = useState(true);
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
-		middleware: [offset(2), shift()],
-		placement: 'top',
+		middleware: [offset(10), shift()],
+		placement: 'right-start',
 	});
 
 	/* Position and Size */

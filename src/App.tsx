@@ -4,6 +4,7 @@ import './App.css';
 import './utils.css';
 import {
 	IconAppWindow,
+	IconCircle,
 	IconCode,
 	IconDeviceMobile,
 	IconFlask,
@@ -397,7 +398,7 @@ const App: React.FC = () => {
 						</Tooltip>
 
 						{/* FaIcon Control */}
-						<Tooltip className='flex flex-auto ' messsage='Font Awesome Icon'>
+						<Tooltip className='flex flex-auto ' messsage='Icon'>
 							<Button
 								className='p-1 flex flex-auto'
 								color='ghost'
@@ -424,14 +425,14 @@ const App: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						{/* Arrow Control */}
-						<Tooltip className='flex flex-auto ' messsage='Arrow'>
+						{/* Shape Control */}
+						<Tooltip className='flex flex-auto ' messsage='Shape'>
 							<Button
 								className='p-1 flex flex-auto'
 								color='ghost'
 								onClick={() => addControl({ type: 'arrow' })}
 							>
-								<ArrowSvg className='h-4 w-4 mx-auto dark:fill-white fill-black'></ArrowSvg>
+								<IconCircle size={18} className='dark:text-white'></IconCircle>
 							</Button>
 						</Tooltip>
 
