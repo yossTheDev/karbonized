@@ -384,6 +384,7 @@ const CodeControl: React.FC = () => {
 								whiteSpace: 'pre-wrap',
 								borderRadius: '0.25rem',
 								overflow: 'hidden',
+								background: color,
 							}}
 							wrapLongLines
 							showLineNumbers={showLineNumbers}
