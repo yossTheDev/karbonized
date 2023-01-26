@@ -14,3 +14,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+.draggable {
+	-webkit-app-region: drag;
+}
