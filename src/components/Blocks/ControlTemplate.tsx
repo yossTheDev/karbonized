@@ -3,15 +3,20 @@ import {
 	IconBorderStyle,
 	IconCamera,
 	IconColorFilter,
+	IconEye,
+	IconFlask,
 	IconFlipHorizontal,
 	IconFlipVertical,
 	IconHierarchy,
+	IconJpg,
 	IconMask,
+	IconPng,
 	IconReload,
 	IconShadow,
+	IconSvg,
 	IconTrash,
 } from '@tabler/icons-react';
-import { toPng } from 'html-to-image';
+import { toJpeg, toPng, toSvg } from 'html-to-image';
 import React, {
 	ReactNode,
 	useCallback,
@@ -20,7 +25,15 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Checkbox, Input, Range, Select, Tooltip } from 'react-daisyui';
+import {
+	Button,
+	Checkbox,
+	Dropdown,
+	Input,
+	Range,
+	Select,
+	Tooltip,
+} from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -66,6 +79,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	// App Store
 	const ID = useId();
 	const controlID = useStoreState((state) => state.currentControlID);
+	const workspaceName = useStoreState((state) => state.workspaceName);
 
 	const controlSize = useStoreState((state) => state.controlSize);
 	const setControlSize = useStoreActions((state) => state.setControlSize);
@@ -80,8 +94,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [visibility, setVisibility] = useState(true);
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
-		middleware: [offset(10), flip(), shift()],
-		placement: 'right',
+		middleware: [offset(2), shift()],
+		placement: 'top',
 	});
 
 	/* Position and Size */
@@ -180,6 +194,74 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				console.log(err);
 			});
 	}, [ref]);
+
+	// Save Image as PNG
+	const exportAsPng = useCallback(async () => {
+		if (ref.current === null) {
+			console.log('NULL');
+
+			return;
+		}
+
+		toPng(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = workspaceName + '.png';
+				link.href = dataUrl;
+				link.click();
+				console.log('SAVED');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [ref, workspaceName]);
+
+	// Save Image as SVG
+	const exportAsSvg = useCallback(async () => {
+		if (ref.current === null) {
+			console.log('NULL');
+
+			return;
+		}
+
+		toSvg(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = workspaceName + '.svg';
+				link.href = dataUrl;
+				link.click();
+				console.log('SAVED');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [ref, workspaceName]);
+
+	const exportAsJpeg = useCallback(async () => {
+		if (ref.current === null) {
+			console.log('NULL');
+
+			return;
+		}
+
+		toJpeg(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = workspaceName + '.jpeg';
+				link.href = dataUrl;
+				link.click();
+				console.log('SAVED');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [ref, workspaceName]);
 
 	return (
 		<AnimatePresence>
@@ -790,32 +872,66 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 			{/* Context Menu */}
 			{contextMenu && controlID === ID && (
-				<Portal>
+				<Portal node={document.getElementById('body')}>
 					<div
 						className='z-50 absolute'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						onMouseLeave={() => setContextMenu(false)}
 					>
-						<div className='flex flex-col flex-auto gap-2'>
-							{/* Delete Block */}
-							<Tooltip position='right' message='Delete Block'>
-								<Button
-									onClick={() => {
-										setID('');
-										setVisibility(false);
+						<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl text-gray-400'>
+							<div className='flex flex-auto flex-row gap-2'>
+								<IconEye className='my-auto ml-2' size={22}></IconEye>
+								<Range
+									color='primary'
+									className='my-auto'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setOpacity(ev.currentTarget.value as unknown as number);
 									}}
-								>
-									<IconTrash></IconTrash>
-								</Button>
-							</Tooltip>
+									value={opacity}
+								></Range>
+							</div>
 
 							{/* Capture Block */}
-							<Tooltip position='right' message='Take Capture'>
-								<Button onClick={handleTakeCapture}>
-									<IconCamera></IconCamera>
-								</Button>
-							</Tooltip>
+							<Dropdown vertical='middle' horizontal='right' hover>
+								<div className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'>
+									<div className='flex flex-auto flex-row text-gray-400 my-auto gap-2'>
+										<IconCamera className='my-auto' size={22}></IconCamera>
+										<p className='my-auto'>Save Component</p>
+									</div>
+								</div>
+
+								<Dropdown.Menu className='w-52 text-gray-400 absolute'>
+									<Dropdown.Item onMouseDown={exportAsPng}>
+										<IconPng></IconPng>
+										<p>Export as PNG</p>
+									</Dropdown.Item>
+									<Dropdown.Item onMouseDown={exportAsJpeg}>
+										<IconJpg></IconJpg>
+										<p>Export as JPG</p>
+									</Dropdown.Item>
+									<Dropdown.Item onMouseDown={exportAsSvg}>
+										<IconSvg></IconSvg>
+										<p>Export as SVG</p>
+									</Dropdown.Item>
+								</Dropdown.Menu>
+							</Dropdown>
+
+							{/* Delete Block */}
+							<div
+								onClick={() => {
+									setID('');
+									setVisibility(false);
+								}}
+								className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+							>
+								<div className='flex flex-auto flex-row text-gray-400 my-auto gap-2'>
+									<IconTrash className='my-auto' size={22}></IconTrash>
+									<p className='my-auto'>Delete Component</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</Portal>
