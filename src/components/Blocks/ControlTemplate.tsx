@@ -41,6 +41,7 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ContextMenu } from '../CustomControls/ContextMenu';
 
 interface ControlProps {
 	color?: string;
@@ -94,7 +95,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [visibility, setVisibility] = useState(true);
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
-		middleware: [offset(10), shift()],
+		middleware: [offset(10), shift(), flip()],
 		placement: 'right-start',
 	});
 
@@ -874,12 +875,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{contextMenu && controlID === ID && (
 				<Portal node={document.getElementById('body')}>
 					<div
-						className=''
+						className='z-50 absolute'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						onMouseLeave={() => setContextMenu(false)}
 					>
 						<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl dark:text-gray-400'>
+							{/* Opacity Control */}
 							<div className='flex flex-auto flex-row gap-2'>
 								<IconEye className='my-auto ml-2' size={22}></IconEye>
 								<Range
@@ -894,30 +896,49 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								></Range>
 							</div>
 
-							{/* Capture Block */}
-							<Dropdown vertical='middle' horizontal='right' hover>
+							<ContextMenu
+								position='right'
+								showOnEnter
+								show
+								menu={
+									<>
+										<div
+											className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+											onMouseDown={exportAsPng}
+										>
+											<div className='flex flex-auto flex-row my-auto gap-2'>
+												<IconPng></IconPng>
+												<p>Export as PNG</p>
+											</div>
+										</div>
+										<div
+											className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+											onMouseDown={exportAsJpeg}
+										>
+											<div className='flex flex-auto flex-row my-auto gap-2'>
+												<IconJpg></IconJpg>
+												<p>Export as JPG</p>
+											</div>
+										</div>
+										<div
+											className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+											onMouseDown={exportAsSvg}
+										>
+											<div className='flex flex-auto flex-row my-auto gap-2'>
+												<IconSvg></IconSvg>
+												<p>Export as SVG</p>
+											</div>
+										</div>
+									</>
+								}
+							>
 								<div className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'>
 									<div className='flex flex-auto flex-row my-auto gap-2'>
 										<IconCamera className='my-auto' size={22}></IconCamera>
 										<p className='my-auto'>Save Component</p>
 									</div>
 								</div>
-
-								<Dropdown.Menu className='w-52  absolute'>
-									<Dropdown.Item onMouseDown={exportAsPng}>
-										<IconPng></IconPng>
-										<p>Export as PNG</p>
-									</Dropdown.Item>
-									<Dropdown.Item onMouseDown={exportAsJpeg}>
-										<IconJpg></IconJpg>
-										<p>Export as JPG</p>
-									</Dropdown.Item>
-									<Dropdown.Item onMouseDown={exportAsSvg}>
-										<IconSvg></IconSvg>
-										<p>Export as SVG</p>
-									</Dropdown.Item>
-								</Dropdown.Menu>
-							</Dropdown>
+							</ContextMenu>
 
 							{/* Delete Block */}
 							<div
