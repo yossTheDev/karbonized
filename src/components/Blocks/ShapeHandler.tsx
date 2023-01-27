@@ -1,6 +1,16 @@
-import { IconHeart, IconHeartFilled, IconHexagon, IconHexagonFilled } from '@tabler/icons-react';
+import {
+	IconHeart,
+	IconHeartFilled,
+	IconHexagon,
+	IconHexagonFilled,
+} from '@tabler/icons-react';
 import React from 'react';
 import {
+	Arrow2Svg,
+	Arrow3Svg,
+	Arrow4Svg,
+	Arrow5Svg,
+	Arrow6Svg,
 	ArrowSvg,
 	LineSvg,
 	OvalSvg,
@@ -23,6 +33,43 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 					style={{ fill: color }}
 					className='flex flex-auto w-full h-full'
 				></ArrowSvg>
+			);
+
+		case 'arrow2':
+			return (
+				<Arrow2Svg
+					style={{ fill: color }}
+					className='flex flex-auto  w-full h-full'
+				></Arrow2Svg>
+			);
+		case 'arrow3':
+			return (
+				<Arrow3Svg
+					style={{ fill: color }}
+					className='flex flex-auto  w-full h-full'
+				></Arrow3Svg>
+			);
+		case 'arrow4':
+			return (
+				<Arrow4Svg
+					style={{ fill: color }}
+					className='flex flex-auto  w-full h-full'
+				></Arrow4Svg>
+			);
+		case 'arrow5':
+			return (
+				<Arrow5Svg
+					style={{ fill: color }}
+					className='flex flex-auto  w-full h-full'
+				></Arrow5Svg>
+			);
+
+		case 'arrow6':
+			return (
+				<Arrow6Svg
+					style={{ fill: color }}
+					className='flex flex-auto  w-full h-full'
+				></Arrow6Svg>
 			);
 		case 'line':
 			return (

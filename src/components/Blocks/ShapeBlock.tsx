@@ -8,6 +8,11 @@ import React, { useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import {
+	Arrow2Svg,
+	Arrow3Svg,
+	Arrow4Svg,
+	Arrow5Svg,
+	Arrow6Svg,
 	ArrowSvg,
 	LineSvg,
 	OvalSvg,
@@ -54,6 +59,41 @@ export const ShapeBlock: React.FC = () => {
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
 									<ArrowSvg className='flex flex-auto h-full w-full dark:fill-white'></ArrowSvg>
+								</div>
+
+								<div
+									onClick={() => setShape('arrow2')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
+								>
+									<Arrow2Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow2Svg>
+								</div>
+
+								<div
+									onClick={() => setShape('arrow3')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
+								>
+									<Arrow3Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow3Svg>
+								</div>
+
+								<div
+									onClick={() => setShape('arrow4')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
+								>
+									<Arrow4Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow4Svg>
+								</div>
+
+								<div
+									onClick={() => setShape('arrow5')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
+								>
+									<Arrow5Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow5Svg>
+								</div>
+
+								<div
+									onClick={() => setShape('arrow6')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
+								>
+									<Arrow6Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow6Svg>
 								</div>
 
 								<div
