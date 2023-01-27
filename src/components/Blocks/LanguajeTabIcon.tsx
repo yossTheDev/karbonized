@@ -1,5 +1,8 @@
 import {
 	IconBrandCSharp,
+	IconBrandCss3,
+	IconBrandFlutter,
+	IconBrandHtml5,
 	IconBrandJavascript,
 	IconBrandPython,
 	IconBrandReact,
@@ -13,6 +16,12 @@ export const LanguajeTabIcon: React.FC<{ languaje: string }> = ({
 	switch (languaje) {
 		case 'javascript':
 			return <IconBrandJavascript></IconBrandJavascript>;
+		case 'css':
+			return <IconBrandCss3></IconBrandCss3>;
+		case 'dart':
+			return <IconBrandFlutter></IconBrandFlutter>;
+		case 'xml':
+			return <IconBrandHtml5></IconBrandHtml5>;
 		case 'csharp':
 			return <IconBrandCSharp></IconBrandCSharp>;
 		case 'jsx':

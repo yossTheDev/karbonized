@@ -1,4 +1,4 @@
-import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
+import { IconHeart, IconHeartFilled, IconHexagon, IconHexagonFilled } from '@tabler/icons-react';
 import React from 'react';
 import {
 	ArrowSvg,
@@ -73,6 +73,14 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 					style={{ color: color }}
 					className='flex flex-auto mx-auto w-full h-full'
 				></IconHeartFilled>
+			);
+
+		case 'hexagon':
+			return (
+				<IconHexagonFilled
+					style={{ color: color }}
+					className='flex flex-auto mx-auto w-full h-full'
+				></IconHexagonFilled>
 			);
 
 		default:

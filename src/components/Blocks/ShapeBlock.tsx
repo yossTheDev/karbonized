@@ -1,8 +1,8 @@
 import {
-	IconArrowBearLeft,
-	IconArrowGuide,
+	IconBox,
 	IconHeartFilled,
 	IconHexagon,
+	IconHexagonFilled,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -24,8 +24,6 @@ export const ShapeBlock: React.FC = () => {
 	/* Component States */
 	const [color, setColor] = useState('#f3f4f6');
 	const [shape, setShape] = useState('oval');
-
-	const [icon, setIcon] = useState('Icon123');
 
 	return (
 		<>
@@ -77,6 +75,13 @@ export const ShapeBlock: React.FC = () => {
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
 								>
 									<PoligonSvg className='flex flex-auto h-full w-full dark:fill-white'></PoligonSvg>
+								</div>
+
+								<div
+									onClick={() => setShape('hexagon')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto dark:text-white'
+								>
+									<IconHexagonFilled className='flex flex-auto mx-auto w-full h-full'></IconHexagonFilled>
 								</div>
 
 								<div
