@@ -1,4 +1,9 @@
-import { IconHexagon } from '@tabler/icons-react';
+import {
+	IconArrowBearLeft,
+	IconArrowGuide,
+	IconHeartFilled,
+	IconHexagon,
+} from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
@@ -19,6 +24,8 @@ export const ShapeBlock: React.FC = () => {
 	/* Component States */
 	const [color, setColor] = useState('#f3f4f6');
 	const [shape, setShape] = useState('oval');
+
+	const [icon, setIcon] = useState('Icon123');
 
 	return (
 		<>
@@ -91,6 +98,13 @@ export const ShapeBlock: React.FC = () => {
 									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto'
 								>
 									<LineSvg className='flex flex-auto h-full w-full stroke-black dark:stroke-white'></LineSvg>
+								</div>
+
+								<div
+									onClick={() => setShape('heart')}
+									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
+								>
+									<IconHeartFilled className='flex flex-auto mx-auto w-full h-full'></IconHeartFilled>
 								</div>
 							</div>
 

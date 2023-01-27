@@ -1,3 +1,4 @@
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import React from 'react';
 import {
 	ArrowSvg,
@@ -64,6 +65,14 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 					style={{ fill: color }}
 					className='flex flex-auto w-full h-full'
 				></StarSvg>
+			);
+
+		case 'heart':
+			return (
+				<IconHeartFilled
+					style={{ color: color }}
+					className='flex flex-auto mx-auto w-full h-full'
+				></IconHeartFilled>
 			);
 
 		default:

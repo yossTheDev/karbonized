@@ -192,7 +192,7 @@ export const PhoneBlock: React.FC = () => {
 									style={{ color: statusControlsColor }}
 									className='flex flex-auto my-auto  p-1'
 								>
-									<p className='ml-3 font-bold text-xs my-auto'>20:02 PM</p>
+									<p className='ml-3 font-bold text-xs my-auto'>20:02</p>
 
 									<div className='ml-auto mr-3 flex flex-row '>
 										<IconWifi className='flex flex-auto' size={18}></IconWifi>
@@ -219,7 +219,7 @@ export const PhoneBlock: React.FC = () => {
 									borderBottomLeftRadius: screenRadius + 'px',
 									borderBottomRightRadius: screenRadius + 'px',
 								}}
-								className='flex flex-auto h-56 bg-slate-700 max-w-full max-h-full select-none'
+								className='flex flex-auto h-56 bg-white max-w-full max-h-full select-none'
 								src={src}
 							></img>
 
