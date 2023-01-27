@@ -96,7 +96,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(10), shift(), flip()],
-		placement: 'right-start',
+		placement: 'right',
 	});
 
 	/* Position and Size */
@@ -108,12 +108,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [borderRadious, setBorderRadious] = useState(border);
 
 	/* Flip */
-
 	const [flipX, setFlipX] = useState(false);
 	const [flipY, setFlipY] = useState(false);
 
 	/* Rotation */
-
 	const [rotateX, setRotateX] = useState(0);
 	const [rotateY, setRotateY] = useState(0);
 
@@ -174,27 +172,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		setControlPos({ x: 98, y: 190 });
 		setControlSize({ w: parseInt(defaultWidth), h: parseInt(defaultHeight) });
 	}, []);
-
-	// Component Actions
-	const handleTakeCapture = useCallback(() => {
-		console.log('capturando');
-		if (ref.current === null) {
-			return;
-		}
-
-		toPng(ref.current, {
-			cacheBust: true,
-		})
-			.then((dataUrl) => {
-				const link = document.createElement('a');
-				link.download = 'code-karbonized.png';
-				link.href = dataUrl;
-				link.click();
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, [ref]);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
@@ -349,7 +326,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 			{/* Menu */}
 			{controlID === ID && (
-				<Portal node={document.getElementById('menu')}>
+				<Portal
+					key={ID + '_control_menu'}
+					node={document.getElementById('menu')}
+				>
 					{/* Position */}
 					<CustomCollapse
 						menu={
@@ -875,6 +855,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			{contextMenu && controlID === ID && (
 				<Portal node={document.getElementById('body')}>
 					<div
+						key={ID + '_menu'}
 						className='z-50 absolute'
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}

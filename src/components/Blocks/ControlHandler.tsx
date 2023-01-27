@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { ShapeBlock } from './ArrowBlock';
+import { ShapeBlock } from './ShapeBlock';
 import { AvatarBlock } from './AvatarBlock';
 import { BlockLoader } from './BlockLoader';
 import { ImageBlock } from './ImageBlock';
