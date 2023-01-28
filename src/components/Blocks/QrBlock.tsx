@@ -26,24 +26,6 @@ export const QrControl: React.FC = () => {
 				maxHeight={'100px'}
 				menu={
 					<>
-						{/* QR Settings */}
-
-						<CustomCollapse
-							isOpen
-							menu={
-								<div className='flex flex-row m-2 gap-2'>
-									<IconQrcode></IconQrcode>
-									<p className='my-auto'>QR Settings</p>
-								</div>
-							}
-						>
-							<p>Value</p>
-							<Input
-								onChange={(ev) => setText(ev.target.value)}
-								value={text}
-							></Input>
-						</CustomCollapse>
-
 						{/* Colors Settings */}
 						<CustomCollapse
 							menu={
@@ -68,6 +50,26 @@ export const QrControl: React.FC = () => {
 								onColorChange={setforegroundColor}
 								label='Foreground Color'
 							></ColorPicker>
+						</CustomCollapse>
+
+						{/* QR Settings */}
+						<CustomCollapse
+							isOpen
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconQrcode></IconQrcode>
+									<p className='my-auto'>QR Settings</p>
+								</div>
+							}
+						>
+							<div className='flex flex-auto flex-col p-2 gap-2'>
+								<p className='text-xs'>Value</p>
+								<Input
+									spellCheck={false}
+									onChange={(ev) => setText(ev.target.value)}
+									value={text}
+								></Input>
+							</div>
 						</CustomCollapse>
 					</>
 				}
