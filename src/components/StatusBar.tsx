@@ -18,8 +18,12 @@ export const StatusBar: React.FC = () => {
 	return (
 		<>
 			<div className='hidden md:flex flex-row p-1 text-gray-500 select-none'>
-				<div className='flex flex-row flex-auto my-auto '>
-					<IconSquareRotated className='my-auto' size={18}></IconSquareRotated>
+				<div className='flex flex-row flex-auto my-auto'>
+					<IconSquareRotated
+						className='my-auto ml-1'
+						size={18}
+					></IconSquareRotated>
+
 					<p className='ml-2 text-xs my-auto text-center'>
 						Workspace: {workspaceName} Size: {workspaceWidth} X{' '}
 						{workspaceHeight}
@@ -28,18 +32,14 @@ export const StatusBar: React.FC = () => {
 					<div className='flex flex-row my-auto ml-auto'>
 						<div
 							onMouseDown={() => setShowAbout(true)}
-							className='flex flex-row gap-2 hover:bg-base-100 hover:rounded cursor-pointer p-1'
+							className='flex flex-row gap-0.5 hover:bg-base-100 hover:rounded cursor-pointer p-1'
 						>
-							<p className='text-xs my-auto'>
-								Made With
-								<span>
-									<IconHeart
-										size={18}
-										className='inline-flex my-auto mx-1'
-									></IconHeart>
-								</span>
-								By @yossthedev
-							</p>
+							<p className='text-xs my-auto'> Made With</p>
+							<IconHeart
+								size={18}
+								className='inline-flex my-auto mx-1'
+							></IconHeart>
+							<p className='text-xs my-auto'>by @yossthedev</p>
 						</div>
 
 						<a

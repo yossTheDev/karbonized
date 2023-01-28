@@ -31,14 +31,11 @@ import { Menu as ControlsMenu } from './components/Menu';
 import { toBlob, toJpeg, toPng, toSvg } from 'html-to-image';
 import { StatusBar } from './components/StatusBar';
 import InfiniteViewer from 'react-infinite-viewer';
-
-import { HorizontalGuide } from './components/Rulers/HorizontalGuide';
-import { VerticalGuide } from './components/Rulers/VerticalGuide';
-import { ArrowSvg } from './components/General/Icons';
 import { AboutModal } from './components/Modals/AboutModal';
 import { Tooltip } from './components/CustomControls/Tooltip';
 import React from 'react';
 import { useScreenDirection } from './hooks/useScreenDirection';
+import { ContextMenu } from './components/CustomControls/ContextMenu';
 
 const App: React.FC = () => {
 	// App Store
@@ -236,29 +233,47 @@ const App: React.FC = () => {
 							</p>
 						</Button>
 
-						<Dropdown vertical='end' hover>
+						<ContextMenu
+							menu={
+								<>
+									<div
+										className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+										onMouseDown={exportAsPng}
+									>
+										<div className='flex flex-auto flex-row my-auto gap-2'>
+											<IconPng></IconPng>
+											<p>Export as PNG</p>
+										</div>
+									</div>
+									<div
+										className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+										onMouseDown={exportAsJpeg}
+									>
+										<div className='flex flex-auto flex-row my-auto gap-2'>
+											<IconJpg></IconJpg>
+											<p>Export as JPG</p>
+										</div>
+									</div>
+									<div
+										className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+										onMouseDown={exportAsSvg}
+									>
+										<div className='flex flex-auto flex-row my-auto gap-2'>
+											<IconSvg></IconSvg>
+											<p>Export as SVG</p>
+										</div>
+									</div>
+								</>
+							}
+							position='bottom-end'
+						>
 							<div className='hidden md:flex rounded-full mr-2 p-3 w-24 cursor-pointer bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
 								<IconFlask className='text-white'></IconFlask>
 								<p className='text-white md:flex hidden font-bold mx-auto'>
 									SAVE
 								</p>
 							</div>
-
-							<Dropdown.Menu className='w-52 dark:text-gray-400'>
-								<Dropdown.Item onMouseDown={exportAsPng}>
-									<IconPng></IconPng>
-									<p>Export as PNG</p>
-								</Dropdown.Item>
-								<Dropdown.Item onMouseDown={exportAsJpeg}>
-									<IconJpg></IconJpg>
-									<p>Export as JPG</p>
-								</Dropdown.Item>
-								<Dropdown.Item onMouseDown={exportAsSvg}>
-									<IconSvg></IconSvg>
-									<p>Export as SVG</p>
-								</Dropdown.Item>
-							</Dropdown.Menu>
-						</Dropdown>
+						</ContextMenu>
 
 						{/* Save Button */}
 						<Button
@@ -488,16 +503,11 @@ const App: React.FC = () => {
 					</div>
 
 					{/* Ruler Vertical */}
-					<div className='hidden'>
-						<VerticalGuide></VerticalGuide>
-					</div>
+					<div className='hidden'></div>
 
 					{/* Workspace */}
 					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
 						{/* Ruler Horizontal */}
-						<div className='hidden'>
-							<HorizontalGuide></HorizontalGuide>
-						</div>
 
 						<InfiniteViewer
 							ref={refe}

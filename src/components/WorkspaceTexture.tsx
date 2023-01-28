@@ -10,9 +10,7 @@ import {
 	Horizon,
 	Neon,
 	Oscilate,
-	Ten,
 	Undulate,
-	Union,
 	Vortex,
 } from './General/Backgrounds';
 
@@ -35,18 +33,6 @@ export const WorkspaceTexture: React.FC<{
 						width: workspaceWidth + 'px',
 					}}
 				></Flux>
-			);
-
-		case 'union':
-			return (
-				<Union
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-				></Union>
 			);
 
 		case 'coil':
@@ -84,19 +70,6 @@ export const WorkspaceTexture: React.FC<{
 					}}
 					className='flex flex-auto h-full w-full'
 				></Horizon>
-			);
-
-		case 'ten':
-			return (
-				<Ten
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Ten>
 			);
 
 		case 'grayrate':
@@ -194,3 +167,4 @@ export const WorkspaceTexture: React.FC<{
 			return <></>;
 	}
 };
+export default WorkspaceTexture;

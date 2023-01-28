@@ -4,7 +4,6 @@ import {
 	IconCamera,
 	IconColorFilter,
 	IconEye,
-	IconFlask,
 	IconFlipHorizontal,
 	IconFlipVertical,
 	IconHierarchy,
@@ -25,15 +24,7 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import {
-	Button,
-	Checkbox,
-	Dropdown,
-	Input,
-	Range,
-	Select,
-	Tooltip,
-} from 'react-daisyui';
+import { Button, Checkbox, Input, Range, Select } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -267,9 +258,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						left: position.x,
 						top: position.y,
 					}}
-					initial={{ opacity: 0.9 }}
+					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
+					exit={{ opacity: 0, marginTop: '100px' }}
 					transition={{ duration: 0.1 }}
 				>
 					<div
@@ -280,7 +271,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							setID(ID);
 							setWorkspaceTab('control');
 						}}
-						onMouseDown={() => {
+						onClick={() => {
 							//setDisable(true);
 							//console.log(ID);
 							setID(ID);
@@ -330,614 +321,627 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					key={ID + '_control_menu'}
 					node={document.getElementById('menu')}
 				>
-					{/* Position */}
-					<CustomCollapse
-						menu={
-							<div className='flex flex-row m-2 gap-2'>
-								<IconHierarchy size={22}></IconHierarchy>
-								<p className='font-bold my-auto'>Position</p>
-							</div>
-						}
+					<motion.div
+						initial={{ marginTop: '25px' }}
+						animate={{ marginTop: '0px' }}
+						className='text-xs font-bold'
 					>
-						<div className='flex flex-col flex-wrap text-xs'>
-							{/* Flip Options */}
-							<div className='flex flex-auto gap-2'>
-								<Button
-									className='flex flex-auto'
-									onClick={() => setFlipX(!flipX)}
-								>
-									<IconFlipVertical></IconFlipVertical>
-								</Button>
-								<Button
-									className='flex flex-auto'
-									onClick={() => setFlipY(!flipY)}
-								>
-									<IconFlipHorizontal></IconFlipHorizontal>
-								</Button>
-							</div>
-
-							{/* Position */}
-							<div className='flex flex-auto flex-row'>
-								{/* Position X */}
-								<div className='flex flex-auto  p-2 '>
-									<p className='p-2 my-auto'>X:</p>
-									<Input
-										disabled
-										type={'number'}
-										className='bg-base-100 p-2 text-xs rounded-xl  w-full'
-										onChange={(ev) => {
-											setControlPos({
-												x: ev.target.value as unknown as number,
-												y: position.y,
-											});
-										}}
-										value={constrlPos?.x}
-									></Input>
-								</div>
-								{/* Position Y */}
-								<div className='flex flex-auto  p-2 text-xs'>
-									<p className='p-2 my-auto'>Y:</p>
-									<Input
-										type={'number'}
-										disabled
-										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
-										onChange={(ev) =>
-											setControlPos({
-												y: ev.target.value as unknown as number,
-												x: position.x,
-											})
-										}
-										value={constrlPos?.y}
-									></Input>
-								</div>
-							</div>
-
-							{/* Position Z */}
-							<div className='flex flex-auto p-2 text-xs '>
-								<p className='p-2 my-auto'>Z:</p>
-								<NumberInput
-									onChange={(number) => {
-										setzIndex(number.toString());
-									}}
-									number={parseInt(zIndex)}
-								></NumberInput>
-							</div>
-
-							{/* Size */}
-							<div className='flex flex-row'>
-								<div className='flex flex-auto  p-2 '>
-									<p className='p-2 my-auto'>W:</p>
-									<Input
-										disabled
-										type={'number'}
-										className='bg-base-100 p-2 rounded-xl text-xs w-full'
-										onChange={(ev) =>
-											setControlSize({
-												w: ev.target.value as unknown as number,
-												h: size.h,
-											})
-										}
-										value={controlSize?.w}
-									></Input>
-								</div>
-
-								<div className='flex flex-auto  p-2 '>
-									<p className='p-2 my-auto'>H:</p>
-									<Input
-										disabled
-										type={'number'}
-										className='bg-base-100 p-2 rounded-xl  w-full text-xs'
-										onChange={(ev) =>
-											setControlSize({
-												w: size.w,
-												h: ev.target.value as unknown as number,
-											})
-										}
-										value={controlSize?.h}
-									></Input>
-								</div>
-							</div>
-
-							{/* Rotation */}
-							<p>Rotation</p>
-
-							<div className='flex flex-auto flex-row'>
-								{/* Rotation X */}
-								<div className='flex flex-auto  p-2 text-xs my-auto'>
-									<p className='p-2 my-auto'>X:</p>
-									<Range
-										color='primary'
-										min={-180}
-										max={180}
-										className='my-auto'
-										onChange={(ev) => {
-											setRotateX(ev.currentTarget.value as unknown as number);
-										}}
-										value={rotateX}
-									></Range>
-								</div>
-								{/* Rotation Y */}
-								<div className='flex flex-auto  p-2 text-xs my-auto'>
-									<p className='p-2 my-auto'>Y:</p>
-									<Range
-										color='primary'
-										className='my-auto'
-										min={-180}
-										max={180}
-										onChange={(ev) => {
-											setRotateY(ev.currentTarget.value as unknown as number);
-										}}
-										value={rotateY}
-									></Range>
-								</div>
-
-								<Button
-									onMouseDown={() => {
-										setRotateX(0);
-										setRotateY(0);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-						</div>
-					</CustomCollapse>
-
-					{/* Shadow Config */}
-					{shadowEditable && (
+						{/* Position */}
 						<CustomCollapse
 							menu={
 								<div className='flex flex-row m-2 gap-2'>
-									<IconShadow size={22}></IconShadow>
-									<p className='font-bold my-auto'>Shadow</p>
+									<IconHierarchy size={22}></IconHierarchy>
+									<p className='font-bold my-auto'>Position</p>
 								</div>
 							}
 						>
-							<div className='flex flex-row flex-wrap text-xs'>
+							<div className='flex flex-col flex-wrap text-xs'>
+								{/* Flip Options */}
+								<div className='flex flex-auto gap-2'>
+									<Button
+										className='flex flex-auto'
+										onClick={() => setFlipX(!flipX)}
+									>
+										<IconFlipVertical></IconFlipVertical>
+									</Button>
+									<Button
+										className='flex flex-auto'
+										onClick={() => setFlipY(!flipY)}
+									>
+										<IconFlipHorizontal></IconFlipHorizontal>
+									</Button>
+								</div>
+
 								{/* Position */}
 								<div className='flex flex-auto flex-row'>
-									{/* Shadow X */}
+									{/* Position X */}
 									<div className='flex flex-auto  p-2 '>
 										<p className='p-2 my-auto'>X:</p>
-										<NumberInput
-											onChange={(number) => {
-												setShadowX(number);
+										<Input
+											disabled
+											type={'number'}
+											className='bg-base-100 p-2 text-xs rounded-xl  w-full'
+											onChange={(ev) => {
+												setControlPos({
+													x: ev.target.value as unknown as number,
+													y: position.y,
+												});
 											}}
-											number={shadowX}
-										></NumberInput>
+											value={constrlPos?.x}
+										></Input>
 									</div>
-									{/* Shadow Y */}
+									{/* Position Y */}
 									<div className='flex flex-auto  p-2 text-xs'>
 										<p className='p-2 my-auto'>Y:</p>
-										<NumberInput
-											onChange={(number) => {
-												setShadowY(number);
-											}}
-											number={shadowY}
-										></NumberInput>
+										<Input
+											type={'number'}
+											disabled
+											className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+											onChange={(ev) =>
+												setControlPos({
+													y: ev.target.value as unknown as number,
+													x: position.x,
+												})
+											}
+											value={constrlPos?.y}
+										></Input>
 									</div>
 								</div>
 
-								{/* Shadow Blur */}
-								<div className='flex flex-auto  text-xs '>
+								{/* Position Z */}
+								<div className='flex flex-auto p-2 text-xs '>
+									<p className='p-2 my-auto'>Z:</p>
+									<NumberInput
+										onChange={(number) => {
+											setzIndex(number.toString());
+										}}
+										number={parseInt(zIndex)}
+									></NumberInput>
+								</div>
+
+								{/* Size */}
+								<div className='flex flex-row'>
+									<div className='flex flex-auto  p-2 '>
+										<p className='p-2 my-auto'>W:</p>
+										<Input
+											disabled
+											type={'number'}
+											className='bg-base-100 p-2 rounded-xl text-xs w-full'
+											onChange={(ev) =>
+												setControlSize({
+													w: ev.target.value as unknown as number,
+													h: size.h,
+												})
+											}
+											value={controlSize?.w}
+										></Input>
+									</div>
+
+									<div className='flex flex-auto  p-2 '>
+										<p className='p-2 my-auto'>H:</p>
+										<Input
+											disabled
+											type={'number'}
+											className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+											onChange={(ev) =>
+												setControlSize({
+													w: size.w,
+													h: ev.target.value as unknown as number,
+												})
+											}
+											value={controlSize?.h}
+										></Input>
+									</div>
+								</div>
+
+								{/* Rotation */}
+								<p>Rotation</p>
+
+								<div className='flex flex-auto flex-row'>
+									{/* Rotation X */}
+									<div className='flex flex-auto  p-2 text-xs my-auto'>
+										<p className='p-2 my-auto'>X:</p>
+										<Range
+											color='primary'
+											min={-180}
+											max={180}
+											className='my-auto'
+											onChange={(ev) => {
+												setRotateX(ev.currentTarget.value as unknown as number);
+											}}
+											value={rotateX}
+										></Range>
+									</div>
+									{/* Rotation Y */}
+									<div className='flex flex-auto  p-2 text-xs my-auto'>
+										<p className='p-2 my-auto'>Y:</p>
+										<Range
+											color='primary'
+											className='my-auto'
+											min={-180}
+											max={180}
+											onChange={(ev) => {
+												setRotateY(ev.currentTarget.value as unknown as number);
+											}}
+											value={rotateY}
+										></Range>
+									</div>
+
+									<Button
+										onMouseDown={() => {
+											setRotateX(0);
+											setRotateY(0);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+							</div>
+						</CustomCollapse>
+
+						{/* Shadow Config */}
+						{shadowEditable && (
+							<CustomCollapse
+								menu={
+									<div className='flex flex-row m-2 gap-2'>
+										<IconShadow size={22}></IconShadow>
+										<p className='font-bold my-auto'>Shadow</p>
+									</div>
+								}
+							>
+								<div className='flex flex-row flex-wrap text-xs'>
+									{/* Position */}
+									<div className='flex flex-auto flex-row'>
+										{/* Shadow X */}
+										<div className='flex flex-auto  p-2 '>
+											<p className='p-2 my-auto'>X:</p>
+											<NumberInput
+												onChange={(number) => {
+													setShadowX(number);
+												}}
+												number={shadowX}
+											></NumberInput>
+										</div>
+										{/* Shadow Y */}
+										<div className='flex flex-auto  p-2 text-xs'>
+											<p className='p-2 my-auto'>Y:</p>
+											<NumberInput
+												onChange={(number) => {
+													setShadowY(number);
+												}}
+												number={shadowY}
+											></NumberInput>
+										</div>
+									</div>
+
+									{/* Shadow Blur */}
+									<div className='flex flex-auto  text-xs '>
+										<p className='p-2 my-auto'>Blur:</p>
+										<Range
+											className='my-auto'
+											color='primary'
+											onChange={(ev) =>
+												setShadowBlur(ev.target.value as unknown as number)
+											}
+											value={shadowBlur}
+											max={'100'}
+										></Range>
+									</div>
+
+									{/* Shadow Color */}
+									<div className='flex flex-col flex-auto'>
+										<ColorPicker
+											type='HexAlpha'
+											label='Shadow Color'
+											color={shadowColor}
+											onColorChange={(color) => setShadowColor(color)}
+										></ColorPicker>
+									</div>
+								</div>
+							</CustomCollapse>
+						)}
+
+						{/* Border  */}
+						{borderEditable && (
+							<CustomCollapse
+								menu={
+									<div className='flex flex-row m-2 gap-2'>
+										<IconBorderStyle size={22}></IconBorderStyle>
+										<p className='font-bold my-auto'>Borders</p>
+									</div>
+								}
+							>
+								<div className='flex flex-row flex-wrap text-xs'>
+									<div className='flex flex-auto p-2'>
+										<p className='p-2 my-auto'>Radius:</p>
+										<Range
+											className='my-auto'
+											color='primary'
+											onChange={(ev) =>
+												setBorderRadious(ev.target.value as unknown as number)
+											}
+											value={borderRadious}
+											max={'22'}
+										></Range>
+									</div>
+								</div>
+							</CustomCollapse>
+						)}
+
+						{/* Mask */}
+						{maskEditable && (
+							<CustomCollapse
+								menu={
+									<div className='flex flex-row m-2 gap-2'>
+										<IconMask size={22}></IconMask>
+										<p className='font-bold my-auto'>Mask</p>
+									</div>
+								}
+							>
+								<div className='flex flex-row flex-wrap text-xs'>
+									{/* Select Mask */}
+									<div className='flex flex-auto p-2 '>
+										<Select
+											tabIndex={0}
+											className='flex flex-auto'
+											value={mask}
+											onChange={(e) => setMask(e)}
+										>
+											{Masks.map((i) => {
+												return (
+													<option key={i} value={i}>
+														{i.replace('mask-', '').replace('-', ' ')}
+													</option>
+												);
+											})}
+										</Select>
+									</div>
+
+									<div className='flex flex-row m-2 gap-2'>
+										<p className='my-auto text-xs'>Mask Repeat</p>
+										<Checkbox
+											color='primary'
+											onChange={(ev) => setMaskRepeat(ev.currentTarget.checked)}
+											checked={maskRepeat}
+										></Checkbox>
+									</div>
+								</div>
+							</CustomCollapse>
+						)}
+
+						{/* Filters */}
+						<CustomCollapse
+							menu={
+								<div className='flex flex-row m-2 gap-2'>
+									<IconColorFilter size={22}></IconColorFilter>
+									<p className='font-bold my-auto'>Filters</p>
+								</div>
+							}
+						>
+							<div className='flex flex-col flex-wrap text-xs gap-2'>
+								{/* Blur Options */}
+								<div className='flex flex-auto flex-row gap-2'>
 									<p className='p-2 my-auto'>Blur:</p>
 									<Range
-										className='my-auto'
 										color='primary'
-										onChange={(ev) =>
-											setShadowBlur(ev.target.value as unknown as number)
-										}
-										value={shadowBlur}
-										max={'100'}
-									></Range>
-								</div>
-
-								{/* Shadow Color */}
-								<div className='flex flex-col flex-auto'>
-									<ColorPicker
-										type='HexAlpha'
-										label='Shadow Color'
-										color={shadowColor}
-										onColorChange={(color) => setShadowColor(color)}
-									></ColorPicker>
-								</div>
-							</div>
-						</CustomCollapse>
-					)}
-
-					{/* Border  */}
-					{borderEditable && (
-						<CustomCollapse
-							menu={
-								<div className='flex flex-row m-2 gap-2'>
-									<IconBorderStyle size={22}></IconBorderStyle>
-									<p className='font-bold my-auto'>Borders</p>
-								</div>
-							}
-						>
-							<div className='flex flex-row flex-wrap text-xs'>
-								<div className='flex flex-auto p-2'>
-									<p className='p-2 my-auto'>Radius:</p>
-									<Range
 										className='my-auto'
-										color='primary'
-										onChange={(ev) =>
-											setBorderRadious(ev.target.value as unknown as number)
-										}
-										value={borderRadious}
-										max={'22'}
+										min={-1}
+										max={100}
+										onChange={(ev) => {
+											setBlur(ev.currentTarget.value as unknown as number);
+										}}
+										value={blur}
 									></Range>
-								</div>
-							</div>
-						</CustomCollapse>
-					)}
-
-					{/* Mask */}
-					{maskEditable && (
-						<CustomCollapse
-							menu={
-								<div className='flex flex-row m-2 gap-2'>
-									<IconMask size={22}></IconMask>
-									<p className='font-bold my-auto'>Mask</p>
-								</div>
-							}
-						>
-							<div className='flex flex-row flex-wrap text-xs'>
-								{/* Select Mask */}
-								<div className='flex flex-auto p-2 '>
-									<Select
-										tabIndex={0}
-										className='flex flex-auto'
-										value={mask}
-										onChange={(e) => setMask(e)}
+									<Button
+										onMouseDown={() => {
+											setBlur(-1 * 1);
+										}}
+										className='flex flex-auto my-auto p-1'
 									>
-										{Masks.map((i) => {
-											return (
-												<option key={i} value={i}>
-													{i.replace('mask-', '').replace('-', ' ')}
-												</option>
-											);
-										})}
-									</Select>
+										<IconReload size={18}></IconReload>
+									</Button>
 								</div>
 
-								<div className='flex flex-row m-2 gap-2'>
-									<p className='my-auto text-xs'>Mask Repeat</p>
-									<Checkbox
+								{/* Brightness Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Brightness:</p>
+									<Range
 										color='primary'
-										onChange={(ev) => setMaskRepeat(ev.currentTarget.checked)}
-										checked={maskRepeat}
-									></Checkbox>
+										className='my-auto'
+										min={1}
+										max={200}
+										onChange={(ev) => {
+											setBrightness(
+												ev.currentTarget.value as unknown as number
+											);
+										}}
+										value={brightness}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setBrightness(100);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Contrast Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Contrast:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={100}
+										max={300}
+										onChange={(ev) => {
+											setContrast(ev.currentTarget.value as unknown as number);
+										}}
+										value={contrast}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setContrast(100);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Grayscale Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Grayscale:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={100}
+										onChange={(ev) => {
+											setGrayscale(ev.currentTarget.value as unknown as number);
+										}}
+										value={grayscale}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setGrayscale(0);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Hue Rotate Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Hue Rotate:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={359}
+										onChange={(ev) => {
+											setHueRotate(ev.currentTarget.value as unknown as number);
+										}}
+										value={huerotate}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setHueRotate(0);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Invert Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Invert:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={100}
+										onChange={(ev) => {
+											setInvert(ev.currentTarget.value as unknown as number);
+										}}
+										value={invert}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setInvert(0);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Saturate Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Saturate:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={200}
+										onChange={(ev) => {
+											setSaturate(ev.currentTarget.value as unknown as number);
+										}}
+										value={saturate}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setSaturate(100);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Sepia Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Sepia:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={100}
+										onChange={(ev) => {
+											setSepia(ev.currentTarget.value as unknown as number);
+										}}
+										value={sepia}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setSepia(0);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
+								</div>
+
+								{/* Opacity Options */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<p className='p-2 my-auto'>Opacity:</p>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={100}
+										onChange={(ev) => {
+											setOpacity(ev.currentTarget.value as unknown as number);
+										}}
+										value={opacity}
+									></Range>
+									<Button
+										onMouseDown={() => {
+											setOpacity(100);
+										}}
+										className='flex flex-auto my-auto p-1'
+									>
+										<IconReload size={18}></IconReload>
+									</Button>
 								</div>
 							</div>
 						</CustomCollapse>
-					)}
 
-					{/* Filters */}
-					<CustomCollapse
-						menu={
-							<div className='flex flex-row m-2 gap-2'>
-								<IconColorFilter size={22}></IconColorFilter>
-								<p className='font-bold my-auto'>Filters</p>
-							</div>
-						}
-					>
-						<div className='flex flex-col flex-wrap text-xs gap-2'>
-							{/* Blur Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Blur:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={-1}
-									max={100}
-									onChange={(ev) => {
-										setBlur(ev.currentTarget.value as unknown as number);
-									}}
-									value={blur}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setBlur(-1 * 1);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
+						{menu}
 
-							{/* Brightness Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Brightness:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={1}
-									max={200}
-									onChange={(ev) => {
-										setBrightness(ev.currentTarget.value as unknown as number);
-									}}
-									value={brightness}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setBrightness(100);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Contrast Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Contrast:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={100}
-									max={300}
-									onChange={(ev) => {
-										setContrast(ev.currentTarget.value as unknown as number);
-									}}
-									value={contrast}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setContrast(100);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Grayscale Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Grayscale:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={100}
-									onChange={(ev) => {
-										setGrayscale(ev.currentTarget.value as unknown as number);
-									}}
-									value={grayscale}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setGrayscale(0);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Hue Rotate Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Hue Rotate:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={359}
-									onChange={(ev) => {
-										setHueRotate(ev.currentTarget.value as unknown as number);
-									}}
-									value={huerotate}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setHueRotate(0);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Invert Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Invert:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={100}
-									onChange={(ev) => {
-										setInvert(ev.currentTarget.value as unknown as number);
-									}}
-									value={invert}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setInvert(0);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Saturate Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Saturate:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={200}
-									onChange={(ev) => {
-										setSaturate(ev.currentTarget.value as unknown as number);
-									}}
-									value={saturate}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setSaturate(100);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Sepia Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Sepia:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={100}
-									onChange={(ev) => {
-										setSepia(ev.currentTarget.value as unknown as number);
-									}}
-									value={sepia}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setSepia(0);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
-							</div>
-
-							{/* Opacity Options */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<p className='p-2 my-auto'>Opacity:</p>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={100}
-									onChange={(ev) => {
-										setOpacity(ev.currentTarget.value as unknown as number);
-									}}
-									value={opacity}
-								></Range>
-								<Button
-									onMouseDown={() => {
-										setOpacity(100);
-									}}
-									className='flex flex-auto my-auto p-1'
-								>
-									<IconReload size={18}></IconReload>
-								</Button>
+						{/* Delete */}
+						<div
+							onClick={() => {
+								setID('');
+								setVisibility(false);
+							}}
+							className='mt-auto  bg-gray-800/20 hover:bg-red-600 hover:text-white rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
+						>
+							<div className='flex flex-row gap-2 mx-auto my-auto'>
+								<IconTrash></IconTrash>
+								<p>Delete Component</p>
 							</div>
 						</div>
-					</CustomCollapse>
-
-					{menu}
-
-					{/* Delete */}
-					<div
-						onClick={() => {
-							setID('');
-							setVisibility(false);
-						}}
-						className='mt-auto  bg-gray-800/20 hover:bg-red-600 hover:text-white rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
-					>
-						<div className='flex flex-row gap-2 mx-auto my-auto'>
-							<IconTrash></IconTrash>
-							<p>Delete Component</p>
-						</div>
-					</div>
+					</motion.div>
 				</Portal>
 			)}
 
 			{/* Context Menu */}
-			{contextMenu && controlID === ID && (
-				<Portal node={document.getElementById('body')}>
-					<div
-						key={ID + '_menu'}
-						className='z-50 absolute'
-						ref={floating}
-						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-						onMouseLeave={() => setContextMenu(false)}
-					>
-						<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl dark:text-gray-400'>
-							{/* Opacity Control */}
-							<div className='flex flex-auto flex-row gap-2'>
-								<IconEye className='my-auto ml-2' size={22}></IconEye>
-								<Range
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={100}
-									onChange={(ev) => {
-										setOpacity(ev.currentTarget.value as unknown as number);
-									}}
-									value={opacity}
-								></Range>
-							</div>
+			<AnimatePresence>
+				{contextMenu && controlID === ID && (
+					<Portal key={ID + '_menu'} node={document.getElementById('body')}>
+						<motion.div
+							key={ID + '_menu'}
+							className='z-50 absolute'
+							ref={floating}
+							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+							onMouseLeave={() => setContextMenu(false)}
+							initial={{ scale: 0.5, opacity: 0.94 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0, opacity: 0 }}
+						>
+							<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl dark:text-gray-400'>
+								{/* Opacity Control */}
+								<div className='flex flex-auto flex-row gap-2'>
+									<IconEye className='my-auto ml-2' size={22}></IconEye>
+									<Range
+										color='primary'
+										className='my-auto'
+										min={0}
+										max={100}
+										onChange={(ev) => {
+											setOpacity(ev.currentTarget.value as unknown as number);
+										}}
+										value={opacity}
+									></Range>
+								</div>
 
-							<ContextMenu
-								position='right'
-								showOnEnter
-								show
-								menu={
-									<>
-										<div
-											className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
-											onMouseDown={exportAsPng}
-										>
-											<div className='flex flex-auto flex-row my-auto gap-2'>
-												<IconPng></IconPng>
-												<p>Export as PNG</p>
+								<ContextMenu
+									position='right-end'
+									showOnEnter
+									show
+									menu={
+										<>
+											<div
+												className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+												onMouseDown={exportAsPng}
+											>
+												<div className='flex flex-auto flex-row my-auto gap-2'>
+													<IconPng></IconPng>
+													<p>Export as PNG</p>
+												</div>
 											</div>
-										</div>
-										<div
-											className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
-											onMouseDown={exportAsJpeg}
-										>
-											<div className='flex flex-auto flex-row my-auto gap-2'>
-												<IconJpg></IconJpg>
-												<p>Export as JPG</p>
+											<div
+												className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+												onMouseDown={exportAsJpeg}
+											>
+												<div className='flex flex-auto flex-row my-auto gap-2'>
+													<IconJpg></IconJpg>
+													<p>Export as JPG</p>
+												</div>
 											</div>
-										</div>
-										<div
-											className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
-											onMouseDown={exportAsSvg}
-										>
-											<div className='flex flex-auto flex-row my-auto gap-2'>
-												<IconSvg></IconSvg>
-												<p>Export as SVG</p>
+											<div
+												className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+												onMouseDown={exportAsSvg}
+											>
+												<div className='flex flex-auto flex-row my-auto gap-2'>
+													<IconSvg></IconSvg>
+													<p>Export as SVG</p>
+												</div>
 											</div>
+										</>
+									}
+								>
+									<div className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'>
+										<div className='flex flex-auto flex-row my-auto gap-2'>
+											<IconCamera className='my-auto' size={22}></IconCamera>
+											<p className='my-auto'>Save Component</p>
 										</div>
-									</>
-								}
-							>
-								<div className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'>
+									</div>
+								</ContextMenu>
+
+								{/* Delete Block */}
+								<div
+									onClick={() => {
+										setID('');
+										setVisibility(false);
+									}}
+									className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+								>
 									<div className='flex flex-auto flex-row my-auto gap-2'>
-										<IconCamera className='my-auto' size={22}></IconCamera>
-										<p className='my-auto'>Save Component</p>
+										<IconTrash className='my-auto' size={22}></IconTrash>
+										<p className='my-auto'>Delete Component</p>
 									</div>
 								</div>
-							</ContextMenu>
-
-							{/* Delete Block */}
-							<div
-								onClick={() => {
-									setID('');
-									setVisibility(false);
-								}}
-								className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
-							>
-								<div className='flex flex-auto flex-row my-auto gap-2'>
-									<IconTrash className='my-auto' size={22}></IconTrash>
-									<p className='my-auto'>Delete Component</p>
-								</div>
 							</div>
-						</div>
-					</div>
-				</Portal>
-			)}
+						</motion.div>
+					</Portal>
+				)}
+			</AnimatePresence>
 		</AnimatePresence>
 	);
 };

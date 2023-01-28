@@ -318,7 +318,7 @@ const CodeControl: React.FC = () => {
 									)}
 								</>
 							) : (
-								<div className='my-auto flex  flex-row gap-1 mr-2'>
+								<div className='my-auto flex  flex-row gap-1 mr-2 ml-1'>
 									<div className='p-1 w-4  h-4 rounded-full bg-red-500 my-auto'></div>
 									<div className='p-1 w-4  h-4 rounded-full bg-yellow-300 my-auto'></div>
 									<div className='p-1 w-4  h-4 rounded-full  bg-green-500 my-auto'></div>

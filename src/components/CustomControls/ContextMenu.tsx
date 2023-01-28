@@ -5,6 +5,7 @@ import {
 	shift,
 	useFloating,
 } from '@floating-ui/react-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactNode, useState } from 'react';
 import { Portal } from 'react-portal';
 
@@ -13,7 +14,7 @@ interface Props {
 	position?: Placement;
 	children: ReactNode;
 	menu: ReactNode;
-	showOnEnter: boolean;
+	showOnEnter?: boolean;
 }
 export const ContextMenu: React.FC<Props> = ({
 	children,
@@ -29,22 +30,36 @@ export const ContextMenu: React.FC<Props> = ({
 
 	return (
 		<>
-			<div onMouseEnter={() => setShow(true)} ref={reference}>
+			<div
+				tabIndex={1}
+				onBlur={() => setShow(false)}
+				onMouseEnter={() => setShow(true)}
+				ref={reference}
+			>
 				{children}
 			</div>
 
-			{show && (
-				<Portal>
-					<div
-						className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-52 shadow-2xl dark:text-gray-400 z-50'
-						ref={floating}
-						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-						onMouseLeave={() => {}}
-					>
-						{menu}
-					</div>
-				</Portal>
-			)}
+			<AnimatePresence>
+				{show && (
+					<Portal>
+						<motion.div
+							tabIndex={1}
+							onBlur={() => setShow(false)}
+							initial={{ scale: 0.5, opacity: 0.94 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0, opacity: 0 }}
+							className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-52 shadow-2xl dark:text-gray-400 z-50'
+							ref={floating}
+							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+							onMouseLeave={() => {
+								setShow(false);
+							}}
+						>
+							{menu}
+						</motion.div>
+					</Portal>
+				)}
+			</AnimatePresence>
 		</>
 	);
 };

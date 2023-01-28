@@ -72,7 +72,7 @@ export const AppStore = createStore<AppStoreModel>({
 	workspaceName: 'karbonized-image',
 	workspaceType: 'color', // Color or Texture
 	workspaceColor: '#5895c8',
-	workspaceColorMode: 'Gradient',
+	workspaceColorMode: 'Single', // Single or Gradient
 	workspaceHeight: '512',
 	workspaceWidth: '512',
 

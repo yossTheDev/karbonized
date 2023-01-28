@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect } from 'react';
+import React, { RefObject, Suspense, useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import './Workspace.css';
@@ -11,12 +11,9 @@ import Moveable, {
 	OnDragGroup,
 	OnResizeGroup,
 	OnRotateGroup,
-	OnSnap,
 } from 'react-moveable';
 
-import horizon from '../assets/ffflux.svg';
-import { Flux, Union } from './General/Backgrounds';
-import { WorkspaceTexture } from './WorkspaceTexture';
+const WorkspaceTexture = React.lazy(() => import('./WorkspaceTexture'));
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;
@@ -61,7 +58,9 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 				>
 					{workspaceType === 'texture' && (
-						<WorkspaceTexture texture={workspaceTexture}></WorkspaceTexture>
+						<Suspense fallback={<></>}>
+							<WorkspaceTexture texture={workspaceTexture}></WorkspaceTexture>
+						</Suspense>
 					)}
 
 					{controls.map((el, i) => (

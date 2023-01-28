@@ -4,6 +4,7 @@ import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { WorkspacePanel } from './Panels/WorkspacePanel';
 import { TabSelector } from './TabsSelector';
+import { AnimatePresence } from 'framer-motion';
 
 export const Menu: React.FC = () => {
 	// Component Store
@@ -73,7 +74,9 @@ export const Menu: React.FC = () => {
 					}`}
 					id='workspace'
 				>
-					<WorkspacePanel></WorkspacePanel>
+					<AnimatePresence>
+						{selectedTab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
+					</AnimatePresence>
 				</TabPanel>
 
 				{/* Controls */}

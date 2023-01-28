@@ -4,6 +4,7 @@ import {
 	IconTag,
 	IconTrash,
 } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
 import React from 'react';
 import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -17,13 +18,9 @@ import {
 	Grayrate,
 	Hirl,
 	Horizon,
-	Motif,
 	Neon,
-	Noise,
 	Oscilate,
-	Ten,
 	Undulate,
-	Union,
 	Vortex,
 } from '../General/Backgrounds';
 
@@ -87,7 +84,11 @@ export const WorkspacePanel: React.FC = () => {
 
 	return (
 		<>
-			<div className='flex flex-auto flex-col p-2 text-xs select-none overflow-auto'>
+			<motion.div
+				initial={{ marginTop: '25px' }}
+				animate={{ marginTop: '0px' }}
+				className='flex flex-auto flex-col p-2 text-xs select-none overflow-auto'
+			>
 				{/* Workspace Name */}
 				<>
 					<div className='flex flex-row m-2 gap-2'>
@@ -349,7 +350,7 @@ export const WorkspacePanel: React.FC = () => {
 						<p className='my-auto'>Clean</p>
 					</div>
 				</div>
-			</div>
+			</motion.div>
 		</>
 	);
 };
