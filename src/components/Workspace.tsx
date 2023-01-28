@@ -12,8 +12,7 @@ import Moveable, {
 	OnResizeGroup,
 	OnRotateGroup,
 } from 'react-moveable';
-
-const WorkspaceTexture = React.lazy(() => import('./WorkspaceTexture'));
+import WorkspaceTexture from './WorkspaceTexture';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;

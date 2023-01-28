@@ -257,3 +257,4 @@ export const PhoneBlock: React.FC = () => {
 		</>
 	);
 };
+export default PhoneBlock;

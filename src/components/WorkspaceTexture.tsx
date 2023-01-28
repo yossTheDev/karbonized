@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useStoreState } from '../stores/Hooks';
-import {
-	Chaos,
-	Circular,
-	Coil,
-	Flux,
-	Grayrate,
-	Hirl,
-	Horizon,
-	Neon,
-	Oscilate,
-	Undulate,
-	Vortex,
-} from './General/Backgrounds';
+
+/* Svg Textures */
+const Coil = React.lazy(() => import('./General/SvgBackgrounds/Coil'));
+const Circular = React.lazy(() => import('./General/SvgBackgrounds/Circular'));
+const Horizon = React.lazy(() => import('./General/SvgBackgrounds/Horizon'));
+const Grayrate = React.lazy(() => import('./General/SvgBackgrounds/Grayrate'));
+const Hirl = React.lazy(() => import('./General/SvgBackgrounds/Hirl'));
+const Neon = React.lazy(() => import('./General/SvgBackgrounds/Neon'));
+const Undulate = React.lazy(() => import('./General/SvgBackgrounds/Undulate'));
+const Chaos = React.lazy(() => import('./General/SvgBackgrounds/Chaos'));
+const Oscilate = React.lazy(() => import('./General/SvgBackgrounds/Oscilate'));
+const Vortex = React.lazy(() => import('./General/SvgBackgrounds/Vortex'));
+const Flux = React.lazy(() => import('./General/SvgBackgrounds/Flux'));
 
 export const WorkspaceTexture: React.FC<{
 	texture: string;
@@ -25,142 +25,164 @@ export const WorkspaceTexture: React.FC<{
 	switch (texture) {
 		case 'flux':
 			return (
-				<Flux
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-				></Flux>
+				<Suspense>
+					<Flux
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+					></Flux>
+				</Suspense>
 			);
 
 		case 'coil':
 			return (
-				<Coil
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-				></Coil>
+				<Suspense>
+					<Coil
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+					></Coil>
+				</Suspense>
 			);
 
 		case 'circular':
 			return (
-				<Circular
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-				></Circular>
+				<Suspense>
+					<Circular
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+					></Circular>
+				</Suspense>
 			);
 
 		case 'horizon':
 			return (
-				<Horizon
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Horizon>
+				<Suspense>
+					<Horizon
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Horizon>
+				</Suspense>
 			);
 
 		case 'grayrate':
 			return (
-				<Grayrate
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Grayrate>
+				<Suspense>
+					<Grayrate
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Grayrate>
+				</Suspense>
 			);
 
 		case 'hirl':
 			return (
-				<Hirl
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Hirl>
+				<Suspense>
+					<Hirl
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Hirl>
+				</Suspense>
 			);
 
 		case 'neon':
 			return (
-				<Neon
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Neon>
+				<Suspense>
+					<Neon
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Neon>
+				</Suspense>
 			);
 
 		case 'undulate':
 			return (
-				<Undulate
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Undulate>
+				<Suspense>
+					<Undulate
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Undulate>
+				</Suspense>
 			);
 
 		case 'chaos':
 			return (
-				<Chaos
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Chaos>
+				<Suspense>
+					<Chaos
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Chaos>
+				</Suspense>
 			);
 
 		case 'oscilate':
 			return (
-				<Oscilate
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Oscilate>
+				<Suspense>
+					<Oscilate
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Oscilate>
+				</Suspense>
 			);
 
 		case 'vortex':
 			return (
-				<Vortex
-					color1={workspaceGradient.color1}
-					color2={workspaceGradient.color2}
-					style={{
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-					className='flex flex-auto h-full w-full'
-				></Vortex>
+				<Suspense>
+					<Vortex
+						color1={workspaceGradient.color1}
+						color2={workspaceGradient.color2}
+						style={{
+							height: workspaceHeight + 'px',
+							width: workspaceWidth + 'px',
+						}}
+						className='flex flex-auto h-full w-full'
+					></Vortex>
+				</Suspense>
 			);
 
 		default:

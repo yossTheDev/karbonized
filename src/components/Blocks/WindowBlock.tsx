@@ -270,3 +270,4 @@ export const WindowBlock: React.FC = () => {
 		</>
 	);
 };
+export default WindowBlock;

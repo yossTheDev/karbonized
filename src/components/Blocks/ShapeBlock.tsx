@@ -168,3 +168,4 @@ export const ShapeBlock: React.FC = () => {
 		</>
 	);
 };
+export default ShapeBlock;

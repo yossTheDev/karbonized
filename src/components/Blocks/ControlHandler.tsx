@@ -1,15 +1,16 @@
 import React, { Suspense } from 'react';
-import { ShapeBlock } from './ShapeBlock';
-import { AvatarBlock } from './AvatarBlock';
 import { BlockLoader } from './BlockLoader';
-import { ImageBlock } from './ImageBlock';
-import { PhoneBlock } from './PhoneBlock';
-import { QrControl } from './QrBlock';
-import { TextControl } from './TextBlock';
-import { WindowBlock } from './WindowBlock';
 
 const CodeControl = React.lazy(() => import('./CodeBlock'));
 const FaIconBlock = React.lazy(() => import('./FaIconBlock'));
+
+const TextControl = React.lazy(() => import('./TextBlock'));
+const QrControl = React.lazy(() => import('./QrBlock'));
+const PhoneBlock = React.lazy(() => import('./PhoneBlock'));
+const ImageBlock = React.lazy(() => import('./ImageBlock'));
+const AvatarBlock = React.lazy(() => import('./AvatarBlock'));
+const ShapeBlock = React.lazy(() => import('./ShapeBlock'));
+const WindowBlock = React.lazy(() => import('./WindowBlock'));
 
 interface Props {
 	id: string;
@@ -26,19 +27,48 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 				</Suspense>
 			);
 		case 'text':
-			return <TextControl></TextControl>;
+			return (
+				<Suspense>
+					<TextControl></TextControl>
+				</Suspense>
+			);
 		case 'qr':
-			return <QrControl></QrControl>;
+			return (
+				<Suspense>
+					<QrControl></QrControl>
+				</Suspense>
+			);
 		case 'image':
-			return <ImageBlock></ImageBlock>;
+			return (
+				<Suspense>
+					<ImageBlock></ImageBlock>
+				</Suspense>
+			);
 		case 'window':
-			return <WindowBlock></WindowBlock>;
+			return (
+				<Suspense>
+					<WindowBlock></WindowBlock>
+				</Suspense>
+			);
 		case 'avatar':
-			return <AvatarBlock></AvatarBlock>;
+			return (
+				<Suspense>
+					<AvatarBlock></AvatarBlock>
+				</Suspense>
+			);
+
 		case 'arrow':
-			return <ShapeBlock></ShapeBlock>;
+			return (
+				<Suspense>
+					<ShapeBlock></ShapeBlock>
+				</Suspense>
+			);
 		case 'phone_mockup':
-			return <PhoneBlock></PhoneBlock>;
+			return (
+				<Suspense>
+					<PhoneBlock></PhoneBlock>
+				</Suspense>
+			);
 		case 'faicon':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>

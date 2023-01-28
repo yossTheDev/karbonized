@@ -58,3 +58,4 @@ export const AvatarBlock: React.FC = () => {
 		</>
 	);
 };
+export default AvatarBlock;

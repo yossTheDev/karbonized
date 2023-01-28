@@ -5,24 +5,22 @@ import {
 	IconTrash,
 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { NumberInput } from '../CustomControls/NumberInput';
-import {
-	Chaos,
-	Circular,
-	Coil,
-	Flux,
-	Grayrate,
-	Hirl,
-	Horizon,
-	Neon,
-	Oscilate,
-	Undulate,
-	Vortex,
-} from '../General/Backgrounds';
+
+const Coil = React.lazy(() => import('../General/SvgBackgrounds/Coil'));
+const Circular = React.lazy(() => import('../General/SvgBackgrounds/Circular'));
+const Horizon = React.lazy(() => import('../General/SvgBackgrounds/Horizon'));
+const Grayrate = React.lazy(() => import('../General/SvgBackgrounds/Grayrate'));
+const Hirl = React.lazy(() => import('../General/SvgBackgrounds/Hirl'));
+const Neon = React.lazy(() => import('../General/SvgBackgrounds/Neon'));
+const Undulate = React.lazy(() => import('../General/SvgBackgrounds/Undulate'));
+const Chaos = React.lazy(() => import('../General/SvgBackgrounds/Chaos'));
+const Oscilate = React.lazy(() => import('../General/SvgBackgrounds/Oscilate'));
+const Vortex = React.lazy(() => import('../General/SvgBackgrounds/Vortex'));
 
 interface SizeItem {
 	label: string;
@@ -209,7 +207,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('grayrate');
 								}}
 							>
-								<Grayrate className='flex flex-auto h-full w-full rounded-full'></Grayrate>
+								<Suspense>
+									<Grayrate className='flex flex-auto h-full w-full rounded-full'></Grayrate>
+								</Suspense>
 							</div>
 
 							<div
@@ -218,7 +218,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('coil');
 								}}
 							>
-								<Coil className='flex flex-auto h-full w-full rounded-full '></Coil>
+								<Suspense>
+									<Coil className='flex flex-auto h-full w-full rounded-full '></Coil>
+								</Suspense>
 							</div>
 
 							<div
@@ -227,7 +229,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('circular');
 								}}
 							>
-								<Circular className='flex flex-auto h-full w-full rounded-full'></Circular>
+								<Suspense>
+									<Circular className='flex flex-auto h-full w-full rounded-full'></Circular>
+								</Suspense>
 							</div>
 
 							<div
@@ -236,7 +240,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('horizon');
 								}}
 							>
-								<Horizon className='flex flex-auto h-full w-full rounded-full'></Horizon>
+								<Suspense>
+									<Horizon className='flex flex-auto h-full w-full rounded-full'></Horizon>
+								</Suspense>
 							</div>
 
 							<div
@@ -245,7 +251,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('hirl');
 								}}
 							>
-								<Hirl className='flex flex-auto h-full w-full rounded-full'></Hirl>
+								<Suspense>
+									<Hirl className='flex flex-auto h-full w-full rounded-full'></Hirl>
+								</Suspense>
 							</div>
 
 							<div
@@ -254,7 +262,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('neon');
 								}}
 							>
-								<Neon className='flex flex-auto h-full w-full rounded-full'></Neon>
+								<Suspense>
+									<Neon className='flex flex-auto h-full w-full rounded-full'></Neon>
+								</Suspense>
 							</div>
 
 							<div
@@ -263,7 +273,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('undulate');
 								}}
 							>
-								<Undulate className='flex flex-auto h-full w-full rounded-full'></Undulate>
+								<Suspense>
+									<Undulate className='flex flex-auto h-full w-full rounded-full'></Undulate>
+								</Suspense>
 							</div>
 
 							<div
@@ -272,7 +284,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('chaos');
 								}}
 							>
-								<Chaos className='flex flex-auto h-full w-full rounded-full'></Chaos>
+								<Suspense>
+									<Chaos className='flex flex-auto h-full w-full rounded-full'></Chaos>
+								</Suspense>
 							</div>
 
 							<div
@@ -281,7 +295,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('oscilate');
 								}}
 							>
-								<Oscilate className='flex flex-auto h-full w-full rounded-full'></Oscilate>
+								<Suspense>
+									<Oscilate className='flex flex-auto h-full w-full rounded-full'></Oscilate>
+								</Suspense>
 							</div>
 
 							<div
@@ -290,7 +306,9 @@ export const WorkspacePanel: React.FC = () => {
 									setTexture('vortex');
 								}}
 							>
-								<Vortex className='flex flex-auto h-full w-full rounded-full'></Vortex>
+								<Suspense>
+									<Vortex className='flex flex-auto h-full w-full rounded-full'></Vortex>
+								</Suspense>
 							</div>
 						</div>
 					)}

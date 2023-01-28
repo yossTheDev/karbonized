@@ -85,3 +85,5 @@ export const QrControl: React.FC = () => {
 		</>
 	);
 };
+
+export default QrControl;

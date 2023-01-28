@@ -107,3 +107,5 @@ export const TextControl: React.FC = () => {
 		</>
 	);
 };
+
+export default TextControl;

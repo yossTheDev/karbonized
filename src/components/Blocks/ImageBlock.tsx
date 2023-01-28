@@ -85,3 +85,4 @@ export const ImageBlock: React.FC = () => {
 		</>
 	);
 };
+export default ImageBlock;
