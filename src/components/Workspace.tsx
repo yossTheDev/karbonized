@@ -14,6 +14,10 @@ import Moveable, {
 	OnSnap,
 } from 'react-moveable';
 
+import horizon from '../assets/ffflux.svg';
+import { Flux, Union } from './General/Backgrounds';
+import { WorkspaceTexture } from './WorkspaceTexture';
+
 interface Props {
 	reference: RefObject<HTMLDivElement>;
 }
@@ -27,6 +31,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
+	const workspaceType = useStoreState((state) => state.workspaceType);
+	const workspaceTexture = useStoreState((state) => state.textureName);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
 	/* Workspace Colors */
 	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
@@ -54,6 +60,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						width: workspaceWidth + 'px',
 					}}
 				>
+					{workspaceType === 'texture' && (
+						<WorkspaceTexture texture={workspaceTexture}></WorkspaceTexture>
+					)}
+
 					{controls.map((el, i) => (
 						<ControlHandler
 							id={i.toString()}

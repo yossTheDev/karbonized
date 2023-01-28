@@ -9,6 +9,23 @@ import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { NumberInput } from '../CustomControls/NumberInput';
+import {
+	Chaos,
+	Circular,
+	Coil,
+	Flux,
+	Grayrate,
+	Hirl,
+	Horizon,
+	Motif,
+	Neon,
+	Noise,
+	Oscilate,
+	Ten,
+	Undulate,
+	Union,
+	Vortex,
+} from '../General/Backgrounds';
 
 interface SizeItem {
 	label: string;
@@ -47,16 +64,22 @@ export const WorkspacePanel: React.FC = () => {
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
+	const workspaceType = useStoreState((state) => state.workspaceType);
 	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
 	const workspaceGadient = useStoreState(
 		(state) => state.workspaceGradientSettings
 	);
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
+	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
+	const setTexture = useStoreActions((state) => state.setTextureName);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const setWorkspaceGradient = useStoreActions(
 		(state) => state.setWorkspaceGradient
 	);
+
+	const textureColors = useStoreState((state) => state.textureColors);
+	const setTextureColors = useStoreActions((state) => state.setTextureColors);
 	const setWorkspaceColorMode = useStoreActions(
 		(state) => state.setWorkspaceColorMode
 	);
@@ -64,7 +87,7 @@ export const WorkspacePanel: React.FC = () => {
 
 	return (
 		<>
-			<div className='flex flex-auto flex-col p-2 text-xs select-none'>
+			<div className='flex flex-auto flex-col p-2 text-xs select-none overflow-auto'>
 				{/* Workspace Name */}
 				<>
 					<div className='flex flex-row m-2 gap-2'>
@@ -144,36 +167,174 @@ export const WorkspacePanel: React.FC = () => {
 				</>
 
 				{/* Background Color */}
-				<div className='flex flex-col select-none'>
+				<div className='flex flex-col select-none gap-2 overflow-auto'>
+					{/* Header */}
 					<div className='flex flex-row m-2 gap-2 '>
 						<IconPalette size={22}></IconPalette>
 						<p className='font-bold my-auto'>Background</p>
 					</div>
 
-					<ColorPicker
-						type='HexAlpha'
-						colorGradient1={workspaceGadient.color1}
-						colorGradient2={workspaceGadient.color2}
-						gradientDeg={workspaceGadient.deg}
-						onGradientChange={(color: any, color2: any) => {
-							setWorkspaceGradient({
-								color1: color,
-								color2: color2,
-								deg: workspaceGadient.deg,
-							});
-						}}
-						onGradientDegChange={(deg) => {
-							setWorkspaceGradient({
-								color1: workspaceGadient.color1,
-								color2: workspaceGadient.color2,
-								deg: deg,
-							});
-						}}
-						onModeChange={(mode) => setWorkspaceColorMode(mode)}
-						mode={workspaceColorMode}
-						color={workspaceColor}
-						onColorChange={setWorkspaceColor}
-					></ColorPicker>
+					{/* Workspace  Background Type */}
+					<div className='flex flex-auto flex-row gap-2 mb-1'>
+						<div
+							onClick={() => {
+								setWorkspaceType('color');
+							}}
+							className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer ${
+								workspaceType === 'color' && 'border-primary border-2'
+							}`}
+						>
+							<p className='mx-auto my-auto'>Color</p>
+						</div>
+
+						<div
+							className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer ${
+								workspaceType === 'texture' && 'border-primary border-2'
+							}`}
+							onClick={() => {
+								setWorkspaceType('texture');
+							}}
+						>
+							<p className='mx-auto my-auto'>Texture</p>
+						</div>
+					</div>
+
+					{/* Select Texture */}
+					{workspaceType === 'texture' && (
+						<div className='flex flex-auto flex-row flex-wrap  overflow-scroll gap-2'>
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('grayrate');
+								}}
+							>
+								<Grayrate className='flex flex-auto h-full w-full rounded-full'></Grayrate>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('coil');
+								}}
+							>
+								<Coil className='flex flex-auto h-full w-full rounded-full '></Coil>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('circular');
+								}}
+							>
+								<Circular className='flex flex-auto h-full w-full rounded-full'></Circular>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('horizon');
+								}}
+							>
+								<Horizon className='flex flex-auto h-full w-full rounded-full'></Horizon>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('hirl');
+								}}
+							>
+								<Hirl className='flex flex-auto h-full w-full rounded-full'></Hirl>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('neon');
+								}}
+							>
+								<Neon className='flex flex-auto h-full w-full rounded-full'></Neon>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('undulate');
+								}}
+							>
+								<Undulate className='flex flex-auto h-full w-full rounded-full'></Undulate>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('chaos');
+								}}
+							>
+								<Chaos className='flex flex-auto h-full w-full rounded-full'></Chaos>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('oscilate');
+								}}
+							>
+								<Oscilate className='flex flex-auto h-full w-full rounded-full'></Oscilate>
+							</div>
+
+							<div
+								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								onClick={() => {
+									setTexture('vortex');
+								}}
+							>
+								<Vortex className='flex flex-auto h-full w-full rounded-full'></Vortex>
+							</div>
+						</div>
+					)}
+
+					{workspaceType === 'color' ? (
+						<ColorPicker
+							type='HexAlpha'
+							colorGradient1={workspaceGadient.color1}
+							colorGradient2={workspaceGadient.color2}
+							gradientDeg={workspaceGadient.deg}
+							onGradientChange={(color: any, color2: any) => {
+								setWorkspaceGradient({
+									color1: color,
+									color2: color2,
+									deg: workspaceGadient.deg,
+								});
+							}}
+							onGradientDegChange={(deg) => {
+								setWorkspaceGradient({
+									color1: workspaceGadient.color1,
+									color2: workspaceGadient.color2,
+									deg: deg,
+								});
+							}}
+							onModeChange={(mode) => setWorkspaceColorMode(mode)}
+							mode={workspaceColorMode}
+							color={workspaceColor}
+							onColorChange={setWorkspaceColor}
+						></ColorPicker>
+					) : (
+						<ColorPicker
+							type='HexAlpha'
+							colorGradient1={textureColors.color1}
+							colorGradient2={textureColors.color2}
+							onGradientChange={(color: any, color2: any) => {
+								setTextureColors({
+									color1: color,
+									color2: color2,
+								});
+							}}
+							color={workspaceColor}
+							mode={'Gradient'}
+							onColorChange={() => {}}
+						></ColorPicker>
+					)}
 				</div>
 
 				{/* Clean */}

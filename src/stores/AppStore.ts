@@ -31,6 +31,7 @@ export interface AppStoreModel {
 	workspaceName: string;
 	workspaceColor: string;
 	workspaceColorMode: string;
+	workspaceType: string; // Color or Texture
 	workspaceWidth: string;
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
@@ -38,10 +39,15 @@ export interface AppStoreModel {
 		AppStoreModel,
 		{ color1: string; color2: string; deg: number }
 	>;
+	textureName: string;
+	textureColors: { color1: string; color2: string };
+	setTextureName: Action<AppStoreModel, string>;
+	setTextureColors: Action<AppStoreModel, { color1: string; color2: string }>;
 	setWorkspaceColorMode: Action<AppStoreModel, string>;
 	setWorkspaceName: Action<AppStoreModel, string>;
 	setWorkspaceColor: Action<AppStoreModel, string>;
 	setWorkspaceSize: Action<AppStoreModel, { height: string; width: string }>;
+	setWorkspaceType: Action<AppStoreModel, string>;
 	addControl: Action<AppStoreModel, Item>;
 	setcurrentControlID: Action<AppStoreModel, string>;
 	cleanWorkspace: Action<AppStoreModel>;
@@ -64,10 +70,24 @@ export const AppStore = createStore<AppStoreModel>({
 
 	/* Workspace */
 	workspaceName: 'karbonized-image',
+	workspaceType: 'color', // Color or Texture
 	workspaceColor: '#5895c8',
 	workspaceColorMode: 'Gradient',
 	workspaceHeight: '512',
 	workspaceWidth: '512',
+
+	textureName: 'grayrate',
+	textureColors: { color1: '#409ccf', color2: '#136179' },
+	setTextureColors: action((state, payload) => {
+		state.textureColors = payload;
+	}),
+	setTextureName: action((state, payload) => {
+		state.textureName = payload;
+	}),
+
+	setWorkspaceType: action((state, payload) => {
+		state.workspaceType = payload;
+	}),
 
 	setWorkspaceGradient: action((state, payload) => {
 		state.workspaceGradientSettings = payload;
