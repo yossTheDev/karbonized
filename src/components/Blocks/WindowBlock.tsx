@@ -9,6 +9,7 @@ import {
 	IconReload,
 	IconSearch,
 	IconStar,
+	IconX,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { FileInput, Input, Select } from 'react-daisyui';
@@ -158,8 +159,9 @@ export const WindowBlock: React.FC = () => {
 													size={15}
 												></IconBrandChrome>
 												<div className='p-2 bg-slate-500/10  rounded flex flex-row gap-1'>
-													<IconFile size={15}></IconFile>
+													<IconFile className='my-auto' size={15}></IconFile>
 													<p className='text-xs my-auto'>{title}</p>
+													<IconX className='my-auto' size={15}></IconX>
 												</div>
 											</div>
 										)}
@@ -249,9 +251,9 @@ export const WindowBlock: React.FC = () => {
 								className='flex flex-auto flex-row bg-slate-500/20 p-1 rounded m-1'
 								style={{ color: controlsColor }}
 							>
-								<IconSearch className='my-auto' size={14}></IconSearch>
+								<IconSearch className='my-auto ml-1' size={14}></IconSearch>
 								<p className='my-auto text-xs ml-2'>{url}</p>
-								<IconStar className='ml-auto my-auto' size={14}></IconStar>
+								<IconStar className='ml-auto my-auto mr-1' size={14}></IconStar>
 							</div>
 						</div>
 					)}
