@@ -1,4 +1,4 @@
-package com.example.app;
+package com.yossthedev.karbonized;
 
 import com.getcapacitor.BridgeActivity;
 
