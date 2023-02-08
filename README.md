@@ -7,7 +7,7 @@
 
 <p align="center"><b>Free</b> and <b>Open Source</b>  Carbon App. Made with ❤️ and ReactJS in 🇨🇺.</p>
 
-![carbonizedscreen](./img/screen.png)
+![carbonizedscreen](./img/newscreen.png)
 
 [Check it out](https://karbonized.onrender.com)
 
