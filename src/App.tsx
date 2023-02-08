@@ -43,8 +43,6 @@ const App: React.FC = () => {
 	const setEditing = useStoreActions((state) => state.setEditing);
 	const setReady = useStoreActions((state) => state.setReadyToSave);
 	const workspaceName = useStoreState((state) => state.workspaceName);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const editing = useStoreState((state) => state.editing);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
@@ -520,7 +518,7 @@ const App: React.FC = () => {
 							rangeX={[-2048, 2048]}
 							rangeY={[-2048, 2048]}
 							useWheelScroll
-							onScroll={(e) => {
+							onScroll={() => {
 								/*console.log(
 									'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
 								);*/
