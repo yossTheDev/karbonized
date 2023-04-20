@@ -30,7 +30,7 @@ export const TextControl: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconLetterT></IconLetterT>
 									<p className='my-auto'>Text</p>
 								</div>
@@ -38,31 +38,31 @@ export const TextControl: React.FC = () => {
 						>
 							<p>Text Style</p>
 							{/* Text */}
-							<ButtonGroup className='flex flex-auto mx-auto w-full'>
+							<ButtonGroup className='mx-auto flex w-full flex-auto'>
 								<Button
 									active={isBold}
 									onClick={() => setIsBold(!isBold)}
-									className='font-bold flex flex-auto'
+									className='flex flex-auto font-bold'
 								>
 									B
 								</Button>
 								<Button
 									active={isItalic}
 									onClick={() => setIsItalic(!isItalic)}
-									className='italic flex flex-auto'
+									className='flex flex-auto italic'
 								>
 									I
 								</Button>
 								<Button
 									active={isUnderline}
 									onClick={() => setIsUnderline(!isUnderline)}
-									className='underline flex flex-auto'
+									className='flex flex-auto underline'
 								>
 									U
 								</Button>
 							</ButtonGroup>
 
-							<div className='flex flex-row flex-auto text-xs'>
+							<div className='flex flex-auto flex-row text-xs'>
 								<p className='my-auto'>Text</p>
 
 								<Input
@@ -72,7 +72,7 @@ export const TextControl: React.FC = () => {
 								></Input>
 							</div>
 
-							<div className='flex flex-row flex-auto text-xs'>
+							<div className='flex flex-auto flex-row text-xs'>
 								<p className='my-auto'>Font Size</p>
 
 								<NumberInput
@@ -97,7 +97,7 @@ export const TextControl: React.FC = () => {
 			>
 				<p
 					style={{ color: color, fontSize: textSize + 'px' }}
-					className={`my-auto flex flex-auto whitespace-pre-wrap overflow-hidden select-none hover:border-blue-500 hover:border ${
+					className={`my-auto flex flex-auto select-none overflow-hidden whitespace-pre-wrap hover:border hover:border-blue-500 ${
 						isBold && 'font-bold'
 					} ${isItalic && 'italic'} ${isUnderline && 'underline'}`}
 				>

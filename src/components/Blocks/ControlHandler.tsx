@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { BlockLoader } from './BlockLoader';
+import TweetBlock from './TweetBlock';
 
 const CodeControl = React.lazy(() => import('./CodeBlock'));
 const FaIconBlock = React.lazy(() => import('./FaIconBlock'));
@@ -73,6 +74,13 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<FaIconBlock></FaIconBlock>
+				</Suspense>
+			);
+
+		case 'tweet':
+			return (
+				<Suspense fallback={<BlockLoader></BlockLoader>}>
+					<TweetBlock></TweetBlock>
 				</Suspense>
 			);
 		default:

@@ -4,6 +4,7 @@ import './App.css';
 import './utils.css';
 import {
 	IconAppWindow,
+	IconBrandTwitter,
 	IconCircle,
 	IconCode,
 	IconDeviceMobile,
@@ -190,30 +191,30 @@ const App: React.FC = () => {
 					e.preventDefault();
 				}}
 				id='body'
-				className='bg-base-200 h-screen w-screen flex flex-col flex-auto overflow-hidden'
+				className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200'
 			>
 				{/* Nav Bar */}
-				<Navbar className='flex shrink h-2'>
+				<Navbar className='flex h-2 shrink'>
 					<Navbar.Start>
 						{/* About Button */}
 						<Button
 							color='ghost'
-							className='md:hidden rounded-full ml-2   hover:bg-base-100 hover:border-base-100'
+							className='ml-2 rounded-full hover:border-base-100   hover:bg-base-100 md:hidden'
 							onClick={() => setShowAbout(true)}
 						>
-							<IconInfoCircle className='dark:text-white text-black'></IconInfoCircle>
-							<p className='dark:text-white text-black md:flex hidden md:ml-2'>
+							<IconInfoCircle className='text-black dark:text-white'></IconInfoCircle>
+							<p className='hidden text-black dark:text-white md:ml-2 md:flex'>
 								Share
 							</p>
 						</Button>
 
-						<p className='md:flex hidden dark:text-white text-black poppins-font-family ml-2 text-2xl select-none'>
+						<p className='poppins-font-family ml-2 hidden select-none text-2xl text-black dark:text-white md:flex'>
 							Karbonized
 						</p>
 					</Navbar.Start>
 
 					<Navbar.Center>
-						<p className='md:hidden flex dark:text-white text-black poppins-font-family ml-2 text-2xl select-none'>
+						<p className='poppins-font-family ml-2 flex select-none text-2xl text-black dark:text-white md:hidden'>
 							Karbonized
 						</p>
 					</Navbar.Center>
@@ -222,11 +223,11 @@ const App: React.FC = () => {
 						{/* Share Button */}
 						<Button
 							color='ghost'
-							className='rounded-full mr-2 md:bg-base-100 md:border-base-100 hover:bg-base-200 hover:border-base-200'
+							className='mr-2 rounded-full hover:border-base-200 hover:bg-base-200 md:border-base-100 md:bg-base-100'
 							onClick={handleShare}
 						>
-							<IconShare className='dark:text-white text-black'></IconShare>
-							<p className='dark:text-white text-black md:flex hidden md:ml-2'>
+							<IconShare className='text-black dark:text-white'></IconShare>
+							<p className='hidden text-black dark:text-white md:ml-2 md:flex'>
 								Share
 							</p>
 						</Button>
@@ -235,28 +236,28 @@ const App: React.FC = () => {
 							menu={
 								<>
 									<div
-										className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+										className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 										onMouseDown={exportAsPng}
 									>
-										<div className='flex flex-auto flex-row my-auto gap-2'>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
 											<IconPng></IconPng>
 											<p>Export as PNG</p>
 										</div>
 									</div>
 									<div
-										className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+										className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 										onMouseDown={exportAsJpeg}
 									>
-										<div className='flex flex-auto flex-row my-auto gap-2'>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
 											<IconJpg></IconJpg>
 											<p>Export as JPG</p>
 										</div>
 									</div>
 									<div
-										className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+										className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 										onMouseDown={exportAsSvg}
 									>
-										<div className='flex flex-auto flex-row my-auto gap-2'>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
 											<IconSvg></IconSvg>
 											<p>Export as SVG</p>
 										</div>
@@ -265,9 +266,9 @@ const App: React.FC = () => {
 							}
 							position='bottom-end'
 						>
-							<div className='hidden md:flex rounded-full mr-2 p-3 w-24 cursor-pointer bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'>
+							<div className='mr-2 hidden w-24 cursor-pointer rounded-full border-primary bg-gradient-to-br from-blue-500 to-primary p-3 hover:border-primary hover:bg-gradient-to-l md:flex'>
 								<IconFlask className='text-white'></IconFlask>
-								<p className='text-white md:flex hidden font-bold mx-auto'>
+								<p className='mx-auto hidden font-bold text-white md:flex'>
 									SAVE
 								</p>
 							</div>
@@ -276,16 +277,16 @@ const App: React.FC = () => {
 						{/* Save Button */}
 						<Button
 							onClick={exportAsPng}
-							className='hidden rounded-full mr-2 bg-gradient-to-br border-primary hover:border-primary from-blue-500 to-primary hover:bg-gradient-to-l'
+							className='mr-2 hidden rounded-full border-primary bg-gradient-to-br from-blue-500 to-primary hover:border-primary hover:bg-gradient-to-l'
 						>
 							<IconFlask className='text-white'></IconFlask>
-							<p className='text-white md:flex hidden'>Save</p>
+							<p className='hidden text-white md:flex'>Save</p>
 						</Button>
 					</Navbar.End>
 				</Navbar>
 
 				{/* Quick Bar */}
-				<div className='absolute lg:flex hidden ml-20 mt-20  z-50'>
+				<div className='absolute z-50 ml-20 mt-20 hidden  lg:flex'>
 					<Tooltip messsage='Center View'>
 						<Button
 							onClick={() => {
@@ -303,7 +304,7 @@ const App: React.FC = () => {
 					<Tooltip messsage='Lock Aspect Ratio'>
 						<Button
 							className={`ml-2 ${
-								aspectRatio && 'bg-primary border-primary text-white'
+								aspectRatio && 'border-primary bg-primary text-white'
 							}`}
 							onClick={() => {
 								setAspectRatio(!aspectRatio);
@@ -315,9 +316,9 @@ const App: React.FC = () => {
 				</div>
 
 				{/* Content*/}
-				<div className='flex flex-auto flex-col md:flex-row overflow-hidden'>
+				<div className='flex flex-auto flex-col overflow-hidden md:flex-row'>
 					{/* Controls Tree */}
-					<div className='flex order-3 md:order-first flex-row md:flex-col bg-base-200 p-2 gap-2 md:w-16 overflow-y-auto'>
+					<div className='order-3 flex flex-row gap-2 overflow-y-auto bg-base-200 p-2 md:order-first md:w-16 md:flex-col'>
 						{/* Actions */}
 
 						{/* Select */}
@@ -361,7 +362,7 @@ const App: React.FC = () => {
 						{/* Zoom In */}
 						<Tooltip className='flex flex-auto ' messsage='Zoom In'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => setZoom(zoom + 0.2)}
 							>
@@ -372,7 +373,7 @@ const App: React.FC = () => {
 						{/* Zoom Out */}
 						<Tooltip className='flex flex-auto ' messsage='Zoom Out'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => setZoom(zoom - 0.2)}
 							>
@@ -386,7 +387,7 @@ const App: React.FC = () => {
 						{/* Zoom Reset */}
 						<Tooltip className='flex flex-auto ' messsage='Zoom Reset'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => setZoom(0.7)}
 							>
@@ -397,12 +398,12 @@ const App: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='p-0.5 rounded bg-base-100'></p>
+						<p className='rounded bg-base-100 p-0.5'></p>
 
 						{/* Code Control */}
 						<Tooltip className='flex flex-auto ' messsage='Code'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'code' })}
 							>
@@ -413,7 +414,7 @@ const App: React.FC = () => {
 						{/* FaIcon Control */}
 						<Tooltip className='flex flex-auto ' messsage='Icon'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'faicon' })}
 							>
@@ -427,7 +428,7 @@ const App: React.FC = () => {
 						{/* Text Control */}
 						<Tooltip className='flex flex-auto ' messsage='Text'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'text' })}
 							>
@@ -441,7 +442,7 @@ const App: React.FC = () => {
 						{/* Shape Control */}
 						<Tooltip className='flex flex-auto ' messsage='Shape'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'arrow' })}
 							>
@@ -452,7 +453,7 @@ const App: React.FC = () => {
 						{/* Qr Control */}
 						<Tooltip className='flex flex-auto ' messsage='QR'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'qr' })}
 							>
@@ -463,7 +464,7 @@ const App: React.FC = () => {
 						{/* Image Control */}
 						<Tooltip className='flex flex-auto ' messsage='Image'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'image' })}
 							>
@@ -471,10 +472,24 @@ const App: React.FC = () => {
 							</Button>
 						</Tooltip>
 
+						{/* Tweet Control */}
+						<Tooltip className='hidden flex-auto ' messsage='Tweet'>
+							<Button
+								className='flex flex-auto p-1'
+								color='ghost'
+								onClick={() => addControl({ type: 'tweet' })}
+							>
+								<IconBrandTwitter
+									size={18}
+									className='dark:text-white'
+								></IconBrandTwitter>
+							</Button>
+						</Tooltip>
+
 						{/* Window Control */}
 						<Tooltip className='flex flex-auto ' messsage='Window'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'window' })}
 							>
@@ -488,7 +503,7 @@ const App: React.FC = () => {
 						{/* Phone Mockup Control */}
 						<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
 							<Button
-								className='p-1 flex flex-auto'
+								className='flex flex-auto p-1'
 								color='ghost'
 								onClick={() => addControl({ type: 'phone_mockup' })}
 							>
@@ -509,7 +524,7 @@ const App: React.FC = () => {
 
 						<InfiniteViewer
 							ref={refe}
-							className='viewer flex flex-auto bg-base-100  rounded-2xl'
+							className='viewer flex flex-auto rounded-2xl  bg-base-100'
 							useMouseDrag={drag}
 							useAutoZoom
 							zoom={zoom}
@@ -533,7 +548,7 @@ const App: React.FC = () => {
 					</div>
 
 					{/* Menu */}
-					<div className='max-h-72 h-60 md:h-full md:max-h-full order-3 flex shrink-0 grow-0 flex-col md:max-w-xs lg:max-w-sm w-full  p-2  text-white bg-base-200'>
+					<div className='order-3 flex h-60 max-h-72 w-full  flex-col bg-base-200 p-2 text-white md:h-full  md:max-h-full  md:max-w-xs lg:max-w-sm'>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>

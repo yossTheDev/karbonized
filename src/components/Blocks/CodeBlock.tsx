@@ -65,9 +65,9 @@ const themes: Style[] = [
 const CodeControl: React.FC = () => {
 	/* Component States */
 	const [theme, setTheme] = useState('coldarkDark');
-	const [languaje, setLanguaje] = useState('jsx');
+	const [language, setLanguage] = useState('jsx');
 	const [code, setCode] = useState(
-		`<pre><code class="language-${languaje}"></code></pre>`
+		`<pre><code class="language-${language}"></code></pre>`
 	);
 	const [color, setColor] = useState('#111b28');
 	const [controlsColor, setControlsColor] = useState('#b4b4b4');
@@ -118,15 +118,15 @@ const CodeControl: React.FC = () => {
 						{/* Border  */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconBorderStyle size={22}></IconBorderStyle>
-									<p className='font-bold my-auto'>Borders</p>
+									<p className='my-auto font-bold'>Borders</p>
 								</div>
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
 								<div className='flex flex-auto p-2'>
-									<p className='p-2 my-auto'>Radius:</p>
+									<p className='my-auto p-2'>Radius:</p>
 									<Range
 										className='my-auto'
 										color='primary'
@@ -144,18 +144,18 @@ const CodeControl: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2 '>
+								<div className='m-2 flex flex-row gap-2 '>
 									<IconCode size={22}></IconCode>
-									<p className='font-bold my-auto'>Code</p>
+									<p className='my-auto font-bold'>Code</p>
 								</div>
 							}
 						>
-							<p>Languaje</p>
+							<p>Language</p>
 							<Select
 								tabIndex={0}
-								value={languaje}
+								value={language}
 								onChange={(e) => {
-									setLanguaje(e);
+									setLanguage(e);
 								}}
 							>
 								{SyntaxHighlighter.supportedLanguages.map((i) => {
@@ -193,7 +193,7 @@ const CodeControl: React.FC = () => {
 							<p>Code</p>
 							<Textarea
 								spellCheck={false}
-								className=' h-32 resize-none flex flex-auto'
+								className=' flex h-32 flex-auto resize-none'
 								value={code}
 								onChange={(ev) => setCode(ev.target.value)}
 							></Textarea>
@@ -202,9 +202,9 @@ const CodeControl: React.FC = () => {
 						{/* Window Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2 '>
+								<div className='m-2 flex flex-row gap-2 '>
 									<IconAppWindow size={22}></IconAppWindow>
-									<p className='font-bold my-auto'>Window</p>
+									<p className='my-auto font-bold'>Window</p>
 								</div>
 							}
 						>
@@ -220,7 +220,7 @@ const CodeControl: React.FC = () => {
 							</Select>
 
 							{/* Show Tabs */}
-							<div className='flex flex-row m-2 gap-2'>
+							<div className='m-2 flex flex-row gap-2'>
 								<p className='my-auto text-xs'>Show Tabs</p>
 								<Checkbox
 									color='primary'
@@ -258,15 +258,15 @@ const CodeControl: React.FC = () => {
 						{/* Other Options */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconDots size={22}></IconDots>
-									<p className='font-bold my-auto'>Other Options</p>
+									<p className='my-auto font-bold'>Other Options</p>
 								</div>
 							}
 						>
 							{/* Show Line Numbers */}
 							<div className='flex flex-col'>
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<p className='my-auto text-xs'>Show Line Numbers</p>
 									<Checkbox
 										color='primary'
@@ -280,7 +280,7 @@ const CodeControl: React.FC = () => {
 
 							{/* Wrap Lines */}
 							<div className='flex flex-col'>
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<p className='my-auto text-xs'> Wrap Lines</p>
 									<Checkbox
 										color='primary'
@@ -301,39 +301,39 @@ const CodeControl: React.FC = () => {
 								? color
 								: `linear-gradient(${gradientDeg}deg, ${gColor1},${gColor2})`,
 					}}
-					className='flex flex-auto flex-col p-2 overflow-hidden select-none '
+					className='flex flex-auto select-none flex-col overflow-hidden p-2 '
 				>
 					{/* Title */}
-					<div className='flex flex-auto max-h-12 p-1'>
-						<div className='flex flex-auto flex-row w-1/3 my-auto'>
+					<div className='flex max-h-12 flex-auto p-1'>
+						<div className='my-auto flex w-1/3 flex-auto flex-row'>
 							{windowStyle === 'window' ? (
 								<>
 									{!showTabs && (
 										<p
 											style={{ color: controlsColor }}
-											className='text-center mb-auto my-auto hover:border-none flex flex-auto w-20 overflow-hidden'
+											className='my-auto mb-auto flex w-20 flex-auto overflow-hidden text-center hover:border-none'
 										>
 											{title}
 										</p>
 									)}
 								</>
 							) : (
-								<div className='my-auto flex  flex-row gap-1 mr-2 ml-1'>
-									<div className='p-1 w-4  h-4 rounded-full bg-red-500 my-auto'></div>
-									<div className='p-1 w-4  h-4 rounded-full bg-yellow-300 my-auto'></div>
-									<div className='p-1 w-4  h-4 rounded-full  bg-green-500 my-auto'></div>
+								<div className='my-auto ml-1  mr-2 flex flex-row gap-1'>
+									<div className='my-auto h-4  w-4 rounded-full bg-red-500 p-1'></div>
+									<div className='my-auto h-4  w-4 rounded-full bg-yellow-300 p-1'></div>
+									<div className='my-auto h-4  w-4 rounded-full  bg-green-500 p-1'></div>
 								</div>
 							)}
 
 							{/* Tabs */}
 							{showTabs && (
-								<div className='bg-slate-500/5 p-1 rounded-box flex  flex-row gap-2 max-h-10 h-10 w-40 overflow-hidden mr-auto'>
+								<div className='rounded-box mr-auto flex h-10  max-h-10 w-40 flex-row gap-2 overflow-hidden bg-slate-500/5 p-1'>
 									<div
 										style={{ color: controlsColor }}
 										className='my-auto flex flex-auto  flex-row gap-1'
 									>
-										<div className='text-xs mr-auto'></div>
-										<LanguajeTabIcon languaje={languaje}></LanguajeTabIcon>
+										<div className='mr-auto text-xs'></div>
+										<LanguajeTabIcon languaje={language}></LanguajeTabIcon>
 
 										<p style={{ color: controlsColor }} className=''>
 											{title}
@@ -350,11 +350,11 @@ const CodeControl: React.FC = () => {
 
 						{!showTabs && (
 							<>
-								<div className='flex flex-auto flex-row w-1/3 my-auto '>
+								<div className='my-auto flex w-1/3 flex-auto flex-row '>
 									{windowStyle === 'mac' && !showTabs && (
 										<p
 											style={{ color: controlsColor }}
-											className='text-center mx-auto my-auto'
+											className='mx-auto my-auto text-center'
 										>
 											{title}
 										</p>
@@ -363,16 +363,16 @@ const CodeControl: React.FC = () => {
 							</>
 						)}
 
-						<div className='flex flex-auto flex-row w-1/3 my-auto'>
+						<div className='my-auto flex w-1/3 flex-auto flex-row'>
 							{windowStyle === 'window' && (
-								<div className='flex flex-row flex-auto w-1/3 my-auto'>
+								<div className='my-auto flex w-1/3 flex-auto flex-row'>
 									<MiniminizeSvg
 										style={{ fill: controlsColor }}
-										className='h-4 w-4 ml-auto my-auto'
+										className='my-auto ml-auto h-4 w-4'
 									></MiniminizeSvg>
 									<CloseSvg
 										style={{ fill: controlsColor }}
-										className='h-4 w-4  ml-2 my-auto'
+										className='my-auto ml-2  h-4 w-4'
 									></CloseSvg>
 								</div>
 							)}
@@ -401,7 +401,7 @@ const CodeControl: React.FC = () => {
 							wrapLongLines
 							showLineNumbers={showLineNumbers}
 							wrapLines={wrapLines}
-							language={languaje}
+							language={language}
 							style={handleChangeTheme(theme)}
 						>
 							{code}

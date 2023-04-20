@@ -78,6 +78,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					origin={true}
 					/* Resize event edges */
 					edge={false}
+					/* Snappable */
+					snappable={true}
+					snapContainer={document.getElementById('workspace')}
+					snapGap
 					/* draggable */
 					draggable={true}
 					throttleDrag={0}

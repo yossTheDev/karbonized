@@ -28,9 +28,9 @@ export const Menu: React.FC = () => {
 	}, [workspaceTab]);
 
 	return (
-		<div className='flex flex-auto flex-row overflow-y-auto overflow-x-hidden'>
+		<div className='flex w-full flex-auto flex-row overflow-y-auto overflow-x-hidden'>
 			{/* Selectors */}
-			<div className='flex grow shrink-0 flex-col overflow-y-auto '>
+			<div className='flex flex-auto shrink-0 grow flex-col overflow-y-auto '>
 				{/* Seletors */}
 				<div className='flex flex-auto flex-col'>
 					<TabSelector
@@ -42,7 +42,7 @@ export const Menu: React.FC = () => {
 					>
 						<div className='mx-auto'>
 							<IconShape className='mx-auto' size={18}></IconShape>
-							<p className='hidden md:flex rotate-90 mt-6'>Control</p>
+							<p className='mt-6 hidden rotate-90 md:flex'>Control</p>
 						</div>
 					</TabSelector>
 
@@ -55,7 +55,7 @@ export const Menu: React.FC = () => {
 					>
 						<div className='mx-auto'>
 							<IconSquare className='mx-auto' size={18}></IconSquare>
-							<div className='hidden md:flex rotate-90 mx-auto mt-6'>
+							<div className='mx-auto mt-6 hidden rotate-90 md:flex'>
 								Workspace
 							</div>
 						</div>
@@ -64,13 +64,13 @@ export const Menu: React.FC = () => {
 			</div>
 
 			{/* Tab Panels */}
-			<div className='flex flex-auto w-full flex-col ml-2 overflow-y-auto overflow-x-hidden'>
+			<div className='ml-2 flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden'>
 				{/* Workspace */}
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}
 					className={`${
 						selectedTab === 'workspace' &&
-						'flex flex-auto dark:text-gray-400 text-black'
+						'flex flex-auto text-black dark:text-gray-400'
 					}`}
 					id='workspace'
 				>
@@ -83,7 +83,7 @@ export const Menu: React.FC = () => {
 				<TabPanel
 					className={`${
 						selectedTab === 'control' &&
-						'flex flex-auto flex-col dark:text-gray-400 text-black'
+						'flex flex-auto flex-col text-black dark:text-gray-400'
 					}`}
 					hidden={selectedTab !== 'control'}
 				>
