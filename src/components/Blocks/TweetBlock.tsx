@@ -20,8 +20,8 @@ export const TweetBlock: React.FC = () => {
 	const getTweetData = async () => {
 		const tweetData = await getTweet('1629193609080709122');
 
-		setUser(tweetData?.user.name);
-		setTweetText(tweetData?.text);
+		// setUser(tweetData?.user.name);
+		// setTweetText(tweetData?.text);
 
 		console.log(tweetData);
 	};
