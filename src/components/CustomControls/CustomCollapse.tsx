@@ -17,10 +17,10 @@ export const CustomCollapse: React.FC<Props> = ({
 		<div>
 			<div
 				onMouseDown={() => setOpen(!open)}
-				className='flex flex-auto hover:bg-slate-800/20 flex-row my-auto text-xs text-black dark:text-gray-400 font-bold select-none cursor-pointer h-12 max-h-12 p-1 rounded-xl'
+				className='my-auto flex h-12 max-h-12 flex-auto cursor-pointer select-none flex-row rounded-xl p-1 text-xs font-bold text-black hover:bg-neutral dark:text-gray-400'
 			>
 				{menu}
-				<div className='ml-auto my-auto'>
+				<div className='my-auto ml-auto'>
 					{open ? (
 						<IconChevronUp></IconChevronUp>
 					) : (
@@ -29,7 +29,7 @@ export const CustomCollapse: React.FC<Props> = ({
 				</div>
 			</div>
 			{open && (
-				<div className='mt-2 flex flex-auto flex-col gap-4 p-2 select-none'>
+				<div className='mt-2 flex flex-auto select-none flex-col gap-4 p-2'>
 					{children}
 				</div>
 			)}

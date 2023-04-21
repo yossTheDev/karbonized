@@ -17,8 +17,8 @@ export default defineConfig({
 				display: 'standalone',
 				description:
 					'Make amazing images of your screenshots or your code and share them with the world',
-				theme_color: '#07090d',
-				background_color: '#07090d',
+				theme_color: '#0A0A0A',
+				background_color: '#0A0A0A',
 				icons: [
 					{
 						src: 'assets/icons/icon-72x72.png',

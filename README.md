@@ -1,6 +1,7 @@
-<h1 align="center">Karbonized</h1>
 
 ![carbonizedlogo](./img/banner.png)
+
+<h1 align="center">Karbonized</h1>
 
 <p align="center">
 ⭐ Make amazing images of your screenshots or your code and share them with the world 🌎</p>

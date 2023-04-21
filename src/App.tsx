@@ -10,7 +10,6 @@ import {
 	IconFocusCentered,
 	IconHandFinger,
 	IconHome,
-	IconHome2,
 	IconInfoCircle,
 	IconJpg,
 	IconLetterT,
@@ -43,6 +42,7 @@ import { Workspace } from './components/Workspace';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from './stores/Hooks';
 import './utils.css';
+import karbonized from './assets/karbonized.svg';
 
 const App: React.FC = () => {
 	// App Store
@@ -223,21 +223,21 @@ const App: React.FC = () => {
 	}, [ref]);
 
 	return (
-		<>
-			<div
-				onContextMenu={(e) => {
-					e.preventDefault();
-				}}
-				id='body'
-				className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-100'
-			>
+		<div
+			onContextMenu={(e) => {
+				e.preventDefault();
+			}}
+			id='body'
+			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-100 md:flex-row'
+		>
+			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='flex h-2 shrink'>
 					<Navbar.Start>
 						{/* About Button */}
 						<Button
 							color='ghost'
-							className='ml-2 rounded-full hover:border-base-100   hover:bg-base-100 md:hidden'
+							className='ml-2 hidden rounded-full hover:border-base-100   hover:bg-base-100 md:hidden'
 							onClick={() => setShowAbout(true)}
 						>
 							<IconInfoCircle className='text-black dark:text-white'></IconInfoCircle>
@@ -246,31 +246,21 @@ const App: React.FC = () => {
 							</p>
 						</Button>
 
-						<div className='mt-2 flex flex-row gap-2 rounded-xl bg-base-200 p-4 text-black dark:text-white'>
-							<IconHome className='my-auto'></IconHome>
-							<p className='poppins-font-family my-auto text-xs'>Karbonized</p>
+						<div className='mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
+							<IconHome size={24} className='mx-auto my-auto'></IconHome>
+						</div>
+
+						<div className=' hidden flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
+							<img className='h-8 w-full' src={karbonized}></img>
+							<p className='poppins-font-family my-auto text-xl'>Karbonized</p>
 						</div>
 					</Navbar.Start>
 
 					<Navbar.Center>
-						<p className='poppins-font-family ml-2 flex select-none text-2xl text-black dark:text-white md:hidden'>
-							Karbonized
-						</p>
+						<img className='h-12 w-full md:hidden' src={karbonized}></img>
 					</Navbar.Center>
 
 					<Navbar.End>
-						{/* Share Button */}
-						<Button
-							color='ghost'
-							className='mr-2 rounded-full hover:border-base-200 hover:bg-base-200 md:border-base-100 md:bg-base-100'
-							onClick={handleShare}
-						>
-							<IconShare className='text-black dark:text-white'></IconShare>
-							<p className='hidden text-black dark:text-white md:ml-2 md:flex'>
-								Share
-							</p>
-						</Button>
-
 						<ContextMenu
 							menu={
 								<>
@@ -305,7 +295,7 @@ const App: React.FC = () => {
 							}
 							position='bottom-end'
 						>
-							<div className='mr-2 hidden w-24 cursor-pointer rounded-full border-primary bg-gradient-to-br from-blue-500 to-primary p-3 hover:border-primary hover:bg-gradient-to-l md:flex'>
+							<div className='mr-2 hidden w-24 cursor-pointer rounded-full border-primary bg-gradient-to-br from-blue-500 to-primary p-3 hover:border-primary hover:bg-gradient-to-l'>
 								<IconFlask className='text-white'></IconFlask>
 								<p className='mx-auto hidden font-bold text-white md:flex'>
 									SAVE
@@ -322,13 +312,22 @@ const App: React.FC = () => {
 							<p className='hidden text-white md:flex'>Save</p>
 						</Button>
 
+						{/* Share Button */}
+						<Button
+							onClick={handleShare}
+							className='mr-2 rounded-2xl border-none border-primary bg-gradient-to-br from-violet-500 to-secondary hover:border-primary hover:bg-gradient-to-l md:hidden'
+						>
+							<IconFlask className='text-white'></IconFlask>
+							<p className='hidden text-white md:flex'>Export</p>
+						</Button>
+
 						{/* Preview Button */}
 						<Button
 							onClick={showPreviewImage}
-							className='mr-2 rounded-full border-primary bg-gradient-to-br from-blue-500 to-primary hover:border-primary hover:bg-gradient-to-l'
+							className='mr-2 hidden rounded-2xl border-none border-primary bg-gradient-to-br from-violet-500 to-secondary hover:border-primary hover:bg-gradient-to-l md:flex'
 						>
 							<IconFlask className='text-white'></IconFlask>
-							<p className='hidden text-white md:flex'>Preview</p>
+							<p className='hidden text-white md:flex'>Export</p>
 						</Button>
 					</Navbar.End>
 				</Navbar>
@@ -416,7 +415,7 @@ const App: React.FC = () => {
 					</div>
 
 					{/* Controls Tree */}
-					<div className='order-3 mx-3 my-3 flex flex-row items-center gap-2 overflow-y-auto rounded-xl bg-base-200 p-2 shadow-xl md:order-first md:mx-0 md:ml-2 md:w-14 md:flex-col'>
+					<div className='order-3 my-4 flex w-full flex-row gap-2 overflow-auto rounded-xl bg-base-200 p-2 md:order-first md:mx-0 md:ml-2 md:w-16 md:flex-col'>
 						{/* Actions */}
 
 						{/* Show Menu */}
@@ -442,11 +441,11 @@ const App: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						{/* Show Menu */}
+						{/* Workspace Menu */}
 						<Tooltip className='flex flex-auto md:hidden' messsage='Select'>
 							<Button
 								color='ghost'
-								className='p-1'
+								className='p-1 dark:text-white'
 								onClick={() => {
 									setShowWorkspacePanel(true);
 								}}
@@ -458,15 +457,16 @@ const App: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='rounded bg-base-100 p-0.5 md:hidden'></p>
+						<p className='my-auto h-0.5 rounded bg-base-100 p-0.5 md:hidden'></p>
 
 						{/* Select */}
 						<Tooltip className='flex flex-auto' messsage='Select'>
 							<Button
 								color='ghost'
-								className={`flex flex-auto flex-col ${
-									editing && 'bg-primary text-white'
-								} p-1 hover:bg-primary`}
+								className={`flex flex-auto ${
+									editing &&
+									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+								} p-1 hover:bg-gradient-to-bl`}
 								onClick={() => {
 									setEditing(true);
 									setDrag(false);
@@ -484,7 +484,8 @@ const App: React.FC = () => {
 							<Button
 								color='ghost'
 								className={`flex flex-auto flex-col ${
-									drag && 'bg-primary text-white hover:bg-primary'
+									drag &&
+									'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
 								} p-1`}
 								onClick={() => {
 									setDrag(true);
@@ -512,7 +513,7 @@ const App: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='rounded bg-base-100 p-0.5'></p>
+						<p className='my-auto h-0.5 rounded bg-base-100 p-0.5 '></p>
 
 						{/* Code Control */}
 						<Tooltip className='flex flex-auto ' messsage='Code'>
@@ -660,32 +661,36 @@ const App: React.FC = () => {
 							</div>
 						</InfiniteViewer>
 					</div>
-
-					{/* Menu */}
-					<div
-						className={`${
-							showMenu ? 'flex' : 'hidden'
-						} order-2   h-96  max-h-72 w-full flex-col p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
-					>
-						<ControlsMenu></ControlsMenu>
-					</div>
 				</div>
 
+				{/* Preview */}
 				{showPreview && (
 					<div className='absolute z-50 flex h-screen w-screen flex-auto bg-black/80'>
-						<div className='mx-auto my-auto'>
-							<div className='flex flex-row gap-2 rounded-2xl bg-base-200 p-6'>
-								<div className='my-auto max-h-max w-96 overflow-scroll rounded'>
+						<div className='mx-auto my-auto rounded-2xl bg-base-200 p-6'>
+							<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-100 p-2'>
+								<img className='h-10' src={karbonized}></img>
+								<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
+									Export
+								</p>
+							</div>
+
+							<div className='mt-2 flex flex-row gap-2'>
+								<div className='my-auto max-h-max w-96 overflow-scroll rounded-2xl bg-base-100 p-2'>
 									<TransformWrapper>
 										<TransformComponent>
-											<img className='' src={previewImage} alt='preview'></img>
+											<img
+												className='rounded'
+												src={previewImage}
+												alt='preview'
+											></img>
 										</TransformComponent>
 									</TransformWrapper>
 								</div>
 
+								{/* Save Buttons */}
 								<div className='my-auto flex flex-auto flex-col gap-3'>
 									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 bg-gradient-to-br from-blue-500 to-primary p-3 text-white hover:bg-gradient-to-bl'
+										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 bg-gradient-to-br from-violet-500 to-secondary p-3 text-white hover:bg-gradient-to-bl'
 										onMouseDown={handleShare}
 									>
 										<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -695,7 +700,7 @@ const App: React.FC = () => {
 									</Button>
 
 									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 p-3'
+										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 p-3'
 										onMouseDown={exportAsPng}
 									>
 										<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -704,7 +709,7 @@ const App: React.FC = () => {
 										</div>
 									</Button>
 									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 p-3'
+										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 p-3'
 										onMouseDown={exportAsJpeg}
 									>
 										<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -713,7 +718,7 @@ const App: React.FC = () => {
 										</div>
 									</Button>
 									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 p-3'
+										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 p-3'
 										onMouseDown={exportAsSvg}
 									>
 										<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -723,7 +728,7 @@ const App: React.FC = () => {
 									</Button>
 
 									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-xl bg-red-600 p-3 text-white hover:bg-red-700'
+										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-red-600 p-3 text-white hover:bg-red-700'
 										onMouseDown={() => setShowPreview(false)}
 									>
 										<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -738,6 +743,15 @@ const App: React.FC = () => {
 				)}
 			</div>
 
+			{/* Menu */}
+			<div
+				className={`${
+					showMenu ? 'flex' : 'hidden'
+				}  order-2 h-96   max-h-72  w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+			>
+				<ControlsMenu></ControlsMenu>
+			</div>
+
 			{/* Modals */}
 			{showAbout && (
 				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
@@ -748,7 +762,7 @@ const App: React.FC = () => {
 					onClickBackdrop={() => {
 						setShowWorkspacePanel(false);
 					}}
-					className='bg-base-100'
+					className='bg-base-200 dark:text-white'
 				>
 					<Modal.Header className='font-bold dark:text-white'>
 						<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
@@ -772,7 +786,7 @@ const App: React.FC = () => {
 					</Modal.Actions>
 				</Modal>
 			)}
-		</>
+		</div>
 	);
 };
 
