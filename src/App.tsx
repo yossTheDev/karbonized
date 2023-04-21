@@ -9,6 +9,8 @@ import {
 	IconFlask,
 	IconFocusCentered,
 	IconHandFinger,
+	IconHome,
+	IconHome2,
 	IconInfoCircle,
 	IconJpg,
 	IconLetterT,
@@ -21,6 +23,7 @@ import {
 	IconShare,
 	IconSticker,
 	IconSvg,
+	IconX,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
@@ -243,9 +246,10 @@ const App: React.FC = () => {
 							</p>
 						</Button>
 
-						<p className='poppins-font-family ml-2 hidden select-none text-2xl text-black dark:text-white md:flex'>
-							Karbonized
-						</p>
+						<div className='mt-2 flex flex-row gap-2 rounded-xl bg-base-200 p-4 text-black dark:text-white'>
+							<IconHome className='my-auto'></IconHome>
+							<p className='poppins-font-family my-auto text-xs'>Karbonized</p>
+						</div>
 					</Navbar.Start>
 
 					<Navbar.Center>
@@ -328,21 +332,6 @@ const App: React.FC = () => {
 						</Button>
 					</Navbar.End>
 				</Navbar>
-
-				{showPreview && (
-					<div
-						onClick={() => setShowPreview(false)}
-						className='absolute z-50 flex h-screen w-screen flex-auto bg-slate-600/60'
-					>
-						<div className='mx-auto my-auto'>
-							<TransformWrapper>
-								<TransformComponent>
-									<img className='' src={previewImage} alt='preview'></img>
-								</TransformComponent>
-							</TransformWrapper>
-						</div>
-					</div>
-				)}
 
 				{/* Content*/}
 				<div className='flex flex-auto flex-col overflow-hidden md:flex-row'>
@@ -681,6 +670,72 @@ const App: React.FC = () => {
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>
+
+				{showPreview && (
+					<div className='absolute z-50 flex h-screen w-screen flex-auto bg-black/80'>
+						<div className='mx-auto my-auto'>
+							<div className='flex flex-row gap-2 rounded-2xl bg-base-200 p-6'>
+								<div className='my-auto max-h-max w-96 overflow-scroll rounded'>
+									<TransformWrapper>
+										<TransformComponent>
+											<img className='' src={previewImage} alt='preview'></img>
+										</TransformComponent>
+									</TransformWrapper>
+								</div>
+
+								<div className='my-auto flex flex-auto flex-col gap-3'>
+									<Button
+										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 bg-gradient-to-br from-blue-500 to-primary p-3 text-white hover:bg-gradient-to-bl'
+										onMouseDown={handleShare}
+									>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
+											<IconShare></IconShare>
+											<p className='my-auto'>Share</p>
+										</div>
+									</Button>
+
+									<Button
+										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 p-3'
+										onMouseDown={exportAsPng}
+									>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
+											<IconPng></IconPng>
+											<p className='my-auto'>Export as PNG</p>
+										</div>
+									</Button>
+									<Button
+										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 p-3'
+										onMouseDown={exportAsJpeg}
+									>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
+											<IconJpg></IconJpg>
+											<p className='my-auto'>Export as JPG</p>
+										</div>
+									</Button>
+									<Button
+										className='flex flex-auto cursor-pointer select-none rounded-xl bg-base-100 p-3'
+										onMouseDown={exportAsSvg}
+									>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
+											<IconSvg></IconSvg>
+											<p className='my-auto'>Export as SVG</p>
+										</div>
+									</Button>
+
+									<Button
+										className='flex flex-auto cursor-pointer select-none rounded-xl bg-red-600 p-3 text-white hover:bg-red-700'
+										onMouseDown={() => setShowPreview(false)}
+									>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
+											<IconX></IconX>
+											<p className='my-auto'>Cancel</p>
+										</div>
+									</Button>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 
 			{/* Modals */}

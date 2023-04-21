@@ -17,7 +17,7 @@ export const CustomCollapse: React.FC<Props> = ({
 		<div>
 			<div
 				onMouseDown={() => setOpen(!open)}
-				className='flex flex-auto hover:bg-slate-800/20 flex-row my-auto text-xs text-black dark:text-gray-400 font-bold select-none cursor-pointer h-12 max-h-12 p-1 rounded'
+				className='flex flex-auto hover:bg-slate-800/20 flex-row my-auto text-xs text-black dark:text-gray-400 font-bold select-none cursor-pointer h-12 max-h-12 p-1 rounded-xl'
 			>
 				{menu}
 				<div className='ml-auto my-auto'>
