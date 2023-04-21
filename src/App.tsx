@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Dropdown, Navbar } from 'react-daisyui';
-import './App.css';
-import './utils.css';
 import {
 	IconAppWindow,
 	IconBrandTwitter,
+	IconChevronDown,
+	IconChevronUp,
 	IconCircle,
 	IconCode,
 	IconDeviceMobile,
@@ -19,6 +17,7 @@ import {
 	IconPng,
 	IconPointer,
 	IconQrcode,
+	IconSettings,
 	IconShare,
 	IconSticker,
 	IconSvg,
@@ -26,17 +25,21 @@ import {
 	IconZoomOut,
 	IconZoomReset,
 } from '@tabler/icons-react';
-import { useStoreActions, useStoreState } from './stores/Hooks';
-import { Workspace } from './components/Workspace';
-import { Menu as ControlsMenu } from './components/Menu';
 import { toBlob, toJpeg, toPng, toSvg } from 'html-to-image';
-import { StatusBar } from './components/StatusBar';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, Modal, Navbar, Range } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
-import { AboutModal } from './components/Modals/AboutModal';
-import { Tooltip } from './components/CustomControls/Tooltip';
-import React from 'react';
-import { useScreenDirection } from './hooks/useScreenDirection';
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
+import './App.css';
 import { ContextMenu } from './components/CustomControls/ContextMenu';
+import { Tooltip } from './components/CustomControls/Tooltip';
+import { Menu as ControlsMenu } from './components/Menu';
+import { AboutModal } from './components/Modals/AboutModal';
+import { WorkspacePanel } from './components/Panels/WorkspacePanel';
+import { Workspace } from './components/Workspace';
+import { useScreenDirection } from './hooks/useScreenDirection';
+import { useStoreActions, useStoreState } from './stores/Hooks';
+import './utils.css';
 
 const App: React.FC = () => {
 	// App Store
@@ -49,14 +52,18 @@ const App: React.FC = () => {
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 
 	// Component Store and Actions
+	const isHorizontal = useScreenDirection();
 
 	const [drag, setDrag] = useState(false);
 	const [showAbout, setShowAbout] = useState(false);
+	const [showWorkspacePanel, setShowWorkspacePanel] = useState(false);
+	const [showMenu, setShowMenu] = useState(isHorizontal ? true : false);
+
+	const [previewImage, setPreviewImage] = useState('');
+	const [showPreview, setShowPreview] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
 	const refe = useRef<InfiniteViewer>(null);
-
-	const isHorizontal = useScreenDirection();
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
 
@@ -162,6 +169,34 @@ const App: React.FC = () => {
 			});
 	}, [ref, workspaceName]);
 
+	const showPreviewImage = useCallback(async () => {
+		setReady(true);
+
+		if (ref.current === null) {
+			console.log('NULL');
+			setReady(false);
+
+			return;
+		}
+
+		toJpeg(ref.current, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				console.log('SAVED');
+
+				setPreviewImage(dataUrl);
+				setShowPreview(true);
+
+				setReady(false);
+			})
+			.catch((err) => {
+				setReady(false);
+				console.log(err);
+			});
+	}, [ref, workspaceName]);
+
 	// Share Image
 	const handleShare = useCallback(async () => {
 		const newFile = await toBlob(ref.current as HTMLElement);
@@ -191,7 +226,7 @@ const App: React.FC = () => {
 					e.preventDefault();
 				}}
 				id='body'
-				className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200'
+				className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-100'
 			>
 				{/* Nav Bar */}
 				<Navbar className='flex h-2 shrink'>
@@ -282,44 +317,159 @@ const App: React.FC = () => {
 							<IconFlask className='text-white'></IconFlask>
 							<p className='hidden text-white md:flex'>Save</p>
 						</Button>
+
+						{/* Preview Button */}
+						<Button
+							onClick={showPreviewImage}
+							className='mr-2 rounded-full border-primary bg-gradient-to-br from-blue-500 to-primary hover:border-primary hover:bg-gradient-to-l'
+						>
+							<IconFlask className='text-white'></IconFlask>
+							<p className='hidden text-white md:flex'>Preview</p>
+						</Button>
 					</Navbar.End>
 				</Navbar>
 
-				{/* Quick Bar */}
-				<div className='absolute z-50 ml-20 mt-20 hidden  lg:flex'>
-					<Tooltip messsage='Center View'>
-						<Button
-							onClick={() => {
-								refe.current?.scrollCenter();
-								refe.current?.scrollTo(
-									refe.current.getScrollLeft() - 180,
-									refe.current.getScrollTop()
-								);
-							}}
-						>
-							<IconFocusCentered></IconFocusCentered>
-						</Button>
-					</Tooltip>
-
-					<Tooltip messsage='Lock Aspect Ratio'>
-						<Button
-							className={`ml-2 ${
-								aspectRatio && 'border-primary bg-primary text-white'
-							}`}
-							onClick={() => {
-								setAspectRatio(!aspectRatio);
-							}}
-						>
-							<IconLock></IconLock>
-						</Button>
-					</Tooltip>
-				</div>
+				{showPreview && (
+					<div
+						onClick={() => setShowPreview(false)}
+						className='absolute z-50 flex h-screen w-screen flex-auto bg-slate-600/60'
+					>
+						<div className='mx-auto my-auto'>
+							<TransformWrapper>
+								<TransformComponent>
+									<img className='' src={previewImage} alt='preview'></img>
+								</TransformComponent>
+							</TransformWrapper>
+						</div>
+					</div>
+				)}
 
 				{/* Content*/}
 				<div className='flex flex-auto flex-col overflow-hidden md:flex-row'>
+					{/* Quick Bar */}
+					<div className='hidden items-end '>
+						<div className='absolute z-50 mb-6 ml-4 flex flex-row gap-1 rounded-xl bg-base-200 p-2'>
+							{/* Center View */}
+							<Tooltip messsage='Center View'>
+								<Button
+									color='ghost'
+									className='flex flex-auto p-1'
+									onClick={() => {
+										refe.current?.scrollCenter();
+										refe.current?.scrollTo(
+											refe.current.getScrollLeft() - 180,
+											refe.current.getScrollTop()
+										);
+									}}
+								>
+									<IconFocusCentered
+										size={15}
+										className='dark:text-white'
+									></IconFocusCentered>
+								</Button>
+							</Tooltip>
+
+							{/* Lock Aspect Ratio */}
+							<Tooltip messsage='Lock Aspect Ratio'>
+								<Button
+									color='ghost'
+									className={`ml-2 p-1 ${
+										aspectRatio && 'border-primary bg-primary text-white'
+									}`}
+									onClick={() => {
+										setAspectRatio(!aspectRatio);
+									}}
+								>
+									<IconLock size={15} className='dark:text-white'></IconLock>
+								</Button>
+							</Tooltip>
+
+							{/* Zoom Out */}
+							<Tooltip className='flex flex-auto ' messsage='Zoom Out'>
+								<Button
+									className='flex flex-auto p-1'
+									color='ghost'
+									onClick={() => setZoom(zoom - 0.2)}
+								>
+									<IconZoomOut
+										size={15}
+										className='dark:text-white'
+									></IconZoomOut>
+								</Button>
+							</Tooltip>
+
+							{/* Zoom Range */}
+							<Range
+								color='primary'
+								className='my-auto flex h-3 flex-auto p-1'
+								min={0}
+								max={100}
+								onChange={(ev) => {
+									setZoom((ev.currentTarget.value as unknown as number) / 100);
+								}}
+								value={zoom * 100}
+							></Range>
+
+							{/* Zoom In */}
+							<Tooltip className='flex flex-auto ' messsage='Zoom In'>
+								<Button
+									className='flex flex-auto p-1'
+									color='ghost'
+									onClick={() => setZoom(zoom + 0.2)}
+								>
+									<IconZoomIn
+										size={15}
+										className='dark:text-white'
+									></IconZoomIn>
+								</Button>
+							</Tooltip>
+						</div>
+					</div>
+
 					{/* Controls Tree */}
-					<div className='order-3 flex flex-row gap-2 overflow-y-auto bg-base-200 p-2 md:order-first md:w-16 md:flex-col'>
+					<div className='order-3 mx-3 my-3 flex flex-row items-center gap-2 overflow-y-auto rounded-xl bg-base-200 p-2 shadow-xl md:order-first md:mx-0 md:ml-2 md:w-14 md:flex-col'>
 						{/* Actions */}
+
+						{/* Show Menu */}
+						<Tooltip className='flex  flex-auto md:hidden' messsage='Select'>
+							<Button
+								color='ghost'
+								className='p-1'
+								onClick={() => {
+									setShowMenu(!showMenu);
+								}}
+							>
+								{showMenu ? (
+									<IconChevronDown
+										size={18}
+										className='dark:text-white'
+									></IconChevronDown>
+								) : (
+									<IconChevronUp
+										size={18}
+										className='dark:text-white'
+									></IconChevronUp>
+								)}
+							</Button>
+						</Tooltip>
+
+						{/* Show Menu */}
+						<Tooltip className='flex flex-auto md:hidden' messsage='Select'>
+							<Button
+								color='ghost'
+								className='p-1'
+								onClick={() => {
+									setShowWorkspacePanel(true);
+								}}
+							>
+								<IconSettings
+									className='mx-auto my-auto'
+									size={18}
+								></IconSettings>
+							</Button>
+						</Tooltip>
+
+						<p className='rounded bg-base-100 p-0.5 md:hidden'></p>
 
 						{/* Select */}
 						<Tooltip className='flex flex-auto' messsage='Select'>
@@ -356,31 +506,6 @@ const App: React.FC = () => {
 									size={18}
 									className='dark:text-white'
 								></IconHandFinger>
-							</Button>
-						</Tooltip>
-
-						{/* Zoom In */}
-						<Tooltip className='flex flex-auto ' messsage='Zoom In'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => setZoom(zoom + 0.2)}
-							>
-								<IconZoomIn size={18} className='dark:text-white'></IconZoomIn>
-							</Button>
-						</Tooltip>
-
-						{/* Zoom Out */}
-						<Tooltip className='flex flex-auto ' messsage='Zoom Out'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => setZoom(zoom - 0.2)}
-							>
-								<IconZoomOut
-									size={18}
-									className='dark:text-white'
-								></IconZoomOut>
 							</Button>
 						</Tooltip>
 
@@ -548,18 +673,49 @@ const App: React.FC = () => {
 					</div>
 
 					{/* Menu */}
-					<div className='order-3 flex h-60 max-h-72 w-full  flex-col bg-base-200 p-2 text-white md:h-full  md:max-h-full  md:max-w-xs lg:max-w-sm'>
+					<div
+						className={`${
+							showMenu ? 'flex' : 'hidden'
+						} order-2   h-96  max-h-72 w-full flex-col p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+					>
 						<ControlsMenu></ControlsMenu>
 					</div>
 				</div>
-
-				{/* Status Bar */}
-				<StatusBar></StatusBar>
 			</div>
 
 			{/* Modals */}
 			{showAbout && (
 				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
+			)}
+			{showWorkspacePanel && (
+				<Modal
+					open={showWorkspacePanel}
+					onClickBackdrop={() => {
+						setShowWorkspacePanel(false);
+					}}
+					className='bg-base-100'
+				>
+					<Modal.Header className='font-bold dark:text-white'>
+						<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
+							Workspace
+						</p>
+					</Modal.Header>
+
+					<Modal.Body className='flex flex-auto select-none flex-col overflow-hidden'>
+						<div className='flex max-h-80'>
+							<WorkspacePanel></WorkspacePanel>
+						</div>
+					</Modal.Body>
+
+					<Modal.Actions>
+						<Button
+							className='dark:text-white'
+							onClick={() => setShowWorkspacePanel(false)}
+						>
+							OK
+						</Button>
+					</Modal.Actions>
+				</Modal>
 			)}
 		</>
 	);

@@ -28,43 +28,38 @@ export const Menu: React.FC = () => {
 	}, [workspaceTab]);
 
 	return (
-		<div className='flex w-full flex-auto flex-row overflow-y-auto overflow-x-hidden'>
+		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200 p-2 shadow-xl'>
 			{/* Selectors */}
-			<div className='flex flex-auto shrink-0 grow flex-col overflow-y-auto '>
-				{/* Seletors */}
-				<div className='flex flex-auto flex-col'>
-					<TabSelector
-						isActive={selectedTab === 'control'}
-						onClick={() => {
-							setSelectedTab('control');
-							setWorkspaceTab('control');
-						}}
-					>
-						<div className='mx-auto'>
-							<IconShape className='mx-auto' size={18}></IconShape>
-							<p className='mt-6 hidden rotate-90 md:flex'>Control</p>
-						</div>
-					</TabSelector>
+			<div className='min-h-12 hidden max-h-12 flex-auto shrink-0 overflow-y-auto md:flex'>
+				<TabSelector
+					isActive={selectedTab === 'control'}
+					onClick={() => {
+						setSelectedTab('control');
+						setWorkspaceTab('control');
+					}}
+				>
+					<div className='mx-auto my-auto flex flex-row gap-2'>
+						<IconShape className='mx-auto my-auto' size={22}></IconShape>
+						<p className='my-auto hidden md:flex'>Control</p>
+					</div>
+				</TabSelector>
 
-					<TabSelector
-						isActive={selectedTab === 'workspace'}
-						onClick={() => {
-							setSelectedTab('workspace');
-							setWorkspaceTab('workspace');
-						}}
-					>
-						<div className='mx-auto'>
-							<IconSquare className='mx-auto' size={18}></IconSquare>
-							<div className='mx-auto mt-6 hidden rotate-90 md:flex'>
-								Workspace
-							</div>
-						</div>
-					</TabSelector>
-				</div>
+				<TabSelector
+					isActive={selectedTab === 'workspace'}
+					onClick={() => {
+						setSelectedTab('workspace');
+						setWorkspaceTab('workspace');
+					}}
+				>
+					<div className='mx-auto my-auto flex flex-row gap-2'>
+						<IconSquare className='mx-auto my-auto' size={22}></IconSquare>
+						<p className='my-auto hidden md:flex'>Workspace</p>
+					</div>
+				</TabSelector>
 			</div>
 
 			{/* Tab Panels */}
-			<div className='ml-2 flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden'>
+			<div className='flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden'>
 				{/* Workspace */}
 				<TabPanel
 					hidden={selectedTab !== 'workspace'}
@@ -83,15 +78,21 @@ export const Menu: React.FC = () => {
 				<TabPanel
 					className={`${
 						selectedTab === 'control' &&
-						'flex flex-auto flex-col text-black dark:text-gray-400'
+						'flex h-full flex-auto flex-col text-black dark:text-gray-400'
 					}`}
 					hidden={selectedTab !== 'control'}
 				>
-					<div id='menu' ref={reference} className='flex flex-auto flex-col'>
+					<div
+						id='menu'
+						ref={reference}
+						className='flex h-full min-h-full flex-auto flex-col'
+					>
 						{currentID === '' && (
-							<p className='mx-auto my-auto text-center text-xs text-gray-700'>
-								Select a control to start editing it
-							</p>
+							<div className='flex h-96 flex-auto'>
+								<p className='mx-auto my-auto text-center text-xs text-gray-700'>
+									Select a control to start editing it
+								</p>
+							</div>
 						)}
 					</div>
 				</TabPanel>

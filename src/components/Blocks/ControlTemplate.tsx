@@ -307,7 +307,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									shadowColor
 								})`,
 							}}
-							className='flex flex-auto flex-col h-full'
+							className='flex h-full flex-auto flex-col'
 						>
 							{children}
 						</div>
@@ -329,9 +329,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{/* Position */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconHierarchy size={22}></IconHierarchy>
-									<p className='font-bold my-auto'>Position</p>
+									<p className='my-auto font-bold'>Position</p>
 								</div>
 							}
 						>
@@ -356,11 +356,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								<div className='flex flex-auto flex-row'>
 									{/* Position X */}
 									<div className='flex flex-auto  p-2 '>
-										<p className='p-2 my-auto'>X:</p>
+										<p className='my-auto p-2'>X:</p>
 										<Input
 											disabled
 											type={'number'}
-											className='bg-base-100 p-2 text-xs rounded-xl  w-full'
+											className='w-full rounded-xl bg-base-100 p-2  text-xs'
 											onChange={(ev) => {
 												setControlPos({
 													x: ev.target.value as unknown as number,
@@ -372,11 +372,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 									{/* Position Y */}
 									<div className='flex flex-auto  p-2 text-xs'>
-										<p className='p-2 my-auto'>Y:</p>
+										<p className='my-auto p-2'>Y:</p>
 										<Input
 											type={'number'}
 											disabled
-											className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) =>
 												setControlPos({
 													y: ev.target.value as unknown as number,
@@ -390,7 +390,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Position Z */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<p className='p-2 my-auto'>Z:</p>
+									<p className='my-auto p-2'>Z:</p>
 									<NumberInput
 										onChange={(number) => {
 											setzIndex(number.toString());
@@ -402,11 +402,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Size */}
 								<div className='flex flex-row'>
 									<div className='flex flex-auto  p-2 '>
-										<p className='p-2 my-auto'>W:</p>
+										<p className='my-auto p-2'>W:</p>
 										<Input
 											disabled
 											type={'number'}
-											className='bg-base-100 p-2 rounded-xl text-xs w-full'
+											className='w-full rounded-xl bg-base-100 p-2 text-xs'
 											onChange={(ev) =>
 												setControlSize({
 													w: ev.target.value as unknown as number,
@@ -418,11 +418,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 
 									<div className='flex flex-auto  p-2 '>
-										<p className='p-2 my-auto'>H:</p>
+										<p className='my-auto p-2'>H:</p>
 										<Input
 											disabled
 											type={'number'}
-											className='bg-base-100 p-2 rounded-xl  w-full text-xs'
+											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) =>
 												setControlSize({
 													w: size.w,
@@ -439,8 +439,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								<div className='flex flex-auto flex-row'>
 									{/* Rotation X */}
-									<div className='flex flex-auto  p-2 text-xs my-auto'>
-										<p className='p-2 my-auto'>X:</p>
+									<div className='my-auto flex  flex-auto p-2 text-xs'>
+										<p className='my-auto p-2'>X:</p>
 										<Range
 											color='primary'
 											min={-180}
@@ -453,8 +453,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										></Range>
 									</div>
 									{/* Rotation Y */}
-									<div className='flex flex-auto  p-2 text-xs my-auto'>
-										<p className='p-2 my-auto'>Y:</p>
+									<div className='my-auto flex  flex-auto p-2 text-xs'>
+										<p className='my-auto p-2'>Y:</p>
 										<Range
 											color='primary'
 											className='my-auto'
@@ -472,7 +472,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											setRotateX(0);
 											setRotateY(0);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -484,9 +484,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{shadowEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row m-2 gap-2'>
+									<div className='m-2 flex flex-row gap-2'>
 										<IconShadow size={22}></IconShadow>
-										<p className='font-bold my-auto'>Shadow</p>
+										<p className='my-auto font-bold'>Shadow</p>
 									</div>
 								}
 							>
@@ -495,7 +495,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<div className='flex flex-auto flex-row'>
 										{/* Shadow X */}
 										<div className='flex flex-auto  p-2 '>
-											<p className='p-2 my-auto'>X:</p>
+											<p className='my-auto p-2'>X:</p>
 											<NumberInput
 												onChange={(number) => {
 													setShadowX(number);
@@ -504,8 +504,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											></NumberInput>
 										</div>
 										{/* Shadow Y */}
-										<div className='flex flex-auto  p-2 text-xs'>
-											<p className='p-2 my-auto'>Y:</p>
+										<div className='flex flex-auto p-2 text-xs'>
+											<p className='my-auto p-2'>Y:</p>
 											<NumberInput
 												onChange={(number) => {
 													setShadowY(number);
@@ -517,7 +517,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 									{/* Shadow Blur */}
 									<div className='flex flex-auto  text-xs '>
-										<p className='p-2 my-auto'>Blur:</p>
+										<p className='my-auto p-2'>Blur:</p>
 										<Range
 											className='my-auto'
 											color='primary'
@@ -530,7 +530,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 
 									{/* Shadow Color */}
-									<div className='flex flex-col flex-auto'>
+									<div className='flex flex-auto flex-col'>
 										<ColorPicker
 											type='HexAlpha'
 											label='Shadow Color'
@@ -546,15 +546,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{borderEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row m-2 gap-2'>
+									<div className='m-2 flex flex-row gap-2'>
 										<IconBorderStyle size={22}></IconBorderStyle>
-										<p className='font-bold my-auto'>Borders</p>
+										<p className='my-auto font-bold'>Borders</p>
 									</div>
 								}
 							>
 								<div className='flex flex-row flex-wrap text-xs'>
 									<div className='flex flex-auto p-2'>
-										<p className='p-2 my-auto'>Radius:</p>
+										<p className='my-auto p-2'>Radius:</p>
 										<Range
 											className='my-auto'
 											color='primary'
@@ -573,9 +573,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{maskEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row m-2 gap-2'>
+									<div className='m-2 flex flex-row gap-2'>
 										<IconMask size={22}></IconMask>
-										<p className='font-bold my-auto'>Mask</p>
+										<p className='my-auto font-bold'>Mask</p>
 									</div>
 								}
 							>
@@ -598,7 +598,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										</Select>
 									</div>
 
-									<div className='flex flex-row m-2 gap-2'>
+									<div className='m-2 flex flex-row gap-2'>
 										<p className='my-auto text-xs'>Mask Repeat</p>
 										<Checkbox
 											color='primary'
@@ -613,16 +613,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{/* Filters */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconColorFilter size={22}></IconColorFilter>
-									<p className='font-bold my-auto'>Filters</p>
+									<p className='my-auto font-bold'>Filters</p>
 								</div>
 							}
 						>
-							<div className='flex flex-col flex-wrap text-xs gap-2'>
+							<div className='flex flex-col flex-wrap gap-2 text-xs'>
 								{/* Blur Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Blur:</p>
+									<p className='my-auto p-2'>Blur:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -637,7 +637,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setBlur(-1 * 1);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -645,7 +645,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Brightness Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Brightness:</p>
+									<p className='my-auto p-2'>Brightness:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -662,7 +662,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setBrightness(100);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -670,7 +670,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Contrast Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Contrast:</p>
+									<p className='my-auto p-2'>Contrast:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -685,7 +685,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setContrast(100);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -693,7 +693,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Grayscale Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Grayscale:</p>
+									<p className='my-auto p-2'>Grayscale:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -708,7 +708,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setGrayscale(0);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -716,7 +716,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Hue Rotate Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Hue Rotate:</p>
+									<p className='my-auto p-2'>Hue Rotate:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -731,7 +731,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setHueRotate(0);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -739,7 +739,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Invert Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Invert:</p>
+									<p className='my-auto p-2'>Invert:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -754,7 +754,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setInvert(0);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -762,7 +762,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Saturate Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Saturate:</p>
+									<p className='my-auto p-2'>Saturate:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -777,7 +777,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setSaturate(100);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -785,7 +785,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Sepia Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Sepia:</p>
+									<p className='my-auto p-2'>Sepia:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -800,7 +800,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setSepia(0);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -808,7 +808,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 								{/* Opacity Options */}
 								<div className='flex flex-auto flex-row gap-2'>
-									<p className='p-2 my-auto'>Opacity:</p>
+									<p className='my-auto p-2'>Opacity:</p>
 									<Range
 										color='primary'
 										className='my-auto'
@@ -823,7 +823,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setOpacity(100);
 										}}
-										className='flex flex-auto my-auto p-1'
+										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -839,11 +839,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								setID('');
 								setVisibility(false);
 							}}
-							className='mt-auto  bg-gray-800/20 hover:bg-red-600 hover:text-white rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
+							className='mt-auto  flex max-h-12 flex-auto cursor-pointer flex-row gap-2 rounded bg-gray-800/20 p-2 hover:bg-red-600 hover:text-white'
 						>
-							<div className='flex flex-row gap-2 mx-auto my-auto'>
+							<div className='mx-auto my-auto flex flex-row gap-2'>
 								<IconTrash></IconTrash>
-								<p>Delete Component</p>
+								<p className='my-auto'>Delete Component</p>
 							</div>
 						</div>
 					</motion.div>
@@ -856,7 +856,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					<Portal key={ID + '_menu'} node={document.getElementById('body')}>
 						<motion.div
 							key={ID + '_menu'}
-							className='z-50 absolute'
+							className='absolute z-50'
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 							onMouseLeave={() => setContextMenu(false)}
@@ -864,7 +864,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							animate={{ scale: 1, opacity: 1 }}
 							exit={{ scale: 0, opacity: 0 }}
 						>
-							<div className='flex flex-col flex-auto gap-2 bg-base-100 rounded-2xl p-2 w-64 shadow-2xl dark:text-gray-400'>
+							<div className='flex w-64 flex-auto flex-col gap-2 rounded-2xl bg-base-100 p-2 shadow-2xl dark:text-gray-400'>
 								{/* Opacity Control */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<IconEye className='my-auto ml-2' size={22}></IconEye>
@@ -887,28 +887,28 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									menu={
 										<>
 											<div
-												className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+												className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 												onMouseDown={exportAsPng}
 											>
-												<div className='flex flex-auto flex-row my-auto gap-2'>
+												<div className='my-auto flex flex-auto flex-row gap-2'>
 													<IconPng></IconPng>
 													<p>Export as PNG</p>
 												</div>
 											</div>
 											<div
-												className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+												className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 												onMouseDown={exportAsJpeg}
 											>
-												<div className='flex flex-auto flex-row my-auto gap-2'>
+												<div className='my-auto flex flex-auto flex-row gap-2'>
 													<IconJpg></IconJpg>
 													<p>Export as JPG</p>
 												</div>
 											</div>
 											<div
-												className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+												className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 												onMouseDown={exportAsSvg}
 											>
-												<div className='flex flex-auto flex-row my-auto gap-2'>
+												<div className='my-auto flex flex-auto flex-row gap-2'>
 													<IconSvg></IconSvg>
 													<p>Export as SVG</p>
 												</div>
@@ -916,8 +916,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										</>
 									}
 								>
-									<div className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'>
-										<div className='flex flex-auto flex-row my-auto gap-2'>
+									<div className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'>
+										<div className='my-auto flex flex-auto flex-row gap-2'>
 											<IconCamera className='my-auto' size={22}></IconCamera>
 											<p className='my-auto'>Save Component</p>
 										</div>
@@ -930,9 +930,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										setID('');
 										setVisibility(false);
 									}}
-									className='p-2 flex flex-auto rounded select-none hover:bg-neutral cursor-pointer'
+									className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
 								>
-									<div className='flex flex-auto flex-row my-auto gap-2'>
+									<div className='my-auto flex flex-auto flex-row gap-2'>
 										<IconTrash className='my-auto' size={22}></IconTrash>
 										<p className='my-auto'>Delete Component</p>
 									</div>

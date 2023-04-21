@@ -15,16 +15,15 @@ export const TabSelector: React.FC<Props> = ({
 }) => {
 	return (
 		<button
-			style={{ height: '240px' }}
 			className={
 				isActive
-					? ' dark:text-white text-black font-bold bg-base-100 max-h-12 md:max-h-full text-xs select-none w-11 rounded flex flex-auto'
-					: ' text-gray-500 text-xs select-none max-h-12 md:max-h-full rounded flex flex-auto  w-11'
+					? ' flex flex-auto select-none rounded-xl bg-base-100/70 text-xs font-bold text-black dark:text-white md:max-h-full'
+					: ' flex flex-auto select-none rounded-xl text-xs text-gray-500  md:max-h-full'
 			}
 			onClick={onClick}
 			onDoubleClick={onDoubleClick && onDoubleClick}
 		>
-			<div className='mx-auto my-auto w-11'>{children}</div>
+			<div className='mx-auto my-auto'>{children}</div>
 		</button>
 	);
 };
