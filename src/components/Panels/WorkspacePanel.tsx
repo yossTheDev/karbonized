@@ -85,18 +85,18 @@ export const WorkspacePanel: React.FC = () => {
 			<motion.div
 				initial={{ marginTop: '25px' }}
 				animate={{ marginTop: '0px' }}
-				className='flex flex-auto flex-col p-2 text-xs select-none overflow-auto'
+				className='flex flex-auto select-none flex-col overflow-auto p-2 text-xs'
 			>
 				{/* Workspace Name */}
 				<>
-					<div className='flex flex-row m-2 gap-2'>
+					<div className='m-2 flex flex-row gap-2'>
 						<IconTag size={22}></IconTag>
-						<p className='font-bold my-auto'>Workspace Name</p>
+						<p className='my-auto font-bold'>Workspace Name</p>
 					</div>
-					<div className='flex flex-auto flex-row max-h-14 p-2'>
+					<div className='flex max-h-14 flex-auto flex-row p-2'>
 						<Input
 							spellCheck={false}
-							className='bg-base-100 p-2 rounded-xl my-auto  w-full'
+							className='my-auto w-full rounded-xl bg-base-100  p-2'
 							onChange={(ev) => setWorkspaceName(ev.target.value)}
 							value={workspaceName}
 						></Input>
@@ -105,13 +105,13 @@ export const WorkspacePanel: React.FC = () => {
 
 				{/* Size */}
 				<>
-					<div className='flex flex-row m-2 gap-2 select-none'>
+					<div className='m-2 flex select-none flex-row gap-2'>
 						<IconAspectRatio size={22}></IconAspectRatio>
-						<p className='font-bold my-auto'>Size</p>
+						<p className='my-auto font-bold'>Size</p>
 					</div>
 
 					{/* Predefined Sizes */}
-					<div className='flex my-2 mx-2'>
+					<div className='mx-2 my-2 flex'>
 						<Select
 							defaultValue={'Default'}
 							className='flex flex-auto'
@@ -135,7 +135,7 @@ export const WorkspacePanel: React.FC = () => {
 						</Select>
 					</div>
 
-					<div className='flex flex-auto flex-row max-h-16 p-2 select-none'>
+					<div className='flex max-h-16 flex-auto select-none flex-row p-2'>
 						{/* Size W */}
 						<div className='flex flex-auto flex-row'>
 							<p className='my-auto mr-2'>W:</p>
@@ -150,7 +150,7 @@ export const WorkspacePanel: React.FC = () => {
 							></NumberInput>
 						</div>
 						{/* Size H */}
-						<div className='flex flex-auto flex-row ml-2 select-none'>
+						<div className='ml-2 flex flex-auto select-none flex-row'>
 							<p className='my-auto mr-2'>H:</p>
 							<NumberInput
 								onChange={(number) => {
@@ -166,29 +166,29 @@ export const WorkspacePanel: React.FC = () => {
 				</>
 
 				{/* Background Color */}
-				<div className='flex flex-col select-none gap-2 overflow-auto'>
+				<div className='flex select-none flex-col gap-2 overflow-auto'>
 					{/* Header */}
-					<div className='flex flex-row m-2 gap-2 '>
+					<div className='m-2 flex flex-row gap-2 '>
 						<IconPalette size={22}></IconPalette>
-						<p className='font-bold my-auto'>Background</p>
+						<p className='my-auto font-bold'>Background</p>
 					</div>
 
 					{/* Workspace  Background Type */}
-					<div className='flex flex-auto flex-row gap-2 mb-1'>
+					<div className='mb-1 flex flex-auto flex-row gap-2'>
 						<div
 							onClick={() => {
 								setWorkspaceType('color');
 							}}
-							className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer ${
-								workspaceType === 'color' && 'border-primary border-2'
+							className={`flex w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
+								workspaceType === 'color' && 'border-2 border-primary'
 							}`}
 						>
 							<p className='mx-auto my-auto'>Color</p>
 						</div>
 
 						<div
-							className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer ${
-								workspaceType === 'texture' && 'border-primary border-2'
+							className={`flex w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
+								workspaceType === 'texture' && 'border-2 border-primary'
 							}`}
 							onClick={() => {
 								setWorkspaceType('texture');
@@ -200,114 +200,114 @@ export const WorkspacePanel: React.FC = () => {
 
 					{/* Select Texture */}
 					{workspaceType === 'texture' && (
-						<div className='flex flex-auto flex-row flex-wrap  overflow-scroll gap-2'>
+						<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-scroll'>
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('grayrate');
 								}}
 							>
 								<Suspense>
-									<Grayrate className='flex flex-auto h-full w-full rounded-full'></Grayrate>
+									<Grayrate className='flex h-full w-full flex-auto rounded-full'></Grayrate>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('coil');
 								}}
 							>
 								<Suspense>
-									<Coil className='flex flex-auto h-full w-full rounded-full '></Coil>
+									<Coil className='flex h-full w-full flex-auto rounded-full '></Coil>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('circular');
 								}}
 							>
 								<Suspense>
-									<Circular className='flex flex-auto h-full w-full rounded-full'></Circular>
+									<Circular className='flex h-full w-full flex-auto rounded-full'></Circular>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('horizon');
 								}}
 							>
 								<Suspense>
-									<Horizon className='flex flex-auto h-full w-full rounded-full'></Horizon>
+									<Horizon className='flex h-full w-full flex-auto rounded-full'></Horizon>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('hirl');
 								}}
 							>
 								<Suspense>
-									<Hirl className='flex flex-auto h-full w-full rounded-full'></Hirl>
+									<Hirl className='flex h-full w-full flex-auto rounded-full'></Hirl>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('neon');
 								}}
 							>
 								<Suspense>
-									<Neon className='flex flex-auto h-full w-full rounded-full'></Neon>
+									<Neon className='flex h-full w-full flex-auto rounded-full'></Neon>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('undulate');
 								}}
 							>
 								<Suspense>
-									<Undulate className='flex flex-auto h-full w-full rounded-full'></Undulate>
+									<Undulate className='flex h-full w-full flex-auto rounded-full'></Undulate>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('chaos');
 								}}
 							>
 								<Suspense>
-									<Chaos className='flex flex-auto h-full w-full rounded-full'></Chaos>
+									<Chaos className='flex h-full w-full flex-auto rounded-full'></Chaos>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('oscilate');
 								}}
 							>
 								<Suspense>
-									<Oscilate className='flex flex-auto h-full w-full rounded-full'></Oscilate>
+									<Oscilate className='flex h-full w-full flex-auto rounded-full'></Oscilate>
 								</Suspense>
 							</div>
 
 							<div
-								className='h-12  w-12 rounded-full cursor-pointer hover:border-2 hover:border-gray-400'
+								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {
 									setTexture('vortex');
 								}}
 							>
 								<Suspense>
-									<Vortex className='flex flex-auto h-full w-full rounded-full'></Vortex>
+									<Vortex className='flex h-full w-full flex-auto rounded-full'></Vortex>
 								</Suspense>
 							</div>
 						</div>
@@ -361,11 +361,11 @@ export const WorkspacePanel: React.FC = () => {
 					onClick={() => {
 						cleanWorkspace();
 					}}
-					className='mt-auto  bg-gray-800/20 hover:bg-red-600 hover:text-white rounded flex flex-auto flex-row gap-2 max-h-12 p-2 cursor-pointer'
+					className='mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl bg-gray-800/20 p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
 				>
-					<div className='flex flex-row gap-2 mx-auto my-auto'>
-						<IconTrash className='my-auto' size={18}></IconTrash>
-						<p className='my-auto'>Clean</p>
+					<div className='mx-auto my-auto flex flex-row gap-2'>
+						<IconTrash></IconTrash>
+						<p className='my-auto text-xs font-bold'>Clean</p>
 					</div>
 				</div>
 			</motion.div>

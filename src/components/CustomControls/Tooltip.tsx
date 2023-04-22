@@ -22,6 +22,9 @@ export const Tooltip: React.FC<Props> = ({ children, messsage, className }) => {
 					onMouseLeave={() => {
 						setShowTooltip(false);
 					}}
+					onMouseEnter={() => {
+						setShowTooltip(true);
+					}}
 					onContextMenu={() => {
 						setShowTooltip(true);
 					}}
@@ -42,7 +45,7 @@ export const Tooltip: React.FC<Props> = ({ children, messsage, className }) => {
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						>
-							<div className='flex flex-auto flex-col p-2 text-xs bg-base-100 shadow-xl rounded-xl dark:text-white'>
+							<div className='flex flex-auto flex-col rounded-xl bg-base-100 p-2 text-xs shadow-xl dark:text-white'>
 								{messsage}
 							</div>
 						</div>

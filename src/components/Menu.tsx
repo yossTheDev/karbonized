@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IconShape, IconSquare } from '@tabler/icons-react';
+import { IconSettings, IconShape, IconSquare } from '@tabler/icons-react';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { WorkspacePanel } from './Panels/WorkspacePanel';
@@ -52,7 +52,7 @@ export const Menu: React.FC = () => {
 					}}
 				>
 					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconSquare className='mx-auto my-auto' size={22}></IconSquare>
+						<IconSettings className='mx-auto my-auto' size={22}></IconSettings>
 						<p className='my-auto hidden md:flex'>Workspace</p>
 					</div>
 				</TabSelector>
