@@ -1,29 +1,50 @@
-import { IconLetterT } from '@tabler/icons-react';
+import { IconBrandTwitter, IconLetterT } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Button, Input } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import { Tweet } from 'react-tweet';
-import { getTweet } from 'react-tweet/api';
+import karbonized from '../../assets/karbonized.svg';
 import './TweetBlock.css';
 
 export const TweetBlock: React.FC = () => {
 	/* Component States */
-	const [url, setUrl] = useState('1629193609080709122');
+	const [url, setUrl] = useState(
+		'https://twitter.com/karbonized_app/status/1651550611140116480?s=20'
+	);
+	/**https://twitter.com/karbonized_app/status/1651550611140116480?s=20 */
 
-	const [tweetText, setTweetText] = useState('hello');
+	const [tweetText, setTweetText] = useState(
+		'Make Awesome Images of your screenshots or your code with Karbonized. \n Made by @yossthedev'
+	);
 	const [tweetUser, setUser] = useState('Karbonized');
-	const [tweetUserImage, setUserImage] = useState('Karbonized');
-	const [tweetUsername, setUsername] = useState('Karbonized');
-	const [tweetImageUrl, setImageUrl] = useState('');
+	const [tweetUserName, setUserName] = useState('@karbonized_app');
+	const [tweetUserImage, setUserImage] = useState(karbonized);
+	const [tweetImageUrl, setImageUrl] = useState<any>(karbonized);
 
 	const getTweetData = async () => {
-		const tweetData = await getTweet('1629193609080709122');
+		// const tweetData = await getTweet('1629193609080709122');
 
-		// setUser(tweetData?.user.name);
-		// setTweetText(tweetData?.text);
+		const r = await (
+			await fetch(
+				'https://react-tweet.vercel.app/api/tweet/' +
+					url.split('/status/')[1].replace('?s=20', '')
+			)
+		).json();
 
-		console.log(tweetData);
+		setUser(r.data.user.name);
+		setUserImage(r.data.user.profile_image_url_https);
+		setTweetText(r.data.text);
+		setUserName('@' + r.data.user.screen_name);
+
+		//console.log(r.data.photos[0].url.replace('https://', ''));
+
+		//console.log(r);
+		//console.log(r.data.photos);
+		if (r.data.photos.length > 0) {
+			const i = r.data.photos[0].url;
+			//const ro = await (await fetch(r.data.photos[0].url)).body;
+			setImageUrl(i);
+		}
 	};
 
 	return (
@@ -62,10 +83,29 @@ export const TweetBlock: React.FC = () => {
 					</>
 				}
 			>
-				<div className='flex h-full w-full flex-auto flex-col overflow-hidden bg-white'>
-					<p>{tweetUser}</p>
-					<p>{tweetText}</p>
-					<img src={tweetImageUrl}></img>
+				<div className='flex h-full w-full flex-auto flex-col overflow-hidden rounded-lg bg-white p-5 text-gray-800 shadow'>
+					<div className='mb-4 flex w-full'>
+						<div className='h-12 w-12 overflow-hidden rounded-full'>
+							<img src={tweetUserImage} alt=''></img>
+						</div>
+						<div className='flex-grow pl-3'>
+							<h6 className='text-md font-bold'>{tweetUser}</h6>
+							<p className='text-xs text-gray-600'>{tweetUserName}</p>
+						</div>
+						<div className='w-12 text-right'>
+							<IconBrandTwitter className='fill-blue-400 text-3xl text-blue-400'></IconBrandTwitter>
+						</div>
+					</div>
+					<div className='mb-4 w-full'>
+						<p className='text-sm'>{tweetText}</p>
+					</div>
+					{tweetImageUrl != '' && (
+						<img className='flex h-72 rounded-2xl' src={tweetImageUrl}></img>
+					)}
+
+					<div className='hidden w-full'>
+						<p className='text-right text-xs text-gray-500'>Oct 15th 8:33pm</p>
+					</div>
 				</div>
 			</ControlTemplate>
 		</>

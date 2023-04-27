@@ -246,12 +246,12 @@ export const Editor: React.FC = () => {
 							</p>
 						</Button>
 
-						<Link
-							to='/'
+						<a
+							href='/'
 							className='mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black transition-all active:scale-90 dark:text-white md:flex'
 						>
 							<IconHome size={24} className='mx-auto my-auto'></IconHome>
-						</Link>
+						</a>
 
 						<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
 							<img className='h-8 w-full' src={karbonized}></img>
@@ -599,7 +599,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Tweet Control */}
-						<Tooltip className='hidden flex-auto ' messsage='Tweet'>
+						<Tooltip className='flex flex-auto ' messsage='Tweet'>
 							<Button
 								className='flex flex-auto p-1'
 								color='ghost'

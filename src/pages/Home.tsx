@@ -22,15 +22,15 @@ export const Home: React.FC = () => {
 					<p className='poppins-font-family my-auto text-xl'>Karbonized</p>
 				</div>
 
-				<Link
-					to='/editor'
+				<a
+					href='/editor'
 					className='ml-auto hidden h-fit w-fit skew-x-3 cursor-pointer select-none flex-row gap-2 rounded-xl bg-base-200 p-3 text-black transition-all hover:bg-neutral active:scale-90 dark:text-white  md:flex'
 				>
 					<IconTools className='mx-2 my-auto'></IconTools>
 
 					<p className='poppins-font-family my-auto text-xl'>Editor</p>
 					<IconArrowRight className='my-auto'></IconArrowRight>
-				</Link>
+				</a>
 			</div>
 
 			{/* Content */}
