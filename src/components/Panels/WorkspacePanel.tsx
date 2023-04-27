@@ -166,7 +166,7 @@ export const WorkspacePanel: React.FC = () => {
 				</>
 
 				{/* Background Color */}
-				<div className='flex select-none flex-col gap-2 overflow-auto'>
+				<>
 					{/* Header */}
 					<div className='m-2 flex flex-row gap-2 '>
 						<IconPalette size={22}></IconPalette>
@@ -174,12 +174,12 @@ export const WorkspacePanel: React.FC = () => {
 					</div>
 
 					{/* Workspace  Background Type */}
-					<div className='mb-1 flex flex-auto flex-row gap-2'>
+					<div className='mb-1 flex h-8 flex-row gap-2'>
 						<div
 							onClick={() => {
 								setWorkspaceType('color');
 							}}
-							className={`flex w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
+							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
 								workspaceType === 'color' && 'border-2 border-primary'
 							}`}
 						>
@@ -187,7 +187,7 @@ export const WorkspacePanel: React.FC = () => {
 						</div>
 
 						<div
-							className={`flex w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
+							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
 								workspaceType === 'texture' && 'border-2 border-primary'
 							}`}
 							onClick={() => {
@@ -354,7 +354,7 @@ export const WorkspacePanel: React.FC = () => {
 							onColorChange={() => {}}
 						></ColorPicker>
 					)}
-				</div>
+				</>
 
 				{/* Clean */}
 				<div
@@ -364,7 +364,7 @@ export const WorkspacePanel: React.FC = () => {
 					className='mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl bg-gray-800/20 p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
 				>
 					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconTrash></IconTrash>
+						<IconTrash className='my-auto' size={20}></IconTrash>
 						<p className='my-auto text-xs font-bold'>Clean</p>
 					</div>
 				</div>

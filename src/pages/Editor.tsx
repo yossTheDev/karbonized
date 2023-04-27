@@ -232,7 +232,7 @@ export const Editor: React.FC = () => {
 		>
 			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2  md:p-0'>
 				{/* Nav Bar */}
-				<Navbar className='flex h-2 shrink rounded-2xl bg-base-200 md:bg-transparent'>
+				<Navbar className='flex h-2 shrink rounded-full bg-base-200 md:rounded-2xl md:bg-transparent'>
 					<Navbar.Start>
 						{/* About Button */}
 						<Button
@@ -433,7 +433,7 @@ export const Editor: React.FC = () => {
 						{/* Actions */}
 
 						{/* Show Menu */}
-						<Tooltip className='flex  flex-auto md:hidden' messsage='Select'>
+						<Tooltip className='flex  flex-auto md:hidden' messsage='Show Menu'>
 							<Button
 								color='ghost'
 								className='p-1'
@@ -456,7 +456,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Workspace Menu */}
-						<Tooltip className='flex flex-auto md:hidden' messsage='Select'>
+						<Tooltip className='flex flex-auto md:hidden' messsage='Settings'>
 							<Button
 								color='ghost'
 								className='p-1 dark:text-white'
@@ -773,16 +773,16 @@ export const Editor: React.FC = () => {
 					onClickBackdrop={() => {
 						setShowWorkspacePanel(false);
 					}}
-					className='bg-base-200 dark:text-white'
+					className='overflow-hidden bg-base-200 dark:text-white'
 				>
 					<Modal.Header className='font-bold dark:text-white'>
 						<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
-							Workspace
+							Settings
 						</p>
 					</Modal.Header>
 
-					<Modal.Body className='flex flex-auto select-none flex-col overflow-hidden'>
-						<div className='flex max-h-80'>
+					<Modal.Body className='flex flex-auto select-none flex-col overflow-auto'>
+						<div className='flex h-80 overflow-auto'>
 							<WorkspacePanel></WorkspacePanel>
 						</div>
 					</Modal.Body>
