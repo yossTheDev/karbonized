@@ -22,7 +22,6 @@ export const Tooltip: React.FC<Props> = ({ children, messsage, className }) => {
 					onMouseLeave={() => {
 						setShowTooltip(false);
 					}}
-					
 					onContextMenu={() => {
 						setShowTooltip(true);
 					}}

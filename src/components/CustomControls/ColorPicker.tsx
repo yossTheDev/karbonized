@@ -40,6 +40,7 @@ export const ColorPicker: React.FC<Props> = ({
 	);
 
 	const [showColor, setShowColor] = useState(false);
+	const [visible, setVisible] = useState(false);
 	const isHorizontal = useScreenDirection();
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(isHorizontal ? 12 : 2), flip(), shift()],
@@ -48,39 +49,49 @@ export const ColorPicker: React.FC<Props> = ({
 	return (
 		<>
 			<div
-				onMouseDown={() => {
-					setShowColor(!showColor);
+				onFocus={() => {
+					setShowColor(true);
 				}}
-				ref={reference}
-				className='flex flex-col flex-auto select-none'
+				onBlur={() => {
+					!visible && setShowColor(false);
+				}}
+				tabIndex={0}
 			>
-				<div className='flex flex-auto flex-row py-2 rounded hover:bg-base-100 select-none'>
-					<p className='my-auto ml-2 select-none mr-2 text-xs text-left '>
-						{label}
-					</p>
+				<div
+					onMouseDown={() => {
+						setShowColor(!showColor);
+					}}
+					ref={reference}
+					className='flex flex-auto select-none flex-col'
+				>
+					<div className='flex flex-auto select-none flex-row rounded py-2 hover:bg-base-100'>
+						<p className='my-auto ml-2 mr-2 select-none text-left text-xs '>
+							{label}
+						</p>
 
-					{mode === 'Single' ? (
-						<div className='flex flex-row ml-auto mr-2 gap-2'>
-							<p className='my-auto'>{color}</p>
+						{mode === 'Single' ? (
+							<div className='ml-auto mr-2 flex flex-row gap-2'>
+								<p className='my-auto'>{color}</p>
 
-							<div
-								className='p-4 rounded my-auto border-2 border-base-100'
-								style={{ backgroundColor: color }}
-							></div>
-						</div>
-					) : (
-						<div className='flex flex-row ml-auto mr-2'>
-							<div
-								className='p-4 rounded my-auto border-2 border-base-100'
-								style={{ backgroundColor: colorGradient1 }}
-							></div>
+								<div
+									className='my-auto rounded border-2 border-base-100 p-4'
+									style={{ backgroundColor: color }}
+								></div>
+							</div>
+						) : (
+							<div className='ml-auto mr-2 flex flex-row'>
+								<div
+									className='my-auto rounded border-2 border-base-100 p-4'
+									style={{ backgroundColor: colorGradient1 }}
+								></div>
 
-							<div
-								className='p-4 rounded my-auto border-2 border-base-100'
-								style={{ backgroundColor: colorGradient2 }}
-							></div>
-						</div>
-					)}
+								<div
+									className='my-auto rounded border-2 border-base-100 p-4'
+									style={{ backgroundColor: colorGradient2 }}
+								></div>
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 
@@ -88,43 +99,54 @@ export const ColorPicker: React.FC<Props> = ({
 			{showColor && (
 				<Portal>
 					<div
-						onMouseEnter={() => setShowColor(true)}
-						onMouseLeave={() => setShowColor(false)}
+						tabIndex={0}
+						onMouseEnter={() => {
+							setVisible(true);
+						}}
+						onMouseDown={() => {
+							setVisible(true);
+						}}
+						onMouseLeave={() => {
+							setShowColor(false);
+							setVisible(false);
+						}}
 						ref={floating}
 						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-						className='flex flex-auto flex-col w-60 p-4 bg-base-100 shadow-2xl rounded-xl z-40 gap-2 select-none'
+						className='dropdown-content z-40 flex w-60 flex-auto select-none flex-col gap-2 rounded-xl bg-base-100 p-4 shadow-2xl'
 					>
 						{/* Header */}
-						<p className='dark:text-white font-bold mb-2 text-center md:text-left'>
+						<p className='mb-2 text-center font-bold dark:text-white md:text-left'>
 							Color Picker
 						</p>
 
 						{/* Tabs */}
 						{isGradientEnable && (
-							<div className='flex flex-auto flex-row gap-2 select-none dark:text-gray-400 text-black'>
-								<div
-									onClick={() => {
+							<div className='flex flex-auto select-none flex-row gap-2 text-black dark:text-gray-400'>
+								<button
+									onMouseDown={() => {
 										mode = 'Single';
 										onModeChange && onModeChange('Single');
+										setShowColor(true);
 									}}
-									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer ${
-										mode === 'Single' && 'border-primary border-2'
+									className={`flex w-8 grow cursor-pointer flex-col rounded-2xl bg-base-200 p-2 ${
+										mode === 'Single' && 'border-2 border-primary'
 									}`}
 								>
 									<p className='mx-auto my-auto'>Single</p>
-								</div>
+								</button>
 
-								<div
+								<button
 									onClick={() => {
 										mode = 'Gradient';
 										onModeChange && onModeChange('Gradient');
+										setShowColor(true);
 									}}
-									className={`flex w-8 grow flex-col bg-base-200 p-2 rounded-xl cursor-pointer  ${
-										mode === 'Gradient' && 'border-primary border-2'
+									className={`flex w-8 grow cursor-pointer flex-col rounded-2xl bg-base-200 p-2  ${
+										mode === 'Gradient' && 'border-2 border-primary'
 									}`}
 								>
 									<p className='mx-auto my-auto'>Gradient</p>
-								</div>
+								</button>
 							</div>
 						)}
 
@@ -137,7 +159,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onChange={(color) => {
 											onColorChange(color);
 										}}
-										className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+										className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
 									></HexColorPicker>
 								) : (
 									<HexAlphaColorPicker
@@ -145,7 +167,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onChange={(color) => {
 											onColorChange(color);
 										}}
-										className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+										className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
 									></HexAlphaColorPicker>
 								)}
 								{/* Predefined colors */}
@@ -153,54 +175,54 @@ export const ColorPicker: React.FC<Props> = ({
 									<div
 										style={{ background: '#dc4040' }}
 										onClick={() => onColorChange('#dc4040')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100 cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3 hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#db8f40' }}
 										onClick={() => onColorChange('#db8f40')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#6ebb45' }}
 										onClick={() => onColorChange('#6ebb45')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#45ba97' }}
 										onClick={() => onColorChange('#45ba97')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#4582ba' }}
 										onClick={() => onColorChange('#4582ba')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#5545ba' }}
 										onClick={() => onColorChange('#5545ba')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 									<div
 										style={{ background: '#cc63b5' }}
 										onClick={() => onColorChange('#cc63b5')}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 								</div>
 								{/* Input */}
-								<div className='flex flex-auto flex-row dark:text-gray-400 text-black'>
+								<div className='flex flex-auto flex-row text-black dark:text-gray-400'>
 									<div
-										className='p-4 rounded my-auto border-2 border-base-100'
+										className='my-auto rounded border-2 border-base-100 p-4'
 										style={{ backgroundColor: color }}
 									></div>
 									<Input
 										spellCheck={false}
 										onInput={(ev) => onColorChange(ev.currentTarget.value)}
-										className='flex flex-auto w-24 my-auto ml-2'
+										className='my-auto ml-2 flex w-24 flex-auto'
 										value={color}
 									></Input>
 								</div>
@@ -213,7 +235,7 @@ export const ColorPicker: React.FC<Props> = ({
 								{gradientMode === 'Color1' ? (
 									<HexAlphaColorPicker
 										color={colorGradient1}
-										className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+										className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
 										onChange={(color) => {
 											onGradientChange &&
 												onGradientChange(color, colorGradient2);
@@ -222,7 +244,7 @@ export const ColorPicker: React.FC<Props> = ({
 								) : (
 									<HexAlphaColorPicker
 										color={colorGradient2}
-										className='flex flex-auto max-w-xs w-36 mx-auto max-h-44'
+										className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
 										onChange={(color) => {
 											onGradientChange &&
 												onGradientChange(colorGradient1, color);
@@ -237,7 +259,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#bf86da', '#144ab4')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
@@ -245,7 +267,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#9796F0', '#FBC7D4')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
@@ -253,7 +275,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#06BEB6', '#48B1BF')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
@@ -261,7 +283,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#00B4DB', '#0083B0')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
@@ -269,7 +291,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#FF9A9E', '#FECFEF')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
@@ -277,7 +299,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#5adb00', '#0083b0')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
@@ -285,14 +307,14 @@ export const ColorPicker: React.FC<Props> = ({
 										onClick={() =>
 											onGradientChange && onGradientChange('#ed7b6b', '#b07f00')
 										}
-										className='p-3 rounded hover:border-gray-400 border-2 border-base-100  cursor-pointer'
+										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 								</div>
 
 								{/* Preview Colors */}
-								<div className=' flex flex-auto flex-row gap-2 mt-2 dark:text-gray-400 text-black'>
+								<div className=' mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
 									<div
-										className={`flex flex-auto p-4 rounded-xl border-2 border-base-200 h-4 ${
+										className={`flex h-4 flex-auto rounded-xl border-2 border-base-200 p-4 ${
 											gradientMode === 'Color1' && 'border-gray-400'
 										}`}
 										onMouseDown={() => {
@@ -301,7 +323,7 @@ export const ColorPicker: React.FC<Props> = ({
 										style={{ background: colorGradient1 }}
 									></div>
 									<div
-										className={`flex flex-auto p-4 rounded-xl border-2 border-base-200 h-4 ${
+										className={`flex h-4 flex-auto rounded-xl border-2 border-base-200 p-4 ${
 											gradientMode === 'Color2' && 'border-gray-400'
 										}`}
 										onMouseDown={() => {
