@@ -43,6 +43,7 @@ import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import '../utils.css';
 import karbonized from '../assets/karbonized.svg';
+import { Link } from 'react-router-dom';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -246,12 +247,12 @@ export const Editor: React.FC = () => {
 							</p>
 						</Button>
 
-						<a
-							href='/'
+						<Link
+							to='/'
 							className='mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black transition-all active:scale-90 dark:text-white md:flex'
 						>
 							<IconHome size={24} className='mx-auto my-auto'></IconHome>
-						</a>
+						</Link>
 
 						<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
 							<img className='h-8 w-full' src={karbonized}></img>
