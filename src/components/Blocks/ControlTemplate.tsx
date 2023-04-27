@@ -323,8 +323,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				>
 					<motion.div
 						initial={{ marginTop: '25px' }}
-						animate={{ marginTop: '0px' }}
-						className='text-xs font-bold'
+						animate={{ marginTop: '5px' }}
+						className='flex flex-col gap-1 text-xs font-bold'
 					>
 						{/* Position */}
 						<CustomCollapse
