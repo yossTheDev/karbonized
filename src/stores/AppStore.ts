@@ -60,7 +60,7 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
-	workspaceGradientSettings: { color1: '#bf86da', color2: '#144ab4', deg: 98 },
+	workspaceGradientSettings: { color1: '#ff9a9e', color2: '#ff26ba', deg: 98 },
 
 	/* Tabs */
 	selectedTab: 'control',
@@ -72,7 +72,7 @@ export const AppStore = createStore<AppStoreModel>({
 	workspaceName: 'karbonized-image',
 	workspaceType: 'color', // Color or Texture
 	workspaceColor: '#6ebb45',
-	workspaceColorMode: 'Single', // Single or Gradient
+	workspaceColorMode: 'Gradient', // Single or Gradient
 	workspaceHeight: '512',
 	workspaceWidth: '512',
 

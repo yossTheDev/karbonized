@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import BadgeBlock from './BadgeBlock';
 import { BlockLoader } from './BlockLoader';
 import TweetBlock from './TweetBlock';
 
@@ -81,6 +82,13 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<TweetBlock></TweetBlock>
+				</Suspense>
+			);
+
+		case 'badge':
+			return (
+				<Suspense fallback={<BlockLoader></BlockLoader>}>
+					<BadgeBlock></BadgeBlock>
 				</Suspense>
 			);
 		default:

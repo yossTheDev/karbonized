@@ -8,7 +8,6 @@ import {
 } from '@tabler/icons-react';
 import React from 'react';
 import { Button, Modal } from 'react-daisyui';
-import { Portal } from 'react-portal';
 import qvapay from '../../assets/qvapay.svg';
 import yoss from '../../assets/yoss.png';
 
@@ -27,63 +26,63 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 			className='bg-base-100'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
-				<p className='text-center md:text-left md:text-xl text-2xl poppins-font-family'>
+				<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
 					Karbonized
 				</p>
 			</Modal.Header>
 
-			<Modal.Body className='select-none overflow-y-scroll flex flex-auto flex-col '>
-				<img className='h-36 rounded-full mx-auto' src={yoss}></img>
-				<p className='dark:text-white font-bold text-2xl m-2 text-center'>
+			<Modal.Body className='flex flex-auto select-none flex-col overflow-y-scroll '>
+				<img className='mx-auto h-36 rounded-full' src={yoss}></img>
+				<p className='m-2 text-center text-2xl font-bold dark:text-white'>
 					Hi I am Yoannis Sánchez Soto
 				</p>
-				<p className='text-gray-500 m-2 text-center'>
+				<p className='m-2 text-center text-gray-500'>
 					Thank`s for use Karbonized. You can support my work following me on my
 					social networks
 				</p>
 
 				{/* Social Networks */}
-				<div className='m-2 mt-4 p-2 flex flex-auto flex-row flex-wrap gap-2 mx-auto  w-fit'>
+				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2'>
 					<a
 						href='https://twitter.com/yossthedev'
 						target={'_blank'}
-						className='flex flex-row flex-auto gap-1 p-3 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br from-blue-400 to to-blue-500  '
+						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-400 to-blue-500 p-3 text-white hover:bg-gradient-to-bl  '
 					>
-						<div className='flex flex-row my-auto mx-auto'>
+						<div className='mx-auto my-auto flex flex-row'>
 							<IconBrandTwitter></IconBrandTwitter>
-							<p className='my-auto font-bold ml-1'>Twitter</p>
+							<p className='my-auto ml-1 font-bold'>Twitter</p>
 						</div>
 					</a>
 
 					<a
 						href='https://t.me/yossthedev'
 						target={'_blank'}
-						className='flex flex-auto flex-row gap-1 p-3 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br from-blue-500 to to-blue-600 '
+						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-500 to-blue-600 p-3 text-white hover:bg-gradient-to-bl '
 					>
-						<div className='flex flex-row mx-auto my-auto'>
+						<div className='mx-auto my-auto flex flex-row'>
 							<IconBrandTelegram></IconBrandTelegram>
-							<p className='my-auto font-bold ml-1'>Telegram</p>
+							<p className='my-auto ml-1 font-bold'>Telegram</p>
 						</div>
 					</a>
 
 					<a
 						href='https://github.com/yossthedev'
 						target={'_blank'}
-						className='flex flex-auto flex-row gap-1 p-3 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br  from-gray-800 to-gray-900 '
+						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-gray-800 to-gray-900 p-3  text-white hover:bg-gradient-to-bl '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
 							<IconBrandGithub></IconBrandGithub>
-							<p className='my-auto font-bold ml-1'>GitHub</p>
+							<p className='my-auto ml-1 font-bold'>GitHub</p>
 						</div>
 					</a>
 				</div>
 
-				<p className='text-gray-500 text-center m-2'>Or make a donation</p>
+				<p className='m-2 text-center text-gray-500'>Or make a donation</p>
 
 				{/* Donations*/}
-				<div className='m-2 mt-4 p-2 flex flex-auto flex-row flex-wrap gap-2 mx-auto  w-fit'>
+				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2'>
 					<div
-						className='flex flex-auto flex-row gap-1 p-3 w-24 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br from-yellow-400 to to-yellow-500  '
+						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 text-white hover:bg-gradient-to-bl  '
 						onClick={async () => {
 							//await Toast.show({ text: 'Copied!' });
 							await Clipboard.write({
@@ -91,7 +90,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 							});
 						}}
 					>
-						<div className='mx-auto flex flex-row gap-2 my-auto'>
+						<div className='mx-auto my-auto flex flex-row gap-2'>
 							<IconCoinBitcoin className='my-auto'></IconCoinBitcoin>
 							<p className='my-auto font-bold'>BTC</p>
 						</div>
@@ -104,9 +103,9 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 								string: 'DFUAWcJLiqYKmZydxFsowdsEZio5ue9JYC',
 							});
 						}}
-						className='flex flex-auto flex-row gap-1 p-3 w-24 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br from-yellow-500 to to-yellow-600  '
+						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-yellow-500 to-yellow-600 p-3 text-white hover:bg-gradient-to-bl  '
 					>
-						<div className='flex flex-row mx-auto my-auto'>
+						<div className='mx-auto my-auto flex flex-row'>
 							<IconCurrencyDogecoin className='my-auto'></IconCurrencyDogecoin>
 							<p className='my-auto font-bold'>DOGE</p>
 						</div>
@@ -115,11 +114,11 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 					<a
 						href='https://qvapay.com/payme/yoannisgnw'
 						target={'_blank'}
-						className='flex flex-auto flex-row gap-1 p-3 hover:bg-gradient-to-bl select-none cursor-pointer text-white rounded-3xl bg-gradient-to-br from-blue-300 to-blue-400  '
+						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-300 to-blue-400 p-3 text-white hover:bg-gradient-to-bl  '
 					>
-						<div className='flex flex-row mx-auto my-auto'>
+						<div className='mx-auto my-auto flex flex-row'>
 							<img
-								className='text-yellow-700 mx-auto h-5 my-auto'
+								className='mx-auto my-auto h-5 text-yellow-700'
 								src={qvapay}
 							></img>
 							<p className='my-auto font-bold'>QVAPAY</p>

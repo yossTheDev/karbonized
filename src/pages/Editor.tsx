@@ -31,9 +31,10 @@ import { toBlob, toJpeg, toPng, toSvg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Modal, Navbar, Range } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
+import { Link } from 'react-router-dom';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import '../App.css';
-import { ContextMenu } from '../components/CustomControls/ContextMenu';
+import karbonized from '../assets/karbonized.svg';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { Menu as ControlsMenu } from '../components/Menu';
 import { AboutModal } from '../components/Modals/AboutModal';
@@ -42,8 +43,6 @@ import { Workspace } from '../components/Workspace';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import '../utils.css';
-import karbonized from '../assets/karbonized.svg';
-import { Link } from 'react-router-dom';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -585,6 +584,17 @@ export const Editor: React.FC = () => {
 								onClick={() => addControl({ type: 'image' })}
 							>
 								<IconPhoto size={18} className='dark:text-white'></IconPhoto>
+							</Button>
+						</Tooltip>
+
+						{/* Badge Control */}
+						<Tooltip className='flex flex-auto' messsage='Badge'>
+							<Button
+								className='flex flex-auto p-1'
+								color='ghost'
+								onClick={() => addControl({ type: 'badge' })}
+							>
+								<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
 							</Button>
 						</Tooltip>
 
