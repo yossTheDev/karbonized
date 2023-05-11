@@ -14,6 +14,7 @@ import {
 	IconJpg,
 	IconLetterT,
 	IconLock,
+	IconMoon,
 	IconPhoto,
 	IconPng,
 	IconPointer,
@@ -21,17 +22,17 @@ import {
 	IconSettings,
 	IconShare,
 	IconSticker,
+	IconSun,
 	IconSvg,
 	IconX,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
 } from '@tabler/icons-react';
-import { toBlob, toJpeg, toPng, toSvg } from 'html-to-image';
+import { toBlob, toJpeg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Modal, Navbar, Range } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
-import { Link } from 'react-router-dom';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import '../App.css';
 import karbonized from '../assets/karbonized.svg';
@@ -41,8 +42,12 @@ import { AboutModal } from '../components/Modals/AboutModal';
 import { WorkspacePanel } from '../components/Panels/WorkspacePanel';
 import { Workspace } from '../components/Workspace';
 import { useScreenDirection } from '../hooks/useScreenDirection';
+import { useTauriPlatform } from '../hooks/useTauriPlatform';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
+import { ExportImage, export_format } from '../utils/Exporter';
 import '../utils.css';
+import './Editor.css';
+import { useTheme } from '../hooks/useTheme';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -56,6 +61,8 @@ export const Editor: React.FC = () => {
 
 	// Component Store and Actions
 	const isHorizontal = useScreenDirection();
+	const isTauriPlatform = useTauriPlatform();
+	const { appTheme, toggleTheme } = useTheme();
 
 	const [drag, setDrag] = useState(false);
 	const [showAbout, setShowAbout] = useState(false);
@@ -88,88 +95,16 @@ export const Editor: React.FC = () => {
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
-		setReady(true);
-
-		if (ref.current === null) {
-			console.log('NULL');
-			setReady(false);
-
-			return;
-		}
-
-		toPng(ref.current, {
-			cacheBust: true,
-		})
-			.then((dataUrl) => {
-				const link = document.createElement('a');
-				link.download = workspaceName + '.png';
-				link.href = dataUrl;
-				link.click();
-				console.log('SAVED');
-
-				setReady(false);
-			})
-			.catch((err) => {
-				setReady(false);
-				console.log(err);
-			});
+		ExportImage(workspaceName, ref, export_format.png);
 	}, [ref, workspaceName]);
 
 	// Save Image as SVG
 	const exportAsSvg = useCallback(async () => {
-		setReady(true);
-
-		if (ref.current === null) {
-			console.log('NULL');
-			setReady(false);
-
-			return;
-		}
-
-		toSvg(ref.current, {
-			cacheBust: true,
-		})
-			.then((dataUrl) => {
-				const link = document.createElement('a');
-				link.download = workspaceName + '.svg';
-				link.href = dataUrl;
-				link.click();
-				console.log('SAVED');
-
-				setReady(false);
-			})
-			.catch((err) => {
-				setReady(false);
-				console.log(err);
-			});
+		ExportImage(workspaceName, ref, export_format.svg);
 	}, [ref, workspaceName]);
 
 	const exportAsJpeg = useCallback(async () => {
-		setReady(true);
-
-		if (ref.current === null) {
-			console.log('NULL');
-			setReady(false);
-
-			return;
-		}
-
-		toJpeg(ref.current, {
-			cacheBust: true,
-		})
-			.then((dataUrl) => {
-				const link = document.createElement('a');
-				link.download = workspaceName + '.jpeg';
-				link.href = dataUrl;
-				link.click();
-				console.log('SAVED');
-
-				setReady(false);
-			})
-			.catch((err) => {
-				setReady(false);
-				console.log(err);
-			});
+		ExportImage(workspaceName, ref, export_format.jpeg);
 	}, [ref, workspaceName]);
 
 	const showPreviewImage = useCallback(async () => {
@@ -228,11 +163,220 @@ export const Editor: React.FC = () => {
 				e.preventDefault();
 			}}
 			id='body'
-			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-100 md:flex-row'
+			className='flex flex-auto flex-col overflow-hidden bg-base-100 md:flex-row'
 		>
-			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2  md:p-0'>
+			{/* Controls Tree */}
+			<div className='order-3 my-2 mb-2 flex w-full flex-row gap-2 overflow-hidden rounded-2xl p-2 md:order-first md:mx-2 md:ml-2 md:w-16 md:flex-col md:bg-base-200'>
+				<div className='controls-tree mx-3 flex flex-row gap-2 overflow-y-auto rounded-2xl bg-base-200 p-2 md:mx-0 md:bg-transparent md:p-0 lg:flex-col'>
+					{/* Actions */}
+
+					{/* Show Menu */}
+					<Tooltip className='flex flex-auto md:hidden' messsage='Show Menu'>
+						<Button
+							color='ghost'
+							className='rounded-2xl p-1'
+							onClick={() => {
+								setShowMenu(!showMenu);
+							}}
+						>
+							{showMenu ? (
+								<IconChevronDown
+									size={18}
+									className='dark:text-white'
+								></IconChevronDown>
+							) : (
+								<IconChevronUp
+									size={18}
+									className='dark:text-white'
+								></IconChevronUp>
+							)}
+						</Button>
+					</Tooltip>
+
+					{/* Workspace Menu */}
+					<Tooltip className='flex flex-auto md:hidden' messsage='Settings'>
+						<Button
+							color='ghost'
+							className='rounded-2xl p-1 dark:text-white'
+							onClick={() => {
+								setShowWorkspacePanel(true);
+							}}
+						>
+							<IconSettings
+								className='mx-auto my-auto'
+								size={18}
+							></IconSettings>
+						</Button>
+					</Tooltip>
+
+					<div className='my-auto h-0.5 rounded bg-base-100 p-0.5 md:hidden'></div>
+
+					{/* Select */}
+					<Tooltip className='flex flex-auto' messsage='Select'>
+						<Button
+							color='ghost'
+							className={`flex flex-auto rounded-2xl ${
+								editing &&
+								'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+							} p-1 hover:bg-gradient-to-bl`}
+							onClick={() => {
+								setEditing(true);
+								setDrag(false);
+							}}
+						>
+							<IconPointer size={18} className='dark:text-white'></IconPointer>
+						</Button>
+					</Tooltip>
+
+					{/* Hand */}
+					<Tooltip className='flex flex-auto ' messsage='Hand'>
+						<Button
+							color='ghost'
+							className={`flex flex-auto flex-col rounded-2xl ${
+								drag &&
+								'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
+							} p-1`}
+							onClick={() => {
+								setDrag(true);
+								setEditing(false);
+							}}
+						>
+							<IconHandFinger
+								size={18}
+								className='dark:text-white'
+							></IconHandFinger>
+						</Button>
+					</Tooltip>
+
+					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100 p-1 '></div>
+
+					{/* Code Control */}
+					<Tooltip className='flex  flex-auto ' messsage='Code'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'code' })}
+						>
+							<IconCode size={18} className='dark:text-white'></IconCode>
+						</Button>
+					</Tooltip>
+
+					{/* FaIcon Control */}
+					<Tooltip className='flex flex-auto ' messsage='Icon'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'faicon' })}
+						>
+							<IconSticker size={18} className='dark:text-white'></IconSticker>
+						</Button>
+					</Tooltip>
+
+					{/* Text Control */}
+					<Tooltip className='flex flex-auto ' messsage='Text'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'text' })}
+						>
+							<IconLetterT size={18} className='dark:text-white'></IconLetterT>
+						</Button>
+					</Tooltip>
+
+					{/* Shape Control */}
+					<Tooltip className='flex flex-auto ' messsage='Shape'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'arrow' })}
+						>
+							<IconCircle size={18} className='dark:text-white'></IconCircle>
+						</Button>
+					</Tooltip>
+
+					{/* Qr Control */}
+					<Tooltip className='flex flex-auto ' messsage='QR'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'qr' })}
+						>
+							<IconQrcode size={18} className='dark:text-white'></IconQrcode>
+						</Button>
+					</Tooltip>
+
+					{/* Image Control */}
+					<Tooltip className='flex flex-auto ' messsage='Image'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'image' })}
+						>
+							<IconPhoto size={18} className='dark:text-white'></IconPhoto>
+						</Button>
+					</Tooltip>
+
+					{/* Badge Control */}
+					<Tooltip className='flex flex-auto' messsage='Badge'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'badge' })}
+						>
+							<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
+						</Button>
+					</Tooltip>
+
+					{/* Tweet Control */}
+					<Tooltip className='flex flex-auto ' messsage='Tweet'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'tweet' })}
+						>
+							<IconBrandTwitter
+								size={18}
+								className='dark:text-white'
+							></IconBrandTwitter>
+						</Button>
+					</Tooltip>
+
+					{/* Window Control */}
+					<Tooltip className='flex flex-auto ' messsage='Window'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'window' })}
+						>
+							<IconAppWindow
+								size={18}
+								className='dark:text-white'
+							></IconAppWindow>
+						</Button>
+					</Tooltip>
+
+					{/* Phone Mockup Control */}
+					<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
+						<Button
+							className='flex flex-auto rounded-2xl p-1'
+							color='ghost'
+							onClick={() => addControl({ type: 'phone_mockup' })}
+						>
+							<IconDeviceMobile
+								size={18}
+								className='dark:text-white'
+							></IconDeviceMobile>
+						</Button>
+					</Tooltip>
+				</div>
+
+				<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-100 p-1 md:block'></div>
+			</div>
+
+			{/* Content */}
+			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
 				{/* Nav Bar */}
-				<Navbar className='flex h-2 shrink rounded-full bg-base-200 md:rounded-2xl md:bg-transparent'>
+				<Navbar className='mt-2 flex h-2 shrink rounded-full bg-base-200 md:rounded-2xl md:bg-transparent'>
 					<Navbar.Start>
 						{/* About Button */}
 						<Button
@@ -246,17 +390,23 @@ export const Editor: React.FC = () => {
 							</p>
 						</Button>
 
-						<a
-							href='/'
-							className='mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black transition-all active:scale-90 dark:text-white md:flex'
-						>
-							<IconHome size={24} className='mx-auto my-auto'></IconHome>
-						</a>
+						{!isTauriPlatform && (
+							<>
+								<a
+									href='/'
+									className='mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black transition-all active:scale-90 dark:text-white md:flex'
+								>
+									<IconHome size={24} className='mx-auto my-auto'></IconHome>
+								</a>
 
-						<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
-							<img className='h-8 w-full' src={karbonized}></img>
-							<p className='poppins-font-family my-auto text-xl'>Karbonized</p>
-						</div>
+								<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
+									<img className='h-8' src={karbonized}></img>
+									<label className='poppins-font-family my-auto select-none text-xl'>
+										Karbonized
+									</label>
+								</div>
+							</>
+						)}
 					</Navbar.Start>
 
 					<Navbar.Center>
@@ -271,6 +421,30 @@ export const Editor: React.FC = () => {
 						>
 							<IconFlask size={24} className='text-white'></IconFlask>
 						</Button>
+
+						{/* Change Theme */}
+						{!isTauriPlatform && (
+							<>
+								<Button
+									shape='circle'
+									className='hidden border-none hover:cursor-pointer lg:block'
+									onClick={() => toggleTheme()}
+								>
+									{appTheme === 'light' ? (
+										<IconMoon
+											size={20}
+											className='mx-auto dark:text-white'
+										></IconMoon>
+									) : (
+										<IconSun
+											size={20}
+											className='mx-auto dark:text-white'
+										></IconSun>
+									)}
+								</Button>
+								<p className='mx-1 my-auto hidden h-0.5 rounded  bg-base-200 p-0.5 lg:block'></p>
+							</>
+						)}
 
 						{/* Lock Aspect Ratio */}
 						<Tooltip messsage='Lock Aspect Ratio'>
@@ -288,7 +462,7 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
+						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Zoom Out */}
 						<Tooltip className='flex' messsage='Zoom Out'>
@@ -332,7 +506,7 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
+						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Preview Button */}
 						<Tooltip className='flex' messsage='Render'>
@@ -428,219 +602,6 @@ export const Editor: React.FC = () => {
 						</div>
 					</div>
 
-					{/* Controls Tree */}
-					<div className='order-3 mb-2 mt-1 flex w-full flex-row gap-2 overflow-auto rounded-xl bg-base-200 p-2 md:order-first md:mx-0 md:ml-2 md:w-16 md:flex-col'>
-						{/* Actions */}
-
-						{/* Show Menu */}
-						<Tooltip className='flex  flex-auto md:hidden' messsage='Show Menu'>
-							<Button
-								color='ghost'
-								className='p-1'
-								onClick={() => {
-									setShowMenu(!showMenu);
-								}}
-							>
-								{showMenu ? (
-									<IconChevronDown
-										size={18}
-										className='dark:text-white'
-									></IconChevronDown>
-								) : (
-									<IconChevronUp
-										size={18}
-										className='dark:text-white'
-									></IconChevronUp>
-								)}
-							</Button>
-						</Tooltip>
-
-						{/* Workspace Menu */}
-						<Tooltip className='flex flex-auto md:hidden' messsage='Settings'>
-							<Button
-								color='ghost'
-								className='p-1 dark:text-white'
-								onClick={() => {
-									setShowWorkspacePanel(true);
-								}}
-							>
-								<IconSettings
-									className='mx-auto my-auto'
-									size={18}
-								></IconSettings>
-							</Button>
-						</Tooltip>
-
-						<p className='my-auto h-0.5 rounded bg-base-100 p-0.5 md:hidden'></p>
-
-						{/* Select */}
-						<Tooltip className='flex flex-auto' messsage='Select'>
-							<Button
-								color='ghost'
-								className={`flex flex-auto ${
-									editing &&
-									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-								} p-1 hover:bg-gradient-to-bl`}
-								onClick={() => {
-									setEditing(true);
-									setDrag(false);
-								}}
-							>
-								<IconPointer
-									size={18}
-									className='dark:text-white'
-								></IconPointer>
-							</Button>
-						</Tooltip>
-
-						{/* Hand */}
-						<Tooltip className='flex flex-auto ' messsage='Hand'>
-							<Button
-								color='ghost'
-								className={`flex flex-auto flex-col ${
-									drag &&
-									'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
-								} p-1`}
-								onClick={() => {
-									setDrag(true);
-									setEditing(false);
-								}}
-							>
-								<IconHandFinger
-									size={18}
-									className='dark:text-white'
-								></IconHandFinger>
-							</Button>
-						</Tooltip>
-
-						<p className='my-auto h-0.5 rounded bg-base-100 p-0.5 '></p>
-
-						{/* Code Control */}
-						<Tooltip className='flex flex-auto ' messsage='Code'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'code' })}
-							>
-								<IconCode size={18} className='dark:text-white'></IconCode>
-							</Button>
-						</Tooltip>
-
-						{/* FaIcon Control */}
-						<Tooltip className='flex flex-auto ' messsage='Icon'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'faicon' })}
-							>
-								<IconSticker
-									size={18}
-									className='dark:text-white'
-								></IconSticker>
-							</Button>
-						</Tooltip>
-
-						{/* Text Control */}
-						<Tooltip className='flex flex-auto ' messsage='Text'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'text' })}
-							>
-								<IconLetterT
-									size={18}
-									className='dark:text-white'
-								></IconLetterT>
-							</Button>
-						</Tooltip>
-
-						{/* Shape Control */}
-						<Tooltip className='flex flex-auto ' messsage='Shape'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'arrow' })}
-							>
-								<IconCircle size={18} className='dark:text-white'></IconCircle>
-							</Button>
-						</Tooltip>
-
-						{/* Qr Control */}
-						<Tooltip className='flex flex-auto ' messsage='QR'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'qr' })}
-							>
-								<IconQrcode size={18} className='dark:text-white'></IconQrcode>
-							</Button>
-						</Tooltip>
-
-						{/* Image Control */}
-						<Tooltip className='flex flex-auto ' messsage='Image'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'image' })}
-							>
-								<IconPhoto size={18} className='dark:text-white'></IconPhoto>
-							</Button>
-						</Tooltip>
-
-						{/* Badge Control */}
-						<Tooltip className='flex flex-auto' messsage='Badge'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'badge' })}
-							>
-								<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
-							</Button>
-						</Tooltip>
-
-						{/* Tweet Control */}
-						<Tooltip className='flex flex-auto ' messsage='Tweet'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'tweet' })}
-							>
-								<IconBrandTwitter
-									size={18}
-									className='dark:text-white'
-								></IconBrandTwitter>
-							</Button>
-						</Tooltip>
-
-						{/* Window Control */}
-						<Tooltip className='flex flex-auto ' messsage='Window'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'window' })}
-							>
-								<IconAppWindow
-									size={18}
-									className='dark:text-white'
-								></IconAppWindow>
-							</Button>
-						</Tooltip>
-
-						{/* Phone Mockup Control */}
-						<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
-							<Button
-								className='flex flex-auto p-1'
-								color='ghost'
-								onClick={() => addControl({ type: 'phone_mockup' })}
-							>
-								<IconDeviceMobile
-									size={18}
-									className='dark:text-white'
-								></IconDeviceMobile>
-							</Button>
-						</Tooltip>
-					</div>
-
 					{/* Ruler Vertical */}
 					<div className='hidden'></div>
 
@@ -673,92 +634,13 @@ export const Editor: React.FC = () => {
 						</InfiniteViewer>
 					</div>
 				</div>
-
-				{/* Preview */}
-				{showPreview && (
-					<div className='absolute z-50 flex h-screen w-screen flex-auto bg-black/80'>
-						<div className='mx-auto my-auto rounded-2xl bg-base-200 p-6'>
-							<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-100 p-2'>
-								<img className='h-10' src={karbonized}></img>
-								<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
-									Export
-								</p>
-							</div>
-
-							<div className='mt-2 flex flex-row gap-2'>
-								<div className='my-auto max-h-max w-96 overflow-scroll rounded-2xl bg-base-100 p-2'>
-									<TransformWrapper>
-										<TransformComponent>
-											<img
-												className='rounded'
-												src={previewImage}
-												alt='preview'
-											></img>
-										</TransformComponent>
-									</TransformWrapper>
-								</div>
-
-								{/* Save Buttons */}
-								<div className='my-auto flex flex-auto flex-col gap-3'>
-									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 bg-gradient-to-br from-violet-500 to-secondary p-3 text-white hover:bg-gradient-to-bl'
-										onMouseDown={handleShare}
-									>
-										<div className='my-auto flex flex-auto flex-row gap-2'>
-											<IconShare></IconShare>
-											<p className='my-auto'>Share</p>
-										</div>
-									</Button>
-
-									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 p-3'
-										onMouseDown={exportAsPng}
-									>
-										<div className='my-auto flex flex-auto flex-row gap-2'>
-											<IconPng></IconPng>
-											<p className='my-auto'>Export as PNG</p>
-										</div>
-									</Button>
-									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 p-3'
-										onMouseDown={exportAsJpeg}
-									>
-										<div className='my-auto flex flex-auto flex-row gap-2'>
-											<IconJpg></IconJpg>
-											<p className='my-auto'>Export as JPG</p>
-										</div>
-									</Button>
-									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-base-100 p-3'
-										onMouseDown={exportAsSvg}
-									>
-										<div className='my-auto flex flex-auto flex-row gap-2'>
-											<IconSvg></IconSvg>
-											<p className='my-auto'>Export as SVG</p>
-										</div>
-									</Button>
-
-									<Button
-										className='flex flex-auto cursor-pointer select-none rounded-2xl bg-red-600 p-3 text-white hover:bg-red-700'
-										onMouseDown={() => setShowPreview(false)}
-									>
-										<div className='my-auto flex flex-auto flex-row gap-2'>
-											<IconX></IconX>
-											<p className='my-auto'>Cancel</p>
-										</div>
-									</Button>
-								</div>
-							</div>
-						</div>
-					</div>
-				)}
 			</div>
 
 			{/* Menu */}
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}  order-2 h-96   max-h-72  w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}   order-4 mt-auto h-96 max-h-72 w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>
@@ -793,6 +675,89 @@ export const Editor: React.FC = () => {
 							onClick={() => setShowWorkspacePanel(false)}
 						>
 							OK
+						</Button>
+					</Modal.Actions>
+				</Modal>
+			)}
+			{showPreview && (
+				<Modal
+					open
+					onClickBackdrop={() => {
+						setShowPreview(false);
+					}}
+					className='overflow-hidden bg-base-100'
+				>
+					<Modal.Header className='flex flex-row font-bold dark:text-white'>
+						<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-100 p-2'>
+							<img className='h-10' src={karbonized}></img>
+							<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
+								Export
+							</p>
+						</div>
+
+						<Button
+							shape='circle'
+							onClick={() => {
+								setShowPreview(false);
+							}}
+							className='ml-auto'
+						>
+							<IconX></IconX>
+						</Button>
+					</Modal.Header>
+
+					<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
+						<div className='mx-auto my-auto max-h-[22rem] w-96 overflow-scroll rounded-2xl bg-base-200 p-4'>
+							<TransformWrapper>
+								<TransformComponent>
+									<img
+										className='rounded'
+										src={previewImage}
+										alt='preview'
+									></img>
+								</TransformComponent>
+							</TransformWrapper>
+						</div>
+					</Modal.Body>
+
+					<Modal.Actions>
+						<Button
+							className='mr-auto cursor-pointer select-none rounded-2xl bg-base-100 bg-gradient-to-br from-violet-500 to-secondary p-3 text-white hover:bg-gradient-to-bl'
+							onMouseDown={handleShare}
+						>
+							<div className='my-auto flex flex-auto flex-row gap-2'>
+								<IconShare></IconShare>
+								<p className='my-auto'>Share</p>
+							</div>
+						</Button>
+
+						<p className='my-auto ml-auto mr-3 select-none text-xs dark:text-gray-600'>
+							Save as
+						</p>
+
+						<Button
+							className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
+							onMouseDown={exportAsPng}
+						>
+							<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
+								<IconPng className='mx-auto'></IconPng>
+							</div>
+						</Button>
+						<Button
+							className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
+							onMouseDown={exportAsJpeg}
+						>
+							<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
+								<IconJpg className='mx-auto'></IconJpg>
+							</div>
+						</Button>
+						<Button
+							className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
+							onMouseDown={exportAsSvg}
+						>
+							<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
+								<IconSvg className='mx-auto'></IconSvg>
+							</div>
 						</Button>
 					</Modal.Actions>
 				</Modal>

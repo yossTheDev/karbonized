@@ -3,7 +3,7 @@ import { IconSettings, IconShape, IconSquare } from '@tabler/icons-react';
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { WorkspacePanel } from './Panels/WorkspacePanel';
-import { TabSelector } from './TabsSelector';
+import { TabSelector } from './Base/TabsSelector';
 import { AnimatePresence } from 'framer-motion';
 
 export const Menu: React.FC = () => {

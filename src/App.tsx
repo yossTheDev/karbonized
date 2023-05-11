@@ -1,33 +1,17 @@
 import React from 'react';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { Editor } from './pages/Editor';
-import { Home } from './pages/Home';
-
-const router = createBrowserRouter([
-	{
-		path: '',
-		errorElement: <></>,
-		element: <Outlet></Outlet>,
-		children: [
-			{
-				path: '/',
-				element: <Editor />,
-			},
-
-			{
-				path: '/editor',
-				element: <Editor />,
-			},
-		],
-	},
-
-	{
-		path: '/',
-	},
-]);
+import { TitleBar } from './components/Base/TitleBar';
+import { useTauriPlatform } from './hooks/useTauriPlatform';
 
 const App: React.FC = () => {
-	return <RouterProvider router={router}></RouterProvider>;
+	const isTauriPlatform = useTauriPlatform();
+
+	return (
+		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden transition-all ease-in-out'>
+			{isTauriPlatform && <TitleBar></TitleBar>}
+			<Editor></Editor>
+		</div>
+	);
 };
 
 export default App;

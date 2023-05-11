@@ -7,7 +7,7 @@ module.exports = {
 	],
 
 	// enable dark mode via class strategy
-	// darkMode: 'class',
+	darkMode: 'class',
 
 	plugins: [require('daisyui'), require('@tailwindcss/typography')],
 

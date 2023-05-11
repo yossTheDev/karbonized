@@ -12,7 +12,40 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "os": {
+        "all": true
+      },
+      "path": {
+        "all": true
+      },
+      "dialog": {
+        "all": false, 
+        "save": true 
+      },
+      "fs": {
+        "all": true, 
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true
+      },
+      "window": {
+        "all": false,
+        "close": true,
+        "hide": true,
+        "show": true,
+        "maximize": true,
+        "minimize": true,
+        "unmaximize": true,
+        "unminimize": true,
+        "startDragging": true
+      }
     },
     "bundle": {
       "active": true,
@@ -62,7 +95,9 @@
         "width": 800,
         "maximized": true,
         "minHeight": 600,
-        "minWidth": 800
+        "minWidth": 800,
+        "decorations": false,
+        "transparent": true
       }
     ]
   }

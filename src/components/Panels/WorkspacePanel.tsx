@@ -200,7 +200,7 @@ export const WorkspacePanel: React.FC = () => {
 
 					{/* Select Texture */}
 					{workspaceType === 'texture' && (
-						<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-scroll'>
+						<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-auto'>
 							<div
 								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
 								onClick={() => {

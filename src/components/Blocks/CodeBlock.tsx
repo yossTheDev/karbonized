@@ -383,6 +383,7 @@ const CodeControl: React.FC = () => {
 					<div className='flex flex-auto '>
 						<SyntaxHighlighter
 							customStyle={{
+								cursor: 'default',
 								display: 'flex',
 								flex: '1 1 auto',
 								textDecorationThickness: '0px',
