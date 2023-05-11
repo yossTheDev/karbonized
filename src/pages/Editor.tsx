@@ -419,7 +419,8 @@ export const Editor: React.FC = () => {
 							<>
 								<Button
 									shape='circle'
-									className='hidden border-none hover:cursor-pointer lg:block'
+									color='ghost'
+									className='hidden border-none bg-base-200 lg:block'
 									onClick={() => toggleTheme()}
 								>
 									{appTheme === 'light' ? (
@@ -707,7 +708,7 @@ export const Editor: React.FC = () => {
 					</Modal.Header>
 
 					<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-						<div className='mx-auto my-auto max-h-[22rem] w-96 overflow-scroll rounded-2xl bg-base-200 p-4'>
+						<div className='mx-auto my-auto  w-96  rounded-2xl bg-base-200 p-4'>
 							<TransformWrapper>
 								<TransformComponent>
 									<img
