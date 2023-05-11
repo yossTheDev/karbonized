@@ -194,7 +194,7 @@ export const Editor: React.FC = () => {
 					</Tooltip>
 
 					{/* Workspace Menu */}
-					<Tooltip className='flex flex-auto md:hidden' messsage='Settings'>
+					<Tooltip className='hidden flex-auto' messsage='Settings'>
 						<Button
 							color='ghost'
 							className='rounded-2xl p-1 dark:text-white'
@@ -414,14 +414,6 @@ export const Editor: React.FC = () => {
 					</Navbar.Center>
 
 					<Navbar.End className='flex flex-auto gap-0 md:gap-1'>
-						{/* Share Button */}
-						<Button
-							onClick={handleShare}
-							className=' ml-auto h-12 w-12 rounded-full border-none bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:hidden'
-						>
-							<IconFlask size={24} className='text-white'></IconFlask>
-						</Button>
-
 						{/* Change Theme */}
 						{!isTauriPlatform && (
 							<>
@@ -465,7 +457,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Zoom Out */}
-						<Tooltip className='flex' messsage='Zoom Out'>
+						<Tooltip messsage='Zoom Out'>
 							<Button
 								className='my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
 								color='ghost'
@@ -479,7 +471,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Zoom In */}
-						<Tooltip className='flex' messsage='Zoom In'>
+						<Tooltip messsage='Zoom In'>
 							<Button
 								className='my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
 								color='ghost'
@@ -493,7 +485,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Zoom In */}
-						<Tooltip className='flex' messsage='Zoom In'>
+						<Tooltip messsage='Zoom In'>
 							<Button
 								className='my-2 hidden h-12  w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
 								color='ghost'
@@ -509,7 +501,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Preview Button */}
-						<Tooltip className='flex' messsage='Render'>
+						<Tooltip messsage='Render'>
 							<Button
 								onClick={showPreviewImage}
 								className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:flex'
@@ -517,6 +509,14 @@ export const Editor: React.FC = () => {
 								<IconFlask size={22} className='text-white'></IconFlask>
 							</Button>
 						</Tooltip>
+
+						{/* Share Button */}
+						<Button
+							onClick={handleShare}
+							className='  h-12 w-12 rounded-full border-none bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:hidden'
+						>
+							<IconFlask size={24} className='text-white'></IconFlask>
+						</Button>
 					</Navbar.End>
 				</Navbar>
 
@@ -640,7 +640,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}   order-4 mt-auto h-96 max-h-72 w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}   order-4 mt-auto h-96 max-h-96 w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>
@@ -681,7 +681,7 @@ export const Editor: React.FC = () => {
 			)}
 			{showPreview && (
 				<Modal
-					open
+					open={showPreview}
 					onClickBackdrop={() => {
 						setShowPreview(false);
 					}}

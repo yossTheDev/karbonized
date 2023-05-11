@@ -30,7 +30,7 @@ export const Menu: React.FC = () => {
 	return (
 		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200 p-2 shadow-xl'>
 			{/* Selectors */}
-			<div className='min-h-12 hidden max-h-12 flex-auto shrink-0 overflow-y-auto md:flex'>
+			<div className='min-h-12  flex max-h-12 flex-auto shrink-0 overflow-y-auto'>
 				<TabSelector
 					isActive={selectedTab === 'control'}
 					onClick={() => {
