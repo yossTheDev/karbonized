@@ -2,7 +2,6 @@ import React from 'react';
 import { Editor } from './pages/Editor';
 import { TitleBar } from './components/Base/TitleBar';
 import { useTauriPlatform } from './hooks/useTauriPlatform';
-import { StatusBar } from './components/Base/StatusBar';
 
 const App: React.FC = () => {
 	const isTauriPlatform = useTauriPlatform();
