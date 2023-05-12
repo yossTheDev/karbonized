@@ -8,7 +8,7 @@
 
 <p align="center"><b>Free</b> and <b>Open Source</b>. Made with ❤️ and ReactJS in 🇨🇺</p>
 
-![carbonizedscreen](./img/newscreen.png)
+![carbonizedscreen](./img/screen.png)
 
 [Check it out](https://karbonized.onrender.com)
 
