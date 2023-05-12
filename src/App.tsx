@@ -9,7 +9,7 @@ const App: React.FC = () => {
 
 	return (
 		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden transition-all ease-in-out'>
-			{!isTauriPlatform && <TitleBar></TitleBar>}
+			{isTauriPlatform && <TitleBar></TitleBar>}
 			<Editor></Editor>
 		</div>
 	);
