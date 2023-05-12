@@ -1,5 +1,15 @@
 # Changelog
 
+## v 1.0.3
+
+* New Design
+* Change License to Apache-2.0
+* Added Twitter and Badge Controls
+* Now has Compiled Version for Desktop Platforms powered by Tauri
+* Improve Behaviour of Editor
+* Some improvements
+* Minor Bug Fixes
+
 ## 1.0.2
 
 * Added Light Theme

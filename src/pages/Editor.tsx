@@ -4,15 +4,11 @@ import {
 	IconChevronDown,
 	IconChevronUp,
 	IconCircle,
-	IconClipboard,
 	IconCode,
-	IconCopy,
 	IconDeviceMobile,
-	IconDotsVertical,
 	IconFlask,
 	IconFocusCentered,
 	IconHandFinger,
-	IconHome,
 	IconInfoCircle,
 	IconJpg,
 	IconLetterT,
@@ -34,7 +30,7 @@ import {
 } from '@tabler/icons-react';
 import { toBlob, toJpeg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Dropdown, Modal, Navbar, Range, Toast } from 'react-daisyui';
+import { Button, Modal, Navbar, Range } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import '../App.css';
