@@ -4,8 +4,11 @@ import {
 	IconChevronDown,
 	IconChevronUp,
 	IconCircle,
+	IconClipboard,
 	IconCode,
+	IconCopy,
 	IconDeviceMobile,
+	IconDotsVertical,
 	IconFlask,
 	IconFocusCentered,
 	IconHandFinger,
@@ -31,7 +34,7 @@ import {
 } from '@tabler/icons-react';
 import { toBlob, toJpeg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Modal, Navbar, Range } from 'react-daisyui';
+import { Button, Dropdown, Modal, Navbar, Range, Toast } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import '../App.css';
@@ -48,6 +51,7 @@ import { ExportImage, export_format } from '../utils/Exporter';
 import '../utils.css';
 import './Editor.css';
 import { useTheme } from '../hooks/useTheme';
+import { HomeButton } from '../components/Base/HomeButton';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -167,7 +171,7 @@ export const Editor: React.FC = () => {
 		>
 			{/* Controls Tree */}
 			<div className='order-3 my-2 mb-2 flex w-full flex-row gap-2 overflow-hidden rounded-2xl p-2 md:order-first md:mx-2 md:ml-2 md:w-16 md:flex-col md:bg-base-200'>
-				<div className='controls-tree mx-3 flex flex-row gap-2 overflow-y-auto rounded-2xl bg-base-200 p-2 md:mx-0 md:bg-transparent md:p-0 lg:flex-col'>
+				<div className='controls-tree mx-3 flex flex-row gap-2 overflow-y-auto rounded-2xl bg-base-200 p-2 md:mx-0 md:flex-col md:bg-transparent md:p-0'>
 					{/* Actions */}
 
 					{/* Show Menu */}
@@ -392,12 +396,7 @@ export const Editor: React.FC = () => {
 
 						{!isTauriPlatform && (
 							<>
-								<a
-									href='/'
-									className='mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black transition-all active:scale-90 dark:text-white md:flex'
-								>
-									<IconHome size={24} className='mx-auto my-auto'></IconHome>
-								</a>
+								<HomeButton className='h-12 w-10 rounded-2xl p-1'></HomeButton>
 
 								<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
 									<img className='h-8' src={karbonized}></img>
@@ -603,16 +602,12 @@ export const Editor: React.FC = () => {
 						</div>
 					</div>
 
-					{/* Ruler Vertical */}
-					<div className='hidden'></div>
-
 					{/* Workspace */}
 					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
 						{/* Ruler Horizontal */}
-
 						<InfiniteViewer
 							ref={refe}
-							className='viewer flex flex-auto rounded-2xl  bg-base-100'
+							className='viewer my-2 flex flex-auto'
 							useMouseDrag={drag}
 							useAutoZoom
 							zoom={zoom}

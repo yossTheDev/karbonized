@@ -355,19 +355,6 @@ export const WorkspacePanel: React.FC = () => {
 						></ColorPicker>
 					)}
 				</>
-
-				{/* Clean */}
-				<div
-					onClick={() => {
-						cleanWorkspace();
-					}}
-					className='mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl bg-gray-800/20 p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
-				>
-					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconTrash className='my-auto' size={20}></IconTrash>
-						<p className='my-auto text-xs font-bold'>Clean</p>
-					</div>
-				</div>
 			</motion.div>
 		</>
 	);

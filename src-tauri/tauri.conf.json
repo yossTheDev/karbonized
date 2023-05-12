@@ -4,7 +4,7 @@
     "beforeBuildCommand": "yarn build",
     "beforeDevCommand": "yarn dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../build"
+    "distDir": "../dist"
   },
   "package": {
     "productName": "Karbonized",
@@ -63,7 +63,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.yossthedev.karbonized",
-      "longDescription": "",
+      "longDescription": "Awesome Image Generator for Code Snippets and Screenshots",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -72,7 +72,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
+      "shortDescription": "Awesome Image Generator",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,

@@ -88,6 +88,8 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 							await Clipboard.write({
 								string: 'bc1qwr6wltxvpvuqhx94lqjrdr090747yz9rw5mpec',
 							});
+
+							alert('copied!');
 						}}
 					>
 						<div className='mx-auto my-auto flex flex-row gap-2'>
@@ -102,6 +104,8 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 							await Clipboard.write({
 								string: 'DFUAWcJLiqYKmZydxFsowdsEZio5ue9JYC',
 							});
+
+							alert('copied!');
 						}}
 						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-yellow-500 to-yellow-600 p-3 text-white hover:bg-gradient-to-bl  '
 					>

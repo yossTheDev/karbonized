@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import { MiniminizeSvg } from '../General/Icons';
 import karbonized from '../../assets/karbonized.svg';
 import { useTheme } from '../../hooks/useTheme';
+import { HomeButton } from './HomeButton';
 
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(true);
@@ -30,12 +31,10 @@ export const TitleBar: React.FC = () => {
 				e.preventDefault();
 			}}
 		>
-			<a
-				href='/'
-				className='ml-2 mr-2 flex-row gap-2 rounded-xl bg-base-200 p-2 text-black transition-all active:scale-90 dark:text-white md:flex'
-			>
-				<IconHome size={20} className='mx-auto my-auto'></IconHome>
-			</a>
+			<HomeButton
+				className='my-auto ml-1 mt-0 h-10 w-10 rounded-2xl p-1'
+				size={20}
+			></HomeButton>
 
 			<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
 				<img className='my-auto h-6' src={karbonized}></img>
