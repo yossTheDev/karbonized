@@ -5,9 +5,10 @@
 * New Design
 * Change License to Apache-2.0
 * Added Twitter and Badge Controls
-* Now has Compiled Version for Desktop Platforms powered by Tauri
+* Now has Compiled Version for Desktop Platforms Powered by Tauri
+* Added Option To Change App Theme Manually
 * Improve Behaviour of Editor
-* Some improvements
+* Some Improvements
 * Minor Bug Fixes
 
 ## 1.0.2
