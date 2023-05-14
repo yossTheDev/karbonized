@@ -1,59 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IconSettings, IconShape, IconSquare } from '@tabler/icons-react';
-import { TabPanel, useTabs } from 'react-headless-tabs';
+import React, { useRef } from 'react';
+import { IconSettings, IconShape } from '@tabler/icons-react';
+import { TabPanel } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { WorkspacePanel } from './Panels/WorkspacePanel';
 import { TabSelector } from './Base/TabsSelector';
 import { AnimatePresence } from 'framer-motion';
 
 export const Menu: React.FC = () => {
-	// Component Store
-	const [selectedTab, setSelectedTab] = useTabs(
-		['workspace', 'control'],
-		'control'
-	);
-	const [isEmpty, setIsEmpty] = useState(true);
-	const [showMenu, setShowMenu] = useState(true);
-
 	// App Store
-	const controls = useStoreState((state) => state.ControlsTree);
 	const currentID = useStoreState((state) => state.currentControlID);
 	const workspaceTab = useStoreState((state) => state.selectedTab);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	const reference = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		setSelectedTab(workspaceTab);
-	}, [workspaceTab]);
-
 	return (
 		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200 p-2 shadow-xl'>
 			{/* Selectors */}
 			<div className='min-h-12  flex max-h-12 flex-auto shrink-0 overflow-y-auto'>
 				<TabSelector
-					isActive={selectedTab === 'control'}
+					isActive={workspaceTab === 'control'}
 					onClick={() => {
-						setSelectedTab('control');
+						// setSelectedTab('control');
 						setWorkspaceTab('control');
 					}}
 				>
 					<div className='mx-auto my-auto flex flex-row gap-2'>
 						<IconShape className='mx-auto my-auto' size={22}></IconShape>
-						<p className='my-auto hidden md:flex'>Control</p>
+						<label className='my-auto hidden cursor-pointer md:flex'>
+							Control
+						</label>
 					</div>
 				</TabSelector>
 
 				<TabSelector
-					isActive={selectedTab === 'workspace'}
+					isActive={workspaceTab === 'workspace'}
 					onClick={() => {
-						setSelectedTab('workspace');
+						// setSelectedTab('workspace');
 						setWorkspaceTab('workspace');
 					}}
 				>
 					<div className='mx-auto my-auto flex flex-row gap-2'>
 						<IconSettings className='mx-auto my-auto' size={22}></IconSettings>
-						<p className='my-auto hidden md:flex'>Workspace</p>
+						<label className='my-auto hidden cursor-pointer md:flex'>
+							Workspace
+						</label>
 					</div>
 				</TabSelector>
 			</div>
@@ -62,25 +53,27 @@ export const Menu: React.FC = () => {
 			<div className='flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden'>
 				{/* Workspace */}
 				<TabPanel
-					hidden={selectedTab !== 'workspace'}
+					hidden={workspaceTab !== 'workspace'}
 					className={`${
-						selectedTab === 'workspace' &&
+						workspaceTab === 'workspace' &&
 						'flex flex-auto text-black dark:text-gray-400'
 					}`}
+					render='lazy'
 					id='workspace'
 				>
 					<AnimatePresence>
-						{selectedTab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
+						{workspaceTab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
 					</AnimatePresence>
 				</TabPanel>
 
 				{/* Controls */}
 				<TabPanel
 					className={`${
-						selectedTab === 'control' &&
+						workspaceTab === 'control' &&
 						'flex h-full flex-auto flex-col text-black dark:text-gray-400'
 					}`}
-					hidden={selectedTab !== 'control'}
+					render='lazy'
+					hidden={workspaceTab !== 'control'}
 				>
 					<div
 						id='menu'
