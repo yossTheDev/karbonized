@@ -1,5 +1,10 @@
 # Changelog
 
+## v 1.0.4
+
+* Improve UI
+* Now you can define and save custom gradients inside Color Picker
+
 ## v 1.0.3
 
 * New Design
