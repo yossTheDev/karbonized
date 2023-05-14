@@ -1,5 +1,4 @@
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactNode, useState } from 'react';
 interface Props {
 	isOpen?: boolean;
@@ -29,17 +28,11 @@ export const CustomCollapse: React.FC<Props> = ({
 					)}
 				</div>
 			</div>
-			<AnimatePresence>
-				{open && (
-					<motion.div
-						initial={{ scaleY: 0.9, marginTop: '15px' }}
-						animate={{ scaleY: 1, marginTop: '0px' }}
-						className='mt-2 flex flex-auto select-none flex-col gap-4 p-2'
-					>
-						{children}
-					</motion.div>
-				)}
-			</AnimatePresence>
+			{open && (
+				<div className='mt-2 flex flex-auto select-none flex-col gap-4 p-2'>
+					{children}
+				</div>
+			)}
 		</div>
 	);
 };

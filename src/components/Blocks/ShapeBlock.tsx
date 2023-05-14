@@ -52,7 +52,7 @@ export const ShapeBlock: React.FC = () => {
 							menu={
 								<div className='m-2 flex flex-row gap-2'>
 									<IconHexagon></IconHexagon>
-									<p className='my-auto'>Shape</p>
+									<p className='my-auto'>Shapes</p>
 								</div>
 							}
 						>
@@ -61,7 +61,7 @@ export const ShapeBlock: React.FC = () => {
 								<label className='my-auto text-xs'>Shape</label>
 								<div
 									onClick={() => setShowModal(true)}
-									className='flex h-16 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
+									className='ml-2 h-16 w-20 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
 								>
 									<ShapeHandler
 										color={appTheme === 'light' ? '#000000' : '#eeeeee'}
@@ -106,7 +106,7 @@ export const ShapeBlock: React.FC = () => {
 								<div className='flex flex-auto flex-wrap gap-2'>
 									<div
 										onClick={() => setShape('arrow')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
 									>
 										<ArrowSvg className='flex h-full w-full flex-auto dark:fill-white'></ArrowSvg>
 									</div>
@@ -152,42 +152,42 @@ export const ShapeBlock: React.FC = () => {
 								<div className='flex flex-auto flex-wrap gap-2'>
 									<div
 										onClick={() => setShape('oval')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
 									>
 										<OvalSvg className='flex h-full w-full flex-auto dark:fill-white'></OvalSvg>
 									</div>
 
 									<div
 										onClick={() => setShape('star')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
 									>
 										<StarSvg className='flex h-full w-full flex-auto dark:fill-white'></StarSvg>
 									</div>
 
 									<div
 										onClick={() => setShape('poligon')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
 									>
 										<PoligonSvg className='flex h-full w-full flex-auto dark:fill-white'></PoligonSvg>
 									</div>
 
 									<div
 										onClick={() => setShape('hexagon')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
 									>
 										<IconHexagonFilled className='mx-auto flex h-full w-full flex-auto dark:fill-white'></IconHexagonFilled>
 									</div>
 
 									<div
 										onClick={() => setShape('triangle')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
 									>
 										<Trianglevg className='flex h-full w-full flex-auto dark:fill-white'></Trianglevg>
 									</div>
 
 									<div
 										onClick={() => setShape('rectangle')}
-										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
 									>
 										<RectangleSvg className='flex h-full w-full flex-auto dark:fill-white'></RectangleSvg>
 									</div>

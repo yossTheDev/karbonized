@@ -6,7 +6,6 @@ import { IconType } from '../../utils/FaIconList';
 import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { IconSearch, IconSticker } from '@tabler/icons-react';
-import { NumberInput } from '../CustomControls/NumberInput';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 
 const FaIconBlock: React.FC = () => {
@@ -51,7 +50,7 @@ const FaIconBlock: React.FC = () => {
 							<div className='flex flex-auto flex-row'>
 								<p className='my-auto text-xs'>Select Icon</p>
 								<div
-									className='w-22 ml-2 flex cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
+									className='ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
 									onMouseDown={() => setShowIconPicker(true)}
 								>
 									<FaIcon
