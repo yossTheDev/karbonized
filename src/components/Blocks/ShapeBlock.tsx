@@ -1,5 +1,4 @@
 import {
-	IconBox,
 	IconHeartFilled,
 	IconHexagon,
 	IconHexagonFilled,
@@ -24,11 +23,16 @@ import {
 import { ColorPicker } from '../CustomControls/ColorPicker';
 
 import { ShapeHandler } from './ShapeHandler';
+import { Portal } from 'react-portal';
+import { Button, Modal } from 'react-daisyui';
+import { useTheme } from '../../hooks/useTheme';
 
 export const ShapeBlock: React.FC = () => {
 	/* Component States */
 	const [color, setColor] = useState('#f3f4f6');
 	const [shape, setShape] = useState('oval');
+	const [showModal, setShowModal] = useState(false);
+	const { appTheme } = useTheme();
 
 	return (
 		<>
@@ -46,110 +50,23 @@ export const ShapeBlock: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconHexagon></IconHexagon>
 									<p className='my-auto'>Shape</p>
 								</div>
 							}
 						>
 							{/* Select Shape */}
-							<div className='flex flex-auto flex-row flex-wrap gap-0.5'>
+							<div className='ml-2 flex flex-row gap-2'>
+								<label className='my-auto text-xs'>Shape</label>
 								<div
-									onClick={() => setShape('arrow')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
+									onClick={() => setShowModal(true)}
+									className='flex h-16 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
 								>
-									<ArrowSvg className='flex flex-auto h-full w-full dark:fill-white'></ArrowSvg>
-								</div>
-
-								<div
-									onClick={() => setShape('arrow2')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
-								>
-									<Arrow2Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow2Svg>
-								</div>
-
-								<div
-									onClick={() => setShape('arrow3')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
-								>
-									<Arrow3Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow3Svg>
-								</div>
-
-								<div
-									onClick={() => setShape('arrow4')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
-								>
-									<Arrow4Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow4Svg>
-								</div>
-
-								<div
-									onClick={() => setShape('arrow5')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
-								>
-									<Arrow5Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow5Svg>
-								</div>
-
-								<div
-									onClick={() => setShape('arrow6')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
-								>
-									<Arrow6Svg className='flex flex-auto mx-auto w-full h-full dark:fill-white'></Arrow6Svg>
-								</div>
-
-								<div
-									onClick={() => setShape('oval')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
-								>
-									<OvalSvg className='flex flex-auto h-full w-full dark:fill-white'></OvalSvg>
-								</div>
-
-								<div
-									onClick={() => setShape('star')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
-								>
-									<StarSvg className='flex flex-auto h-full w-full dark:fill-white'></StarSvg>
-								</div>
-
-								<div
-									onClick={() => setShape('poligon')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
-								>
-									<PoligonSvg className='flex flex-auto h-full w-full dark:fill-white'></PoligonSvg>
-								</div>
-
-								<div
-									onClick={() => setShape('hexagon')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto dark:text-white'
-								>
-									<IconHexagonFilled className='flex flex-auto mx-auto w-full h-full'></IconHexagonFilled>
-								</div>
-
-								<div
-									onClick={() => setShape('triangle')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
-								>
-									<Trianglevg className='flex flex-auto h-full w-full dark:fill-white'></Trianglevg>
-								</div>
-
-								<div
-									onClick={() => setShape('rectangle')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer flex flex-auto'
-								>
-									<RectangleSvg className='flex flex-auto h-full w-full dark:fill-white'></RectangleSvg>
-								</div>
-
-								<div
-									onClick={() => setShape('line')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto'
-								>
-									<LineSvg className='flex flex-auto h-full w-full stroke-black dark:stroke-white'></LineSvg>
-								</div>
-
-								<div
-									onClick={() => setShape('heart')}
-									className='h-12 p-2 bg-base-100 rounded hover:bg-base-200 cursor-pointer w-9 flex flex-auto dark:text-white'
-								>
-									<IconHeartFilled className='flex flex-auto mx-auto w-full h-full'></IconHeartFilled>
+									<ShapeHandler
+										color={appTheme === 'light' ? '#000000' : '#eeeeee'}
+										type={shape}
+									></ShapeHandler>
 								</div>
 							</div>
 
@@ -165,6 +82,144 @@ export const ShapeBlock: React.FC = () => {
 			>
 				<ShapeHandler color={color} type={shape}></ShapeHandler>
 			</ControlTemplate>
+
+			{showModal && (
+				<Portal>
+					<Modal
+						open={true}
+						onClickBackdrop={() => {
+							setShowModal(false);
+						}}
+						className='bg-base-200'
+					>
+						<Modal.Header className='font-bold dark:text-white'>
+							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
+								Shapes
+							</p>
+						</Modal.Header>
+
+						<Modal.Body className='flex flex-auto select-none flex-col overflow-hidden'>
+							{/* Shapes List */}
+							<div className='mt-2 flex max-h-64 flex-auto flex-col gap-4 overflow-y-auto'>
+								<label className='text-gray-500'>Arrows</label>
+
+								<div className='flex flex-auto flex-wrap gap-2'>
+									<div
+										onClick={() => setShape('arrow')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<ArrowSvg className='flex h-full w-full flex-auto dark:fill-white'></ArrowSvg>
+									</div>
+
+									<div
+										onClick={() => setShape('arrow2')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<Arrow2Svg className='mx-auto flex h-full w-full flex-auto fill-black dark:fill-white'></Arrow2Svg>
+									</div>
+
+									<div
+										onClick={() => setShape('arrow3')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<Arrow3Svg className='mx-auto flex h-full w-full flex-auto dark:fill-white'></Arrow3Svg>
+									</div>
+
+									<div
+										onClick={() => setShape('arrow4')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<Arrow4Svg className='mx-auto flex h-full w-full flex-auto dark:fill-white'></Arrow4Svg>
+									</div>
+
+									<div
+										onClick={() => setShape('arrow5')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<Arrow5Svg className='mx-auto flex h-full w-full flex-auto dark:fill-white'></Arrow5Svg>
+									</div>
+
+									<div
+										onClick={() => setShape('arrow6')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<Arrow6Svg className='mx-auto flex h-full w-full flex-auto dark:fill-white'></Arrow6Svg>
+									</div>
+								</div>
+
+								<label className='text-gray-500'>Forms</label>
+
+								<div className='flex flex-auto flex-wrap gap-2'>
+									<div
+										onClick={() => setShape('oval')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<OvalSvg className='flex h-full w-full flex-auto dark:fill-white'></OvalSvg>
+									</div>
+
+									<div
+										onClick={() => setShape('star')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<StarSvg className='flex h-full w-full flex-auto dark:fill-white'></StarSvg>
+									</div>
+
+									<div
+										onClick={() => setShape('poligon')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<PoligonSvg className='flex h-full w-full flex-auto dark:fill-white'></PoligonSvg>
+									</div>
+
+									<div
+										onClick={() => setShape('hexagon')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<IconHexagonFilled className='mx-auto flex h-full w-full flex-auto dark:fill-white'></IconHexagonFilled>
+									</div>
+
+									<div
+										onClick={() => setShape('triangle')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<Trianglevg className='flex h-full w-full flex-auto dark:fill-white'></Trianglevg>
+									</div>
+
+									<div
+										onClick={() => setShape('rectangle')}
+										className='flex h-12 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<RectangleSvg className='flex h-full w-full flex-auto dark:fill-white'></RectangleSvg>
+									</div>
+
+									<div
+										onClick={() => setShape('heart')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200 dark:text-white'
+									>
+										<IconHeartFilled className='mx-auto flex h-full w-full flex-auto'></IconHeartFilled>
+									</div>
+
+									<div
+										onClick={() => setShape('line')}
+										className='flex h-12 w-9 flex-auto cursor-pointer rounded-xl bg-base-100 p-2 hover:bg-base-200'
+									>
+										<LineSvg className='flex h-full w-full flex-auto stroke-black dark:stroke-white'></LineSvg>
+									</div>
+								</div>
+							</div>
+						</Modal.Body>
+
+						<Modal.Actions>
+							<Button
+								className='dark:text-white'
+								onClick={() => setShowModal(false)}
+							>
+								Cancel
+							</Button>
+						</Modal.Actions>
+					</Modal>
+				</Portal>
+			)}
 		</>
 	);
 };

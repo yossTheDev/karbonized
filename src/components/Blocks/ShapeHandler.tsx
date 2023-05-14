@@ -1,9 +1,4 @@
-import {
-	IconHeart,
-	IconHeartFilled,
-	IconHexagon,
-	IconHexagonFilled,
-} from '@tabler/icons-react';
+import { IconHeartFilled, IconHexagonFilled } from '@tabler/icons-react';
 import React from 'react';
 import {
 	Arrow2Svg,
@@ -15,7 +10,6 @@ import {
 	LineSvg,
 	OvalSvg,
 	PoligonSvg,
-	RectangleSvg,
 	StarSvg,
 	Trianglevg,
 } from '../General/Icons';
@@ -31,7 +25,7 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 			return (
 				<ArrowSvg
 					style={{ fill: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></ArrowSvg>
 			);
 
@@ -39,28 +33,28 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 			return (
 				<Arrow2Svg
 					style={{ fill: color }}
-					className='flex flex-auto  w-full h-full'
+					className='flex h-full  w-full flex-auto border-none'
 				></Arrow2Svg>
 			);
 		case 'arrow3':
 			return (
 				<Arrow3Svg
 					style={{ fill: color }}
-					className='flex flex-auto  w-full h-full'
+					className='flex h-full  w-full flex-auto border-none'
 				></Arrow3Svg>
 			);
 		case 'arrow4':
 			return (
 				<Arrow4Svg
 					style={{ fill: color }}
-					className='flex flex-auto  w-full h-full'
+					className='flex h-full  w-full flex-auto border-none'
 				></Arrow4Svg>
 			);
 		case 'arrow5':
 			return (
 				<Arrow5Svg
 					style={{ fill: color }}
-					className='flex flex-auto  w-full h-full'
+					className='flex h-full  w-full flex-auto border-none'
 				></Arrow5Svg>
 			);
 
@@ -68,49 +62,49 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 			return (
 				<Arrow6Svg
 					style={{ fill: color }}
-					className='flex flex-auto  w-full h-full'
+					className='flex h-full  w-full flex-auto border-none'
 				></Arrow6Svg>
 			);
 		case 'line':
 			return (
 				<LineSvg
 					style={{ stroke: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></LineSvg>
 			);
 		case 'poligon':
 			return (
 				<PoligonSvg
 					style={{ fill: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></PoligonSvg>
 			);
 		case 'rectangle':
 			return (
 				<div
 					style={{ background: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></div>
 			);
 		case 'triangle':
 			return (
 				<Trianglevg
 					style={{ fill: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></Trianglevg>
 			);
 		case 'oval':
 			return (
 				<OvalSvg
 					style={{ fill: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></OvalSvg>
 			);
 		case 'star':
 			return (
 				<StarSvg
 					style={{ fill: color }}
-					className='flex flex-auto w-full h-full'
+					className='flex h-full w-full flex-auto border-none'
 				></StarSvg>
 			);
 
@@ -118,7 +112,7 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 			return (
 				<IconHeartFilled
 					style={{ color: color }}
-					className='flex flex-auto mx-auto w-full h-full'
+					className='mx-auto flex h-full w-full flex-auto border-none'
 				></IconHeartFilled>
 			);
 
@@ -126,7 +120,7 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 			return (
 				<IconHexagonFilled
 					style={{ color: color }}
-					className='flex flex-auto mx-auto w-full h-full'
+					className='mx-auto flex h-full w-full flex-auto border-none'
 				></IconHexagonFilled>
 			);
 

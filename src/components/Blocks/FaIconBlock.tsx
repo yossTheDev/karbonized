@@ -41,21 +41,21 @@ const FaIconBlock: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
-									<IconSticker className='dark:text-gray-400 text-xl'></IconSticker>
+								<div className='m-2 flex flex-row gap-2'>
+									<IconSticker className='text-xl dark:text-gray-400'></IconSticker>
 									<p className='my-auto'>Icon</p>
 								</div>
 							}
 						>
 							{/* Select Icon */}
-							<div className='flex flex-row flex-auto'>
-								<p className='text-xs my-auto'>Select Icon</p>
+							<div className='flex flex-auto flex-row'>
+								<p className='my-auto text-xs'>Select Icon</p>
 								<div
-									className='flex ml-2 bg-base-100 hover:bg-base-200 cursor-pointer rounded p-4 w-22'
+									className='w-22 ml-2 flex cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
 									onMouseDown={() => setShowIconPicker(true)}
 								>
 									<FaIcon
-										className='text-4xl my-auto mx-auto'
+										className='mx-auto my-auto text-4xl'
 										icon={icon}
 									></FaIcon>
 								</div>
@@ -76,7 +76,7 @@ const FaIconBlock: React.FC = () => {
 				}
 			>
 				<FaIcon
-					className='flex flex-auto max-w-full max-h-full select-none w-full'
+					className='flex max-h-full w-full max-w-full flex-auto select-none'
 					style={{ color: iconColor }}
 					icon={icon}
 				></FaIcon>
@@ -92,15 +92,15 @@ const FaIconBlock: React.FC = () => {
 						className='bg-base-200'
 					>
 						<Modal.Header className='font-bold dark:text-white'>
-							<p className='text-center md:text-left md:text-xl text-2xl poppins-font-family'>
+							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
 								Select Icon
 							</p>
 						</Modal.Header>
 
-						<Modal.Body className='select-none overflow-hidden flex flex-auto flex-col'>
+						<Modal.Body className='flex flex-auto select-none flex-col overflow-hidden'>
 							{/* Search */}
 							<div className='flex flex-auto flex-row'>
-								<IconSearch className='dark:text-white my-auto mr-2'></IconSearch>
+								<IconSearch className='my-auto mr-2 dark:text-white'></IconSearch>
 								<Input
 									onChange={(ev) => setQuery(ev.currentTarget.value)}
 									value={query}
@@ -109,7 +109,7 @@ const FaIconBlock: React.FC = () => {
 							</div>
 
 							{/* Licence */}
-							<p className='text-xs text-gray-500 my-2'>
+							<p className='my-2 text-xs text-gray-500'>
 								Icons From{' '}
 								<span>
 									<a
@@ -134,7 +134,7 @@ const FaIconBlock: React.FC = () => {
 							</p>
 
 							{/* Icon List */}
-							<div className='flex flex-auto flex-row flex-wrap gap-3 overflow-y-auto mt-2 max-h-64'>
+							<div className='mt-2 flex max-h-64 flex-auto flex-row flex-wrap gap-3 overflow-y-auto'>
 								{faIcons
 									?.filter(
 										(icon) =>
@@ -143,7 +143,7 @@ const FaIconBlock: React.FC = () => {
 									.map((el, i) => (
 										<Suspense fallback={<></>}>
 											<div
-												className='inline-flex flex-auto cursor-pointer dark:text-gray-400 text-3xl p-2 rounded bg-base-100 hover:bg-base-200'
+												className='inline-flex flex-auto cursor-pointer rounded-xl bg-base-100 p-2 text-3xl hover:bg-base-200 dark:text-gray-400'
 												onMouseDown={() => {
 													setIcon(el.label);
 													setShowIconPicker(false);
