@@ -24,7 +24,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 			}}
 			className='overflow-hidden bg-base-100'
 		>
-			<Modal.Header className='font-bold dark:text-white'>
+			<Modal.Header className='hidden font-bold dark:text-white'>
 				<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
 					Karbonized
 				</p>
@@ -38,10 +38,11 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 					></img>
 				</div>
 
-				<p className='my-1 text-center text-2xl font-bold dark:text-white'>
-					Awesome Image Generator
-				</p>
-				<label className='mb-2 text-center text-xs text-gray-500'>
+				<label className='mt-2 text-center text-2xl font-bold dark:text-white'>
+					Karbonized
+				</label>
+
+				<label className='mb-3 text-center text-xs text-gray-500'>
 					Made by @yossthedev
 				</label>
 

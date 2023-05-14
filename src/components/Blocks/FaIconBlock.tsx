@@ -162,7 +162,7 @@ const FaIconBlock: React.FC = () => {
 								className='dark:text-white'
 								onClick={() => setShowIconPicker(false)}
 							>
-								OK
+								Cancel
 							</Button>
 						</Modal.Actions>
 					</Modal>
