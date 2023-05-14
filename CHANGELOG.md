@@ -2,7 +2,9 @@
 
 ## v 1.0.4
 
-* Improve UI
+* Improve UI/UX
+* Added Tooltips and Other Feedback controls for the users
+* Improve Animations
 * Now you can define and save custom gradients inside Color Picker
 
 ## v 1.0.3
