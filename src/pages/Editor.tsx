@@ -412,30 +412,33 @@ export const Editor: React.FC = () => {
 						{/* Change Theme */}
 						{!isTauriPlatform && (
 							<>
-								<Button
-									shape='circle'
-									color='ghost'
-									className='hidden border-none bg-base-200 lg:block'
-									onClick={() => toggleTheme()}
-								>
-									{appTheme === 'light' ? (
-										<IconMoon
-											size={20}
-											className='mx-auto dark:text-white'
-										></IconMoon>
-									) : (
-										<IconSun
-											size={20}
-											className='mx-auto dark:text-white'
-										></IconSun>
-									)}
-								</Button>
+								<Tooltip placement='bottom' messsage='Change Theme'>
+									<Button
+										shape='circle'
+										color='ghost'
+										className='hidden border-none bg-base-200 lg:block'
+										onClick={() => toggleTheme()}
+									>
+										{appTheme === 'light' ? (
+											<IconMoon
+												size={20}
+												className='mx-auto dark:text-white'
+											></IconMoon>
+										) : (
+											<IconSun
+												size={20}
+												className='mx-auto dark:text-white'
+											></IconSun>
+										)}
+									</Button>
+								</Tooltip>
+
 								<p className='mx-1 my-auto hidden h-0.5 rounded  bg-base-200 p-0.5 lg:block'></p>
 							</>
 						)}
 
 						{/* Lock Aspect Ratio */}
-						<Tooltip messsage='Lock Aspect Ratio'>
+						<Tooltip placement='bottom' messsage='Lock Aspect Ratio'>
 							<Button
 								color='ghost'
 								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex ${
@@ -453,7 +456,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Zoom Out */}
-						<Tooltip messsage='Zoom Out'>
+						<Tooltip placement='bottom' messsage='Zoom Out'>
 							<Button
 								className='my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
 								color='ghost'
@@ -467,7 +470,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Zoom In */}
-						<Tooltip messsage='Zoom In'>
+						<Tooltip placement='bottom' messsage='Zoom In'>
 							<Button
 								className='my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
 								color='ghost'
@@ -481,7 +484,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Zoom In */}
-						<Tooltip messsage='Zoom In'>
+						<Tooltip placement='bottom' messsage='Zoom Reset'>
 							<Button
 								className='my-2 hidden h-12  w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
 								color='ghost'
@@ -497,7 +500,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Preview Button */}
-						<Tooltip messsage='Render'>
+						<Tooltip placement='bottom' messsage='Render'>
 							<Button
 								onClick={showPreviewImage}
 								className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:flex'

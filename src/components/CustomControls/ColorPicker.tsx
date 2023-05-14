@@ -73,16 +73,16 @@ export const ColorPicker: React.FC<Props> = ({
 						setShowColor(!showColor);
 					}}
 					ref={reference}
-					className='flex flex-auto select-none flex-col'
+					className='flex flex-auto cursor-pointer select-none flex-col'
 				>
 					<div className='flex flex-auto select-none flex-row rounded-xl py-2 hover:bg-base-100'>
-						<p className='my-auto ml-2 mr-2 select-none text-left text-xs '>
+						<label className='my-auto ml-2 mr-2 cursor-pointer select-none text-left text-xs '>
 							{label}
-						</p>
+						</label>
 
 						{mode === 'Single' ? (
 							<div className='ml-auto mr-2 flex flex-row gap-2'>
-								<p className='my-auto'>{color}</p>
+								<label className='my-auto cursor-pointer'>{color}</label>
 
 								<div
 									className='my-auto rounded-xl border-2 border-base-100 p-4'
@@ -111,9 +111,9 @@ export const ColorPicker: React.FC<Props> = ({
 				{showColor && isHorizontal && (
 					<Portal>
 						<motion.div
-							initial={{ marginTop: '25px', opacity: '0', scale: '0' }}
-							exit={{ marginTop: '100px', opacity: '0.002' }}
-							animate={{ marginTop: '0px', opacity: '1', scale: '1' }}
+							initial={{ marginTop: '25px', opacity: 0.2, scaleY: 0 }}
+							exit={{ marginTop: '25px', opacity: 0, scaleY: 0 }}
+							animate={{ marginTop: '0px', opacity: 1, scaleY: 1 }}
 							tabIndex={0}
 							onMouseEnter={() => {
 								setVisible(true);
