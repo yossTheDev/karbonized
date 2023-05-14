@@ -8,9 +8,8 @@ import {
 } from '@tabler/icons-react';
 import React from 'react';
 import { Button, Modal } from 'react-daisyui';
+import karbonized from '../../assets/karbonized.svg';
 import qvapay from '../../assets/qvapay.svg';
-import yoss from '../../assets/yoss.png';
-
 interface Props {
 	open: boolean;
 	onClose?: Function;
@@ -23,7 +22,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='bg-base-100'
+			className='overflow-hidden bg-base-100'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
 				<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
@@ -31,56 +30,78 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 				</p>
 			</Modal.Header>
 
-			<Modal.Body className='flex flex-auto select-none flex-col overflow-y-scroll '>
-				<img className='mx-auto h-36 rounded-full' src={yoss}></img>
-				<p className='m-2 text-center text-2xl font-bold dark:text-white'>
-					Hi I am Yoannis Sánchez Soto
+			<Modal.Body className='flex select-none flex-col'>
+				<div className='mx-auto rounded-2xl bg-base-200 p-4 shadow'>
+					<img
+						className='mx-auto my-auto h-28 rounded-full'
+						src={karbonized}
+					></img>
+				</div>
+
+				<p className='my-1 text-center text-2xl font-bold dark:text-white'>
+					Awesome Image Generator
 				</p>
-				<p className='m-2 text-center text-gray-500'>
+				<label className='mb-2 text-center text-xs text-gray-500'>
+					Made by @yossthedev
+				</label>
+
+				<div className='mx-auto w-fit select-none rounded-full bg-base-200 px-4 py-2 text-gray-500'>
+					<label>v1.0.4</label>
+				</div>
+
+				<p className='m-2 mx-auto mt-2 w-64 justify-center text-center text-gray-500'>
 					Thank`s for use Karbonized. You can support my work following me on my
 					social networks
 				</p>
 
 				{/* Social Networks */}
-				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2'>
+				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2 dark:text-white'>
 					<a
 						href='https://twitter.com/yossthedev'
 						target={'_blank'}
-						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-400 to-blue-500 p-3 text-white hover:bg-gradient-to-bl  '
+						className='to flex flex-auto cursor-pointer select-none flex-row  gap-1 rounded-3xl bg-base-200 p-3 px-4 shadow hover:bg-neutral  '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
 							<IconBrandTwitter></IconBrandTwitter>
-							<p className='my-auto ml-1 font-bold'>Twitter</p>
+							<label className='my-auto ml-1 cursor-pointer font-bold '>
+								Twitter
+							</label>
 						</div>
 					</a>
 
 					<a
 						href='https://t.me/yossthedev'
 						target={'_blank'}
-						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-500 to-blue-600 p-3 text-white hover:bg-gradient-to-bl '
+						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 px-4 shadow hover:bg-neutral'
 					>
 						<div className='mx-auto my-auto flex flex-row'>
 							<IconBrandTelegram></IconBrandTelegram>
-							<p className='my-auto ml-1 font-bold'>Telegram</p>
+							<label className='my-auto ml-1 cursor-pointer font-bold '>
+								Telegram
+							</label>
 						</div>
 					</a>
 
 					<a
 						href='https://github.com/yossthedev'
 						target={'_blank'}
-						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-gray-800 to-gray-900 p-3  text-white hover:bg-gradient-to-bl '
+						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl  bg-base-200 p-3 px-4 shadow  hover:bg-neutral '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
 							<IconBrandGithub></IconBrandGithub>
-							<p className='my-auto ml-1 font-bold'>GitHub</p>
+							<label className='my-auto ml-1 cursor-pointer font-bold '>
+								GitHub
+							</label>
 						</div>
 					</a>
 				</div>
 
-				<p className='m-2 text-center text-gray-500'>Or make a donation</p>
+				<p className='m-2 hidden text-center text-gray-500'>
+					Or make a donation
+				</p>
 
 				{/* Donations*/}
-				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2'>
+				<div className='m-2 mx-auto mt-4 hidden w-fit flex-auto flex-row flex-wrap gap-2  p-2'>
 					<div
 						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 text-white hover:bg-gradient-to-bl  '
 						onClick={async () => {
@@ -131,7 +152,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 			</Modal.Body>
 
-			<Modal.Actions>
+			<Modal.Actions className='hidden'>
 				<Button
 					className='dark:text-white'
 					onClick={() => onClose && onClose()}
