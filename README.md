@@ -31,7 +31,7 @@ yarn dev
 
 ## 🏗 Building
 
-Also you can build tauri as native app for desktop systems thanks to [Tauri Platform](https://tauri.app)
+Also you can build Karbonized as native app for desktop systems thanks to [Tauri Platform](https://tauri.app)
 
 Run the following command to run Karbonized in your system in development mode:
 
