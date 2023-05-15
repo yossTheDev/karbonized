@@ -16,7 +16,7 @@ import { HomeButton } from './HomeButton';
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(true);
 
-	const { appTheme, toggleTheme } = useTheme();
+	const [appTheme, toggleTheme] = useTheme();
 
 	const toggleMaximized = async () => {
 		setMaximized(!(await appWindow.isMaximized()));

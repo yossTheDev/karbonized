@@ -62,7 +62,7 @@ export const Editor: React.FC = () => {
 	// Component Store and Actions
 	const isHorizontal = useScreenDirection();
 	const isTauriPlatform = useTauriPlatform();
-	const { appTheme, toggleTheme } = useTheme();
+	const [appTheme, toggleTheme] = useTheme();
 
 	const [drag, setDrag] = useState(false);
 	const [showAbout, setShowAbout] = useState(false);

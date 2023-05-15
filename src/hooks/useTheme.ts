@@ -1,7 +1,7 @@
 /* Simple hook to change app theme*/
 import { useEffect, useState } from 'react';
 
-export const useTheme = () => {
+export const useTheme = (): [string, () => void] => {
 	const [appTheme, setAppTheme] = useState(
 		localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light'
 	);
@@ -22,5 +22,5 @@ export const useTheme = () => {
 		localStorage.setItem('theme', appTheme as string);
 	}, [appTheme]);
 
-	return { appTheme, toggleTheme };
+	return [appTheme as string, toggleTheme];
 };
