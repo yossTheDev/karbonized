@@ -282,8 +282,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					<div
 						className='flex flex-auto'
 						onTouchStart={() => {
-							//setDisable(true);
-							//console.log('touch');
 							setID(ID);
 							setWorkspaceTab('control');
 							setControlPos({
@@ -296,8 +294,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							});
 						}}
 						onClick={() => {
-							//setDisable(true);
-							//console.log(ID);
 							setID(ID);
 							setWorkspaceTab('control');
 							setControlPos({
