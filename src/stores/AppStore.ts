@@ -1,12 +1,19 @@
-import { Action, action, createStore, persist } from 'easy-peasy';
+import { Action, action, createStore } from 'easy-peasy';
 
 interface Item {
 	type: string;
 }
 
+interface History {
+	id: string;
+	value: any;
+}
+
 export interface AppStoreModel {
 	/* App States and Actions */
 	ControlsTree: Item[];
+	History: History[];
+	historySignal: 'redo' | 'undo' | '';
 	currentControlID: string;
 	readyToSave: boolean;
 	editing: boolean;
@@ -22,6 +29,13 @@ export interface AppStoreModel {
 
 	setEditing: Action<AppStoreModel, boolean>;
 	setReadyToSave: Action<AppStoreModel, boolean>;
+
+	/* History System */
+	addToHistory: Action<AppStoreModel, History>;
+	setHistorySignal: Action<AppStoreModel, 'redo' | 'undo' | ''>;
+	setHistory: Action<AppStoreModel, History[]>;
+	redo: Action<AppStoreModel>;
+	undo: Action<AppStoreModel>;
 
 	/* Tabs */
 	selectedTab: 'workspace' | 'control';
@@ -56,11 +70,44 @@ export interface AppStoreModel {
 export const AppStore = createStore<AppStoreModel>({
 	/* Store */
 	ControlsTree: [{ type: 'code' }],
+	History: [{ id: '-', value: '-' }],
+	historySignal: '',
 	readyToSave: false,
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
 	workspaceGradientSettings: { color1: '#ff9a9e', color2: '#ff26ba', deg: 98 },
+
+	/* History System */
+	setHistory: action((state, payload) => {
+		state.History = payload;
+	}),
+	addToHistory: action((state, payload) => {
+		state.History = [payload, ...state.History];
+	}),
+	setHistorySignal: action((state, payload) => {
+		state.historySignal = payload;
+	}),
+	redo: action((state) => {
+		let copy = [...state.History];
+		console.log(copy);
+		console.log(copy[0]);
+		const pivot = state.History.findIndex((item) => (item.id = '-'));
+		console.log(pivot);
+
+		/*if (pivot !== 0) {
+			console.log(pivot);
+
+			copy[pivot] = copy[pivot - 1];
+			copy[pivot - 1] = { id: '-', value: '-' };
+
+			state.historySignal = 'redo';
+			state.History = copy;
+
+			//console.log(copy);
+		}*/
+	}),
+	undo: action((state, payload) => {}),
 
 	/* Tabs */
 	selectedTab: 'control',

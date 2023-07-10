@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-
 /* Simple hook to get Window Size */
+import { useEffect, useState } from 'react';
 
 export const useWindowsSize = () => {
 	// Initialize state with undefines Height and Width

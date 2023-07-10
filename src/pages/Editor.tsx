@@ -1,5 +1,6 @@
 import {
 	IconAppWindow,
+	IconArrowBack,
 	IconBrandTwitter,
 	IconChevronDown,
 	IconChevronUp,
@@ -58,6 +59,7 @@ export const Editor: React.FC = () => {
 	const editing = useStoreState((state) => state.editing);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
+	const redo = useStoreActions((state) => state.redo);
 
 	// Component Store and Actions
 	const isHorizontal = useScreenDirection();
@@ -436,6 +438,25 @@ export const Editor: React.FC = () => {
 								<p className='mx-1 my-auto hidden h-0.5 rounded  bg-base-200 p-0.5 lg:block'></p>
 							</>
 						)}
+
+						{/* Lock Aspect Ratio */}
+						<Tooltip placement='bottom' messsage='Lock Aspect Ratio'>
+							<Button
+								color='ghost'
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex ${
+									aspectRatio &&
+									'border-none  bg-gradient-to-br from-violet-500 to-secondary text-white'
+								}`}
+								onClick={() => {
+									redo();
+								}}
+							>
+								<IconArrowBack
+									size={20}
+									className='dark:text-white'
+								></IconArrowBack>
+							</Button>
+						</Tooltip>
 
 						{/* Lock Aspect Ratio */}
 						<Tooltip placement='bottom' messsage='Lock Aspect Ratio'>

@@ -75,9 +75,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 	const controlSize = useStoreState((state) => state.controlSize);
 	const setControlSize = useStoreActions((state) => state.setControlSize);
-	const constrlPos = useStoreState((state) => state.controlPosition);
+	const controlPos = useStoreState((state) => state.controlPosition);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
+	const setEditing = useStoreActions((state) => state.setEditing);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
@@ -160,9 +161,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		setControlPos({ x: 98, y: 190 });
-		setControlSize({ w: parseInt(defaultWidth), h: parseInt(defaultHeight) });
-	}, []);
+		if (ID === controlID) {
+			setPosition({
+				x: controlPos?.x as unknown as number,
+				y: controlPos?.y as unknown as number,
+			});
+		}
+	}, [controlPos]);
+
+	useEffect(() => {
+		if (ID === controlID) {
+			setSize({
+				w: controlSize?.w as unknown as number,
+				h: controlSize?.h as unknown as number,
+			});
+		}
+	}, [controlSize]);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
@@ -238,7 +252,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				<motion.div
 					id={ID}
 					key={ID}
-					onMouseEnter={() => setContextMenu(false)}
+					onMouseEnter={() => {
+						setContextMenu(false);
+					}}
 					onContextMenu={(e) => {
 						setContextMenu(!contextMenu);
 						//setDisable(true);
@@ -249,8 +265,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					}  ${mask}`}
 					style={{
 						zIndex: zIndex,
-						height: defaultHeight,
-						width: defaultWidth,
+						height: size.h + 'px',
+						width: size.w + 'px',
 						maxHeight: maxHeight,
 						maxWidth: maxWidth,
 						minHeight: minHeight,
@@ -270,15 +286,30 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							//console.log('touch');
 							setID(ID);
 							setWorkspaceTab('control');
+							setControlPos({
+								x: position.x,
+								y: position.y,
+							});
+							setControlSize({
+								w: size.w,
+								h: size.h,
+							});
 						}}
 						onClick={() => {
 							//setDisable(true);
 							//console.log(ID);
 							setID(ID);
 							setWorkspaceTab('control');
+							setControlPos({
+								x: position.x,
+								y: position.y,
+							});
+							setControlSize({
+								w: size.w,
+								h: size.h,
+							});
 						}}
 						ref={reference}
-						style={{}}
 					>
 						<div
 							ref={ref}
@@ -358,16 +389,19 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<div className='flex flex-auto  p-2 '>
 										<p className='my-auto p-2'>X:</p>
 										<Input
-											disabled
 											type={'number'}
 											className='w-full rounded-xl bg-base-100 p-2  text-xs'
 											onChange={(ev) => {
 												setControlPos({
-													x: ev.target.value as unknown as number,
-													y: position.y,
+													x: parseFloat(ev.target.value),
+													y: controlPos?.y as unknown as number,
 												});
+												setEditing(false);
 											}}
-											value={constrlPos?.x}
+											onBlur={() => {
+												setEditing(true);
+											}}
+											value={controlPos?.x}
 										></Input>
 									</div>
 									{/* Position Y */}
@@ -375,15 +409,18 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										<p className='my-auto p-2'>Y:</p>
 										<Input
 											type={'number'}
-											disabled
 											className='w-full rounded-xl bg-base-100  p-2 text-xs'
-											onChange={(ev) =>
+											onChange={(ev) => {
+												setEditing(false);
 												setControlPos({
-													y: ev.target.value as unknown as number,
-													x: position.x,
-												})
-											}
-											value={constrlPos?.y}
+													y: parseFloat(ev.target.value),
+													x: controlPos?.x as unknown as number,
+												});
+											}}
+											onBlur={() => {
+												setEditing(true);
+											}}
+											value={controlPos?.y}
 										></Input>
 									</div>
 								</div>
@@ -404,15 +441,18 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<div className='flex flex-auto  p-2 '>
 										<p className='my-auto p-2'>W:</p>
 										<Input
-											disabled
 											type={'number'}
 											className='w-full rounded-xl bg-base-100 p-2 text-xs'
-											onChange={(ev) =>
+											onChange={(ev) => {
+												setEditing(false);
 												setControlSize({
-													w: ev.target.value as unknown as number,
+													w: parseFloat(ev.target.value),
 													h: size.h,
-												})
-											}
+												});
+											}}
+											onBlur={() => {
+												setEditing(true);
+											}}
 											value={controlSize?.w}
 										></Input>
 									</div>
@@ -420,15 +460,19 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									<div className='flex flex-auto  p-2 '>
 										<p className='my-auto p-2'>H:</p>
 										<Input
-											disabled
 											type={'number'}
 											className='w-full rounded-xl bg-base-100  p-2 text-xs'
-											onChange={(ev) =>
+											onChange={(ev) => {
+												setEditing(false);
+
 												setControlSize({
 													w: size.w,
-													h: ev.target.value as unknown as number,
-												})
-											}
+													h: parseFloat(ev.target.value),
+												});
+											}}
+											onBlur={() => {
+												setEditing(true);
+											}}
 											value={controlSize?.h}
 										></Input>
 									</div>

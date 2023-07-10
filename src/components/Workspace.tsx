@@ -1,4 +1,4 @@
-import React, { RefObject, Suspense, useEffect } from 'react';
+import React, { RefObject, Suspense, useEffect, useRef, useState } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import './Workspace.css';
@@ -19,6 +19,7 @@ interface Props {
 }
 export const Workspace: React.FC<Props> = ({ reference }) => {
 	// App Store
+	const constrlPos = useStoreState((state) => state.controlPosition);
 
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
@@ -39,7 +40,9 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
 
-	useEffect(() => {}, []);
+	let control = useRef<HTMLElement>(null);
+
+	useEffect(() => {}, [constrlPos]);
 
 	return (
 		<>
@@ -74,13 +77,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 			{editing && (
 				<Moveable
+					useResizeObserver
 					target={document.getElementById(controlID)}
 					origin={true}
 					/* Resize event edges */
 					edge={false}
 					/* Snappable */
 					snappable={true}
-					snapContainer={document.getElementById('workspace')}
+					snapContainer={reference}
 					snapGap
 					/* draggable */
 					draggable={true}
@@ -132,10 +136,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						clientY,
 					}: OnDrag) => {
 						//console.log('onDrag left, top', left, top);
-						// target!.style.left = `${left}px`;
-						// target!.style.top = `${top}px`;
+						target!.style.left = `${left}px`;
+						target!.style.top = `${top}px`;
 						//console.log('onDrag translate', dist);
-						target!.style.transform = transform;
+						// target!.style.transform = transform;
 						setControlPos({ x: left, y: top });
 					}}
 					onDragEnd={({ target, isDrag, clientX, clientY }) => {

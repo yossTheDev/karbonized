@@ -14,6 +14,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CloseSvg, MiniminizeSvg } from '../General/Icons';
 import { LanguajeTabIcon } from './LanguajeTabIcon';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 interface Style {
 	label: string;
@@ -66,7 +67,7 @@ const CodeControl: React.FC = () => {
 	/* Component States */
 	const [theme, setTheme] = useState('coldarkDark');
 	const [language, setLanguage] = useState('jsx');
-	const [code, setCode] = useState(
+	const [code, setCode] = useRedoUndo(
 		`<pre><code class="language-${language}"></code></pre>`
 	);
 	const [color, setColor] = useState('#111b28');
