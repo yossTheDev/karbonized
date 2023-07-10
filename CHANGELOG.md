@@ -6,6 +6,7 @@
 * Added Tooltips and Other Feedback controls for the users
 * Improve Animations
 * Now you can define and save custom gradients inside Color Picker
+* Can set control size and position manually
 
 ## v 1.0.3
 
