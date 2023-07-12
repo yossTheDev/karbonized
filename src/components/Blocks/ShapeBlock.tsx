@@ -3,7 +3,7 @@ import {
 	IconHexagon,
 	IconHexagonFilled,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import {
@@ -26,17 +26,20 @@ import { ShapeHandler } from './ShapeHandler';
 import { Portal } from 'react-portal';
 import { Button, Modal } from 'react-daisyui';
 import { useTheme } from '../../hooks/useTheme';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const ShapeBlock: React.FC = () => {
 	/* Component States */
-	const [color, setColor] = useState('#f3f4f6');
-	const [shape, setShape] = useState('oval');
+	const id = useId();
+	const [color, setColor] = useRedoUndo('#f3f4f6', `${id}-color`);
+	const [shape, setShape] = useRedoUndo('oval', `${id}-shape`);
 	const [showModal, setShowModal] = useState(false);
-	const { appTheme } = useTheme();
+	const [appTheme] = useTheme();
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				borderEditable={false}
 				maskEditable={false}
 				defaultHeight='120px'
@@ -81,7 +84,7 @@ export const ShapeBlock: React.FC = () => {
 				}
 			>
 				<ShapeHandler color={color} type={shape}></ShapeHandler>
-			</withControlTemplate>
+			</ControlTemplate>
 
 			{showModal && (
 				<Portal>
