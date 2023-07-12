@@ -74,8 +74,8 @@ export const useRedoUndo = (
 	});*/
 
 	const set = (newState: any) => {
-		console.log('set new state');
-		console.log(newState);
+		// console.log('set new state');
+		// console.log(newState);
 		/*setPast([...past, state]);
 		setState(newState);
 		setFuture([]);*/
@@ -92,11 +92,7 @@ export const useRedoUndo = (
 			setPastHistory([...pastHistory, { id: id, value: newState }]);
 		}*/
 		if (!manual) {
-			setPastHistory([
-				...pastHistory,
-				{ id: id, value: state },
-				{ id: id, value: newState },
-			]);
+			setPastHistory([...pastHistory, { id: id, value: state }]);
 			setState(newState);
 			setControlState({ id: id, value: newState });
 

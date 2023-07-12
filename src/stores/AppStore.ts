@@ -118,7 +118,7 @@ export const AppStore = createStore<AppStoreModel>({
 
 			let newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
 
-			if (
+			/*if (
 				state.pastHistory[state.pastHistory.length - 1] &&
 				state.pastHistory[state.pastHistory.length - 2] &&
 				state.pastHistory[state.pastHistory.length - 1].value !==
@@ -129,6 +129,16 @@ export const AppStore = createStore<AppStoreModel>({
 				newPast = state.pastHistory.slice(0, state.pastHistory.length - 2);
 				previous = state.pastHistory[state.pastHistory.length - 2];
 			}
+
+			if (
+				state.pastHistory[state.pastHistory.length - 3] &&
+				(state.pastHistory[state.pastHistory.length - 1].value ===
+					state.pastHistory[state.pastHistory.length - 2].value) ===
+					state.pastHistory[state.pastHistory.length - 3].value
+			) {
+				previous = state.pastHistory[state.pastHistory.length - 3];
+			}*/
+
 			state.pastHistory = newPast;
 
 			const item: History = {

@@ -98,6 +98,16 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					throttleDrag={0}
 					onDragStart={({ target, clientX, clientY }) => {
 						//console.log('onDragStart', target);
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-pos`,
+								value: {
+									x: parseFloat(target.style.left.replace('px', '')),
+									y: parseFloat(target.style.top.replace('px', '')),
+								},
+							},
+						]);
 					}}
 					onDragGroup={({
 						currentTarget,
@@ -151,18 +161,29 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					onDragEnd={({ target, isDrag, clientX, clientY }) => {
 						//console.log('onDragEnd', target, isDrag);
+						console.log('end drag');
+
 						setControlState({
 							id: `${controlID}-pos`,
-							value: { x: target.style.left, y: target.style.top },
+							value: {
+								x: parseFloat(target.style.left.replace('px', '')),
+								y: parseFloat(target.style.top.replace('px', '')),
+							},
 						});
-
 						setPastHistory([
 							...pastHistory,
 							{
 								id: `${controlID}-pos`,
-								value: { x: target.style.left, y: target.style.top },
+								value: {
+									x: parseFloat(target.style.left.replace('px', '')),
+									y: parseFloat(target.style.top.replace('px', '')),
+								},
 							},
 						]);
+						console.log({
+							x: parseFloat(target.style.left.replace('px', '')),
+							y: parseFloat(target.style.top.replace('px', '')),
+						});
 
 						setFutureHistory([]);
 					}}
