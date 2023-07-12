@@ -37,12 +37,12 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 						}}
 					>
 						<IconPlus></IconPlus>
-						<p>New</p>
+						<label className='cursor-pointer'>New</label>
 					</Dropdown.Item>
 
 					<Dropdown.Item onClick={async () => setShowAbout(true)}>
 						<IconInfoCircle></IconInfoCircle>
-						<p>About</p>
+						<label className='cursor-pointer'>About</label>
 					</Dropdown.Item>
 				</Dropdown.Menu>
 			</Dropdown>
