@@ -9,28 +9,40 @@ import {
 	IconSignal4g,
 	IconWifi,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { Checkbox, FileInput, Range } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const PhoneBlock: React.FC = () => {
 	/* Component States */
+	const id = useId();
 	const [src, setSrc] = useState(karbonized);
-	const [notchWidth, setNotchWidth] = useState(80);
-	const [screenRadius, setScreenRadius] = useState(20);
-	const [phoneRadius, setPhoneRadius] = useState(30);
-	const [borderColor, setBorderColor] = useState('#b4b4b4');
-	const [statusColor, setStatusColor] = useState('#FFFFFF');
-	const [statusControlsColor, setStatusControlsColor] = useState('#000000');
+	const [notchWidth, setNotchWidth] = useRedoUndo(80, `${id}-notchWidth`);
+	const [screenRadius, setScreenRadius] = useRedoUndo(20, `${id}-screenRadius`);
+	const [phoneRadius, setPhoneRadius] = useRedoUndo(30, `${id}-phoneRadius`);
+	const [borderColor, setBorderColor] = useRedoUndo(
+		'#b4b4b4',
+		`${id}-borderColor`
+	);
+	const [statusColor, setStatusColor] = useRedoUndo(
+		'#FFFFFF',
+		`${id}-statusColor`
+	);
+	const [statusControlsColor, setStatusControlsColor] = useRedoUndo(
+		'#000000',
+		`${id}-statusControlsColor`
+	);
 
-	const [drop, setDrop] = useState(false);
+	const [drop, setDrop] = useRedoUndo(false, `${id}-drop`);
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				border={0}
 				borderEditable={false}
 				minHeight={'618px'}
@@ -253,7 +265,7 @@ export const PhoneBlock: React.FC = () => {
 						className='ml-20 flex h-1 max-h-1 w-6 flex-auto   rounded bg-black p-1'
 					></div>
 				</div>
-			</withControlTemplate>
+			</ControlTemplate>
 		</>
 	);
 };
