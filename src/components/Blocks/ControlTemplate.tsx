@@ -81,6 +81,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 	const setEditing = useStoreActions((state) => state.setEditing);
+	const pastHistory = useStoreState((state) => state.pastHistory);
+	const setPastHistory = useStoreActions((state) => state.setPast);
+	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
@@ -94,18 +97,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 
 	/* Position and Size */
-	const [position, setPosition] = useRedoUndo(
-		{ x: 33, y: 190 },
-		`${id}-pos`,
-		true
-	);
+	const [position, setPosition] = useRedoUndo({ x: 33, y: 190 }, `${id}-pos`);
 	const [size, setSize] = useRedoUndo(
 		{
 			w: defaultWidth.replace('px', '') as unknown as number,
 			h: defaultHeight.replace('px', '') as unknown as number,
 		},
-		`${id}-control_size`,
-		true
+		`${id}-control_size`
 	);
 	const [borderRadious, setBorderRadious] = useRedoUndo(
 		border,
@@ -424,10 +422,28 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) => {
 												setEditing(false);
+												/*setPosition({
+													y: parseFloat(ev.target.value),
+													x: controlPos?.x as unknown as number,
+												});*/
+												console.log(parseFloat(ev.target.value));
 												setControlPos({
 													y: parseFloat(ev.target.value),
 													x: controlPos?.x as unknown as number,
 												});
+
+												/*setPastHistory([
+													...pastHistory,
+													{
+														id: `${controlID}-pos`,
+														value: {
+															y: parseFloat(ev.target.value),
+															x: controlPos?.x as unknown as number,
+														},
+													},
+												]);
+
+												setFutureHistory([]);*/
 											}}
 											onBlur={() => {
 												setEditing(true);

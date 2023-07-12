@@ -96,7 +96,6 @@ export const Editor: React.FC = () => {
 		}
 	}, []);
 
-	const controlState = useStoreState((state) => state.controlState);
 	const future = useStoreState((state) => state.futureHistory);
 
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -176,7 +175,6 @@ export const Editor: React.FC = () => {
 			cacheBust: true,
 		})
 			.then((dataUrl) => {
-				const link = document.createElement('a');
 				console.log('SAVED');
 
 				setPreviewImage(dataUrl);
