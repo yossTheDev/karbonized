@@ -911,10 +911,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								setID('');
 								setVisibility(false);
 							}}
-							className='mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl bg-gray-800/20 p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
+							className='mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl bg-neutral p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
 						>
 							<div className='mx-auto my-auto flex flex-row gap-2'>
-								<IconTrash></IconTrash>
+								<IconTrash size={18}></IconTrash>
 								<p className='my-auto text-xs'>Delete Component</p>
 							</div>
 						</div>
