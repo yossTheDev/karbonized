@@ -31,6 +31,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const workspaceType = useStoreState((state) => state.workspaceType);
 	const workspaceTexture = useStoreState((state) => state.textureName);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+
 	/* Workspace Colors */
 	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
 	const workspaceGradient = useStoreState(
@@ -39,6 +40,12 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
+
+	const controlState = useStoreState((state) => state.controlState);
+	const setControlState = useStoreActions((state) => state.setControlState);
+	const pastHistory = useStoreState((state) => state.pastHistory);
+	const setPastHistory = useStoreActions((state) => state.setPast);
+	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
 	let control = useRef<HTMLElement>(null);
 
@@ -144,6 +151,20 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					onDragEnd={({ target, isDrag, clientX, clientY }) => {
 						//console.log('onDragEnd', target, isDrag);
+						setControlState({
+							id: `${controlID}-pos`,
+							value: { x: target.style.left, y: target.style.top },
+						});
+
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-pos`,
+								value: { x: target.style.left, y: target.style.top },
+							},
+						]);
+
+						setFutureHistory([]);
 					}}
 					/* When resize or scale, keeps a ratio of the width, height. */
 					keepRatio={lockAspect}

@@ -94,7 +94,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 
 	/* Position and Size */
-	const [position, setPosition] = useState({ x: 33, y: 190 });
+	const [position, setPosition] = useRedoUndo({ x: 33, y: 190 }, `${id}-pos`);
 	const [size, setSize] = useState({
 		w: defaultWidth.replace('px', '') as unknown as number,
 		h: defaultHeight.replace('px', '') as unknown as number,

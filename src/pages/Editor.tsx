@@ -1,6 +1,8 @@
 import {
 	IconAppWindow,
 	IconArrowBack,
+	IconArrowLeft,
+	IconArrowRight,
 	IconBrandTwitter,
 	IconChevronDown,
 	IconChevronUp,
@@ -98,16 +100,40 @@ export const Editor: React.FC = () => {
 	const future = useStoreState((state) => state.futureHistory);
 
 	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'z') {
+		if (event.ctrlKey && event.key === 'w') {
+			event.preventDefault();
+
+			setEditing(true);
+			setDrag(false);
+		} else if (event.ctrlKey && event.key === 'e') {
+			event.preventDefault();
+
+			setEditing(false);
+			setDrag(true);
+		} else if (event.ctrlKey && event.key === 'r') {
+			event.preventDefault();
+
+			setAspectRatio(true);
+		} else if (event.ctrlKey && event.key === 's') {
+			event.preventDefault();
+			showPreviewImage();
+		} else if (event.ctrlKey && event.key === 'z') {
+			setEditing(false);
 			event.preventDefault();
 			undo();
 			console.log('undo');
+			setEditing(false);
 		} else if (event.ctrlKey && event.key === 'y') {
+			setEditing(false);
+
 			event.preventDefault();
 			redo();
 			console.log(future);
 
 			console.log('redo');
+		} else if (event.key === 'esc') {
+			event.preventDefault();
+			setShowPreview(false);
 		}
 	};
 
@@ -258,27 +284,42 @@ export const Editor: React.FC = () => {
 							</>
 						)}
 
-						{/* Lock Aspect Ratio */}
-						<Tooltip placement='bottom' messsage='Lock Aspect Ratio'>
+						{/* Redo */}
+						<Tooltip placement='bottom' messsage='Undo'>
 							<Button
 								color='ghost'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex ${
-									aspectRatio &&
-									'border-none  bg-gradient-to-br from-violet-500 to-secondary text-white'
-								}`}
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex`}
+								onClick={() => {
+									undo();
+								}}
+							>
+								<IconArrowLeft
+									size={20}
+									className='dark:text-white'
+								></IconArrowLeft>
+							</Button>
+						</Tooltip>
+
+						{/* Undo */}
+						<Tooltip placement='bottom' messsage='Redo'>
+							<Button
+								color='ghost'
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex `}
 								onClick={() => {
 									redo();
 								}}
 							>
-								<IconArrowBack
+								<IconArrowRight
 									size={20}
 									className='dark:text-white'
-								></IconArrowBack>
+								></IconArrowRight>
 							</Button>
 						</Tooltip>
 
+						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
+
 						{/* Lock Aspect Ratio */}
-						<Tooltip placement='bottom' messsage='Lock Aspect Ratio'>
+						<Tooltip placement='bottom' messsage='Lock Aspect Ratio Ctrl+R'>
 							<Button
 								color='ghost'
 								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex ${

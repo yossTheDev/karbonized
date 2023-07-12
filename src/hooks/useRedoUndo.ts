@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 
-export const useRedoUndo = (initialState: any, id: string) => {
+export const useRedoUndo = (
+	initialState: any,
+	id: string,
+	manual: boolean = false
+) => {
 	const [state, setState] = useState(initialState);
 	const [past, setPast] = useState<any[]>([]);
 	const [future, setFuture] = useState<any[]>([]);
@@ -87,15 +91,17 @@ export const useRedoUndo = (initialState: any, id: string) => {
 			console.log('Son iguales');
 			setPastHistory([...pastHistory, { id: id, value: newState }]);
 		}*/
-		setPastHistory([
-			...pastHistory,
-			{ id: id, value: state },
-			{ id: id, value: newState },
-		]);
-		setState(newState);
-		setControlState({ id: id, value: newState });
+		if (!manual) {
+			setPastHistory([
+				...pastHistory,
+				{ id: id, value: state },
+				{ id: id, value: newState },
+			]);
+			setState(newState);
+			setControlState({ id: id, value: newState });
 
-		setFutureHistory([]);
+			setFutureHistory([]);
+		}
 		// console.log(controlState);
 		console.log(pastHistory);
 	};

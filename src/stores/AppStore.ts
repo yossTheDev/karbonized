@@ -109,6 +109,7 @@ export const AppStore = createStore<AppStoreModel>({
 			state.pastHistory = [...state.pastHistory, item];
 			state.futureHistory = newFuture;
 			state.controlState = next;
+			state.editing = true;
 		}
 	}),
 	undo: action((state) => {
@@ -136,6 +137,7 @@ export const AppStore = createStore<AppStoreModel>({
 			};
 			state.futureHistory = [item, ...state.futureHistory];
 			state.controlState = previous;
+			state.editing = true;
 		}
 	}),
 
