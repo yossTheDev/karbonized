@@ -4,8 +4,8 @@ import { Props } from './Backgrounds';
 export const Flux: React.FC<Props> = ({
 	className,
 	style,
-	color1 = '#409ccf',
-	color2 = '#136179',
+	color1 = '#06080C',
+	color2 = '#171717',
 }) => {
 	return (
 		<svg

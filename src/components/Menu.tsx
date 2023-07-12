@@ -15,7 +15,7 @@ export const Menu: React.FC = () => {
 	const reference = useRef<HTMLDivElement>(null);
 
 	return (
-		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200 p-2 shadow-xl'>
+		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200/90 p-2 shadow-xl backdrop-blur-xl'>
 			{/* Selectors */}
 			<div className='min-h-12  flex max-h-12 flex-auto shrink-0 overflow-y-auto'>
 				<TabSelector

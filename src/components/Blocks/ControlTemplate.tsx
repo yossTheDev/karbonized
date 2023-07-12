@@ -915,7 +915,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						>
 							<div className='mx-auto my-auto flex flex-row gap-2'>
 								<IconTrash size={18}></IconTrash>
-								<p className='my-auto text-xs'>Delete Component</p>
+								<label className='my-auto cursor-pointer text-xs'>
+									Delete Component
+								</label>
 							</div>
 						</div>
 					</motion.div>

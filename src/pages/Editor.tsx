@@ -220,7 +220,7 @@ export const Editor: React.FC = () => {
 			{/* Content */}
 			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
 				{/* Nav Bar */}
-				<Navbar className='mt-2 flex h-2 shrink rounded-full bg-base-200 md:rounded-2xl md:bg-transparent'>
+				<Navbar className='z-30 mt-2 flex h-2 shrink rounded-full bg-base-200 md:rounded-2xl md:bg-transparent'>
 					<Navbar.Start className='z-20'>
 						{/* About Button */}
 						<Button
@@ -738,7 +738,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}   order-4 mt-auto h-96 max-h-96 w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}   z-10 order-4 mt-auto h-96 max-h-96 w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>
