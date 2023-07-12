@@ -33,6 +33,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ContextMenu } from '../CustomControls/ContextMenu';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 interface ControlProps {
 	id: string;
@@ -84,8 +85,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
-	const [zIndex, setzIndex] = useState('0');
-	const [visibility, setVisibility] = useState(true);
+	const [zIndex, setzIndex] = useRedoUndo('0', `${id}-zindex`);
+	const [visibility, setVisibility] = useRedoUndo(true, `${id}-visibiliy`);
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(10), shift(), flip()],
@@ -98,35 +99,41 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		w: defaultWidth.replace('px', '') as unknown as number,
 		h: defaultHeight.replace('px', '') as unknown as number,
 	});
-	const [borderRadious, setBorderRadious] = useState(border);
+	const [borderRadious, setBorderRadious] = useRedoUndo(
+		border,
+		`${id}-visibiliy`
+	);
 
 	/* Flip */
-	const [flipX, setFlipX] = useState(false);
-	const [flipY, setFlipY] = useState(false);
+	const [flipX, setFlipX] = useRedoUndo(false, `${id}-flipx`);
+	const [flipY, setFlipY] = useRedoUndo(false, `${id}-flipy`);
 
 	/* Rotation */
-	const [rotateX, setRotateX] = useState(0);
-	const [rotateY, setRotateY] = useState(0);
+	const [rotateX, setRotateX] = useRedoUndo(0, `${id}-rotatex`);
+	const [rotateY, setRotateY] = useRedoUndo(0, `${id}-rotatey`);
 
 	/* Filters */
-	const [blur, setBlur] = useState(0);
-	const [brightness, setBrightness] = useState(100);
-	const [contrast, setContrast] = useState(100);
-	const [grayscale, setGrayscale] = useState(0);
-	const [huerotate, setHueRotate] = useState(0);
-	const [invert, setInvert] = useState(0);
-	const [saturate, setSaturate] = useState(100);
-	const [opacity, setOpacity] = useState(100);
-	const [sepia, setSepia] = useState(0);
+	const [blur, setBlur] = useRedoUndo(0, `${id}-blur`);
+	const [brightness, setBrightness] = useRedoUndo(100, `${id}-brightness`);
+	const [contrast, setContrast] = useRedoUndo(100, `${id}-contrast`);
+	const [grayscale, setGrayscale] = useRedoUndo(0, `${id}-grayscale`);
+	const [huerotate, setHueRotate] = useRedoUndo(0, `${id}-huerotate`);
+	const [invert, setInvert] = useRedoUndo(0, `${id}-invert`);
+	const [saturate, setSaturate] = useRedoUndo(100, `${id}-saturate`);
+	const [opacity, setOpacity] = useRedoUndo(100, `${id}-opacity`);
+	const [sepia, setSepia] = useRedoUndo(0, `${id}-sepia`);
 
 	/* Shadow */
-	const [shadowX, setShadowX] = useState(0);
-	const [shadowY, setShadowY] = useState(0);
-	const [shadowBlur, setShadowBlur] = useState(0);
-	const [shadowColor, setShadowColor] = useState('#090b11');
+	const [shadowX, setShadowX] = useRedoUndo(0, `${id}-shadowX`);
+	const [shadowY, setShadowY] = useRedoUndo(0, `${id}-shadowY`);
+	const [shadowBlur, setShadowBlur] = useRedoUndo(0, `${id}-shadowBlur`);
+	const [shadowColor, setShadowColor] = useRedoUndo(
+		'#090b11',
+		`${id}-shadowColor`
+	);
 
-	const [mask, setMask] = useState('');
-	const [maskRepeat, setMaskRepeat] = useState(false);
+	const [mask, setMask] = useRedoUndo('', `${id}-mask`);
+	const [maskRepeat, setMaskRepeat] = useRedoUndo(false, `${id}-maskRepeat`);
 
 	/* Delete Element when Delete Key is pressed */
 	const isPressed = useKeyPress('Delete');
