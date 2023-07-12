@@ -1,21 +1,30 @@
 import { IconPalette, IconQrcode } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { Input } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { QRCodeSVG } from 'qrcode.react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const QrControl: React.FC = () => {
 	/* Component States */
-	const [text, setText] = useState('karbonized');
-	const [backgroundColor, setBackgroundColor] = useState('#1e408400');
-	const [foregroundColor, setforegroundColor] = useState('#090c12');
+	const id = useId();
+	const [text, setText] = useRedoUndo('karbonized', `${id}-text`);
+	const [backgroundColor, setBackgroundColor] = useRedoUndo(
+		'#1e408400',
+		`${id}-backgroundColor`
+	);
+	const [foregroundColor, setforegroundColor] = useRedoUndo(
+		'#090c12',
+		`${id}-foregroundColor`
+	);
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				shadowEditable={false}
 				borderEditable={false}
 				defaultHeight='50px'
@@ -81,7 +90,7 @@ export const QrControl: React.FC = () => {
 					className='flex flex-auto'
 					value={text}
 				></QRCodeSVG>
-			</withControlTemplate>
+			</ControlTemplate>
 		</>
 	);
 };
