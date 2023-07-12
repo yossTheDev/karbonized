@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { FileInput, Input } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const BadgeBlock: React.FC = () => {
 	/* Component States */
-	const [src, setSrc] = useState(karbonized);
-	const [text, setText] = useState('@karbonized_app');
-	const [color, setColor] = useState('#ffffff');
+	const id = useId();
+	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
+	const [text, setText] = useRedoUndo('@karbonized_app', `${id}-text`);
+	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				borderEditable={false}
 				defaultHeight='45px'
 				defaultWidth='85px'
@@ -85,7 +88,7 @@ export const BadgeBlock: React.FC = () => {
 						<p className='my-auto flex w-2/3 text-xl font-bold'>{text}</p>
 					</div>
 				</div>
-			</withControlTemplate>
+			</ControlTemplate>
 		</>
 	);
 };

@@ -1,5 +1,5 @@
 import { IconLetterT, IconPhoto } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { FileInput } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
@@ -7,12 +7,13 @@ import example from '../../assets/example-user.png';
 
 export const AvatarBlock: React.FC = () => {
 	/* Component States */
-
+	const id = useId();
 	const [src, setSrc] = useState(example);
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				minHeight={'20px'}
 				minWidth={'50px'}
 				maxWidth={'500px'}
@@ -54,7 +55,7 @@ export const AvatarBlock: React.FC = () => {
 					className={`flex h-full w-full flex-auto rounded-full `}
 					src={src}
 				></img>
-			</withControlTemplate>
+			</ControlTemplate>
 		</>
 	);
 };
