@@ -1,4 +1,4 @@
-import React, { RefObject, Suspense, useEffect, useRef, useState } from 'react';
+import React, { RefObject, Suspense, useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import './Workspace.css';
@@ -41,13 +41,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
 
-	const controlState = useStoreState((state) => state.controlState);
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const pastHistory = useStoreState((state) => state.pastHistory);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
-
-	let control = useRef<HTMLElement>(null);
 
 	useEffect(() => {}, [constrlPos]);
 
@@ -96,7 +93,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					/* draggable */
 					draggable={true}
 					throttleDrag={0}
-					onDragStart={({ target, clientX, clientY }) => {
+					onDragStart={({ target }) => {
 						//console.log('onDragStart', target);
 						setPastHistory([
 							...pastHistory,
@@ -109,23 +106,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							},
 						]);
 					}}
-					onDragGroup={({
-						currentTarget,
-						target,
-						targets,
-						beforeDelta,
-						beforeDist,
-						left,
-						top,
-						events,
-						right,
-						bottom,
-						delta,
-						dist,
-						transform,
-						clientX,
-						clientY,
-					}: OnDragGroup) => {
+					onDragGroup={({ targets, left, top }: OnDragGroup) => {
 						//console.log('onDrag left, top', left, top);
 						// target!.style.left = `${left}px`;
 						// target!.style.top = `${top}px`;
@@ -138,20 +119,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						//console.log('group drag');
 						//setPosition({ x: left, y: top });
 					}}
-					onDrag={({
-						target,
-						beforeDelta,
-						beforeDist,
-						left,
-						top,
-						right,
-						bottom,
-						delta,
-						dist,
-						transform,
-						clientX,
-						clientY,
-					}: OnDrag) => {
+					onDrag={({ target, left, top }: OnDrag) => {
 						//console.log('onDrag left, top', left, top);
 						target!.style.left = `${left}px`;
 						target!.style.top = `${top}px`;
@@ -159,7 +127,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// target!.style.transform = transform;
 						setControlPos({ x: left, y: top });
 					}}
-					onDragEnd={({ target, isDrag, clientX, clientY }) => {
+					onDragEnd={({ target }) => {
 						//console.log('onDragEnd', target, isDrag);
 						console.log('end drag');
 
@@ -193,19 +161,20 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					/* Only one of resizable, scalable, warpable can be used. */
 					resizable={true}
 					throttleResize={0}
-					onResizeStart={({ target, clientX, clientY }) => {
+					onResizeStart={({ target }) => {
 						//console.log('onResizeStart', target);
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-control_size`,
+								value: {
+									w: parseFloat(target.style.width.replace('px', '')),
+									h: parseFloat(target.style.height.replace('px', '')),
+								},
+							},
+						]);
 					}}
-					onResize={({
-						target,
-						width,
-						height,
-						dist,
-						delta,
-						direction,
-						clientX,
-						clientY,
-					}: OnResize) => {
+					onResize={({ target, width, height, delta }: OnResize) => {
 						//console.log('onResize', target);
 						delta[0] && (target!.style.width = `${width}px`);
 						delta[1] && (target!.style.height = `${height}px`);
@@ -215,17 +184,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							h: target!.style.height.replace('px', '') as unknown as number,
 						});
 					}}
-					onResizeGroup={({
-						target,
-						targets,
-						width,
-						height,
-						dist,
-						delta,
-						direction,
-						clientX,
-						clientY,
-					}: OnResizeGroup) => {
+					onResizeGroup={({ targets, width, height, delta }: OnResizeGroup) => {
 						targets.map((el) => {
 							delta[0] && (el!.style.width = `${width}px`);
 							delta[1] && (el!.style.height = `${height}px`);
@@ -237,76 +196,64 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							h: target!.style.height.replace('px', '') as unknown as number,
 						});*/
 					}}
-					onResizeEnd={({ target, isDrag, clientX, clientY }) => {
+					onResizeEnd={({ target }) => {
 						//console.log('onResizeEnd', target, isDrag);
+						setControlState({
+							id: `${controlID}-control_size`,
+							value: {
+								w: parseFloat(target.style.width.replace('px', '')),
+								h: parseFloat(target.style.height.replace('px', '')),
+							},
+						});
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-control_size`,
+								value: {
+									w: parseFloat(target.style.width.replace('px', '')),
+									h: parseFloat(target.style.height.replace('px', '')),
+								},
+							},
+						]);
+						console.log({
+							x: parseFloat(target.style.left.replace('px', '')),
+							y: parseFloat(target.style.top.replace('px', '')),
+						});
+
+						setFutureHistory([]);
 					}}
 					/* scalable */
 					/* Only one of resizable, scalable, warpable can be used. */
 					scalable={true}
 					throttleScale={0}
-					onScaleStart={({ target, clientX, clientY }) => {
+					onScaleStart={() => {
 						//console.log('onScaleStart', target);
 					}}
-					onScale={({
-						target,
-						scale,
-						dist,
-						delta,
-						transform,
-						clientX,
-						clientY,
-					}: OnScale) => {
+					onScale={({ target, transform }: OnScale) => {
 						//console.log('onScale scale', scale);
 						target!.style.transform = transform;
 					}}
-					onScaleGroup={({
-						target,
-						targets,
-						scale,
-						dist,
-						delta,
-						transform,
-						clientX,
-						clientY,
-					}: OnScaleGroup) => {
+					onScaleGroup={({ targets, transform }: OnScaleGroup) => {
 						targets.map((el) => {
 							el!.style.transform = transform;
 						});
 						//console.log('onScale scale', scale);
 						//target!.style.transform = transform;
 					}}
-					onScaleEnd={({ target, isDrag, clientX, clientY }) => {
+					onScaleEnd={() => {
 						//console.log('onScaleEnd', target, isDrag);
 					}}
 					/* rotatable */
 					rotatable={true}
 					throttleRotate={0}
-					onRotateStart={({ target, clientX, clientY }) => {
+					onRotateStart={({ target }) => {
 						console.log('onRotateStart', target);
 					}}
-					onRotate={({
-						target,
-						delta,
-						dist,
-						transform,
-						clientX,
-						clientY,
-					}: OnRotate) => {
+					onRotate={({ target, transform }: OnRotate) => {
 						//console.log('onRotate', dist);
 						target!.style.transform = transform;
 					}}
-					onRotateGroup={({
-						target,
-						targets,
-						events,
-						delta,
-						currentTarget,
-						dist,
-						transform,
-						beforeRotation,
-						clientX,
-						clientY,
-					}: OnRotateGroup) => {
+					onRotateGroup={({ target, targets, transform }: OnRotateGroup) => {
 						// events.forEach(this.handleRotate);
 						targets.map((el) => {
 							//const frame = this.getFrame(target as HTMLElement | SVGAElement);
@@ -321,25 +268,25 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						//console.log('onRotate', dist);
 						target!.style.transform = transform;
 					}}
-					onRotateEnd={({ target, isDrag, clientX, clientY }) => {
+					onRotateEnd={() => {
 						//console.log('onRotateEnd', target, isDrag);
 					}}
 					// Enabling pinchable lets you use events that
 					// can be used in draggable, resizable, scalable, and rotateable.
 					pinchable={true}
-					onPinchStart={({ target, clientX, clientY, datas }) => {
+					onPinchStart={() => {
 						// pinchStart event occur before dragStart, rotateStart, scaleStart, resizeStart
 						//console.log('onPinchStart');
 					}}
-					onPinch={({ target, clientX, clientY, datas }) => {
+					onPinch={() => {
 						// pinch event occur before drag, rotate, scale, resize
 						//console.log('onPinch');
 					}}
-					onPinchGroup={({ target, clientX, clientY, datas }) => {
+					onPinchGroup={() => {
 						// pinch event occur before drag, rotate, scale, resize
 						//console.log('onPinch');
 					}}
-					onPinchEnd={({ isDrag, target, clientX, clientY, datas }) => {
+					onPinchEnd={() => {
 						// pinchEnd event occur before dragEnd, rotateEnd, scaleEnd, resizeEnd
 						//console.log('onPinchEnd');
 					}}

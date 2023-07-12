@@ -99,10 +99,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		`${id}-pos`,
 		true
 	);
-	const [size, setSize] = useState({
-		w: defaultWidth.replace('px', '') as unknown as number,
-		h: defaultHeight.replace('px', '') as unknown as number,
-	});
+	const [size, setSize] = useRedoUndo(
+		{
+			w: defaultWidth.replace('px', '') as unknown as number,
+			h: defaultHeight.replace('px', '') as unknown as number,
+		},
+		`${id}-control_size`,
+		true
+	);
 	const [borderRadious, setBorderRadious] = useRedoUndo(
 		border,
 		`${id}-visibiliy`

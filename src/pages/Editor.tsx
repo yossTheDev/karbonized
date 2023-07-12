@@ -319,7 +319,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Lock Aspect Ratio */}
-						<Tooltip placement='bottom' messsage='Lock Aspect Ratio Ctrl+R'>
+						<Tooltip placement='bottom' messsage='Lock Aspect Ratio (Ctrl+R)'>
 							<Button
 								color='ghost'
 								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex ${
