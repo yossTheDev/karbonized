@@ -247,6 +247,7 @@ const CodeControl: React.FC<Props> = () => {
 							{/* Background */}
 							<ColorPicker
 								label='Window Color'
+								type='HexAlpha'
 								onModeChange={(mode) => setColorMode(mode)}
 								onGradientChange={(color1, color2) => {
 									setGColor1(color1);
