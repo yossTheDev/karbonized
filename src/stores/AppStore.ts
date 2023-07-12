@@ -126,6 +126,7 @@ export const AppStore = createStore<AppStoreModel>({
 				newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
 			} else {
 				newPast = state.pastHistory.slice(0, state.pastHistory.length - 2);
+				previous = state.pastHistory[state.pastHistory.length - 2];
 			}
 			state.pastHistory = newPast;
 

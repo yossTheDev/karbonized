@@ -71,6 +71,7 @@ export const useRedoUndo = (initialState: any, id: string) => {
 
 	const set = (newState: any) => {
 		console.log('set new state');
+		console.log(newState);
 		/*setPast([...past, state]);
 		setState(newState);
 		setFuture([]);*/

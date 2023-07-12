@@ -71,25 +71,31 @@ const CodeControl: React.FC<Props> = () => {
 	/* Component States */
 	const id = useId();
 
-	const [theme, setTheme] = useState('coldarkDark');
-	const [language, setLanguage] = useState('jsx');
+	const [theme, setTheme] = useRedoUndo('coldarkDark', `${id}-theme`);
+	const [language, setLanguage] = useRedoUndo('jsx', `${id}-lang`);
 	const [code, setCode] = useRedoUndo(
 		`<pre><code class="language-${language}"></code></pre>`,
-		id
+		`${id}-code`
 	);
-	const [color, setColor] = useState('#111b28');
-	const [controlsColor, setControlsColor] = useState('#b4b4b4');
-	const [showTabs, setShowTabs] = useState(true);
-	const [title, setTitle] = useState('Code.jsx');
-	const [showLineNumbers, setShowLineNumbers] = useState(false);
-	const [wrapLines, setWrapLines] = useState(false);
-	const [border, setBorder] = useState(8);
-	const [windowStyle, setWindowStyle] = useState('mac');
+	const [color, setColor] = useRedoUndo('#111b28', `${id}-bgcolor`);
+	const [controlsColor, setControlsColor] = useRedoUndo(
+		'#b4b4b4',
+		`${id}-ccolor`
+	);
+	const [showTabs, setShowTabs] = useRedoUndo(true, `${id}-tabs`);
+	const [title, setTitle] = useRedoUndo('Code.jsx', `${id}-wintitle`);
+	const [showLineNumbers, setShowLineNumbers] = useRedoUndo(
+		false,
+		`${id}-linenumbers`
+	);
+	const [wrapLines, setWrapLines] = useRedoUndo(false, `${id}-wraplines`);
+	const [border, setBorder] = useRedoUndo(8, `${id}-border`);
+	const [windowStyle, setWindowStyle] = useRedoUndo('mac', `${id}-winstyle`);
 
-	const [colorMode, setColorMode] = useState('Single');
-	const [gColor1, setGColor1] = useState('#0da2e7');
-	const [gColor2, setGColor2] = useState('#5895c8');
-	const [gradientDeg, setGradientDeg] = useState(22);
+	const [colorMode, setColorMode] = useRedoUndo('Single', `${id}-colormode`);
+	const [gColor1, setGColor1] = useRedoUndo('#0da2e7', `${id}-gradienc1`);
+	const [gColor2, setGColor2] = useRedoUndo('#5895c8', `${id}-gradienc2`);
+	const [gradientDeg, setGradientDeg] = useRedoUndo(22, `${id}-gradiendeg`);
 
 	/* Handle Chage Theme */
 	const handleChangeTheme = (theme: string) => {
