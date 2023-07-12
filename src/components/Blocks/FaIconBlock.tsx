@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useId, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { FaIcon } from '../FaIcon';
@@ -7,11 +7,13 @@ import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { IconSearch, IconSticker } from '@tabler/icons-react';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 const FaIconBlock: React.FC = () => {
 	/* Component States */
-	const [icon, setIcon] = useState('FaFontAwesome');
-	const [iconColor, setIconColor] = useState('#ffffff');
+	const id = useId();
+	const [icon, setIcon] = useRedoUndo('FaFontAwesome', `${id}-icon`);
+	const [iconColor, setIconColor] = useRedoUndo('#ffffff', `${id}-iconColor`);
 	const [query, setQuery] = useState('');
 	const [showIconPicker, setShowIconPicker] = useState(false);
 	const [faIcons, setFaIcons] = useState<IconType[]>();
@@ -27,7 +29,8 @@ const FaIconBlock: React.FC = () => {
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				borderEditable={false}
 				defaultHeight='120px'
 				defaultWidth='120px'
@@ -79,7 +82,7 @@ const FaIconBlock: React.FC = () => {
 					style={{ color: iconColor }}
 					icon={icon}
 				></FaIcon>
-			</withControlTemplate>
+			</ControlTemplate>
 
 			{showIconPicker && (
 				<Portal>
