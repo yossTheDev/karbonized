@@ -15,7 +15,7 @@ export const QrControl: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				shadowEditable={false}
 				borderEditable={false}
 				defaultHeight='50px'
@@ -29,9 +29,9 @@ export const QrControl: React.FC = () => {
 						{/* Colors Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconPalette size={22}></IconPalette>
-									<p className='font-bold my-auto'>Colors</p>
+									<p className='my-auto font-bold'>Colors</p>
 								</div>
 							}
 						>
@@ -56,13 +56,13 @@ export const QrControl: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconQrcode></IconQrcode>
 									<p className='my-auto'>QR Settings</p>
 								</div>
 							}
 						>
-							<div className='flex flex-auto flex-col p-2 gap-2'>
+							<div className='flex flex-auto flex-col gap-2 p-2'>
 								<p className='text-xs'>Value</p>
 								<Input
 									spellCheck={false}
@@ -81,7 +81,7 @@ export const QrControl: React.FC = () => {
 					className='flex flex-auto'
 					value={text}
 				></QRCodeSVG>
-			</ControlTemplate>
+			</withControlTemplate>
 		</>
 	);
 };

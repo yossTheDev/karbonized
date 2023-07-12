@@ -12,7 +12,7 @@ export const ImageBlock: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				border={0}
 				borderEditable={false}
 				minHeight={'50px'}
@@ -26,15 +26,15 @@ export const ImageBlock: React.FC = () => {
 						{/* Border Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconBorderStyle size={22}></IconBorderStyle>
-									<p className='font-bold my-auto'>Borders</p>
+									<p className='my-auto font-bold'>Borders</p>
 								</div>
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
 								<div className='flex flex-auto  p-2 '>
-									<p className='p-2 my-auto'>Radius:</p>
+									<p className='my-auto p-2'>Radius:</p>
 									<Range
 										className='my-auto'
 										color='primary'
@@ -52,7 +52,7 @@ export const ImageBlock: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconPhoto></IconPhoto>
 									<p className='my-auto'>Image</p>
 								</div>
@@ -78,10 +78,10 @@ export const ImageBlock: React.FC = () => {
 			>
 				<img
 					style={{ borderRadius: borderRadious + 'px' }}
-					className={`flex flex-auto h-full w-full rounded-3xl select-none `}
+					className={`flex h-full w-full flex-auto select-none rounded-3xl `}
 					src={src}
 				></img>
-			</ControlTemplate>
+			</withControlTemplate>
 		</>
 	);
 };

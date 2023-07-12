@@ -33,9 +33,15 @@ export interface AppStoreModel {
 	/* History System */
 	addToHistory: Action<AppStoreModel, History>;
 	setHistorySignal: Action<AppStoreModel, 'redo' | 'undo' | ''>;
-	setHistory: Action<AppStoreModel, History[]>;
+	setControlState: Action<AppStoreModel, History | null>;
 	redo: Action<AppStoreModel>;
 	undo: Action<AppStoreModel>;
+
+	futureHistory: History[];
+	pastHistory: History[];
+	controlState: History | null;
+	setPast: Action<AppStoreModel, History[]>;
+	setFuture: Action<AppStoreModel, History[]>;
 
 	/* Tabs */
 	selectedTab: 'workspace' | 'control';
@@ -79,8 +85,12 @@ export const AppStore = createStore<AppStoreModel>({
 	workspaceGradientSettings: { color1: '#ff9a9e', color2: '#ff26ba', deg: 98 },
 
 	/* History System */
-	setHistory: action((state, payload) => {
-		state.History = payload;
+	controlState: null,
+	futureHistory: [],
+	pastHistory: [],
+
+	setControlState: action((state, payload) => {
+		state.controlState = payload;
 	}),
 	addToHistory: action((state, payload) => {
 		state.History = [payload, ...state.History];
@@ -89,26 +99,31 @@ export const AppStore = createStore<AppStoreModel>({
 		state.historySignal = payload;
 	}),
 	redo: action((state) => {
-		let copy = [...state.History];
-		console.log(copy);
-		console.log(copy[0]);
-		const pivot = state.History.findIndex((item) => (item.id = '-'));
-		console.log(pivot);
-
-		/*if (pivot !== 0) {
-			console.log(pivot);
-
-			copy[pivot] = copy[pivot - 1];
-			copy[pivot - 1] = { id: '-', value: '-' };
-
-			state.historySignal = 'redo';
-			state.History = copy;
-
-			//console.log(copy);
-		}*/
+		if (state.futureHistory.length > 0) {
+			const next = state.futureHistory[0];
+			const newFuture = state.futureHistory.slice(1);
+			state.pastHistory = [...state.pastHistory, state.controlState?.value];
+			state.futureHistory = newFuture;
+			state.controlState = next;
+		}
 	}),
-	undo: action((state, payload) => {}),
+	undo: action((state, payload) => {
+		if (state.pastHistory.length > 0) {
+			const previous = state.pastHistory[state.pastHistory.length - 1];
+			const newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
+			state.pastHistory = newPast;
+			state.futureHistory = [state.controlState?.value, ...state.futureHistory];
+			state.controlState = previous;
+			// setState(previous);
+		}
+	}),
 
+	setPast: action((state, payload) => {
+		state.pastHistory = payload;
+	}),
+	setFuture: action((state, payload) => {
+		state.futureHistory = payload;
+	}),
 	/* Tabs */
 	selectedTab: 'control',
 	setSelectedTab: action((state, payload) => {

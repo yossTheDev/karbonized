@@ -44,6 +44,7 @@ export function withUndoRedo(Component: any) {
 				event.preventDefault();
 				undo();
 				console.log('undo');
+				console.log(state);
 			} else if (event.ctrlKey && event.key === 'y') {
 				event.preventDefault();
 				redo();

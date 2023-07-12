@@ -13,7 +13,7 @@ export const BadgeBlock: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				borderEditable={false}
 				defaultHeight='45px'
 				defaultWidth='85px'
@@ -85,7 +85,7 @@ export const BadgeBlock: React.FC = () => {
 						<p className='my-auto flex w-2/3 text-xl font-bold'>{text}</p>
 					</div>
 				</div>
-			</ControlTemplate>
+			</withControlTemplate>
 		</>
 	);
 };

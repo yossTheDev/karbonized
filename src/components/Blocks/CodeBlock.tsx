@@ -5,7 +5,7 @@ import {
 	IconDots,
 	IconX,
 } from '@tabler/icons-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -19,6 +19,10 @@ import { useRedoUndo } from '../../hooks/useRedoUndo';
 interface Style {
 	label: string;
 	theme: {};
+}
+
+interface Props {
+	id: string;
 }
 
 const themes: Style[] = [
@@ -63,12 +67,15 @@ const themes: Style[] = [
 	{ label: 'xonokai', theme: prismThemes.xonokai },
 ];
 
-const CodeControl: React.FC = () => {
+const CodeControl: React.FC<Props> = () => {
 	/* Component States */
+	const id = useId();
+
 	const [theme, setTheme] = useState('coldarkDark');
 	const [language, setLanguage] = useState('jsx');
 	const [code, setCode] = useRedoUndo(
-		`<pre><code class="language-${language}"></code></pre>`
+		`<pre><code class="language-${language}"></code></pre>`,
+		id
 	);
 	const [color, setColor] = useState('#111b28');
 	const [controlsColor, setControlsColor] = useState('#b4b4b4');
@@ -107,6 +114,7 @@ const CodeControl: React.FC = () => {
 	return (
 		<>
 			<ControlTemplate
+				id={id}
 				border={6}
 				borderEditable={false}
 				defaultHeight='140px'

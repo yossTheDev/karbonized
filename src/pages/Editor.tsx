@@ -59,7 +59,6 @@ export const Editor: React.FC = () => {
 	const editing = useStoreState((state) => state.editing);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
-	const redo = useStoreActions((state) => state.redo);
 
 	// Component Store and Actions
 	const isHorizontal = useScreenDirection();
@@ -94,6 +93,29 @@ export const Editor: React.FC = () => {
 			);
 		}
 	}, []);
+
+	const onKeyDown = (event: KeyboardEvent) => {
+		if (event.ctrlKey && event.key === 'z') {
+			event.preventDefault();
+			undo();
+			console.log('undo');
+		} else if (event.ctrlKey && event.key === 'y') {
+			event.preventDefault();
+			redo();
+			console.log('redo');
+		}
+	};
+
+	const redo = useStoreActions((state) => state.redo);
+	const undo = useStoreActions((state) => state.undo);
+
+	useEffect(() => {
+		window.addEventListener('keydown', onKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', onKeyDown);
+		};
+	});
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {

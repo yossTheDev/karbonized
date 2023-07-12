@@ -17,7 +17,7 @@ export const TextControl: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				borderEditable={false}
 				defaultHeight='45px'
 				defaultWidth='85px'
@@ -103,7 +103,7 @@ export const TextControl: React.FC = () => {
 				>
 					{text}
 				</p>
-			</ControlTemplate>
+			</withControlTemplate>
 		</>
 	);
 };

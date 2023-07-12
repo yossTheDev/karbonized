@@ -25,7 +25,7 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 		case 'code':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<CodeControl></CodeControl>
+					<CodeControl id={id}></CodeControl>
 				</Suspense>
 			);
 		case 'text':

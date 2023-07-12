@@ -36,7 +36,7 @@ export const ShapeBlock: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				borderEditable={false}
 				maskEditable={false}
 				defaultHeight='120px'
@@ -81,7 +81,7 @@ export const ShapeBlock: React.FC = () => {
 				}
 			>
 				<ShapeHandler color={color} type={shape}></ShapeHandler>
-			</ControlTemplate>
+			</withControlTemplate>
 
 			{showModal && (
 				<Portal>

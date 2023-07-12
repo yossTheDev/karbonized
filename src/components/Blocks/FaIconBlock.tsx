@@ -27,7 +27,7 @@ const FaIconBlock: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				borderEditable={false}
 				defaultHeight='120px'
 				defaultWidth='120px'
@@ -79,7 +79,7 @@ const FaIconBlock: React.FC = () => {
 					style={{ color: iconColor }}
 					icon={icon}
 				></FaIcon>
-			</ControlTemplate>
+			</withControlTemplate>
 
 			{showIconPicker && (
 				<Portal>

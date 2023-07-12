@@ -30,7 +30,7 @@ export const PhoneBlock: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				border={0}
 				borderEditable={false}
 				minHeight={'618px'}
@@ -44,7 +44,7 @@ export const PhoneBlock: React.FC = () => {
 						{/* Border Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconBorderStyle></IconBorderStyle>
 									<p className='my-auto'>Borders</p>
 								</div>
@@ -52,7 +52,7 @@ export const PhoneBlock: React.FC = () => {
 						>
 							{/* Phone Radius */}
 							<div className='flex flex-auto p-2 text-xs '>
-								<p className='p-2 my-auto'>Phone Radius:</p>
+								<p className='my-auto p-2'>Phone Radius:</p>
 								<Range
 									className='my-auto'
 									color='primary'
@@ -66,7 +66,7 @@ export const PhoneBlock: React.FC = () => {
 
 							{/* Screen Radius*/}
 							<div className='flex flex-auto p-2 text-xs '>
-								<p className='p-2 my-auto'>Screen Radius:</p>
+								<p className='my-auto p-2'>Screen Radius:</p>
 								<Range
 									className='my-auto'
 									color='primary'
@@ -82,9 +82,9 @@ export const PhoneBlock: React.FC = () => {
 						{/* Color Options */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconPalette size={22}></IconPalette>
-									<p className='font-bold my-auto'>Colors</p>
+									<p className='my-auto font-bold'>Colors</p>
 								</div>
 							}
 						>
@@ -117,7 +117,7 @@ export const PhoneBlock: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconDeviceMobile></IconDeviceMobile>
 									<p className='my-auto'>Phone Mockup</p>
 								</div>
@@ -142,7 +142,7 @@ export const PhoneBlock: React.FC = () => {
 
 							{/* Notch Witdh */}
 							<div className='flex flex-auto p-2 text-xs '>
-								<p className='p-2 my-auto'>Notch Width:</p>
+								<p className='my-auto p-2'>Notch Width:</p>
 								<Range
 									className='my-auto'
 									color='primary'
@@ -177,7 +177,7 @@ export const PhoneBlock: React.FC = () => {
 								borderRadius: phoneRadius + 'px',
 								borderColor: borderColor,
 							}}
-							className='flex flex-auto flex-col bg-black p-3 select-none border-4'
+							className='flex flex-auto select-none flex-col border-4 bg-black p-3'
 						>
 							{/* Status Bar */}
 							<div
@@ -186,13 +186,13 @@ export const PhoneBlock: React.FC = () => {
 									borderTopRightRadius: screenRadius + 'px',
 									backgroundColor: statusColor,
 								}}
-								className='flex flex-auto max-h-9 border-0 overflow-hidden'
+								className='flex max-h-9 flex-auto overflow-hidden border-0'
 							>
 								<div
 									style={{ color: statusControlsColor }}
-									className='flex flex-auto my-auto  p-1'
+									className='my-auto flex flex-auto  p-1'
 								>
-									<p className='ml-3 font-bold text-xs my-auto'>20:02</p>
+									<p className='my-auto ml-3 text-xs font-bold'>20:02</p>
 
 									<div className='ml-auto mr-3 flex flex-row '>
 										<IconWifi className='flex flex-auto' size={18}></IconWifi>
@@ -219,14 +219,14 @@ export const PhoneBlock: React.FC = () => {
 									borderBottomLeftRadius: screenRadius + 'px',
 									borderBottomRightRadius: screenRadius + 'px',
 								}}
-								className='flex flex-auto h-56 bg-white max-w-full max-h-full select-none'
+								className='flex h-56 max-h-full max-w-full flex-auto select-none bg-white'
 								src={src}
 							></img>
 
 							{/* Notch */}
 							<div
 								style={{ width: 'calc(100% - 2.5rem)' }}
-								className='flex flex-auto absolute'
+								className='absolute flex flex-auto'
 							>
 								<div
 									style={{
@@ -235,7 +235,7 @@ export const PhoneBlock: React.FC = () => {
 										width: notchWidth + 'px',
 										marginTop: drop ? '-1px' : '2px',
 									}}
-									className='bg-black mx-auto p-4 rounded-full flex'
+									className='mx-auto flex rounded-full bg-black p-4'
 								></div>
 							</div>
 						</div>
@@ -243,17 +243,17 @@ export const PhoneBlock: React.FC = () => {
 						{/* Buttons */}
 						<div
 							style={{ marginLeft: '-12px', maxWidth: '12px' }}
-							className='p-1 bg-black h-16  rounded mt-32 flex flex-auto'
+							className='mt-32 flex h-16  flex-auto rounded bg-black p-1'
 						></div>
 					</div>
 
 					{/* Buttons */}
 					<div
 						style={{ marginTop: '-7px' }}
-						className='p-1 bg-black h-1 max-h-1 w-6 ml-20   rounded flex flex-auto'
+						className='ml-20 flex h-1 max-h-1 w-6 flex-auto   rounded bg-black p-1'
 					></div>
 				</div>
-			</ControlTemplate>
+			</withControlTemplate>
 		</>
 	);
 };

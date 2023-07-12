@@ -12,7 +12,7 @@ export const AvatarBlock: React.FC = () => {
 
 	return (
 		<>
-			<ControlTemplate
+			<withControlTemplate
 				minHeight={'20px'}
 				minWidth={'50px'}
 				maxWidth={'500px'}
@@ -26,7 +26,7 @@ export const AvatarBlock: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconPhoto></IconPhoto>
 									<p className='my-auto'>Image</p>
 								</div>
@@ -51,10 +51,10 @@ export const AvatarBlock: React.FC = () => {
 				}
 			>
 				<img
-					className={`flex flex-auto h-full w-full rounded-full `}
+					className={`flex h-full w-full flex-auto rounded-full `}
 					src={src}
 				></img>
-			</ControlTemplate>
+			</withControlTemplate>
 		</>
 	);
 };

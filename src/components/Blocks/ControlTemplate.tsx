@@ -35,6 +35,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ContextMenu } from '../CustomControls/ContextMenu';
 
 interface ControlProps {
+	id: string;
 	color?: string;
 	children?: ReactNode;
 	menu?: ReactNode;
@@ -54,6 +55,7 @@ interface ControlProps {
 }
 
 export const ControlTemplate: React.FC<ControlProps> = ({
+	id,
 	color,
 	children,
 	menu,
@@ -69,7 +71,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	defaultWidth = '80px',
 }) => {
 	// App Store
-	const ID = useId();
 	const controlID = useStoreState((state) => state.currentControlID);
 	const workspaceName = useStoreState((state) => state.workspaceName);
 
@@ -130,7 +131,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	/* Delete Element when Delete Key is pressed */
 	const isPressed = useKeyPress('Delete');
 	useEffect(() => {
-		if (controlID === ID) {
+		if (controlID === id) {
 			setVisibility(false);
 			setID('');
 		}
@@ -161,7 +162,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (ID === controlID) {
+		if (id === controlID) {
 			setPosition({
 				x: controlPos?.x as unknown as number,
 				y: controlPos?.y as unknown as number,
@@ -170,7 +171,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	}, [controlPos]);
 
 	useEffect(() => {
-		if (ID === controlID) {
+		if (id === controlID) {
 			setSize({
 				w: controlSize?.w as unknown as number,
 				h: controlSize?.h as unknown as number,
@@ -250,8 +251,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		<AnimatePresence>
 			{visibility && (
 				<motion.div
-					id={ID}
-					key={ID}
+					id={id}
+					key={id}
 					onMouseEnter={() => {
 						setContextMenu(false);
 					}}
@@ -282,7 +283,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					<div
 						className='flex flex-auto'
 						onTouchStart={() => {
-							setID(ID);
+							setID(id);
 							setWorkspaceTab('control');
 							setControlPos({
 								x: position.x,
@@ -294,7 +295,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							});
 						}}
 						onClick={() => {
-							setID(ID);
+							setID(id);
 							setWorkspaceTab('control');
 							setControlPos({
 								x: position.x,
@@ -343,9 +344,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			)}
 
 			{/* Menu */}
-			{controlID === ID && (
+			{controlID === id && (
 				<Portal
-					key={ID + '_control_menu'}
+					key={id + '_control_menu'}
 					node={document.getElementById('menu')}
 				>
 					<motion.div
@@ -892,10 +893,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 			{/* Context Menu */}
 			<AnimatePresence>
-				{contextMenu && controlID === ID && (
-					<Portal key={ID + '_menu'} node={document.getElementById('body')}>
+				{contextMenu && controlID === id && (
+					<Portal key={id + '_menu'} node={document.getElementById('body')}>
 						<motion.div
-							key={ID + '_menu'}
+							key={id + '_menu'}
 							className='absolute z-50'
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
