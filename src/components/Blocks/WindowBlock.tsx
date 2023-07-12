@@ -11,29 +11,38 @@ import {
 	IconStar,
 	IconX,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/image-example.png';
 import { CloseSvg, MiniminizeSvg } from '../General/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const WindowBlock: React.FC = () => {
 	/* Component States */
-	const [title, setTitle] = useState('Karbonized');
-	const [url, setUrl] = useState('karbonized.onrender.com');
-	const [color, setColor] = useState('#ffffff');
-	const [controlsColor, setControlsColor] = useState('#0e111b');
+	const id = useId();
+	const [title, setTitle] = useRedoUndo('Karbonized', `${id}-title`);
+	const [url, setUrl] = useRedoUndo('karbonized.onrender.com', `${id}-url`);
+	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);
+	const [controlsColor, setControlsColor] = useRedoUndo(
+		'#0e111b',
+		`${id}-controlsColor`
+	);
 
-	const [windowStyle, setWindowStyle] = useState('mac');
-	const [windowType, setWindowType] = useState('browser');
+	const [windowStyle, setWindowStyle] = useRedoUndo('mac', `${id}-windowStyle`);
+	const [windowType, setWindowType] = useRedoUndo(
+		'browser',
+		`${id}-windowType`
+	);
 
 	const [src, setSrc] = useState(karbonized);
 
 	return (
 		<>
 			<ControlTemplate
+				id={id}
 				minWidth='400px'
 				minHeight='200px'
 				maxWidth='3000px'
@@ -47,7 +56,7 @@ export const WindowBlock: React.FC = () => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row m-2 gap-2'>
+								<div className='m-2 flex flex-row gap-2'>
 									<IconAppWindow></IconAppWindow>
 									<p className='my-auto'>Window</p>
 								</div>
@@ -140,27 +149,27 @@ export const WindowBlock: React.FC = () => {
 			>
 				<div className='flex flex-auto flex-col overflow-hidden rounded'>
 					{/* Title */}
-					<div className='flex flex-auto max-h-12 p-1'>
-						<div className='my-auto flex flex-row flex-auto '>
-							<div className='flex flex-auto flex-row text-gray-600 my-auto w-1/3  '>
+					<div className='flex max-h-12 flex-auto p-1'>
+						<div className='my-auto flex flex-auto flex-row '>
+							<div className='my-auto flex w-1/3 flex-auto flex-row text-gray-600  '>
 								{windowStyle === 'window' && (
 									<>
 										{windowType === 'normal' ? (
 											<p
 												style={{ color: controlsColor }}
-												className='text-left my-auto ml-2'
+												className='my-auto ml-2 text-left'
 											>
 												{title}
 											</p>
 										) : (
 											<div className='flex flex-auto flex-row'>
 												<IconBrandChrome
-													className='my-auto mx-2'
+													className='mx-2 my-auto'
 													size={15}
 												></IconBrandChrome>
-												<div className='p-2 bg-slate-500/10  rounded flex flex-row gap-1'>
+												<div className='flex flex-row  gap-1 rounded bg-slate-500/10 p-2'>
 													<IconFile className='my-auto' size={15}></IconFile>
-													<p className='text-xs my-auto'>{title}</p>
+													<p className='my-auto text-xs'>{title}</p>
 													<IconX className='my-auto' size={15}></IconX>
 												</div>
 											</div>
@@ -171,18 +180,18 @@ export const WindowBlock: React.FC = () => {
 								{windowStyle === 'mac' && (
 									<>
 										<div className='flex flex-auto flex-row gap-1 p-1'>
-											<div className='p-1 w-4  h-4 rounded-full bg-red-500 my-auto'></div>
-											<div className='p-1 w-4  h-4 rounded-full bg-yellow-300 my-auto'></div>
-											<div className='p-1 w-4  h-4 rounded-full  bg-green-500 my-auto'></div>
+											<div className='my-auto h-4  w-4 rounded-full bg-red-500 p-1'></div>
+											<div className='my-auto h-4  w-4 rounded-full bg-yellow-300 p-1'></div>
+											<div className='my-auto h-4  w-4 rounded-full  bg-green-500 p-1'></div>
 
 											{/* Browser Buttons Mac*/}
 											{windowType === 'browser' && (
-												<div className='flex  flex-row my-auto gap-1 ml-2'>
-													<div className='bg-slate-500/20 p-1 rounded'>
+												<div className='my-auto  ml-2 flex flex-row gap-1'>
+													<div className='rounded bg-slate-500/20 p-1'>
 														<IconChevronLeft size={15}></IconChevronLeft>
 													</div>
 
-													<div className='bg-slate-500/20 p-1 rounded'>
+													<div className='rounded bg-slate-500/20 p-1'>
 														<IconChevronRight size={15}></IconChevronRight>
 													</div>
 												</div>
@@ -194,12 +203,12 @@ export const WindowBlock: React.FC = () => {
 
 							<div
 								spellCheck={false}
-								className='text-gray-600 select-none flex flex-auto flex-row w-1/3 my-auto'
+								className='my-auto flex w-1/3 flex-auto select-none flex-row text-gray-600'
 							>
 								{windowStyle === 'mac' && windowType === 'normal' && (
 									<p
 										style={{ color: controlsColor }}
-										className='text-center mx-auto my-auto'
+										className='mx-auto my-auto text-center'
 									>
 										{title}
 									</p>
@@ -207,9 +216,9 @@ export const WindowBlock: React.FC = () => {
 
 								{windowStyle === 'mac' && windowType === 'browser' && (
 									<>
-										<div className='bg-slate-500/20 flex flex-auto flex-row my-auto w-full rounded-full p-1 mx-auto  max-h-6 overflow-hidden'>
+										<div className='mx-auto my-auto flex max-h-6 w-full flex-auto flex-row overflow-hidden rounded-full  bg-slate-500/20 p-1'>
 											<IconSearch className='ml-1' size={15}></IconSearch>
-											<p className='text-xs my-auto ml-2 max-w-fit w-56 max-h-6 h-6 overflow-hidden '>
+											<p className='my-auto ml-2 h-6 max-h-6 w-56 max-w-fit overflow-hidden text-xs '>
 												{url}
 											</p>
 										</div>
@@ -218,16 +227,16 @@ export const WindowBlock: React.FC = () => {
 							</div>
 
 							{windowStyle === 'mac' ? (
-								<div className='flex flex-row flex-auto w-1/3'></div>
+								<div className='flex w-1/3 flex-auto flex-row'></div>
 							) : (
-								<div className='flex flex-row flex-auto w-1/3 my-auto mr-2'>
+								<div className='my-auto mr-2 flex w-1/3 flex-auto flex-row'>
 									<MiniminizeSvg
 										style={{ fill: controlsColor }}
-										className='h-4 w-4 ml-auto'
+										className='ml-auto h-4 w-4'
 									></MiniminizeSvg>
 									<CloseSvg
 										style={{ fill: controlsColor }}
-										className='h-4 w-4  ml-2'
+										className='ml-2 h-4  w-4'
 									></CloseSvg>
 								</div>
 							)}
@@ -235,10 +244,10 @@ export const WindowBlock: React.FC = () => {
 					</div>
 
 					{windowStyle === 'window' && windowType === 'browser' && (
-						<div className='flex flex-auto flex-row gap-2 max-h-10'>
+						<div className='flex max-h-10 flex-auto flex-row gap-2'>
 							{/* Browser Controls */}
 							<div
-								className='flex  gap-1 ml-2 my-auto p-1'
+								className='my-auto  ml-2 flex gap-1 p-1'
 								style={{ color: controlsColor }}
 							>
 								<IconArrowLeft size={14}></IconArrowLeft>
@@ -248,12 +257,12 @@ export const WindowBlock: React.FC = () => {
 
 							{/* Search Bar  */}
 							<div
-								className='flex flex-auto flex-row bg-slate-500/20 p-1 rounded m-1'
+								className='m-1 flex flex-auto flex-row rounded bg-slate-500/20 p-1'
 								style={{ color: controlsColor }}
 							>
 								<IconSearch className='my-auto ml-1' size={14}></IconSearch>
-								<p className='my-auto text-xs ml-2'>{url}</p>
-								<IconStar className='ml-auto my-auto mr-1' size={14}></IconStar>
+								<p className='my-auto ml-2 text-xs'>{url}</p>
+								<IconStar className='my-auto ml-auto mr-1' size={14}></IconStar>
 							</div>
 						</div>
 					)}
@@ -261,7 +270,7 @@ export const WindowBlock: React.FC = () => {
 					{/* Content */}
 					<div className='flex flex-auto'>
 						<img
-							className='flex flex-auto h-full w-full aspect-auto'
+							className='flex aspect-auto h-full w-full flex-auto'
 							src={src}
 						></img>
 					</div>

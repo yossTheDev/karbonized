@@ -1,5 +1,5 @@
 import { IconBrandTwitter } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { Button, Input } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -8,6 +8,7 @@ import './TweetBlock.css';
 
 export const TweetBlock: React.FC = () => {
 	/* Component States */
+	const id = useId();
 	const [url, setUrl] = useState(
 		'https://twitter.com/karbonized_app/status/1651550611140116480?s=20'
 	);
@@ -77,6 +78,7 @@ export const TweetBlock: React.FC = () => {
 	return (
 		<>
 			<ControlTemplate
+				id={id}
 				borderEditable={false}
 				defaultHeight='200px'
 				defaultWidth='500px'

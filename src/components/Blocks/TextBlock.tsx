@@ -1,23 +1,26 @@
 import { IconLetterT } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { Button, ButtonGroup, Input } from 'react-daisyui';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { ControlTemplate } from './ControlTemplate';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const TextControl: React.FC = () => {
 	/* Component States */
-	const [text, setText] = useState('lorem');
-	const [color, setColor] = useState('#f3f4f6');
-	const [textSize, setTextSize] = useState('24');
-	const [isBold, setIsBold] = useState(false);
-	const [isItalic, setIsItalic] = useState(false);
-	const [isUnderline, setIsUnderline] = useState(false);
+	const id = useId();
+	const [text, setText] = useRedoUndo('lorem',`${id}-text`);
+	const [color, setColor] = useRedoUndo('#f3f4f6', `${id}-color`);
+	const [textSize, setTextSize] = useRedoUndo('24', `${id}-textSize`);
+	const [isBold, setIsBold] = useRedoUndo(false, `${id}-isBold`);
+	const [isItalic, setIsItalic] = useRedoUndo(false, `${id}-isItalic`);
+	const [isUnderline, setIsUnderline] = useRedoUndo(false, `${id}-isUnderline`);
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				borderEditable={false}
 				defaultHeight='45px'
 				defaultWidth='85px'
@@ -103,7 +106,7 @@ export const TextControl: React.FC = () => {
 				>
 					{text}
 				</p>
-			</withControlTemplate>
+			</ControlTemplate>
 		</>
 	);
 };
