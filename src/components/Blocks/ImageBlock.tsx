@@ -1,18 +1,24 @@
 import { IconBorderStyle, IconPhoto } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { FileInput, Range } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
+import { useRedoUndo } from '../../hooks/useRedoUndo';
 
 export const ImageBlock: React.FC = () => {
 	/* Component States */
+	const id = useId();
 	const [src, setSrc] = useState(karbonized);
-	const [borderRadious, setBorderRadious] = useState(3);
+	const [borderRadious, setBorderRadious] = useRedoUndo(
+		3,
+		`${id}-borderRadious`
+	);
 
 	return (
 		<>
-			<withControlTemplate
+			<ControlTemplate
+				id={id}
 				border={0}
 				borderEditable={false}
 				minHeight={'50px'}
@@ -81,7 +87,7 @@ export const ImageBlock: React.FC = () => {
 					className={`flex h-full w-full flex-auto select-none rounded-3xl `}
 					src={src}
 				></img>
-			</withControlTemplate>
+			</ControlTemplate>
 		</>
 	);
 };
