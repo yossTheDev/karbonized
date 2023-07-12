@@ -90,7 +90,7 @@ export const AppStore = createStore<AppStoreModel>({
 	pastHistory: [],
 
 	setControlState: action((state, payload) => {
-		state.controlState = payload;
+		console.log(state.pastHistory);
 	}),
 	addToHistory: action((state, payload) => {
 		state.History = [payload, ...state.History];
@@ -102,19 +102,39 @@ export const AppStore = createStore<AppStoreModel>({
 		if (state.futureHistory.length > 0) {
 			const next = state.futureHistory[0];
 			const newFuture = state.futureHistory.slice(1);
-			state.pastHistory = [...state.pastHistory, state.controlState?.value];
+			const item: History = {
+				id: state.controlState?.id as unknown as string,
+				value: state.controlState?.value,
+			};
+			state.pastHistory = [...state.pastHistory, item];
 			state.futureHistory = newFuture;
 			state.controlState = next;
 		}
 	}),
-	undo: action((state, payload) => {
+	undo: action((state) => {
 		if (state.pastHistory.length > 0) {
-			const previous = state.pastHistory[state.pastHistory.length - 1];
-			const newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
+			let previous = state.pastHistory[state.pastHistory.length - 1];
+
+			let newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
+
+			if (
+				state.pastHistory[state.pastHistory.length - 1] &&
+				state.pastHistory[state.pastHistory.length - 2] &&
+				state.pastHistory[state.pastHistory.length - 1].value !==
+					state.pastHistory[state.pastHistory.length - 2].value
+			) {
+				newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
+			} else {
+				newPast = state.pastHistory.slice(0, state.pastHistory.length - 2);
+			}
 			state.pastHistory = newPast;
-			state.futureHistory = [state.controlState?.value, ...state.futureHistory];
+
+			const item: History = {
+				id: state.controlState?.id as unknown as string,
+				value: state.controlState?.value,
+			};
+			state.futureHistory = [item, ...state.futureHistory];
 			state.controlState = previous;
-			// setState(previous);
 		}
 	}),
 

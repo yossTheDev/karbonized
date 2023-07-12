@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 
 export const useRedoUndo = (initialState: any, id: string) => {
@@ -8,7 +8,6 @@ export const useRedoUndo = (initialState: any, id: string) => {
 
 	const controlState = useStoreState((state) => state.controlState);
 	const pastHistory = useStoreState((state) => state.pastHistory);
-	const futureHistory = useStoreState((state) => state.futureHistory);
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
@@ -45,23 +44,15 @@ export const useRedoUndo = (initialState: any, id: string) => {
 		}
 	};*/
 
-	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'z') {
-			event.preventDefault();
-			if (controlState?.id === id) {
-				setState(controlState.value);
-				setControlState(null);
-			}
-			console.log('undo');
-		} else if (event.ctrlKey && event.key === 'y') {
-			event.preventDefault();
-			if (controlState?.id === id) {
-				setState(controlState.value);
-				setControlState(null);
-			}
-			console.log('redo');
+	useEffect(() => {
+		if (controlState?.id === id) {
+			setState(controlState.value);
 		}
-	};
+	}, [controlState]);
+
+	/*useEffect(() => {
+		setPastHistory([...pastHistory, { id: id, value: initialState }]);
+	}, []);*/
 
 	/*useEffect(() => {
 		if (controlState?.id === id) {
@@ -70,13 +61,13 @@ export const useRedoUndo = (initialState: any, id: string) => {
 		}
 	});*/
 
-	useEffect(() => {
+	/*useEffect(() => {
 		window.addEventListener('keydown', onKeyDown);
 
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	});
+	});*/
 
 	const set = (newState: any) => {
 		console.log('set new state');
@@ -84,11 +75,28 @@ export const useRedoUndo = (initialState: any, id: string) => {
 		setState(newState);
 		setFuture([]);*/
 
-		console.log({ id: id, value: newState });
+		//console.log({ id: id, value: newState });
+		// console.log(newState);
 
-		setPastHistory([...pastHistory, { id: id, value: newState }]);
-		setFutureHistory([]);
+		/*if (
+			pastHistory[past.length] &&
+			pastHistory[past.length].value !== newState
+		) {
+			console.log(pastHistory[past.length].value);
+			console.log('Son iguales');
+			setPastHistory([...pastHistory, { id: id, value: newState }]);
+		}*/
+		setPastHistory([
+			...pastHistory,
+			{ id: id, value: state },
+			{ id: id, value: newState },
+		]);
 		setState(newState);
+		setControlState({ id: id, value: newState });
+
+		setFutureHistory([]);
+		// console.log(controlState);
+		console.log(pastHistory);
 	};
 
 	return [state, set, undo, redo];

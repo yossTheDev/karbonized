@@ -94,6 +94,9 @@ export const Editor: React.FC = () => {
 		}
 	}, []);
 
+	const controlState = useStoreState((state) => state.controlState);
+	const future = useStoreState((state) => state.futureHistory);
+
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'z') {
 			event.preventDefault();
@@ -102,6 +105,8 @@ export const Editor: React.FC = () => {
 		} else if (event.ctrlKey && event.key === 'y') {
 			event.preventDefault();
 			redo();
+			console.log(future);
+
 			console.log('redo');
 		}
 	};
