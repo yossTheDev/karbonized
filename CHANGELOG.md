@@ -1,5 +1,11 @@
 # Changelog
 
+## v 1.1.0
+
+* Transparent Background on Code blocks
+* Some Improvements
+* Minor Bug Fixes
+
 ## v 1.0.4
 
 * Improve UI/UX
