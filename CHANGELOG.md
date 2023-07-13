@@ -2,6 +2,7 @@
 
 ## v 1.1.0
 
+* Canvas Drawing System
 * Transparent Background on Code blocks
 * Some Improvements
 * Minor Bug Fixes
