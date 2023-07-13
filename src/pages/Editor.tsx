@@ -11,7 +11,6 @@ import {
 	IconDeviceMobile,
 	IconEraser,
 	IconFlask,
-	IconFocusCentered,
 	IconHandFinger,
 	IconInfoCircle,
 	IconJpg,
@@ -40,6 +39,7 @@ import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import '../App.css';
 import karbonized from '../assets/karbonized.svg';
 import { HomeButton } from '../components/Base/HomeButton';
+import { ColorPicker } from '../components/CustomControls/ColorPicker';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { Menu as ControlsMenu } from '../components/Menu';
 import { AboutModal } from '../components/Modals/AboutModal';
@@ -52,8 +52,6 @@ import { useStoreActions, useStoreState } from '../stores/Hooks';
 import '../utils.css';
 import { ExportImage, export_format } from '../utils/Exporter';
 import './Editor.css';
-import { Canvas } from '../components/Canvas';
-import { ColorPicker } from '../components/CustomControls/ColorPicker';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -236,7 +234,7 @@ export const Editor: React.FC = () => {
 			{/* Content */}
 			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
 				{/* Nav Bar */}
-				<Navbar className='z-30 mt-2 flex h-2 shrink rounded-full bg-base-200 md:rounded-2xl md:bg-transparent'>
+				<Navbar className='absolute z-30 mt-2 flex h-2 shrink rounded-full bg-base-200 md:w-2/4 md:rounded-2xl md:bg-transparent lg:w-3/4'>
 					<Navbar.Start className='z-20'>
 						{/* About Button */}
 						<Button
@@ -264,19 +262,18 @@ export const Editor: React.FC = () => {
 						)}
 					</Navbar.Start>
 
-					<Navbar.Center>
+					<Navbar.Center className='md:hidden lg:flex'>
 						<img className='h-12 w-full md:hidden' src={karbonized}></img>
 					</Navbar.Center>
 
-					<Navbar.End className='flex flex-auto gap-0 md:gap-1'>
+					<Navbar.End className='flex flex-auto gap-0 md:hidden md:gap-1 lg:mr-7 lg:flex'>
 						{/* Change Theme */}
 						{!isTauriPlatform && (
 							<>
 								<Tooltip placement='bottom' messsage='Change Theme'>
 									<Button
 										shape='circle'
-										color='ghost'
-										className='hidden border-none bg-base-200 lg:block'
+										className='hidden border-none bg-base-200 hover:bg-base-100 lg:block'
 										onClick={() => toggleTheme()}
 									>
 										{appTheme === 'light' ? (
@@ -300,8 +297,8 @@ export const Editor: React.FC = () => {
 						{/* Redo */}
 						<Tooltip placement='bottom' messsage='Undo (Ctrl+Z)'>
 							<Button
-								color='ghost'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex`}
+								shape='circle'
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-1 hover:bg-base-100 md:flex`}
 								onClick={() => {
 									undo();
 								}}
@@ -316,8 +313,8 @@ export const Editor: React.FC = () => {
 						{/* Undo */}
 						<Tooltip placement='bottom' messsage='Redo (Ctrl+Y)'>
 							<Button
-								color='ghost'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex `}
+								shape='circle'
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-1 hover:bg-base-100 md:flex `}
 								onClick={() => {
 									redo();
 								}}
@@ -334,8 +331,8 @@ export const Editor: React.FC = () => {
 						{/* Lock Aspect Ratio */}
 						<Tooltip placement='bottom' messsage='Lock Aspect Ratio (Ctrl+R)'>
 							<Button
-								color='ghost'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-1 md:flex ${
+								shape='circle'
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-1 hover:bg-base-100 md:flex ${
 									aspectRatio &&
 									'border-none  bg-gradient-to-br from-violet-500 to-secondary text-white'
 								}`}
@@ -352,8 +349,8 @@ export const Editor: React.FC = () => {
 						{/* Zoom Out */}
 						<Tooltip placement='bottom' messsage='Zoom Out'>
 							<Button
-								className='my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
-								color='ghost'
+								shape='circle'
+								className='my-2  hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-2 hover:bg-base-100 md:flex'
 								onClick={() => setZoom(zoom - 0.2)}
 							>
 								<IconZoomOut
@@ -366,8 +363,8 @@ export const Editor: React.FC = () => {
 						{/* Zoom In */}
 						<Tooltip placement='bottom' messsage='Zoom In'>
 							<Button
-								className='my-2 hidden h-12 w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
-								color='ghost'
+								shape='circle'
+								className='my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-2 hover:bg-base-100 md:flex'
 								onClick={() => setZoom(zoom + 0.2)}
 							>
 								<IconZoomIn
@@ -380,8 +377,8 @@ export const Editor: React.FC = () => {
 						{/* Zoom In */}
 						<Tooltip placement='bottom' messsage='Zoom Reset'>
 							<Button
-								className='my-2 hidden h-12  w-12 flex-auto rounded-full bg-base-200 p-2 md:flex'
-								color='ghost'
+								shape='circle'
+								className='my-2 hidden h-12 w-12 flex-auto  rounded-full border-none bg-base-200 p-2 hover:bg-base-100 md:flex'
 								onClick={() => setZoom(0.7)}
 							>
 								<IconZoomReset

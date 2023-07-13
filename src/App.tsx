@@ -25,7 +25,7 @@ const App: React.FC = () => {
 						height='140%'
 						filterUnits='objectBoundingBox'
 						primitiveUnits='userSpaceOnUse'
-						color-interpolation-filters='linearRGB'
+						colorInterpolationFilters='linearRGB'
 					>
 						<feTurbulence
 							type='fractalNoise'
@@ -43,7 +43,7 @@ const App: React.FC = () => {
 							surfaceScale='15'
 							specularConstant='0.75'
 							specularExponent='20'
-							lighting-color='#1a1a18'
+							lightingColor='#1a1a18'
 							x='0%'
 							y='0%'
 							width='100%'
