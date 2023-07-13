@@ -3,9 +3,12 @@ import { Editor } from './pages/Editor';
 import { TitleBar } from './components/Base/TitleBar';
 import { useTauriPlatform } from './hooks/useTauriPlatform';
 import Flux from './components/General/SvgBackgrounds/Flux';
+import { useScreenDirection } from './hooks/useScreenDirection';
+import { Home } from './pages/Home';
 
 const App: React.FC = () => {
 	const isTauriPlatform = useTauriPlatform();
+	const isHorizontal = useScreenDirection();
 
 	return (
 		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden transition-all ease-in-out'>
@@ -64,8 +67,16 @@ const App: React.FC = () => {
 				></rect>
 			</svg>
 
-			{isTauriPlatform && <TitleBar></TitleBar>}
-			<Editor></Editor>
+			{isHorizontal ? (
+				<>
+					{isTauriPlatform && <TitleBar></TitleBar>}
+					<Editor></Editor>
+				</>
+			) : (
+				<>
+					<Home></Home>
+				</>
+			)}
 		</div>
 	);
 };
