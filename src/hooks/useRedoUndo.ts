@@ -99,7 +99,7 @@ export const useRedoUndo = (
 			setFutureHistory([]);
 		}
 		// console.log(controlState);
-		console.log(pastHistory);
+		//console.log(pastHistory);
 	};
 
 	return [state, set, undo, redo];

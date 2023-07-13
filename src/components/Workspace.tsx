@@ -13,6 +13,7 @@ import Moveable, {
 	OnRotateGroup,
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
+import { Canvas } from './Canvas';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;
@@ -24,6 +25,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
 	const editing = useStoreState((state) => state.editing);
+	const isDrawing = useStoreState((state) => state.isDrawing);
 	const lockAspect = useStoreState((state) => state.lockAspect);
 
 	const workspaceColor = useStoreState((state) => state.workspaceColor);
@@ -76,6 +78,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							type={el.type}
 						></ControlHandler>
 					))}
+
+					<Canvas></Canvas>
 				</div>
 			</div>
 
@@ -129,7 +133,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					onDragEnd={({ target }) => {
 						//console.log('onDragEnd', target, isDrag);
-						console.log('end drag');
+						//console.log('end drag');
 
 						setControlState({
 							id: `${controlID}-pos`,
@@ -148,10 +152,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 								},
 							},
 						]);
-						console.log({
+						/*console.log({
 							x: parseFloat(target.style.left.replace('px', '')),
 							y: parseFloat(target.style.top.replace('px', '')),
-						});
+						});*/
 
 						setFutureHistory([]);
 					}}

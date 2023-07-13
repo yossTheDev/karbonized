@@ -30,6 +30,16 @@ export interface AppStoreModel {
 	setEditing: Action<AppStoreModel, boolean>;
 	setReadyToSave: Action<AppStoreModel, boolean>;
 
+	/* Drawing System */
+	isDrawing: boolean;
+	setIsDrawing: Action<AppStoreModel, boolean>;
+	isErasing: boolean;
+	setIsErasing: Action<AppStoreModel, boolean>;
+	lineWidth: number;
+	strokeColor: string;
+	setStrokeColor: Action<AppStoreModel, string>;
+	setLineWidth: Action<AppStoreModel, number>;
+
 	/* History System */
 	addToHistory: Action<AppStoreModel, History>;
 	setHistorySignal: Action<AppStoreModel, 'redo' | 'undo' | ''>;
@@ -90,7 +100,7 @@ export const AppStore = createStore<AppStoreModel>({
 	pastHistory: [],
 
 	setControlState: action((state, payload) => {
-		console.log(state.pastHistory);
+		state.controlState = payload;
 	}),
 	addToHistory: action((state, payload) => {
 		state.History = [payload, ...state.History];
@@ -157,6 +167,25 @@ export const AppStore = createStore<AppStoreModel>({
 	setFuture: action((state, payload) => {
 		state.futureHistory = payload;
 	}),
+
+	/* Drawing System  */
+	isDrawing: false,
+	strokeColor: '#4582ba',
+	lineWidth: 20,
+	setIsDrawing: action((state, payload) => {
+		state.isDrawing = payload;
+	}),
+	isErasing: false,
+	setIsErasing: action((state, payload) => {
+		state.isErasing = payload;
+	}),
+	setLineWidth: action((state, payload) => {
+		state.lineWidth = payload;
+	}),
+	setStrokeColor: action((state, payload) => {
+		state.strokeColor = payload;
+	}),
+
 	/* Tabs */
 	selectedTab: 'control',
 	setSelectedTab: action((state, payload) => {

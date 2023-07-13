@@ -1,4 +1,10 @@
-import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
+import {
+	Placement,
+	flip,
+	offset,
+	shift,
+	useFloating,
+} from '@floating-ui/react-dom';
 import React, { useState } from 'react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { Button, Input, Modal, Range, Tooltip } from 'react-daisyui';
@@ -9,6 +15,7 @@ import { IconPlus } from '@tabler/icons-react';
 
 interface Props {
 	type?: 'HexAlpha' | 'Hex';
+	placement?: Placement;
 	label?: string;
 	color?: string;
 	isGradientEnable?: boolean;
@@ -16,6 +23,7 @@ interface Props {
 	colorGradient2?: string;
 	gradientDeg?: number;
 	mode?: string;
+	showLabel?: boolean;
 	onModeChange?: (mode: string) => void;
 	onColorChange: (color: string) => void;
 	onGradientChange?: (color: string, color2: string) => void;
@@ -27,10 +35,12 @@ export const ColorPicker: React.FC<Props> = ({
 	label = 'color',
 	color = '#5895c8',
 	mode = 'Single',
+	placement = 'left-end',
 	isGradientEnable = true,
 	colorGradient1 = '#0da2e7',
 	colorGradient2 = '#5895c8',
 	gradientDeg = 23,
+	showLabel = true,
 	onModeChange,
 	onColorChange,
 	onGradientChange,
@@ -53,7 +63,7 @@ export const ColorPicker: React.FC<Props> = ({
 	const isHorizontal = useScreenDirection();
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(22), flip(), shift()],
-		placement: 'left-end',
+		placement: placement,
 	});
 	return (
 		<>
@@ -76,16 +86,24 @@ export const ColorPicker: React.FC<Props> = ({
 					className='flex flex-auto cursor-pointer select-none flex-col'
 				>
 					<div className='flex flex-auto select-none flex-row rounded-xl py-2 hover:bg-base-100'>
-						<label className='my-auto ml-2 mr-2 cursor-pointer select-none text-left text-xs '>
-							{label}
-						</label>
+						{showLabel && (
+							<label className='my-auto ml-2 mr-2 cursor-pointer select-none text-left text-xs '>
+								{label}
+							</label>
+						)}
 
 						{mode === 'Single' ? (
-							<div className='ml-auto mr-2 flex flex-row gap-2'>
-								<label className='my-auto cursor-pointer'>{color}</label>
+							<div
+								className={` ${
+									showLabel ? 'ml-auto mr-2 flex flex-row gap-2' : 'mx-auto p-1'
+								} `}
+							>
+								{showLabel && (
+									<label className='my-auto cursor-pointer'>{color}</label>
+								)}
 
 								<div
-									className='my-auto rounded-xl border-2 border-base-100 p-4'
+									className='mx-auto my-auto rounded-xl border-2 border-base-100 p-4'
 									style={{ backgroundColor: color }}
 								></div>
 							</div>

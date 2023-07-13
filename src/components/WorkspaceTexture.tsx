@@ -29,6 +29,7 @@ export const WorkspaceTexture: React.FC<{
 					<Flux
 						color1={workspaceGradient.color1}
 						color2={workspaceGradient.color2}
+						className='absolute'
 						style={{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
@@ -43,6 +44,7 @@ export const WorkspaceTexture: React.FC<{
 					<Coil
 						color1={workspaceGradient.color1}
 						color2={workspaceGradient.color2}
+						className='absolute'
 						style={{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
@@ -57,6 +59,7 @@ export const WorkspaceTexture: React.FC<{
 					<Circular
 						color1={workspaceGradient.color1}
 						color2={workspaceGradient.color2}
+						className='absolute'
 						style={{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
@@ -75,7 +78,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Horizon>
 				</Suspense>
 			);
@@ -90,7 +93,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Grayrate>
 				</Suspense>
 			);
@@ -105,7 +108,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Hirl>
 				</Suspense>
 			);
@@ -120,7 +123,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Neon>
 				</Suspense>
 			);
@@ -135,7 +138,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Undulate>
 				</Suspense>
 			);
@@ -150,7 +153,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Chaos>
 				</Suspense>
 			);
@@ -165,7 +168,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Oscilate>
 				</Suspense>
 			);
@@ -180,7 +183,7 @@ export const WorkspaceTexture: React.FC<{
 							height: workspaceHeight + 'px',
 							width: workspaceWidth + 'px',
 						}}
-						className='flex flex-auto h-full w-full'
+						className='absolute flex h-full w-full flex-auto'
 					></Vortex>
 				</Suspense>
 			);

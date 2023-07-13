@@ -3,11 +3,13 @@ import {
 	IconArrowLeft,
 	IconArrowRight,
 	IconBrandTwitter,
+	IconBrush,
 	IconChevronDown,
 	IconChevronUp,
 	IconCircle,
 	IconCode,
 	IconDeviceMobile,
+	IconEraser,
 	IconFlask,
 	IconFocusCentered,
 	IconHandFinger,
@@ -50,6 +52,8 @@ import { useStoreActions, useStoreState } from '../stores/Hooks';
 import '../utils.css';
 import { ExportImage, export_format } from '../utils/Exporter';
 import './Editor.css';
+import { Canvas } from '../components/Canvas';
+import { ColorPicker } from '../components/CustomControls/ColorPicker';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -58,6 +62,14 @@ export const Editor: React.FC = () => {
 	const setReady = useStoreActions((state) => state.setReadyToSave);
 	const workspaceName = useStoreState((state) => state.workspaceName);
 	const editing = useStoreState((state) => state.editing);
+	const canDraw = useStoreState((state) => state.isDrawing);
+	const setCanDraw = useStoreActions((state) => state.setIsDrawing);
+	const isErasing = useStoreState((state) => state.isErasing);
+	const setIsErasing = useStoreActions((state) => state.setIsErasing);
+	const lineWidth = useStoreState((state) => state.lineWidth);
+	const strokeColor = useStoreState((state) => state.strokeColor);
+	const setStrokeColor = useStoreActions((state) => state.setStrokeColor);
+	const setLineWidth = useStoreActions((state) => state.setLineWidth);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 
@@ -103,10 +115,14 @@ export const Editor: React.FC = () => {
 
 			setEditing(true);
 			setDrag(false);
+			setCanDraw(false);
+			setIsErasing(false);
 		} else if (event.ctrlKey && event.key === 'e') {
 			event.preventDefault();
 
 			setEditing(false);
+			setCanDraw(false);
+			setIsErasing(false);
 			setDrag(true);
 		} else if (event.ctrlKey && event.key === 'r') {
 			event.preventDefault();
@@ -400,84 +416,48 @@ export const Editor: React.FC = () => {
 				{/* Content*/}
 				<div className='flex flex-auto flex-col overflow-hidden md:flex-row'>
 					{/* Quick Bar */}
-					<div className='hidden items-end '>
-						<div className='absolute z-50 mb-6 ml-4 flex flex-row gap-1 rounded-xl bg-base-200 p-2'>
-							{/* Center View */}
-							<Tooltip messsage='Center View'>
-								<Button
-									color='ghost'
-									className='flex flex-auto p-1'
-									onClick={() => {
-										refe.current?.scrollCenter();
-										refe.current?.scrollTo(
-											refe.current.getScrollLeft() - 180,
-											refe.current.getScrollTop()
-										);
+
+					{(canDraw || isErasing) && (
+						<div className=' flex items-end '>
+							<div className='absolute z-50 mb-6 ml-4 flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
+								{/* Stroke Range */}
+								<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
+								<Range
+									color='primary'
+									className='my-auto flex  flex-auto p-1'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setLineWidth(parseInt(ev.currentTarget.value));
 									}}
-								>
-									<IconFocusCentered
-										size={15}
-										className='dark:text-white'
-									></IconFocusCentered>
-								</Button>
-							</Tooltip>
+									value={lineWidth}
+								></Range>
 
-							{/* Lock Aspect Ratio */}
-							<Tooltip messsage='Lock Aspect Ratio'>
-								<Button
-									color='ghost'
-									className={`ml-2 p-1 ${
-										aspectRatio && 'border-primary bg-primary text-white'
-									}`}
-									onClick={() => {
-										setAspectRatio(!aspectRatio);
-									}}
-								>
-									<IconLock size={15} className='dark:text-white'></IconLock>
-								</Button>
-							</Tooltip>
+								<ColorPicker
+									isGradientEnable={false}
+									color={strokeColor}
+									onColorChange={setStrokeColor}
+									showLabel={false}
+									placement='left-start'
+									label='Color'
+								></ColorPicker>
 
-							{/* Zoom Out */}
-							<Tooltip className='flex flex-auto ' messsage='Zoom Out'>
-								<Button
-									className='flex flex-auto p-1'
-									color='ghost'
-									onClick={() => setZoom(zoom - 0.2)}
-								>
-									<IconZoomOut
-										size={15}
-										className='dark:text-white'
-									></IconZoomOut>
-								</Button>
-							</Tooltip>
-
-							{/* Zoom Range */}
-							<Range
-								color='primary'
-								className='my-auto flex h-3 flex-auto p-1'
-								min={0}
-								max={100}
-								onChange={(ev) => {
-									setZoom((ev.currentTarget.value as unknown as number) / 100);
-								}}
-								value={zoom * 100}
-							></Range>
-
-							{/* Zoom In */}
-							<Tooltip className='flex flex-auto ' messsage='Zoom In'>
-								<Button
-									className='flex flex-auto p-1'
-									color='ghost'
-									onClick={() => setZoom(zoom + 0.2)}
-								>
-									<IconZoomIn
-										size={15}
-										className='dark:text-white'
-									></IconZoomIn>
-								</Button>
-							</Tooltip>
+								{/* Zoom In */}
+								<Tooltip className='hidden flex-auto ' messsage='Zoom In'>
+									<Button
+										className='flex flex-auto p-1'
+										color='ghost'
+										onClick={() => setZoom(zoom + 0.2)}
+									>
+										<IconZoomIn
+											size={15}
+											className='dark:text-white'
+										></IconZoomIn>
+									</Button>
+								</Tooltip>
+							</div>
 						</div>
-					</div>
+					)}
 
 					{/* Workspace */}
 					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
@@ -566,6 +546,8 @@ export const Editor: React.FC = () => {
 								onClick={() => {
 									setEditing(true);
 									setDrag(false);
+									setCanDraw(false);
+									setIsErasing(false);
 								}}
 							>
 								<IconPointer
@@ -586,6 +568,8 @@ export const Editor: React.FC = () => {
 								onClick={() => {
 									setDrag(true);
 									setEditing(false);
+									setCanDraw(false);
+									setIsErasing(false);
 								}}
 							>
 								<IconHandFinger
@@ -594,9 +578,47 @@ export const Editor: React.FC = () => {
 								></IconHandFinger>
 							</Button>
 						</Tooltip>
+
+						{/* Brush */}
+						<Tooltip className='flex flex-auto' messsage='Brush'>
+							<Button
+								color='ghost'
+								className={`flex flex-auto rounded-2xl ${
+									canDraw &&
+									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+								} p-1 hover:bg-gradient-to-bl`}
+								onClick={() => {
+									setCanDraw(!canDraw);
+									setEditing(false);
+									setDrag(false);
+									setIsErasing(false);
+								}}
+							>
+								<IconBrush size={18} className='dark:text-white'></IconBrush>
+							</Button>
+						</Tooltip>
+
+						{/* Erase */}
+						<Tooltip className='flex flex-auto' messsage='Erase'>
+							<Button
+								color='ghost'
+								className={`flex flex-auto rounded-2xl ${
+									isErasing &&
+									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+								} p-1 hover:bg-gradient-to-bl`}
+								onClick={() => {
+									setIsErasing(!isErasing);
+									setEditing(false);
+									setDrag(false);
+									setCanDraw(false);
+								}}
+							>
+								<IconEraser size={18} className='dark:text-white'></IconEraser>
+							</Button>
+						</Tooltip>
 					</div>
 
-					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100 p-1 '></div>
+					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
 
 					{/* Basics */}
 
@@ -652,7 +674,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 					</div>
 
-					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100 p-1 '></div>
+					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
 
 					{/* Others */}
 
