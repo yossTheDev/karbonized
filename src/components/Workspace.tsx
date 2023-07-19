@@ -109,19 +109,21 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						0,
 						parseFloat(workspaceWidth) * 0.2,
 						parseFloat(workspaceWidth) / 2,
-						parseFloat(workspaceWidth) * 0.7,
+						parseFloat(workspaceWidth) * 0.8,
 						workspaceWidth,
 					]}
 					horizontalGuidelines={[
 						0,
 						parseFloat(workspaceHeight) * 0.2,
 						parseFloat(workspaceHeight) / 2,
-						parseFloat(workspaceHeight) * 0.7,
+						parseFloat(workspaceHeight) * 0.8,
 						workspaceHeight,
 					]}
 					elementSnapDirections
 					elementGuidelines={getControls()}
+					useAccuratePosition // TODO Not Available For Groups
 					isDisplaySnapDigit
+					zoom={1.2}
 					snapGap
 					snapRotationDegrees={[0, 90, 180, 270]}
 					/* draggable */
