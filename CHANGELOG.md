@@ -3,6 +3,7 @@
 ## v 1.1.2
 
 * Degree Angles To Snap Rotation
+* Change Default Workspace Color
 
 ## v 1.1.1
 
