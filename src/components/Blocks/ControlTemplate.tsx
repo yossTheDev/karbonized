@@ -268,13 +268,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					key={id}
 					onMouseEnter={() => {
 						setContextMenu(false);
+						console.log(id);
 					}}
 					onContextMenu={(e) => {
 						setContextMenu(!contextMenu);
 						//setDisable(true);
 						e.preventDefault();
 					}}
-					className={`absolute flex flex-auto select-none ${
+					className={`absolute flex flex-auto select-none block-${id} ${
 						!maskRepeat && 'mask'
 					}  ${mask}`}
 					style={{

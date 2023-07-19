@@ -52,6 +52,7 @@ import { useStoreActions, useStoreState } from '../stores/Hooks';
 import '../utils.css';
 import { ExportImage, export_format } from '../utils/Exporter';
 import './Editor.css';
+import { getRandomNumber } from '../utils/getRandom';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -619,7 +620,7 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'code', id: `code-${Math.random()}` })
+									addControl({ type: 'code', id: `code-${getRandomNumber()}` })
 								}
 							>
 								<IconCode size={18} className='dark:text-white'></IconCode>
@@ -632,7 +633,10 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'faicon', id: `faicon-${Math.random()}` })
+									addControl({
+										type: 'faicon',
+										id: `faicon-${getRandomNumber()}`,
+									})
 								}
 							>
 								<IconSticker
@@ -648,7 +652,7 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'text', id: `text-${Math.random()}` })
+									addControl({ type: 'text', id: `text-${getRandomNumber()}` })
 								}
 							>
 								<IconLetterT
@@ -664,7 +668,10 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'arrow', id: `arrow-${Math.random()}` })
+									addControl({
+										type: 'arrow',
+										id: `arrow-${getRandomNumber()}`,
+									})
 								}
 							>
 								<IconCircle size={18} className='dark:text-white'></IconCircle>
@@ -682,7 +689,7 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'qr', id: `qr-${Math.random()}` })
+									addControl({ type: 'qr', id: `qr-${getRandomNumber()}` })
 								}
 							>
 								<IconQrcode size={18} className='dark:text-white'></IconQrcode>
@@ -695,7 +702,10 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'image', id: `image-${Math.random()}` })
+									addControl({
+										type: 'image',
+										id: `image-${getRandomNumber()}`,
+									})
 								}
 							>
 								<IconPhoto size={18} className='dark:text-white'></IconPhoto>
@@ -708,7 +718,10 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'badge', id: `badge-${Math.random()}` })
+									addControl({
+										type: 'badge',
+										id: `badge-${getRandomNumber()}`,
+									})
 								}
 							>
 								<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
@@ -721,7 +734,10 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'tweet', id: `tweet-${Math.random()}` })
+									addControl({
+										type: 'tweet',
+										id: `tweet-${getRandomNumber()}`,
+									})
 								}
 							>
 								<IconBrandTwitter
@@ -737,7 +753,10 @@ export const Editor: React.FC = () => {
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
 								onClick={() =>
-									addControl({ type: 'window', id: `window-${Math.random()}` })
+									addControl({
+										type: 'window',
+										id: `window-${getRandomNumber()}`,
+									})
 								}
 							>
 								<IconAppWindow
@@ -755,7 +774,7 @@ export const Editor: React.FC = () => {
 								onClick={() =>
 									addControl({
 										type: 'phone_mockup',
-										id: `phone_mockup-${Math.random()}`,
+										id: `phone_mockup-${getRandomNumber()}`,
 									})
 								}
 							>

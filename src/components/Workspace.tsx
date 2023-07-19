@@ -48,6 +48,16 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
+	const getControls = () => {
+		const controlsClass: string[] = [];
+
+		controls.forEach((item) => {
+			if (item.id !== controlID) controlsClass.push('.block-' + item.id);
+		});
+
+		return controlsClass;
+	};
+
 	return (
 		<>
 			<div
@@ -69,11 +79,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				)}
 
 				{controls.map((el, i) => (
-					<ControlHandler
-						id={i.toString()}
-						key={i}
-						type={el.type}
-					></ControlHandler>
+					<ControlHandler id={el.id} key={i} type={el.type}></ControlHandler>
 				))}
 
 				<Canvas></Canvas>
@@ -89,6 +95,32 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					/* Snappable */
 					snappable={true}
 					snapContainer={reference}
+					snapDirections={{
+						top: true,
+						bottom: true,
+						left: true,
+						right: true,
+						center: true,
+						middle: true,
+					}}
+					snapThreshold={10}
+					verticalGuidelines={[
+						0,
+						parseFloat(workspaceWidth) * 0.2,
+						parseFloat(workspaceWidth) / 2,
+						parseFloat(workspaceWidth) * 0.7,
+						workspaceWidth,
+					]}
+					horizontalGuidelines={[
+						0,
+						parseFloat(workspaceHeight) * 0.2,
+						parseFloat(workspaceHeight) / 2,
+						parseFloat(workspaceHeight) * 0.7,
+						workspaceHeight,
+					]}
+					elementSnapDirections
+					elementGuidelines={getControls()}
+					isDisplaySnapDigit
 					snapGap
 					/* draggable */
 					draggable={true}
