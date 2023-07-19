@@ -20,7 +20,7 @@ interface Props {
 }
 export const Workspace: React.FC<Props> = ({ reference }) => {
 	// App Store
-	const constrlPos = useStoreState((state) => state.controlPosition);
+	const controlPos = useStoreState((state) => state.controlPosition);
 
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
@@ -48,39 +48,35 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
-	useEffect(() => {}, [constrlPos]);
-
 	return (
 		<>
-			<div className=''>
-				<div
-					ref={reference}
-					id='workspace'
-					style={{
-						background:
-							workspaceColorMode === 'Single'
-								? workspaceColor
-								: `linear-gradient(${workspaceGradient.deg}deg, ${workspaceGradient.color1},${workspaceGradient.color2})`,
-						height: workspaceHeight + 'px',
-						width: workspaceWidth + 'px',
-					}}
-				>
-					{workspaceType === 'texture' && (
-						<Suspense fallback={<></>}>
-							<WorkspaceTexture texture={workspaceTexture}></WorkspaceTexture>
-						</Suspense>
-					)}
+			<div
+				ref={reference}
+				id='workspace'
+				style={{
+					background:
+						workspaceColorMode === 'Single'
+							? workspaceColor
+							: `linear-gradient(${workspaceGradient.deg}deg, ${workspaceGradient.color1},${workspaceGradient.color2})`,
+					height: workspaceHeight + 'px',
+					width: workspaceWidth + 'px',
+				}}
+			>
+				{workspaceType === 'texture' && (
+					<Suspense fallback={<></>}>
+						<WorkspaceTexture texture={workspaceTexture}></WorkspaceTexture>
+					</Suspense>
+				)}
 
-					{controls.map((el, i) => (
-						<ControlHandler
-							id={i.toString()}
-							key={i}
-							type={el.type}
-						></ControlHandler>
-					))}
+				{controls.map((el, i) => (
+					<ControlHandler
+						id={i.toString()}
+						key={i}
+						type={el.type}
+					></ControlHandler>
+				))}
 
-					<Canvas></Canvas>
-				</div>
+				<Canvas></Canvas>
 			</div>
 
 			{editing && (

@@ -70,6 +70,8 @@ export const Editor: React.FC = () => {
 	const setLineWidth = useStoreActions((state) => state.setLineWidth);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
+	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 
 	// Component Store and Actions
 	const isHorizontal = useScreenDirection();
@@ -85,25 +87,14 @@ export const Editor: React.FC = () => {
 	const [showPreview, setShowPreview] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
-	const refe = useRef<InfiniteViewer>(null);
+	const viewerRef = useRef<InfiniteViewer>(null);
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
 
 	// Auto Scroll to Center o Init
 	useEffect(() => {
-		refe.current?.scrollCenter();
-		if (isHorizontal) {
-			refe.current?.scrollTo(
-				refe.current.getScrollLeft() - 260,
-				refe.current.getScrollTop()
-			);
-		} else {
-			refe.current?.scrollTo(
-				refe.current.getScrollLeft() + 60,
-				refe.current.getScrollTop()
-			);
-		}
-	}, []);
+		viewerRef.current?.scrollCenter();
+	}, [workspaceHeight, workspaceWidth]);
 
 	const future = useStoreState((state) => state.futureHistory);
 
@@ -460,15 +451,13 @@ export const Editor: React.FC = () => {
 					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
 						{/* Ruler Horizontal */}
 						<InfiniteViewer
-							ref={refe}
+							ref={viewerRef}
 							className='viewer my-2 flex flex-auto'
 							useMouseDrag={drag}
 							useAutoZoom
 							zoom={zoom}
 							usePinch={!drag}
 							threshold={0}
-							rangeX={[-2048, 2048]}
-							rangeY={[-2048, 2048]}
 							useWheelScroll
 							onScroll={() => {
 								/*console.log(
@@ -476,10 +465,14 @@ export const Editor: React.FC = () => {
 								);*/
 							}}
 						>
-							<div className='viewport'>
-								<div className='container'>
-									<Workspace reference={ref}></Workspace>
-								</div>
+							<div
+								style={{
+									width: workspaceWidth + 'px',
+									height: workspaceHeight + 'px',
+								}}
+								className='viewport'
+							>
+								<Workspace reference={ref}></Workspace>
 							</div>
 						</InfiniteViewer>
 					</div>
