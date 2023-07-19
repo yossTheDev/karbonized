@@ -8,6 +8,7 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"tauri": "tauri",
+		"run:electron":"vite -c vite.electron.config.ts",
 		"electron": "vite build && npx cap copy @capacitor-community/electron && npx cap open @capacitor-community/electron"
 	},
 	"dependencies": {
