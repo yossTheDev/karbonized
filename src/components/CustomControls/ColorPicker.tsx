@@ -145,7 +145,7 @@ export const ColorPicker: React.FC<Props> = ({
 							}}
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-							className='dropdown-content z-40 flex w-60 flex-auto select-none flex-col gap-2 rounded-2xl bg-base-200 p-4 shadow-2xl'
+							className='dropdown-content z-40 flex w-60 flex-auto select-none flex-col gap-2 rounded-2xl bg-base-200/90 px-2.5 py-4 shadow-2xl backdrop-blur-xl'
 						>
 							{/* Tabs */}
 							{isGradientEnable && (
@@ -199,7 +199,7 @@ export const ColorPicker: React.FC<Props> = ({
 										></HexAlphaColorPicker>
 									)}
 									{/* Predefined colors */}
-									<div className='flex flex-auto flex-row gap-x-0.5'>
+									<div className='mx-auto flex flex-auto flex-row gap-x-0.5'>
 										<div
 											style={{ background: '#dc4040' }}
 											onClick={() => onColorChange('#dc4040')}
@@ -282,7 +282,7 @@ export const ColorPicker: React.FC<Props> = ({
 									)}
 
 									{/* Predefined Gradients */}
-									<div className='flex flex-auto flex-row gap-0.5'>
+									<div className='mx-auto flex flex-auto flex-row gap-0.5'>
 										<div
 											style={{ background: 'linear-gradient(#bf86da,#144ab4)' }}
 											onClick={() =>
@@ -396,7 +396,7 @@ export const ColorPicker: React.FC<Props> = ({
 									)}
 
 									{/* Preview Colors */}
-									<div className=' mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
+									<div className='mx-auto mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
 										<div
 											className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
 												gradientMode === 'Color1' && 'border-gray-400'
