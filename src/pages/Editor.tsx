@@ -92,9 +92,34 @@ export const Editor: React.FC = () => {
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
 
-	// Auto Scroll to Center o Init
-	useEffect(() => {
+	const centerView = useCallback(() => {
+		if (parseFloat(workspaceWidth) < 1280) {
+			setZoom(0.9);
+		} else if (
+			parseFloat(workspaceWidth) >= 1280 &&
+			parseFloat(workspaceWidth) < 1920
+		) {
+			setZoom(0.6);
+		} else if (
+			parseFloat(workspaceWidth) >= 1920 &&
+			parseFloat(workspaceWidth) < 2560
+		) {
+			setZoom(0.4);
+		} else if (
+			parseFloat(workspaceWidth) >= 2560 &&
+			parseFloat(workspaceWidth) < 3840
+		) {
+			setZoom(0.3);
+		} else if (parseFloat(workspaceWidth) >= 3840) {
+			setZoom(0.2);
+		}
+
 		viewerRef.current?.scrollCenter();
+	}, [workspaceHeight, workspaceWidth]);
+
+	// Center View On Start
+	useEffect(() => {
+		centerView();
 	}, [workspaceHeight, workspaceWidth]);
 
 	const future = useStoreState((state) => state.futureHistory);
@@ -135,10 +160,16 @@ export const Editor: React.FC = () => {
 			console.log(future);
 
 			console.log('redo');
-		} else if (event.key === 'esc') {
+		} else if (event.ctrlKey && event.key === ' ') {
+			event.preventDefault();
+			centerView();
+		} else if (event.key === 'Escape') {
 			event.preventDefault();
 			setShowPreview(false);
+			setShowAbout(false);
 		}
+
+		console.log(event.key);
 	};
 
 	const redo = useStoreActions((state) => state.redo);

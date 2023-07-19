@@ -4,6 +4,7 @@
 
 * Degree Angles To Snap Rotation
 * Change Default Workspace Color
+* Center View on Start and With KeyShortcut (Ctrl+Space)
 
 ## v 1.1.1
 
