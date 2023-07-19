@@ -224,9 +224,9 @@ export const Editor: React.FC = () => {
 			className='flex flex-auto flex-col overflow-hidden bg-base-100 md:flex-row'
 		>
 			{/* Content */}
-			<div className='flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
+			<div className='relative flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
 				{/* Nav Bar */}
-				<Navbar className='absolute z-30 mt-2 flex h-2 shrink rounded-full bg-base-200 md:w-2/4 md:rounded-2xl md:bg-transparent lg:w-3/4'>
+				<Navbar className='absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'>
 						{/* About Button */}
 						<Button
@@ -244,7 +244,7 @@ export const Editor: React.FC = () => {
 							<>
 								<HomeButton className='h-12 w-10 rounded-2xl p-1'></HomeButton>
 
-								<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-2 text-black dark:text-white md:flex'>
+								<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200/90 p-2 text-black backdrop-blur-xl dark:text-white md:flex'>
 									<img className='h-8' src={karbonized}></img>
 									<label className='poppins-font-family my-auto select-none text-xl'>
 										Karbonized
@@ -258,14 +258,14 @@ export const Editor: React.FC = () => {
 						<img className='h-12 w-full md:hidden' src={karbonized}></img>
 					</Navbar.Center>
 
-					<Navbar.End className='flex flex-auto gap-0 md:hidden md:gap-1 lg:mr-7 lg:flex'>
+					<Navbar.End className='ml-auto flex flex-auto gap-0  md:hidden md:gap-1 lg:flex'>
 						{/* Change Theme */}
 						{!isTauriPlatform && (
 							<>
 								<Tooltip placement='bottom' messsage='Change Theme'>
 									<Button
 										shape='circle'
-										className='hidden border-none bg-base-200 hover:bg-base-100 lg:block'
+										className='hidden border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 lg:block'
 										onClick={() => toggleTheme()}
 									>
 										{appTheme === 'light' ? (
@@ -290,7 +290,7 @@ export const Editor: React.FC = () => {
 						<Tooltip placement='bottom' messsage='Undo (Ctrl+Z)'>
 							<Button
 								shape='circle'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-1 hover:bg-base-100 md:flex`}
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1  backdrop-blur-xl hover:bg-base-100 md:flex`}
 								onClick={() => {
 									undo();
 								}}
@@ -306,7 +306,7 @@ export const Editor: React.FC = () => {
 						<Tooltip placement='bottom' messsage='Redo (Ctrl+Y)'>
 							<Button
 								shape='circle'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-1 hover:bg-base-100 md:flex `}
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex `}
 								onClick={() => {
 									redo();
 								}}
@@ -324,7 +324,7 @@ export const Editor: React.FC = () => {
 						<Tooltip placement='bottom' messsage='Lock Aspect Ratio (Ctrl+R)'>
 							<Button
 								shape='circle'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-1 hover:bg-base-100 md:flex ${
+								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex ${
 									aspectRatio &&
 									'border-none  bg-gradient-to-br from-violet-500 to-secondary text-white'
 								}`}
@@ -336,13 +336,13 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
+						<p className='mx-1 my-auto h-0.5 rounded bg-base-200/90 p-0.5  backdrop-blur-xl '></p>
 
 						{/* Zoom Out */}
 						<Tooltip placement='bottom' messsage='Zoom Out'>
 							<Button
 								shape='circle'
-								className='my-2  hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-2 hover:bg-base-100 md:flex'
+								className='my-2  hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
 								onClick={() => setZoom(zoom - 0.2)}
 							>
 								<IconZoomOut
@@ -356,7 +356,7 @@ export const Editor: React.FC = () => {
 						<Tooltip placement='bottom' messsage='Zoom In'>
 							<Button
 								shape='circle'
-								className='my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200 p-2 hover:bg-base-100 md:flex'
+								className='my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
 								onClick={() => setZoom(zoom + 0.2)}
 							>
 								<IconZoomIn
@@ -370,7 +370,7 @@ export const Editor: React.FC = () => {
 						<Tooltip placement='bottom' messsage='Zoom Reset'>
 							<Button
 								shape='circle'
-								className='my-2 hidden h-12 w-12 flex-auto  rounded-full border-none bg-base-200 p-2 hover:bg-base-100 md:flex'
+								className='backdrop-blur-xlp-2 my-2 hidden h-12 w-12  flex-auto rounded-full border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 md:flex'
 								onClick={() => setZoom(0.7)}
 							>
 								<IconZoomReset
@@ -380,7 +380,7 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
+						<p className='mx-1 my-auto h-0.5 rounded bg-base-200/90 p-0.5  backdrop-blur-xl '></p>
 
 						{/* Preview Button */}
 						<Tooltip placement='bottom' messsage='Render (Ctrl+S)'>
@@ -478,312 +478,330 @@ export const Editor: React.FC = () => {
 						</InfiniteViewer>
 					</div>
 				</div>
-			</div>
 
-			{/* Controls Tree */}
-			<div className='absolute z-10 mx-2 flex h-screen w-28 '>
-				<div className='mx-auto my-auto flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
-					{/* Tools */}
-					<div className='flex w-20 flex-row flex-wrap'>
-						{/* Actions */}
+				{/* Controls Tree */}
+				<div className='absolute  z-10 flex h-screen w-28 '>
+					<div className='mx-auto my-auto flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
+						{/* Tools */}
+						<div className='flex w-20 flex-row flex-wrap'>
+							{/* Actions */}
 
-						{/* Show Menu */}
-						<Tooltip className='flex flex-auto md:hidden' messsage='Show Menu'>
-							<Button
-								color='ghost'
-								className='rounded-2xl p-1'
-								onClick={() => {
-									setShowMenu(!showMenu);
-								}}
+							{/* Show Menu */}
+							<Tooltip
+								className='flex flex-auto md:hidden'
+								messsage='Show Menu'
 							>
-								{showMenu ? (
-									<IconChevronDown
+								<Button
+									color='ghost'
+									className='rounded-2xl p-1'
+									onClick={() => {
+										setShowMenu(!showMenu);
+									}}
+								>
+									{showMenu ? (
+										<IconChevronDown
+											size={18}
+											className='dark:text-white'
+										></IconChevronDown>
+									) : (
+										<IconChevronUp
+											size={18}
+											className='dark:text-white'
+										></IconChevronUp>
+									)}
+								</Button>
+							</Tooltip>
+
+							{/* Workspace Menu */}
+							<Tooltip className='hidden flex-auto' messsage='Settings'>
+								<Button
+									color='ghost'
+									className='rounded-2xl p-1 dark:text-white'
+									onClick={() => {
+										setShowWorkspacePanel(true);
+									}}
+								>
+									<IconSettings
+										className='mx-auto my-auto'
+										size={18}
+									></IconSettings>
+								</Button>
+							</Tooltip>
+
+							{/* Select */}
+							<Tooltip className='flex flex-auto' messsage='Select (Ctrl+W)'>
+								<Button
+									color='ghost'
+									className={`flex flex-auto rounded-2xl ${
+										editing &&
+										'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+									} p-1 hover:bg-gradient-to-bl`}
+									onClick={() => {
+										setEditing(true);
+										setDrag(false);
+										setCanDraw(false);
+										setIsErasing(false);
+									}}
+								>
+									<IconPointer
 										size={18}
 										className='dark:text-white'
-									></IconChevronDown>
-								) : (
-									<IconChevronUp
+									></IconPointer>
+								</Button>
+							</Tooltip>
+
+							{/* Hand */}
+							<Tooltip className='flex flex-auto ' messsage='Hand (Ctrl+E)'>
+								<Button
+									color='ghost'
+									className={`flex flex-auto flex-col rounded-2xl ${
+										drag &&
+										'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
+									} p-1`}
+									onClick={() => {
+										setDrag(true);
+										setEditing(false);
+										setCanDraw(false);
+										setIsErasing(false);
+									}}
+								>
+									<IconHandFinger
 										size={18}
 										className='dark:text-white'
-									></IconChevronUp>
-								)}
-							</Button>
-						</Tooltip>
+									></IconHandFinger>
+								</Button>
+							</Tooltip>
 
-						{/* Workspace Menu */}
-						<Tooltip className='hidden flex-auto' messsage='Settings'>
-							<Button
-								color='ghost'
-								className='rounded-2xl p-1 dark:text-white'
-								onClick={() => {
-									setShowWorkspacePanel(true);
-								}}
-							>
-								<IconSettings
-									className='mx-auto my-auto'
-									size={18}
-								></IconSettings>
-							</Button>
-						</Tooltip>
+							{/* Brush */}
+							<Tooltip className='flex flex-auto' messsage='Brush'>
+								<Button
+									color='ghost'
+									className={`flex flex-auto rounded-2xl ${
+										canDraw &&
+										'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+									} p-1 hover:bg-gradient-to-bl`}
+									onClick={() => {
+										setCanDraw(!canDraw);
+										setEditing(false);
+										setDrag(false);
+										setIsErasing(false);
+									}}
+								>
+									<IconBrush size={18} className='dark:text-white'></IconBrush>
+								</Button>
+							</Tooltip>
 
-						{/* Select */}
-						<Tooltip className='flex flex-auto' messsage='Select (Ctrl+W)'>
-							<Button
-								color='ghost'
-								className={`flex flex-auto rounded-2xl ${
-									editing &&
-									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-								} p-1 hover:bg-gradient-to-bl`}
-								onClick={() => {
-									setEditing(true);
-									setDrag(false);
-									setCanDraw(false);
-									setIsErasing(false);
-								}}
-							>
-								<IconPointer
-									size={18}
-									className='dark:text-white'
-								></IconPointer>
-							</Button>
-						</Tooltip>
+							{/* Erase */}
+							<Tooltip className='flex flex-auto' messsage='Erase'>
+								<Button
+									color='ghost'
+									className={`flex flex-auto rounded-2xl ${
+										isErasing &&
+										'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+									} p-1 hover:bg-gradient-to-bl`}
+									onClick={() => {
+										setIsErasing(!isErasing);
+										setEditing(false);
+										setDrag(false);
+										setCanDraw(false);
+									}}
+								>
+									<IconEraser
+										size={18}
+										className='dark:text-white'
+									></IconEraser>
+								</Button>
+							</Tooltip>
+						</div>
 
-						{/* Hand */}
-						<Tooltip className='flex flex-auto ' messsage='Hand (Ctrl+E)'>
-							<Button
-								color='ghost'
-								className={`flex flex-auto flex-col rounded-2xl ${
-									drag &&
-									'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
-								} p-1`}
-								onClick={() => {
-									setDrag(true);
-									setEditing(false);
-									setCanDraw(false);
-									setIsErasing(false);
-								}}
-							>
-								<IconHandFinger
-									size={18}
-									className='dark:text-white'
-								></IconHandFinger>
-							</Button>
-						</Tooltip>
+						<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
 
-						{/* Brush */}
-						<Tooltip className='flex flex-auto' messsage='Brush'>
-							<Button
-								color='ghost'
-								className={`flex flex-auto rounded-2xl ${
-									canDraw &&
-									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-								} p-1 hover:bg-gradient-to-bl`}
-								onClick={() => {
-									setCanDraw(!canDraw);
-									setEditing(false);
-									setDrag(false);
-									setIsErasing(false);
-								}}
-							>
-								<IconBrush size={18} className='dark:text-white'></IconBrush>
-							</Button>
-						</Tooltip>
+						{/* Basics */}
 
-						{/* Erase */}
-						<Tooltip className='flex flex-auto' messsage='Erase'>
-							<Button
-								color='ghost'
-								className={`flex flex-auto rounded-2xl ${
-									isErasing &&
-									'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-								} p-1 hover:bg-gradient-to-bl`}
-								onClick={() => {
-									setIsErasing(!isErasing);
-									setEditing(false);
-									setDrag(false);
-									setCanDraw(false);
-								}}
-							>
-								<IconEraser size={18} className='dark:text-white'></IconEraser>
-							</Button>
-						</Tooltip>
-					</div>
+						<div className='flex w-20 flex-row flex-wrap'>
+							{/* Code Control */}
+							<Tooltip className='flex  flex-auto ' messsage='Code'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'code',
+											id: `code-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconCode size={18} className='dark:text-white'></IconCode>
+								</Button>
+							</Tooltip>
 
-					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
+							{/* FaIcon Control */}
+							<Tooltip className='flex flex-auto ' messsage='Icon'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'faicon',
+											id: `faicon-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconSticker
+										size={18}
+										className='dark:text-white'
+									></IconSticker>
+								</Button>
+							</Tooltip>
 
-					{/* Basics */}
+							{/* Text Control */}
+							<Tooltip className='flex flex-auto ' messsage='Text'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'text',
+											id: `text-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconLetterT
+										size={18}
+										className='dark:text-white'
+									></IconLetterT>
+								</Button>
+							</Tooltip>
 
-					<div className='flex w-20 flex-row flex-wrap'>
-						{/* Code Control */}
-						<Tooltip className='flex  flex-auto ' messsage='Code'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({ type: 'code', id: `code-${getRandomNumber()}` })
-								}
-							>
-								<IconCode size={18} className='dark:text-white'></IconCode>
-							</Button>
-						</Tooltip>
+							{/* Shape Control */}
+							<Tooltip className='flex flex-auto ' messsage='Shape'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'arrow',
+											id: `arrow-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconCircle
+										size={18}
+										className='dark:text-white'
+									></IconCircle>
+								</Button>
+							</Tooltip>
+						</div>
 
-						{/* FaIcon Control */}
-						<Tooltip className='flex flex-auto ' messsage='Icon'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'faicon',
-										id: `faicon-${getRandomNumber()}`,
-									})
-								}
-							>
-								<IconSticker
-									size={18}
-									className='dark:text-white'
-								></IconSticker>
-							</Button>
-						</Tooltip>
+						<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
 
-						{/* Text Control */}
-						<Tooltip className='flex flex-auto ' messsage='Text'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({ type: 'text', id: `text-${getRandomNumber()}` })
-								}
-							>
-								<IconLetterT
-									size={18}
-									className='dark:text-white'
-								></IconLetterT>
-							</Button>
-						</Tooltip>
+						{/* Others */}
 
-						{/* Shape Control */}
-						<Tooltip className='flex flex-auto ' messsage='Shape'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'arrow',
-										id: `arrow-${getRandomNumber()}`,
-									})
-								}
-							>
-								<IconCircle size={18} className='dark:text-white'></IconCircle>
-							</Button>
-						</Tooltip>
-					</div>
+						<div className='flex w-20 flex-row flex-wrap '>
+							<Tooltip className='flex flex-auto ' messsage='Qr Code'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({ type: 'qr', id: `qr-${getRandomNumber()}` })
+									}
+								>
+									<IconQrcode
+										size={18}
+										className='dark:text-white'
+									></IconQrcode>
+								</Button>
+							</Tooltip>
 
-					<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
+							{/* Image Control */}
+							<Tooltip className='flex flex-auto ' messsage='Image'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'image',
+											id: `image-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconPhoto size={18} className='dark:text-white'></IconPhoto>
+								</Button>
+							</Tooltip>
 
-					{/* Others */}
+							{/* Badge Control */}
+							<Tooltip className='flex flex-auto' messsage='Badge'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'badge',
+											id: `badge-${getRandomNumber()}`,
+										})
+									}
+								>
+									<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
+								</Button>
+							</Tooltip>
 
-					<div className='flex w-20 flex-row flex-wrap '>
-						<Tooltip className='flex flex-auto ' messsage='Qr Code'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({ type: 'qr', id: `qr-${getRandomNumber()}` })
-								}
-							>
-								<IconQrcode size={18} className='dark:text-white'></IconQrcode>
-							</Button>
-						</Tooltip>
+							{/* Tweet Control */}
+							<Tooltip className='flex flex-auto ' messsage='Tweet'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'tweet',
+											id: `tweet-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconBrandTwitter
+										size={18}
+										className='dark:text-white'
+									></IconBrandTwitter>
+								</Button>
+							</Tooltip>
 
-						{/* Image Control */}
-						<Tooltip className='flex flex-auto ' messsage='Image'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'image',
-										id: `image-${getRandomNumber()}`,
-									})
-								}
-							>
-								<IconPhoto size={18} className='dark:text-white'></IconPhoto>
-							</Button>
-						</Tooltip>
+							{/* Window Control */}
+							<Tooltip className='flex flex-auto ' messsage='Window'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'window',
+											id: `window-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconAppWindow
+										size={18}
+										className='dark:text-white'
+									></IconAppWindow>
+								</Button>
+							</Tooltip>
 
-						{/* Badge Control */}
-						<Tooltip className='flex flex-auto' messsage='Badge'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'badge',
-										id: `badge-${getRandomNumber()}`,
-									})
-								}
-							>
-								<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
-							</Button>
-						</Tooltip>
-
-						{/* Tweet Control */}
-						<Tooltip className='flex flex-auto ' messsage='Tweet'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'tweet',
-										id: `tweet-${getRandomNumber()}`,
-									})
-								}
-							>
-								<IconBrandTwitter
-									size={18}
-									className='dark:text-white'
-								></IconBrandTwitter>
-							</Button>
-						</Tooltip>
-
-						{/* Window Control */}
-						<Tooltip className='flex flex-auto ' messsage='Window'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'window',
-										id: `window-${getRandomNumber()}`,
-									})
-								}
-							>
-								<IconAppWindow
-									size={18}
-									className='dark:text-white'
-								></IconAppWindow>
-							</Button>
-						</Tooltip>
-
-						{/* Phone Mockup Control */}
-						<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
-							<Button
-								className='flex flex-auto rounded-2xl p-1'
-								color='ghost'
-								onClick={() =>
-									addControl({
-										type: 'phone_mockup',
-										id: `phone_mockup-${getRandomNumber()}`,
-									})
-								}
-							>
-								<IconDeviceMobile
-									size={18}
-									className='dark:text-white'
-								></IconDeviceMobile>
-							</Button>
-						</Tooltip>
+							{/* Phone Mockup Control */}
+							<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
+								<Button
+									className='flex flex-auto rounded-2xl p-1'
+									color='ghost'
+									onClick={() =>
+										addControl({
+											type: 'phone_mockup',
+											id: `phone_mockup-${getRandomNumber()}`,
+										})
+									}
+								>
+									<IconDeviceMobile
+										size={18}
+										className='dark:text-white'
+									></IconDeviceMobile>
+								</Button>
+							</Tooltip>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -792,7 +810,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}   z-10 order-4 mt-auto h-96 max-h-96 w-full flex-col items-center p-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}   z-10 order-4 mt-auto h-96 max-h-96 w-full flex-col items-center py-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>

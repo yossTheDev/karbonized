@@ -63,6 +63,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			<div
 				ref={reference}
 				id='workspace'
+				className='shadow-2xl'
 				style={{
 					background:
 						workspaceColorMode === 'Single'
