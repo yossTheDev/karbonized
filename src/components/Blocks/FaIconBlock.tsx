@@ -9,9 +9,12 @@ import { IconSearch, IconSticker } from '@tabler/icons-react';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-const FaIconBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+const FaIconBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [icon, setIcon] = useRedoUndo('FaFontAwesome', `${id}-icon`);
 	const [iconColor, setIconColor] = useRedoUndo('#ffffff', `${id}-iconColor`);
 	const [query, setQuery] = useState('');

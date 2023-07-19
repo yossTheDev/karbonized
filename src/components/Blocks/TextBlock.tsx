@@ -7,10 +7,13 @@ import { NumberInput } from '../CustomControls/NumberInput';
 import { ControlTemplate } from './ControlTemplate';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const TextControl: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const TextControl: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
-	const [text, setText] = useRedoUndo('lorem',`${id}-text`);
+	const [text, setText] = useRedoUndo('lorem', `${id}-text`);
 	const [color, setColor] = useRedoUndo('#f3f4f6', `${id}-color`);
 	const [textSize, setTextSize] = useRedoUndo('24', `${id}-textSize`);
 	const [isBold, setIsBold] = useRedoUndo(false, `${id}-isBold`);

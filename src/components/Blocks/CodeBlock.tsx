@@ -67,9 +67,8 @@ const themes: Style[] = [
 	{ label: 'xonokai', theme: prismThemes.xonokai },
 ];
 
-const CodeControl: React.FC<Props> = () => {
+const CodeControl: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 
 	const [theme, setTheme] = useRedoUndo('coldarkDark', `${id}-theme`);
 	const [language, setLanguage] = useRedoUndo('jsx', `${id}-lang`);

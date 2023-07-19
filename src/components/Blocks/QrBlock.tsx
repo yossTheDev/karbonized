@@ -8,9 +8,12 @@ import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const QrControl: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const QrControl: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [text, setText] = useRedoUndo('karbonized', `${id}-text`);
 	const [backgroundColor, setBackgroundColor] = useRedoUndo(
 		'#1e408400',

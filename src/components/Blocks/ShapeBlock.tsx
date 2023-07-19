@@ -28,9 +28,12 @@ import { Button, Modal } from 'react-daisyui';
 import { useTheme } from '../../hooks/useTheme';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const ShapeBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const ShapeBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [color, setColor] = useRedoUndo('#f3f4f6', `${id}-color`);
 	const [shape, setShape] = useRedoUndo('oval', `${id}-shape`);
 	const [showModal, setShowModal] = useState(false);

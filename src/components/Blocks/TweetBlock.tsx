@@ -5,10 +5,12 @@ import karbonized from '../../assets/karbonized.svg';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import './TweetBlock.css';
+interface Props {
+	id: string;
+}
 
-export const TweetBlock: React.FC = () => {
+export const TweetBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [url, setUrl] = useState(
 		'https://twitter.com/karbonized_app/status/1651550611140116480?s=20'
 	);

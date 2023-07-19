@@ -1,6 +1,7 @@
 import { Action, action, createStore } from 'easy-peasy';
 
 interface Item {
+	id: string;
 	type: string;
 }
 
@@ -85,7 +86,7 @@ export interface AppStoreModel {
 
 export const AppStore = createStore<AppStoreModel>({
 	/* Store */
-	ControlsTree: [{ type: 'code' }],
+	ControlsTree: [{ type: 'code', id: 'code-0000' }],
 	History: [{ id: '-', value: '-' }],
 	historySignal: '',
 	readyToSave: false,

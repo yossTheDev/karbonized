@@ -6,9 +6,13 @@ import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const ImageBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const ImageBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
+
 	const [src, setSrc] = useState(karbonized);
 	const [borderRadious, setBorderRadious] = useRedoUndo(
 		3,

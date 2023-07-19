@@ -4,10 +4,14 @@ import { FileInput } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import example from '../../assets/example-user.png';
+import { P } from '@tauri-apps/api/os-650909c3';
 
-export const AvatarBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const AvatarBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [src, setSrc] = useState(example);
 
 	return (

@@ -618,7 +618,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'code' })}
+								onClick={() =>
+									addControl({ type: 'code', id: `code-${Math.random()}` })
+								}
 							>
 								<IconCode size={18} className='dark:text-white'></IconCode>
 							</Button>
@@ -629,7 +631,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'faicon' })}
+								onClick={() =>
+									addControl({ type: 'faicon', id: `faicon-${Math.random()}` })
+								}
 							>
 								<IconSticker
 									size={18}
@@ -643,7 +647,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'text' })}
+								onClick={() =>
+									addControl({ type: 'text', id: `text-${Math.random()}` })
+								}
 							>
 								<IconLetterT
 									size={18}
@@ -657,7 +663,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'arrow' })}
+								onClick={() =>
+									addControl({ type: 'arrow', id: `arrow-${Math.random()}` })
+								}
 							>
 								<IconCircle size={18} className='dark:text-white'></IconCircle>
 							</Button>
@@ -673,7 +681,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'qr' })}
+								onClick={() =>
+									addControl({ type: 'qr', id: `qr-${Math.random()}` })
+								}
 							>
 								<IconQrcode size={18} className='dark:text-white'></IconQrcode>
 							</Button>
@@ -684,7 +694,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'image' })}
+								onClick={() =>
+									addControl({ type: 'image', id: `image-${Math.random()}` })
+								}
 							>
 								<IconPhoto size={18} className='dark:text-white'></IconPhoto>
 							</Button>
@@ -695,7 +707,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'badge' })}
+								onClick={() =>
+									addControl({ type: 'badge', id: `badge-${Math.random()}` })
+								}
 							>
 								<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
 							</Button>
@@ -706,7 +720,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'tweet' })}
+								onClick={() =>
+									addControl({ type: 'tweet', id: `tweet-${Math.random()}` })
+								}
 							>
 								<IconBrandTwitter
 									size={18}
@@ -720,7 +736,9 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'window' })}
+								onClick={() =>
+									addControl({ type: 'window', id: `window-${Math.random()}` })
+								}
 							>
 								<IconAppWindow
 									size={18}
@@ -734,7 +752,12 @@ export const Editor: React.FC = () => {
 							<Button
 								className='flex flex-auto rounded-2xl p-1'
 								color='ghost'
-								onClick={() => addControl({ type: 'phone_mockup' })}
+								onClick={() =>
+									addControl({
+										type: 'phone_mockup',
+										id: `phone_mockup-${Math.random()}`,
+									})
+								}
 							>
 								<IconDeviceMobile
 									size={18}

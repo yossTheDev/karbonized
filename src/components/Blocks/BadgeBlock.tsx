@@ -6,9 +6,12 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const BadgeBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const BadgeBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
 	const [text, setText] = useRedoUndo('@karbonized_app', `${id}-text`);
 	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);

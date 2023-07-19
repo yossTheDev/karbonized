@@ -31,64 +31,64 @@ export const ControlHandler: React.FC<Props> = ({ type, id }) => {
 		case 'text':
 			return (
 				<Suspense>
-					<TextControl></TextControl>
+					<TextControl id={id}></TextControl>
 				</Suspense>
 			);
 		case 'qr':
 			return (
 				<Suspense>
-					<QrControl></QrControl>
+					<QrControl id={id}></QrControl>
 				</Suspense>
 			);
 		case 'image':
 			return (
 				<Suspense>
-					<ImageBlock></ImageBlock>
+					<ImageBlock id={id}></ImageBlock>
 				</Suspense>
 			);
 		case 'window':
 			return (
 				<Suspense>
-					<WindowBlock></WindowBlock>
+					<WindowBlock id={id}></WindowBlock>
 				</Suspense>
 			);
 		case 'avatar':
 			return (
 				<Suspense>
-					<AvatarBlock></AvatarBlock>
+					<AvatarBlock id={id}></AvatarBlock>
 				</Suspense>
 			);
 
 		case 'arrow':
 			return (
 				<Suspense>
-					<ShapeBlock></ShapeBlock>
+					<ShapeBlock id={id}></ShapeBlock>
 				</Suspense>
 			);
 		case 'phone_mockup':
 			return (
 				<Suspense>
-					<PhoneBlock></PhoneBlock>
+					<PhoneBlock id={id}></PhoneBlock>
 				</Suspense>
 			);
 		case 'faicon':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<FaIconBlock></FaIconBlock>
+					<FaIconBlock id={id}></FaIconBlock>
 				</Suspense>
 			);
 
 		case 'tweet':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<TweetBlock></TweetBlock>
+					<TweetBlock id={id}></TweetBlock>
 				</Suspense>
 			);
 
 		case 'badge':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<BadgeBlock></BadgeBlock>
+					<BadgeBlock id={id}></BadgeBlock>
 				</Suspense>
 			);
 		default:

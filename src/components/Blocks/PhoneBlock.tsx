@@ -17,9 +17,12 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const PhoneBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [src, setSrc] = useState(karbonized);
 	const [notchWidth, setNotchWidth] = useRedoUndo(80, `${id}-notchWidth`);
 	const [screenRadius, setScreenRadius] = useRedoUndo(20, `${id}-screenRadius`);

@@ -20,9 +20,12 @@ import { CloseSvg, MiniminizeSvg } from '../General/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
-export const WindowBlock: React.FC = () => {
+interface Props {
+	id: string;
+}
+
+export const WindowBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const id = useId();
 	const [title, setTitle] = useRedoUndo('Karbonized', `${id}-title`);
 	const [url, setUrl] = useRedoUndo('karbonized.onrender.com', `${id}-url`);
 	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);
