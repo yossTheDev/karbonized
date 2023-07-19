@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.1.2
+
+* Degree Angles To Snap Rotation
+
 ## v 1.1.1
 
 * Controls are now Snappables
@@ -8,7 +12,7 @@
 * Some Improvements
 * Minor Bug Fixes
 
-## v 1.1.0 - Release
+## v 1.1.0 - Release (July 13th, 2023)
 
 * Canvas Drawing System
 * Transparent Background on Code blocks
@@ -24,7 +28,7 @@
 * Can set control size and position manually
 * Add Key Shortcuts
 
-## v 1.0.3
+## v 1.0.3 - Release (May 12th, 2023)
 
 * New Design
 * Change License to Apache-2.0
