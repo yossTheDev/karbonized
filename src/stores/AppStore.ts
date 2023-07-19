@@ -93,7 +93,7 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
-	workspaceGradientSettings: { color1: '#ff9a9e', color2: '#ff26ba', deg: 98 },
+	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 
 	/* History System */
 	controlState: null,
