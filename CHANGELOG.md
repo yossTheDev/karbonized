@@ -1,6 +1,14 @@
 # Changelog
 
-## v 1.1.0
+## v 1.1.1
+
+* Controls are now Snappables
+* Update Project Dependencies
+* Various Editor Improvements
+* Some Improvements
+* Minor Bug Fixes
+
+## v 1.1.0 - Release
 
 * Canvas Drawing System
 * Transparent Background on Code blocks
@@ -23,7 +31,7 @@
 * Added Twitter and Badge Controls
 * Now has Compiled Version for Desktop Platforms Powered by Tauri
 * Added Option To Change App Theme Manually
-* Improve Behaviour of Editor
+* Improve Behavior of Editor
 * Some Improvements
 * Minor Bug Fixes
 
@@ -33,7 +41,7 @@
 * Karbonized is now a PWA with offline support
 * Added Window Control
 * Replaced React-rnd for react-moveable
-* Resizeable Workspace
+* Resizable Workspace
 * More control over workspace
 * Now you can define Workspace Name and Size
 * Various improvements and Bug Fixed
