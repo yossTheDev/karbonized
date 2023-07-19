@@ -123,6 +123,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					elementGuidelines={getControls()}
 					isDisplaySnapDigit
 					snapGap
+					snapRotationDegrees={[0, 90, 180, 270]}
 					/* draggable */
 					draggable={true}
 					throttleDrag={0}
