@@ -287,7 +287,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									onChange={(ev) => setTitleBrowser(ev.currentTarget.value)}
 								></Input>
 
-								<p className='poppins-font-family text-gray-500'>Title</p>
+								<p className='poppins-font-family text-gray-500'>Url</p>
 								<Input
 									className='w-full  min-h-12'
 									value={url}
