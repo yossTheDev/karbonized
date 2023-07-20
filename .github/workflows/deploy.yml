@@ -34,8 +34,10 @@ jobs:
 
       - name: Install dependencies
         run: |
+          ls
           cd ..
           yarn install
+          ls
 
       - name: Build project
         run: yarn run build
