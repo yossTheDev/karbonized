@@ -1,4 +1,4 @@
-import { Action, action, createStore } from 'easy-peasy';
+import { Action, action, createStore ,Computed, computed} from 'easy-peasy';
 
 interface Item {
 	id: string;
@@ -19,7 +19,7 @@ export interface AppStoreModel {
 	readyToSave: boolean;
 	editing: boolean;
 	lockAspect: boolean;
-
+	controlsClass: Computed<AppStoreModel,string[]>
 	setLockAspect: Action<AppStoreModel, boolean>;
 
 	controlSize?: { w: number; h: number };
@@ -93,6 +93,15 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
+	controlsClass: computed((state) => {
+		const controlsClass: string[] = [];
+
+		state.ControlsTree.forEach((item) => {
+			if (item.id !== state.currentControlID) controlsClass.push('.block-' + item.id);
+		});
+
+		return controlsClass;
+	}),
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 
 	/* History System */

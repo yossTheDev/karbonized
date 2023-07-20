@@ -24,6 +24,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
+	const controlsClass = useStoreState((state) => state.controlsClass);
+
 	const editing = useStoreState((state) => state.editing);
 	const isDrawing = useStoreState((state) => state.isDrawing);
 	const lockAspect = useStoreState((state) => state.lockAspect);
@@ -47,16 +49,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const pastHistory = useStoreState((state) => state.pastHistory);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
-
-	const getControls = () => {
-		const controlsClass: string[] = [];
-
-		controls.forEach((item) => {
-			if (item.id !== controlID) controlsClass.push('.block-' + item.id);
-		});
-
-		return controlsClass;
-	};
 
 	return (
 		<>
@@ -120,7 +112,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						workspaceHeight,
 					]}
 					elementSnapDirections
-					elementGuidelines={getControls()}
+					elementGuidelines={controlsClass}
 					useAccuratePosition // TODO Not Available For Groups
 					isDisplaySnapDigit
 					zoom={1.2}

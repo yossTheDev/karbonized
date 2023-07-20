@@ -85,5 +85,5 @@
 		"vite": "^4.4.4",
 		"vite-plugin-electron": "^0.12.0",
 		"vite-plugin-pwa": "^0.14.1"
-	},
+	}
 }
