@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.2.1
+
+* Fix: New Elements get the same properties of the latest element before create new project
+
 ## v 1.2.0
 
 * New Project Wizard
