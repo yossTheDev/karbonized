@@ -122,8 +122,6 @@ export const Editor: React.FC = () => {
 		centerView();
 	}, [workspaceHeight, workspaceWidth]);
 
-	const future = useStoreState((state) => state.futureHistory);
-
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'w') {
 			event.preventDefault();

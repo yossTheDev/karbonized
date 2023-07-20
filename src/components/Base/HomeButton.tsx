@@ -7,7 +7,7 @@ import {
 	IconInfoCircle,
 	IconPlus,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dropdown } from 'react-daisyui';
 import { useStoreActions } from '../../stores/Hooks';
 import { AboutModal } from '../Modals/AboutModal';
@@ -21,7 +21,26 @@ interface Props {
 export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 	const [showAbout, setShowAbout] = useState(false);
 	const [showWizard, setShowWizard] = useState(true);
-	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+
+	const onKeyDown = (event: KeyboardEvent) => {
+		if (event.ctrlKey && event.key === 'n') {
+			event.preventDefault();
+
+			setShowWizard(true);
+		} else if (event.key === 'Escape') {
+			event.preventDefault();
+			setShowWizard(false);
+			setShowAbout(false);
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('keydown', onKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', onKeyDown);
+		};
+	});
 
 	return (
 		<>
