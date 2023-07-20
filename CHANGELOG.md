@@ -1,5 +1,11 @@
 # Changelog
 
+## v 1.1.3
+
+* Improve Redo Undo System
+* Improve Performance
+* Fix Github pages Deploy Workflow
+
 ## v 1.1.2
 
 * Degree Angles To Snap Rotation
