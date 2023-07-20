@@ -1,15 +1,6 @@
-import {
-	IconHome,
-	IconCopy,
-	IconClipboard,
-	IconShare,
-	IconQrcode,
-	IconInfoCircle,
-	IconPlus,
-} from '@tabler/icons-react';
+import { IconHome, IconInfoCircle, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown } from 'react-daisyui';
-import { useStoreActions } from '../../stores/Hooks';
+import { Dropdown } from 'react-daisyui';
 import { AboutModal } from '../Modals/AboutModal';
 import { ProjectWizard } from '../Modals/ProjectWizard';
 
