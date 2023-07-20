@@ -72,7 +72,11 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				)}
 
 				{controls.map((el, i) => (
-					<ControlHandler id={el.id} key={i} type={el.type}></ControlHandler>
+					<ControlHandler
+						id={el.id}
+						key={el.id}
+						type={el.type}
+					></ControlHandler>
 				))}
 
 				<Canvas></Canvas>
