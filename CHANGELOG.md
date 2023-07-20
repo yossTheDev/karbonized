@@ -1,5 +1,10 @@
 # Changelog
 
+## v 1.2.0
+
+* New Project Wizard
+* Improve Redo/Undo System
+
 ## v 1.1.3
 
 * Improve Redo Undo System
