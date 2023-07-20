@@ -3,6 +3,7 @@
 ## v 1.2.1
 
 * Fix: New Elements get the same properties of the latest element before create new project
+* Fix: Min Height and Width on Code Blocks
 
 ## v 1.2.0
 
