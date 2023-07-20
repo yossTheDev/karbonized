@@ -6,7 +6,14 @@ import {
 	IconX,
 } from '@tabler/icons-react';
 import React, { useEffect, useId, useState } from 'react';
-import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
+import {
+	Checkbox,
+	Input,
+	Select,
+	Textarea,
+	Range,
+	Button,
+} from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import * as prismThemes from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -74,18 +81,18 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 	const [language, setLanguage] = useRedoUndo('jsx', `${id}-lang`);
 	const [code, setCode] = useRedoUndo(
 		`<pre><code class="language-${language}"></code></pre>`,
-		`${id}-code`
+		`${id}-code`,
 	);
 	const [color, setColor] = useRedoUndo('#111b28', `${id}-bgcolor`);
 	const [controlsColor, setControlsColor] = useRedoUndo(
 		'#b4b4b4',
-		`${id}-ccolor`
+		`${id}-ccolor`,
 	);
 	const [showTabs, setShowTabs] = useRedoUndo(true, `${id}-tabs`);
 	const [title, setTitle] = useRedoUndo('Code.jsx', `${id}-wintitle`);
 	const [showLineNumbers, setShowLineNumbers] = useRedoUndo(
 		false,
-		`${id}-linenumbers`
+		`${id}-linenumbers`,
 	);
 	const [wrapLines, setWrapLines] = useRedoUndo(false, `${id}-wraplines`);
 	const [border, setBorder] = useRedoUndo(8, `${id}-border`);
@@ -112,7 +119,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 			(newTheme as any)[':not(pre) > code[class*="language-"]'].background
 		)
 			setColor(
-				(newTheme as any)[':not(pre) > code[class*="language-"]'].background
+				(newTheme as any)[':not(pre) > code[class*="language-"]'].background,
 			);
 	}, [theme]);
 

@@ -1,4 +1,4 @@
-import { Action, action, createStore ,Computed, computed} from 'easy-peasy';
+import { Action, action, createStore, Computed, computed } from 'easy-peasy';
 
 interface Item {
 	id: string;
@@ -19,8 +19,12 @@ export interface AppStoreModel {
 	readyToSave: boolean;
 	editing: boolean;
 	lockAspect: boolean;
-	controlsClass: Computed<AppStoreModel,string[]>
+	controlsClass: Computed<AppStoreModel, string[]>;
 	setLockAspect: Action<AppStoreModel, boolean>;
+
+	/* Controls System */
+	initialProperties: History[];
+	addInitialProperty: Action<AppStoreModel, History>;
 
 	controlSize?: { w: number; h: number };
 	controlPosition?: { x: number; y: number };
@@ -86,8 +90,8 @@ export interface AppStoreModel {
 
 export const AppStore = createStore<AppStoreModel>({
 	/* Store */
-	ControlsTree: [{ type: 'code', id: 'code-0000' }],
-	History: [{ id: '-', value: '-' }],
+	ControlsTree: [],
+	History: [],
 	historySignal: '',
 	readyToSave: false,
 	currentControlID: '',
@@ -97,12 +101,19 @@ export const AppStore = createStore<AppStoreModel>({
 		const controlsClass: string[] = [];
 
 		state.ControlsTree.forEach((item) => {
-			if (item.id !== state.currentControlID) controlsClass.push('.block-' + item.id);
+			if (item.id !== state.currentControlID)
+				controlsClass.push('.block-' + item.id);
 		});
 
 		return controlsClass;
 	}),
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
+
+	/* Controls System */
+	initialProperties: [],
+	addInitialProperty: action((state, payload) => {
+		state.initialProperties.push(payload);
+	}),
 
 	/* History System */
 	controlState: null,

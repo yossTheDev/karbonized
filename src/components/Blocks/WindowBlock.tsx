@@ -15,7 +15,7 @@ import React, { useId, useState } from 'react';
 import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import karbonized from '../../assets/image-example.png';
+import karbonized from '../../assets/karbonized.svg';
 import { CloseSvg, MiniminizeSvg } from '../General/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
@@ -31,16 +31,16 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);
 	const [controlsColor, setControlsColor] = useRedoUndo(
 		'#0e111b',
-		`${id}-controlsColor`
+		`${id}-controlsColor`,
 	);
 
 	const [windowStyle, setWindowStyle] = useRedoUndo('mac', `${id}-windowStyle`);
 	const [windowType, setWindowType] = useRedoUndo(
 		'browser',
-		`${id}-windowType`
+		`${id}-windowType`,
 	);
 
-	const [src, setSrc] = useState(karbonized);
+	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
 
 	return (
 		<>

@@ -13,11 +13,8 @@ interface Props {
 export const ImageBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
 
-	const [src, setSrc] = useState(karbonized);
-	const [borderRadious, setBorderRadious] = useRedoUndo(
-		3,
-		`${id}-borderRadious`
-	);
+	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
+	const [borderRadius, setBorderRadius] = useRedoUndo(3, `${id}-borderRadius`);
 
 	return (
 		<>
@@ -49,9 +46,9 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 										className='my-auto'
 										color='primary'
 										onChange={(ev) =>
-											setBorderRadious(ev.target.value as unknown as number)
+											setBorderRadius(ev.target.value as unknown as number)
 										}
-										value={borderRadious}
+										value={borderRadius}
 										max={'22'}
 									></Range>
 								</div>
@@ -87,7 +84,7 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 				}
 			>
 				<img
-					style={{ borderRadius: borderRadious + 'px' }}
+					style={{ borderRadius: borderRadius + 'px' }}
 					className={`flex h-full w-full flex-auto select-none rounded-3xl `}
 					src={src}
 				></img>

@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import { Button, Dropdown } from 'react-daisyui';
 import { useStoreActions } from '../../stores/Hooks';
 import { AboutModal } from '../Modals/AboutModal';
+import { ProjectWizard } from '../Modals/ProjectWizard';
 
 interface Props {
 	size?: number;
@@ -19,6 +20,7 @@ interface Props {
 
 export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 	const [showAbout, setShowAbout] = useState(false);
+	const [showWizard, setShowWizard] = useState(true);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
 
 	return (
@@ -33,7 +35,7 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 				<Dropdown.Menu className='mt-2 w-52 rounded-2xl bg-base-200 dark:text-white'>
 					<Dropdown.Item
 						onClick={() => {
-							cleanWorkspace();
+							setShowWizard(true);
 						}}
 					>
 						<IconPlus></IconPlus>
@@ -52,6 +54,12 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 					onClose={() => setShowAbout(false)}
 					open={showAbout}
 				></AboutModal>
+			)}
+			{showWizard && (
+				<ProjectWizard
+					onClose={() => setShowWizard(false)}
+					open={showWizard}
+				></ProjectWizard>
 			)}
 		</>
 	);

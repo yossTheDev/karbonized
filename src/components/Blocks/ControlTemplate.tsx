@@ -426,10 +426,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 														y: controlPos?.y as unknown as number,
 													},
 												});
-												/*setControlPos({
+												setControlPos({
 													x: parseFloat(ev.target.value),
 													y: controlPos?.y as unknown as number,
-												});*/
+												});
 
 												setFutureHistory([]);
 											}}
@@ -512,7 +512,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 												setControlSize({
 													w: parseFloat(ev.target.value),
-													h: size.h,
+													h: controlSize?.h as unknown as number,
 												});
 
 												setFutureHistory([]);
@@ -527,8 +527,6 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											type={'number'}
 											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) => {
-												setEditing(false);
-
 												setPastHistory([
 													...pastHistory,
 													{
@@ -543,21 +541,18 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 													id: `${id}-control_size`,
 													value: {
 														h: parseFloat(ev.target.value),
-														w: controlSize?.h as unknown as number,
+														w: controlSize?.w as unknown as number,
 													},
 												});
 
 												setControlSize({
-													w: size.w,
+													w: controlSize?.w as unknown as number,
 													h: parseFloat(ev.target.value),
 												});
 
 												setFutureHistory([]);
 											}}
-											onBlur={() => {
-												setEditing(true);
-											}}
-											value={size?.h}
+											value={controlSize?.h}
 										></Input>
 									</div>
 								</div>

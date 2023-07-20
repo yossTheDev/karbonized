@@ -167,8 +167,6 @@ export const Editor: React.FC = () => {
 			setShowPreview(false);
 			setShowAbout(false);
 		}
-
-		console.log(event.key);
 	};
 
 	const redo = useStoreActions((state) => state.redo);
