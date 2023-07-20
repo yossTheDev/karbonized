@@ -1,16 +1,16 @@
-import React, { RefObject, Suspense, useEffect } from 'react';
+import React, { type RefObject, Suspense, useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import './Workspace.css';
 import Moveable, {
-	OnDrag,
-	OnResize,
-	OnScale,
-	OnRotate,
-	OnScaleGroup,
-	OnDragGroup,
-	OnResizeGroup,
-	OnRotateGroup,
+	type OnDrag,
+	type OnResize,
+	type OnScale,
+	type OnRotate,
+	type OnScaleGroup,
+	type OnDragGroup,
+	type OnResizeGroup,
+	type OnRotateGroup,
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';
@@ -39,7 +39,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	/* Workspace Colors */
 	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
 	const workspaceGradient = useStoreState(
-		(state) => state.workspaceGradientSettings
+		(state) => state.workspaceGradientSettings,
 	);
 
 	const setControlSize = useStoreActions((state) => state.setControlSize);
@@ -122,7 +122,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					draggable={true}
 					throttleDrag={0}
 					onDragStart={({ target }) => {
-						//console.log('onDragStart', target);
+						// console.log('onDragStart', target);
 						setPastHistory([
 							...pastHistory,
 							{
@@ -135,29 +135,29 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						]);
 					}}
 					onDragGroup={({ targets, left, top }: OnDragGroup) => {
-						//console.log('onDrag left, top', left, top);
+						// console.log('onDrag left, top', left, top);
 						// target!.style.left = `${left}px`;
 						// target!.style.top = `${top}px`;
-						//console.log('onDrag translate', dist);
-						//currentTarget.controlGesto.move(delta, MouseEvent);
-						targets!.map((el) => {
-							el!.style.left = `${left}px`;
-							el!.style.top = `${top}px`;
+						// console.log('onDrag translate', dist);
+						// currentTarget.controlGesto.move(delta, MouseEvent);
+						targets.map((el) => {
+							el.style.left = `${left}px`;
+							el.style.top = `${top}px`;
 						});
-						//console.log('group drag');
-						//setPosition({ x: left, y: top });
+						// console.log('group drag');
+						// setPosition({ x: left, y: top });
 					}}
 					onDrag={({ target, left, top }: OnDrag) => {
-						//console.log('onDrag left, top', left, top);
-						target!.style.left = `${left}px`;
-						target!.style.top = `${top}px`;
-						//console.log('onDrag translate', dist);
+						// console.log('onDrag left, top', left, top);
+						target.style.left = `${left}px`;
+						target.style.top = `${top}px`;
+						// console.log('onDrag translate', dist);
 						// target!.style.transform = transform;
 						setControlPos({ x: left, y: top });
 					}}
 					onDragEnd={({ target }) => {
-						//console.log('onDragEnd', target, isDrag);
-						//console.log('end drag');
+						// console.log('onDragEnd', target, isDrag);
+						// console.log('end drag');
 
 						setControlState({
 							id: `${controlID}-pos`,
@@ -176,21 +176,21 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 								},
 							},
 						]);
-						/*console.log({
+						/* console.log({
 							x: parseFloat(target.style.left.replace('px', '')),
 							y: parseFloat(target.style.top.replace('px', '')),
-						});*/
+						}); */
 
 						setFutureHistory([]);
 					}}
 					/* When resize or scale, keeps a ratio of the width, height. */
 					keepRatio={lockAspect}
-					/* resizable*/
+					/* resizable */
 					/* Only one of resizable, scalable, warpable can be used. */
 					resizable={true}
 					throttleResize={0}
 					onResizeStart={({ target }) => {
-						//console.log('onResizeStart', target);
+						// console.log('onResizeStart', target);
 						setPastHistory([
 							...pastHistory,
 							{
@@ -203,29 +203,29 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						]);
 					}}
 					onResize={({ target, width, height, delta }: OnResize) => {
-						//console.log('onResize', target);
-						delta[0] && (target!.style.width = `${width}px`);
-						delta[1] && (target!.style.height = `${height}px`);
-						//console.log('height' + target!.style.height);
+						// console.log('onResize', target);
+						delta[0] && (target.style.width = `${width}px`);
+						delta[1] && (target.style.height = `${height}px`);
+						// console.log('height' + target!.style.height);
 						setControlSize({
-							w: target!.style.width.replace('px', '') as unknown as number,
-							h: target!.style.height.replace('px', '') as unknown as number,
+							w: target.style.width.replace('px', '') as unknown as number,
+							h: target.style.height.replace('px', '') as unknown as number,
 						});
 					}}
 					onResizeGroup={({ targets, width, height, delta }: OnResizeGroup) => {
 						targets.map((el) => {
-							delta[0] && (el!.style.width = `${width}px`);
-							delta[1] && (el!.style.height = `${height}px`);
+							delta[0] && (el.style.width = `${width}px`);
+							delta[1] && (el.style.height = `${height}px`);
 						});
 
-						//console.log('height' + target!.style.height);
-						/*setSize({
+						// console.log('height' + target!.style.height);
+						/* setSize({
 							w: target!.style.width.replace('px', '') as unknown as number,
 							h: target!.style.height.replace('px', '') as unknown as number,
-						});*/
+						}); */
 					}}
 					onResizeEnd={({ target }) => {
-						//console.log('onResizeEnd', target, isDrag);
+						// console.log('onResizeEnd', target, isDrag);
 						setControlState({
 							id: `${controlID}-control_size`,
 							value: {
@@ -255,21 +255,21 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					scalable={true}
 					throttleScale={0}
 					onScaleStart={() => {
-						//console.log('onScaleStart', target);
+						// console.log('onScaleStart', target);
 					}}
 					onScale={({ target, transform }: OnScale) => {
-						//console.log('onScale scale', scale);
-						target!.style.transform = transform;
+						// console.log('onScale scale', scale);
+						target.style.transform = transform;
 					}}
 					onScaleGroup={({ targets, transform }: OnScaleGroup) => {
 						targets.map((el) => {
-							el!.style.transform = transform;
+							el.style.transform = transform;
 						});
-						//console.log('onScale scale', scale);
-						//target!.style.transform = transform;
+						// console.log('onScale scale', scale);
+						// target!.style.transform = transform;
 					}}
 					onScaleEnd={() => {
-						//console.log('onScaleEnd', target, isDrag);
+						// console.log('onScaleEnd', target, isDrag);
 					}}
 					/* rotatable */
 					rotatable={true}
@@ -278,45 +278,45 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						console.log('onRotateStart', target);
 					}}
 					onRotate={({ target, transform }: OnRotate) => {
-						//console.log('onRotate', dist);
-						target!.style.transform = transform;
+						// console.log('onRotate', dist);
+						target.style.transform = transform;
 					}}
 					onRotateGroup={({ target, targets, transform }: OnRotateGroup) => {
 						// events.forEach(this.handleRotate);
 						targets.map((el) => {
-							//const frame = this.getFrame(target as HTMLElement | SVGAElement);
-							//const beforeTranslate = drag.beforeTranslate;
+							// const frame = this.getFrame(target as HTMLElement | SVGAElement);
+							// const beforeTranslate = drag.beforeTranslate;
 
-							//el.style.rotate = `${beforeRotation}deg`;
-							el.style.transform = transform; //.set('transform', 'translateX', `${beforeTranslate[0]}px`);
-							//frame.set('transform', 'translateY', `${beforeTranslate[1]}px`);
-							//target.style.cssText += frame.toCSS();
+							// el.style.rotate = `${beforeRotation}deg`;
+							el.style.transform = transform; // .set('transform', 'translateX', `${beforeTranslate[0]}px`);
+							// frame.set('transform', 'translateY', `${beforeTranslate[1]}px`);
+							// target.style.cssText += frame.toCSS();
 						});
 
-						//console.log('onRotate', dist);
-						target!.style.transform = transform;
+						// console.log('onRotate', dist);
+						target.style.transform = transform;
 					}}
 					onRotateEnd={() => {
-						//console.log('onRotateEnd', target, isDrag);
+						// console.log('onRotateEnd', target, isDrag);
 					}}
 					// Enabling pinchable lets you use events that
 					// can be used in draggable, resizable, scalable, and rotateable.
 					pinchable={true}
 					onPinchStart={() => {
 						// pinchStart event occur before dragStart, rotateStart, scaleStart, resizeStart
-						//console.log('onPinchStart');
+						// console.log('onPinchStart');
 					}}
 					onPinch={() => {
 						// pinch event occur before drag, rotate, scale, resize
-						//console.log('onPinch');
+						// console.log('onPinch');
 					}}
 					onPinchGroup={() => {
 						// pinch event occur before drag, rotate, scale, resize
-						//console.log('onPinch');
+						// console.log('onPinch');
 					}}
 					onPinchEnd={() => {
 						// pinchEnd event occur before dragEnd, rotateEnd, scaleEnd, resizeEnd
-						//console.log('onPinchEnd');
+						// console.log('onPinchEnd');
 					}}
 					defaultGroupOrigin=''
 				/>
