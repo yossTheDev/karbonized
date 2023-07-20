@@ -82,7 +82,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			addInitialProperty({ id: `window-${num}-title`, value: titleBrowser });
 			addInitialProperty({ id: `window-${num}-url`, value: url });
 			addInitialProperty({ id: `window-${num}-src`, value: srcBrowser });
-			addInitialProperty({ id: `window-${num}-shadowBlur`, value: 16 });
+			addInitialProperty({ id: `window-${num}-shadowBlur`, value: 24 });
 			addInitialProperty({ id: `window-${num}-borderRadius`, value: 8 });
 			addInitialProperty({
 				id: `window-${num}-pos`,
@@ -100,7 +100,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			setWorkspaceSize({ width: '1280', height: '720' });
 
 			addInitialProperty({ id: `image-${num}-src`, value: src });
-			addInitialProperty({ id: `image-${num}-shadowBlur`, value: 16 });
+			addInitialProperty({ id: `image-${num}-shadowBlur`, value: 24 });
 			addInitialProperty({ id: `image-${num}-borderRadius`, value: 8 });
 			addInitialProperty({
 				id: `image-${num}-pos`,
@@ -122,7 +122,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='overflow-hidden bg-base-200 w-[50rem] max-w-none p-4 flex flex-col'
+			className='overflow-hidden bg-base-200/95 backdrop-blur-xl w-[50rem] max-w-none p-4 flex flex-col'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
 				<div className='hidden select-none w-fit flex-row gap-2 rounded-xl bg-base-100 p-2 text-black dark:text-white md:flex'>
@@ -144,7 +144,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							<div className='bg-primary p-1 rounded-full my-auto'></div>
 						)}
 
-						<img className='rounded-2xl w-48' src={blank_template}></img>
+						<img
+							className='rounded-2xl w-48 shadow-xl'
+							src={blank_template}
+						></img>
 					</div>
 
 					<div
@@ -155,7 +158,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							<div className='bg-primary p-1 rounded-full my-auto'></div>
 						)}
 
-						<img className='rounded-2xl w-48' src={code_template}></img>
+						<img
+							className='rounded-2xl w-48 shadow-xl'
+							src={code_template}
+						></img>
 					</div>
 
 					<div
@@ -166,7 +172,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							<div className='bg-primary p-1 rounded-full my-auto'></div>
 						)}
 
-						<img className='rounded-2xl w-48' src={image_template}></img>
+						<img
+							className='rounded-2xl w-48 shadow-xl'
+							src={image_template}
+						></img>
 					</div>
 
 					<div
@@ -177,7 +186,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							<div className='bg-primary p-1 rounded-full my-auto'></div>
 						)}
 
-						<img className='rounded-2xl w-48' src={browser_template}></img>
+						<img
+							className='rounded-2xl w-48 shadow-xl'
+							src={browser_template}
+						></img>
 					</div>
 				</div>
 

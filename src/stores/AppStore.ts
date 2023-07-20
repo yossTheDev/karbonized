@@ -25,6 +25,7 @@ export interface AppStoreModel {
 	/* Controls System */
 	initialProperties: History[];
 	addInitialProperty: Action<AppStoreModel, History>;
+	removeInitialProperty: Action<AppStoreModel, string>;
 
 	controlSize?: { w: number; h: number };
 	controlPosition?: { x: number; y: number };
@@ -113,6 +114,11 @@ export const AppStore = createStore<AppStoreModel>({
 	initialProperties: [],
 	addInitialProperty: action((state, payload) => {
 		state.initialProperties.push(payload);
+	}),
+	removeInitialProperty: action((state, id) => {
+		state.initialProperties = state.initialProperties.filter(
+			(item) => item.id != id,
+		);
 	}),
 
 	/* History System */
@@ -276,6 +282,7 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	cleanWorkspace: action((state, payload) => {
+		state.currentControlID = '';
 		state.ControlsTree = [];
 	}),
 

@@ -7,28 +7,34 @@ export const useRedoUndo = (
 	manual: boolean = false,
 ) => {
 	const controlState = useStoreState((state) => state.controlState);
+	const ControlsTree = useStoreState((state) => state.ControlsTree);
 	const initialProperties = useStoreState((state) => state.initialProperties);
+	const removeInitialProperty = useStoreActions(
+		(state) => state.removeInitialProperty,
+	);
 	const pastHistory = useStoreState((state) => state.pastHistory);
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
 	const hasProperty = (id: string) => {
-		let val = null;
-
-		initialProperties.forEach((item) => {
-			if (item.id === id) {
-				val = item.value;
-			}
-		});
-
-		return val;
+		for (const item of initialProperties) {
+			if (item.id === id) return item.value;
+		}
+		return null;
 	};
 
-	const [state, setState] = useState(
-		hasProperty(id) ? hasProperty(id) : initialState,
-	);
+	const [state, setState] = useState(initialState);
 
+	/* Set Initial Properties */
+	useEffect(() => {
+		if (hasProperty(id)) {
+			setState(hasProperty(id));
+			removeInitialProperty(id);
+		}
+	}, [initialProperties]);
+
+	/* Look at Current Controls Properties for Changes */
 	useEffect(() => {
 		if (controlState?.id === id) {
 			setState(controlState.value);
