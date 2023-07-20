@@ -131,7 +131,8 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 				borderEditable={false}
 				defaultHeight='140px'
 				defaultWidth='460px'
-				minHeight='100px'
+				minWidth='415px'
+				minHeight='140px'
 				maxWidth='2050px'
 				maxHeight='2050px'
 				menu={
