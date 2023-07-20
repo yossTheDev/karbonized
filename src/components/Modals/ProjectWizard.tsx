@@ -133,7 +133,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 			</Modal.Header>
 
-			<Modal.Body className='flex select-none flex-row gap-3 overflow-hidden'>
+			<Modal.Body className='flex select-none flex-row gap-4 overflow-hidden'>
 				{/* Templates */}
 				<div className='flex flex-col overflow-y-auto w-56 gap-2'>
 					<div
@@ -199,7 +199,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 						Properties
 					</p>
 
-					<div className='w-full p-2 flex flex-col gap-3  overflow-auto'>
+					<div className='w-full p-2 flex flex-col gap-3  font-bold overflow-auto'>
 						<p className='poppins-font-family text-gray-500'>Project Name</p>
 						<Input
 							className='min-h-12 w-full'
