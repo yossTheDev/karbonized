@@ -2,6 +2,7 @@
 
 ## v 1.2.1
 
+* Key Shortcut (Ctrl+N) to Create New Project
 * Fix: New Elements get the same properties of the latest element before create new project
 * Fix: Min Height and Width on Code Blocks
 
