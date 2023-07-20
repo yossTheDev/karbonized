@@ -4,7 +4,6 @@ import { FileInput } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import example from '../../assets/example-user.png';
-import { P } from '@tauri-apps/api/os-650909c3';
 
 interface Props {
 	id: string;
