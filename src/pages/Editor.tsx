@@ -147,19 +147,18 @@ export const Editor: React.FC = () => {
 			event.preventDefault();
 			showPreviewImage();
 		} else if (event.ctrlKey && event.key === 'z') {
-			setEditing(false);
+			//setEditing(false);
 			event.preventDefault();
 			undo();
-			console.log('undo');
-			setEditing(false);
+			//setEditing(false);
 		} else if (event.ctrlKey && event.key === 'y') {
-			setEditing(false);
+			//setEditing(false);
 
 			event.preventDefault();
 			redo();
-			console.log(future);
+			//console.log(future);
 
-			console.log('redo');
+			//console.log('redo');
 		} else if (event.ctrlKey && event.key === ' ') {
 			event.preventDefault();
 			centerView();

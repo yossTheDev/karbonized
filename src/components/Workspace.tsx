@@ -156,9 +156,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						setControlPos({ x: left, y: top });
 					}}
 					onDragEnd={({ target }) => {
-						// console.log('onDragEnd', target, isDrag);
-						// console.log('end drag');
-
 						setControlState({
 							id: `${controlID}-pos`,
 							value: {
@@ -166,20 +163,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 								y: parseFloat(target.style.top.replace('px', '')),
 							},
 						});
-						setPastHistory([
-							...pastHistory,
-							{
-								id: `${controlID}-pos`,
-								value: {
-									x: parseFloat(target.style.left.replace('px', '')),
-									y: parseFloat(target.style.top.replace('px', '')),
-								},
-							},
-						]);
-						/* console.log({
-							x: parseFloat(target.style.left.replace('px', '')),
-							y: parseFloat(target.style.top.replace('px', '')),
-						}); */
 
 						setFutureHistory([]);
 					}}
@@ -190,7 +173,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					resizable={true}
 					throttleResize={0}
 					onResizeStart={({ target }) => {
-						// console.log('onResizeStart', target);
 						setPastHistory([
 							...pastHistory,
 							{
@@ -232,20 +214,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 								w: parseFloat(target.style.width.replace('px', '')),
 								h: parseFloat(target.style.height.replace('px', '')),
 							},
-						});
-						setPastHistory([
-							...pastHistory,
-							{
-								id: `${controlID}-control_size`,
-								value: {
-									w: parseFloat(target.style.width.replace('px', '')),
-									h: parseFloat(target.style.height.replace('px', '')),
-								},
-							},
-						]);
-						console.log({
-							x: parseFloat(target.style.left.replace('px', '')),
-							y: parseFloat(target.style.top.replace('px', '')),
 						});
 
 						setFutureHistory([]);
@@ -319,6 +287,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// console.log('onPinchEnd');
 					}}
 					defaultGroupOrigin=''
+					useMutationObserver
 				/>
 			)}
 		</>

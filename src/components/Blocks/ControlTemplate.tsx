@@ -84,12 +84,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const pastHistory = useStoreState((state) => state.pastHistory);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
+	const setControlState = useStoreActions((state) => state.setControlState);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
 	// Component States
 	const [zIndex, setzIndex] = useRedoUndo('0', `${id}-zindex`);
-	const [visibility, setVisibility] = useRedoUndo(true, `${id}-visibiliy`);
+	const [visibility, setVisibility] = useRedoUndo(true, `${id}-visibility`);
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(10), shift(), flip()],
@@ -97,17 +98,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 
 	/* Position and Size */
-	const [position, setPosition] = useRedoUndo({ x: 33, y: 190 }, `${id}-pos`);
+	const [position, setPosition] = useRedoUndo(
+		{ x: 33, y: 190 },
+		`${id}-pos`,
+		true,
+	);
 	const [size, setSize] = useRedoUndo(
 		{
 			w: defaultWidth.replace('px', '') as unknown as number,
 			h: defaultHeight.replace('px', '') as unknown as number,
 		},
-		`${id}-control_size`
+		`${id}-control_size`,
+		true,
 	);
-	const [borderRadious, setBorderRadious] = useRedoUndo(
+	const [borderRadius, setBorderRadius] = useRedoUndo(
 		border,
-		`${id}-visibiliy`
+		`${id}-borderRadius`,
 	);
 
 	/* Flip */
@@ -135,7 +141,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const [shadowBlur, setShadowBlur] = useRedoUndo(0, `${id}-shadowBlur`);
 	const [shadowColor, setShadowColor] = useRedoUndo(
 		'#090b11',
-		`${id}-shadowColor`
+		`${id}-shadowColor`,
 	);
 
 	const [mask, setMask] = useRedoUndo('', `${id}-mask`);
@@ -325,7 +331,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						<div
 							ref={ref}
 							style={{
-								borderRadius: borderRadious + 'px',
+								borderRadius: borderRadius + 'px',
 								backgroundColor: color,
 								transform: `${flipX ? 'scaleX(-1)' : ''} ${
 									flipY ? 'scaleY(-1)' : ''
@@ -403,14 +409,29 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											type={'number'}
 											className='w-full rounded-xl bg-base-100 p-2  text-xs'
 											onChange={(ev) => {
-												setControlPos({
+												setPastHistory([
+													...pastHistory,
+													{
+														id: `${id}-pos`,
+														value: {
+															x: controlPos?.x as unknown as number,
+															y: controlPos?.y as unknown as number,
+														},
+													},
+												]);
+												setControlState({
+													id: `${id}-pos`,
+													value: {
+														x: parseFloat(ev.target.value),
+														y: controlPos?.y as unknown as number,
+													},
+												});
+												/*setControlPos({
 													x: parseFloat(ev.target.value),
 													y: controlPos?.y as unknown as number,
-												});
-												setEditing(false);
-											}}
-											onBlur={() => {
-												setEditing(true);
+												});*/
+
+												setFutureHistory([]);
 											}}
 											value={controlPos?.x}
 										></Input>
@@ -422,32 +443,30 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											type={'number'}
 											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) => {
-												setEditing(false);
-												/*setPosition({
-													y: parseFloat(ev.target.value),
-													x: controlPos?.x as unknown as number,
-												});*/
-												console.log(parseFloat(ev.target.value));
+												setPastHistory([
+													...pastHistory,
+													{
+														id: `${id}-pos`,
+														value: {
+															x: controlPos?.x as unknown as number,
+															y: controlPos?.y as unknown as number,
+														},
+													},
+												]);
+												setControlState({
+													id: `${id}-pos`,
+													value: {
+														y: parseFloat(ev.target.value),
+														x: controlPos?.y as unknown as number,
+													},
+												});
+
 												setControlPos({
 													y: parseFloat(ev.target.value),
 													x: controlPos?.x as unknown as number,
 												});
 
-												/*setPastHistory([
-													...pastHistory,
-													{
-														id: `${controlID}-pos`,
-														value: {
-															y: parseFloat(ev.target.value),
-															x: controlPos?.x as unknown as number,
-														},
-													},
-												]);
-
-												setFutureHistory([]);*/
-											}}
-											onBlur={() => {
-												setEditing(true);
+												setFutureHistory([]);
 											}}
 											value={controlPos?.y}
 										></Input>
@@ -473,14 +492,30 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											type={'number'}
 											className='w-full rounded-xl bg-base-100 p-2 text-xs'
 											onChange={(ev) => {
-												setEditing(false);
+												setPastHistory([
+													...pastHistory,
+													{
+														id: `${id}-control_size`,
+														value: {
+															w: controlSize?.w as unknown as number,
+															h: controlSize?.h as unknown as number,
+														},
+													},
+												]);
+												setControlState({
+													id: `${id}-control_size`,
+													value: {
+														w: parseFloat(ev.target.value),
+														h: controlSize?.h as unknown as number,
+													},
+												});
+
 												setControlSize({
 													w: parseFloat(ev.target.value),
 													h: size.h,
 												});
-											}}
-											onBlur={() => {
-												setEditing(true);
+
+												setFutureHistory([]);
 											}}
 											value={controlSize?.w}
 										></Input>
@@ -494,15 +529,35 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											onChange={(ev) => {
 												setEditing(false);
 
+												setPastHistory([
+													...pastHistory,
+													{
+														id: `${id}-control_size`,
+														value: {
+															w: controlSize?.w as unknown as number,
+															h: controlSize?.h as unknown as number,
+														},
+													},
+												]);
+												setControlState({
+													id: `${id}-control_size`,
+													value: {
+														h: parseFloat(ev.target.value),
+														w: controlSize?.h as unknown as number,
+													},
+												});
+
 												setControlSize({
 													w: size.w,
 													h: parseFloat(ev.target.value),
 												});
+
+												setFutureHistory([]);
 											}}
 											onBlur={() => {
 												setEditing(true);
 											}}
-											value={controlSize?.h}
+											value={size?.h}
 										></Input>
 									</div>
 								</div>
@@ -632,9 +687,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											className='my-auto'
 											color='primary'
 											onChange={(ev) =>
-												setBorderRadious(ev.target.value as unknown as number)
+												setBorderRadius(ev.target.value as unknown as number)
 											}
-											value={borderRadious}
+											value={borderRadius}
 											max={'22'}
 										></Range>
 									</div>
@@ -726,7 +781,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										max={200}
 										onChange={(ev) => {
 											setBrightness(
-												ev.currentTarget.value as unknown as number
+												ev.currentTarget.value as unknown as number,
 											);
 										}}
 										value={brightness}
