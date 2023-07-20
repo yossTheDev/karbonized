@@ -34,13 +34,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          ls
-          cd ..
-          yarn install
-          ls
+          npm install
 
       - name: Build project
-        run: yarn run build
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
