@@ -8,7 +8,7 @@ import {
 } from '@tabler/icons-react';
 import { appWindow } from '@tauri-apps/api/window';
 import React, { useState } from 'react';
-import { MiniminizeSvg } from '../General/Icons';
+import { MiniminizeSvg } from '../Misc/Icons';
 import karbonized from '../../assets/karbonized.svg';
 import { useTheme } from '../../hooks/useTheme';
 import { HomeButton } from './HomeButton';

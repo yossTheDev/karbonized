@@ -2,7 +2,7 @@ import React from 'react';
 import { Editor } from './pages/Editor';
 import { TitleBar } from './components/Base/TitleBar';
 import { useTauriPlatform } from './hooks/useTauriPlatform';
-import Flux from './components/General/SvgBackgrounds/Flux';
+import Flux from './components/Misc/SvgBackgrounds/Flux';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { Home } from './pages/Home';
 

@@ -12,7 +12,7 @@ import {
 	PoligonSvg,
 	StarSvg,
 	Trianglevg,
-} from '../General/Icons';
+} from '../Misc/Icons';
 
 interface Props {
 	type: string;

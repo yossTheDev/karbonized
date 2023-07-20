@@ -19,7 +19,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import * as prismThemes from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { CloseSvg, MiniminizeSvg } from '../General/Icons';
+import { CloseSvg, MiniminizeSvg } from '../Misc/Icons';
 import { LanguajeTabIcon } from './LanguajeTabIcon';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 

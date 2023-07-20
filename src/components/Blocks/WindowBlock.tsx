@@ -16,7 +16,7 @@ import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
-import { CloseSvg, MiniminizeSvg } from '../General/Icons';
+import { CloseSvg, MiniminizeSvg } from '../Misc/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 

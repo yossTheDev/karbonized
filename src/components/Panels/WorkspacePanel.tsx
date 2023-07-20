@@ -11,16 +11,16 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { NumberInput } from '../CustomControls/NumberInput';
 
-const Coil = React.lazy(() => import('../General/SvgBackgrounds/Coil'));
-const Circular = React.lazy(() => import('../General/SvgBackgrounds/Circular'));
-const Horizon = React.lazy(() => import('../General/SvgBackgrounds/Horizon'));
-const Grayrate = React.lazy(() => import('../General/SvgBackgrounds/Grayrate'));
-const Hirl = React.lazy(() => import('../General/SvgBackgrounds/Hirl'));
-const Neon = React.lazy(() => import('../General/SvgBackgrounds/Neon'));
-const Undulate = React.lazy(() => import('../General/SvgBackgrounds/Undulate'));
-const Chaos = React.lazy(() => import('../General/SvgBackgrounds/Chaos'));
-const Oscilate = React.lazy(() => import('../General/SvgBackgrounds/Oscilate'));
-const Vortex = React.lazy(() => import('../General/SvgBackgrounds/Vortex'));
+const Coil = React.lazy(() => import('../Misc/SvgBackgrounds/Coil'));
+const Circular = React.lazy(() => import('../Misc/SvgBackgrounds/Circular'));
+const Horizon = React.lazy(() => import('../Misc/SvgBackgrounds/Horizon'));
+const Grayrate = React.lazy(() => import('../Misc/SvgBackgrounds/Grayrate'));
+const Hirl = React.lazy(() => import('../Misc/SvgBackgrounds/Hirl'));
+const Neon = React.lazy(() => import('../Misc/SvgBackgrounds/Neon'));
+const Undulate = React.lazy(() => import('../Misc/SvgBackgrounds/Undulate'));
+const Chaos = React.lazy(() => import('../Misc/SvgBackgrounds/Chaos'));
+const Oscilate = React.lazy(() => import('../Misc/SvgBackgrounds/Oscilate'));
+const Vortex = React.lazy(() => import('../Misc/SvgBackgrounds/Vortex'));
 
 interface SizeItem {
 	label: string;
@@ -62,7 +62,7 @@ export const WorkspacePanel: React.FC = () => {
 	const workspaceType = useStoreState((state) => state.workspaceType);
 	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
 	const workspaceGadient = useStoreState(
-		(state) => state.workspaceGradientSettings
+		(state) => state.workspaceGradientSettings,
 	);
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
@@ -70,13 +70,13 @@ export const WorkspacePanel: React.FC = () => {
 	const setTexture = useStoreActions((state) => state.setTextureName);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const setWorkspaceGradient = useStoreActions(
-		(state) => state.setWorkspaceGradient
+		(state) => state.setWorkspaceGradient,
 	);
 
 	const textureColors = useStoreState((state) => state.textureColors);
 	const setTextureColors = useStoreActions((state) => state.setTextureColors);
 	const setWorkspaceColorMode = useStoreActions(
-		(state) => state.setWorkspaceColorMode
+		(state) => state.setWorkspaceColorMode,
 	);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
 

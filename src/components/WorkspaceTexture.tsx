@@ -2,17 +2,17 @@ import React, { Suspense } from 'react';
 import { useStoreState } from '../stores/Hooks';
 
 /* Svg Textures */
-const Coil = React.lazy(() => import('./General/SvgBackgrounds/Coil'));
-const Circular = React.lazy(() => import('./General/SvgBackgrounds/Circular'));
-const Horizon = React.lazy(() => import('./General/SvgBackgrounds/Horizon'));
-const Grayrate = React.lazy(() => import('./General/SvgBackgrounds/Grayrate'));
-const Hirl = React.lazy(() => import('./General/SvgBackgrounds/Hirl'));
-const Neon = React.lazy(() => import('./General/SvgBackgrounds/Neon'));
-const Undulate = React.lazy(() => import('./General/SvgBackgrounds/Undulate'));
-const Chaos = React.lazy(() => import('./General/SvgBackgrounds/Chaos'));
-const Oscilate = React.lazy(() => import('./General/SvgBackgrounds/Oscilate'));
-const Vortex = React.lazy(() => import('./General/SvgBackgrounds/Vortex'));
-const Flux = React.lazy(() => import('./General/SvgBackgrounds/Flux'));
+const Coil = React.lazy(() => import('./Misc/SvgBackgrounds/Coil'));
+const Circular = React.lazy(() => import('./Misc/SvgBackgrounds/Circular'));
+const Horizon = React.lazy(() => import('./Misc/SvgBackgrounds/Horizon'));
+const Grayrate = React.lazy(() => import('./Misc/SvgBackgrounds/Grayrate'));
+const Hirl = React.lazy(() => import('./Misc/SvgBackgrounds/Hirl'));
+const Neon = React.lazy(() => import('./Misc/SvgBackgrounds/Neon'));
+const Undulate = React.lazy(() => import('./Misc/SvgBackgrounds/Undulate'));
+const Chaos = React.lazy(() => import('./Misc/SvgBackgrounds/Chaos'));
+const Oscilate = React.lazy(() => import('./Misc/SvgBackgrounds/Oscilate'));
+const Vortex = React.lazy(() => import('./Misc/SvgBackgrounds/Vortex'));
+const Flux = React.lazy(() => import('./Misc/SvgBackgrounds/Flux'));
 
 export const WorkspaceTexture: React.FC<{
 	texture: string;

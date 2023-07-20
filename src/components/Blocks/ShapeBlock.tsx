@@ -19,7 +19,7 @@ import {
 	RectangleSvg,
 	StarSvg,
 	Trianglevg,
-} from '../General/Icons';
+} from '../Misc/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 
 import { ShapeHandler } from './ShapeHandler';
