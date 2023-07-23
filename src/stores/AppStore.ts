@@ -1,8 +1,12 @@
 import { Action, action, createStore, Computed, computed } from 'easy-peasy';
 
-interface Item {
+export interface Item {
 	id: string;
 	type: string;
+	name: string;
+	isSelectable: boolean;
+	isVisible: boolean;
+	isDeleted: boolean;
 }
 
 interface History {
@@ -19,13 +23,15 @@ export interface AppStoreModel {
 	readyToSave: boolean;
 	editing: boolean;
 	lockAspect: boolean;
-	controlsClass: Computed<AppStoreModel, string[]>;
 	setLockAspect: Action<AppStoreModel, boolean>;
 
 	/* Controls System */
 	initialProperties: History[];
 	addInitialProperty: Action<AppStoreModel, History>;
 	removeInitialProperty: Action<AppStoreModel, string>;
+	setControls: Action<AppStoreModel, Item[]>;
+	controlsClass: Computed<AppStoreModel, string[]>;
+	visibleControls: Computed<AppStoreModel, Item[]>;
 
 	controlSize?: { w: number; h: number };
 	controlPosition?: { x: number; y: number };
@@ -60,8 +66,8 @@ export interface AppStoreModel {
 	setFuture: Action<AppStoreModel, History[]>;
 
 	/* Tabs */
-	selectedTab: 'workspace' | 'control';
-	setSelectedTab: Action<AppStoreModel, 'workspace' | 'control'>;
+	selectedTab: 'hierarchy' | 'control' | 'workspace';
+	setSelectedTab: Action<AppStoreModel, 'hierarchy' | 'control' | 'workspace'>;
 
 	/* Workspace */
 	workspaceName: string;
@@ -98,16 +104,7 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
-	controlsClass: computed((state) => {
-		const controlsClass: string[] = [];
 
-		state.ControlsTree.forEach((item) => {
-			if (item.id !== state.currentControlID)
-				controlsClass.push('.block-' + item.id);
-		});
-
-		return controlsClass;
-	}),
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 
 	/* Controls System */
@@ -119,6 +116,22 @@ export const AppStore = createStore<AppStoreModel>({
 		state.initialProperties = state.initialProperties.filter(
 			(item) => item.id != id,
 		);
+	}),
+	setControls: action((state, items) => {
+		state.ControlsTree = items;
+	}),
+	controlsClass: computed((state) => {
+		const controlsClass: string[] = [];
+
+		state.ControlsTree.forEach((item) => {
+			if (item.id !== state.currentControlID)
+				controlsClass.push('.block-' + item.id);
+		});
+
+		return controlsClass;
+	}),
+	visibleControls: computed((state) => {
+		return state.ControlsTree.filter((item) => !item.isDeleted);
 	}),
 
 	/* History System */
@@ -214,7 +227,7 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	/* Tabs */
-	selectedTab: 'control',
+	selectedTab: 'hierarchy',
 	setSelectedTab: action((state, payload) => {
 		state.selectedTab = payload;
 	}),

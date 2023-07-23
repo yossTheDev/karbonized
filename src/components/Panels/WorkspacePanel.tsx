@@ -10,6 +10,7 @@ import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { NumberInput } from '../CustomControls/NumberInput';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 const Coil = React.lazy(() => import('../Misc/SvgBackgrounds/Coil'));
 const Circular = React.lazy(() => import('../Misc/SvgBackgrounds/Circular'));

@@ -73,6 +73,7 @@ export const Editor: React.FC = () => {
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
+	const controls = useStoreState((state) => state.ControlsTree);
 
 	// Component Store and Actions
 	const isHorizontal = useScreenDirection();
@@ -91,6 +92,10 @@ export const Editor: React.FC = () => {
 	const viewerRef = useRef<InfiniteViewer>(null);
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
+
+	const getElementsByType = (type: string) => {
+		return controls.filter((item) => item.type === type).length + 1;
+	};
 
 	const centerView = useCallback(() => {
 		if (parseFloat(workspaceWidth) < 1280) {
@@ -176,7 +181,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	});
+	}, []);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
@@ -654,6 +659,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'code',
 											id: `code-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `code ${getElementsByType('code')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -670,6 +679,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'faicon',
 											id: `faicon-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `icon ${getElementsByType('faicon')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -689,6 +702,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'text',
 											id: `text-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `text ${getElementsByType('text')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -708,6 +725,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'arrow',
 											id: `arrow-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `shape ${getElementsByType('arrow')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -729,7 +750,14 @@ export const Editor: React.FC = () => {
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
 									onClick={() =>
-										addControl({ type: 'qr', id: `qr-${getRandomNumber()}` })
+										addControl({
+											type: 'qr',
+											id: `qr-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `qr ${getElementsByType('qr')}`,
+											isVisible: true,
+										})
 									}
 								>
 									<IconQrcode
@@ -748,6 +776,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'image',
 											id: `image-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `image ${getElementsByType('image')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -764,6 +796,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'badge',
 											id: `badge-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `badge ${getElementsByType('badge')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -780,6 +816,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'tweet',
 											id: `tweet-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `tweet ${getElementsByType('tweet')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -799,6 +839,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'window',
 											id: `window-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `window ${getElementsByType('window')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -818,6 +862,10 @@ export const Editor: React.FC = () => {
 										addControl({
 											type: 'phone_mockup',
 											id: `phone_mockup-${getRandomNumber()}`,
+											isSelectable: true,
+											isDeleted: false,
+											name: `phone mockup ${getElementsByType('phone_mockup')}`,
+											isVisible: true,
 										})
 									}
 								>
@@ -836,7 +884,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}   z-10 order-4 mt-auto h-96 max-h-96 w-full flex-col items-center py-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}   z-10 order-4 mr-2 mt-auto h-96 max-h-96 w-full flex-col items-center py-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>

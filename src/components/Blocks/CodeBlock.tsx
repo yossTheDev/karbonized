@@ -99,9 +99,9 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 	const [windowStyle, setWindowStyle] = useRedoUndo('mac', `${id}-winstyle`);
 
 	const [colorMode, setColorMode] = useRedoUndo('Single', `${id}-colormode`);
-	const [gColor1, setGColor1] = useRedoUndo('#0da2e7', `${id}-gradienc1`);
-	const [gColor2, setGColor2] = useRedoUndo('#5895c8', `${id}-gradienc2`);
-	const [gradientDeg, setGradientDeg] = useRedoUndo(22, `${id}-gradiendeg`);
+	const [gColor1, setGColor1] = useRedoUndo('#0da2e7', `${id}-gradientc1`);
+	const [gColor2, setGColor2] = useRedoUndo('#5895c8', `${id}-gradientc2`);
+	const [gradientDeg, setGradientDeg] = useRedoUndo(22, `${id}-gradientdeg`);
 
 	/* Handle Chage Theme */
 	const handleChangeTheme = (theme: string) => {

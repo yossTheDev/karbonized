@@ -75,6 +75,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const controlID = useStoreState((state) => state.currentControlID);
 	const workspaceName = useStoreState((state) => state.workspaceName);
 
+	const controls = useStoreState((state) => state.ControlsTree);
 	const controlSize = useStoreState((state) => state.controlSize);
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const controlPos = useStoreState((state) => state.controlPosition);
@@ -85,6 +86,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 	const setControlState = useStoreActions((state) => state.setControlState);
+	const setControls = useStoreActions((state) => state.setControls);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 
@@ -153,8 +155,31 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		if (controlID === id) {
 			setVisibility(false);
 			setID('');
+
+			setControls(
+				controls.map((item) =>
+					item.id === id ? { ...item, isDeleted: true } : item,
+				),
+			);
 		}
 	}, [isPressed]);
+
+	/* Manage Controls Visibility */
+	useEffect(() => {
+		if (!visibility) {
+			setControls(
+				controls.map((item) =>
+					item.id === id ? { ...item, isDeleted: true } : item,
+				),
+			);
+		} else {
+			setControls(
+				controls.map((item) =>
+					item.id === id ? { ...item, isDeleted: false } : item,
+				),
+			);
+		}
+	}, [visibility]);
 
 	const Masks = [
 		'default',
@@ -302,9 +327,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				>
 					<div
 						className='flex flex-auto'
-						onTouchStart={() => {
+						onClick={() => {
 							setID(id);
-							setWorkspaceTab('control');
 							setControlPos({
 								x: position.x,
 								y: position.y,
@@ -314,17 +338,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								h: size.h,
 							});
 						}}
-						onClick={() => {
-							setID(id);
+						onDoubleClick={() => {
 							setWorkspaceTab('control');
-							setControlPos({
-								x: position.x,
-								y: position.y,
-							});
-							setControlSize({
-								w: size.w,
-								h: size.h,
-							});
 						}}
 						ref={reference}
 					>

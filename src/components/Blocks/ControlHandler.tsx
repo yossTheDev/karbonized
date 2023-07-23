@@ -17,78 +17,101 @@ const WindowBlock = React.lazy(() => import('./WindowBlock'));
 interface Props {
 	id: string;
 	type: string;
+	isVisible: boolean;
 }
 
-export const ControlHandler: React.FC<Props> = ({ type, id }) => {
+export const ControlHandler: React.FC<Props> = ({ type, id, isVisible }) => {
 	// Store Actions
 	switch (type) {
 		case 'code':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<CodeControl id={id}></CodeControl>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<CodeControl id={id}></CodeControl>
+					</div>
 				</Suspense>
 			);
 		case 'text':
 			return (
 				<Suspense>
-					<TextControl id={id}></TextControl>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<TextControl id={id}></TextControl>
+					</div>
 				</Suspense>
 			);
 		case 'qr':
 			return (
 				<Suspense>
-					<QrControl id={id}></QrControl>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<QrControl id={id}></QrControl>
+					</div>
 				</Suspense>
 			);
 		case 'image':
 			return (
 				<Suspense>
-					<ImageBlock id={id}></ImageBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<ImageBlock id={id}></ImageBlock>
+					</div>
 				</Suspense>
 			);
 		case 'window':
 			return (
 				<Suspense>
-					<WindowBlock id={id}></WindowBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<WindowBlock id={id}></WindowBlock>
+					</div>
 				</Suspense>
 			);
 		case 'avatar':
 			return (
 				<Suspense>
-					<AvatarBlock id={id}></AvatarBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<AvatarBlock id={id}></AvatarBlock>
+					</div>
 				</Suspense>
 			);
 
 		case 'arrow':
 			return (
 				<Suspense>
-					<ShapeBlock id={id}></ShapeBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<ShapeBlock id={id}></ShapeBlock>
+					</div>
 				</Suspense>
 			);
 		case 'phone_mockup':
 			return (
 				<Suspense>
-					<PhoneBlock id={id}></PhoneBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<PhoneBlock id={id}></PhoneBlock>
+					</div>
 				</Suspense>
 			);
 		case 'faicon':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<FaIconBlock id={id}></FaIconBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<FaIconBlock id={id}></FaIconBlock>
+					</div>
 				</Suspense>
 			);
 
 		case 'tweet':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<TweetBlock id={id}></TweetBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<TweetBlock id={id}></TweetBlock>
+					</div>
 				</Suspense>
 			);
 
 		case 'badge':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
-					<BadgeBlock id={id}></BadgeBlock>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<BadgeBlock id={id}></BadgeBlock>
+					</div>
 				</Suspense>
 			);
 		default:

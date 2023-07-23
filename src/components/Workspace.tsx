@@ -76,6 +76,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						id={el.id}
 						key={el.id}
 						type={el.type}
+						isVisible={el.isVisible}
 					></ControlHandler>
 				))}
 

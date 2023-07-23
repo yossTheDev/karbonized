@@ -52,6 +52,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+	const controls = useStoreState((state) => state.ControlsTree);
+
+	const getElementsByType = (type: string) => {
+		return controls.filter((item) => item.type === type).length + 1;
+	};
 
 	const handleCreate = () => {
 		cleanWorkspace();
@@ -60,7 +65,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			setWorkspaceSize({ height: '512', width: '512' });
 		} else if (template === 'code') {
 			const num = getRandomNumber();
-			addControl({ type: 'code', id: `code-${num}` });
+			addControl({
+				type: 'code',
+				id: `code-${num}`,
+				isSelectable: true,
+				isDeleted: false,
+				name: `code ${getElementsByType('code')}`,
+				isVisible: true,
+			});
 
 			setWorkspaceSize({ width: '512', height: '512' });
 			addInitialProperty({ id: `code-${num}-wintitle`, value: title });
@@ -75,7 +87,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		} else if (template === 'browser') {
 			const num = getRandomNumber();
 
-			addControl({ type: 'window', id: `window-${num}` });
+			addControl({
+				type: 'window',
+				id: `window-${num}`,
+				isSelectable: true,
+				isDeleted: false,
+				name: `window ${getElementsByType('window')}`,
+				isVisible: true,
+			});
 
 			setWorkspaceSize({ width: '1280', height: '720' });
 
@@ -95,7 +114,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		} else if (template === 'image') {
 			const num = getRandomNumber();
 
-			addControl({ type: 'image', id: `image-${num}` });
+			addControl({
+				type: 'image',
+				id: `image-${num}`,
+				isSelectable: true,
+				isDeleted: false,
+				name: `image ${getElementsByType('image')}`,
+				isVisible: true,
+			});
 
 			setWorkspaceSize({ width: '1280', height: '720' });
 
