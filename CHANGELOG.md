@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.3.0
+
+* New Feature: Controls Hierarchy
+
 ## v 1.2.1
 
 * Key Shortcut (Ctrl+N) to Create New Project
