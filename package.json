@@ -1,7 +1,7 @@
 {
 	"name": "karbonized",
 	"private": true,
-	"version": "0.0.1",
+	"version": "1.3.0",
 	"main": "dist-electron/main.js",
 	"scripts": {
 		"dev": "vite",
