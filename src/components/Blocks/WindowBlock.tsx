@@ -16,7 +16,7 @@ import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
-import { CloseSvg, MiniminizeSvg } from '../Misc/Icons';
+import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
@@ -233,10 +233,10 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 								<div className='flex w-1/3 flex-auto flex-row'></div>
 							) : (
 								<div className='my-auto mr-2 flex w-1/3 flex-auto flex-row'>
-									<MiniminizeSvg
+									<MinimizeSvg
 										style={{ fill: controlsColor }}
 										className='ml-auto h-4 w-4'
-									></MiniminizeSvg>
+									></MinimizeSvg>
 									<CloseSvg
 										style={{ fill: controlsColor }}
 										className='ml-2 h-4  w-4'

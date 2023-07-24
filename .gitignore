@@ -13,6 +13,7 @@ release
 .yarn/
 dist
 dist-ssr
+dist-electron
 *.local
 
 # Editor directories and files

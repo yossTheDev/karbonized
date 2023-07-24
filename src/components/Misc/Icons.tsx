@@ -276,7 +276,7 @@ export const OvalSvg: React.FC<Props> = ({ className, style }) => {
 	);
 };
 
-export const MiniminizeSvg: React.FC<Props> = ({ className, style }) => {
+export const MinimizeSvg: React.FC<Props> = ({ className, style }) => {
 	return (
 		<svg
 			style={style}

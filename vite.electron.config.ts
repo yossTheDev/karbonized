@@ -8,6 +8,17 @@ export default defineConfig({
 		react(),
 		electron({
 			entry: 'src-electron/main.ts',
+
+			vite: {
+				build: {
+					rollupOptions: {
+						input: {
+							main: 'src-electron/main.ts',
+							preload: 'src-electron/preload.ts',
+						},
+					},
+				},
+			},
 		}),
 	],
 });

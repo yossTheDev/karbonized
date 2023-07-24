@@ -53,6 +53,7 @@ import '../utils.css';
 import { ExportImage, export_format } from '../utils/Exporter';
 import './Editor.css';
 import { getRandomNumber } from '../utils/getRandom';
+import { isElectron } from '../utils/isElectron';
 
 export const Editor: React.FC = () => {
 	// App Store
@@ -244,7 +245,7 @@ export const Editor: React.FC = () => {
 				e.preventDefault();
 			}}
 			id='body'
-			className='flex flex-auto flex-col overflow-hidden bg-base-100 md:flex-row'
+			className='flex flex-auto flex-row overflow-hidden bg-base-100'
 		>
 			{/* Content */}
 			<div className='relative flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
@@ -263,7 +264,7 @@ export const Editor: React.FC = () => {
 							</p>
 						</Button>
 
-						{!isTauriPlatform && (
+						{!isElectron() && (
 							<>
 								<HomeButton className='h-12 w-10 rounded-2xl p-1'></HomeButton>
 
@@ -503,53 +504,11 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Controls Tree */}
-				<div className='absolute  z-10 flex h-screen w-28 '>
+				<div className='absolute  z-10 flex  h-screen w-28 '>
 					<div className='mx-auto my-auto flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
 						{/* Tools */}
 						<div className='flex w-20 flex-row flex-wrap'>
 							{/* Actions */}
-
-							{/* Show Menu */}
-							<Tooltip
-								className='flex flex-auto md:hidden'
-								messsage='Show Menu'
-							>
-								<Button
-									color='ghost'
-									className='rounded-2xl p-1'
-									onClick={() => {
-										setShowMenu(!showMenu);
-									}}
-								>
-									{showMenu ? (
-										<IconChevronDown
-											size={18}
-											className='dark:text-white'
-										></IconChevronDown>
-									) : (
-										<IconChevronUp
-											size={18}
-											className='dark:text-white'
-										></IconChevronUp>
-									)}
-								</Button>
-							</Tooltip>
-
-							{/* Workspace Menu */}
-							<Tooltip className='hidden flex-auto' messsage='Settings'>
-								<Button
-									color='ghost'
-									className='rounded-2xl p-1 dark:text-white'
-									onClick={() => {
-										setShowWorkspacePanel(true);
-									}}
-								>
-									<IconSettings
-										className='mx-auto my-auto'
-										size={18}
-									></IconSettings>
-								</Button>
-							</Tooltip>
 
 							{/* Select */}
 							<Tooltip className='flex flex-auto' messsage='Select (Ctrl+W)'>
@@ -876,7 +835,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}   z-10 order-4 mr-2 mt-auto h-96 max-h-96 w-full flex-col items-center py-3 text-white md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}   z-10 order-4 mr-2 mt-auto hidden h-96 max-h-96 w-full flex-col items-center py-3 text-white md:flex md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>

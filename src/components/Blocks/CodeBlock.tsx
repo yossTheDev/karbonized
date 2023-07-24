@@ -19,7 +19,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import * as prismThemes from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { CloseSvg, MiniminizeSvg } from '../Misc/Icons';
+import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { LanguajeTabIcon } from './LanguajeTabIcon';
 import { useRedoUndo } from '../../hooks/useRedoUndo';
 
@@ -389,10 +389,10 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						<div className='my-auto flex w-1/3 flex-auto flex-row'>
 							{windowStyle === 'window' && (
 								<div className='my-auto flex w-1/3 flex-auto flex-row'>
-									<MiniminizeSvg
+									<MinimizeSvg
 										style={{ fill: controlsColor }}
 										className='my-auto ml-auto h-4 w-4'
-									></MiniminizeSvg>
+									></MinimizeSvg>
 									<CloseSvg
 										style={{ fill: controlsColor }}
 										className='my-auto ml-2  h-4 w-4'

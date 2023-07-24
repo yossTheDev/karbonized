@@ -7,14 +7,17 @@ import {
 	IconX,
 } from '@tabler/icons-react';
 import { appWindow } from '@tauri-apps/api/window';
-import React, { useState } from 'react';
-import { MiniminizeSvg } from '../Misc/Icons';
+import React, { useEffect, useState } from 'react';
+import { MinimizeSvg } from '../Misc/Icons';
 import karbonized from '../../assets/karbonized.svg';
 import { useTheme } from '../../hooks/useTheme';
 import { HomeButton } from './HomeButton';
 
+import { ipcRenderer } from 'electron';
+import './TitleBar.css';
+
 export const TitleBar: React.FC = () => {
-	const [maximized, setMaximized] = useState(true);
+	const [maximized, setMaximized] = useState(false);
 
 	const [appTheme, toggleTheme] = useTheme();
 
@@ -23,9 +26,21 @@ export const TitleBar: React.FC = () => {
 		appWindow.toggleMaximize();
 	};
 
+	useEffect(() => {
+		(window as any).electron.ipcRenderer.on(
+			'maximizedStatus',
+			(
+				event: any,
+				isMaximized: boolean | ((prevState: boolean) => boolean),
+			) => {
+				setMaximized(isMaximized);
+			},
+		);
+	}, []);
+
 	return (
 		<div
-			className='mt-1 flex max-h-12 w-full flex-auto bg-base-100 p-1'
+			className='z-50 mt-1 flex max-h-12 w-full flex-auto bg-base-100 p-1'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
@@ -43,6 +58,8 @@ export const TitleBar: React.FC = () => {
 				</label>
 			</div>
 
+			<div className='titlebar flex flex-auto'></div>
+
 			<div className='ml-auto'>
 				<div className='my-auto flex flex-row'>
 					<div
@@ -58,14 +75,18 @@ export const TitleBar: React.FC = () => {
 
 					<div
 						className='flex flex-auto cursor-pointer rounded-xl p-2 hover:bg-neutral'
-						onClick={() => appWindow.minimize()}
+						onClick={() =>
+							(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
+						}
 					>
-						<MiniminizeSvg className='ml-auto h-4 w-4 dark:fill-white'></MiniminizeSvg>
+						<MinimizeSvg className='ml-auto h-4 w-4 dark:fill-white'></MinimizeSvg>
 					</div>
 
 					<div
 						className='flex flex-auto cursor-pointer rounded-xl p-2 hover:bg-neutral'
-						onClick={() => toggleMaximized()}
+						onClick={() =>
+							(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
+						}
 					>
 						{maximized ? (
 							<IconMinimize className='ml-auto h-4 w-4 dark:text-white'></IconMinimize>
@@ -76,7 +97,9 @@ export const TitleBar: React.FC = () => {
 
 					<div
 						className='flex flex-auto cursor-pointer rounded-xl p-2 hover:bg-neutral'
-						onClick={() => appWindow.close()}
+						onClick={() =>
+							(window as any).electron.ipcRenderer.sendMessage('closeApp')
+						}
 					>
 						<IconX size={16} className='my-auto dark:text-white'></IconX>
 					</div>
