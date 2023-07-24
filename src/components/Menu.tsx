@@ -19,7 +19,7 @@ export const Menu: React.FC = () => {
 	return (
 		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200/90 p-2 shadow-xl backdrop-blur-xl'>
 			{/* Selectors */}
-			<div className='min-h-12  flex  max-h-12 flex-auto shrink-0 gap-2 overflow-y-auto'>
+			<div className='min-h-12   flex max-h-12 flex-auto shrink-0 gap-2 overflow-y-auto'>
 				{/* Hierarchy */}
 				<TabSelector
 					isActive={workspaceTab === 'hierarchy'}
@@ -53,7 +53,7 @@ export const Menu: React.FC = () => {
 							size={20}
 						></IconWallpaper>
 						<label className='my-auto hidden cursor-pointer md:flex'>
-							Wallpaper
+							Background
 						</label>
 					</div>
 				</TabSelector>
@@ -116,7 +116,7 @@ export const Menu: React.FC = () => {
 					</div>
 				</TabPanel>
 
-				{/* Controls */}
+				{/* Workspace */}
 				<TabPanel
 					className={`${
 						workspaceTab === 'workspace' &&

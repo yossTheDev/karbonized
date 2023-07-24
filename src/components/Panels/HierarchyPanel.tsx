@@ -12,7 +12,7 @@ export const HierarchyPanel = () => {
 		(state) => state.setcurrentControlID,
 	);
 	return (
-		<div className='flex flex-auto mt-2'>
+		<div className='mt-1 flex flex-auto'>
 			{/* Controls */}
 			{visibleControls.length > 0 ? (
 				<List
@@ -23,7 +23,7 @@ export const HierarchyPanel = () => {
 					}
 					renderList={({ children, props }) => (
 						<ul
-							className='flex flex-col gap-2 z-50 p-1  flex-auto w-full h-full'
+							className='z-50 flex h-full w-full flex-auto  flex-col gap-2 p-1'
 							{...props}
 						>
 							{children}
