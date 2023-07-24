@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.3.1
+
+* Move Background Settings to Menu Tab Bar
+
 ## v 1.3.0
 
 * New Feature: Controls Hierarchy
