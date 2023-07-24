@@ -1,11 +1,5 @@
 import React, { useRef } from 'react';
-import {
-	IconDots,
-	IconEdit,
-	IconHierarchy3,
-	IconSettings,
-	IconShape,
-} from '@tabler/icons-react';
+import { IconEdit, IconHierarchy3, IconWallpaper } from '@tabler/icons-react';
 import { TabPanel } from 'react-headless-tabs';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { TabSelector } from './Base/TabsSelector';
@@ -25,8 +19,8 @@ export const Menu: React.FC = () => {
 	return (
 		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200/90 p-2 shadow-xl backdrop-blur-xl'>
 			{/* Selectors */}
-			<div className='min-h-12  flex max-h-12 flex-auto shrink-0 overflow-y-auto'>
-				{/* Workspace */}
+			<div className='min-h-12  flex  max-h-12 flex-auto shrink-0 gap-2 overflow-y-auto'>
+				{/* Hierarchy */}
 				<TabSelector
 					isActive={workspaceTab === 'hierarchy'}
 					onClick={() => {
@@ -37,7 +31,7 @@ export const Menu: React.FC = () => {
 					<div className='mx-auto my-auto flex flex-row gap-2'>
 						<IconHierarchy3
 							className='mx-auto my-auto'
-							size={22}
+							size={20}
 						></IconHierarchy3>
 						<label className='my-auto hidden cursor-pointer md:flex'>
 							Hierarchy
@@ -45,7 +39,26 @@ export const Menu: React.FC = () => {
 					</div>
 				</TabSelector>
 
-				{/* Controls */}
+				{/* Workspace */}
+				<TabSelector
+					isActive={workspaceTab === 'workspace'}
+					onClick={() => {
+						// setSelectedTab('control');
+						setWorkspaceTab('workspace');
+					}}
+				>
+					<div className='mx-auto my-auto flex flex-row gap-2'>
+						<IconWallpaper
+							className='mx-auto my-auto'
+							size={20}
+						></IconWallpaper>
+						<label className='my-auto hidden cursor-pointer md:flex'>
+							Wallpaper
+						</label>
+					</div>
+				</TabSelector>
+
+				{/* Edit */}
 				<TabSelector
 					isActive={workspaceTab === 'control'}
 					onClick={() => {
@@ -54,7 +67,7 @@ export const Menu: React.FC = () => {
 					}}
 				>
 					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconEdit className='mx-auto my-auto' size={22}></IconEdit>
+						<IconEdit className='mx-auto my-auto' size={20}></IconEdit>
 						<label className='my-auto hidden cursor-pointer md:flex'>
 							Edit
 						</label>
@@ -63,7 +76,7 @@ export const Menu: React.FC = () => {
 			</div>
 
 			{/* Tab Panels */}
-			<div className='flex w-full relative flex-auto flex-col overflow-y-auto overflow-x-hidden'>
+			<div className='relative flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden'>
 				{/* Hierarchy */}
 				<TabPanel
 					hidden={workspaceTab !== 'hierarchy'}
@@ -118,15 +131,7 @@ export const Menu: React.FC = () => {
 				</TabPanel>
 			</div>
 
-			<div
-				onClick={() => setWorkspaceTab('workspace')}
-				className={`p-3 hover:cursor-pointer flex z-30 flex-row gap-2 mt-auto mx-auto w-full rounded-xl  text-xs font-bold text-black dark:text-white ${
-					workspaceTab === 'workspace' ? 'bg-base-100/80' : 'bg-base-100/20'
-				}`}
-			>
-				<IconSettings className='cursor-pointer' size={22}></IconSettings>
-				<label className='my-auto font-bold cursor-pointer'>Workspace</label>
-			</div>
+			{/* Workspace Selector */}
 		</div>
 	);
 };
