@@ -9,8 +9,9 @@ app.whenReady().then(() => {
 		minHeight: 600,
 		minWidth: 900,
 		useContentSize: true,
+		transparent:true,
 
-		frame: false,
+		frame: process.platform === 'darwin',
 		titleBarStyle: 'hidden',
 
 		webPreferences: {
@@ -18,8 +19,6 @@ app.whenReady().then(() => {
 			sandbox: false,
 		},
 	});
-
-	app.applicationMenu = new Menu();
 
 	win.maximize();
 

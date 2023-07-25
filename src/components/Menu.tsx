@@ -12,7 +12,6 @@ export const Menu: React.FC = () => {
 	const currentID = useStoreState((state) => state.currentControlID);
 	const workspaceTab = useStoreState((state) => state.selectedTab);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
-	const setControlID = useStoreActions((state) => state.setcurrentControlID);
 
 	const reference = useRef<HTMLDivElement>(null);
 
@@ -130,8 +129,6 @@ export const Menu: React.FC = () => {
 					</AnimatePresence>
 				</TabPanel>
 			</div>
-
-			{/* Workspace Selector */}
 		</div>
 	);
 };

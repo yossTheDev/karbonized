@@ -11,7 +11,7 @@
 		"preview": "vite preview",
 		"tauri": "tauri",
 		"electron:dev": "vite -c vite.electron.config.ts",
-		"electron:build": "electron-builder"
+		"electron:build": "vite build -c vite.electron.config.ts && electron-builder"
 	},
 	"dependencies": {
 		"@capacitor-community/electron": "^4.1.2",
@@ -27,6 +27,7 @@
 		"custom-electron-titlebar": "^4.2.4",
 		"daisyui": "^2.51.5",
 		"easy-peasy": "^6.0.1",
+		"electron-is": "^3.0.0",
 		"file-saver": "^2.0.5",
 		"framer-motion": "^8.5.2",
 		"hast-to-hyperscript": "^10.0.1",

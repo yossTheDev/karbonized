@@ -9,14 +9,14 @@ electron.app.whenReady().then(() => {
     minHeight: 600,
     minWidth: 900,
     useContentSize: true,
-    frame: false,
+    transparent: true,
+    frame: process.platform === "darwin",
     titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       sandbox: false
     }
   });
-  electron.app.applicationMenu = new electron.Menu();
   win.maximize();
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);

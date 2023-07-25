@@ -1,13 +1,11 @@
 import React from 'react';
 import { Editor } from './pages/Editor';
 import { TitleBar } from './components/Base/TitleBar';
-import { useTauriPlatform } from './hooks/useTauriPlatform';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { Home } from './pages/Home';
 import { isElectron } from './utils/isElectron';
 
 const App: React.FC = () => {
-	const isTauriPlatform = useTauriPlatform();
 	const isHorizontal = useScreenDirection();
 
 	return (
@@ -69,7 +67,10 @@ const App: React.FC = () => {
 
 			{isHorizontal ? (
 				<>
-					{isElectron() && <TitleBar></TitleBar>}
+					{isElectron() &&
+						(window as any).electron.ipcRenderer.isLinuxOrWindows() && (
+							<TitleBar></TitleBar>
+						)}
 					<Editor></Editor>
 				</>
 			) : (

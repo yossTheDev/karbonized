@@ -2,8 +2,8 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-	"appId": "karbonized.yossthede.com",
-	"asar": true,
+	"appId": "karbonized.yossthedev.com",
+	"asar": false,
 	"directories": {
 		"output": "release/${version}"
 	},
