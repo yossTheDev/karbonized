@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.3.2
+
+* fix: Bug in Automatic Centering
+
 ## v 1.3.1
 
 * Move Background Settings to Menu Tab Bar
