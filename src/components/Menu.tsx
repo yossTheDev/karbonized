@@ -1,11 +1,16 @@
-import React, { useRef } from 'react';
-import { IconEdit, IconHierarchy3, IconWallpaper } from '@tabler/icons-react';
-import { TabPanel } from 'react-headless-tabs';
+import React, { useEffect, useState } from 'react';
+import {
+	IconChevronLeft,
+	IconChevronRight,
+	IconEdit,
+	IconHierarchy3,
+	IconWallpaper,
+} from '@tabler/icons-react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
-import { TabSelector } from './Base/TabsSelector';
 import { AnimatePresence } from 'framer-motion';
 import { HierarchyPanel } from './Panels/HierarchyPanel';
 import { WorkspacePanel } from './Panels/WorkspacePanel';
+import { Tooltip } from './CustomControls/Tooltip';
 
 export const Menu: React.FC = () => {
 	/* App Store */
@@ -13,97 +18,47 @@ export const Menu: React.FC = () => {
 	const workspaceTab = useStoreState((state) => state.selectedTab);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
-	const reference = useRef<HTMLDivElement>(null);
+	/* Component State */
+	const [showMenu, setShowMenu] = useState(true);
+
+	/* Show/Close Menu KeyShortcut */
+	const onKeyDown = (event: KeyboardEvent) => {
+		if (event.ctrlKey && event.key === 'b') {
+			event.preventDefault();
+
+			setShowMenu(!showMenu);
+		}
+	};
+	useEffect(() => {
+		window.addEventListener('keydown', onKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', onKeyDown);
+		};
+	}, [showMenu]);
 
 	return (
-		<div className=' flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200/90 p-2 shadow-xl backdrop-blur-xl'>
-			{/* Selectors */}
-			<div className='min-h-12 flex max-h-12 flex-auto shrink-0 gap-2 overflow-y-auto'>
-				{/* Hierarchy */}
-				<TabSelector
-					isActive={workspaceTab === 'hierarchy'}
-					onClick={() => {
-						// setSelectedTab('workspace');
-						setWorkspaceTab('hierarchy');
-					}}
-				>
-					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconHierarchy3
-							className='mx-auto my-auto'
-							size={20}
-						></IconHierarchy3>
-						<label className='my-auto hidden cursor-pointer md:flex'>
-							Hierarchy
-						</label>
-					</div>
-				</TabSelector>
-
-				{/* Workspace */}
-				<TabSelector
-					isActive={workspaceTab === 'workspace'}
-					onClick={() => {
-						// setSelectedTab('control');
-						setWorkspaceTab('workspace');
-					}}
-				>
-					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconWallpaper
-							className='mx-auto my-auto'
-							size={20}
-						></IconWallpaper>
-						<label className='my-auto hidden cursor-pointer md:flex'>
-							Background
-						</label>
-					</div>
-				</TabSelector>
-
-				{/* Edit */}
-				<TabSelector
-					isActive={workspaceTab === 'control'}
-					onClick={() => {
-						// setSelectedTab('control');
-						setWorkspaceTab('control');
-					}}
-				>
-					<div className='mx-auto my-auto flex flex-row gap-2'>
-						<IconEdit className='mx-auto my-auto' size={20}></IconEdit>
-						<label className='my-auto hidden cursor-pointer md:flex'>
-							Edit
-						</label>
-					</div>
-				</TabSelector>
-			</div>
-
+		<div className='flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden bg-base-200/90 p-2  text-gray-950 shadow-xl backdrop-blur-xl dark:text-gray-400'>
 			{/* Tab Panels */}
-			<div className='relative flex w-full flex-auto flex-col overflow-y-auto overflow-x-hidden'>
+			<div
+				className={`relative ${
+					showMenu ? 'flex' : 'hidden'
+				} w-96 flex-auto flex-col overflow-y-auto overflow-x-hidden`}
+			>
 				{/* Hierarchy */}
-				<TabPanel
-					hidden={workspaceTab !== 'hierarchy'}
-					className={`${
-						workspaceTab === 'hierarchy' &&
-						'flex flex-auto text-black dark:text-gray-400'
-					}`}
-					render='lazy'
-					id='workspace'
-				>
+				{workspaceTab === 'hierarchy' && (
 					<AnimatePresence>
 						{workspaceTab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
 					</AnimatePresence>
-				</TabPanel>
+				)}
 
 				{/* Controls */}
-				<TabPanel
-					className={`${
-						workspaceTab === 'control' &&
-						'flex h-full flex-auto flex-col text-black dark:text-gray-400'
-					}`}
-					render='idle'
-					hidden={workspaceTab !== 'control'}
-				>
+				<AnimatePresence>
 					<div
 						id='menu'
-						ref={reference}
-						className='flex h-full min-h-full flex-auto flex-col'
+						className={` h-full min-h-full  flex-col ${
+							workspaceTab === 'control' ? 'flex' : 'hidden'
+						}`}
 					>
 						{currentID === '' && (
 							<div className='flex h-96 flex-auto'>
@@ -113,21 +68,81 @@ export const Menu: React.FC = () => {
 							</div>
 						)}
 					</div>
-				</TabPanel>
+				</AnimatePresence>
 
 				{/* Workspace */}
-				<TabPanel
-					className={`${
-						workspaceTab === 'workspace' &&
-						'flex h-full flex-auto flex-col text-black dark:text-gray-400'
-					}`}
-					render='idle'
-					hidden={workspaceTab !== 'workspace'}
-				>
+				{workspaceTab === 'workspace' && (
 					<AnimatePresence>
 						{workspaceTab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
 					</AnimatePresence>
-				</TabPanel>
+				)}
+			</div>
+
+			{/* Selectors */}
+			<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
+				{/* Workspace */}
+				<Tooltip message='Show/Close Menu (Ctrl+B)'>
+					<div
+						onClick={() => {
+							setShowMenu(!showMenu);
+						}}
+						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
+					>
+						{showMenu ? (
+							<IconChevronRight
+								className='mx-auto'
+								size={16}
+							></IconChevronRight>
+						) : (
+							<IconChevronLeft className='mx-auto' size={16}></IconChevronLeft>
+						)}
+					</div>
+				</Tooltip>
+
+				{/* Hierarchy */}
+				<Tooltip message='Hierarchy'>
+					<div
+						onClick={() => {
+							setWorkspaceTab('hierarchy');
+							setShowMenu(true);
+						}}
+						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+							workspaceTab === 'hierarchy' && 'bg-base-100'
+						}`}
+					>
+						<IconHierarchy3 className='mx-auto' size={16}></IconHierarchy3>
+					</div>
+				</Tooltip>
+
+				{/* Edit */}
+				<Tooltip message='Edit'>
+					<div
+						onClick={() => {
+							setWorkspaceTab('control');
+							setShowMenu(true);
+						}}
+						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+							workspaceTab === 'control' && 'bg-base-100'
+						}`}
+					>
+						<IconEdit className='mx-auto' size={16}></IconEdit>
+					</div>
+				</Tooltip>
+
+				{/* Workspace */}
+				<Tooltip message='Workspace'>
+					<div
+						onClick={() => {
+							setWorkspaceTab('workspace');
+							setShowMenu(true);
+						}}
+						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+							workspaceTab === 'workspace' && 'bg-base-100'
+						}`}
+					>
+						<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
+					</div>
+				</Tooltip>
 			</div>
 		</div>
 	);

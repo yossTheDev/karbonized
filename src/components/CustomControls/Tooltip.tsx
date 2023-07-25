@@ -11,7 +11,7 @@ import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface Props {
-	messsage?: string;
+	message?: string;
 	className?: string;
 	children: ReactNode;
 	placement?: Placement;
@@ -19,7 +19,7 @@ interface Props {
 
 export const Tooltip: React.FC<Props> = ({
 	children,
-	messsage,
+	message,
 	className,
 	placement = 'right',
 }) => {
@@ -60,7 +60,7 @@ export const Tooltip: React.FC<Props> = ({
 								style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 							>
 								<div className='flex flex-auto select-none flex-col rounded-xl bg-base-200 p-2 px-4 text-xs shadow-xl dark:text-white'>
-									{messsage}
+									{message}
 								</div>
 							</motion.div>
 						</Portal>

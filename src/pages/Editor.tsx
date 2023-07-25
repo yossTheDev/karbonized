@@ -283,7 +283,7 @@ export const Editor: React.FC = () => {
 						{/* Change Theme */}
 						{!isElectron() && (
 							<>
-								<Tooltip placement='bottom' messsage='Change Theme'>
+								<Tooltip placement='bottom' message='Change Theme'>
 									<Button
 										shape='circle'
 										className='hidden border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 lg:block'
@@ -308,7 +308,7 @@ export const Editor: React.FC = () => {
 						)}
 
 						{/* Redo */}
-						<Tooltip placement='bottom' messsage='Undo (Ctrl+Z)'>
+						<Tooltip placement='bottom' message='Undo (Ctrl+Z)'>
 							<Button
 								shape='circle'
 								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1  backdrop-blur-xl hover:bg-base-100 md:flex`}
@@ -324,7 +324,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Undo */}
-						<Tooltip placement='bottom' messsage='Redo (Ctrl+Y)'>
+						<Tooltip placement='bottom' message='Redo (Ctrl+Y)'>
 							<Button
 								shape='circle'
 								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex `}
@@ -342,7 +342,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Lock Aspect Ratio */}
-						<Tooltip placement='bottom' messsage='Lock Aspect Ratio (Ctrl+R)'>
+						<Tooltip placement='bottom' message='Lock Aspect Ratio (Ctrl+R)'>
 							<Button
 								shape='circle'
 								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex ${
@@ -360,7 +360,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200/90 p-0.5  backdrop-blur-xl '></p>
 
 						{/* Zoom Out */}
-						<Tooltip placement='bottom' messsage='Zoom Out'>
+						<Tooltip placement='bottom' message='Zoom Out'>
 							<Button
 								shape='circle'
 								className='my-2  hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
@@ -376,7 +376,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Zoom In */}
-						<Tooltip placement='bottom' messsage='Zoom In'>
+						<Tooltip placement='bottom' message='Zoom In'>
 							<Button
 								shape='circle'
 								className='my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
@@ -392,7 +392,7 @@ export const Editor: React.FC = () => {
 						</Tooltip>
 
 						{/* Zoom In */}
-						<Tooltip placement='bottom' messsage='Zoom Reset'>
+						<Tooltip placement='bottom' message='Zoom Reset'>
 							<Button
 								shape='circle'
 								className='backdrop-blur-xlp-2 my-2 hidden h-12 w-12  flex-auto rounded-full border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 md:flex'
@@ -408,7 +408,7 @@ export const Editor: React.FC = () => {
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200/90 p-0.5  backdrop-blur-xl '></p>
 
 						{/* Preview Button */}
-						<Tooltip placement='bottom' messsage='Render (Ctrl+S)'>
+						<Tooltip placement='bottom' message='Render (Ctrl+S)'>
 							<Button
 								onClick={showPreviewImage}
 								className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:flex'
@@ -457,7 +457,7 @@ export const Editor: React.FC = () => {
 								></ColorPicker>
 
 								{/* Zoom In */}
-								<Tooltip className='hidden flex-auto ' messsage='Zoom In'>
+								<Tooltip className='hidden flex-auto ' message='Zoom In'>
 									<Button
 										className='flex flex-auto p-1'
 										color='ghost'
@@ -514,7 +514,7 @@ export const Editor: React.FC = () => {
 							{/* Actions */}
 
 							{/* Select */}
-							<Tooltip className='flex flex-auto' messsage='Select (Ctrl+W)'>
+							<Tooltip className='flex flex-auto' message='Select (Ctrl+W)'>
 								<Button
 									color='ghost'
 									className={`flex flex-auto rounded-2xl ${
@@ -536,7 +536,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Hand */}
-							<Tooltip className='flex flex-auto ' messsage='Hand (Ctrl+E)'>
+							<Tooltip className='flex flex-auto ' message='Hand (Ctrl+E)'>
 								<Button
 									color='ghost'
 									className={`flex flex-auto flex-col rounded-2xl ${
@@ -558,7 +558,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Brush */}
-							<Tooltip className='flex flex-auto' messsage='Brush'>
+							<Tooltip className='flex flex-auto' message='Brush'>
 								<Button
 									color='ghost'
 									className={`flex flex-auto rounded-2xl ${
@@ -577,7 +577,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Erase */}
-							<Tooltip className='flex flex-auto' messsage='Erase'>
+							<Tooltip className='flex flex-auto' message='Erase'>
 								<Button
 									color='ghost'
 									className={`flex flex-auto rounded-2xl ${
@@ -605,7 +605,7 @@ export const Editor: React.FC = () => {
 
 						<div className='flex w-20 flex-row flex-wrap'>
 							{/* Code Control */}
-							<Tooltip className='flex  flex-auto ' messsage='Code'>
+							<Tooltip className='flex  flex-auto ' message='Code'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -625,7 +625,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* FaIcon Control */}
-							<Tooltip className='flex flex-auto ' messsage='Icon'>
+							<Tooltip className='flex flex-auto ' message='Icon'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -648,7 +648,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Text Control */}
-							<Tooltip className='flex flex-auto ' messsage='Text'>
+							<Tooltip className='flex flex-auto ' message='Text'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -671,7 +671,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Shape Control */}
-							<Tooltip className='flex flex-auto ' messsage='Shape'>
+							<Tooltip className='flex flex-auto ' message='Shape'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -699,7 +699,7 @@ export const Editor: React.FC = () => {
 						{/* Others */}
 
 						<div className='flex w-20 flex-row flex-wrap '>
-							<Tooltip className='flex flex-auto ' messsage='Qr Code'>
+							<Tooltip className='flex flex-auto ' message='Qr Code'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -722,7 +722,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Image Control */}
-							<Tooltip className='flex flex-auto ' messsage='Image'>
+							<Tooltip className='flex flex-auto ' message='Image'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -742,7 +742,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Badge Control */}
-							<Tooltip className='flex flex-auto' messsage='Badge'>
+							<Tooltip className='flex flex-auto' message='Badge'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -762,7 +762,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Tweet Control */}
-							<Tooltip className='flex flex-auto ' messsage='Tweet'>
+							<Tooltip className='flex flex-auto ' message='Tweet'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -785,7 +785,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Window Control */}
-							<Tooltip className='flex flex-auto ' messsage='Window'>
+							<Tooltip className='flex flex-auto ' message='Window'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -808,7 +808,7 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 
 							{/* Phone Mockup Control */}
-							<Tooltip className='flex flex-auto ' messsage='Phone Mockup'>
+							<Tooltip className='flex flex-auto ' message='Phone Mockup'>
 								<Button
 									className='flex flex-auto rounded-2xl p-1'
 									color='ghost'
@@ -838,7 +838,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}   z-10 order-4 mr-2 mt-auto hidden h-96 max-h-96 w-full flex-col items-center py-3 text-white md:flex md:h-full  md:max-h-full md:max-w-xs lg:max-w-xs`}
+				}    flex h-full max-h-full text-white md:max-w-xs lg:max-w-sm`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>
