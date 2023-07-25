@@ -838,7 +838,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}    flex h-full max-h-full text-white md:max-w-xs lg:max-w-sm`}
+				}    my-auto mr-2 flex h-full max-h-full py-3 text-white transition-all md:max-w-xs lg:max-w-sm`}
 			>
 				<ControlsMenu></ControlsMenu>
 			</div>

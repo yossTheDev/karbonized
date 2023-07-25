@@ -38,12 +38,12 @@ export const Menu: React.FC = () => {
 	}, [showMenu]);
 
 	return (
-		<div className='flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden bg-base-200/90 p-2  text-gray-950 shadow-xl backdrop-blur-xl dark:text-gray-400'>
+		<div className='pointer-events-auto flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200/95 p-2  text-gray-950 shadow-xl backdrop-blur-2xl dark:text-gray-400'>
 			{/* Tab Panels */}
 			<div
 				className={`relative ${
 					showMenu ? 'flex' : 'hidden'
-				} w-96 flex-auto flex-col overflow-y-auto overflow-x-hidden`}
+				} h-full w-96 flex-auto flex-col overflow-hidden`}
 			>
 				{/* Hierarchy */}
 				{workspaceTab === 'hierarchy' && (
@@ -55,11 +55,14 @@ export const Menu: React.FC = () => {
 				{/* Controls */}
 				<AnimatePresence>
 					<div
-						id='menu'
-						className={` h-full min-h-full  flex-col ${
+						className={` h-full min-h-full  flex-col overflow-hidden ${
 							workspaceTab === 'control' ? 'flex' : 'hidden'
 						}`}
 					>
+						<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
+							Control
+						</label>
+						<div className='overflow-auto' id='menu'></div>
 						{currentID === '' && (
 							<div className='flex h-96 flex-auto'>
 								<p className='mx-auto my-auto text-center text-xs text-gray-700'>
@@ -80,7 +83,7 @@ export const Menu: React.FC = () => {
 
 			{/* Selectors */}
 			<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
-				{/* Workspace */}
+				{/* Show/Close Menu */}
 				<Tooltip message='Show/Close Menu (Ctrl+B)'>
 					<div
 						onClick={() => {
@@ -107,7 +110,7 @@ export const Menu: React.FC = () => {
 							setShowMenu(true);
 						}}
 						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'hierarchy' && 'bg-base-100'
+							workspaceTab === 'hierarchy' && showMenu && 'bg-base-100'
 						}`}
 					>
 						<IconHierarchy3 className='mx-auto' size={16}></IconHierarchy3>
@@ -122,7 +125,7 @@ export const Menu: React.FC = () => {
 							setShowMenu(true);
 						}}
 						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'control' && 'bg-base-100'
+							workspaceTab === 'control' && showMenu && 'bg-base-100'
 						}`}
 					>
 						<IconEdit className='mx-auto' size={16}></IconEdit>
@@ -137,7 +140,7 @@ export const Menu: React.FC = () => {
 							setShowMenu(true);
 						}}
 						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'workspace' && 'bg-base-100'
+							workspaceTab === 'workspace' && showMenu && 'bg-base-100'
 						}`}
 					>
 						<IconWallpaper className='mx-auto' size={16}></IconWallpaper>

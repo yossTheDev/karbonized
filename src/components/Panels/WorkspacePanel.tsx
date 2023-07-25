@@ -83,11 +83,11 @@ export const WorkspacePanel: React.FC = () => {
 
 	return (
 		<>
-			<motion.div
-				initial={{ marginTop: '25px' }}
-				animate={{ marginTop: '0px' }}
-				className='flex flex-auto select-none flex-col overflow-auto p-2 text-xs'
-			>
+			<div className='flex flex-auto select-none flex-col overflow-auto text-xs'>
+				<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
+					Workspace
+				</label>
+
 				{/* Workspace Name */}
 				<>
 					<div className='m-2 flex flex-row gap-2'>
@@ -356,7 +356,7 @@ export const WorkspacePanel: React.FC = () => {
 						></ColorPicker>
 					)}
 				</>
-			</motion.div>
+			</div>
 		</>
 	);
 };

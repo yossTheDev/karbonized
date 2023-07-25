@@ -5,7 +5,7 @@ import {
 	shift,
 	useFloating,
 } from '@floating-ui/react-dom';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Portal } from 'react-portal';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -29,6 +29,10 @@ export const Tooltip: React.FC<Props> = ({
 		middleware: [offset(10), flip(), shift()],
 		placement: placement,
 	});
+
+	useEffect(() => {
+		return () => setShowTooltip(false);
+	}, []);
 
 	return (
 		<>
