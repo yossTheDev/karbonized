@@ -9,8 +9,6 @@ app.whenReady().then(() => {
 		minHeight: 600,
 		minWidth: 900,
 		useContentSize: true,
-		transparent:true,
-
 		frame: process.platform === 'darwin',
 		titleBarStyle: 'hidden',
 

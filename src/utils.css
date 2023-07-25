@@ -12,6 +12,9 @@
 	min-width: 5px;
 	min-height: 28px;
 }
+::-webkit-scrollbar-thumb:hover {
+	background-color: #706a6a2f;
+}
 ::-webkit-scrollbar-track {
 	background-color: rgba(0, 0, 0, 0);
 }

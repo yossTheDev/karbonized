@@ -56,7 +56,7 @@ import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 
 export const Editor: React.FC = () => {
-	// App Store
+	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
 	const setEditing = useStoreActions((state) => state.setEditing);
 	const setReady = useStoreActions((state) => state.setReadyToSave);
@@ -76,7 +76,10 @@ export const Editor: React.FC = () => {
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const controls = useStoreState((state) => state.ControlsTree);
 
-	// Component Store and Actions
+	const redo = useStoreActions((state) => state.redo);
+	const undo = useStoreActions((state) => state.undo);
+
+	/* Component Store and Actions */
 	const isHorizontal = useScreenDirection();
 	const isTauriPlatform = useTauriPlatform();
 	const [appTheme, toggleTheme] = useTheme();
@@ -99,33 +102,21 @@ export const Editor: React.FC = () => {
 	};
 
 	const centerView = useCallback(() => {
-		if (parseFloat(workspaceWidth) < 1280) {
-			setZoom(0.9);
-		} else if (
-			parseFloat(workspaceWidth) >= 1280 &&
-			parseFloat(workspaceWidth) < 1920
-		) {
-			setZoom(0.6);
-		} else if (
-			parseFloat(workspaceWidth) >= 1920 &&
-			parseFloat(workspaceWidth) < 2560
-		) {
-			setZoom(0.4);
-		} else if (
-			parseFloat(workspaceWidth) >= 2560 &&
-			parseFloat(workspaceWidth) < 3840
-		) {
-			setZoom(0.3);
-		} else if (parseFloat(workspaceWidth) >= 3840) {
-			setZoom(0.2);
+		const width = parseFloat(workspaceWidth);
+
+		if (width < 1280) {
+			viewerRef.current?.setZoom(0.9);
+		} else if (width >= 1280 && width < 1920) {
+			viewerRef.current?.setZoom(0.6);
+		} else if (width >= 1920 && width < 2560) {
+			viewerRef.current?.setZoom(0.4);
+		} else if (width >= 2560 && width < 3840) {
+			viewerRef.current?.setZoom(0.3);
+		} else if (width >= 3840) {
+			viewerRef.current?.setZoom(0.2);
 		}
 
 		viewerRef.current?.scrollCenter();
-	}, [workspaceHeight, workspaceWidth]);
-
-	// Center View On Start
-	useEffect(() => {
-		centerView();
 	}, [workspaceHeight, workspaceWidth]);
 
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -157,6 +148,7 @@ export const Editor: React.FC = () => {
 			event.preventDefault();
 			redo();
 		} else if (event.ctrlKey && event.key === ' ') {
+			event.preventDefault();
 			centerView();
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
@@ -165,16 +157,21 @@ export const Editor: React.FC = () => {
 		}
 	};
 
-	const redo = useStoreActions((state) => state.redo);
-	const undo = useStoreActions((state) => state.undo);
-
+	/* Handle Key Shortcuts and Center View on Change Workspace Size */
 	useEffect(() => {
+		centerView();
+
 		window.addEventListener('keydown', onKeyDown);
 
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, []);
+	}, [workspaceHeight, workspaceWidth]);
+
+	/* Center View on New Control is Added to Workspace */
+	useEffect(() => {
+		centerView();
+	}, [controls]);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
@@ -284,7 +281,7 @@ export const Editor: React.FC = () => {
 
 					<Navbar.End className='ml-auto flex flex-auto gap-0  md:hidden md:gap-1 lg:flex'>
 						{/* Change Theme */}
-						{!isTauriPlatform && (
+						{!isElectron() && (
 							<>
 								<Tooltip placement='bottom' messsage='Change Theme'>
 									<Button
@@ -367,7 +364,9 @@ export const Editor: React.FC = () => {
 							<Button
 								shape='circle'
 								className='my-2  hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
-								onClick={() => setZoom(zoom - 0.2)}
+								onClick={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
+								}
 							>
 								<IconZoomOut
 									size={20}
@@ -381,7 +380,9 @@ export const Editor: React.FC = () => {
 							<Button
 								shape='circle'
 								className='my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
-								onClick={() => setZoom(zoom + 0.2)}
+								onClick={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
+								}
 							>
 								<IconZoomIn
 									size={20}
@@ -480,10 +481,12 @@ export const Editor: React.FC = () => {
 							className='viewer my-2 flex flex-auto'
 							useMouseDrag={drag}
 							useAutoZoom
-							zoom={zoom}
+							zoom={0.9}
 							usePinch={!drag}
 							threshold={0}
+							useResizeObserver
 							useWheelScroll
+							useTransform
 							onScroll={() => {
 								/*console.log(
 									'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
