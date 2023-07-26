@@ -71,8 +71,6 @@ export const Editor: React.FC = () => {
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
 	const setEditing = useStoreActions((state) => state.setEditing);
-	const setReady = useStoreActions((state) => state.setReadyToSave);
-	const workspaceName = useStoreState((state) => state.workspaceName);
 	const editing = useStoreState((state) => state.editing);
 	const canDraw = useStoreState((state) => state.isDrawing);
 	const setCanDraw = useStoreActions((state) => state.setIsDrawing);
@@ -100,10 +98,6 @@ export const Editor: React.FC = () => {
 	const [drag, setDrag] = useState(false);
 	const [showAbout, setShowAbout] = useState(false);
 	const [showWorkspacePanel, setShowWorkspacePanel] = useState(false);
-	const [showMenu, setShowMenu] = useState(isHorizontal ? true : false);
-
-	const [previewImage, setPreviewImage] = useState('');
-	const [showPreview, setShowPreview] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
 	const viewerRef = useRef<InfiniteViewer>(null);
@@ -135,25 +129,21 @@ export const Editor: React.FC = () => {
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'w') {
 			event.preventDefault();
-
 			setEditing(true);
 			setDrag(false);
 			setCanDraw(false);
 			setIsErasing(false);
 		} else if (event.ctrlKey && event.key === 'e') {
 			event.preventDefault();
-
 			setEditing(false);
 			setCanDraw(false);
 			setIsErasing(false);
 			setDrag(true);
 		} else if (event.ctrlKey && event.key === 'r') {
 			event.preventDefault();
-
 			setAspectRatio(true);
 		} else if (event.ctrlKey && event.key === 's') {
 			event.preventDefault();
-			showPreviewImage();
 		} else if (event.ctrlKey && event.key === 'z') {
 			event.preventDefault();
 			undo();
@@ -165,7 +155,6 @@ export const Editor: React.FC = () => {
 			centerView();
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
-			setShowPreview(false);
 			setShowAbout(false);
 		}
 	};
@@ -180,69 +169,6 @@ export const Editor: React.FC = () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
 	}, [workspaceHeight, workspaceWidth, controls, workspaceMode]);
-
-	// Save Image as PNG
-	const exportAsPng = useCallback(async () => {
-		ExportImage(workspaceName, ref.current, export_format.png);
-	}, [ref, workspaceName]);
-
-	// Save Image as SVG
-	const exportAsSvg = useCallback(async () => {
-		ExportImage(workspaceName, ref.current, export_format.svg);
-	}, [ref, workspaceName]);
-
-	const exportAsJpeg = useCallback(async () => {
-		ExportImage(workspaceName, ref.current, export_format.jpeg);
-	}, [ref, workspaceName]);
-
-	const showPreviewImage = useCallback(async () => {
-		setReady(true);
-
-		if (ref.current === null) {
-			console.log('NULL');
-			setReady(false);
-
-			return;
-		}
-
-		toJpeg(ref.current, {
-			cacheBust: true,
-		})
-			.then((dataUrl) => {
-				console.log('SAVED');
-
-				setPreviewImage(dataUrl);
-				setShowPreview(true);
-
-				setReady(false);
-			})
-			.catch((err) => {
-				setReady(false);
-				console.log(err);
-			});
-	}, [ref, workspaceName]);
-
-	// Share Image
-	const handleShare = useCallback(async () => {
-		const newFile = await toBlob(ref.current as HTMLElement);
-		if (newFile) {
-			const data = {
-				files: [
-					new File([newFile], 'image.png', {
-						type: newFile.type,
-					}),
-				],
-				title: 'Image',
-				text: 'image',
-			};
-
-			try {
-				await navigator.share(data);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-	}, [ref]);
 
 	return (
 		<div
@@ -320,8 +246,6 @@ export const Editor: React.FC = () => {
 							</>
 						)}
 
-						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
-
 						{/* Lock Aspect Ratio */}
 						<Tooltip placement='bottom' message='Lock Aspect Ratio (Ctrl+R)'>
 							<Button
@@ -372,7 +296,7 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						{/* Zoom In */}
+						{/* Zoom Reset */}
 						<Tooltip placement='bottom' message='Zoom Reset'>
 							<Button
 								shape='circle'
@@ -390,21 +314,10 @@ export const Editor: React.FC = () => {
 
 						{/* Preview Button */}
 						<Tooltip placement='bottom' message='Render (Ctrl+S)'>
-							<Button
-								onClick={showPreviewImage}
-								className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:flex'
-							>
+							<Button className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l '>
 								<IconFlask size={22} className='text-white'></IconFlask>
 							</Button>
 						</Tooltip>
-
-						{/* Share Button */}
-						<Button
-							onClick={handleShare}
-							className='  h-12 w-12 rounded-full border-none bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l md:hidden'
-						>
-							<IconFlask size={24} className='text-white'></IconFlask>
-						</Button>
 					</Navbar.End>
 				</Navbar>
 
@@ -863,89 +776,6 @@ export const Editor: React.FC = () => {
 							onClick={() => setShowWorkspacePanel(false)}
 						>
 							OK
-						</Button>
-					</Modal.Actions>
-				</Modal>
-			)}
-			{showPreview && (
-				<Modal
-					open={showPreview}
-					onClickBackdrop={() => {
-						setShowPreview(false);
-					}}
-					className='overflow-hidden bg-base-100'
-				>
-					<Modal.Header className='flex flex-row font-bold dark:text-white'>
-						<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-100 p-2'>
-							<img className='h-10' src={karbonized}></img>
-							<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
-								Export
-							</p>
-						</div>
-
-						<Button
-							shape='circle'
-							onClick={() => {
-								setShowPreview(false);
-							}}
-							className='ml-auto'
-						>
-							<IconX></IconX>
-						</Button>
-					</Modal.Header>
-
-					<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-						<div className='mx-auto my-auto  w-96  rounded-2xl bg-base-200 p-4'>
-							<TransformWrapper>
-								<TransformComponent>
-									<img
-										className='rounded'
-										src={previewImage}
-										alt='preview'
-									></img>
-								</TransformComponent>
-							</TransformWrapper>
-						</div>
-					</Modal.Body>
-
-					<Modal.Actions>
-						<Button
-							className='mr-auto cursor-pointer select-none rounded-2xl bg-base-100 bg-gradient-to-br from-violet-500 to-secondary p-3 text-white hover:bg-gradient-to-bl'
-							onMouseDown={handleShare}
-						>
-							<div className='my-auto flex flex-auto flex-row gap-2'>
-								<IconShare></IconShare>
-								<p className='my-auto'>Share</p>
-							</div>
-						</Button>
-
-						<p className='my-auto ml-auto mr-3 select-none text-xs dark:text-gray-600'>
-							Save as
-						</p>
-
-						<Button
-							className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
-							onMouseDown={exportAsPng}
-						>
-							<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
-								<IconPng className='mx-auto'></IconPng>
-							</div>
-						</Button>
-						<Button
-							className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
-							onMouseDown={exportAsJpeg}
-						>
-							<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
-								<IconJpg className='mx-auto'></IconJpg>
-							</div>
-						</Button>
-						<Button
-							className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
-							onMouseDown={exportAsSvg}
-						>
-							<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
-								<IconSvg className='mx-auto'></IconSvg>
-							</div>
 						</Button>
 					</Modal.Actions>
 				</Modal>

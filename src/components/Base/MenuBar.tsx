@@ -6,19 +6,29 @@ import {
 	IconFileTypeJpg,
 	IconFileTypePng,
 	IconFileTypeSvg,
+	IconFlask,
 	IconInfoCircle,
 	IconPlus,
+	IconShare,
+	IconX,
 } from '@tabler/icons-react';
 import { ProjectWizard } from '../Modals/ProjectWizard';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { AboutModal } from '../Modals/AboutModal';
+import { Button, Modal } from 'react-daisyui';
+
+import karbonized from '../../assets/karbonized.svg';
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
+import { toBlob, toJpeg } from 'html-to-image';
+import { PreviewModal } from '../Modals/PreviewModal';
 
 export const MenuBar: React.FC = () => {
 	/* Panels */
 	const [showWizard, setShowWizard] = useState(true);
 	const [showAbout, setShowAbout] = useState(false);
-
+	const [previewImage, setPreviewImage] = useState('');
+	const [showPreview, setShowPreview] = useState(false);
 	/* Actions */
 	const redo = useStoreActions((state) => state.redo);
 	const undo = useStoreActions((state) => state.undo);
@@ -31,12 +41,16 @@ export const MenuBar: React.FC = () => {
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'n') {
 			event.preventDefault();
-
 			setShowWizard(true);
+		}
+		if (event.ctrlKey && event.key === 's') {
+			event.preventDefault();
+			setShowPreview(true);
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
 			setShowWizard(false);
 			setShowAbout(false);
+			setShowPreview(false);
 		}
 	};
 
@@ -50,6 +64,50 @@ export const MenuBar: React.FC = () => {
 
 	const exportImage = (type: export_format) => {
 		ExportImage(workspaceName, document.getElementById('workspace'), type);
+	};
+
+	// Share Image
+	const handleShare = async () => {
+		const element = document.getElementById('workspace');
+		if (element) {
+			const newFile = await toBlob(element);
+			if (newFile) {
+				const data = {
+					files: [
+						new File([newFile], 'image.png', {
+							type: newFile.type,
+						}),
+					],
+					title: 'Image',
+					text: 'image',
+				};
+
+				try {
+					await navigator.share(data);
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		}
+	};
+
+	const showPreviewImage = async () => {
+		const element = document.getElementById('workspace');
+
+		if (element === null) {
+			return;
+		}
+
+		toJpeg(element, {
+			cacheBust: true,
+		})
+			.then((dataUrl) => {
+				setPreviewImage(dataUrl);
+				setShowPreview(true);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	return (
@@ -68,6 +126,13 @@ export const MenuBar: React.FC = () => {
 							></MenuItem>
 
 							<MenuSeparator></MenuSeparator>
+
+							<MenuItem
+								click={() => showPreviewImage()}
+								icon={<IconFlask size={16}></IconFlask>}
+								label='Render'
+								shortcut='Ctrl+S'
+							></MenuItem>
 
 							<MenuItem
 								click={() => exportImage(export_format.png)}
@@ -151,6 +216,13 @@ export const MenuBar: React.FC = () => {
 
 			{showAbout && (
 				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
+			)}
+
+			{showPreview && (
+				<PreviewModal
+					onClose={() => setShowPreview(false)}
+					open={showPreview}
+				></PreviewModal>
 			)}
 		</>
 	);
