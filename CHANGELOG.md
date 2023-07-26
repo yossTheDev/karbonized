@@ -3,6 +3,7 @@
 ## v 1.3.4
 
 fix: Some Text Fields Overflow the Setting Panel
+fix: Wrong Position of Drawing Panel
 
 ## v 1.3.3
 
