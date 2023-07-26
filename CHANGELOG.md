@@ -1,5 +1,11 @@
 # Changelog
 
+## v 1.3.5
+
+* Added Menu Bar
+* Some improvements in Status Bar
+* Minor Bug Fixes
+
 ## v 1.3.4
 
 fix: Some Text Fields Overflow the Setting Panel
