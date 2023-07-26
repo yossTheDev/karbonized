@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.3.6
+
+* Improve UI for Web Version
+
 ## v 1.3.5
 
 * Added Menu Bar
