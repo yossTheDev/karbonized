@@ -1,9 +1,15 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { Portal } from 'react-portal';
 
-export const Portal: React.FC<{ children: ReactNode }> = ({ children }) => {
-	return ReactDOM.createPortal(
-		<>{children}</>,
-		document.getElementById('hola') as Element
-	);
+export const CustomPortal: React.FC<{ id: string; children: ReactNode }> = ({
+	id,
+	children,
+}) => {
+	const [element, setElement] = useState<HTMLElement | null>(null);
+
+	useEffect(() => {
+		setElement(document.getElementById(id));
+	}, []);
+
+	return <>{element && <Portal node={element}>{children}</Portal>}</>;
 };

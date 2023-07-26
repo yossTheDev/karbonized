@@ -86,3 +86,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 		</div>
 	);
 };
+
+export const MenuSeparator: React.FC = () => {
+	return <div className='mx-6 flex w-full rounded bg-base-100/30 p-0.5'></div>;
+};

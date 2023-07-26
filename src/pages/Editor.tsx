@@ -59,8 +59,13 @@ import { isElectron } from '../utils/isElectron';
 import { LeftPanel } from '../components/Panels/LeftPanel';
 import { StatusBar } from '../components/Base/StatusBar';
 import { MenuBar } from '../components/Base/MenuBar';
-import { Portal } from 'react-portal';
-import { DropMenu, MenuItem } from '../components/CustomControls/DropMenu';
+
+import {
+	DropMenu,
+	MenuItem,
+	MenuSeparator,
+} from '../components/CustomControls/DropMenu';
+import { CustomPortal } from '../components/Portal';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -90,7 +95,6 @@ export const Editor: React.FC = () => {
 
 	/* Component Store and Actions */
 	const isHorizontal = useScreenDirection();
-	const isTauriPlatform = useTauriPlatform();
 	const [appTheme, toggleTheme] = useTheme();
 
 	const [drag, setDrag] = useState(false);
@@ -179,16 +183,16 @@ export const Editor: React.FC = () => {
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
-		ExportImage(workspaceName, ref, export_format.png);
+		ExportImage(workspaceName, ref.current, export_format.png);
 	}, [ref, workspaceName]);
 
 	// Save Image as SVG
 	const exportAsSvg = useCallback(async () => {
-		ExportImage(workspaceName, ref, export_format.svg);
+		ExportImage(workspaceName, ref.current, export_format.svg);
 	}, [ref, workspaceName]);
 
 	const exportAsJpeg = useCallback(async () => {
-		ExportImage(workspaceName, ref, export_format.jpeg);
+		ExportImage(workspaceName, ref.current, export_format.jpeg);
 	}, [ref, workspaceName]);
 
 	const showPreviewImage = useCallback(async () => {
@@ -316,38 +320,6 @@ export const Editor: React.FC = () => {
 							</>
 						)}
 
-						{/* Redo */}
-						<Tooltip placement='bottom' message='Undo (Ctrl+Z)'>
-							<Button
-								shape='circle'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1  backdrop-blur-xl hover:bg-base-100 md:flex`}
-								onClick={() => {
-									undo();
-								}}
-							>
-								<IconArrowLeft
-									size={20}
-									className='dark:text-white'
-								></IconArrowLeft>
-							</Button>
-						</Tooltip>
-
-						{/* Undo */}
-						<Tooltip placement='bottom' message='Redo (Ctrl+Y)'>
-							<Button
-								shape='circle'
-								className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex `}
-								onClick={() => {
-									redo();
-								}}
-							>
-								<IconArrowRight
-									size={20}
-									className='dark:text-white'
-								></IconArrowRight>
-							</Button>
-						</Tooltip>
-
 						<p className='mx-1 my-auto h-0.5 rounded bg-base-200  p-0.5 '></p>
 
 						{/* Lock Aspect Ratio */}
@@ -405,7 +377,7 @@ export const Editor: React.FC = () => {
 							<Button
 								shape='circle'
 								className='backdrop-blur-xlp-2 my-2 hidden h-12 w-12  flex-auto rounded-full border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 md:flex'
-								onClick={() => setZoom(0.7)}
+								onClick={() => viewerRef.current?.setZoom(0.7)}
 							>
 								<IconZoomReset
 									size={20}
@@ -978,6 +950,46 @@ export const Editor: React.FC = () => {
 					</Modal.Actions>
 				</Modal>
 			)}
+
+			{/* MenuBar */}
+			<CustomPortal id={'menubar'}>
+				<DropMenu
+					label='View'
+					menu={
+						<>
+							<MenuItem
+								click={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
+								}
+								icon={<IconZoomIn size={16}></IconZoomIn>}
+								label='Zoom In'
+							></MenuItem>
+							<MenuItem
+								click={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
+								}
+								icon={<IconZoomOut size={16}></IconZoomOut>}
+								label='Zoom Out'
+							></MenuItem>
+
+							<MenuItem
+								click={() => viewerRef.current?.setZoom(0.7)}
+								icon={<IconZoomReset size={16}></IconZoomReset>}
+								label='Zoom Reset'
+							></MenuItem>
+
+							<MenuSeparator></MenuSeparator>
+
+							<MenuItem
+								click={() => centerView()}
+								icon={<IconFocusCentered size={16}></IconFocusCentered>}
+								label='Center View'
+								shortcut='Ctrl+Space'
+							></MenuItem>
+						</>
+					}
+				></DropMenu>
+			</CustomPortal>
 		</div>
 	);
 };

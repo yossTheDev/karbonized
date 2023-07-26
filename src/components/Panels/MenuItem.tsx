@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
 	IconAppWindow,
 	IconBrandTwitter,
-	IconChevronRight,
 	IconCircle,
 	IconCode,
 	IconDeviceMobile,
@@ -28,8 +27,6 @@ export interface Item {
 
 export const MenuItem: React.FC<Item> = ({
 	id,
-	isDeleted,
-	isSelectable,
 	isVisible,
 	isDragged,
 	name,
@@ -42,9 +39,7 @@ export const MenuItem: React.FC<Item> = ({
 	const setCurrentControlID = useStoreActions(
 		(state) => state.setcurrentControlID,
 	);
-	const addControls = useStoreActions((state) => state.addControl);
 	const setControls = useStoreActions((state) => state.setControls);
-	const setSelectedTab = useStoreActions((state) => state.setSelectedTab);
 
 	useEffect(() => {
 		if (controlID === id && !isVisible) {

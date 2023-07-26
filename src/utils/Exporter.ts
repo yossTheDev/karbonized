@@ -12,16 +12,16 @@ export enum export_format {
 
 export const ExportImage = (
 	name: string,
-	ref: React.RefObject<HTMLDivElement>,
-	type: export_format
+	ref: HTMLElement | null,
+	type: export_format,
 ) => {
-	if (ref.current === null) {
+	if (ref === null) {
 		return;
 	}
 
 	switch (type) {
 		case export_format.png:
-			toPng(ref.current, {
+			toPng(ref, {
 				cacheBust: true,
 			})
 				.then(async (dataUrl) => {
@@ -35,7 +35,7 @@ export const ExportImage = (
 					} else {
 						try {
 							const img = Base64Binary.decodeArrayBuffer(
-								dataUrl.replace('data:image/png;base64,', '')
+								dataUrl.replace('data:image/png;base64,', ''),
 							);
 
 							const filePath = await save({
@@ -62,7 +62,7 @@ export const ExportImage = (
 			break;
 
 		case export_format.jpeg:
-			toJpeg(ref.current, {
+			toJpeg(ref, {
 				cacheBust: true,
 			})
 				.then(async (dataUrl) => {
@@ -76,7 +76,7 @@ export const ExportImage = (
 					} else {
 						try {
 							const img = Base64Binary.decodeArrayBuffer(
-								dataUrl.replace('data:image/jpeg;base64,', '')
+								dataUrl.replace('data:image/jpeg;base64,', ''),
 							);
 
 							const filePath = await save({
@@ -103,7 +103,7 @@ export const ExportImage = (
 			break;
 
 		case export_format.svg:
-			toSvg(ref.current, {
+			toSvg(ref, {
 				cacheBust: true,
 			})
 				.then(async (dataUrl) => {
@@ -117,7 +117,7 @@ export const ExportImage = (
 					} else {
 						try {
 							const img = Base64Binary.decodeArrayBuffer(
-								dataUrl.replace('data:image/svg+xml;charset=utf-8,', '')
+								dataUrl.replace('data:image/svg+xml;charset=utf-8,', ''),
 							);
 
 							const filePath = await save({
