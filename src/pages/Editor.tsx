@@ -849,7 +849,7 @@ export const Editor: React.FC = () => {
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}    my-auto  flex h-full max-h-full  text-white transition-all md:max-w-xs lg:max-w-sm`}
+				}    my-auto  flex h-full max-h-full  max-w-sm text-white transition-all`}
 			>
 				<RightPanel></RightPanel>
 			</div>

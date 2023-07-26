@@ -72,7 +72,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 								<p className='my-auto'>Text</p>
 
 								<Input
-									className='ml-2 flex flex-auto'
+									className='ml-2 flex w-full  flex-auto '
 									onChange={(ev) => setText(ev.target.value)}
 									value={text}
 								></Input>

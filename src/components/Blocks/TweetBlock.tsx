@@ -12,12 +12,12 @@ interface Props {
 export const TweetBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
 	const [url, setUrl] = useState(
-		'https://twitter.com/karbonized_app/status/1651550611140116480?s=20'
+		'https://twitter.com/karbonized_app/status/1651550611140116480?s=20',
 	);
 	/**https://twitter.com/karbonized_app/status/1651550611140116480?s=20 */
 
 	const [tweetText, setTweetText] = useState(
-		'Make Awesome Images of your screenshots or your code with Karbonized. \n Made by @yossthedev'
+		'Make Awesome Images of your screenshots or your code with Karbonized. \n Made by @yossthedev',
 	);
 	const [tweetUser, setUser] = useState('Karbonized');
 	const [tweetUserName, setUserName] = useState('@karbonized_app');
@@ -45,7 +45,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 		const r = await (
 			await fetch(
 				'https://react-tweet.vercel.app/api/tweet/' +
-					url.split('/status/')[1].replace('?s=20', '')
+					url.split('/status/')[1].replace('?s=20', ''),
 			)
 		).json();
 
@@ -103,7 +103,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 								<p className='my-auto'>Tweet URL</p>
 
 								<Input
-									className='ml-2 flex flex-auto'
+									className='ml-2 flex w-full flex-auto'
 									onChange={(ev) => setUrl(ev.target.value)}
 									value={url}
 								></Input>
