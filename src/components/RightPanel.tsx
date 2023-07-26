@@ -55,12 +55,12 @@ export const RightPanel: React.FC = () => {
 	}, [workspaceTab]);
 
 	return (
-		<div className='pointer-events-auto flex w-full max-w-[23rem] flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden  p-2  text-gray-950  backdrop-blur-2xl dark:text-gray-400'>
+		<div className='pointer-events-auto flex w-full max-w-[23rem] flex-row gap-1 overflow-y-auto overflow-x-hidden  p-2  text-gray-950  backdrop-blur-2xl dark:text-gray-400'>
 			{/* Tab Panels */}
 			<div
 				className={`relative ${
 					showMenu ? 'flex' : 'hidden'
-				} h-full w-96 flex-auto flex-col overflow-hidden`}
+				} w-96 flex-auto flex-col overflow-hidden`}
 			>
 				{/* Controls */}
 				<AnimatePresence>
@@ -75,7 +75,7 @@ export const RightPanel: React.FC = () => {
 						<div className='overflow-auto' id='menu'></div>
 						{currentID === '' && (
 							<div className='flex h-96 flex-auto'>
-								<p className='mx-auto my-auto text-center text-xs text-gray-700'>
+								<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
 									Select a control to start editing it
 								</p>
 							</div>

@@ -5,6 +5,7 @@ import { useTheme } from '../../hooks/useTheme';
 import { HomeButton } from './HomeButton';
 
 import './TitleBar.css';
+import { MenuBar } from './MenuBar';
 
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(false);
@@ -26,23 +27,15 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='z-50 flex max-h-10 w-full flex-auto bg-base-200 p-1'
+			className='z-50 flex max-h-12 w-full  bg-base-200 p-1'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
 		>
-			<HomeButton
-				className='my-auto ml-2 mt-0 h-8 w-8 rounded  p-1 hover:bg-neutral'
-				size={20}
-			></HomeButton>
+			<img className='my-auto ml-2 h-5' src={karbonized}></img>
 
-			<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200 p-1 text-black dark:text-white md:flex'>
-				<img className='my-auto h-5' src={karbonized}></img>
-				<label className='poppins-font-family my-auto mr-1 select-none'>
-					Karbonized
-				</label>
-			</div>
+			<MenuBar></MenuBar>
 
 			<div className='titlebar flex flex-auto'></div>
 

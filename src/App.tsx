@@ -4,12 +4,13 @@ import { TitleBar } from './components/Base/TitleBar';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { Home } from './pages/Home';
 import { isElectron } from './utils/isElectron';
+import { MenuBar } from './components/Base/MenuBar';
 
 const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 
 	return (
-		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden transition-all ease-in-out'>
+		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 transition-all ease-in-out'>
 			{/* Noise Background */}
 			<svg
 				className='fixed'
@@ -71,6 +72,8 @@ const App: React.FC = () => {
 						(window as any).electron.ipcRenderer.isLinuxOrWindows() && (
 							<TitleBar></TitleBar>
 						)}
+
+					{!isElectron() && <MenuBar></MenuBar>}
 					<Editor></Editor>
 				</>
 			) : (

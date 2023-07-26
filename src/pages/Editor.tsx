@@ -11,6 +11,7 @@ import {
 	IconDeviceMobile,
 	IconEraser,
 	IconFlask,
+	IconFocusCentered,
 	IconHandFinger,
 	IconInfoCircle,
 	IconJpg,
@@ -56,7 +57,10 @@ import './Editor.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import { LeftPanel } from '../components/Panels/LeftPanel';
-import { StatusBar } from '../components/Panels/StatusBar';
+import { StatusBar } from '../components/Base/StatusBar';
+import { MenuBar } from '../components/Base/MenuBar';
+import { Portal } from 'react-portal';
+import { DropMenu, MenuItem } from '../components/CustomControls/DropMenu';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -242,7 +246,7 @@ export const Editor: React.FC = () => {
 				e.preventDefault();
 			}}
 			id='body'
-			className='flex flex-auto flex-row overflow-hidden bg-base-200'
+			className='relative flex flex-auto flex-row overflow-hidden bg-base-200'
 		>
 			{/* Left Panel */}
 			<div className='flex max-w-xs'>
@@ -437,7 +441,7 @@ export const Editor: React.FC = () => {
 					{/* Draw Bar */}
 					{(canDraw || isErasing) && (
 						<div className=' flex items-end '>
-							<div className='absolute z-50 mb-6 ml-4 flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
+							<div className='absolute z-50 mb-4 ml-4 flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
 								{/* Stroke Range */}
 								<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
 								<Range
@@ -497,8 +501,8 @@ export const Editor: React.FC = () => {
 							useTransform
 							onScroll={() => {
 								/*console.log(
-									'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
-								);*/
+							'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
+						);*/
 							}}
 						>
 							<div
@@ -853,11 +857,7 @@ export const Editor: React.FC = () => {
 			</div>
 
 			{/* Right Panel */}
-			<div
-				className={`${
-					showMenu ? 'flex' : 'hidden'
-				}    my-auto  flex h-full max-h-full  max-w-sm text-white transition-all`}
-			>
+			<div className='flex max-h-screen max-w-sm overflow-hidden'>
 				<RightPanel></RightPanel>
 			</div>
 
