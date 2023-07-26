@@ -30,10 +30,6 @@ export const Tooltip: React.FC<Props> = ({
 		placement: placement,
 	});
 
-	useEffect(() => {
-		return () => setShowTooltip(false);
-	}, []);
-
 	return (
 		<>
 			<>

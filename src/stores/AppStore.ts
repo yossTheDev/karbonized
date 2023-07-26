@@ -66,6 +66,8 @@ export interface AppStoreModel {
 	setFuture: Action<AppStoreModel, History[]>;
 
 	/* Tabs */
+	workspaceMode: 'design' | 'edit' | 'zen' | 'custom';
+	setWorkspaceMode: Action<AppStoreModel, 'design' | 'edit' | 'zen' | 'custom'>;
 	selectedTab: 'hierarchy' | 'control' | 'workspace';
 	setSelectedTab: Action<AppStoreModel, 'hierarchy' | 'control' | 'workspace'>;
 
@@ -230,6 +232,11 @@ export const AppStore = createStore<AppStoreModel>({
 	selectedTab: 'hierarchy',
 	setSelectedTab: action((state, payload) => {
 		state.selectedTab = payload;
+	}),
+
+	workspaceMode: 'zen',
+	setWorkspaceMode: action((state, payload) => {
+		state.workspaceMode = payload;
 	}),
 
 	/* Workspace */

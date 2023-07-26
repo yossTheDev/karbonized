@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
 import {
 	IconChevronLeft,
 	IconChevronRight,
 	IconEdit,
-	IconHierarchy3,
 	IconWallpaper,
 } from '@tabler/icons-react';
-import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { AnimatePresence } from 'framer-motion';
-import { HierarchyPanel } from './Panels/HierarchyPanel';
-import { WorkspacePanel } from './Panels/WorkspacePanel';
+import React, { useEffect, useState } from 'react';
+import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { Tooltip } from './CustomControls/Tooltip';
+import { WorkspacePanel } from './Panels/WorkspacePanel';
 
-export const Menu: React.FC = () => {
+export const RightPanel: React.FC = () => {
 	/* App Store */
 	const currentID = useStoreState((state) => state.currentControlID);
 	const workspaceTab = useStoreState((state) => state.selectedTab);
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	/* Component State */
-	const [showMenu, setShowMenu] = useState(true);
+	const [showMenu, setShowMenu] = useState(false);
+	const [tab, setTab] = useState<'workspace' | 'control'>('control');
+
+	const workspaceMode = useStoreState((state) => state.workspaceMode);
+	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
 
 	/* Show/Close Menu KeyShortcut */
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -29,6 +31,7 @@ export const Menu: React.FC = () => {
 			setShowMenu(!showMenu);
 		}
 	};
+
 	useEffect(() => {
 		window.addEventListener('keydown', onKeyDown);
 
@@ -37,26 +40,33 @@ export const Menu: React.FC = () => {
 		};
 	}, [showMenu]);
 
+	useEffect(() => {
+		if (workspaceMode === 'edit') {
+			setShowMenu(true);
+		} else if (workspaceMode !== 'custom') {
+			setShowMenu(false);
+		}
+	}, [workspaceMode]);
+
+	useEffect(() => {
+		if (workspaceTab === 'control') {
+			setTab('control');
+		}
+	}, [workspaceTab]);
+
 	return (
-		<div className='pointer-events-auto flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden rounded-2xl bg-base-200/95 p-2  text-gray-950 shadow-xl backdrop-blur-2xl dark:text-gray-400'>
+		<div className='pointer-events-auto flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden  p-2  text-gray-950  backdrop-blur-2xl dark:text-gray-400'>
 			{/* Tab Panels */}
 			<div
 				className={`relative ${
 					showMenu ? 'flex' : 'hidden'
 				} h-full w-96 flex-auto flex-col overflow-hidden`}
 			>
-				{/* Hierarchy */}
-				{workspaceTab === 'hierarchy' && (
-					<AnimatePresence>
-						{workspaceTab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
-					</AnimatePresence>
-				)}
-
 				{/* Controls */}
 				<AnimatePresence>
 					<div
 						className={` h-full min-h-full  flex-col overflow-hidden ${
-							workspaceTab === 'control' ? 'flex' : 'hidden'
+							tab === 'control' ? 'flex' : 'hidden'
 						}`}
 					>
 						<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
@@ -74,9 +84,9 @@ export const Menu: React.FC = () => {
 				</AnimatePresence>
 
 				{/* Workspace */}
-				{workspaceTab === 'workspace' && (
+				{tab === 'workspace' && (
 					<AnimatePresence>
-						{workspaceTab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
+						{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
 					</AnimatePresence>
 				)}
 			</div>
@@ -88,6 +98,7 @@ export const Menu: React.FC = () => {
 					<div
 						onClick={() => {
 							setShowMenu(!showMenu);
+							setWorkspaceMode('custom');
 						}}
 						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
 					>
@@ -102,30 +113,16 @@ export const Menu: React.FC = () => {
 					</div>
 				</Tooltip>
 
-				{/* Hierarchy */}
-				<Tooltip message='Hierarchy'>
-					<div
-						onClick={() => {
-							setWorkspaceTab('hierarchy');
-							setShowMenu(true);
-						}}
-						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'hierarchy' && showMenu && 'bg-base-100'
-						}`}
-					>
-						<IconHierarchy3 className='mx-auto' size={16}></IconHierarchy3>
-					</div>
-				</Tooltip>
-
 				{/* Edit */}
 				<Tooltip message='Edit'>
 					<div
 						onClick={() => {
-							setWorkspaceTab('control');
+							setTab('control');
+							setWorkspaceMode('custom');
 							setShowMenu(true);
 						}}
 						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'control' && showMenu && 'bg-base-100'
+							tab === 'control' && showMenu && 'bg-base-100'
 						}`}
 					>
 						<IconEdit className='mx-auto' size={16}></IconEdit>
@@ -136,11 +133,13 @@ export const Menu: React.FC = () => {
 				<Tooltip message='Workspace'>
 					<div
 						onClick={() => {
+							setTab('workspace');
+							setWorkspaceMode('custom');
 							setWorkspaceTab('workspace');
 							setShowMenu(true);
 						}}
 						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'workspace' && showMenu && 'bg-base-100'
+							tab === 'workspace' && showMenu && 'bg-base-100'
 						}`}
 					>
 						<IconWallpaper className='mx-auto' size={16}></IconWallpaper>

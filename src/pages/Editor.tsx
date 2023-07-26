@@ -26,6 +26,7 @@ import {
 	IconSticker,
 	IconSun,
 	IconSvg,
+	IconTree,
 	IconX,
 	IconZoomIn,
 	IconZoomOut,
@@ -41,7 +42,7 @@ import karbonized from '../assets/karbonized.svg';
 import { HomeButton } from '../components/Base/HomeButton';
 import { ColorPicker } from '../components/CustomControls/ColorPicker';
 import { Tooltip } from '../components/CustomControls/Tooltip';
-import { Menu as ControlsMenu } from '../components/Menu';
+import { RightPanel } from '../components/RightPanel';
 import { AboutModal } from '../components/Modals/AboutModal';
 import { WorkspacePanel } from '../components/Panels/WorkspacePanel';
 import { Workspace } from '../components/Workspace';
@@ -54,6 +55,8 @@ import { ExportImage, export_format } from '../utils/Exporter';
 import './Editor.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
+import { LeftPanel } from '../components/Panels/LeftPanel';
+import { StatusBar } from '../components/Panels/StatusBar';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -75,6 +78,8 @@ export const Editor: React.FC = () => {
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const controls = useStoreState((state) => state.ControlsTree);
+
+	const workspaceMode = useStoreState((state) => state.workspaceMode);
 
 	const redo = useStoreActions((state) => state.redo);
 	const undo = useStoreActions((state) => state.undo);
@@ -117,7 +122,7 @@ export const Editor: React.FC = () => {
 		}
 
 		viewerRef.current?.scrollCenter();
-	}, [workspaceHeight, workspaceWidth]);
+	}, [workspaceHeight, workspaceWidth, workspaceMode, controls]);
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'w') {
@@ -157,7 +162,7 @@ export const Editor: React.FC = () => {
 		}
 	};
 
-	/* Handle Key Shortcuts and Center View on Change Workspace Size */
+	/* Handle Key Shortcuts and Center View on Change Some Workspace Properties*/
 	useEffect(() => {
 		centerView();
 
@@ -166,12 +171,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, [workspaceHeight, workspaceWidth]);
-
-	/* Center View on New Control is Added to Workspace */
-	useEffect(() => {
-		centerView();
-	}, [controls]);
+	}, [workspaceHeight, workspaceWidth, controls, workspaceMode]);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
@@ -242,10 +242,15 @@ export const Editor: React.FC = () => {
 				e.preventDefault();
 			}}
 			id='body'
-			className='flex flex-auto flex-row overflow-hidden bg-base-100'
+			className='flex flex-auto flex-row overflow-hidden bg-base-200'
 		>
+			{/* Left Panel */}
+			<div className='flex max-w-xs'>
+				<LeftPanel></LeftPanel>
+			</div>
+
 			{/* Content */}
-			<div className='relative flex flex-auto flex-col overflow-hidden bg-base-100 p-2 md:p-0'>
+			<div className='relative  flex flex-auto flex-col overflow-hidden bg-base-200 p-2 md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'>
@@ -474,7 +479,11 @@ export const Editor: React.FC = () => {
 					)}
 
 					{/* Workspace */}
-					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
+					<div
+						className={`flex flex-auto flex-col rounded-2xl bg-base-100 shadow-inner ${
+							drag && 'cursor-move'
+						}`}
+					>
 						{/* Ruler Horizontal */}
 						<InfiniteViewer
 							ref={viewerRef}
@@ -832,15 +841,17 @@ export const Editor: React.FC = () => {
 						</div>
 					</div>
 				</div>
+
+				<StatusBar></StatusBar>
 			</div>
 
-			{/* Menu */}
+			{/* Right Panel */}
 			<div
 				className={`${
 					showMenu ? 'flex' : 'hidden'
-				}    my-auto mr-2 flex h-full max-h-full py-3 text-white transition-all md:max-w-xs lg:max-w-sm`}
+				}    my-auto  flex h-full max-h-full  text-white transition-all md:max-w-xs lg:max-w-sm`}
 			>
-				<ControlsMenu></ControlsMenu>
+				<RightPanel></RightPanel>
 			</div>
 
 			{/* Modals */}

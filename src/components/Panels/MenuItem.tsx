@@ -58,7 +58,7 @@ export const MenuItem: React.FC<Item> = ({
 				onMouseDown={() => {
 					if (isVisible) setCurrentControlID(id);
 				}}
-				className={`z-50 dark:text-gray-400 list-none p-3 hover:bg-base-100/90 rounded-xl ${
+				className={`z-50 list-none rounded-xl p-3 hover:bg-base-100/90 dark:text-gray-400 ${
 					!isDragged && 'hover:cursor-pointer'
 				} ${isDragged && 'cursor-grabbing'} ${
 					controlID === id && 'bg-base-100/70'
@@ -87,23 +87,13 @@ export const MenuItem: React.FC<Item> = ({
 								),
 							);
 						}}
-						className='my-auto ml-auto pointer-events-auto p-1 hover:bg-base-200 rounded'
+						className='pointer-events-auto my-auto ml-auto rounded p-1 hover:bg-base-200'
 					>
 						{isVisible ? (
 							<IconEye size={16}></IconEye>
 						) : (
 							<IconEyeClosed size={16}></IconEyeClosed>
 						)}
-					</div>
-
-					<div
-						onMouseDown={() => setSelectedTab('control')}
-						className='my-auto pointer-events-auto p-1 hover:bg-base-200 rounded'
-					>
-						<IconChevronRight
-							size={16}
-							className='my-auto pointer-events-auto'
-						></IconChevronRight>
 					</div>
 				</div>
 			</div>
@@ -143,7 +133,7 @@ export const MenuIcon: React.FC<{ type: string }> = ({ type }) => {
 
 		case 'badge':
 			return (
-				<div className='h-2 my-auto  w-4 rounded-full border-2 border-black dark:border-gray-400'></div>
+				<div className='my-auto h-2  w-4 rounded-full border-2 border-black dark:border-gray-400'></div>
 			);
 		default:
 			return <></>;

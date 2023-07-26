@@ -89,6 +89,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setControls = useStoreActions((state) => state.setControls);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
+	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
 
 	// Component States
 	const [zIndex, setzIndex] = useRedoUndo('0', `${id}-zindex`);
@@ -340,6 +341,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						}}
 						onDoubleClick={() => {
 							setWorkspaceTab('control');
+							setWorkspaceMode('edit');
 						}}
 						ref={reference}
 					>
