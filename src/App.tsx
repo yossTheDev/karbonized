@@ -6,6 +6,8 @@ import { Home } from './pages/Home';
 import { isElectron } from './utils/isElectron';
 import { MenuBar } from './components/Base/MenuBar';
 
+import karbonized from './assets/karbonized.svg';
+
 const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 
@@ -73,7 +75,15 @@ const App: React.FC = () => {
 							<TitleBar></TitleBar>
 						)}
 
-					{!isElectron() && <MenuBar></MenuBar>}
+					{!isElectron() && (
+						<div className='flex flex-row'>
+							<img className='my-auto ml-4 h-6' src={karbonized}></img>
+							<p className='poppins-font-family my-auto ml-1 dark:text-white '>
+								Karbonized
+							</p>
+							<MenuBar></MenuBar>
+						</div>
+					)}
 					<Editor></Editor>
 				</>
 			) : (

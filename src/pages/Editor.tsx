@@ -1,11 +1,7 @@
 import {
 	IconAppWindow,
-	IconArrowLeft,
-	IconArrowRight,
 	IconBrandTwitter,
 	IconBrush,
-	IconChevronDown,
-	IconChevronUp,
 	IconCircle,
 	IconCode,
 	IconDeviceMobile,
@@ -14,33 +10,23 @@ import {
 	IconFocusCentered,
 	IconHandFinger,
 	IconInfoCircle,
-	IconJpg,
 	IconLetterT,
 	IconLock,
 	IconMoon,
 	IconPhoto,
-	IconPng,
 	IconPointer,
 	IconQrcode,
-	IconSettings,
-	IconShare,
 	IconSticker,
 	IconSun,
-	IconSvg,
-	IconTree,
-	IconX,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
 } from '@tabler/icons-react';
-import { toBlob, toJpeg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Modal, Navbar, Range } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import '../App.css';
 import karbonized from '../assets/karbonized.svg';
-import { HomeButton } from '../components/Base/HomeButton';
 import { ColorPicker } from '../components/CustomControls/ColorPicker';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { RightPanel } from '../components/RightPanel';
@@ -48,17 +34,14 @@ import { AboutModal } from '../components/Modals/AboutModal';
 import { WorkspacePanel } from '../components/Panels/WorkspacePanel';
 import { Workspace } from '../components/Workspace';
 import { useScreenDirection } from '../hooks/useScreenDirection';
-import { useTauriPlatform } from '../hooks/useTauriPlatform';
 import { useTheme } from '../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import '../utils.css';
-import { ExportImage, export_format } from '../utils/Exporter';
 import './Editor.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import { LeftPanel } from '../components/Panels/LeftPanel';
 import { StatusBar } from '../components/Base/StatusBar';
-import { MenuBar } from '../components/Base/MenuBar';
 
 import {
 	DropMenu,
@@ -199,19 +182,6 @@ export const Editor: React.FC = () => {
 								Share
 							</p>
 						</Button>
-
-						{!isElectron() && (
-							<>
-								<HomeButton className='h-12 w-10 rounded-2xl p-1'></HomeButton>
-
-								<div className='hidden select-none flex-row gap-2 rounded-xl bg-base-200/90 p-2 text-black backdrop-blur-xl dark:text-white md:flex'>
-									<img className='h-8' src={karbonized}></img>
-									<label className='poppins-font-family my-auto select-none text-xl'>
-										Karbonized
-									</label>
-								</div>
-							</>
-						)}
 					</Navbar.Start>
 
 					<Navbar.Center className='md:hidden lg:flex'>
