@@ -4,12 +4,17 @@ import {
 	IconBrandGithub,
 	IconCircleDashed,
 	IconHeart,
+	IconHierarchy,
 	IconPalette,
 	IconSquareRotated,
+	IconSquareRotatedForbid2,
+	IconSquareRoundedPlus,
+	IconTag,
 	IconTools,
 } from '@tabler/icons-react';
 import { AboutModal } from '../Modals/AboutModal';
 import { IconCircleSquare } from '@tabler/icons-react';
+import { Tooltip } from '../CustomControls/Tooltip';
 
 export const StatusBar: React.FC = () => {
 	/* Component Store */
@@ -19,6 +24,7 @@ export const StatusBar: React.FC = () => {
 	const workspaceName = useStoreState((state) => state.workspaceName);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+	const controlPosition = useStoreState((state) => state.controlPosition);
 
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
@@ -58,85 +64,93 @@ export const StatusBar: React.FC = () => {
 	return (
 		<>
 			<div className='hidden select-none flex-row p-1 text-gray-500 md:flex'>
-				<div className='my-auto flex flex-auto flex-row'>
-					<div className='z-10 flex'>
-						{workspaceMode === 'design' && (
-							<div
-								className='flex gap-1 rounded px-2 hover:cursor-pointer hover:bg-neutral'
-								onClick={handleChangeMode}
-							>
-								<IconCircleSquare
-									className='my-auto'
-									size={16}
-								></IconCircleSquare>
-								<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
-							</div>
-						)}
+				<div className='my-auto flex flex-auto flex-row gap-2'>
+					{/* Layout Mode */}
+					<Tooltip
+						placement='top'
+						className='my-auto'
+						message='Change Layout Mode (Tab)'
+					>
+						<div
+							onClick={handleChangeMode}
+							className='flex flex-row gap-1 rounded px-2 py-1 hover:cursor-pointer  hover:bg-neutral'
+						>
+							{workspaceMode === 'design' && (
+								<>
+									<IconCircleSquare
+										className='my-auto'
+										size={16}
+									></IconCircleSquare>
+									<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
+								</>
+							)}
 
-						{workspaceMode === 'zen' && (
-							<div
-								className='flex gap-1 rounded px-2 hover:cursor-pointer  hover:bg-neutral'
-								onClick={handleChangeMode}
-							>
-								<IconCircleDashed
-									className='my-auto'
-									size={16}
-								></IconCircleDashed>
-								<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
-							</div>
-						)}
+							{workspaceMode === 'zen' && (
+								<>
+									<IconCircleDashed
+										className='my-auto'
+										size={16}
+									></IconCircleDashed>
+									<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
+								</>
+							)}
 
-						{workspaceMode === 'edit' && (
-							<div
-								className='flex gap-1 rounded px-2  hover:cursor-pointer  hover:bg-neutral'
-								onClick={handleChangeMode}
-							>
-								<IconTools className='my-auto' size={16}></IconTools>
-								<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
-							</div>
-						)}
+							{workspaceMode === 'edit' && (
+								<>
+									<IconTools className='my-auto' size={16}></IconTools>
+									<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
+								</>
+							)}
 
-						{workspaceMode === 'custom' && (
-							<div
-								className='flex gap-1 rounded px-2 hover:cursor-pointer  hover:bg-neutral'
-								onClick={() => handleChangeMode()}
-							>
-								<IconTools className='my-auto' size={16}></IconTools>
-								<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
-							</div>
-						)}
+							{workspaceMode === 'custom' && (
+								<>
+									<IconTools className='my-auto' size={16}></IconTools>
+									<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
+								</>
+							)}
+						</div>
+					</Tooltip>
+
+					{/* Control Position */}
+					<div className='flex flex-row'>
+						<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
+
+						<p className='my-auto ml-2 text-center text-xs'>
+							Pos: {Math.round(controlPosition?.x as any)} -{' '}
+							{Math.round(controlPosition?.y as any)}
+						</p>
 					</div>
 
-					<IconSquareRotated
-						className='my-auto ml-1'
-						size={18}
-					></IconSquareRotated>
+					{/* Workspace Name */}
+					<div className='flex flex-row'>
+						<IconTag className='my-auto ml-1' size={16}></IconTag>
 
-					<p className='my-auto ml-2 text-center text-xs'>
-						Workspace: {workspaceName} Size: {workspaceWidth} X{' '}
-						{workspaceHeight}
-					</p>
+						<p className='my-auto ml-2 text-center text-xs'>{workspaceName}</p>
+					</div>
 
+					{/* Workspace Settings  Size*/}
+					<div className='flex flex-row'>
+						<IconSquareRotatedForbid2
+							className='my-auto'
+							size={16}
+						></IconSquareRotatedForbid2>
+
+						<p className='my-auto ml-2 text-center text-xs'>
+							Size: {workspaceWidth} X {workspaceHeight}
+						</p>
+					</div>
+
+					{/* Source Code */}
 					<div className='my-auto ml-auto flex flex-row'>
-						<div
-							onMouseDown={() => setShowAbout(true)}
-							className='flex cursor-pointer flex-row gap-0.5 p-1 hover:rounded hover:bg-base-100'
-						>
-							<p className='my-auto text-xs'> Made With</p>
-							<IconHeart
-								size={18}
-								className='mx-1 my-auto inline-flex'
-							></IconHeart>
-							<p className='my-auto text-xs'>by @yossthedev</p>
-						</div>
-
 						<a
 							href='https://github.com/yossthedev/karbonized/'
 							target={'_blank'}
-							className='mx-2 my-auto flex flex-auto cursor-pointer flex-row p-1 hover:rounded hover:bg-base-100'
+							className='mx-2 my-auto flex flex-auto cursor-pointer flex-row p-1 hover:rounded hover:bg-neutral'
 						>
-							<IconBrandGithub className='my-auto' size={18}></IconBrandGithub>
-							<p className='my-auto ml-1 text-xs'>Source Code</p>
+							<IconBrandGithub className='my-auto' size={16}></IconBrandGithub>
+							<p className='my-auto ml-1 text-xs hover:cursor-pointer'>
+								Source Code
+							</p>
 						</a>
 					</div>
 				</div>
