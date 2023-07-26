@@ -1,5 +1,12 @@
 # Changelog
 
+## v 1.3.3
+
+* Change Editor Layout
+* Layout Modes
+* Various UI/UX Editor Improvements
+* Double Click to Edit Control
+
 ## v 1.3.2
 
 * fix: Bug in Automatic Centering
