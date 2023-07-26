@@ -148,10 +148,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='overflow-hidden bg-base-200/95 backdrop-blur-xl w-[50rem] max-w-none p-4 flex flex-col'
+			className='flex w-[50rem] max-w-none flex-col overflow-hidden border border-neutral bg-base-200/95 p-4 backdrop-blur-2xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
-				<div className='hidden select-none w-fit flex-row gap-2 rounded-xl bg-base-100 p-2 text-black dark:text-white md:flex'>
+				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-100 p-2 text-black dark:text-white md:flex'>
 					<img className='my-auto h-6' src={karbonized}></img>
 					<label className='poppins-font-family my-auto mr-1 select-none'>
 						Project Wizard
@@ -161,71 +161,71 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 			<Modal.Body className='flex select-none flex-row gap-4 overflow-hidden'>
 				{/* Templates */}
-				<div className='flex flex-col overflow-y-auto w-56 gap-2'>
+				<div className='flex w-56 flex-col gap-2 overflow-y-auto'>
 					<div
 						onClick={() => setTemplate('blank')}
-						className='flex flex-row gap-2 hover:cursor-pointer hover:bg-base-100/80 rounded-xl p-2 active:bg-base-100'
+						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80 active:bg-base-100'
 					>
 						{template === 'blank' && (
-							<div className='bg-primary p-1 rounded-full my-auto'></div>
+							<div className='my-auto rounded-full bg-primary p-1'></div>
 						)}
 
 						<img
-							className='rounded-2xl w-48 shadow-xl'
+							className='w-48 rounded-2xl shadow-xl'
 							src={blank_template}
 						></img>
 					</div>
 
 					<div
 						onClick={() => setTemplate('code')}
-						className='flex flex-row gap-2 hover:cursor-pointer hover:bg-base-100/80 rounded-xl p-2  active:bg-base-100'
+						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
 					>
 						{template === 'code' && (
-							<div className='bg-primary p-1 rounded-full my-auto'></div>
+							<div className='my-auto rounded-full bg-primary p-1'></div>
 						)}
 
 						<img
-							className='rounded-2xl w-48 shadow-xl'
+							className='w-48 rounded-2xl shadow-xl'
 							src={code_template}
 						></img>
 					</div>
 
 					<div
 						onClick={() => setTemplate('image')}
-						className='flex flex-row gap-2 hover:cursor-pointer hover:bg-base-100/80 rounded-xl p-2  active:bg-base-100'
+						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
 					>
 						{template === 'image' && (
-							<div className='bg-primary p-1 rounded-full my-auto'></div>
+							<div className='my-auto rounded-full bg-primary p-1'></div>
 						)}
 
 						<img
-							className='rounded-2xl w-48 shadow-xl'
+							className='w-48 rounded-2xl shadow-xl'
 							src={image_template}
 						></img>
 					</div>
 
 					<div
 						onClick={() => setTemplate('browser')}
-						className='flex flex-row gap-2 hover:cursor-pointer hover:bg-base-100/80 rounded-xl p-2  active:bg-base-100'
+						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
 					>
 						{template === 'browser' && (
-							<div className='bg-primary p-1 rounded-full my-auto'></div>
+							<div className='my-auto rounded-full bg-primary p-1'></div>
 						)}
 
 						<img
-							className='rounded-2xl w-48 shadow-xl'
+							className='w-48 rounded-2xl shadow-xl'
 							src={browser_template}
 						></img>
 					</div>
 				</div>
 
 				{/* Menus */}
-				<div className='flex flex-col flex-auto gap-2 dark:text-gray-400'>
-					<p className='mb-2 font-bold poppins-font-family text-xl text-right'>
+				<div className='flex flex-auto flex-col gap-2 dark:text-gray-400'>
+					<p className='poppins-font-family mb-2 text-right text-xl font-bold'>
 						Properties
 					</p>
 
-					<div className='w-full p-2 flex flex-col gap-3  font-bold overflow-auto'>
+					<div className='flex w-full flex-col gap-3 overflow-auto  p-2 font-bold'>
 						<p className='poppins-font-family text-gray-500'>Project Name</p>
 						<Input
 							className='min-h-12 w-full'
@@ -274,7 +274,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							<>
 								<p className='poppins-font-family text-gray-500'>Source</p>
 								<FileInput
-									className='w-full min-h-12'
+									className='min-h-12 w-full'
 									accept='image/*'
 									onChange={(e) => {
 										if (e.target.files && e.target.files.length > 0) {
@@ -294,7 +294,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								<p className='poppins-font-family text-gray-500'>Source</p>
 								<FileInput
 									accept='image/*'
-									className='w-full min-h-12'
+									className='min-h-12 w-full'
 									onChange={(e) => {
 										if (e.target.files && e.target.files.length > 0) {
 											const reader = new FileReader();
@@ -308,14 +308,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 								<p className='poppins-font-family text-gray-500'>Title</p>
 								<Input
-									className='w-full min-h-12'
+									className='min-h-12 w-full'
 									value={titleBrowser}
 									onChange={(ev) => setTitleBrowser(ev.currentTarget.value)}
 								></Input>
 
 								<p className='poppins-font-family text-gray-500'>Url</p>
 								<Input
-									className='w-full  min-h-12'
+									className='min-h-12  w-full'
 									value={url}
 									onChange={(ev) => setUrl(ev.currentTarget.value)}
 								></Input>
