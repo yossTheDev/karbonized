@@ -250,7 +250,7 @@ export const Editor: React.FC = () => {
 			</div>
 
 			{/* Content */}
-			<div className='relative  flex flex-auto flex-col overflow-hidden bg-base-200 p-2 md:p-0'>
+			<div className='relative flex flex-auto flex-col overflow-hidden bg-base-200 p-2 md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'>
@@ -433,9 +433,8 @@ export const Editor: React.FC = () => {
 				</Navbar>
 
 				{/* Content*/}
-				<div className='flex flex-auto flex-col overflow-hidden md:flex-row'>
-					{/* Quick Bar */}
-
+				<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
+					{/* Draw Bar */}
 					{(canDraw || isErasing) && (
 						<div className=' flex items-end '>
 							<div className='absolute z-50 mb-6 ml-4 flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
@@ -513,331 +512,339 @@ export const Editor: React.FC = () => {
 							</div>
 						</InfiniteViewer>
 					</div>
-				</div>
 
-				{/* Controls Tree */}
-				<div className='absolute  z-10 flex  h-screen w-28 '>
-					<div className='mx-auto my-auto flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
-						{/* Tools */}
-						<div className='flex w-20 flex-row flex-wrap'>
-							{/* Actions */}
+					{/* Controls Tree */}
+					<div className='absolute  z-10 flex h-full  w-28'>
+						<div className='mx-auto my-auto ml-6 flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
+							{/* Tools */}
+							<div className='flex w-20 flex-row flex-wrap'>
+								{/* Actions */}
 
-							{/* Select */}
-							<Tooltip className='flex flex-auto' message='Select (Ctrl+W)'>
-								<Button
-									color='ghost'
-									className={`flex flex-auto rounded-2xl ${
-										editing &&
-										'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-									} p-1 hover:bg-gradient-to-bl`}
-									onClick={() => {
-										setEditing(true);
-										setDrag(false);
-										setCanDraw(false);
-										setIsErasing(false);
-									}}
-								>
-									<IconPointer
-										size={18}
-										className='dark:text-white'
-									></IconPointer>
-								</Button>
-							</Tooltip>
+								{/* Select */}
+								<Tooltip className='flex flex-auto' message='Select (Ctrl+W)'>
+									<Button
+										color='ghost'
+										className={`flex flex-auto rounded-2xl ${
+											editing &&
+											'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+										} p-1 hover:bg-gradient-to-bl`}
+										onClick={() => {
+											setEditing(true);
+											setDrag(false);
+											setCanDraw(false);
+											setIsErasing(false);
+										}}
+									>
+										<IconPointer
+											size={18}
+											className='dark:text-white'
+										></IconPointer>
+									</Button>
+								</Tooltip>
 
-							{/* Hand */}
-							<Tooltip className='flex flex-auto ' message='Hand (Ctrl+E)'>
-								<Button
-									color='ghost'
-									className={`flex flex-auto flex-col rounded-2xl ${
-										drag &&
-										'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
-									} p-1`}
-									onClick={() => {
-										setDrag(true);
-										setEditing(false);
-										setCanDraw(false);
-										setIsErasing(false);
-									}}
-								>
-									<IconHandFinger
-										size={18}
-										className='dark:text-white'
-									></IconHandFinger>
-								</Button>
-							</Tooltip>
+								{/* Hand */}
+								<Tooltip className='flex flex-auto ' message='Hand (Ctrl+E)'>
+									<Button
+										color='ghost'
+										className={`flex flex-auto flex-col rounded-2xl ${
+											drag &&
+											'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
+										} p-1`}
+										onClick={() => {
+											setDrag(true);
+											setEditing(false);
+											setCanDraw(false);
+											setIsErasing(false);
+										}}
+									>
+										<IconHandFinger
+											size={18}
+											className='dark:text-white'
+										></IconHandFinger>
+									</Button>
+								</Tooltip>
 
-							{/* Brush */}
-							<Tooltip className='flex flex-auto' message='Brush'>
-								<Button
-									color='ghost'
-									className={`flex flex-auto rounded-2xl ${
-										canDraw &&
-										'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-									} p-1 hover:bg-gradient-to-bl`}
-									onClick={() => {
-										setCanDraw(!canDraw);
-										setEditing(false);
-										setDrag(false);
-										setIsErasing(false);
-									}}
-								>
-									<IconBrush size={18} className='dark:text-white'></IconBrush>
-								</Button>
-							</Tooltip>
+								{/* Brush */}
+								<Tooltip className='flex flex-auto' message='Brush'>
+									<Button
+										color='ghost'
+										className={`flex flex-auto rounded-2xl ${
+											canDraw &&
+											'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+										} p-1 hover:bg-gradient-to-bl`}
+										onClick={() => {
+											setCanDraw(!canDraw);
+											setEditing(false);
+											setDrag(false);
+											setIsErasing(false);
+										}}
+									>
+										<IconBrush
+											size={18}
+											className='dark:text-white'
+										></IconBrush>
+									</Button>
+								</Tooltip>
 
-							{/* Erase */}
-							<Tooltip className='flex flex-auto' message='Erase'>
-								<Button
-									color='ghost'
-									className={`flex flex-auto rounded-2xl ${
-										isErasing &&
-										'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-									} p-1 hover:bg-gradient-to-bl`}
-									onClick={() => {
-										setIsErasing(!isErasing);
-										setEditing(false);
-										setDrag(false);
-										setCanDraw(false);
-									}}
-								>
-									<IconEraser
-										size={18}
-										className='dark:text-white'
-									></IconEraser>
-								</Button>
-							</Tooltip>
-						</div>
+								{/* Erase */}
+								<Tooltip className='flex flex-auto' message='Erase'>
+									<Button
+										color='ghost'
+										className={`flex flex-auto rounded-2xl ${
+											isErasing &&
+											'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+										} p-1 hover:bg-gradient-to-bl`}
+										onClick={() => {
+											setIsErasing(!isErasing);
+											setEditing(false);
+											setDrag(false);
+											setCanDraw(false);
+										}}
+									>
+										<IconEraser
+											size={18}
+											className='dark:text-white'
+										></IconEraser>
+									</Button>
+								</Tooltip>
+							</div>
 
-						<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
+							<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
 
-						{/* Basics */}
+							{/* Basics */}
 
-						<div className='flex w-20 flex-row flex-wrap'>
-							{/* Code Control */}
-							<Tooltip className='flex  flex-auto ' message='Code'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'code',
-											id: `code-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `code ${getElementsByType('code')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconCode size={18} className='dark:text-white'></IconCode>
-								</Button>
-							</Tooltip>
+							<div className='flex w-20 flex-row flex-wrap'>
+								{/* Code Control */}
+								<Tooltip className='flex  flex-auto ' message='Code'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'code',
+												id: `code-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `code ${getElementsByType('code')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconCode size={18} className='dark:text-white'></IconCode>
+									</Button>
+								</Tooltip>
 
-							{/* FaIcon Control */}
-							<Tooltip className='flex flex-auto ' message='Icon'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'faicon',
-											id: `faicon-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `icon ${getElementsByType('faicon')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconSticker
-										size={18}
-										className='dark:text-white'
-									></IconSticker>
-								</Button>
-							</Tooltip>
+								{/* FaIcon Control */}
+								<Tooltip className='flex flex-auto ' message='Icon'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'faicon',
+												id: `faicon-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `icon ${getElementsByType('faicon')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconSticker
+											size={18}
+											className='dark:text-white'
+										></IconSticker>
+									</Button>
+								</Tooltip>
 
-							{/* Text Control */}
-							<Tooltip className='flex flex-auto ' message='Text'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'text',
-											id: `text-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `text ${getElementsByType('text')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconLetterT
-										size={18}
-										className='dark:text-white'
-									></IconLetterT>
-								</Button>
-							</Tooltip>
+								{/* Text Control */}
+								<Tooltip className='flex flex-auto ' message='Text'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'text',
+												id: `text-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `text ${getElementsByType('text')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconLetterT
+											size={18}
+											className='dark:text-white'
+										></IconLetterT>
+									</Button>
+								</Tooltip>
 
-							{/* Shape Control */}
-							<Tooltip className='flex flex-auto ' message='Shape'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'arrow',
-											id: `arrow-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `shape ${getElementsByType('arrow')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconCircle
-										size={18}
-										className='dark:text-white'
-									></IconCircle>
-								</Button>
-							</Tooltip>
-						</div>
+								{/* Shape Control */}
+								<Tooltip className='flex flex-auto ' message='Shape'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'arrow',
+												id: `arrow-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `shape ${getElementsByType('arrow')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconCircle
+											size={18}
+											className='dark:text-white'
+										></IconCircle>
+									</Button>
+								</Tooltip>
+							</div>
 
-						<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
+							<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
 
-						{/* Others */}
+							{/* Others */}
 
-						<div className='flex w-20 flex-row flex-wrap '>
-							<Tooltip className='flex flex-auto ' message='Qr Code'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'qr',
-											id: `qr-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `qr ${getElementsByType('qr')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconQrcode
-										size={18}
-										className='dark:text-white'
-									></IconQrcode>
-								</Button>
-							</Tooltip>
+							<div className='flex w-20 flex-row flex-wrap '>
+								<Tooltip className='flex flex-auto ' message='Qr Code'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'qr',
+												id: `qr-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `qr ${getElementsByType('qr')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconQrcode
+											size={18}
+											className='dark:text-white'
+										></IconQrcode>
+									</Button>
+								</Tooltip>
 
-							{/* Image Control */}
-							<Tooltip className='flex flex-auto ' message='Image'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'image',
-											id: `image-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `image ${getElementsByType('image')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconPhoto size={18} className='dark:text-white'></IconPhoto>
-								</Button>
-							</Tooltip>
+								{/* Image Control */}
+								<Tooltip className='flex flex-auto ' message='Image'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'image',
+												id: `image-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `image ${getElementsByType('image')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconPhoto
+											size={18}
+											className='dark:text-white'
+										></IconPhoto>
+									</Button>
+								</Tooltip>
 
-							{/* Badge Control */}
-							<Tooltip className='flex flex-auto' message='Badge'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'badge',
-											id: `badge-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `badge ${getElementsByType('badge')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
-								</Button>
-							</Tooltip>
+								{/* Badge Control */}
+								<Tooltip className='flex flex-auto' message='Badge'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'badge',
+												id: `badge-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `badge ${getElementsByType('badge')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
+									</Button>
+								</Tooltip>
 
-							{/* Tweet Control */}
-							<Tooltip className='flex flex-auto ' message='Tweet'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'tweet',
-											id: `tweet-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `tweet ${getElementsByType('tweet')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconBrandTwitter
-										size={18}
-										className='dark:text-white'
-									></IconBrandTwitter>
-								</Button>
-							</Tooltip>
+								{/* Tweet Control */}
+								<Tooltip className='flex flex-auto ' message='Tweet'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'tweet',
+												id: `tweet-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `tweet ${getElementsByType('tweet')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconBrandTwitter
+											size={18}
+											className='dark:text-white'
+										></IconBrandTwitter>
+									</Button>
+								</Tooltip>
 
-							{/* Window Control */}
-							<Tooltip className='flex flex-auto ' message='Window'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'window',
-											id: `window-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `window ${getElementsByType('window')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconAppWindow
-										size={18}
-										className='dark:text-white'
-									></IconAppWindow>
-								</Button>
-							</Tooltip>
+								{/* Window Control */}
+								<Tooltip className='flex flex-auto ' message='Window'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'window',
+												id: `window-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `window ${getElementsByType('window')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconAppWindow
+											size={18}
+											className='dark:text-white'
+										></IconAppWindow>
+									</Button>
+								</Tooltip>
 
-							{/* Phone Mockup Control */}
-							<Tooltip className='flex flex-auto ' message='Phone Mockup'>
-								<Button
-									className='flex flex-auto rounded-2xl p-1'
-									color='ghost'
-									onClick={() =>
-										addControl({
-											type: 'phone_mockup',
-											id: `phone_mockup-${getRandomNumber()}`,
-											isSelectable: true,
-											isDeleted: false,
-											name: `phone mockup ${getElementsByType('phone_mockup')}`,
-											isVisible: true,
-										})
-									}
-								>
-									<IconDeviceMobile
-										size={18}
-										className='dark:text-white'
-									></IconDeviceMobile>
-								</Button>
-							</Tooltip>
+								{/* Phone Mockup Control */}
+								<Tooltip className='flex flex-auto ' message='Phone Mockup'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'phone_mockup',
+												id: `phone_mockup-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `phone mockup ${getElementsByType(
+													'phone_mockup',
+												)}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconDeviceMobile
+											size={18}
+											className='dark:text-white'
+										></IconDeviceMobile>
+									</Button>
+								</Tooltip>
+							</div>
 						</div>
 					</div>
 				</div>
