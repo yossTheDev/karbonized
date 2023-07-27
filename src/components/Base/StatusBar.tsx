@@ -116,7 +116,7 @@ export const StatusBar: React.FC = () => {
 						<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
 
 						<p className='my-auto ml-2 text-center text-xs'>
-							Pos: {Math.round(controlPosition?.x as any)} -{' '}
+							Pos: x: {Math.round(controlPosition?.x as any)} y:{' '}
 							{Math.round(controlPosition?.y as any)}
 						</p>
 					</div>
