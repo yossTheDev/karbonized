@@ -1,5 +1,10 @@
 # Changelog
 
+## v 1.3.7
+
+feat: Duplicate Controls (Shortcut Ctrl+D)
+fix: Wrong Control Position in Status Bar
+
 ## v 1.3.6
 
 * Improve UI for Web Version
