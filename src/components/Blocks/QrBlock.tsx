@@ -6,7 +6,7 @@ import { ControlTemplate } from './ControlTemplate';
 import { QRCodeSVG } from 'qrcode.react';
 import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -14,14 +14,14 @@ interface Props {
 
 export const QrControl: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [text, setText] = useRedoUndo('karbonized', `${id}-text`);
-	const [backgroundColor, setBackgroundColor] = useRedoUndo(
+	const [text, setText] = useControlState('karbonized', `${id}-text`);
+	const [backgroundColor, setBackgroundColor] = useControlState(
 		'#1e408400',
-		`${id}-backgroundColor`
+		`${id}-backgroundColor`,
 	);
-	const [foregroundColor, setforegroundColor] = useRedoUndo(
+	const [foregroundColor, setforegroundColor] = useControlState(
 		'#090c12',
-		`${id}-foregroundColor`
+		`${id}-foregroundColor`,
 	);
 
 	return (

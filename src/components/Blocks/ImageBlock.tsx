@@ -4,7 +4,7 @@ import { FileInput, Range } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -13,8 +13,11 @@ interface Props {
 export const ImageBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
 
-	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
-	const [borderRadius, setBorderRadius] = useRedoUndo(3, `${id}-borderRadius`);
+	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
+	const [borderRadius, setBorderRadius] = useControlState(
+		3,
+		`${id}-borderRadius`,
+	);
 
 	return (
 		<>

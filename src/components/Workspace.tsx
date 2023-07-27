@@ -25,6 +25,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
 	const controlsClass = useStoreState((state) => state.controlsClass);
+	const ControlProperties = useStoreState((state) => state.ControlProperties);
+	const setControlProperties = useStoreActions(
+		(state) => state.setControlProperties,
+	);
 
 	const editing = useStoreState((state) => state.editing);
 	const isDrawing = useStoreState((state) => state.isDrawing);
@@ -50,6 +54,12 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
+	const hasProperty = (id: string) => {
+		for (const item of ControlProperties) {
+			if (item.id === id) return item.value;
+		}
+		return null;
+	};
 	return (
 		<>
 			<div
@@ -220,6 +230,33 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 								h: parseFloat(target.style.height.replace('px', '')),
 							},
 						});
+
+						/*if (hasProperty(`${controlID}-control_size`)) {
+							setControlProperties(
+								ControlProperties.map((item) =>
+									item.id === `${controlID}-control_size`
+										? {
+												id: `${controlID}-control_size`,
+												value: {
+													w: parseFloat(target.style.width.replace('px', '')),
+													h: parseFloat(target.style.height.replace('px', '')),
+												},
+										  }
+										: item,
+								),
+							);
+						} else {
+							setControlProperties([
+								...ControlProperties,
+								{
+									id: `${controlID}-control_size`,
+									value: {
+										w: parseFloat(target.style.width.replace('px', '')),
+										h: parseFloat(target.style.height.replace('px', '')),
+									},
+								},
+							]);
+						}*/
 
 						setFutureHistory([]);
 					}}

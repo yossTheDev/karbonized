@@ -15,7 +15,7 @@ import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -24,23 +24,29 @@ interface Props {
 export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
 	const [src, setSrc] = useState(karbonized);
-	const [notchWidth, setNotchWidth] = useRedoUndo(80, `${id}-notchWidth`);
-	const [screenRadius, setScreenRadius] = useRedoUndo(20, `${id}-screenRadius`);
-	const [phoneRadius, setPhoneRadius] = useRedoUndo(30, `${id}-phoneRadius`);
-	const [borderColor, setBorderColor] = useRedoUndo(
+	const [notchWidth, setNotchWidth] = useControlState(80, `${id}-notchWidth`);
+	const [screenRadius, setScreenRadius] = useControlState(
+		20,
+		`${id}-screenRadius`,
+	);
+	const [phoneRadius, setPhoneRadius] = useControlState(
+		30,
+		`${id}-phoneRadius`,
+	);
+	const [borderColor, setBorderColor] = useControlState(
 		'#b4b4b4',
-		`${id}-borderColor`
+		`${id}-borderColor`,
 	);
-	const [statusColor, setStatusColor] = useRedoUndo(
+	const [statusColor, setStatusColor] = useControlState(
 		'#FFFFFF',
-		`${id}-statusColor`
+		`${id}-statusColor`,
 	);
-	const [statusControlsColor, setStatusControlsColor] = useRedoUndo(
+	const [statusControlsColor, setStatusControlsColor] = useControlState(
 		'#000000',
-		`${id}-statusControlsColor`
+		`${id}-statusControlsColor`,
 	);
 
-	const [drop, setDrop] = useRedoUndo(false, `${id}-drop`);
+	const [drop, setDrop] = useControlState(false, `${id}-drop`);
 
 	return (
 		<>

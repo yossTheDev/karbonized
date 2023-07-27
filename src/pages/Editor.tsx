@@ -69,6 +69,20 @@ export const Editor: React.FC = () => {
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const controls = useStoreState((state) => state.ControlsTree);
 
+	/* Copy/Paste System */
+	const controlID = useStoreState((state) => state.currentControlID);
+	const currentControlProperties = useStoreState(
+		(state) => state.currentControlProperties,
+	);
+	const initialProperties = useStoreState((state) => state.initialProperties);
+	const ControlProperties = useStoreState((state) => state.ControlProperties);
+	const addInitialProperty = useStoreActions(
+		(state) => state.addInitialProperty,
+	);
+	const addControlProperty = useStoreActions(
+		(state) => state.addControlProperty,
+	);
+
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 
 	const redo = useStoreActions((state) => state.redo);
@@ -152,6 +166,51 @@ export const Editor: React.FC = () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
 	}, [workspaceHeight, workspaceWidth, controls, workspaceMode]);
+
+	/* Handle Duplicate Elements */
+	useEffect(() => {
+		const OnKeyDown = (event: KeyboardEvent) => {
+			if (event.ctrlKey && event.key === 'd') {
+				event.preventDefault();
+
+				/* Copy Control Properties */
+				const newControlID =
+					controlID.split('-')[0] + '-' + getRandomNumber().toString();
+
+				currentControlProperties.forEach((item) => {
+					const id = item.id.split('-');
+					const prop = id[id.length - 1];
+
+					addInitialProperty({
+						id: newControlID + '-' + prop,
+						value: item.value,
+					});
+					addControlProperty({
+						id: newControlID + '-' + prop,
+						value: item.value,
+					});
+				});
+
+				/* Add Control To Workspace */
+				addControl({
+					type: newControlID.split('-')[0],
+					id: newControlID,
+					isSelectable: true,
+					isDeleted: false,
+					name: `${newControlID.split('-')[0]} ${getElementsByType(
+						newControlID.split('-')[0],
+					)}`,
+					isVisible: true,
+				});
+			}
+		};
+
+		window.addEventListener('keydown', OnKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', OnKeyDown);
+		};
+	}, [controlID, ControlProperties, initialProperties]);
 
 	return (
 		<div
@@ -500,11 +559,11 @@ export const Editor: React.FC = () => {
 										color='ghost'
 										onClick={() =>
 											addControl({
-												type: 'faicon',
-												id: `faicon-${getRandomNumber()}`,
+												type: 'icon',
+												id: `icon-${getRandomNumber()}`,
 												isSelectable: true,
 												isDeleted: false,
-												name: `icon ${getElementsByType('faicon')}`,
+												name: `icon ${getElementsByType('icon')}`,
 												isVisible: true,
 											})
 										}
@@ -546,11 +605,11 @@ export const Editor: React.FC = () => {
 										color='ghost'
 										onClick={() =>
 											addControl({
-												type: 'arrow',
-												id: `arrow-${getRandomNumber()}`,
+												type: 'shape',
+												id: `shape-${getRandomNumber()}`,
 												isSelectable: true,
 												isDeleted: false,
-												name: `shape ${getElementsByType('arrow')}`,
+												name: `shape ${getElementsByType('shape')}`,
 												isVisible: true,
 											})
 										}

@@ -7,7 +7,7 @@ import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { IconSearch, IconSticker } from '@tabler/icons-react';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -15,8 +15,11 @@ interface Props {
 
 const FaIconBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [icon, setIcon] = useRedoUndo('FaFontAwesome', `${id}-icon`);
-	const [iconColor, setIconColor] = useRedoUndo('#ffffff', `${id}-iconColor`);
+	const [icon, setIcon] = useControlState('FaFontAwesome', `${id}-icon`);
+	const [iconColor, setIconColor] = useControlState(
+		'#ffffff',
+		`${id}-iconColor`,
+	);
 	const [query, setQuery] = useState('');
 	const [showIconPicker, setShowIconPicker] = useState(false);
 	const [faIcons, setFaIcons] = useState<IconType[]>();
@@ -143,7 +146,8 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								{faIcons
 									?.filter(
 										(icon) =>
-											icon.label.toUpperCase().indexOf(query.toUpperCase()) > -1
+											icon.label.toUpperCase().indexOf(query.toUpperCase()) >
+											-1,
 									)
 									.map((el, i) => (
 										<Suspense fallback={<></>}>

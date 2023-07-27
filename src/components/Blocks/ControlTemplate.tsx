@@ -33,7 +33,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ContextMenu } from '../CustomControls/ContextMenu';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface ControlProps {
 	id: string;
@@ -93,8 +93,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
 
 	// Component States
-	const [zIndex, setzIndex] = useRedoUndo('0', `${id}-zindex`);
-	const [visibility, setVisibility] = useRedoUndo(true, `${id}-visibility`);
+	const [zIndex, setzIndex] = useControlState('0', `${id}-zindex`);
+	const [visibility, setVisibility] = useControlState(true, `${id}-visibility`);
 	const [contextMenu, setContextMenu] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(10), shift(), flip()],
@@ -102,12 +102,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 
 	/* Position and Size */
-	const [position, setPosition] = useRedoUndo(
+	const [position, setPosition] = useControlState(
 		{ x: 33, y: 190 },
 		`${id}-pos`,
 		true,
 	);
-	const [size, setSize] = useRedoUndo(
+	const [size, setSize] = useControlState(
 		{
 			w: defaultWidth.replace('px', '') as unknown as number,
 			h: defaultHeight.replace('px', '') as unknown as number,
@@ -115,41 +115,44 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		`${id}-control_size`,
 		true,
 	);
-	const [borderRadius, setBorderRadius] = useRedoUndo(
+	const [borderRadius, setBorderRadius] = useControlState(
 		border,
 		`${id}-borderRadius`,
 	);
 
 	/* Flip */
-	const [flipX, setFlipX] = useRedoUndo(false, `${id}-flipx`);
-	const [flipY, setFlipY] = useRedoUndo(false, `${id}-flipy`);
+	const [flipX, setFlipX] = useControlState(false, `${id}-flipx`);
+	const [flipY, setFlipY] = useControlState(false, `${id}-flipy`);
 
 	/* Rotation */
-	const [rotateX, setRotateX] = useRedoUndo(0, `${id}-rotatex`);
-	const [rotateY, setRotateY] = useRedoUndo(0, `${id}-rotatey`);
+	const [rotateX, setRotateX] = useControlState(0, `${id}-rotatex`);
+	const [rotateY, setRotateY] = useControlState(0, `${id}-rotatey`);
 
 	/* Filters */
-	const [blur, setBlur] = useRedoUndo(0, `${id}-blur`);
-	const [brightness, setBrightness] = useRedoUndo(100, `${id}-brightness`);
-	const [contrast, setContrast] = useRedoUndo(100, `${id}-contrast`);
-	const [grayscale, setGrayscale] = useRedoUndo(0, `${id}-grayscale`);
-	const [huerotate, setHueRotate] = useRedoUndo(0, `${id}-huerotate`);
-	const [invert, setInvert] = useRedoUndo(0, `${id}-invert`);
-	const [saturate, setSaturate] = useRedoUndo(100, `${id}-saturate`);
-	const [opacity, setOpacity] = useRedoUndo(100, `${id}-opacity`);
-	const [sepia, setSepia] = useRedoUndo(0, `${id}-sepia`);
+	const [blur, setBlur] = useControlState(0, `${id}-blur`);
+	const [brightness, setBrightness] = useControlState(100, `${id}-brightness`);
+	const [contrast, setContrast] = useControlState(100, `${id}-contrast`);
+	const [grayscale, setGrayscale] = useControlState(0, `${id}-grayscale`);
+	const [huerotate, setHueRotate] = useControlState(0, `${id}-huerotate`);
+	const [invert, setInvert] = useControlState(0, `${id}-invert`);
+	const [saturate, setSaturate] = useControlState(100, `${id}-saturate`);
+	const [opacity, setOpacity] = useControlState(100, `${id}-opacity`);
+	const [sepia, setSepia] = useControlState(0, `${id}-sepia`);
 
 	/* Shadow */
-	const [shadowX, setShadowX] = useRedoUndo(0, `${id}-shadowX`);
-	const [shadowY, setShadowY] = useRedoUndo(0, `${id}-shadowY`);
-	const [shadowBlur, setShadowBlur] = useRedoUndo(0, `${id}-shadowBlur`);
-	const [shadowColor, setShadowColor] = useRedoUndo(
+	const [shadowX, setShadowX] = useControlState(0, `${id}-shadowX`);
+	const [shadowY, setShadowY] = useControlState(0, `${id}-shadowY`);
+	const [shadowBlur, setShadowBlur] = useControlState(0, `${id}-shadowBlur`);
+	const [shadowColor, setShadowColor] = useControlState(
 		'#090b11',
 		`${id}-shadowColor`,
 	);
 
-	const [mask, setMask] = useRedoUndo('', `${id}-mask`);
-	const [maskRepeat, setMaskRepeat] = useRedoUndo(false, `${id}-maskRepeat`);
+	const [mask, setMask] = useControlState('', `${id}-mask`);
+	const [maskRepeat, setMaskRepeat] = useControlState(
+		false,
+		`${id}-maskRepeat`,
+	);
 
 	/* Delete Element when Delete Key is pressed */
 	const isPressed = useKeyPress('Delete');

@@ -4,7 +4,7 @@ import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -12,9 +12,9 @@ interface Props {
 
 export const BadgeBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
-	const [text, setText] = useRedoUndo('@karbonized_app', `${id}-text`);
-	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);
+	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
+	const [text, setText] = useControlState('@karbonized_app', `${id}-text`);
+	const [color, setColor] = useControlState('#ffffff', `${id}-color`);
 
 	return (
 		<>

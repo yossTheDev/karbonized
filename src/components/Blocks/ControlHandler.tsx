@@ -72,7 +72,7 @@ export const ControlHandler: React.FC<Props> = ({ type, id, isVisible }) => {
 				</Suspense>
 			);
 
-		case 'arrow':
+		case 'shape':
 			return (
 				<Suspense>
 					<div className={`${!isVisible && 'hidden'}`}>
@@ -88,7 +88,7 @@ export const ControlHandler: React.FC<Props> = ({ type, id, isVisible }) => {
 					</div>
 				</Suspense>
 			);
-		case 'faicon':
+		case 'icon':
 			return (
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<div className={`${!isVisible && 'hidden'}`}>

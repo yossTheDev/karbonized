@@ -27,6 +27,10 @@ export interface AppStoreModel {
 
 	/* Controls System */
 	initialProperties: History[];
+	ControlProperties: History[];
+	currentControlProperties: Computed<AppStoreModel, History[]>;
+	setControlProperties: Action<AppStoreModel, History[]>;
+	addControlProperty: Action<AppStoreModel, History>;
 	addInitialProperty: Action<AppStoreModel, History>;
 	removeInitialProperty: Action<AppStoreModel, string>;
 	setControls: Action<AppStoreModel, Item[]>;
@@ -118,6 +122,30 @@ export const AppStore = createStore<AppStoreModel>({
 		state.initialProperties = state.initialProperties.filter(
 			(item) => item.id != id,
 		);
+	}),
+	ControlProperties: [],
+	currentControlProperties: computed((state) => {
+		return state.ControlProperties.filter((item) =>
+			item.id.includes(state.currentControlID),
+		);
+	}),
+	addControlProperty: action((state, payload) => {
+		const element = state.ControlProperties.filter(
+			(item) => item.id === payload.id,
+		);
+
+		if (element.length === 0) {
+			state.ControlProperties.push(payload);
+		} else {
+			state.ControlProperties = state.ControlProperties.map((item) =>
+				item.id === payload.id
+					? { id: payload.id, value: payload.value }
+					: item,
+			);
+		}
+	}),
+	setControlProperties: action((state, payload) => {
+		state.ControlProperties = payload;
 	}),
 	setControls: action((state, items) => {
 		state.ControlsTree = items;

@@ -26,7 +26,7 @@ import { ShapeHandler } from './ShapeHandler';
 import { Portal } from 'react-portal';
 import { Button, Modal } from 'react-daisyui';
 import { useTheme } from '../../hooks/useTheme';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -34,8 +34,8 @@ interface Props {
 
 export const ShapeBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [color, setColor] = useRedoUndo('#f3f4f6', `${id}-color`);
-	const [shape, setShape] = useRedoUndo('oval', `${id}-shape`);
+	const [color, setColor] = useControlState('#f3f4f6', `${id}-color`);
+	const [shape, setShape] = useControlState('oval', `${id}-shape`);
 	const [showModal, setShowModal] = useState(false);
 	const [appTheme] = useTheme();
 

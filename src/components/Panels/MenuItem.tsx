@@ -112,13 +112,13 @@ export const MenuIcon: React.FC<{ type: string }> = ({ type }) => {
 		case 'avatar':
 			return <></>;
 
-		case 'arrow':
+		case 'shape':
 			return <IconCircle className='my-auto' size={18}></IconCircle>;
 		case 'phone_mockup':
 			return (
 				<IconDeviceMobile className='my-auto' size={18}></IconDeviceMobile>
 			);
-		case 'faicon':
+		case 'icon':
 			return <IconSticker className='my-auto' size={18}></IconSticker>;
 
 		case 'tweet':

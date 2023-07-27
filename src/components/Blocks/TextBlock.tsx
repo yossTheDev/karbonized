@@ -5,7 +5,7 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { ControlTemplate } from './ControlTemplate';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -13,12 +13,15 @@ interface Props {
 
 export const TextControl: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [text, setText] = useRedoUndo('lorem', `${id}-text`);
-	const [color, setColor] = useRedoUndo('#f3f4f6', `${id}-color`);
-	const [textSize, setTextSize] = useRedoUndo('24', `${id}-textSize`);
-	const [isBold, setIsBold] = useRedoUndo(false, `${id}-isBold`);
-	const [isItalic, setIsItalic] = useRedoUndo(false, `${id}-isItalic`);
-	const [isUnderline, setIsUnderline] = useRedoUndo(false, `${id}-isUnderline`);
+	const [text, setText] = useControlState('lorem', `${id}-text`);
+	const [color, setColor] = useControlState('#f3f4f6', `${id}-color`);
+	const [textSize, setTextSize] = useControlState('24', `${id}-textSize`);
+	const [isBold, setIsBold] = useControlState(false, `${id}-isBold`);
+	const [isItalic, setIsItalic] = useControlState(false, `${id}-isItalic`);
+	const [isUnderline, setIsUnderline] = useControlState(
+		false,
+		`${id}-isUnderline`,
+	);
 
 	return (
 		<>

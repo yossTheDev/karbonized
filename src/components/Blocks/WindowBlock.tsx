@@ -18,7 +18,7 @@ import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/karbonized.svg';
 import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
 	id: string;
@@ -26,21 +26,24 @@ interface Props {
 
 export const WindowBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [title, setTitle] = useRedoUndo('Karbonized', `${id}-title`);
-	const [url, setUrl] = useRedoUndo('karbonized.onrender.com', `${id}-url`);
-	const [color, setColor] = useRedoUndo('#ffffff', `${id}-color`);
-	const [controlsColor, setControlsColor] = useRedoUndo(
+	const [title, setTitle] = useControlState('Karbonized', `${id}-title`);
+	const [url, setUrl] = useControlState('karbonized.onrender.com', `${id}-url`);
+	const [color, setColor] = useControlState('#ffffff', `${id}-color`);
+	const [controlsColor, setControlsColor] = useControlState(
 		'#0e111b',
 		`${id}-controlsColor`,
 	);
 
-	const [windowStyle, setWindowStyle] = useRedoUndo('mac', `${id}-windowStyle`);
-	const [windowType, setWindowType] = useRedoUndo(
+	const [windowStyle, setWindowStyle] = useControlState(
+		'mac',
+		`${id}-windowStyle`,
+	);
+	const [windowType, setWindowType] = useControlState(
 		'browser',
 		`${id}-windowType`,
 	);
 
-	const [src, setSrc] = useRedoUndo(karbonized, `${id}-src`);
+	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
 
 	return (
 		<>

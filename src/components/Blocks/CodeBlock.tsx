@@ -21,7 +21,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { LanguajeTabIcon } from './LanguajeTabIcon';
-import { useRedoUndo } from '../../hooks/useRedoUndo';
+import { useControlState } from '../../hooks/useControlState';
 
 interface Style {
 	label: string;
@@ -77,31 +77,40 @@ const themes: Style[] = [
 const CodeControl: React.FC<Props> = ({ id }) => {
 	/* Component States */
 
-	const [theme, setTheme] = useRedoUndo('coldarkDark', `${id}-theme`);
-	const [language, setLanguage] = useRedoUndo('jsx', `${id}-lang`);
-	const [code, setCode] = useRedoUndo(
+	const [theme, setTheme] = useControlState('coldarkDark', `${id}-theme`);
+	const [language, setLanguage] = useControlState('jsx', `${id}-lang`);
+	const [code, setCode] = useControlState(
 		`<pre><code class="language-${language}"></code></pre>`,
 		`${id}-code`,
 	);
-	const [color, setColor] = useRedoUndo('#111b28', `${id}-bgcolor`);
-	const [controlsColor, setControlsColor] = useRedoUndo(
+	const [color, setColor] = useControlState('#111b28', `${id}-bgcolor`);
+	const [controlsColor, setControlsColor] = useControlState(
 		'#b4b4b4',
 		`${id}-ccolor`,
 	);
-	const [showTabs, setShowTabs] = useRedoUndo(true, `${id}-tabs`);
-	const [title, setTitle] = useRedoUndo('Code.jsx', `${id}-wintitle`);
-	const [showLineNumbers, setShowLineNumbers] = useRedoUndo(
+	const [showTabs, setShowTabs] = useControlState(true, `${id}-tabs`);
+	const [title, setTitle] = useControlState('Code.jsx', `${id}-wintitle`);
+	const [showLineNumbers, setShowLineNumbers] = useControlState(
 		false,
 		`${id}-linenumbers`,
 	);
-	const [wrapLines, setWrapLines] = useRedoUndo(false, `${id}-wraplines`);
-	const [border, setBorder] = useRedoUndo(8, `${id}-border`);
-	const [windowStyle, setWindowStyle] = useRedoUndo('mac', `${id}-winstyle`);
+	const [wrapLines, setWrapLines] = useControlState(false, `${id}-wraplines`);
+	const [border, setBorder] = useControlState(8, `${id}-border`);
+	const [windowStyle, setWindowStyle] = useControlState(
+		'mac',
+		`${id}-winstyle`,
+	);
 
-	const [colorMode, setColorMode] = useRedoUndo('Single', `${id}-colormode`);
-	const [gColor1, setGColor1] = useRedoUndo('#0da2e7', `${id}-gradientc1`);
-	const [gColor2, setGColor2] = useRedoUndo('#5895c8', `${id}-gradientc2`);
-	const [gradientDeg, setGradientDeg] = useRedoUndo(22, `${id}-gradientdeg`);
+	const [colorMode, setColorMode] = useControlState(
+		'Single',
+		`${id}-colormode`,
+	);
+	const [gColor1, setGColor1] = useControlState('#0da2e7', `${id}-gradientc1`);
+	const [gColor2, setGColor2] = useControlState('#5895c8', `${id}-gradientc2`);
+	const [gradientDeg, setGradientDeg] = useControlState(
+		22,
+		`${id}-gradientdeg`,
+	);
 
 	/* Handle Chage Theme */
 	const handleChangeTheme = (theme: string) => {
