@@ -40,6 +40,10 @@ export const MenuItem: React.FC<Item> = ({
 		(state) => state.setcurrentControlID,
 	);
 	const setControls = useStoreActions((state) => state.setControls);
+	const setWorkspaceControls = useStoreActions(
+		(state) => state.setWorkspaceControls,
+	);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	useEffect(() => {
 		if (controlID === id && !isVisible) {
@@ -74,8 +78,8 @@ export const MenuItem: React.FC<Item> = ({
 
 					<div
 						onMouseDown={() => {
-							setControls(
-								ControlsTree.map((item) =>
+							setWorkspaceControls(
+								currentWorkspace.controls.map((item) =>
 									item.id === id
 										? { ...item, isVisible: !item.isVisible }
 										: item,

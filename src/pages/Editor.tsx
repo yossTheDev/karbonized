@@ -104,10 +104,12 @@ export const Editor: React.FC = () => {
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
 
 	const getElementsByType = (type: string) => {
-		return controls.filter((item) => item.type === type).length + 1;
+		return (
+			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+		);
 	};
 
-	const centerView = useCallback(() => {
+	const centerView = () => {
 		const width = parseFloat(currentWorkspace.workspaceWidth);
 
 		if (width < 1280) {
@@ -123,13 +125,7 @@ export const Editor: React.FC = () => {
 		}
 
 		viewerRef.current?.scrollCenter();
-	}, [
-		workspaceMode,
-		controls,
-		currentWorkspace,
-		currentWorkspace.workspaceHeight,
-		currentWorkspace.workspaceWidth,
-	]);
+	};
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'w') {
@@ -173,13 +169,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, [
-		workspaceHeight,
-		workspaceWidth,
-		controls,
-		currentWorkspace,
-		workspaceMode,
-	]);
+	}, [currentWorkspace, workspaceMode, controlID]);
 
 	/* Handle Duplicate Elements */
 	useEffect(() => {
@@ -422,12 +412,10 @@ export const Editor: React.FC = () => {
 							ref={viewerRef}
 							className='viewer my-2 flex flex-auto'
 							useMouseDrag={drag}
-							useAutoZoom
-							zoom={0.9}
-							usePinch={!drag}
 							threshold={0}
 							useResizeObserver
 							useWheelScroll
+							useWheelPinch
 							useTransform
 							onScroll={() => {
 								/*console.log(

@@ -222,33 +222,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							},
 						});
 
-						/*if (hasProperty(`${controlID}-control_size`)) {
-							setControlProperties(
-								ControlProperties.map((item) =>
-									item.id === `${controlID}-control_size`
-										? {
-												id: `${controlID}-control_size`,
-												value: {
-													w: parseFloat(target.style.width.replace('px', '')),
-													h: parseFloat(target.style.height.replace('px', '')),
-												},
-										  }
-										: item,
-								),
-							);
-						} else {
-							setControlProperties([
-								...ControlProperties,
-								{
-									id: `${controlID}-control_size`,
-									value: {
-										w: parseFloat(target.style.width.replace('px', '')),
-										h: parseFloat(target.style.height.replace('px', '')),
-									},
-								},
-							]);
-						}*/
-
 						setFutureHistory([]);
 					}}
 					/* scalable */
@@ -302,7 +275,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					// Enabling pinchable lets you use events that
 					// can be used in draggable, resizable, scalable, and rotateable.
-					pinchable={true}
+					pinchable={false}
 					onPinchStart={() => {
 						// pinchStart event occur before dragStart, rotateStart, scaleStart, resizeStart
 						// console.log('onPinchStart');

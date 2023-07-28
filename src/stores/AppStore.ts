@@ -250,12 +250,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, controls: items }
 				: item,
 		);
-		/*state.workspaces = state.workspaces.map((item) =>
-			item.id === state.currentWorkspaceID
-				? { ...item, controls: items }
-				: item,
-		);*/
-		//state.ControlsTree = items;
 	}),
 	controlsClass: computed((state) => {
 		const controlsClass: string[] = [];
@@ -267,6 +261,7 @@ export const AppStore = createStore<AppStoreModel>({
 
 		return controlsClass;
 	}),
+
 	visibleControls: computed((state) => {
 		return state.currentWorkspace.controls.filter((item) => !item.isDeleted);
 	}),
@@ -390,7 +385,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, textureColors: payload }
 				: item,
 		);
-		//state.textureColors = payload;
 	}),
 	setTextureName: action((state, payload) => {
 		state.workspaces = state.workspaces.map((item) =>
@@ -398,7 +392,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, textureName: payload }
 				: item,
 		);
-		//state.textureName = payload;
 	}),
 
 	setWorkspaceType: action((state, payload) => {
@@ -407,7 +400,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, workspaceType: payload }
 				: item,
 		);
-		//state.workspaceType = payload;
 	}),
 
 	setWorkspaceGradient: action((state, payload) => {
@@ -416,7 +408,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, workspaceGradientSettings: payload }
 				: item,
 		);
-		//state.workspaceGradientSettings = payload;
 	}),
 
 	setWorkspaceColorMode: action((state, payload) => {
@@ -425,8 +416,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, workspaceColorMode: payload }
 				: item,
 		);
-
-		//state.workspaceColorMode = payload;
 	}),
 
 	setLockAspect: action((state, payload) => {
@@ -454,7 +443,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, workspaceColor: payload }
 				: item,
 		);
-		//state.workspaceColor = payload;
 	}),
 	setWorkspaceName: action((state, payload) => {
 		state.workspaces = state.workspaces.map((item) =>
@@ -462,8 +450,6 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, workspaceName: payload }
 				: item,
 		);
-
-		//state.workspaceName = payload;
 	}),
 	setWorkspaceSize: action((state, payload) => {
 		state.workspaces = state.workspaces.map((item) =>
@@ -475,26 +461,17 @@ export const AppStore = createStore<AppStoreModel>({
 				  }
 				: item,
 		);
-
-		//state.workspaceHeight = payload.height;
-		//state.workspaceWidth = payload.width;
 	}),
 	addControl: action((state, payload) => {
-		//state.currentWorkspace.controls.push(payload);
-
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? { ...item, controls: [...item.controls, payload] }
 				: item,
 		);
-
-		state.currentWorkspace.controls.forEach((item) => console.log(item));
-		//state.ControlsTree.push(payload);
 	}),
 
 	cleanWorkspace: action((state, payload) => {
 		state.currentControlID = '';
-		//state.ControlsTree = [];
 
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID ? { ...item, controls: [] } : item,

@@ -87,8 +87,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const setControls = useStoreActions((state) => state.setControls);
+	const setWorkspaceControls = useStoreActions(
+		(state) => state.setWorkspaceControls,
+	);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
 
@@ -161,8 +165,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			setVisibility(false);
 			setID('');
 
-			setControls(
-				controls.map((item) =>
+			setWorkspaceControls(
+				currentWorkspace.controls.map((item) =>
 					item.id === id ? { ...item, isDeleted: true } : item,
 				),
 			);

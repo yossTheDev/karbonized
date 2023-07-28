@@ -49,13 +49,16 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		(state) => state.addInitialProperty,
 	);
 	const workspaceName = useStoreState((state) => state.workspaceName);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
-	const controls = useStoreState((state) => state.ControlsTree);
 
 	const getElementsByType = (type: string) => {
-		return controls.filter((item) => item.type === type).length + 1;
+		return (
+			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+		);
 	};
 
 	const handleCreate = () => {
