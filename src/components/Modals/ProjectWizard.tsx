@@ -48,7 +48,6 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const addInitialProperty = useStoreActions(
 		(state) => state.addInitialProperty,
 	);
-	const workspaceName = useStoreState((state) => state.workspaceName);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
@@ -232,7 +231,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 						<p className='poppins-font-family text-gray-500'>Project Name</p>
 						<Input
 							className='min-h-12 w-full'
-							value={workspaceName}
+							value={currentWorkspace.workspaceName}
 							onChange={(ev) => setWorkspaceName(ev.currentTarget.value)}
 						></Input>
 
