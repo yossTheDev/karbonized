@@ -256,7 +256,7 @@ export const AppStore = createStore<AppStoreModel>({
 	controlsClass: computed((state) => {
 		const controlsClass: string[] = [];
 
-		state.ControlsTree.forEach((item) => {
+		state.currentWorkspace.controls.forEach((item) => {
 			if (item.id !== state.currentControlID)
 				controlsClass.push('.block-' + item.id);
 		});
