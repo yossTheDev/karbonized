@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.4.1
+
+* fix: Adding more tap area to Tab Items
+
 ## v 1.4.0
 
 * New Workspaces System
