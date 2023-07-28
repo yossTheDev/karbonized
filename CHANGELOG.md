@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.5.0
+
+* feat: Save and Load Projects
+
 ## v 1.4.3
 
 * add: Donations Panel
