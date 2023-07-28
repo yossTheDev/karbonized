@@ -44,7 +44,6 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 							id={id}
 							tabIndex={1}
 							onBlur={() => setShow(false)}
-							exit={{ scale: 0, opacity: 0 }}
 							className={`z-50 ${
 								show ? 'flex' : 'hidden'
 							} w-52 flex-auto flex-col gap-2 rounded-xl border border-neutral bg-base-200 p-1 py-2 shadow-2xl dark:text-gray-300`}
