@@ -2,12 +2,13 @@
 
 ## v 1.4.2
 
+* add: Duplicate Option to Menu Bar
+* improve: ColorPicker Behavior
 * fix: Drawing Bar Wrong Position
 * fix: Incorrect Size for Draw Canvas
 * fix: Remove Exit Animation for Menus
 * fix: You Need at least one Workspace
 * fix: Color Picker Position on Drawing Panel
-* improve: ColorPicker Behavior
 
 ## v 1.4.1
 
