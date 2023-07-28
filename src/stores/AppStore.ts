@@ -10,9 +10,15 @@ export interface Item {
 	isDeleted: boolean;
 }
 
+export interface Project {
+	properties: History[];
+	workspace: Workspace;
+}
+
 interface History {
 	id: string;
 	value: any;
+	workspace?: string;
 }
 
 interface Workspace {
@@ -39,6 +45,10 @@ export interface AppStoreModel {
 	editing: boolean;
 	lockAspect: boolean;
 	setLockAspect: Action<AppStoreModel, boolean>;
+
+	/* Project System */
+	saveProject: Computed<AppStoreModel, Project>;
+	loadProject: Action<AppStoreModel, Project>;
 
 	/* Workspace System */
 	currentWorkspaceID: string;
@@ -137,6 +147,91 @@ export const AppStore = createStore<AppStoreModel>({
 
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 
+	/* Project System */
+	saveProject: computed((state) => {
+		return {
+			controls: state.currentWorkspace.controls,
+			properties: state.ControlProperties.filter(
+				(item) => item.workspace === state.currentWorkspaceID,
+			),
+			workspace: state.currentWorkspace,
+		} as Project;
+	}),
+
+	loadProject: action((state, project) => {
+		state.initialProperties = [];
+		state.currentControlID = '';
+
+		/* Prepare a copy of the project */
+		let lastProp = '';
+		let newID = getRandomNumber();
+		const wId = getRandomNumber();
+		const props: { id: string; value: any; workspace: string }[] = [];
+		const controls: any[] = [];
+
+		project.properties.forEach((item) => {
+			if (lastProp !== item.id.split('-')[0] + '-' + item.id.split('-')[1]) {
+				newID = getRandomNumber();
+				props.push({
+					id: item.id.replace(
+						item.id,
+						item.id.split('-')[0] + '-' + newID + '-' + item.id.split('-')[2],
+					),
+					value: item.value,
+					workspace: wId.toString(),
+				});
+
+				lastProp = item.id.split('-')[0] + '-' + item.id.split('-')[1];
+
+				controls.push({
+					...project.workspace.controls.find(
+						(control) =>
+							control.id ===
+							item.id.split('-')[0] + '-' + item.id.split('-')[1],
+					),
+					id: item.id.split('-')[0] + '-' + newID,
+				});
+
+				console.log('item');
+			} else {
+				props.push({
+					id: item.id.replace(
+						item.id,
+						item.id.split('-')[0] + '-' + newID + '-' + item.id.split('-')[2],
+					),
+					value: item.value,
+					workspace: wId.toString(),
+				});
+
+				lastProp = item.id.split('-')[0] + '-' + item.id.split('-')[1];
+			}
+		});
+
+		const copy = {
+			controls: controls,
+			properties: props,
+			workspace: {
+				...project.workspace,
+				id: wId.toString(),
+				controls: controls,
+			},
+		} as Project;
+
+		/* Set Initial Properties */
+		state.initialProperties = copy.properties;
+
+		/* Add New Workspace */
+		state.workspaces = [
+			...state.workspaces,
+			{
+				...copy.workspace,
+				id: wId.toString(),
+			},
+		];
+
+		state.currentWorkspaceID = wId.toString();
+	}),
+
 	/* Workspace System */
 	workspaces: [
 		{
@@ -201,7 +296,10 @@ export const AppStore = createStore<AppStoreModel>({
 	/* Controls System */
 	initialProperties: [],
 	addInitialProperty: action((state, payload) => {
-		state.initialProperties.push(payload);
+		state.initialProperties.push({
+			...payload,
+			workspace: state.currentWorkspaceID,
+		});
 	}),
 	removeInitialProperty: action((state, id) => {
 		state.initialProperties = state.initialProperties.filter(
@@ -220,11 +318,18 @@ export const AppStore = createStore<AppStoreModel>({
 		);
 
 		if (element.length === 0) {
-			state.ControlProperties.push(payload);
+			state.ControlProperties.push({
+				...payload,
+				workspace: state.currentWorkspaceID,
+			});
 		} else {
 			state.ControlProperties = state.ControlProperties.map((item) =>
 				item.id === payload.id
-					? { id: payload.id, value: payload.value }
+					? {
+							id: payload.id,
+							value: payload.value,
+							workspace: state.currentWorkspaceID,
+					  }
 					: item,
 			);
 		}
@@ -474,6 +579,7 @@ export const AppStore = createStore<AppStoreModel>({
 
 	cleanWorkspace: action((state, payload) => {
 		state.currentControlID = '';
+		state.ControlProperties = [];
 
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID ? { ...item, controls: [] } : item,

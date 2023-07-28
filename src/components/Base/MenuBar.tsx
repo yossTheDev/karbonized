@@ -5,9 +5,11 @@ import {
 	IconArrowForward,
 	IconClock,
 	IconCopy,
+	IconFileDownload,
 	IconFileTypeJpg,
 	IconFileTypePng,
 	IconFileTypeSvg,
+	IconFileUpload,
 	IconFlask,
 	IconInfoHexagon,
 	IconMoneybag,
@@ -24,6 +26,8 @@ import { PreviewModal } from '../Modals/PreviewModal';
 import { getRandomNumber } from '../../utils/getRandom';
 import { ChangelogModal } from '../Modals/ChangelogModal';
 import { DonationsModal } from '../Modals/DonationsModal';
+import FileSaver from 'file-saver';
+import { Project } from '../../stores/AppStore';
 
 export const MenuBar: React.FC = () => {
 	/* Panels */
@@ -42,14 +46,17 @@ export const MenuBar: React.FC = () => {
 	const currentControlProperties = useStoreState(
 		(state) => state.currentControlProperties,
 	);
+	const saveProject = useStoreState((state) => state.saveProject);
+	const loadProject = useStoreActions((state) => state.loadProject);
+
 	const addControl = useStoreActions((state) => state.addControl);
+
 	const addControlProperty = useStoreActions(
 		(state) => state.addControlProperty,
 	);
 	const addInitialProperty = useStoreActions(
 		(state) => state.addInitialProperty,
 	);
-
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const controlID = useStoreState((state) => state.currentControlID);
 
@@ -58,10 +65,12 @@ export const MenuBar: React.FC = () => {
 		if (event.ctrlKey && event.key === 'n') {
 			event.preventDefault();
 			setShowWizard(true);
-		}
-		if (event.ctrlKey && event.key === 's') {
+		} else if (event.ctrlKey && event.key === 'p') {
 			event.preventDefault();
 			setShowPreview(true);
+		} else if (event.ctrlKey && event.key === 's') {
+			event.preventDefault();
+			handleSaveProject();
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
 			setShowWizard(false);
@@ -170,6 +179,37 @@ export const MenuBar: React.FC = () => {
 			});
 	};
 
+	const handleLoadProject = (event: any) => {
+		event.preventDefault();
+
+		if (event.target.files && event.target.files.length > 0) {
+			if ((event.target.files[0].name as string).endsWith('.json')) {
+				const reader = new FileReader();
+				reader.addEventListener('load', () => {
+					let text = reader.result as string;
+					const project = JSON.parse(text) as Project;
+
+					if (project.properties && project.workspace) {
+						loadProject(project);
+					} else {
+						alert('Please Provide a valid Karbonized Project');
+					}
+				});
+				reader.readAsText(event.target?.files[0]);
+			} else {
+				alert('Only Karbonized Projects are allowed');
+			}
+		}
+	};
+
+	const handleSaveProject = () => {
+		var blob = new Blob([JSON.stringify(saveProject)], {
+			type: 'text/plain;charset=utf-8',
+		});
+
+		FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.json');
+	};
+
 	return (
 		<>
 			<div className='z-10 mx-2 my-1 flex dark:text-gray-300'>
@@ -185,13 +225,38 @@ export const MenuBar: React.FC = () => {
 								shortcut='Ctrl+N'
 							></MenuItem>
 
+							<label
+								htmlFor='file-input'
+								className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-neutral active:bg-base-100'
+							>
+								<div className='my-auto flex flex-auto flex-row gap-2 hover:cursor-pointer'>
+									<IconFileUpload size={16}></IconFileUpload>
+									<p className='my-auto hover:cursor-pointer'>Load Project</p>
+								</div>
+							</label>
+
+							<input
+								className='hidden'
+								accept='.json'
+								onInput={handleLoadProject}
+								type='file'
+								id='file-input'
+							></input>
+
+							<MenuItem
+								click={() => handleSaveProject()}
+								icon={<IconFileDownload size={16}></IconFileDownload>}
+								label='Save Project'
+								shortcut='Ctrl+S'
+							></MenuItem>
+
 							<MenuSeparator></MenuSeparator>
 
 							<MenuItem
 								click={() => showPreviewImage()}
 								icon={<IconFlask size={16}></IconFlask>}
 								label='Render'
-								shortcut='Ctrl+S'
+								shortcut='Ctrl+P'
 							></MenuItem>
 
 							<MenuItem

@@ -20,6 +20,8 @@ interface Props {
 
 export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	const [show, setShow] = useState(false);
+	const [isInside, setIsInside] = useState(false);
+
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(4), shift(), flip()],
 		placement: 'bottom-start',
@@ -32,7 +34,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 					show && 'bg-base-100'
 				}`}
 				tabIndex={1}
-				onBlur={() => setShow(false)}
+				onBlur={() => !isInside && setShow(false)}
 				onClick={() => setShow(true)}
 				ref={reference}
 			>
@@ -47,7 +49,9 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 						<motion.div
 							id={id}
 							tabIndex={1}
-							onBlur={() => setShow(false)}
+							onBlur={() => !isInside && setShow(false)}
+							onMouseEnter={() => setIsInside(true)}
+							onMouseLeave={() => setIsInside(false)}
 							className={`z-50 ${
 								show ? 'flex' : 'hidden'
 							} poppins-font-family-regular w-52 flex-auto  flex-col gap-2 rounded-xl border border-neutral bg-base-200 p-1 py-2 shadow-2xl dark:text-gray-300`}
