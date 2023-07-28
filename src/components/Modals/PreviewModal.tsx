@@ -84,10 +84,10 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='overflow-hidden border border-neutral bg-base-100/95 backdrop-blur-2xl'
+			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='flex flex-row font-bold dark:text-white'>
-				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-100 p-2'>
+				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-200/75 p-2'>
 					<img className='h-10' src={karbonized}></img>
 					<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
 						Export
@@ -106,7 +106,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Header>
 
 			<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-				<div className='mx-auto my-auto   w-96  rounded-2xl bg-base-200 p-4'>
+				<div className='mx-auto my-auto   w-96  rounded-2xl bg-base-200/70 p-4 shadow-inner'>
 					{previewImage !== '' ? (
 						<TransformWrapper>
 							<TransformComponent>
@@ -140,7 +140,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 				</p>
 
 				<Button
-					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
+					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
 					onMouseDown={() => exportImage(export_format.png)}
 				>
 					<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
@@ -148,7 +148,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 					</div>
 				</Button>
 				<Button
-					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
+					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
 					onMouseDown={() => exportImage(export_format.jpeg)}
 				>
 					<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
@@ -156,7 +156,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 					</div>
 				</Button>
 				<Button
-					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3'
+					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
 					onMouseDown={() => exportImage(export_format.svg)}
 				>
 					<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>

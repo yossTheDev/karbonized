@@ -1,29 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
 import {
 	IconArrowBack,
 	IconArrowForward,
+	IconClock,
 	IconCopy,
 	IconFileTypeJpg,
 	IconFileTypePng,
 	IconFileTypeSvg,
 	IconFlask,
-	IconInfoCircle,
+	IconInfoHexagon,
+	IconMoneybag,
+	IconPigMoney,
 	IconPlus,
-	IconShare,
-	IconX,
 } from '@tabler/icons-react';
 import { ProjectWizard } from '../Modals/ProjectWizard';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { AboutModal } from '../Modals/AboutModal';
-import { Button, Modal } from 'react-daisyui';
 
-import karbonized from '../../assets/karbonized.svg';
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { toBlob, toJpeg } from 'html-to-image';
 import { PreviewModal } from '../Modals/PreviewModal';
 import { getRandomNumber } from '../../utils/getRandom';
+import { ChangelogModal } from '../Modals/ChangelogModal';
+import { DonationsModal } from '../Modals/DonationsModal';
 
 export const MenuBar: React.FC = () => {
 	/* Panels */
@@ -31,6 +31,9 @@ export const MenuBar: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 	const [previewImage, setPreviewImage] = useState('');
 	const [showPreview, setShowPreview] = useState(false);
+	const [showChangelog, setShowChangelog] = useState(false);
+	const [showDonations, setShowDonations] = useState(false);
+
 	/* Actions */
 	const redo = useStoreActions((state) => state.redo);
 	const undo = useStoreActions((state) => state.undo);
@@ -64,6 +67,8 @@ export const MenuBar: React.FC = () => {
 			setShowWizard(false);
 			setShowAbout(false);
 			setShowPreview(false);
+			setShowChangelog(false);
+			setShowDonations(false);
 		}
 	};
 
@@ -255,13 +260,20 @@ export const MenuBar: React.FC = () => {
 					menu={
 						<>
 							<MenuItem
+								click={() => setShowDonations(true)}
+								icon={<IconPigMoney size={16}></IconPigMoney>}
+								label='Donations'
+							></MenuItem>
+
+							<MenuItem
+								click={() => setShowChangelog(true)}
+								icon={<IconClock size={16}></IconClock>}
+								label='Changelog'
+							></MenuItem>
+
+							<MenuItem
 								click={() => setShowAbout(true)}
-								icon={
-									<IconInfoCircle
-										size={16}
-										className='-scale-y-[1]'
-									></IconInfoCircle>
-								}
+								icon={<IconInfoHexagon size={16}></IconInfoHexagon>}
 								label='About'
 							></MenuItem>
 						</>
@@ -285,6 +297,20 @@ export const MenuBar: React.FC = () => {
 					onClose={() => setShowPreview(false)}
 					open={showPreview}
 				></PreviewModal>
+			)}
+
+			{showChangelog && (
+				<ChangelogModal
+					onClose={() => setShowChangelog(false)}
+					open={showChangelog}
+				></ChangelogModal>
+			)}
+
+			{showDonations && (
+				<DonationsModal
+					onClose={() => setShowDonations(false)}
+					open={showDonations}
+				></DonationsModal>
 			)}
 		</>
 	);

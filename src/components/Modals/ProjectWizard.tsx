@@ -153,7 +153,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			className='flex w-[50rem] max-w-none flex-col overflow-hidden border border-neutral bg-base-200/95 p-4 backdrop-blur-2xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
-				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-100 p-2 text-black dark:text-white md:flex'>
+				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-200/70 p-2 text-black dark:text-white md:flex'>
 					<img className='my-auto h-6' src={karbonized}></img>
 					<label className='poppins-font-family my-auto mr-1 select-none'>
 						Project Wizard
