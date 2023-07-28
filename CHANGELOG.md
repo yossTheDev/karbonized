@@ -1,5 +1,10 @@
 # Changelog
 
+## v 1.4.2
+
+* fix: Drawing Bar Wrong Position
+* fix: Incorrect Size for Draw Canvas
+
 ## v 1.4.1
 
 * fix: Adding more tap area to Tab Items
