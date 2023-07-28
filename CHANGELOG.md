@@ -5,6 +5,7 @@
 * fix: Drawing Bar Wrong Position
 * fix: Incorrect Size for Draw Canvas
 * fix: Remove Exit Animation for Menus
+* improve: ColorPicker Behavior
 
 ## v 1.4.1
 
