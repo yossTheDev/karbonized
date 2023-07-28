@@ -6,6 +6,7 @@
 * fix: Incorrect Size for Draw Canvas
 * fix: Remove Exit Animation for Menus
 * fix: You Need at least one Workspace
+* fix: Color Picker Position on Drawing Panel
 * improve: ColorPicker Behavior
 
 ## v 1.4.1
