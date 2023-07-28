@@ -7,12 +7,34 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: 'Poppins-Regular';
+	src: url('./fonts/Poppins-Regular.ttf') format('woff2'),
+		url('./fonts/Poppins-Regular.ttf') format('woff');
+	font-weight: bold;
+	font-style: bold;
+	font-display: swap;
+}
+
 .poppins-font-family {
 	font-family: 'Poppins-Bold';
 	font-weight: bold;
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.poppins-font-family-regular {
+	font-family: 'Poppins-Regular';
+	font-weight: bold;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+#root {
+	font-family: 'Poppins-Regular';
 }
 
 .draggable {

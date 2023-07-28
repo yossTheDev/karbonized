@@ -26,7 +26,7 @@ export const TabPanel: React.FC = () => {
 						id={item.id}
 						className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-base-200 p-1 shadow  hover:cursor-pointer hover:bg-neutral dark:text-gray-300 ${
 							currentWorkspaceID === item.id &&
-							'border border-neutral font-bold'
+							'poppins-font-family border border-neutral '
 						}`}
 					>
 						<div
@@ -37,9 +37,9 @@ export const TabPanel: React.FC = () => {
 								className='my-auto ml-2'
 								size={16}
 							></IconSquareRotated>
-							<p className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
+							<label className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
 								{item.workspaceName}
-							</p>
+							</label>
 						</div>
 
 						<IconX

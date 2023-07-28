@@ -28,13 +28,15 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	return (
 		<>
 			<div
-				className='select-none rounded px-3 py-0.5 hover:cursor-pointer hover:bg-neutral active:bg-base-100'
+				className='select-none rounded px-3 py-0.5  hover:cursor-pointer hover:bg-neutral active:bg-base-100'
 				tabIndex={1}
 				onBlur={() => setShow(false)}
 				onClick={() => setShow(true)}
 				ref={reference}
 			>
-				<label className='my-auto text-xs hover:cursor-pointer'>{label}</label>
+				<label className='poppins-font-family-regular my-auto text-xs hover:cursor-pointer '>
+					{label}
+				</label>
 			</div>
 
 			<AnimatePresence>
@@ -46,7 +48,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 							onBlur={() => setShow(false)}
 							className={`z-50 ${
 								show ? 'flex' : 'hidden'
-							} w-52 flex-auto flex-col gap-2 rounded-xl border border-neutral bg-base-200 p-1 py-2 shadow-2xl dark:text-gray-300`}
+							} poppins-font-family-regular w-52 flex-auto  flex-col gap-2 rounded-xl border border-neutral bg-base-200 p-1 py-2 shadow-2xl dark:text-gray-300`}
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						>
