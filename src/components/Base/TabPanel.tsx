@@ -7,7 +7,6 @@ export const TabPanel: React.FC = () => {
 	const workspaces = useStoreState((state) => state.workspaces);
 
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
-	const getCurrentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	const addWorkspace = useStoreActions((state) => state.addWorkspace);
 	const deleteWorkspace = useStoreActions((state) => state.deleteWorkspace);
@@ -29,16 +28,18 @@ export const TabPanel: React.FC = () => {
 							'border border-neutral font-bold'
 						}`}
 					>
-						<IconSquareRotated
-							className='my-auto ml-2'
-							size={16}
-						></IconSquareRotated>
-						<p
+						<div
 							onClick={() => setCurrentWorkspace(item.id)}
-							className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'
+							className='flex flex-row'
 						>
-							{item.workspaceName}
-						</p>
+							<IconSquareRotated
+								className='my-auto ml-2'
+								size={16}
+							></IconSquareRotated>
+							<p className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
+								{item.workspaceName}
+							</p>
+						</div>
 
 						<IconX
 							size={16}
