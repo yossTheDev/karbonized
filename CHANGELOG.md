@@ -3,6 +3,7 @@
 ## v 1.4.1
 
 * fix: Adding more tap area to Tab Items
+* improve: Add loading state in Render Preview
 
 ## v 1.4.0
 
