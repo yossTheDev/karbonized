@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.4.0
+
+* New Workspaces System
+
 ## v 1.3.7
 
 feat: Duplicate Controls (Shortcut Ctrl+D)
