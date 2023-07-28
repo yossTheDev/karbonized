@@ -1,4 +1,5 @@
 import {
+	IconCircleDashed,
 	IconFileTypeJpg,
 	IconFileTypePng,
 	IconFileTypeSvg,
@@ -6,7 +7,7 @@ import {
 	IconX,
 } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'react-daisyui';
+import { Button, Modal, Progress } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ExportImage, export_format } from '../../utils/Exporter';
@@ -101,14 +102,21 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Header>
 
 			<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-				<div className='mx-auto my-auto  w-96  rounded-2xl bg-base-200 p-4'>
-					<TransformWrapper>
-						<TransformComponent>
-							{previewImage !== '' && (
+				<div className='mx-auto my-auto   w-96  rounded-2xl bg-base-200 p-4'>
+					{previewImage !== '' ? (
+						<TransformWrapper>
+							<TransformComponent>
 								<img className='rounded' src={previewImage} alt='preview'></img>
-							)}
-						</TransformComponent>
-					</TransformWrapper>
+							</TransformComponent>
+						</TransformWrapper>
+					) : (
+						<div className=' text-gray-500 dark:text-gray-300'>
+							<IconCircleDashed
+								size={56}
+								className='mx-auto my-auto animate-spin'
+							></IconCircleDashed>
+						</div>
+					)}
 				</div>
 			</Modal.Body>
 

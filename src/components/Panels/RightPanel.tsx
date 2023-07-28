@@ -6,9 +6,9 @@ import {
 } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { useStoreActions, useStoreState } from '../stores/Hooks';
-import { Tooltip } from './CustomControls/Tooltip';
-import { WorkspacePanel } from './Panels/WorkspacePanel';
+import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { Tooltip } from '../CustomControls/Tooltip';
+import { WorkspacePanel } from './WorkspacePanel';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */

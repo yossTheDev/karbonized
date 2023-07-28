@@ -29,7 +29,7 @@ import '../App.css';
 import karbonized from '../assets/karbonized.svg';
 import { ColorPicker } from '../components/CustomControls/ColorPicker';
 import { Tooltip } from '../components/CustomControls/Tooltip';
-import { RightPanel } from '../components/RightPanel';
+import { RightPanel } from '../components/Panels/RightPanel';
 import { AboutModal } from '../components/Modals/AboutModal';
 import { WorkspacePanel } from '../components/Panels/WorkspacePanel';
 import { Workspace } from '../components/Workspace';
