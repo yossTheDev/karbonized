@@ -15,7 +15,7 @@ export const TabPanel: React.FC = () => {
 	);
 
 	return (
-		<div className='absolute z-40 mx-2 mt-1 hidden w-2/3 flex-auto flex-row gap-2 overflow-hidden p-2 lg:flex'>
+		<div className='absolute z-30  mx-2 mt-1 hidden w-2/3 flex-auto flex-row gap-2 overflow-hidden p-2 lg:flex'>
 			<div
 				onDoubleClick={() => addWorkspace('')}
 				className='flex flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden px-1 py-2  pr-10'

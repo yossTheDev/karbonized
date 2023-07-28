@@ -23,11 +23,15 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	const [previewImage, setPreviewImage] = useState('');
 
 	/* App Store */
-	const workspaceName = useStoreState((state) => state.workspaceName);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	/* Actions */
 	const exportImage = (type: export_format) => {
-		ExportImage(workspaceName, document.getElementById('workspace'), type);
+		ExportImage(
+			currentWorkspace.workspaceName,
+			document.getElementById('workspace'),
+			type,
+		);
 	};
 	const showPreviewImage = async () => {
 		const element = document.getElementById('workspace');

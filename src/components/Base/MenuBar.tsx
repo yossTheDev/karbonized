@@ -35,7 +35,7 @@ export const MenuBar: React.FC = () => {
 
 	/* App Store */
 	const controls = useStoreState((state) => state.ControlsTree);
-	const workspaceName = useStoreState((state) => state.workspaceName);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	/* Handle Key Shortcuts */
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -63,7 +63,11 @@ export const MenuBar: React.FC = () => {
 	});
 
 	const exportImage = (type: export_format) => {
-		ExportImage(workspaceName, document.getElementById('workspace'), type);
+		ExportImage(
+			currentWorkspace.workspaceName,
+			document.getElementById('workspace'),
+			type,
+		);
 	};
 
 	// Share Image
