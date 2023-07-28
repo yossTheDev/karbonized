@@ -1,10 +1,10 @@
 {
 	"name": "karbonized",
 	"private": true,
-	"version": "1.3.0",
+	"version": "1.4.2",
 	"main": "dist-electron/main.js",
 	"author": "Yoannis Sánchez Soto",
-	"description": "Awesome Image Generator",
+	"description": "Image Editing Made Easy",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
