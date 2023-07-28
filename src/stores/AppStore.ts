@@ -185,9 +185,11 @@ export const AppStore = createStore<AppStoreModel>({
 		state.currentControlID = '';
 	}),
 	deleteWorkspace: action((state, payload) => {
-		state.currentWorkspaceID = '----';
-		state.currentWorkspace = state.workspaces[0];
-		state.workspaces = state.workspaces.filter((item) => item.id !== payload);
+		if (state.workspaces.length > 1) {
+			state.currentWorkspaceID = '----';
+			state.currentWorkspace = state.workspaces[0];
+			state.workspaces = state.workspaces.filter((item) => item.id !== payload);
+		}
 	}),
 
 	currentWorkspace: computed((state) => {
