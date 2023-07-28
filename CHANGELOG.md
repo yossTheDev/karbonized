@@ -124,7 +124,7 @@ fix: Wrong Position of Drawing Panel
 * Some Improvements
 * Minor Bug Fixes
 
-## 1.0.2
+## v 1.0.2
 
 * Added Light Theme
 * Karbonized is now a PWA with offline support
@@ -135,7 +135,7 @@ fix: Wrong Position of Drawing Panel
 * Now you can define Workspace Name and Size
 * Various improvements and Bug Fixed
 
-## 1.0.1
+## v 1.0.1
 
 * Improve all controls
 * Now you can manually define size and position of all controls
@@ -146,7 +146,7 @@ fix: Wrong Position of Drawing Panel
 * Improve UI/UX
 * Improve website for mobile devices
 
-## 1.0.0
+## v 1.0.0
 
 First Version
 
