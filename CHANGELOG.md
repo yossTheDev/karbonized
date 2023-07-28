@@ -4,6 +4,8 @@
 
 * fix: Adding more tap area to Tab Items
 * improve: Add loading state in Render Preview
+* fix: Hide Controls
+* fix: Auto Zoom in Workspace
 
 ## v 1.4.0
 
