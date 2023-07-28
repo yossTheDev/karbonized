@@ -9,6 +9,7 @@
 * fix: Remove Exit Animation for Menus
 * fix: You Need at least one Workspace
 * fix: Color Picker Position on Drawing Panel
+* fix: Snap System not work with multiples Workspaces
 
 ## v 1.4.1
 
