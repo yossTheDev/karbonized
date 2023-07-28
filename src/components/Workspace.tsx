@@ -20,31 +20,15 @@ interface Props {
 }
 export const Workspace: React.FC<Props> = ({ reference }) => {
 	// App Store
-	const controlPos = useStoreState((state) => state.controlPosition);
 
-	const controls = useStoreState((state) => state.ControlsTree);
 	const controlID = useStoreState((state) => state.currentControlID);
 	const controlsClass = useStoreState((state) => state.controlsClass);
-	const ControlProperties = useStoreState((state) => state.ControlProperties);
-	const setControlProperties = useStoreActions(
-		(state) => state.setControlProperties,
-	);
 
 	const editing = useStoreState((state) => state.editing);
-	const isDrawing = useStoreState((state) => state.isDrawing);
 	const lockAspect = useStoreState((state) => state.lockAspect);
 
-	const workspaceColor = useStoreState((state) => state.workspaceColor);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
-	const workspaceType = useStoreState((state) => state.workspaceType);
-	const workspaceTexture = useStoreState((state) => state.textureName);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-
-	/* Workspace Colors */
-	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
-	const workspaceGradient = useStoreState(
-		(state) => state.workspaceGradientSettings,
-	);
+	const workspaces = useStoreState((state) => state.workspaces);
+	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
 
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
@@ -54,12 +38,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 
-	const hasProperty = (id: string) => {
-		for (const item of ControlProperties) {
-			if (item.id === id) return item.value;
-		}
-		return null;
-	};
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+
 	return (
 		<>
 			<div
@@ -68,26 +48,37 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				className='shadow-2xl'
 				style={{
 					background:
-						workspaceColorMode === 'Single'
-							? workspaceColor
-							: `linear-gradient(${workspaceGradient.deg}deg, ${workspaceGradient.color1},${workspaceGradient.color2})`,
-					height: workspaceHeight + 'px',
-					width: workspaceWidth + 'px',
+						currentWorkspace.workspaceColorMode === 'Single'
+							? currentWorkspace.workspaceColor
+							: `linear-gradient(${currentWorkspace.workspaceGradientSettings.deg}deg, ${currentWorkspace.workspaceGradientSettings.color1},${currentWorkspace.workspaceGradientSettings.color2})`,
+					height: currentWorkspace.workspaceHeight + 'px',
+					width: currentWorkspace.workspaceWidth + 'px',
 				}}
 			>
-				{workspaceType === 'texture' && (
+				{currentWorkspace.workspaceType === 'texture' && (
 					<Suspense fallback={<></>}>
-						<WorkspaceTexture texture={workspaceTexture}></WorkspaceTexture>
+						<WorkspaceTexture
+							texture={currentWorkspace.textureName}
+						></WorkspaceTexture>
 					</Suspense>
 				)}
 
-				{controls.map((el, i) => (
-					<ControlHandler
-						id={el.id}
-						key={el.id}
-						type={el.type}
-						isVisible={el.isVisible}
-					></ControlHandler>
+				{workspaces.map((workspace) => (
+					<div
+						className={`${
+							currentWorkspaceID === workspace.id ? 'block' : 'hidden'
+						}`}
+						id={workspace.id}
+					>
+						{workspace.controls.map((item) => (
+							<ControlHandler
+								id={item.id}
+								key={item.id}
+								type={item.type}
+								isVisible={item.isVisible}
+							></ControlHandler>
+						))}
+					</div>
 				))}
 
 				<Canvas></Canvas>
@@ -114,17 +105,17 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					snapThreshold={10}
 					verticalGuidelines={[
 						0,
-						parseFloat(workspaceWidth) * 0.2,
-						parseFloat(workspaceWidth) / 2,
-						parseFloat(workspaceWidth) * 0.8,
-						workspaceWidth,
+						parseFloat(currentWorkspace.workspaceWidth) * 0.2,
+						parseFloat(currentWorkspace.workspaceWidth) / 2,
+						parseFloat(currentWorkspace.workspaceWidth) * 0.8,
+						currentWorkspace.workspaceWidth,
 					]}
 					horizontalGuidelines={[
 						0,
-						parseFloat(workspaceHeight) * 0.2,
-						parseFloat(workspaceHeight) / 2,
-						parseFloat(workspaceHeight) * 0.8,
-						workspaceHeight,
+						parseFloat(currentWorkspace.workspaceHeight) * 0.2,
+						parseFloat(currentWorkspace.workspaceHeight) / 2,
+						parseFloat(currentWorkspace.workspaceHeight) * 0.8,
+						currentWorkspace.workspaceHeight,
 					]}
 					elementSnapDirections
 					elementGuidelines={controlsClass}

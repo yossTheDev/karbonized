@@ -18,21 +18,23 @@ export const WorkspaceTexture: React.FC<{
 	texture: string;
 }> = ({ texture }) => {
 	// App Store
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
+	/*const currentWorkspace.workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-	const workspaceGradient = useStoreState((state) => state.textureColors);
+	const workspaceGradient = useStoreState((state) => state.textureColors);*/
+
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	switch (texture) {
 		case 'flux':
 			return (
 				<Suspense>
 					<Flux
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						className='absolute'
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 					></Flux>
 				</Suspense>
@@ -42,12 +44,12 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Coil
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						className='absolute'
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 					></Coil>
 				</Suspense>
@@ -57,12 +59,12 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Circular
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						className='absolute'
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 					></Circular>
 				</Suspense>
@@ -72,11 +74,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Horizon
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Horizon>
@@ -87,11 +89,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Grayrate
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Grayrate>
@@ -102,11 +104,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Hirl
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Hirl>
@@ -117,11 +119,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Neon
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Neon>
@@ -132,11 +134,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Undulate
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Undulate>
@@ -147,11 +149,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Chaos
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Chaos>
@@ -162,11 +164,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Oscilate
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Oscilate>
@@ -177,11 +179,11 @@ export const WorkspaceTexture: React.FC<{
 			return (
 				<Suspense>
 					<Vortex
-						color1={workspaceGradient.color1}
-						color2={workspaceGradient.color2}
+						color1={currentWorkspace.textureColors.color1}
+						color2={currentWorkspace.textureColors.color2}
 						style={{
-							height: workspaceHeight + 'px',
-							width: workspaceWidth + 'px',
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
 						}}
 						className='absolute flex h-full w-full flex-auto'
 					></Vortex>

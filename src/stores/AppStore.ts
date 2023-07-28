@@ -1,4 +1,5 @@
 import { Action, action, createStore, Computed, computed } from 'easy-peasy';
+import { getRandomNumber } from '../utils/getRandom';
 
 export interface Item {
 	id: string;
@@ -14,6 +15,20 @@ interface History {
 	value: any;
 }
 
+interface Workspace {
+	id: string;
+	controls: Item[];
+	workspaceName: string;
+	workspaceColor: string;
+	workspaceColorMode: string;
+	workspaceType: string; // Color or Texture
+	workspaceWidth: string;
+	workspaceHeight: string;
+	workspaceGradientSettings: { color1: string; color2: string; deg: number };
+	textureName: string;
+	textureColors: { color1: string; color2: string };
+}
+
 export interface AppStoreModel {
 	/* App States and Actions */
 	ControlsTree: Item[];
@@ -24,6 +39,15 @@ export interface AppStoreModel {
 	editing: boolean;
 	lockAspect: boolean;
 	setLockAspect: Action<AppStoreModel, boolean>;
+
+	/* Workspace System */
+	currentWorkspaceID: string;
+	currentWorkspace: Computed<AppStoreModel, Workspace>;
+	setCurrentWorkspace: Action<AppStoreModel, string>;
+	deleteWorkspace: Action<AppStoreModel, string>;
+	workspaces: Workspace[];
+	addWorkspace: Action<AppStoreModel, string>;
+	setWorkspaceControls: Action<AppStoreModel, Item[]>;
 
 	/* Controls System */
 	initialProperties: History[];
@@ -113,6 +137,65 @@ export const AppStore = createStore<AppStoreModel>({
 
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 
+	/* Workspace System */
+	workspaces: [
+		{
+			id: '----',
+			controls: [],
+			workspaceColor: '#019091',
+			workspaceHeight: '512',
+			workspaceWidth: '512',
+			workspaceColorMode: 'Gradient',
+			workspaceName: 'Workspace 1',
+			workspaceType: 'color',
+			workspaceGradientSettings: {
+				color1: '#00B4DB',
+				color2: '#0083B0',
+				deg: 98,
+			},
+			textureName: 'grayrate',
+			textureColors: { color1: '#409ccf', color2: '#136179' },
+		},
+	],
+	currentWorkspaceID: '----',
+	addWorkspace: action((state, payload) => {
+		state.workspaces = [
+			...state.workspaces,
+			{
+				id: getRandomNumber().toString(),
+				controls: [],
+				workspaceColor: '#019091',
+				workspaceHeight: '512',
+				workspaceWidth: '512',
+				workspaceColorMode: 'Gradient',
+				workspaceName: 'Workspace ' + (state.workspaces.length + 1),
+				workspaceType: 'color',
+				workspaceGradientSettings: {
+					color1: '#00B4DB',
+					color2: '#0083B0',
+					deg: 98,
+				},
+				textureName: 'grayrate',
+				textureColors: { color1: '#409ccf', color2: '#136179' },
+			},
+		];
+	}),
+	setCurrentWorkspace: action((state, payload) => {
+		state.currentWorkspaceID = payload;
+		state.currentControlID = '';
+	}),
+	deleteWorkspace: action((state, payload) => {
+		state.currentWorkspaceID = '----';
+		state.currentWorkspace = state.workspaces[0];
+		state.workspaces = state.workspaces.filter((item) => item.id !== payload);
+	}),
+
+	currentWorkspace: computed((state) => {
+		return state.workspaces.find(
+			(item) => item.id === state.currentWorkspaceID,
+		) as any;
+	}),
+
 	/* Controls System */
 	initialProperties: [],
 	addInitialProperty: action((state, payload) => {
@@ -120,7 +203,7 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 	removeInitialProperty: action((state, id) => {
 		state.initialProperties = state.initialProperties.filter(
-			(item) => item.id != id,
+			(item) => item.id !== id,
 		);
 	}),
 	ControlProperties: [],
@@ -148,7 +231,31 @@ export const AppStore = createStore<AppStoreModel>({
 		state.ControlProperties = payload;
 	}),
 	setControls: action((state, items) => {
-		state.ControlsTree = items;
+		/*state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, controls: items }
+				: item,
+		);*/
+		/*state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, controls: items }
+				: item,
+		);*/
+		//state.ControlsTree = items;
+	}),
+
+	setWorkspaceControls: action((state, items) => {
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, controls: items }
+				: item,
+		);
+		/*state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, controls: items }
+				: item,
+		);*/
+		//state.ControlsTree = items;
 	}),
 	controlsClass: computed((state) => {
 		const controlsClass: string[] = [];
@@ -161,7 +268,7 @@ export const AppStore = createStore<AppStoreModel>({
 		return controlsClass;
 	}),
 	visibleControls: computed((state) => {
-		return state.ControlsTree.filter((item) => !item.isDeleted);
+		return state.currentWorkspace.controls.filter((item) => !item.isDeleted);
 	}),
 
 	/* History System */
@@ -255,7 +362,6 @@ export const AppStore = createStore<AppStoreModel>({
 	setStrokeColor: action((state, payload) => {
 		state.strokeColor = payload;
 	}),
-
 	/* Tabs */
 	selectedTab: 'hierarchy',
 	setSelectedTab: action((state, payload) => {
@@ -277,23 +383,50 @@ export const AppStore = createStore<AppStoreModel>({
 
 	textureName: 'grayrate',
 	textureColors: { color1: '#409ccf', color2: '#136179' },
+
 	setTextureColors: action((state, payload) => {
-		state.textureColors = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, textureColors: payload }
+				: item,
+		);
+		//state.textureColors = payload;
 	}),
 	setTextureName: action((state, payload) => {
-		state.textureName = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, textureName: payload }
+				: item,
+		);
+		//state.textureName = payload;
 	}),
 
 	setWorkspaceType: action((state, payload) => {
-		state.workspaceType = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceType: payload }
+				: item,
+		);
+		//state.workspaceType = payload;
 	}),
 
 	setWorkspaceGradient: action((state, payload) => {
-		state.workspaceGradientSettings = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceGradientSettings: payload }
+				: item,
+		);
+		//state.workspaceGradientSettings = payload;
 	}),
 
 	setWorkspaceColorMode: action((state, payload) => {
-		state.workspaceColorMode = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceColorMode: payload }
+				: item,
+		);
+
+		//state.workspaceColorMode = payload;
 	}),
 
 	setLockAspect: action((state, payload) => {
@@ -316,22 +449,56 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	setWorkspaceColor: action((state, payload) => {
-		state.workspaceColor = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceColor: payload }
+				: item,
+		);
+		//state.workspaceColor = payload;
 	}),
 	setWorkspaceName: action((state, payload) => {
-		state.workspaceName = payload;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceName: payload }
+				: item,
+		);
+
+		//state.workspaceName = payload;
 	}),
 	setWorkspaceSize: action((state, payload) => {
-		state.workspaceHeight = payload.height;
-		state.workspaceWidth = payload.width;
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? {
+						...item,
+						workspaceHeight: payload.height,
+						workspaceWidth: payload.width,
+				  }
+				: item,
+		);
+
+		//state.workspaceHeight = payload.height;
+		//state.workspaceWidth = payload.width;
 	}),
 	addControl: action((state, payload) => {
-		state.ControlsTree.push(payload);
+		//state.currentWorkspace.controls.push(payload);
+
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, controls: [...item.controls, payload] }
+				: item,
+		);
+
+		state.currentWorkspace.controls.forEach((item) => console.log(item));
+		//state.ControlsTree.push(payload);
 	}),
 
 	cleanWorkspace: action((state, payload) => {
 		state.currentControlID = '';
-		state.ControlsTree = [];
+		//state.ControlsTree = [];
+
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID ? { ...item, controls: [] } : item,
+		);
 	}),
 
 	setcurrentControlID: action((state, payload) => {

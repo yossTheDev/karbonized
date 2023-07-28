@@ -4,13 +4,11 @@ import { MenuItem } from './MenuItem';
 
 export const HierarchyPanel = () => {
 	/* App Store */
-	const controlID = useStoreState((state) => state.currentControlID);
-	const ControlsTree = useStoreState((state) => state.ControlsTree);
 	const visibleControls = useStoreState((state) => state.visibleControls);
-	const setControls = useStoreActions((state) => state.setControls);
-	const setCurrentControlID = useStoreActions(
-		(state) => state.setcurrentControlID,
+	const setWorkspaceControls = useStoreActions(
+		(state) => state.setWorkspaceControls,
 	);
+
 	return (
 		<div className='mt-1 flex flex-auto flex-col overflow-hidden'>
 			{/* Controls */}
@@ -23,7 +21,9 @@ export const HierarchyPanel = () => {
 						values={visibleControls}
 						lockVertically
 						onChange={({ oldIndex, newIndex }) =>
-							setControls(arrayMove(visibleControls, oldIndex, newIndex))
+							setWorkspaceControls(
+								arrayMove(visibleControls, oldIndex, newIndex),
+							)
 						}
 						renderList={({ children, props }) => (
 							<ul

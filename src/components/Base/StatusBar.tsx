@@ -21,9 +21,8 @@ export const StatusBar: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 
 	/* App Store */
-	const workspaceName = useStoreState((state) => state.workspaceName);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+
 	const controlPosition = useStoreState((state) => state.controlPosition);
 
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
@@ -125,7 +124,9 @@ export const StatusBar: React.FC = () => {
 					<div className='flex flex-row'>
 						<IconTag className='my-auto ml-1' size={16}></IconTag>
 
-						<p className='my-auto ml-2 text-center text-xs'>{workspaceName}</p>
+						<p className='my-auto ml-2 text-center text-xs'>
+							{currentWorkspace.workspaceName}
+						</p>
 					</div>
 
 					{/* Workspace Settings  Size*/}
@@ -136,7 +137,8 @@ export const StatusBar: React.FC = () => {
 						></IconSquareRotatedForbid2>
 
 						<p className='my-auto ml-2 text-center text-xs'>
-							Size: {workspaceWidth} X {workspaceHeight}
+							Size: {currentWorkspace.workspaceWidth} X{' '}
+							{currentWorkspace.workspaceHeight}
 						</p>
 					</div>
 

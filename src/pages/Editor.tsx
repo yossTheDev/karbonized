@@ -49,6 +49,7 @@ import {
 	MenuSeparator,
 } from '../components/CustomControls/DropMenu';
 import { CustomPortal } from '../components/Portal';
+import { TabPanel } from '../components/Base/TabPanel';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -68,6 +69,7 @@ export const Editor: React.FC = () => {
 	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
 	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
 	const controls = useStoreState((state) => state.ControlsTree);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	/* Copy/Paste System */
 	const controlID = useStoreState((state) => state.currentControlID);
@@ -106,7 +108,7 @@ export const Editor: React.FC = () => {
 	};
 
 	const centerView = useCallback(() => {
-		const width = parseFloat(workspaceWidth);
+		const width = parseFloat(currentWorkspace.workspaceWidth);
 
 		if (width < 1280) {
 			viewerRef.current?.setZoom(0.9);
@@ -121,7 +123,13 @@ export const Editor: React.FC = () => {
 		}
 
 		viewerRef.current?.scrollCenter();
-	}, [workspaceHeight, workspaceWidth, workspaceMode, controls]);
+	}, [
+		workspaceMode,
+		controls,
+		currentWorkspace,
+		currentWorkspace.workspaceHeight,
+		currentWorkspace.workspaceWidth,
+	]);
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'w') {
@@ -165,7 +173,13 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, [workspaceHeight, workspaceWidth, controls, workspaceMode]);
+	}, [
+		workspaceHeight,
+		workspaceWidth,
+		controls,
+		currentWorkspace,
+		workspaceMode,
+	]);
 
 	/* Handle Duplicate Elements */
 	useEffect(() => {
@@ -226,7 +240,7 @@ export const Editor: React.FC = () => {
 			</div>
 
 			{/* Content */}
-			<div className='relative flex flex-auto flex-col overflow-hidden bg-base-200 p-2 md:p-0'>
+			<div className='relative flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-100 p-2 md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'>
@@ -350,6 +364,8 @@ export const Editor: React.FC = () => {
 					</Navbar.End>
 				</Navbar>
 
+				<TabPanel></TabPanel>
+
 				{/* Content*/}
 				<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
 					{/* Draw Bar */}
@@ -397,7 +413,7 @@ export const Editor: React.FC = () => {
 
 					{/* Workspace */}
 					<div
-						className={`flex flex-auto flex-col rounded-2xl bg-base-100 shadow-inner ${
+						className={`flex flex-auto flex-col  bg-base-100 shadow-inner ${
 							drag && 'cursor-move'
 						}`}
 					>
@@ -421,8 +437,8 @@ export const Editor: React.FC = () => {
 						>
 							<div
 								style={{
-									width: workspaceWidth + 'px',
-									height: workspaceHeight + 'px',
+									width: currentWorkspace.workspaceWidth + 'px',
+									height: currentWorkspace.workspaceHeight + 'px',
 								}}
 								className='viewport'
 							>

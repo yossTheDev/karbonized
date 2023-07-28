@@ -56,15 +56,7 @@ const getSize = (label: string) => {
 
 export const WorkspacePanel: React.FC = () => {
 	/* App Store */
-	const workspaceName = useStoreState((state) => state.workspaceName);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-	const workspaceColor = useStoreState((state) => state.workspaceColor);
-	const workspaceType = useStoreState((state) => state.workspaceType);
-	const workspaceColorMode = useStoreState((state) => state.workspaceColorMode);
-	const workspaceGadient = useStoreState(
-		(state) => state.workspaceGradientSettings,
-	);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
 	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
@@ -73,8 +65,6 @@ export const WorkspacePanel: React.FC = () => {
 	const setWorkspaceGradient = useStoreActions(
 		(state) => state.setWorkspaceGradient,
 	);
-
-	const textureColors = useStoreState((state) => state.textureColors);
 	const setTextureColors = useStoreActions((state) => state.setTextureColors);
 	const setWorkspaceColorMode = useStoreActions(
 		(state) => state.setWorkspaceColorMode,
@@ -99,7 +89,7 @@ export const WorkspacePanel: React.FC = () => {
 							spellCheck={false}
 							className='my-auto w-full rounded-xl bg-base-100  p-2'
 							onChange={(ev) => setWorkspaceName(ev.target.value)}
-							value={workspaceName}
+							value={currentWorkspace.workspaceName}
 						></Input>
 					</div>
 				</>
@@ -144,10 +134,10 @@ export const WorkspacePanel: React.FC = () => {
 								onChange={(number) => {
 									setWorkspaceSize({
 										width: number.toString(),
-										height: workspaceHeight,
+										height: currentWorkspace.workspaceHeight,
 									});
 								}}
-								number={parseInt(workspaceWidth)}
+								number={parseInt(currentWorkspace.workspaceWidth)}
 							></NumberInput>
 						</div>
 						{/* Size H */}
@@ -157,10 +147,10 @@ export const WorkspacePanel: React.FC = () => {
 								onChange={(number) => {
 									setWorkspaceSize({
 										height: number.toString(),
-										width: workspaceWidth,
+										width: currentWorkspace.workspaceWidth,
 									});
 								}}
-								number={parseInt(workspaceHeight)}
+								number={parseInt(currentWorkspace.workspaceHeight)}
 							></NumberInput>
 						</div>
 					</div>
@@ -181,7 +171,8 @@ export const WorkspacePanel: React.FC = () => {
 								setWorkspaceType('color');
 							}}
 							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
-								workspaceType === 'color' && 'border-2 border-primary'
+								currentWorkspace.workspaceType === 'color' &&
+								'border-2 border-primary'
 							}`}
 						>
 							<p className='mx-auto my-auto'>Color</p>
@@ -189,7 +180,8 @@ export const WorkspacePanel: React.FC = () => {
 
 						<div
 							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
-								workspaceType === 'texture' && 'border-2 border-primary'
+								currentWorkspace.workspaceType === 'texture' &&
+								'border-2 border-primary'
 							}`}
 							onClick={() => {
 								setWorkspaceType('texture');
@@ -200,7 +192,7 @@ export const WorkspacePanel: React.FC = () => {
 					</div>
 
 					{/* Select Texture */}
-					{workspaceType === 'texture' && (
+					{currentWorkspace.workspaceType === 'texture' && (
 						<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-auto'>
 							<div
 								className='h-12  w-12 cursor-pointer rounded-full hover:border-2 hover:border-gray-400'
@@ -314,43 +306,43 @@ export const WorkspacePanel: React.FC = () => {
 						</div>
 					)}
 
-					{workspaceType === 'color' ? (
+					{currentWorkspace.workspaceType === 'color' ? (
 						<ColorPicker
 							type='HexAlpha'
-							colorGradient1={workspaceGadient.color1}
-							colorGradient2={workspaceGadient.color2}
-							gradientDeg={workspaceGadient.deg}
+							colorGradient1={currentWorkspace.workspaceGradientSettings.color1}
+							colorGradient2={currentWorkspace.workspaceGradientSettings.color2}
+							gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
 							onGradientChange={(color: any, color2: any) => {
 								setWorkspaceGradient({
 									color1: color,
 									color2: color2,
-									deg: workspaceGadient.deg,
+									deg: currentWorkspace.workspaceGradientSettings.deg,
 								});
 							}}
 							onGradientDegChange={(deg) => {
 								setWorkspaceGradient({
-									color1: workspaceGadient.color1,
-									color2: workspaceGadient.color2,
+									color1: currentWorkspace.workspaceGradientSettings.color1,
+									color2: currentWorkspace.workspaceGradientSettings.color2,
 									deg: deg,
 								});
 							}}
 							onModeChange={(mode) => setWorkspaceColorMode(mode)}
-							mode={workspaceColorMode}
-							color={workspaceColor}
+							mode={currentWorkspace.workspaceColorMode}
+							color={currentWorkspace.workspaceColor}
 							onColorChange={setWorkspaceColor}
 						></ColorPicker>
 					) : (
 						<ColorPicker
 							type='HexAlpha'
-							colorGradient1={textureColors.color1}
-							colorGradient2={textureColors.color2}
+							colorGradient1={currentWorkspace.textureColors.color1}
+							colorGradient2={currentWorkspace.textureColors.color2}
 							onGradientChange={(color: any, color2: any) => {
 								setTextureColors({
 									color1: color,
 									color2: color2,
 								});
 							}}
-							color={workspaceColor}
+							color={currentWorkspace.workspaceColor}
 							mode={'Gradient'}
 							onColorChange={() => {}}
 						></ColorPicker>
