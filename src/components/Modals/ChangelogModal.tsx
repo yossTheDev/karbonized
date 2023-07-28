@@ -7,6 +7,12 @@ interface Props {
 }
 
 const changelog = `
+## v 1.4.3
+
+* add: Donations Panel
+* add: Changelog Panel
+* fix: Minor UI fixes
+
 ## v 1.4.2
 
 * add: Duplicate Option to Menu Bar
@@ -157,7 +163,6 @@ Controls
 * Text
 * Qr
 * Code
-
 `;
 export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 	return (

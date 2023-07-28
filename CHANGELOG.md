@@ -4,6 +4,7 @@
 
 * add: Donations Panel
 * add: Changelog Panel
+* fix: Minor UI fixes
 
 ## v 1.4.2
 
