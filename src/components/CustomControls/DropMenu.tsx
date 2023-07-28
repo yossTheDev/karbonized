@@ -28,7 +28,9 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	return (
 		<>
 			<div
-				className='select-none rounded px-3 py-0.5  hover:cursor-pointer hover:bg-neutral active:bg-base-100'
+				className={`select-none rounded px-3 py-0.5  hover:cursor-pointer hover:bg-neutral active:bg-base-100 ${
+					show && 'bg-base-100'
+				}`}
 				tabIndex={1}
 				onBlur={() => setShow(false)}
 				onClick={() => setShow(true)}

@@ -2,7 +2,6 @@ import { IconMoon, IconSun } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import karbonized from '../../assets/karbonized.svg';
 import { useTheme } from '../../hooks/useTheme';
-import { HomeButton } from './HomeButton';
 
 import './TitleBar.css';
 import { MenuBar } from './MenuBar';

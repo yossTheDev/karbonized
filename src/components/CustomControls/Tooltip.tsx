@@ -30,6 +30,10 @@ export const Tooltip: React.FC<Props> = ({
 		placement: placement,
 	});
 
+	useEffect(() => {
+		if (showTooltip) setTimeout(() => setShowTooltip(false), 1000);
+	}, [showTooltip]);
+
 	return (
 		<>
 			<>
@@ -59,7 +63,7 @@ export const Tooltip: React.FC<Props> = ({
 								ref={floating}
 								style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 							>
-								<div className='flex flex-auto select-none flex-col rounded-xl bg-base-200 p-2 px-4 text-xs shadow-xl dark:text-white'>
+								<div className='flex flex-auto select-none flex-col rounded-xl border border-neutral bg-base-200 p-2 px-4 text-xs shadow-xl dark:text-white'>
 									{message}
 								</div>
 							</motion.div>
