@@ -2,8 +2,8 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-	"appId": "karbonized.yossthedev.com",
-	"asar": false,
+	"appId": "com.yossthedev.karbonized",
+	"asar": true,
 	"directories": {
 		"output": "release/${version}"
 	},
@@ -19,6 +19,7 @@
 				"arch": ["x64"]
 			}
 		],
+		"icon": "/src-electron/assets/icon.ico",
 		"artifactName": "${productName}_${version}.${ext}"
 	},
 	"nsis": {

@@ -69,6 +69,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							currentWorkspaceID === workspace.id ? 'block' : 'hidden'
 						}`}
 						id={workspace.id}
+						key={workspace.id}
 					>
 						{workspace.controls.map((item) => (
 							<ControlHandler

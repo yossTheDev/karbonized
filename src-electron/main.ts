@@ -1,9 +1,18 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeImage } from 'electron';
 import { join } from 'path';
 
 app.whenReady().then(() => {
+	const icon = nativeImage.createFromPath(
+		join(
+			__dirname,
+			'assets',
+			process.platform === 'win32' ? 'icon.ico' : 'icon.png',
+		),
+	);
+
 	const win = new BrowserWindow({
-		title: 'Main window',
+		title: 'Karbonized',
+		icon: icon,
 		width: 800,
 		height: 600,
 		minHeight: 600,

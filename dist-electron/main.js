@@ -2,8 +2,16 @@
 const electron = require("electron");
 const path = require("path");
 electron.app.whenReady().then(() => {
+  const icon = electron.nativeImage.createFromPath(
+    path.join(
+      __dirname,
+      "assets",
+      process.platform === "win32" ? "icon.ico" : "icon.png"
+    )
+  );
   const win = new electron.BrowserWindow({
-    title: "Main window",
+    title: "Karbonized",
+    icon,
     width: 800,
     height: 600,
     minHeight: 600,

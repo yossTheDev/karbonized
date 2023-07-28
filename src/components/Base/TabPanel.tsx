@@ -22,6 +22,7 @@ export const TabPanel: React.FC = () => {
 			>
 				{workspaces.map((item) => (
 					<div
+						key={item.id}
 						id={item.id}
 						className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-base-200 p-1 shadow  hover:cursor-pointer hover:bg-neutral dark:text-gray-300 ${
 							currentWorkspaceID === item.id &&
