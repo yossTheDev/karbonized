@@ -3,6 +3,7 @@ import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
 import {
 	IconArrowBack,
 	IconArrowForward,
+	IconCopy,
 	IconFileTypeJpg,
 	IconFileTypePng,
 	IconFileTypeSvg,
@@ -22,6 +23,7 @@ import karbonized from '../../assets/karbonized.svg';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { toBlob, toJpeg } from 'html-to-image';
 import { PreviewModal } from '../Modals/PreviewModal';
+import { getRandomNumber } from '../../utils/getRandom';
 
 export const MenuBar: React.FC = () => {
 	/* Panels */
@@ -34,8 +36,19 @@ export const MenuBar: React.FC = () => {
 	const undo = useStoreActions((state) => state.undo);
 
 	/* App Store */
-	const controls = useStoreState((state) => state.ControlsTree);
+	const currentControlProperties = useStoreState(
+		(state) => state.currentControlProperties,
+	);
+	const addControl = useStoreActions((state) => state.addControl);
+	const addControlProperty = useStoreActions(
+		(state) => state.addControlProperty,
+	);
+	const addInitialProperty = useStoreActions(
+		(state) => state.addInitialProperty,
+	);
+
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const controlID = useStoreState((state) => state.currentControlID);
 
 	/* Handle Key Shortcuts */
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -68,6 +81,44 @@ export const MenuBar: React.FC = () => {
 			document.getElementById('workspace'),
 			type,
 		);
+	};
+
+	const getElementsByType = (type: string) => {
+		return (
+			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+		);
+	};
+
+	const duplicate = () => {
+		/* Copy Control Properties */
+		const newControlID =
+			controlID.split('-')[0] + '-' + getRandomNumber().toString();
+
+		currentControlProperties.forEach((item) => {
+			const id = item.id.split('-');
+			const prop = id[id.length - 1];
+
+			addInitialProperty({
+				id: newControlID + '-' + prop,
+				value: item.value,
+			});
+			addControlProperty({
+				id: newControlID + '-' + prop,
+				value: item.value,
+			});
+		});
+
+		/* Add Control To Workspace */
+		addControl({
+			type: newControlID.split('-')[0],
+			id: newControlID,
+			isSelectable: true,
+			isDeleted: false,
+			name: `${newControlID.split('-')[0]} ${getElementsByType(
+				newControlID.split('-')[0],
+			)}`,
+			isVisible: true,
+		});
 	};
 
 	// Share Image
@@ -185,6 +236,13 @@ export const MenuBar: React.FC = () => {
 								}
 								label='Redo'
 								shortcut='Ctrl+Y'
+							></MenuItem>
+
+							<MenuItem
+								click={() => duplicate()}
+								icon={<IconCopy size={16} className='-scale-y-[1]'></IconCopy>}
+								label='Duplicate'
+								shortcut='Ctrl+D'
 							></MenuItem>
 						</>
 					}
