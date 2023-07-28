@@ -1,5 +1,10 @@
 # Changelog
 
+## v 1.4.3
+
+* add: Donations Panel
+* add: Changelog Panel
+
 ## v 1.4.2
 
 * add: Duplicate Option to Menu Bar
