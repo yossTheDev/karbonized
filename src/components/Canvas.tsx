@@ -12,8 +12,7 @@ export const Canvas: React.FC = ({}) => {
 
 	const strokeColor = useStoreState((state) => state.strokeColor);
 	const lineWidth = useStoreState((state) => state.lineWidth);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	const startDrawing = (e: any) => {
 		if (ctxRef) {
@@ -63,8 +62,8 @@ export const Canvas: React.FC = ({}) => {
 		<>
 			<canvas
 				ref={canvasRef}
-				width={workspaceWidth}
-				height={workspaceHeight}
+				width={currentWorkspace.workspaceWidth}
+				height={currentWorkspace.workspaceHeight}
 				className={`${
 					canDraw || isErasing ? '' : 'pointer-events-none'
 				} absolute z-50`}

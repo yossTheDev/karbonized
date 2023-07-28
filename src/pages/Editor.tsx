@@ -360,8 +360,8 @@ export const Editor: React.FC = () => {
 				<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
 					{/* Draw Bar */}
 					{(canDraw || isErasing) && (
-						<div className=' flex items-end '>
-							<div className='absolute z-50 mb-4 ml-4 flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
+						<div className=' absolute flex h-full'>
+							<div className=' z-50 mb-2 ml-4 mt-auto flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
 								{/* Stroke Range */}
 								<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
 								<Range
