@@ -48,14 +48,14 @@ export const ColorPicker: React.FC<Props> = ({
 }) => {
 	/* Component Store */
 	const [gradientMode, setGradientMode] = useState<'Color1' | 'Color2'>(
-		'Color1'
+		'Color1',
 	);
 	const [customGradients, setCustomGradients] = useState<
 		{ color1: string; color2: string }[]
 	>(
 		localStorage.getItem('custom-gradients')
 			? JSON.parse(localStorage.getItem('custom-gradients') as string)
-			: []
+			: [],
 	);
 
 	const [showColor, setShowColor] = useState(false);
@@ -129,9 +129,6 @@ export const ColorPicker: React.FC<Props> = ({
 				{showColor && isHorizontal && (
 					<Portal>
 						<motion.div
-							initial={{ marginTop: '25px', opacity: 0.2, scaleY: 0 }}
-							exit={{ marginTop: '25px', opacity: 0, scaleY: 0 }}
-							animate={{ marginTop: '0px', opacity: 1, scaleY: 1 }}
 							tabIndex={0}
 							onMouseEnter={() => {
 								setVisible(true);
@@ -140,12 +137,14 @@ export const ColorPicker: React.FC<Props> = ({
 								setVisible(true);
 							}}
 							onMouseLeave={() => {
-								setShowColor(false);
 								setVisible(false);
+							}}
+							onBlur={() => {
+								if (!visible) setShowColor(false);
 							}}
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-							className='dropdown-content z-40 flex w-60 flex-auto select-none flex-col gap-2 rounded-2xl bg-base-200/90 px-2.5 py-4 shadow-2xl backdrop-blur-xl'
+							className='dropdown-content z-50 flex w-60 flex-auto select-none flex-col gap-2 rounded-2xl border border-neutral bg-base-200/90 px-2.5 py-4 shadow-2xl backdrop-blur-xl'
 						>
 							{/* Tabs */}
 							{isGradientEnable && (
@@ -348,7 +347,7 @@ export const ColorPicker: React.FC<Props> = ({
 
 												localStorage.setItem(
 													'custom-gradients',
-													JSON.stringify(copy)
+													JSON.stringify(copy),
 												);
 											}}
 											className='cursor-pointer rounded border-2 border-base-100   hover:border-gray-400'
@@ -371,13 +370,13 @@ export const ColorPicker: React.FC<Props> = ({
 																copy = copy.filter(
 																	(colors) =>
 																		colors.color1 + colors.color2 !==
-																		color1 + color2
+																		color1 + color2,
 																);
 																setCustomGradients(copy);
 
 																localStorage.setItem(
 																	'custom-gradients',
-																	JSON.stringify(copy)
+																	JSON.stringify(copy),
 																);
 															}}
 															style={{
@@ -414,11 +413,11 @@ export const ColorPicker: React.FC<Props> = ({
 													gradientMode === 'Color1'
 														? onGradientChange(
 																ev.currentTarget.value,
-																colorGradient2
+																colorGradient2,
 														  )
 														: onGradientChange(
 																colorGradient1,
-																ev.currentTarget.value
+																ev.currentTarget.value,
 														  );
 												}
 											}}
@@ -688,11 +687,11 @@ export const ColorPicker: React.FC<Props> = ({
 												gradientMode === 'Color1'
 													? onGradientChange(
 															ev.currentTarget.value,
-															colorGradient2
+															colorGradient2,
 													  )
 													: onGradientChange(
 															colorGradient1,
-															ev.currentTarget.value
+															ev.currentTarget.value,
 													  );
 											}
 										}}
