@@ -380,7 +380,7 @@ export const Editor: React.FC = () => {
 									color={strokeColor}
 									onColorChange={setStrokeColor}
 									showLabel={false}
-									placement='left-start'
+									placement='right-end'
 									label='Color'
 								></ColorPicker>
 
