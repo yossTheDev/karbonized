@@ -78,6 +78,7 @@ export const ExtensionPanel: React.FC = () => {
 
 	return (
 		<div className='mt-1 flex flex-auto flex-col overflow-hidden'>
+			{/* Header */}
 			<div className='flex'>
 				<div className='mb-2 flex'>
 					<label className='my-auto ml-3 h-full select-none  text-xl font-bold'>
@@ -97,6 +98,16 @@ export const ExtensionPanel: React.FC = () => {
 				>
 					<IconReload className='my-auto h-full' size={16}></IconReload>
 				</div>
+			</div>
+
+			<div className='flex gap-1 p-2'>
+				<label className='my-auto text-xs'>Need extensions?</label>
+				<a
+					className='text-xs hover:text-blue-400'
+					href='https://github.com/yossTheDev/karbonized'
+				>
+					See the docs
+				</a>
 			</div>
 
 			{/* Search */}

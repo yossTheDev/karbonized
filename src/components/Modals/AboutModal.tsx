@@ -57,7 +57,6 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2 dark:text-white'>
 					<a
 						href='https://twitter.com/yossthedev'
-						target={'_blank'}
 						className='to flex flex-auto cursor-pointer select-none flex-row  gap-1 rounded-3xl bg-base-200/70 p-3 px-4 shadow hover:bg-neutral  '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
@@ -67,7 +66,6 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 
 					<a
 						href='https://t.me/yossthedev'
-						target={'_blank'}
 						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200/70 p-3 px-4 shadow hover:bg-neutral'
 					>
 						<div className='mx-auto my-auto flex flex-row'>
@@ -77,7 +75,6 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 
 					<a
 						href='https://github.com/yossthedev'
-						target={'_blank'}
 						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200/70 p-3 px-4 shadow  hover:bg-neutral '
 					>
 						<div className='mx-auto my-auto flex flex-row'>

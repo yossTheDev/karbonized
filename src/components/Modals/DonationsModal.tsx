@@ -77,7 +77,6 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 
 					<a
 						href='https://qvapay.com/payme/yoannisgnw'
-						target={'_blank'}
 						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-300 to-blue-400 p-3 text-white hover:bg-gradient-to-bl  '
 					>
 						<div className='mx-auto my-auto flex flex-row'>

@@ -1,5 +1,11 @@
-import { Titlebar, TitlebarColor } from 'custom-electron-titlebar';
-import { contextBridge, ipcRenderer, app } from 'electron';
+import { contextBridge, ipcRenderer, app, shell } from 'electron';
+
+document.addEventListener('click', (event: any) => {
+	if (event.target.tagName === 'A' && event.target.href.startsWith('http')) {
+		event.preventDefault();
+		shell.openExternal(event.target.href);
+	}
+});
 
 window.addEventListener('DOMContentLoaded', () => {});
 
