@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.6.0
+
+feat: Add Plugin System (Beta)
+
 ## v 1.5.1
 
 * fix: Some Bugs in Save and Load Projects
