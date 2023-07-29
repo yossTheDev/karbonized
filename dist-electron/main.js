@@ -1,6 +1,24 @@
 "use strict";
 const electron = require("electron");
 const path = require("path");
+const fs = require("fs");
+function _interopNamespaceDefault(e) {
+  const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
+  if (e) {
+    for (const k in e) {
+      if (k !== "default") {
+        const d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: () => e[k]
+        });
+      }
+    }
+  }
+  n.default = e;
+  return Object.freeze(n);
+}
+const fs__namespace = /* @__PURE__ */ _interopNamespaceDefault(fs);
 electron.app.whenReady().then(() => {
   const icon = electron.nativeImage.createFromPath(
     path.join(
@@ -47,5 +65,75 @@ electron.app.whenReady().then(() => {
   });
   electron.ipcMain.on("closeApp", () => {
     win.close();
+  });
+  electron.ipcMain.on("getAppData", (event) => {
+    console.log(electron.app.getPath("appData"));
+    fs__namespace.mkdirSync(path.join(electron.app.getPath("appData"), "karbonized", "extensions"), {
+      recursive: true
+    });
+    const extensionsPath = path.join(
+      electron.app.getPath("appData"),
+      "karbonized",
+      "extensions"
+    );
+    const extensions = fs__namespace.readdirSync(extensionsPath).filter(
+      (item) => fs__namespace.statSync(`${path.join(extensionsPath, item)}`).isDirectory()
+    );
+    const loadedExtensions = [];
+    extensions.forEach((extension) => {
+      let newExtension = { components: [] };
+      newExtension.info = JSON.parse(
+        fs__namespace.readFileSync(path.join(extensionsPath, extension, "info.json"), "utf-8")
+      );
+      fs__namespace.readdirSync(path.join(extensionsPath, extension, "components")).filter((item) => item.endsWith(".json")).forEach((item) => {
+        let newComponent = {};
+        newComponent.properties = JSON.parse(
+          fs__namespace.readFileSync(
+            path.join(extensionsPath, extension, "components", item),
+            "utf-8"
+          )
+        );
+        if (fs__namespace.existsSync(
+          path.join(
+            extensionsPath,
+            extension,
+            "components",
+            item.split(".")[0] + ".png"
+          )
+        )) {
+          newComponent.image = "data:image/png;base64," + fs__namespace.readFileSync(
+            path.join(
+              extensionsPath,
+              extension,
+              "components",
+              item.split(".")[0] + ".png"
+            ),
+            "base64"
+          );
+        }
+        if (fs__namespace.existsSync(
+          path.join(
+            extensionsPath,
+            extension,
+            "components",
+            item.split(".")[0] + ".jsx"
+          )
+        )) {
+          newComponent.code = fs__namespace.readFileSync(
+            path.join(
+              extensionsPath,
+              extension,
+              "components",
+              item.split(".")[0] + ".jsx"
+            ),
+            "utf-8"
+          );
+        }
+        newExtension.components = [...newExtension.components, newComponent];
+      });
+      loadedExtensions.push(newExtension);
+    });
+    console.log(loadedExtensions);
+    event.reply("extensions_loaded", loadedExtensions);
   });
 });

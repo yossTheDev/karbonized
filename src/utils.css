@@ -25,5 +25,9 @@ img {
 }
 
 p {
-	cursor: default;
+	cursor: pointer;
+}
+
+label {
+	cursor: pointer;
 }

@@ -32,5 +32,9 @@ contextBridge.exposeInMainWorld('electron', {
 		isLinuxOrWindows() {
 			return process.platform === 'darwin' || process.platform === 'linux';
 		},
+
+		getAppData() {
+			console.log(app.getPath('appData'));
+		},
 	},
 });

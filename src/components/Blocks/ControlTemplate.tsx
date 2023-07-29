@@ -986,6 +986,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 						{menu}
 
+						{/* Custom Components Menu */}
+						<div id='custom_menu'></div>
+
 						{/* Delete */}
 						<div
 							onClick={() => {

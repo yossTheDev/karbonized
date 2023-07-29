@@ -6,12 +6,14 @@ import {
 	IconEdit,
 	IconHierarchy,
 	IconHierarchy3,
+	IconPuzzle,
 	IconWallpaper,
 } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { HierarchyPanel } from './HierarchyPanel';
 import { Tooltip } from '../CustomControls/Tooltip';
+import { ExtensionPanel } from './ExtensionsPanel';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -71,6 +73,22 @@ export const LeftPanel: React.FC = () => {
 					</div>
 				</Tooltip>
 
+				{/* Extensions */}
+				<Tooltip message='Extensions'>
+					<div
+						onClick={() => {
+							setWorkspaceMode('custom');
+							setWorkspaceTab('extensions');
+							setShowMenu(true);
+						}}
+						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+							workspaceTab === 'extensions' && showMenu && 'bg-base-100'
+						}`}
+					>
+						<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
+					</div>
+				</Tooltip>
+
 				{/* Show/Close Menu */}
 				<Tooltip message='Show/Close Menu (Ctrl+B)'>
 					<div
@@ -103,6 +121,13 @@ export const LeftPanel: React.FC = () => {
 				{workspaceTab === 'hierarchy' && (
 					<AnimatePresence>
 						{workspaceTab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
+					</AnimatePresence>
+				)}
+
+				{/* Hierarchy */}
+				{workspaceTab === 'extensions' && (
+					<AnimatePresence>
+						{workspaceTab === 'extensions' && <ExtensionPanel></ExtensionPanel>}
 					</AnimatePresence>
 				)}
 			</div>

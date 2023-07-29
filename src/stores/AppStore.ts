@@ -106,8 +106,11 @@ export interface AppStoreModel {
 	/* Tabs */
 	workspaceMode: 'design' | 'edit' | 'zen' | 'custom';
 	setWorkspaceMode: Action<AppStoreModel, 'design' | 'edit' | 'zen' | 'custom'>;
-	selectedTab: 'hierarchy' | 'control' | 'workspace';
-	setSelectedTab: Action<AppStoreModel, 'hierarchy' | 'control' | 'workspace'>;
+	selectedTab: 'hierarchy' | 'control' | 'workspace' | 'extensions';
+	setSelectedTab: Action<
+		AppStoreModel,
+		'hierarchy' | 'control' | 'workspace' | 'extensions'
+	>;
 
 	/* Workspace */
 	workspaceName: string;
