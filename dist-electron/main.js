@@ -81,7 +81,13 @@ electron.app.whenReady().then(() => {
     );
     const loadedExtensions = [];
     extensions.forEach((extension) => {
-      let newExtension = { components: [] };
+      let newExtension = { logo: "", components: [] };
+      if (fs__namespace.existsSync(path.join(extensionsPath, extension, "logo.png"))) {
+        newExtension.logo = "data:image/png;base64," + fs__namespace.readFileSync(
+          path.join(extensionsPath, extension, "logo.png"),
+          "base64"
+        );
+      }
       newExtension.info = JSON.parse(
         fs__namespace.readFileSync(path.join(extensionsPath, extension, "info.json"), "utf-8")
       );

@@ -81,9 +81,19 @@ app.whenReady().then(() => {
 		const loadedExtensions: Extension[] = [];
 
 		extensions.forEach((extension) => {
-			let newExtension: Extension = { components: [] };
+			let newExtension: Extension = { logo: '', components: [] };
 
-			// Get Extension Data
+			/* Get Extension Logo */
+			if (fs.existsSync(join(extensionsPath, extension, 'logo.png'))) {
+				newExtension.logo =
+					'data:image/png;base64,' +
+					fs.readFileSync(
+						join(extensionsPath, extension, 'logo.png'),
+						'base64',
+					);
+			}
+
+			/*  */
 			newExtension.info = JSON.parse(
 				fs.readFileSync(join(extensionsPath, extension, 'info.json'), 'utf-8'),
 			);
@@ -192,6 +202,6 @@ interface Extension {
 		description: string;
 		version: string;
 	};
-
+	logo: string;
 	components: { properties?: {}; code?: string; image?: string }[];
 }

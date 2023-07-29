@@ -1,4 +1,5 @@
 interface Extension {
+	logo: string;
 	info: {
 		name: string;
 		author: string;

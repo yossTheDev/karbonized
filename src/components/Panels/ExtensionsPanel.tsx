@@ -128,9 +128,15 @@ export const ExtensionPanel: React.FC = () => {
 								<CustomCollapse
 									key={item.info.name}
 									menu={
-										<label className='my-auto p-2 hover:cursor-pointer'>
-											{item.info.name}
-										</label>
+										<>
+											<img
+												className='my-auto ml-1 h-8 rounded-xl'
+												src={item.logo}
+											></img>
+											<label className='my-auto p-2 hover:cursor-pointer'>
+												{item.info.name}
+											</label>
+										</>
 									}
 								>
 									<div className='flex h-64 flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
