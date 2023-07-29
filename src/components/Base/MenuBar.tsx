@@ -229,6 +229,7 @@ export const MenuBar: React.FC = () => {
 	return (
 		<>
 			<div className='z-10 mx-2 my-1 flex dark:text-gray-300'>
+				{/* File */}
 				<DropMenu
 					label='File'
 					id='filebar'
@@ -296,6 +297,7 @@ export const MenuBar: React.FC = () => {
 					}
 				></DropMenu>
 
+				{/* Edit */}
 				<DropMenu
 					label='Edit'
 					menu={
@@ -334,26 +336,46 @@ export const MenuBar: React.FC = () => {
 					}
 				></DropMenu>
 
+				{/* View */}
 				<div id='menubar'></div>
 
+				{/* About */}
 				<DropMenu
 					label='About'
 					menu={
 						<>
 							<MenuItem
-								click={() => setShowDonations(true)}
+								click={() => {
+									setShowDonations(true);
+									setShowWizard(false);
+									setShowAbout(false);
+									setShowPreview(false);
+									setShowChangelog(false);
+								}}
 								icon={<IconPigMoney size={16}></IconPigMoney>}
 								label='Donations'
 							></MenuItem>
 
 							<MenuItem
-								click={() => setShowChangelog(true)}
+								click={() => {
+									setShowChangelog(true);
+									setShowDonations(false);
+									setShowWizard(false);
+									setShowAbout(false);
+									setShowPreview(false);
+								}}
 								icon={<IconClock size={16}></IconClock>}
 								label='Changelog'
 							></MenuItem>
 
 							<MenuItem
-								click={() => setShowAbout(true)}
+								click={() => {
+									setShowAbout(true);
+									setShowDonations(false);
+									setShowWizard(false);
+									setShowPreview(false);
+									setShowChangelog(false);
+								}}
 								icon={<IconInfoHexagon size={16}></IconInfoHexagon>}
 								label='About'
 							></MenuItem>

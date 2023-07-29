@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.5.1
+
+* fix: Some Bugs in Save and Load Projects
+
 ## v 1.5.0
 
 * feat: Save and Load Projects
