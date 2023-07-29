@@ -25,10 +25,10 @@ img {
 }
 
 p {
-	cursor: pointer;
+	cursor: default;
 }
 
 label {
-	cursor: pointer;
+	cursor: default;
 	user-select: none;
 }

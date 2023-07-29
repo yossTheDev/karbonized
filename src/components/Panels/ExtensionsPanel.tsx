@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { getRandomNumber } from '../../utils/getRandom';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { IconReload, IconRestore, IconSearch } from '@tabler/icons-react';
+import { Input } from 'react-daisyui';
 
 export const ExtensionPanel: React.FC = () => {
 	/* Component State */
 	const [extension, setExtensions] = useState<Extension[]>([]);
+	const [query, setQuery] = useState('');
+	const [controls, setControls] = useState<any>([]);
 
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
@@ -19,6 +23,26 @@ export const ExtensionPanel: React.FC = () => {
 			currentWorkspace.controls.filter((item) => item.type === type).length + 1
 		);
 	};
+
+	useEffect(() => {
+		if (query !== '') {
+			const all: any[] = [];
+			extension.forEach((ext) => {
+				ext.components.forEach((component) => {
+					all.push(component);
+				});
+			});
+
+			setControls(
+				all.filter(
+					(item) =>
+						(item.properties.name as string)
+							.toUpperCase()
+							.indexOf(query.toUpperCase()) > -1,
+				),
+			);
+		}
+	}, [query]);
 
 	useEffect(() => {
 		(window as any).electron.ipcRenderer.on(
@@ -49,41 +73,91 @@ export const ExtensionPanel: React.FC = () => {
 
 	return (
 		<div className='mt-1 flex flex-auto flex-col overflow-hidden'>
-			<label className='mb-2 ml-3 select-none text-xl font-bold'>
-				Extensions
-			</label>
+			<div className='flex'>
+				<div className='mb-2 flex'>
+					<label className='my-auto ml-3 h-full select-none  text-xl font-bold'>
+						Extensions
+					</label>
+					<label className='poppins-font-family my-auto ml-2 rounded bg-primary p-1 text-xs text-white'>
+						Beta
+					</label>
+				</div>
+
+				<div
+					className='mb-1 ml-auto rounded-xl p-2 hover:cursor-pointer  hover:bg-neutral'
+					onClick={() => {
+						/* Reload Extension and App Data */
+						(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
+					}}
+				>
+					<IconReload className='my-auto h-full' size={16}></IconReload>
+				</div>
+			</div>
+
+			{/* Search */}
+			<div className='flex h-12 shrink-0 flex-row gap-2'>
+				<IconSearch className='my-auto ml-2 h-full' size={18}></IconSearch>
+				<Input
+					className='my-auto mb-2 flex  h-full w-full'
+					onChange={(ev) => setQuery(ev.target.value)}
+					value={query}
+				></Input>
+			</div>
 
 			{extension.length > 0 ? (
-				<div>
-					{extension.map((item) => (
-						<CustomCollapse
-							menu={
-								<label className='my-auto p-2 hover:cursor-pointer'>
-									{item.info.name}
-								</label>
-							}
-						>
-							<div className='flex flex-wrap gap-2'>
-								{item.components.map((control) => (
-									<div
-										onClick={() => {
-											handleAddItem(control.code, control.properties.name);
-										}}
-										className='flex w-20 flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
-									>
-										<img
-											className='mx-auto max-h-12 text-white'
-											src={control.image}
-										></img>
-										<label className='mx-auto mt-2 text-xs  hover:cursor-pointer'>
-											{control.properties?.name}
+				<>
+					{query === '' ? (
+						<div className='mt-2 flex flex-col gap-1 overflow-y-auto'>
+							{extension.map((item) => (
+								<CustomCollapse
+									menu={
+										<label className='my-auto p-2 hover:cursor-pointer'>
+											{item.info.name}
 										</label>
+									}
+								>
+									<div className='flex h-64 flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
+										{item.components.map((control) => (
+											<div
+												onClick={() => {
+													handleAddItem(control.code, control.properties.name);
+												}}
+												className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
+											>
+												<img
+													className='mx-auto my-auto max-h-12 text-white'
+													src={control.image}
+												></img>
+												<label className='mx-auto my-auto mt-2 text-xs  hover:cursor-pointer'>
+													{control.properties?.name}
+												</label>
+											</div>
+										))}
 									</div>
-								))}
-							</div>
-						</CustomCollapse>
-					))}
-				</div>
+								</CustomCollapse>
+							))}
+						</div>
+					) : (
+						<div className='mt-2 flex flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
+							{controls.map((control: any) => (
+								<div
+									onClick={() => {
+										handleAddItem(control.code, control.properties.name);
+									}}
+									className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
+								>
+									<img
+										className='mx-auto my-auto max-h-12 text-white'
+										src={control.image}
+									></img>
+									<label className='mx-auto my-auto mt-2 text-xs  hover:cursor-pointer'>
+										{control.properties?.name}
+									</label>
+								</div>
+							))}
+						</div>
+					)}
+				</>
 			) : (
 				<div className='flex flex-auto'>
 					<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
