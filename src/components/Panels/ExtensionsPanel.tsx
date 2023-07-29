@@ -55,10 +55,10 @@ export const ExtensionPanel: React.FC = () => {
 					setExtensions(extensions);
 				},
 			);
-
-			/* Load Extension and App Data */
-			(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
 		});
+
+		/* Load Extension and App Data */
+		(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
 	}, []);
 
 	const handleAddItem = (code: string, name: string) => {
@@ -129,7 +129,7 @@ export const ExtensionPanel: React.FC = () => {
 												onClick={() => {
 													handleAddItem(control.code, control.properties.name);
 												}}
-												className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
+												className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer hover:bg-neutral'
 											>
 												<img
 													className={`mx-auto my-auto max-h-12 text-white ${
@@ -155,10 +155,13 @@ export const ExtensionPanel: React.FC = () => {
 									onClick={() => {
 										handleAddItem(control.code, control.properties.name);
 									}}
-									className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
+									className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer hover:bg-neutral'
 								>
 									<img
-										className='mx-auto my-auto max-h-12 text-white'
+										className={`mx-auto my-auto max-h-12 text-white ${
+											control.image.startsWith('data:image/svg+xml;base64,') &&
+											'dark:invert'
+										}`}
 										src={control.image}
 									></img>
 									<label className='mx-auto my-auto mt-2 text-xs  hover:cursor-pointer'>
