@@ -307,10 +307,29 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 	deleteWorkspace: action((state, payload) => {
 		if (state.workspaces.length > 1) {
-			state.currentWorkspaceID = '----';
-			state.currentWorkspace = state.workspaces[0];
 			state.currentControlID = '';
-			state.workspaces = state.workspaces.filter((item) => item.id !== payload);
+
+			const newIndex = state.workspaces.findIndex(
+				(item) => item.id === payload,
+			);
+
+			if (newIndex > 0) {
+				state.workspaces = state.workspaces.filter(
+					(item) => item.id !== payload,
+				);
+
+				state.currentWorkspace = state.workspaces[newIndex - 1];
+				state.currentWorkspaceID = state.workspaces[newIndex - 1].id;
+			} else if (newIndex === 0) {
+				state.workspaces = state.workspaces.filter(
+					(item) => item.id !== payload,
+				);
+
+				state.currentWorkspace = state.workspaces[newIndex];
+				state.currentWorkspaceID = state.workspaces[newIndex].id;
+			}
+		} else {
+			alert('You need at least one Workspace');
 		}
 	}),
 

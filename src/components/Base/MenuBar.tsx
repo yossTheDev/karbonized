@@ -197,7 +197,7 @@ export const MenuBar: React.FC = () => {
 						if (project.properties && project.workspace) {
 							loadProject(project);
 						} else {
-							alert('Please Provide a valid Karbonized Project');
+							alert('Please provide a valid Karbonized Project');
 						}
 					} catch (err) {
 						alert('Invalid Project File');

@@ -343,8 +343,6 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Tooltip>
 
-						<p className='mx-1 my-auto h-0.5 rounded bg-base-200/90 p-0.5  backdrop-blur-xl '></p>
-
 						{/* Preview Button */}
 						<Tooltip placement='bottom' message='Render (Ctrl+S)'>
 							<Button className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l '>
