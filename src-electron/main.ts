@@ -19,7 +19,7 @@ app.whenReady().then(() => {
 		minHeight: 600,
 		minWidth: 900,
 		useContentSize: true,
-		//frame: process.platform === 'darwin',
+		frame: process.platform === 'darwin',
 		titleBarStyle: 'hidden',
 
 		webPreferences: {
@@ -152,24 +152,13 @@ app.whenReady().then(() => {
 						);
 					}
 
-					//console.log(newComponent);
-
 					newExtension.components = [...newExtension.components, newComponent];
 				});
-
-			//console.log(newExtension);
-
-			//console.log('component properties');
-			//console.log(newExtension.components[0].properties);
 
 			loadedExtensions.push(newExtension);
 		});
 
-		console.log(loadedExtensions);
-
 		event.reply('extensions_loaded', loadedExtensions);
-
-		//console.log(extensions);
 	});
 });
 

@@ -35,7 +35,7 @@ electron.app.whenReady().then(() => {
     minHeight: 600,
     minWidth: 900,
     useContentSize: true,
-    //frame: process.platform === 'darwin',
+    frame: process.platform === "darwin",
     titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -133,7 +133,6 @@ electron.app.whenReady().then(() => {
       });
       loadedExtensions.push(newExtension);
     });
-    console.log(loadedExtensions);
     event.reply("extensions_loaded", loadedExtensions);
   });
 });

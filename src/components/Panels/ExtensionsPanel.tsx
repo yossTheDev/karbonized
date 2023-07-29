@@ -4,6 +4,7 @@ import { getRandomNumber } from '../../utils/getRandom';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 
 export const ExtensionPanel: React.FC = () => {
+	/* Component State */
 	const [extension, setExtensions] = useState<Extension[]>([]);
 
 	/* App Store */
@@ -24,10 +25,10 @@ export const ExtensionPanel: React.FC = () => {
 			'extensions_loaded',
 			(event: any, extensions: any) => {
 				setExtensions(extensions);
-				console.log(extensions);
 			},
 		);
 
+		/* Load Extension and App Data */
 		(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
 	}, []);
 
