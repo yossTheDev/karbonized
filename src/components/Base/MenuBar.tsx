@@ -347,10 +347,6 @@ export const MenuBar: React.FC = () => {
 							<MenuItem
 								click={() => {
 									setShowDonations(true);
-									setShowWizard(false);
-									setShowAbout(false);
-									setShowPreview(false);
-									setShowChangelog(false);
 								}}
 								icon={<IconPigMoney size={16}></IconPigMoney>}
 								label='Donations'
@@ -359,10 +355,6 @@ export const MenuBar: React.FC = () => {
 							<MenuItem
 								click={() => {
 									setShowChangelog(true);
-									setShowDonations(false);
-									setShowWizard(false);
-									setShowAbout(false);
-									setShowPreview(false);
 								}}
 								icon={<IconClock size={16}></IconClock>}
 								label='Changelog'
@@ -371,10 +363,6 @@ export const MenuBar: React.FC = () => {
 							<MenuItem
 								click={() => {
 									setShowAbout(true);
-									setShowDonations(false);
-									setShowWizard(false);
-									setShowPreview(false);
-									setShowChangelog(false);
 								}}
 								icon={<IconInfoHexagon size={16}></IconInfoHexagon>}
 								label='About'
