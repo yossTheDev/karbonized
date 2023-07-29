@@ -2,6 +2,7 @@
 
 ## v 1.6.0
 
+fix: Wait for load plugins
 feat: Add Plugin System (Beta)
 
 ## v 1.5.1
