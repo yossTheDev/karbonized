@@ -24,6 +24,9 @@ electron.app.whenReady().then(() => {
       sandbox: false
     }
   });
+  if (!process.env.VITE_DEV_SERVER_URL) {
+    electron.app.applicationMenu = new electron.Menu();
+  }
   win.maximize();
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);

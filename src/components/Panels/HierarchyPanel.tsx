@@ -4,6 +4,7 @@ import { MenuItem } from './MenuItem';
 
 export const HierarchyPanel = () => {
 	/* App Store */
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const visibleControls = useStoreState((state) => state.visibleControls);
 	const setWorkspaceControls = useStoreActions(
 		(state) => state.setWorkspaceControls,
@@ -22,7 +23,7 @@ export const HierarchyPanel = () => {
 						lockVertically
 						onChange={({ oldIndex, newIndex }) =>
 							setWorkspaceControls(
-								arrayMove(visibleControls, oldIndex, newIndex),
+								arrayMove(currentWorkspace.controls, oldIndex, newIndex),
 							)
 						}
 						renderList={({ children, props }) => (

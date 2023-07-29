@@ -150,11 +150,18 @@ export const AppStore = createStore<AppStoreModel>({
 	/* Project System */
 	saveProject: computed((state) => {
 		return {
-			controls: state.currentWorkspace.controls,
+			controls: state.currentWorkspace.controls.filter(
+				(item) => !item.isDeleted,
+			),
 			properties: state.ControlProperties.filter(
 				(item) => item.workspace === state.currentWorkspaceID,
 			),
-			workspace: state.currentWorkspace,
+			workspace: {
+				...state.currentWorkspace,
+				controls: state.currentWorkspace.controls.filter(
+					(item) => !item.isDeleted,
+				),
+			},
 		} as Project;
 	}),
 
@@ -169,42 +176,61 @@ export const AppStore = createStore<AppStoreModel>({
 		const props: { id: string; value: any; workspace: string }[] = [];
 		const controls: any[] = [];
 
-		project.properties.forEach((item) => {
-			if (lastProp !== item.id.split('-')[0] + '-' + item.id.split('-')[1]) {
-				newID = getRandomNumber();
-				props.push({
-					id: item.id.replace(
-						item.id,
-						item.id.split('-')[0] + '-' + newID + '-' + item.id.split('-')[2],
-					),
-					value: item.value,
-					workspace: wId.toString(),
+		project.workspace.controls.forEach((item) => {
+			project.properties
+				.filter((items) => items.id.startsWith(item.id))
+				.forEach((prop) => {
+					if (
+						lastProp !==
+						item.id.split('-')[0] + '-' + item.id.split('-')[1]
+					) {
+						newID = getRandomNumber();
+						props.push({
+							id: prop.id.replace(
+								prop.id,
+								prop.id.split('-')[0] +
+									'-' +
+									newID +
+									'-' +
+									prop.id.split('-')[2],
+							),
+							value: prop.value,
+							workspace: wId.toString(),
+						});
+
+						lastProp = prop.id.split('-')[0] + '-' + prop.id.split('-')[1];
+
+						const newItem = project.workspace.controls.find(
+							(control) =>
+								control.id ===
+								prop.id.split('-')[0] + '-' + prop.id.split('-')[1],
+						);
+
+						if (newItem) {
+							controls.push({
+								...newItem,
+								id: prop.id.split('-')[0] + '-' + newID,
+							});
+						}
+
+						console.log('item');
+					} else {
+						props.push({
+							id: prop.id.replace(
+								prop.id,
+								prop.id.split('-')[0] +
+									'-' +
+									newID +
+									'-' +
+									prop.id.split('-')[2],
+							),
+							value: prop.value,
+							workspace: wId.toString(),
+						});
+
+						lastProp = prop.id.split('-')[0] + '-' + prop.id.split('-')[1];
+					}
 				});
-
-				lastProp = item.id.split('-')[0] + '-' + item.id.split('-')[1];
-
-				controls.push({
-					...project.workspace.controls.find(
-						(control) =>
-							control.id ===
-							item.id.split('-')[0] + '-' + item.id.split('-')[1],
-					),
-					id: item.id.split('-')[0] + '-' + newID,
-				});
-
-				console.log('item');
-			} else {
-				props.push({
-					id: item.id.replace(
-						item.id,
-						item.id.split('-')[0] + '-' + newID + '-' + item.id.split('-')[2],
-					),
-					value: item.value,
-					workspace: wId.toString(),
-				});
-
-				lastProp = item.id.split('-')[0] + '-' + item.id.split('-')[1];
-			}
 		});
 
 		const copy = {
@@ -283,6 +309,7 @@ export const AppStore = createStore<AppStoreModel>({
 		if (state.workspaces.length > 1) {
 			state.currentWorkspaceID = '----';
 			state.currentWorkspace = state.workspaces[0];
+			state.currentControlID = '';
 			state.workspaces = state.workspaces.filter((item) => item.id !== payload);
 		}
 	}),
@@ -580,6 +607,9 @@ export const AppStore = createStore<AppStoreModel>({
 	cleanWorkspace: action((state, payload) => {
 		state.currentControlID = '';
 		state.ControlProperties = [];
+		state.ControlProperties = state.ControlProperties.filter(
+			(item) => item.workspace !== state.currentWorkspaceID,
+		);
 
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID ? { ...item, controls: [] } : item,

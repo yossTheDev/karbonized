@@ -27,6 +27,7 @@ import { getRandomNumber } from '../../utils/getRandom';
 import { ChangelogModal } from '../Modals/ChangelogModal';
 import { DonationsModal } from '../Modals/DonationsModal';
 import FileSaver from 'file-saver';
+import CryptoJS from 'crypto-js';
 import { Project } from '../../stores/AppStore';
 
 export const MenuBar: React.FC = () => {
@@ -183,16 +184,23 @@ export const MenuBar: React.FC = () => {
 		event.preventDefault();
 
 		if (event.target.files && event.target.files.length > 0) {
-			if ((event.target.files[0].name as string).endsWith('.json')) {
+			if ((event.target.files[0].name as string).endsWith('.kproject')) {
 				const reader = new FileReader();
 				reader.addEventListener('load', () => {
-					let text = reader.result as string;
-					const project = JSON.parse(text) as Project;
+					try {
+						let text = CryptoJS.AES.decrypt(
+							reader.result as string,
+							'sdfkf8524ß325-5235$74363/535&',
+						).toString(CryptoJS.enc.Utf8);
+						const project = JSON.parse(text) as Project;
 
-					if (project.properties && project.workspace) {
-						loadProject(project);
-					} else {
-						alert('Please Provide a valid Karbonized Project');
+						if (project.properties && project.workspace) {
+							loadProject(project);
+						} else {
+							alert('Please Provide a valid Karbonized Project');
+						}
+					} catch (err) {
+						alert('Invalid Project File');
 					}
 				});
 				reader.readAsText(event.target?.files[0]);
@@ -203,11 +211,19 @@ export const MenuBar: React.FC = () => {
 	};
 
 	const handleSaveProject = () => {
-		var blob = new Blob([JSON.stringify(saveProject)], {
-			type: 'text/plain;charset=utf-8',
-		});
+		var blob = new Blob(
+			[
+				CryptoJS.AES.encrypt(
+					JSON.stringify(saveProject),
+					'sdfkf8524ß325-5235$74363/535&',
+				).toString(),
+			],
+			{
+				type: 'text/plain;charset=utf-8',
+			},
+		);
 
-		FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.json');
+		FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.kproject');
 	};
 
 	return (
@@ -237,7 +253,7 @@ export const MenuBar: React.FC = () => {
 
 							<input
 								className='hidden'
-								accept='.json'
+								accept='.kproject'
 								onInput={handleLoadProject}
 								type='file'
 								id='file-input'

@@ -27,6 +27,10 @@ app.whenReady().then(() => {
 		},
 	});
 
+	if (!process.env.VITE_DEV_SERVER_URL) {
+		app.applicationMenu = new Menu();
+	}
+
 	win.maximize();
 
 	// You can use `process.env.VITE_DEV_SERVER_URL` when the vite command is called `serve`
