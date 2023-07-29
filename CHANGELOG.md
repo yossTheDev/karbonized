@@ -3,6 +3,7 @@
 ## v 1.5.1
 
 * fix: Some Bugs in Save and Load Projects
+* fix: Prevent For Open Multiple Modals at Time
 
 ## v 1.5.0
 
