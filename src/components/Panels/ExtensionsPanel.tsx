@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { getRandomNumber } from '../../utils/getRandom';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { IconReload, IconRestore, IconSearch } from '@tabler/icons-react';
+import { IconReload, IconSearch } from '@tabler/icons-react';
 import { Input } from 'react-daisyui';
 
 export const ExtensionPanel: React.FC = () => {
@@ -10,6 +10,7 @@ export const ExtensionPanel: React.FC = () => {
 	const [extension, setExtensions] = useState<Extension[]>([]);
 	const [query, setQuery] = useState('');
 	const [controls, setControls] = useState<any>([]);
+	const [isPending, startTransition] = useTransition();
 
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
@@ -25,35 +26,39 @@ export const ExtensionPanel: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (query !== '') {
-			const all: any[] = [];
-			extension.forEach((ext) => {
-				ext.components.forEach((component) => {
-					all.push(component);
+		startTransition(() => {
+			if (query !== '') {
+				const all: any[] = [];
+				extension.forEach((ext) => {
+					ext.components.forEach((component) => {
+						all.push(component);
+					});
 				});
-			});
 
-			setControls(
-				all.filter(
-					(item) =>
-						(item.properties.name as string)
-							.toUpperCase()
-							.indexOf(query.toUpperCase()) > -1,
-				),
-			);
-		}
+				setControls(
+					all.filter(
+						(item) =>
+							(item.properties.name as string)
+								.toUpperCase()
+								.indexOf(query.toUpperCase()) > -1,
+					),
+				);
+			}
+		});
 	}, [query]);
 
 	useEffect(() => {
-		(window as any).electron.ipcRenderer.on(
-			'extensions_loaded',
-			(event: any, extensions: any) => {
-				setExtensions(extensions);
-			},
-		);
+		startTransition(() => {
+			(window as any).electron.ipcRenderer.on(
+				'extensions_loaded',
+				(event: any, extensions: any) => {
+					setExtensions(extensions);
+				},
+			);
 
-		/* Load Extension and App Data */
-		(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
+			/* Load Extension and App Data */
+			(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
+		});
 	}, []);
 
 	const handleAddItem = (code: string, name: string) => {
@@ -110,6 +115,7 @@ export const ExtensionPanel: React.FC = () => {
 						<div className='mt-2 flex flex-col gap-1 overflow-y-auto'>
 							{extension.map((item) => (
 								<CustomCollapse
+									key={item.info.name}
 									menu={
 										<label className='my-auto p-2 hover:cursor-pointer'>
 											{item.info.name}
@@ -119,13 +125,18 @@ export const ExtensionPanel: React.FC = () => {
 									<div className='flex h-64 flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
 										{item.components.map((control) => (
 											<div
+												key={control.properties.name}
 												onClick={() => {
 													handleAddItem(control.code, control.properties.name);
 												}}
 												className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
 											>
 												<img
-													className='mx-auto my-auto max-h-12 text-white'
+													className={`mx-auto my-auto max-h-12 text-white ${
+														control.image.startsWith(
+															'data:image/svg+xml;base64,',
+														) && 'dark:invert'
+													}`}
 													src={control.image}
 												></img>
 												<label className='mx-auto my-auto mt-2 text-xs  hover:cursor-pointer'>
