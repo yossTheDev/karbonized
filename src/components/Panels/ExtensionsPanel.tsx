@@ -49,7 +49,11 @@ export const ExtensionPanel: React.FC = () => {
 
 	return (
 		<div className='mt-1 flex flex-auto flex-col overflow-hidden'>
-			{extension.length > 0 && (
+			<label className='mb-2 ml-3 select-none text-xl font-bold'>
+				Extensions
+			</label>
+
+			{extension.length > 0 ? (
 				<div>
 					{extension.map((item) => (
 						<CustomCollapse
@@ -67,7 +71,10 @@ export const ExtensionPanel: React.FC = () => {
 										}}
 										className='flex w-20 flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer'
 									>
-										<img className='mx-auto max-h-12' src={control.image}></img>
+										<img
+											className='mx-auto max-h-12 text-white'
+											src={control.image}
+										></img>
 										<label className='mx-auto mt-2 text-xs  hover:cursor-pointer'>
 											{control.properties?.name}
 										</label>
@@ -76,6 +83,12 @@ export const ExtensionPanel: React.FC = () => {
 							</div>
 						</CustomCollapse>
 					))}
+				</div>
+			) : (
+				<div className='flex flex-auto'>
+					<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
+						No extensions installed
+					</p>
 				</div>
 			)}
 		</div>

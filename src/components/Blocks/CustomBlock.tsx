@@ -28,7 +28,10 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 				maxHeight={'2000px'}
 				id={id}
 			>
-				<LivePreview id={id}></LivePreview>
+				<LivePreview
+					className='flex max-h-full w-full max-w-full flex-auto select-none flex-col fill-white text-white'
+					id={id}
+				></LivePreview>
 			</ControlTemplate>
 		</LiveProvider>
 	);

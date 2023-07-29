@@ -14,6 +14,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { HierarchyPanel } from './HierarchyPanel';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { ExtensionPanel } from './ExtensionsPanel';
+import { isElectron } from '../../utils/isElectron';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -74,20 +75,22 @@ export const LeftPanel: React.FC = () => {
 				</Tooltip>
 
 				{/* Extensions */}
-				<Tooltip message='Extensions'>
-					<div
-						onClick={() => {
-							setWorkspaceMode('custom');
-							setWorkspaceTab('extensions');
-							setShowMenu(true);
-						}}
-						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-							workspaceTab === 'extensions' && showMenu && 'bg-base-100'
-						}`}
-					>
-						<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
-					</div>
-				</Tooltip>
+				{isElectron() && (
+					<Tooltip message='Extensions'>
+						<div
+							onClick={() => {
+								setWorkspaceMode('custom');
+								setWorkspaceTab('extensions');
+								setShowMenu(true);
+							}}
+							className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+								workspaceTab === 'extensions' && showMenu && 'bg-base-100'
+							}`}
+						>
+							<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
+						</div>
+					</Tooltip>
+				)}
 
 				{/* Show/Close Menu */}
 				<Tooltip message='Show/Close Menu (Ctrl+B)'>
@@ -124,8 +127,8 @@ export const LeftPanel: React.FC = () => {
 					</AnimatePresence>
 				)}
 
-				{/* Hierarchy */}
-				{workspaceTab === 'extensions' && (
+				{/* Extensions */}
+				{workspaceTab === 'extensions' && isElectron() && (
 					<AnimatePresence>
 						{workspaceTab === 'extensions' && <ExtensionPanel></ExtensionPanel>}
 					</AnimatePresence>

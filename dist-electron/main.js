@@ -116,6 +116,24 @@ electron.app.whenReady().then(() => {
             extensionsPath,
             extension,
             "components",
+            item.split(".")[0] + ".svg"
+          )
+        )) {
+          newComponent.image = "data:image/svg+xml;base64," + fs__namespace.readFileSync(
+            path.join(
+              extensionsPath,
+              extension,
+              "components",
+              item.split(".")[0] + ".svg"
+            ),
+            "base64"
+          );
+        }
+        if (fs__namespace.existsSync(
+          path.join(
+            extensionsPath,
+            extension,
+            "components",
             item.split(".")[0] + ".jsx"
           )
         )) {

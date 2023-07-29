@@ -766,8 +766,8 @@ export const Editor: React.FC = () => {
 									</Button>
 								</Tooltip>
 
-								{/* Phone Mockup Control */}
-								<Tooltip className='flex flex-auto ' message='Custom'>
+								{/* Custom Control */}
+								<Tooltip className='hidden flex-auto ' message='Custom'>
 									<Button
 										className='flex flex-auto rounded-2xl p-1'
 										color='ghost'

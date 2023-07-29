@@ -137,6 +137,29 @@ app.whenReady().then(() => {
 								extensionsPath,
 								extension,
 								'components',
+								item.split('.')[0] + '.svg',
+							),
+						)
+					) {
+						newComponent.image =
+							'data:image/svg+xml;base64,' +
+							fs.readFileSync(
+								join(
+									extensionsPath,
+									extension,
+									'components',
+									item.split('.')[0] + '.svg',
+								),
+								'base64',
+							);
+					}
+
+					if (
+						fs.existsSync(
+							join(
+								extensionsPath,
+								extension,
+								'components',
 								item.split('.')[0] + '.jsx',
 							),
 						)
