@@ -19,6 +19,7 @@
 * ✈️ Works Offline as a **PWA**
 * 😍 Without Registration
 * 🤩 Without Limits
+* 🔌 Pluggable
 * 😎 Made with ReactJS
 
 ## 🌐 Run as Web App
@@ -28,6 +29,10 @@ To start a development server run the following command:
 ``` bash
 yarn dev
 ```
+
+## 🔌 Installing Plugins
+
+See [plugins](/docs/plugin_system.md)
 
 ## 🏗 Building
 
