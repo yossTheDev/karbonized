@@ -36,6 +36,7 @@ export const HierarchyPanel = () => {
 						)}
 						renderItem={({ value, props, isDragged }) => (
 							<MenuItem
+								key={value.id}
 								props={props}
 								isDragged={isDragged}
 								{...value}

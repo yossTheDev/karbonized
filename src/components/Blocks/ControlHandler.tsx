@@ -5,7 +5,7 @@ import TweetBlock from './TweetBlock';
 
 const CodeControl = React.lazy(() => import('./CodeBlock'));
 const FaIconBlock = React.lazy(() => import('./FaIconBlock'));
-
+const CustomBlock = React.lazy(() => import('./CustomBlock'));
 const TextControl = React.lazy(() => import('./TextBlock'));
 const QrControl = React.lazy(() => import('./QrBlock'));
 const PhoneBlock = React.lazy(() => import('./PhoneBlock'));
@@ -111,6 +111,14 @@ export const ControlHandler: React.FC<Props> = ({ type, id, isVisible }) => {
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<div className={`${!isVisible && 'hidden'}`}>
 						<BadgeBlock id={id}></BadgeBlock>
+					</div>
+				</Suspense>
+			);
+		case 'custom':
+			return (
+				<Suspense fallback={<BlockLoader></BlockLoader>}>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<CustomBlock id={id}></CustomBlock>
 					</div>
 				</Suspense>
 			);

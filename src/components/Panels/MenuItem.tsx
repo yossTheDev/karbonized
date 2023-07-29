@@ -9,6 +9,7 @@ import {
 	IconEyeClosed,
 	IconLetterT,
 	IconPhoto,
+	IconPuzzle,
 	IconQrcode,
 	IconSticker,
 } from '@tabler/icons-react';
@@ -45,11 +46,11 @@ export const MenuItem: React.FC<Item> = ({
 	);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
-	useEffect(() => {
+	/*useEffect(() => {
 		if (controlID === id && !isVisible) {
 			setCurrentControlID('');
 		}
-	}, [ControlsTree]);
+	}, [ControlsTree]);*/
 
 	return (
 		<>
@@ -134,6 +135,9 @@ export const MenuIcon: React.FC<{ type: string }> = ({ type }) => {
 			return (
 				<div className='my-auto h-2  w-4 rounded-full border-2 border-black dark:border-gray-400'></div>
 			);
+
+		case 'custom':
+			return <IconPuzzle className='my-auto' size={18}></IconPuzzle>;
 		default:
 			return <></>;
 	}

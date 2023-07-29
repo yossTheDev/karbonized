@@ -15,6 +15,7 @@ import {
 	IconMoon,
 	IconPhoto,
 	IconPointer,
+	IconPuzzle,
 	IconQrcode,
 	IconSticker,
 	IconSun,
@@ -762,6 +763,29 @@ export const Editor: React.FC = () => {
 											size={18}
 											className='dark:text-white'
 										></IconDeviceMobile>
+									</Button>
+								</Tooltip>
+
+								{/* Phone Mockup Control */}
+								<Tooltip className='flex flex-auto ' message='Custom'>
+									<Button
+										className='flex flex-auto rounded-2xl p-1'
+										color='ghost'
+										onClick={() =>
+											addControl({
+												type: 'custom',
+												id: `custom-${getRandomNumber()}`,
+												isSelectable: true,
+												isDeleted: false,
+												name: `custom ${getElementsByType('custom')}`,
+												isVisible: true,
+											})
+										}
+									>
+										<IconPuzzle
+											size={18}
+											className='dark:text-white'
+										></IconPuzzle>
 									</Button>
 								</Tooltip>
 							</div>

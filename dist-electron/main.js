@@ -17,7 +17,7 @@ electron.app.whenReady().then(() => {
     minHeight: 600,
     minWidth: 900,
     useContentSize: true,
-    frame: process.platform === "darwin",
+    //frame: process.platform === 'darwin',
     titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
