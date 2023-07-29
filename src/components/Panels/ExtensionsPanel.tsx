@@ -2,8 +2,10 @@ import React, { useEffect, useState, useTransition } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { getRandomNumber } from '../../utils/getRandom';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { IconReload, IconSearch } from '@tabler/icons-react';
+import { IconCircleDashed, IconReload, IconSearch } from '@tabler/icons-react';
 import { Input } from 'react-daisyui';
+import { FixedSizeList } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 export const ExtensionPanel: React.FC = () => {
 	/* Component State */
@@ -11,6 +13,7 @@ export const ExtensionPanel: React.FC = () => {
 	const [query, setQuery] = useState('');
 	const [controls, setControls] = useState<any>([]);
 	const [isPending, startTransition] = useTransition();
+	const [loading, setLoading] = useState(false);
 
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
@@ -26,25 +29,23 @@ export const ExtensionPanel: React.FC = () => {
 	};
 
 	useEffect(() => {
-		startTransition(() => {
-			if (query !== '') {
-				const all: any[] = [];
-				extension.forEach((ext) => {
-					ext.components.forEach((component) => {
-						all.push(component);
-					});
+		if (query !== '') {
+			const all: any[] = [];
+			extension.forEach((ext) => {
+				ext.components.forEach((component) => {
+					all.push(component);
 				});
+			});
 
-				setControls(
-					all.filter(
-						(item) =>
-							(item.properties.name as string)
-								.toUpperCase()
-								.indexOf(query.toUpperCase()) > -1,
-					),
-				);
-			}
-		});
+			setControls(
+				all.filter(
+					(item) =>
+						(item.properties.name as string)
+							.toUpperCase()
+							.indexOf(query.toUpperCase()) > -1,
+				),
+			);
+		}
 	}, [query]);
 
 	useEffect(() => {
@@ -53,6 +54,13 @@ export const ExtensionPanel: React.FC = () => {
 				'extensions_loaded',
 				(event: any, extensions: any) => {
 					setExtensions(extensions);
+				},
+			);
+
+			(window as any).electron.ipcRenderer.on(
+				'loading_extensions',
+				(event: any, state: any) => {
+					setLoading(state);
 				},
 			);
 		});
@@ -120,82 +128,123 @@ export const ExtensionPanel: React.FC = () => {
 				></Input>
 			</div>
 
-			{extension.length > 0 ? (
+			{loading ? (
+				<div className=' my-auto  dark:text-gray-300'>
+					<IconCircleDashed
+						size={56}
+						className='mx-auto my-auto animate-spin text-gray-600'
+					></IconCircleDashed>
+				</div>
+			) : (
 				<>
-					{query === '' ? (
-						<div className='mt-2 flex flex-col gap-1 overflow-y-auto'>
-							{extension.map((item) => (
-								<CustomCollapse
-									key={item.info.name}
-									menu={
-										<>
-											<img
-												className='my-auto ml-1 h-8 rounded-xl'
-												src={item.logo}
-											></img>
-											<label className='my-auto p-2 hover:cursor-pointer'>
-												{item.info.name}
-											</label>
-										</>
-									}
-								>
-									<div className='flex h-64 flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
-										{item.components.map((control) => (
-											<div
-												key={control.properties.name}
-												onClick={() => {
-													handleAddItem(control.code, control.properties.name);
-												}}
-												className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer hover:bg-neutral'
-											>
-												<img
-													className={`mx-auto my-auto max-h-12 text-white ${
-														control.image.startsWith(
-															'data:image/svg+xml;base64,',
-														) && 'dark:invert'
-													}`}
-													src={control.image}
-												></img>
-												<label className='mx-auto my-auto mt-2 text-xs  hover:cursor-pointer'>
-													{control.properties?.name}
-												</label>
+					{extension.length > 0 ? (
+						<>
+							{query === '' ? (
+								<div className='mt-2 flex flex-col gap-1 overflow-y-auto'>
+									{extension.map((item) => (
+										<CustomCollapse
+											key={item.info.name}
+											menu={
+												<>
+													<img
+														className='my-auto ml-1 h-8 rounded-xl'
+														src={item.logo}
+													></img>
+													<label className='my-auto p-2 hover:cursor-pointer'>
+														{item.info.name}
+													</label>
+												</>
+											}
+										>
+											<div className='flex h-64 flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
+												<ItemsList data={item.components}></ItemsList>
 											</div>
-										))}
-									</div>
-								</CustomCollapse>
-							))}
-						</div>
-					) : (
-						<div className='mt-2 flex flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
-							{controls.map((control: any) => (
-								<div
-									onClick={() => {
-										handleAddItem(control.code, control.properties.name);
-									}}
-									className='flex w-20 flex-auto flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer hover:bg-neutral'
-								>
-									<img
-										className={`mx-auto my-auto max-h-12 text-white ${
-											control.image.startsWith('data:image/svg+xml;base64,') &&
-											'dark:invert'
-										}`}
-										src={control.image}
-									></img>
-									<label className='mx-auto my-auto mt-2 text-xs  hover:cursor-pointer'>
-										{control.properties?.name}
-									</label>
+										</CustomCollapse>
+									))}
 								</div>
-							))}
+							) : (
+								<div className='mt-2 flex h-full flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
+									<div className='flex h-full w-full flex-col flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
+										<ItemsList data={controls}></ItemsList>
+									</div>
+								</div>
+							)}
+						</>
+					) : (
+						<div className='flex flex-auto'>
+							<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
+								No extensions installed
+							</p>
 						</div>
 					)}
 				</>
-			) : (
-				<div className='flex flex-auto'>
-					<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
-						No extensions installed
-					</p>
-				</div>
 			)}
 		</div>
+	);
+};
+
+const ItemsList = ({ data }: { data: any }) => {
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const addControl = useStoreActions((state) => state.addControl);
+	const addInitialProperty = useStoreActions(
+		(state) => state.addInitialProperty,
+	);
+	const getElementsByType = (type: string) => {
+		return (
+			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+		);
+	};
+
+	const handleAddItem = (code: string, name: string) => {
+		const num = getRandomNumber();
+
+		addInitialProperty({ id: `${name}-${num}-code`, value: code });
+
+		addControl({
+			type: 'custom',
+			id: `${name}-${num}`,
+			isSelectable: true,
+			isDeleted: false,
+			name: `${name} ${getElementsByType(name)}`,
+			isVisible: true,
+		});
+	};
+	const Row = ({ index, style }: { index: number; style: any }) => {
+		return (
+			<div
+				onClick={() => {
+					handleAddItem(data[index].code, data[index].properties.name);
+				}}
+				style={{ ...style, height: style.height - 5, top: style.top + 5 }}
+				className='flex-r my-2 flex flex-auto rounded-xl bg-base-100  hover:cursor-pointer hover:bg-neutral'
+			>
+				<img
+					className={`mx-auto my-auto mr-auto max-h-12 text-white ${
+						data[index].image.startsWith('data:image/svg+xml;base64,') &&
+						'dark:invert'
+					}`}
+					src={data[index].image}
+				></img>
+				<label className='mx-auto my-auto text-xs  hover:cursor-pointer'>
+					{data[index].properties?.name}
+				</label>
+			</div>
+		);
+	};
+
+	return (
+		<AutoSizer>
+			{({ height, width }) => (
+				<FixedSizeList
+					height={height}
+					width={width}
+					className='flex gap-2'
+					itemCount={data.length}
+					itemSize={55}
+				>
+					{Row}
+				</FixedSizeList>
+			)}
+		</AutoSizer>
 	);
 };

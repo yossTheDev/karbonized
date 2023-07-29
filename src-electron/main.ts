@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeImage } from 'electron';
 import { join } from 'path';
-import * as fs from 'fs';
+
+import * as fs from 'node:fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 
 app.whenReady().then(() => {
 	const icon = nativeImage.createFromPath(
@@ -61,49 +63,54 @@ app.whenReady().then(() => {
 	});
 
 	ipcMain.on('getAppData', (event) => {
-		console.log(app.getPath('appData'));
-		fs.mkdirSync(join(app.getPath('appData'), 'karbonized', 'extensions'), {
-			recursive: true,
-		});
+		const loadExtensions = async () => {
+			/* Create Extensions Folder */
+			mkdirSync(join(app.getPath('appData'), 'karbonized', 'extensions'), {
+				recursive: true,
+			});
 
-		const extensionsPath = join(
-			app.getPath('appData'),
-			'karbonized',
-			'extensions',
-		);
+			event.reply('loading_extensions', true);
 
-		const extensions = fs
-			.readdirSync(extensionsPath)
-			.filter((item) =>
-				fs.statSync(`${join(extensionsPath, item)}`).isDirectory(),
+			const extensionsPath = join(
+				app.getPath('appData'),
+				'karbonized',
+				'extensions',
 			);
 
-		const loadedExtensions: Extension[] = [];
-
-		extensions.forEach((extension) => {
-			let newExtension: Extension = { logo: '', components: [] };
-
-			/* Get Extension Logo */
-			if (fs.existsSync(join(extensionsPath, extension, 'logo.png'))) {
-				newExtension.logo =
-					'data:image/png;base64,' +
-					fs.readFileSync(
-						join(extensionsPath, extension, 'logo.png'),
-						'base64',
-					);
-			}
-
-			/*  */
-			newExtension.info = JSON.parse(
-				fs.readFileSync(join(extensionsPath, extension, 'info.json'), 'utf-8'),
+			const extensions = (await fs.readdir(extensionsPath)).filter(
+				async (item) =>
+					(await fs.stat(`${join(extensionsPath, item)}`)).isDirectory(),
 			);
 
-			/* Get Extension Components */
-			let lastFile = '';
+			const loadedExtensions: Extension[] = [];
 
-			fs.readdirSync(join(extensionsPath, extension, 'components'))
-				.filter((item) => item.endsWith('.json'))
-				.forEach((item) => {
+			for (const extension of extensions) {
+				let newExtension: Extension = { logo: '', components: [] };
+
+				/* Get Extension Logo */
+				if (existsSync(join(extensionsPath, extension, 'logo.png'))) {
+					newExtension.logo =
+						'data:image/png;base64,' +
+						(await fs.readFile(
+							join(extensionsPath, extension, 'logo.png'),
+							'base64',
+						));
+				}
+
+				/* Load Extension Info */
+				newExtension.info = JSON.parse(
+					await fs.readFile(
+						join(extensionsPath, extension, 'info.json'),
+						'utf-8',
+					),
+				);
+
+				/* Get All Components */
+				const components = (
+					await fs.readdir(join(extensionsPath, extension, 'components'))
+				).filter((item) => item.endsWith('.json'));
+
+				for (const item of components) {
 					let newComponent: {
 						properties?: {};
 						code?: string;
@@ -112,14 +119,14 @@ app.whenReady().then(() => {
 
 					/* Get Component Properties */
 					newComponent.properties = JSON.parse(
-						fs.readFileSync(
+						await fs.readFile(
 							join(extensionsPath, extension, 'components', item),
 							'utf-8',
 						),
 					);
 
 					if (
-						fs.existsSync(
+						existsSync(
 							join(
 								extensionsPath,
 								extension,
@@ -130,7 +137,7 @@ app.whenReady().then(() => {
 					) {
 						newComponent.image =
 							'data:image/png;base64,' +
-							fs.readFileSync(
+							(await fs.readFile(
 								join(
 									extensionsPath,
 									extension,
@@ -138,11 +145,11 @@ app.whenReady().then(() => {
 									item.split('.')[0] + '.png',
 								),
 								'base64',
-							);
+							));
 					}
 
 					if (
-						fs.existsSync(
+						existsSync(
 							join(
 								extensionsPath,
 								extension,
@@ -153,7 +160,7 @@ app.whenReady().then(() => {
 					) {
 						newComponent.image =
 							'data:image/svg+xml;base64,' +
-							fs.readFileSync(
+							(await fs.readFile(
 								join(
 									extensionsPath,
 									extension,
@@ -161,11 +168,11 @@ app.whenReady().then(() => {
 									item.split('.')[0] + '.svg',
 								),
 								'base64',
-							);
+							));
 					}
 
 					if (
-						fs.existsSync(
+						existsSync(
 							join(
 								extensionsPath,
 								extension,
@@ -174,7 +181,7 @@ app.whenReady().then(() => {
 							),
 						)
 					) {
-						newComponent.code = fs.readFileSync(
+						newComponent.code = await fs.readFile(
 							join(
 								extensionsPath,
 								extension,
@@ -185,13 +192,18 @@ app.whenReady().then(() => {
 						);
 					}
 
-					newExtension.components = [...newExtension.components, newComponent];
-				});
+					newExtension.components.push(newComponent);
 
-			loadedExtensions.push(newExtension);
-		});
+					//console.log(newComponent);
+				}
 
-		event.reply('extensions_loaded', loadedExtensions);
+				loadedExtensions.push(newExtension);
+			}
+			event.reply('extensions_loaded', loadedExtensions);
+			event.reply('loading_extensions', false);
+		};
+
+		loadExtensions();
 	});
 });
 

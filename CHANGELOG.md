@@ -1,9 +1,14 @@
 # Changelog
 
+## v 1.6.1
+
+* Load Extensions Async
+
 ## v 1.6.0
 
 fix: Wait for load plugins
 feat: Add Plugin System (Beta)
+feat: Logo Property for Extensions
 
 ## v 1.5.1
 
