@@ -3,6 +3,7 @@
 ## 1.6.2
 
 * improve: Loading extensions time
+* improve: Extensions Progressive Loading
 * fix: Can not Duplicate Custom Controls
 * fix: Wrong Position of Control Editor on hidden items
 
