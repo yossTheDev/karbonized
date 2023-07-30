@@ -3,7 +3,7 @@ name: Build/Release Electron app
 on:
   push:
     tags:
-      - 'v*'
+      - 't*'
 
 jobs:
   release:

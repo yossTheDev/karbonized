@@ -3,7 +3,7 @@ name: Build/release Electron app
 on:
   push:
     tags:
-      - 't*'
+      - 'v*'
 
 jobs:
   release:
@@ -45,27 +45,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: matrix.os == 'windows-latest'
         run: npm run build:win
-
-      - name: Get tag name
-        run: echo ::set-output name=tag_name::$(basename ${{ github.ref }})
-        id: tag
-
-      - name: release
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: true
-          files: |
-            release/${{steps.tag.outputs.tag_name}}/*.exe 
-            release/${{steps.tag.outputs.tag_name}}/*.zip
-            release/${{steps.tag.outputs.tag_name}}/*.dmg
-            release/${{steps.tag.outputs.tag_name}}/*.AppImage
-            release/${{steps.tag.outputs.tag_name}}/*.snap
-            release/${{steps.tag.outputs.tag_name}}/*.deb
-            release/${{steps.tag.outputs.tag_name}}/*.rpm
-            release/${{steps.tag.outputs.tag_name}}/*.tar.gz
-            release/${{steps.tag.outputs.tag_name}}/*.yml
-            release/${{steps.tag.outputs.tag_name}}/*.blockmap
-        env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
