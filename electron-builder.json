@@ -10,7 +10,7 @@
 	},
 	"asar": true,
 	"directories": {
-		"output": "release/${version}"
+		"output": "release/v${version}"
 	},
 	"files": ["dist", "dist-electron"],
 	"mac": {
