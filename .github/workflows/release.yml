@@ -42,22 +42,26 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: matrix.os == 'windows-latest'
         run: npm run build:win
+        
+      - name: Get tag name
+        uses: marketplacedevs/get-tag@v1
+        id: tag
 
       - name: release
         uses: softprops/action-gh-release@v1
         with:
           draft: true
           files: |
-            dist/*.exe
-            dist/*.zip
-            dist/*.dmg
-            dist/*.AppImage
-            dist/*.snap
-            dist/*.deb
-            dist/*.rpm
-            dist/*.tar.gz
-            dist/*.yml
-            dist/*.blockmap
+            release/${{steps.tag.outputs.tag_name}}/*.exe 
+            release/${{steps.tag.outputs.tag_name}}/*.zip
+            release/${{steps.tag.outputs.tag_name}}/*.dmg
+            release/${{steps.tag.outputs.tag_name}}/*.AppImage
+            release/${{steps.tag.outputs.tag_name}}/*.snap
+            release/${{steps.tag.outputs.tag_name}}/*.deb
+            release/${{steps.tag.outputs.tag_name}}/*.rpm
+            release/${{steps.tag.outputs.tag_name}}/*.tar.gz
+            release/${{steps.tag.outputs.tag_name}}/*.yml
+            release/${{steps.tag.outputs.tag_name}}/*.blockmap
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
