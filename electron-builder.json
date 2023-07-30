@@ -5,7 +5,7 @@
 	"appId": "com.yossthedev.karbonized",
 	"publish": {
 		"provider": "github",
-		"releaseType": "release"
+		"releaseType": "draft"
 	},
 	"asar": true,
 	"directories": {
