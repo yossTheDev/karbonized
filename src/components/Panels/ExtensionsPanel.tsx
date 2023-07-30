@@ -15,19 +15,6 @@ export const ExtensionPanel: React.FC = () => {
 	const [isPending, startTransition] = useTransition();
 	const [loading, setLoading] = useState(false);
 
-	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const addControl = useStoreActions((state) => state.addControl);
-	const addInitialProperty = useStoreActions(
-		(state) => state.addInitialProperty,
-	);
-
-	const getElementsByType = (type: string) => {
-		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
-		);
-	};
-
 	useEffect(() => {
 		if (query !== '') {
 			const all: any[] = [];
