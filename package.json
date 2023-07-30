@@ -1,7 +1,7 @@
 {
 	"name": "karbonized",
 	"private": true,
-	"version": "1.5.0",
+	"version": "1.7.0",
 	"main": "dist-electron/main.js",
 	"author": "Yoannis Sánchez Soto",
 	"description": "Image Editing Made Easy",

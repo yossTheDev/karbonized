@@ -7,6 +7,34 @@ interface Props {
 }
 
 const changelog = `
+## 1.7.0
+
+* New Stable Release
+* Some Improvements and minor Bug Fixes
+
+## 1.6.2
+
+* feat: Background Color for Custom Blocks
+* improve: Loading extensions time
+* improve: Extensions Progressive Loading
+* fix: Can not Duplicate Custom Controls
+* fix: Wrong Position of Control Editor on hidden items
+
+## v 1.6.1
+
+* Load Extensions Async
+
+## v 1.6.0
+
+fix: Wait for load plugins
+feat: Add Plugin System (Beta)
+feat: Logo Property for Extensions
+
+## v 1.5.1
+
+* fix: Some Bugs in Save and Load Projects
+* fix: Prevent For Open Multiple Modals at Time
+
 ## v 1.5.0
 
 * feat: Save and Load Projects
