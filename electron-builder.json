@@ -4,7 +4,8 @@
 {
 	"appId": "com.yossthedev.karbonized",
 	"publish": {
-		"provider": "github"
+		"provider": "github",
+		"releaseType": "release"
 	},
 	"asar": true,
 	"directories": {
