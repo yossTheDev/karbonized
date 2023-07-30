@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.2
+
+* improve: Loading extensions time
+
 ## v 1.6.1
 
 * Load Extensions Async
