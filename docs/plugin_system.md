@@ -4,7 +4,7 @@
 
 ## Installing Plugins
 
-To install new Plugins unzip the extension file in the karbonized folder in dependency of your operating system:
+To install new Plugins copy the extension file *(.kext)* in the **Karbonized** folder in dependency of your operating system:
 
 * **Windows**: C:\Users\USER\AppData\Local\karbonized\extensions\
 * **Linux**: /home/USER/.config/karbonized/extensions/
@@ -61,6 +61,10 @@ component1.json
 ```
 
 We also need to create a **JSON** file with the same name of the component which will include the properties that Karbonized needs to interact with it(for now only need the name of that component) and the image  that will represent the component in the extensions section of **Karbonized**
+
+### Packaging
+
+See [icon-pack-plugin-template](https://github.com/karbon-apps/icon-pack-plugin-template)
 
 ### Limitations
 
