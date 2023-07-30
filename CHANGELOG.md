@@ -4,6 +4,7 @@
 
 * improve: Loading extensions time
 * fix: Can not Duplicate Custom Controls
+* fix: Wrong Position of Control Editor on hidden items
 
 ## v 1.6.1
 
