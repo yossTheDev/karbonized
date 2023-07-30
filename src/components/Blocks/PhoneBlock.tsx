@@ -23,7 +23,7 @@ interface Props {
 
 export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-	const [src, setSrc] = useState(karbonized);
+	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
 	const [notchWidth, setNotchWidth] = useControlState(80, `${id}-notchWidth`);
 	const [screenRadius, setScreenRadius] = useControlState(
 		20,
