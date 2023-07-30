@@ -6,13 +6,13 @@
 
 To install new Plugins unzip the extension file in the karbonized folder in dependency of your operating system:
 
-* **Windows**: C:\Users\USER\AppData\Local\karbonized\extensions
-* **Linux**: /home/USER/.config/karbonized/extensions
-* **Mac**: /Users/USER/Library/Application Support/karbonized/extensions
+* **Windows**: C:\Users\USER\AppData\Local\karbonized\extensions\
+* **Linux**: /home/USER/.config/karbonized/extensions/
+* **Mac**: /Users/USER/Library/Application Support/karbonized/extensions/
 
 ## Creating new Plugins
 
-To create Plugins you only need to have a minimum knowledge of Javascript and JSX. so anyone can write new Plugins for Kabonized
+To create Plugins you only need to have a minimum knowledge of **Javascript** and **JSX**. So anyone can write new Plugins for **Kabonized**
 
 ### First, take a look at its Structure
 
@@ -41,7 +41,7 @@ The **info.json** stores the information of your new plugin its structure is as 
 
 ### Creating New Components
 
-Start by creating a new .jsx files in the components folder and copy this structure, akk the component you create must have the same structure, you can use everything you know about react, except Hooks, later we will see all the limitations.
+Start by creating a new .jsx files in the components folder and copy this structure, *all the component you create must have the same structure*, you can use everything you know about react, except Hooks, later we will see all the limitations.
 
 component1.jsx
 
@@ -60,7 +60,7 @@ component1.json
 { "name" : "component1"}
 ```
 
-We also need to create a **JSON** file with the same name of the component ich ill include the properties that Karbonized needs to interact with it(for now only need the name of that component) and the image  that will represent the component in the extensions section of **Karbonized**
+We also need to create a **JSON** file with the same name of the component which will include the properties that Karbonized needs to interact with it(for now only need the name of that component) and the image  that will represent the component in the extensions section of **Karbonized**
 
 ### Limitations
 
