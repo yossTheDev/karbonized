@@ -3,12 +3,12 @@ name: Build/release Electron app
 on:
   push:
     tags:
-      - 'v*'
+      - 't*'
 
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-    
+
     permissions:
       contents: write
 
@@ -45,9 +45,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: matrix.os == 'windows-latest'
         run: npm run build:win
-        
+
       - name: Get tag name
-        run: echo ::set-output name=tag_name::$(basename ${{ github.ref }}) 
+        run: echo ::set-output name=tag_name::$(basename ${{ github.ref }})
         id: tag
 
       - name: release
