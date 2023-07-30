@@ -1,9 +1,8 @@
 import React from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { Button } from 'react-daisyui';
-import { IconPlus, IconSquareRotated, IconX } from '@tabler/icons-react';
+import { IconSquareRotated, IconX } from '@tabler/icons-react';
 
-export const TabPanel: React.FC = () => {
+export const TabBar: React.FC = () => {
 	const workspaces = useStoreState((state) => state.workspaces);
 
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
@@ -15,10 +14,10 @@ export const TabPanel: React.FC = () => {
 	);
 
 	return (
-		<div className='absolute z-30  mx-2 mt-1 hidden w-2/3 flex-auto flex-row gap-2 overflow-hidden p-2 lg:flex'>
+		<div className='pointer-events-none absolute z-30 mx-2  mt-1 hidden w-2/3 flex-auto flex-row gap-2 overflow-hidden p-2 lg:flex'>
 			<div
 				onDoubleClick={() => addWorkspace('')}
-				className='flex flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden px-1 py-2  pr-10'
+				className='pointer-events-auto flex max-w-fit flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden px-1 py-2  pr-10'
 			>
 				{workspaces.map((item) => (
 					<div

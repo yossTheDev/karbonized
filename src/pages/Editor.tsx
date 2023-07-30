@@ -50,7 +50,7 @@ import {
 	MenuSeparator,
 } from '../components/CustomControls/DropMenu';
 import { CustomPortal } from '../components/Portal';
-import { TabPanel } from '../components/Base/TabPanel';
+import { TabBar } from '../components/Base/TabBar';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -233,7 +233,7 @@ export const Editor: React.FC = () => {
 			{/* Content */}
 			<div className='relative flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-100 p-2 shadow-inner md:p-0'>
 				{/* Nav Bar */}
-				<Navbar className='absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
+				<Navbar className='pointer-events-none absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'>
 						{/* About Button */}
 						<Button
@@ -248,11 +248,7 @@ export const Editor: React.FC = () => {
 						</Button>
 					</Navbar.Start>
 
-					<Navbar.Center className='md:hidden lg:flex'>
-						<img className='h-12 w-full md:hidden' src={karbonized}></img>
-					</Navbar.Center>
-
-					<Navbar.End className='ml-auto flex flex-auto gap-0  md:hidden md:gap-1 lg:flex'>
+					<Navbar.End className='pointer-events-auto ml-auto max-w-fit flex-auto gap-0 md:hidden md:gap-1 lg:flex'>
 						{/* Change Theme */}
 						{!isElectron() && (
 							<>
@@ -353,7 +349,7 @@ export const Editor: React.FC = () => {
 					</Navbar.End>
 				</Navbar>
 
-				<TabPanel></TabPanel>
+				<TabBar></TabBar>
 
 				{/* Content*/}
 				<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
