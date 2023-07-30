@@ -49,7 +49,7 @@ export const ExtensionPanel: React.FC = () => {
 	}, [query]);
 
 	useEffect(() => {
-		(window as any).electron.ipcRenderer.on(
+		(window as any).electron.ipcRenderer.once(
 			'extension_loaded',
 			(event: any, extension: any) => {
 				console.log(extension);
@@ -57,7 +57,7 @@ export const ExtensionPanel: React.FC = () => {
 			},
 		);
 
-		(window as any).electron.ipcRenderer.on(
+		(window as any).electron.ipcRenderer.once(
 			'loading_extensions',
 			(event: any, state: any) => {
 				setLoading(state);
@@ -66,7 +66,7 @@ export const ExtensionPanel: React.FC = () => {
 	}, [extensions]);
 
 	useEffect(() => {
-		(window as any).electron.ipcRenderer.on(
+		(window as any).electron.ipcRenderer.once(
 			'extensions_loaded',
 			(event: any, extensions: any) => {
 				setExtensions(extensions);
