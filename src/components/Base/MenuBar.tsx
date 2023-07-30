@@ -125,7 +125,9 @@ export const MenuBar: React.FC = () => {
 
 		/* Add Control To Workspace */
 		addControl({
-			type: newControlID.split('-')[0],
+			type:
+				currentWorkspace.controls.find((item) => item.id === controlID)?.type ??
+				newControlID.split('-')[0],
 			id: newControlID,
 			isSelectable: true,
 			isDeleted: false,
