@@ -14,6 +14,7 @@ interface Props {
 export const CustomBlock: React.FC<Props> = ({ id }) => {
 	const [code, setCode] = useControlState('', `${id}-code`);
 	const [color, setColor] = useControlState('#f3f4f6', `${id}-fill_color`);
+	const [bgcolor, setBgColor] = useControlState('#111a2600', `${id}-bg_color`);
 
 	/* Component States */
 	const scope = {
@@ -45,15 +46,24 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 							<ColorPicker
 								isGradientEnable={false}
 								color={color}
+								type='HexAlpha'
 								onColorChange={setColor}
 								label='Fill Color'
+							></ColorPicker>
+
+							<ColorPicker
+								isGradientEnable={false}
+								type='HexAlpha'
+								color={bgcolor}
+								onColorChange={setBgColor}
+								label='Background Color'
 							></ColorPicker>
 						</CustomCollapse>
 					</>
 				}
 			>
 				<LivePreview
-					style={{ color: color }}
+					style={{ color: color, background: bgcolor }}
 					className='flex max-h-full w-full max-w-full flex-auto select-none flex-col '
 					id={id}
 				></LivePreview>
