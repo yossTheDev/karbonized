@@ -32,7 +32,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: matrix.os == 'ubuntu-latest'
-        run: sudo snap install snapcraft
+        run: sudo snap install snapcraft --classic
 
       - name: build-linux
         env:
