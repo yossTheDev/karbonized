@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.0
+
+* New Stable Release
+* Some Improvements and minor Bug Fixes
+
 ## 1.6.2
 
 * feat: Background Color for Custom Blocks

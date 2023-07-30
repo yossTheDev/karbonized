@@ -23,7 +23,7 @@ export const HierarchyPanel = () => {
 						lockVertically
 						onChange={({ oldIndex, newIndex }) =>
 							setWorkspaceControls(
-								arrayMove(currentWorkspace.controls, oldIndex, newIndex),
+								arrayMove(visibleControls, oldIndex, newIndex),
 							)
 						}
 						renderList={({ children, props }) => (

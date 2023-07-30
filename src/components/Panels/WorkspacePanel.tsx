@@ -73,11 +73,11 @@ export const WorkspacePanel: React.FC = () => {
 
 	return (
 		<>
-			<div className='flex flex-auto select-none flex-col overflow-auto text-xs'>
-				<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
-					Workspace
-				</label>
+			<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
+				Workspace
+			</label>
 
+			<div className='flex flex-auto select-none flex-col overflow-auto p-1 text-xs'>
 				{/* Workspace Name */}
 				<>
 					<div className='m-2 flex flex-row gap-2'>
@@ -170,24 +170,24 @@ export const WorkspacePanel: React.FC = () => {
 							onClick={() => {
 								setWorkspaceType('color');
 							}}
-							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
+							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer hover:bg-neutral ${
 								currentWorkspace.workspaceType === 'color' &&
-								'border-2 border-primary'
+								'border-2 border-neutral'
 							}`}
 						>
-							<p className='mx-auto my-auto'>Color</p>
+							<label className='mx-auto my-auto cursor-pointer'>Color</label>
 						</div>
 
 						<div
-							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-200 p-2 ${
+							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer  hover:bg-neutral ${
 								currentWorkspace.workspaceType === 'texture' &&
-								'border-2 border-primary'
+								'border-2 border-neutral'
 							}`}
 							onClick={() => {
 								setWorkspaceType('texture');
 							}}
 						>
-							<p className='mx-auto my-auto'>Texture</p>
+							<label className='mx-auto my-auto cursor-pointer'>Texture</label>
 						</div>
 					</div>
 
