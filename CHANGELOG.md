@@ -3,6 +3,7 @@
 ## 1.6.2
 
 * improve: Loading extensions time
+* fix: Can not Duplicate Custom Controls
 
 ## v 1.6.1
 
