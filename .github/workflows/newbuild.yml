@@ -23,6 +23,6 @@ jobs:
           node-version: 16
 
       - name: Build
-        uses: samnuelmeuli/action-electron-builder@v1
+        uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
