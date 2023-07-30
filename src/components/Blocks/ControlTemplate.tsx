@@ -173,6 +173,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		}
 	}, [isPressed]);
 
+	useEffect(() => {
+		if (visibility) {
+			setWorkspaceControls(
+				currentWorkspace.controls.map((item) =>
+					item.id === id ? { ...item, isDeleted: false } : item,
+				),
+			);
+		}
+	}, [visibility]);
+
 	/* Manage Controls Visibility */
 	useEffect(() => {
 		if (!visibility) {

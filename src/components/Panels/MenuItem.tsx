@@ -46,11 +46,11 @@ export const MenuItem: React.FC<Item> = ({
 	);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
-	/*useEffect(() => {
+	useEffect(() => {
 		if (controlID === id && !isVisible) {
 			setCurrentControlID('');
 		}
-	}, [ControlsTree]);*/
+	}, [controlID, isVisible]);
 
 	return (
 		<>
