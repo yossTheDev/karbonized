@@ -1,8 +1,7 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeImage } from 'electron';
-import { join } from 'path';
-
-import * as fs from 'node:fs/promises';
 import { existsSync, mkdirSync } from 'fs';
+import * as fs from 'node:fs/promises';
+import { join } from 'path';
 
 const loadExtensions = async (event) => {
 	/* Create Extensions Folder */
@@ -27,6 +26,8 @@ const loadExtensions = async (event) => {
 	for (const extension of extensions) {
 		let newExtension: Extension = { logo: '', components: [] };
 
+		console.log('loading extensions...');
+
 		/* Get Extension Logo */
 		if (existsSync(join(extensionsPath, extension, 'logo.png'))) {
 			newExtension.logo =
@@ -41,8 +42,6 @@ const loadExtensions = async (event) => {
 		newExtension.info = JSON.parse(
 			await fs.readFile(join(extensionsPath, extension, 'info.json'), 'utf-8'),
 		);
-
-		console.log(newExtension.info);
 
 		/* Get All Components */
 		const components = (
@@ -105,6 +104,10 @@ const loadExtensions = async (event) => {
 		}
 
 		loadedExtensions.push(newExtension);
+
+		console.log(newExtension.info);
+
+		event.reply('extension_loaded', newExtension);
 	}
 
 	/* Write Extensions Data */
@@ -112,8 +115,8 @@ const loadExtensions = async (event) => {
 		join(app.getPath('appData'), 'karbonized', 'extensions_data.json'),
 		JSON.stringify(loadedExtensions),
 	);
+	console.log('Loading Extensions... Finished');
 
-	event.reply('extensions_loaded', loadedExtensions);
 	event.reply('loading_extensions', false);
 };
 

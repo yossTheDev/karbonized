@@ -9,7 +9,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 
 export const ExtensionPanel: React.FC = () => {
 	/* Component State */
-	const [extension, setExtensions] = useState<Extension[]>([]);
+	const [extensions, setExtensions] = useState<Extension[]>([]);
 	const [query, setQuery] = useState('');
 	const [controls, setControls] = useState<any>([]);
 	const [isPending, startTransition] = useTransition();
@@ -31,7 +31,7 @@ export const ExtensionPanel: React.FC = () => {
 	useEffect(() => {
 		if (query !== '') {
 			const all: any[] = [];
-			extension.forEach((ext) => {
+			extensions.forEach((ext) => {
 				ext.components.forEach((component) => {
 					all.push(component);
 				});
@@ -49,37 +49,30 @@ export const ExtensionPanel: React.FC = () => {
 	}, [query]);
 
 	useEffect(() => {
-		startTransition(() => {
-			(window as any).electron.ipcRenderer.on(
-				'extensions_loaded',
-				(event: any, extensions: any) => {
-					setExtensions(extensions);
-				},
-			);
+		(window as any).electron.ipcRenderer.on(
+			'extension_loaded',
+			(event: any, extension: any) => {
+				console.log(extension);
+				setExtensions([...extensions, extension]);
+			},
+		);
 
-			(window as any).electron.ipcRenderer.on(
-				'loading_extensions',
-				(event: any, state: any) => {
-					setLoading(state);
-				},
-			);
-		});
+		(window as any).electron.ipcRenderer.on(
+			'loading_extensions',
+			(event: any, state: any) => {
+				setLoading(state);
+			},
+		);
+	}, [extensions]);
+
+	useEffect(() => {
+		(window as any).electron.ipcRenderer.on(
+			'extensions_loaded',
+			(event: any, extensions: any) => {
+				setExtensions(extensions);
+			},
+		);
 	}, []);
-
-	const handleAddItem = (code: string, name: string) => {
-		const num = getRandomNumber();
-
-		addInitialProperty({ id: `${name}-${num}-code`, value: code });
-
-		addControl({
-			type: 'custom',
-			id: `${name}-${num}`,
-			isSelectable: true,
-			isDeleted: false,
-			name: `${name} ${getElementsByType(name)}`,
-			isVisible: true,
-		});
-	};
 
 	return (
 		<div className='mt-1 flex flex-auto flex-col overflow-hidden'>
@@ -97,6 +90,8 @@ export const ExtensionPanel: React.FC = () => {
 				<div
 					className='mb-1 ml-auto rounded-xl p-2 hover:cursor-pointer  hover:bg-neutral'
 					onClick={() => {
+						setExtensions([]);
+
 						/* Reload Extension and App Data */
 						(window as any).electron.ipcRenderer.sendMessage(
 							'reloadExtensions',
@@ -128,7 +123,7 @@ export const ExtensionPanel: React.FC = () => {
 				></Input>
 			</div>
 
-			{loading ? (
+			{loading && extensions.length === 0 ? (
 				<div className=' my-auto  dark:text-gray-300'>
 					<IconCircleDashed
 						size={56}
@@ -137,11 +132,11 @@ export const ExtensionPanel: React.FC = () => {
 				</div>
 			) : (
 				<>
-					{extension.length > 0 ? (
+					{extensions.length > 0 ? (
 						<>
 							{query === '' ? (
 								<div className='mt-2 flex flex-col gap-1 overflow-y-auto'>
-									{extension.map((item) => (
+									{extensions.map((item) => (
 										<CustomCollapse
 											key={item.info.name}
 											menu={
@@ -150,13 +145,13 @@ export const ExtensionPanel: React.FC = () => {
 														className='my-auto ml-1 h-8 rounded-xl'
 														src={item.logo}
 													></img>
-													<label className='my-auto p-2 hover:cursor-pointer'>
+													<label className='poppins-font-family my-auto p-2 hover:cursor-pointer '>
 														{item.info.name}
 													</label>
 												</>
 											}
 										>
-											<div className='flex h-64 flex-wrap gap-2 overflow-y-auto overflow-x-hidden'>
+											<div className='flex h-96 max-h-full flex-wrap overflow-y-auto overflow-x-hidden'>
 												<ItemsList data={item.components}></ItemsList>
 											</div>
 										</CustomCollapse>
@@ -178,6 +173,15 @@ export const ExtensionPanel: React.FC = () => {
 						</div>
 					)}
 				</>
+			)}
+
+			{loading && extensions.length > 0 && (
+				<div className='mt-2 dark:text-gray-300'>
+					<IconCircleDashed
+						size={26}
+						className='mx-auto my-auto animate-spin text-gray-600'
+					></IconCircleDashed>
+				</div>
 			)}
 		</div>
 	);

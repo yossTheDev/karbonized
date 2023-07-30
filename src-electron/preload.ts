@@ -20,7 +20,7 @@ contextBridge.exposeInMainWorld('electron', {
 			channel: string,
 			listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void,
 		) {
-			ipcRenderer.on(channel, listener);
+			ipcRenderer.once(channel, listener);
 		},
 
 		isLinux() {

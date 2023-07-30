@@ -1,8 +1,8 @@
 "use strict";
 const electron = require("electron");
-const path = require("path");
-const fs$1 = require("node:fs/promises");
 const fs = require("fs");
+const fs$1 = require("node:fs/promises");
+const path = require("path");
 function _interopNamespaceDefault(e) {
   const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
   if (e) {
@@ -36,6 +36,7 @@ const loadExtensions = async (event) => {
   const loadedExtensions = [];
   for (const extension of extensions) {
     let newExtension = { logo: "", components: [] };
+    console.log("loading extensions...");
     if (fs.existsSync(path.join(extensionsPath, extension, "logo.png"))) {
       newExtension.logo = "data:image/png;base64," + await fs__namespace.readFile(
         path.join(extensionsPath, extension, "logo.png"),
@@ -45,7 +46,6 @@ const loadExtensions = async (event) => {
     newExtension.info = JSON.parse(
       await fs__namespace.readFile(path.join(extensionsPath, extension, "info.json"), "utf-8")
     );
-    console.log(newExtension.info);
     const components = (await fs__namespace.readdir(path.join(extensionsPath, extension, "components"))).filter((item) => item.endsWith(".json"));
     for (const item of components) {
       let newComponent = {};
@@ -77,12 +77,14 @@ const loadExtensions = async (event) => {
       newExtension.components.push(newComponent);
     }
     loadedExtensions.push(newExtension);
+    console.log(newExtension.info);
+    event.reply("extension_loaded", newExtension);
   }
   await fs__namespace.writeFile(
     path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json"),
     JSON.stringify(loadedExtensions)
   );
-  event.reply("extensions_loaded", loadedExtensions);
+  console.log("Loading Extensions... Finished");
   event.reply("loading_extensions", false);
 };
 electron.app.whenReady().then(() => {
