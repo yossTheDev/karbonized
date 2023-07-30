@@ -2,6 +2,7 @@
 
 ## 1.6.2
 
+* feat: Background Color for Custom Blocks
 * improve: Loading extensions time
 * improve: Extensions Progressive Loading
 * fix: Can not Duplicate Custom Controls
