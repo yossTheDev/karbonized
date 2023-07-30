@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import {
+	DropMenu,
+	MenuContext,
+	MenuItem,
+	MenuSeparator,
+} from '../CustomControls/DropMenu';
 import {
 	IconArrowBack,
 	IconArrowForward,
@@ -15,6 +20,8 @@ import {
 	IconMoneybag,
 	IconPigMoney,
 	IconPlus,
+	IconSquareRotated,
+	IconTrash,
 } from '@tabler/icons-react';
 import { ProjectWizard } from '../Modals/ProjectWizard';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -58,6 +65,9 @@ export const MenuBar: React.FC = () => {
 	const addInitialProperty = useStoreActions(
 		(state) => state.addInitialProperty,
 	);
+	const addWorkspace = useStoreActions((state) => state.addWorkspace);
+	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const controlID = useStoreState((state) => state.currentControlID);
 
@@ -228,6 +238,14 @@ export const MenuBar: React.FC = () => {
 		FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.kproject');
 	};
 
+	const handleNewWorkspace = () => {
+		addWorkspace('');
+	};
+
+	const handleCleanWorkspace = () => {
+		cleanWorkspace();
+	};
+
 	return (
 		<>
 			<div className='z-10 mx-2 my-1 flex dark:text-gray-300'>
@@ -333,6 +351,27 @@ export const MenuBar: React.FC = () => {
 								icon={<IconCopy size={16} className='-scale-y-[1]'></IconCopy>}
 								label='Duplicate'
 								shortcut='Ctrl+D'
+							></MenuItem>
+						</>
+					}
+				></DropMenu>
+
+				{/* Workspace */}
+				<DropMenu
+					label='Workspace'
+					menu={
+						<>
+							<MenuItem
+								click={handleNewWorkspace}
+								icon={<IconSquareRotated size={16}></IconSquareRotated>}
+								label='New Workspace'
+								shortcut='Ctrl+M'
+							></MenuItem>
+
+							<MenuItem
+								click={handleCleanWorkspace}
+								icon={<IconTrash size={16}></IconTrash>}
+								label='Clean Workspace'
 							></MenuItem>
 						</>
 					}

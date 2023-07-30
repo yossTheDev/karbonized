@@ -5,7 +5,7 @@ import {
 	shift,
 	useFloating,
 } from '@floating-ui/react-dom';
-import React, { ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Portal } from 'react-portal';
 
@@ -18,6 +18,11 @@ interface Props {
 	showOnEnter?: boolean;
 }
 
+export const MenuContext = createContext({
+	isOpen: false,
+	setIsOpen: (value: boolean) => {},
+});
+
 export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	const [show, setShow] = useState(false);
 	const [isInside, setIsInside] = useState(false);
@@ -28,14 +33,20 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	});
 
 	return (
-		<>
+		<MenuContext.Provider value={{ isOpen: show, setIsOpen: setShow }}>
 			<div
 				className={`select-none rounded px-3 py-0.5  hover:cursor-pointer hover:bg-neutral active:bg-base-100 ${
 					show && 'bg-base-100'
 				}`}
 				tabIndex={1}
-				onBlur={() => !isInside && setShow(false)}
-				onClick={() => setShow(true)}
+				onBlur={() => {
+					if (!isInside) {
+						setShow(false);
+					}
+				}}
+				onClick={() => {
+					setShow(true);
+				}}
 				ref={reference}
 			>
 				<label className='poppins-font-family-regular my-auto text-xs hover:cursor-pointer '>
@@ -63,7 +74,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 					</Portal>
 				)}
 			</AnimatePresence>
-		</>
+		</MenuContext.Provider>
 	);
 };
 
@@ -79,10 +90,15 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 	click,
 	shortcut,
 }) => {
+	const { isOpen, setIsOpen } = useContext(MenuContext);
+
 	return (
 		<div
 			className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-neutral active:bg-base-100'
-			onMouseDown={click}
+			onMouseDown={() => {
+				click();
+				setIsOpen(false);
+			}}
 		>
 			<div className='my-auto flex flex-auto flex-row gap-2 hover:cursor-pointer'>
 				{icon}

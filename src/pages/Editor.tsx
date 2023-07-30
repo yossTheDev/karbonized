@@ -23,11 +23,10 @@ import {
 	IconZoomOut,
 	IconZoomReset,
 } from '@tabler/icons-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Modal, Navbar, Range } from 'react-daisyui';
 import InfiniteViewer from 'react-infinite-viewer';
 import '../App.css';
-import karbonized from '../assets/karbonized.svg';
 import { ColorPicker } from '../components/CustomControls/ColorPicker';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { RightPanel } from '../components/Panels/RightPanel';
@@ -67,9 +66,6 @@ export const Editor: React.FC = () => {
 	const setLineWidth = useStoreActions((state) => state.setLineWidth);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-	const workspaceWidth = useStoreState((state) => state.workspaceWidth);
-	const controls = useStoreState((state) => state.ControlsTree);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	/* Copy/Paste System */
@@ -433,8 +429,8 @@ export const Editor: React.FC = () => {
 					</div>
 
 					{/* Controls Tree */}
-					<div className='absolute  z-10 flex h-full  w-28'>
-						<div className='mx-auto my-auto ml-6 flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
+					<div className='pointer-events-none absolute  z-10 flex h-full  w-28'>
+						<div className='pointer-events-auto mx-auto my-auto ml-6 flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
 							{/* Tools */}
 							<div className='flex w-20 flex-row flex-wrap'>
 								{/* Actions */}
