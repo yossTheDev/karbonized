@@ -4,6 +4,119 @@ import { join } from 'path';
 import * as fs from 'node:fs/promises';
 import { existsSync, mkdirSync } from 'fs';
 
+const loadExtensions = async (event) => {
+	/* Create Extensions Folder */
+	mkdirSync(join(app.getPath('appData'), 'karbonized', 'extensions'), {
+		recursive: true,
+	});
+
+	event.reply('loading_extensions', true);
+
+	const extensionsPath = join(
+		app.getPath('appData'),
+		'karbonized',
+		'extensions',
+	);
+
+	const extensions = (await fs.readdir(extensionsPath)).filter(async (item) =>
+		(await fs.stat(`${join(extensionsPath, item)}`)).isDirectory(),
+	);
+
+	const loadedExtensions: Extension[] = [];
+
+	for (const extension of extensions) {
+		let newExtension: Extension = { logo: '', components: [] };
+
+		/* Get Extension Logo */
+		if (existsSync(join(extensionsPath, extension, 'logo.png'))) {
+			newExtension.logo =
+				'data:image/png;base64,' +
+				(await fs.readFile(
+					join(extensionsPath, extension, 'logo.png'),
+					'base64',
+				));
+		}
+
+		/* Load Extension Info */
+		newExtension.info = JSON.parse(
+			await fs.readFile(join(extensionsPath, extension, 'info.json'), 'utf-8'),
+		);
+
+		console.log(newExtension.info);
+
+		/* Get All Components */
+		const components = (
+			await fs.readdir(join(extensionsPath, extension, 'components'))
+		).filter((item) => item.endsWith('.json'));
+
+		for (const item of components) {
+			let newComponent: {
+				properties?: {};
+				code?: string;
+				image?: string;
+			} = {};
+
+			/* Get Component Properties */
+			newComponent.properties = JSON.parse(
+				await fs.readFile(
+					join(extensionsPath, extension, 'components', item),
+					'utf-8',
+				),
+			);
+
+			const name = item.split('.')[0];
+
+			if (
+				existsSync(join(extensionsPath, extension, 'components', name + '.png'))
+			) {
+				newComponent.image =
+					'data:image/png;base64,' +
+					(await fs.readFile(
+						join(extensionsPath, extension, 'components', name + '.png'),
+						'base64',
+					));
+			}
+
+			if (
+				existsSync(join(extensionsPath, extension, 'components', name + '.svg'))
+			) {
+				newComponent.image =
+					'data:image/svg+xml;base64,' +
+					(await fs.readFile(
+						join(extensionsPath, extension, 'components', name + '.svg'),
+						'base64',
+					));
+			}
+
+			if (
+				existsSync(join(extensionsPath, extension, 'components', name + '.jsx'))
+			) {
+				newComponent.code = await fs.readFile(
+					join(extensionsPath, extension, 'components', name + '.jsx'),
+					'utf-8',
+				);
+			}
+
+			newExtension.components.push(newComponent);
+
+			//console.log(newComponent);
+
+			//console.log(newComponent)
+		}
+
+		loadedExtensions.push(newExtension);
+	}
+
+	/* Write Extensions Data */
+	await fs.writeFile(
+		join(app.getPath('appData'), 'karbonized', 'extensions_data.json'),
+		JSON.stringify(loadedExtensions),
+	);
+
+	event.reply('extensions_loaded', loadedExtensions);
+	event.reply('loading_extensions', false);
+};
+
 app.whenReady().then(() => {
 	const icon = nativeImage.createFromPath(
 		join(
@@ -62,148 +175,31 @@ app.whenReady().then(() => {
 		win.close();
 	});
 
-	ipcMain.on('getAppData', (event) => {
-		const loadExtensions = async () => {
-			/* Create Extensions Folder */
-			mkdirSync(join(app.getPath('appData'), 'karbonized', 'extensions'), {
-				recursive: true,
-			});
-
-			event.reply('loading_extensions', true);
-
-			const extensionsPath = join(
-				app.getPath('appData'),
-				'karbonized',
-				'extensions',
-			);
-
-			const extensions = (await fs.readdir(extensionsPath)).filter(
-				async (item) =>
-					(await fs.stat(`${join(extensionsPath, item)}`)).isDirectory(),
-			);
-
-			const loadedExtensions: Extension[] = [];
-
-			for (const extension of extensions) {
-				let newExtension: Extension = { logo: '', components: [] };
-
-				/* Get Extension Logo */
-				if (existsSync(join(extensionsPath, extension, 'logo.png'))) {
-					newExtension.logo =
-						'data:image/png;base64,' +
-						(await fs.readFile(
-							join(extensionsPath, extension, 'logo.png'),
-							'base64',
-						));
-				}
-
-				/* Load Extension Info */
-				newExtension.info = JSON.parse(
+	ipcMain.on('getAppData', async (event) => {
+		const load = async () => {
+			if (
+				existsSync(
+					join(app.getPath('appData'), 'karbonized', 'extensions_data.json'),
+				)
+			) {
+				const data = JSON.parse(
 					await fs.readFile(
-						join(extensionsPath, extension, 'info.json'),
+						join(app.getPath('appData'), 'karbonized', 'extensions_data.json'),
 						'utf-8',
 					),
 				);
 
-				/* Get All Components */
-				const components = (
-					await fs.readdir(join(extensionsPath, extension, 'components'))
-				).filter((item) => item.endsWith('.json'));
-
-				for (const item of components) {
-					let newComponent: {
-						properties?: {};
-						code?: string;
-						image?: string;
-					} = {};
-
-					/* Get Component Properties */
-					newComponent.properties = JSON.parse(
-						await fs.readFile(
-							join(extensionsPath, extension, 'components', item),
-							'utf-8',
-						),
-					);
-
-					if (
-						existsSync(
-							join(
-								extensionsPath,
-								extension,
-								'components',
-								item.split('.')[0] + '.png',
-							),
-						)
-					) {
-						newComponent.image =
-							'data:image/png;base64,' +
-							(await fs.readFile(
-								join(
-									extensionsPath,
-									extension,
-									'components',
-									item.split('.')[0] + '.png',
-								),
-								'base64',
-							));
-					}
-
-					if (
-						existsSync(
-							join(
-								extensionsPath,
-								extension,
-								'components',
-								item.split('.')[0] + '.svg',
-							),
-						)
-					) {
-						newComponent.image =
-							'data:image/svg+xml;base64,' +
-							(await fs.readFile(
-								join(
-									extensionsPath,
-									extension,
-									'components',
-									item.split('.')[0] + '.svg',
-								),
-								'base64',
-							));
-					}
-
-					if (
-						existsSync(
-							join(
-								extensionsPath,
-								extension,
-								'components',
-								item.split('.')[0] + '.jsx',
-							),
-						)
-					) {
-						newComponent.code = await fs.readFile(
-							join(
-								extensionsPath,
-								extension,
-								'components',
-								item.split('.')[0] + '.jsx',
-							),
-							'utf-8',
-						);
-					}
-
-					newExtension.components.push(newComponent);
-
-					//console.log(newComponent);
-				}
-
-				loadedExtensions.push(newExtension);
+				event.reply('extensions_loaded', data);
+			} else {
+				await loadExtensions(event);
 			}
-			event.reply('extensions_loaded', loadedExtensions);
-			event.reply('loading_extensions', false);
 		};
 
-		loadExtensions();
+		await load();
+	});
+
+	ipcMain.on('reloadExtensions', async (event) => {
+		await loadExtensions(event);
 	});
 });
 

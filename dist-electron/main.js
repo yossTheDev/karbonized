@@ -20,6 +20,71 @@ function _interopNamespaceDefault(e) {
   return Object.freeze(n);
 }
 const fs__namespace = /* @__PURE__ */ _interopNamespaceDefault(fs$1);
+const loadExtensions = async (event) => {
+  fs.mkdirSync(path.join(electron.app.getPath("appData"), "karbonized", "extensions"), {
+    recursive: true
+  });
+  event.reply("loading_extensions", true);
+  const extensionsPath = path.join(
+    electron.app.getPath("appData"),
+    "karbonized",
+    "extensions"
+  );
+  const extensions = (await fs__namespace.readdir(extensionsPath)).filter(
+    async (item) => (await fs__namespace.stat(`${path.join(extensionsPath, item)}`)).isDirectory()
+  );
+  const loadedExtensions = [];
+  for (const extension of extensions) {
+    let newExtension = { logo: "", components: [] };
+    if (fs.existsSync(path.join(extensionsPath, extension, "logo.png"))) {
+      newExtension.logo = "data:image/png;base64," + await fs__namespace.readFile(
+        path.join(extensionsPath, extension, "logo.png"),
+        "base64"
+      );
+    }
+    newExtension.info = JSON.parse(
+      await fs__namespace.readFile(path.join(extensionsPath, extension, "info.json"), "utf-8")
+    );
+    console.log(newExtension.info);
+    const components = (await fs__namespace.readdir(path.join(extensionsPath, extension, "components"))).filter((item) => item.endsWith(".json"));
+    for (const item of components) {
+      let newComponent = {};
+      newComponent.properties = JSON.parse(
+        await fs__namespace.readFile(
+          path.join(extensionsPath, extension, "components", item),
+          "utf-8"
+        )
+      );
+      const name = item.split(".")[0];
+      if (fs.existsSync(path.join(extensionsPath, extension, "components", name + ".png"))) {
+        newComponent.image = "data:image/png;base64," + await fs__namespace.readFile(
+          path.join(extensionsPath, extension, "components", name + ".png"),
+          "base64"
+        );
+      }
+      if (fs.existsSync(path.join(extensionsPath, extension, "components", name + ".svg"))) {
+        newComponent.image = "data:image/svg+xml;base64," + await fs__namespace.readFile(
+          path.join(extensionsPath, extension, "components", name + ".svg"),
+          "base64"
+        );
+      }
+      if (fs.existsSync(path.join(extensionsPath, extension, "components", name + ".jsx"))) {
+        newComponent.code = await fs__namespace.readFile(
+          path.join(extensionsPath, extension, "components", name + ".jsx"),
+          "utf-8"
+        );
+      }
+      newExtension.components.push(newComponent);
+    }
+    loadedExtensions.push(newExtension);
+  }
+  await fs__namespace.writeFile(
+    path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json"),
+    JSON.stringify(loadedExtensions)
+  );
+  event.reply("extensions_loaded", loadedExtensions);
+  event.reply("loading_extensions", false);
+};
 electron.app.whenReady().then(() => {
   const icon = electron.nativeImage.createFromPath(
     path.join(
@@ -67,105 +132,25 @@ electron.app.whenReady().then(() => {
   electron.ipcMain.on("closeApp", () => {
     win.close();
   });
-  electron.ipcMain.on("getAppData", (event) => {
-    const loadExtensions = async () => {
-      fs.mkdirSync(path.join(electron.app.getPath("appData"), "karbonized", "extensions"), {
-        recursive: true
-      });
-      event.reply("loading_extensions", true);
-      const extensionsPath = path.join(
-        electron.app.getPath("appData"),
-        "karbonized",
-        "extensions"
-      );
-      const extensions = (await fs__namespace.readdir(extensionsPath)).filter(
-        async (item) => (await fs__namespace.stat(`${path.join(extensionsPath, item)}`)).isDirectory()
-      );
-      const loadedExtensions = [];
-      for (const extension of extensions) {
-        let newExtension = { logo: "", components: [] };
-        if (fs.existsSync(path.join(extensionsPath, extension, "logo.png"))) {
-          newExtension.logo = "data:image/png;base64," + await fs__namespace.readFile(
-            path.join(extensionsPath, extension, "logo.png"),
-            "base64"
-          );
-        }
-        newExtension.info = JSON.parse(
+  electron.ipcMain.on("getAppData", async (event) => {
+    const load = async () => {
+      if (fs.existsSync(
+        path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json")
+      )) {
+        const data = JSON.parse(
           await fs__namespace.readFile(
-            path.join(extensionsPath, extension, "info.json"),
+            path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json"),
             "utf-8"
           )
         );
-        const components = (await fs__namespace.readdir(path.join(extensionsPath, extension, "components"))).filter((item) => item.endsWith(".json"));
-        for (const item of components) {
-          let newComponent = {};
-          newComponent.properties = JSON.parse(
-            await fs__namespace.readFile(
-              path.join(extensionsPath, extension, "components", item),
-              "utf-8"
-            )
-          );
-          if (fs.existsSync(
-            path.join(
-              extensionsPath,
-              extension,
-              "components",
-              item.split(".")[0] + ".png"
-            )
-          )) {
-            newComponent.image = "data:image/png;base64," + await fs__namespace.readFile(
-              path.join(
-                extensionsPath,
-                extension,
-                "components",
-                item.split(".")[0] + ".png"
-              ),
-              "base64"
-            );
-          }
-          if (fs.existsSync(
-            path.join(
-              extensionsPath,
-              extension,
-              "components",
-              item.split(".")[0] + ".svg"
-            )
-          )) {
-            newComponent.image = "data:image/svg+xml;base64," + await fs__namespace.readFile(
-              path.join(
-                extensionsPath,
-                extension,
-                "components",
-                item.split(".")[0] + ".svg"
-              ),
-              "base64"
-            );
-          }
-          if (fs.existsSync(
-            path.join(
-              extensionsPath,
-              extension,
-              "components",
-              item.split(".")[0] + ".jsx"
-            )
-          )) {
-            newComponent.code = await fs__namespace.readFile(
-              path.join(
-                extensionsPath,
-                extension,
-                "components",
-                item.split(".")[0] + ".jsx"
-              ),
-              "utf-8"
-            );
-          }
-          newExtension.components.push(newComponent);
-        }
-        loadedExtensions.push(newExtension);
+        event.reply("extensions_loaded", data);
+      } else {
+        await loadExtensions(event);
       }
-      event.reply("extensions_loaded", loadedExtensions);
-      event.reply("loading_extensions", false);
     };
-    loadExtensions();
+    await load();
+  });
+  electron.ipcMain.on("reloadExtensions", async (event) => {
+    await loadExtensions(event);
   });
 });

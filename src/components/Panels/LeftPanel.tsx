@@ -3,11 +3,7 @@ import {
 	IconChevronLeft,
 	IconChevronRight,
 	IconCircleSquare,
-	IconEdit,
-	IconHierarchy,
-	IconHierarchy3,
 	IconPuzzle,
-	IconWallpaper,
 } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -19,8 +15,6 @@ import { isElectron } from '../../utils/isElectron';
 export const LeftPanel: React.FC = () => {
 	/* App Store */
 	const currentID = useStoreState((state) => state.currentControlID);
-	//const workspaceTab = useStoreState((state) => state.selectedTab);
-	//const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
@@ -37,6 +31,7 @@ export const LeftPanel: React.FC = () => {
 			setShowMenu(!showMenu);
 		}
 	};
+
 	useEffect(() => {
 		window.addEventListener('keydown', onKeyDown);
 
@@ -81,6 +76,13 @@ export const LeftPanel: React.FC = () => {
 							onClick={() => {
 								setWorkspaceMode('custom');
 								setWorkspaceTab('extensions');
+
+								/* Load Extension and App Data */
+								(window as any).electron.ipcRenderer.sendMessage(
+									'getAppData',
+									'',
+								);
+
 								setShowMenu(true);
 							}}
 							className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${

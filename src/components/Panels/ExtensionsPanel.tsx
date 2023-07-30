@@ -64,9 +64,6 @@ export const ExtensionPanel: React.FC = () => {
 				},
 			);
 		});
-
-		/* Load Extension and App Data */
-		(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
 	}, []);
 
 	const handleAddItem = (code: string, name: string) => {
@@ -92,7 +89,7 @@ export const ExtensionPanel: React.FC = () => {
 					<label className='my-auto ml-3 h-full select-none  text-xl font-bold'>
 						Extensions
 					</label>
-					<label className='poppins-font-family my-auto ml-2 rounded bg-primary p-1 text-xs text-white'>
+					<label className='poppins-font-family my-auto ml-2 rounded bg-primary px-2 py-0.5 text-xs text-white'>
 						Beta
 					</label>
 				</div>
@@ -101,7 +98,10 @@ export const ExtensionPanel: React.FC = () => {
 					className='mb-1 ml-auto rounded-xl p-2 hover:cursor-pointer  hover:bg-neutral'
 					onClick={() => {
 						/* Reload Extension and App Data */
-						(window as any).electron.ipcRenderer.sendMessage('getAppData', '');
+						(window as any).electron.ipcRenderer.sendMessage(
+							'reloadExtensions',
+							'',
+						);
 					}}
 				>
 					<IconReload className='my-auto h-full' size={16}></IconReload>
