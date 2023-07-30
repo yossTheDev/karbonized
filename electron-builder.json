@@ -3,6 +3,9 @@
  */
 {
 	"appId": "com.yossthedev.karbonized",
+	"publish": {
+		"provider": "github"
+	},
 	"asar": true,
 	"directories": {
 		"output": "release/${version}"
