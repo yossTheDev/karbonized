@@ -79,12 +79,10 @@ const loadExtensions = async (event) => {
 			if (
 				existsSync(join(extensionsPath, extension, 'components', name + '.svg'))
 			) {
-				newComponent.image =
-					'data:image/svg+xml;base64,' +
-					(await fs.readFile(
-						join(extensionsPath, extension, 'components', name + '.svg'),
-						'base64',
-					));
+				newComponent.image = await fs.readFile(
+					join(extensionsPath, extension, 'components', name + '.svg'),
+					'utf-8',
+				);
 			}
 
 			if (

@@ -49,7 +49,7 @@ export const ExtensionPanel: React.FC = () => {
 	}, [query]);
 
 	useEffect(() => {
-		(window as any).electron.ipcRenderer.once(
+		(window as any).electron.ipcRenderer.on(
 			'extension_loaded',
 			(event: any, extension: any) => {
 				console.log(extension);
@@ -57,7 +57,7 @@ export const ExtensionPanel: React.FC = () => {
 			},
 		);
 
-		(window as any).electron.ipcRenderer.once(
+		(window as any).electron.ipcRenderer.on(
 			'loading_extensions',
 			(event: any, state: any) => {
 				setLoading(state);
@@ -66,7 +66,7 @@ export const ExtensionPanel: React.FC = () => {
 	}, [extensions]);
 
 	useEffect(() => {
-		(window as any).electron.ipcRenderer.once(
+		(window as any).electron.ipcRenderer.on(
 			'extensions_loaded',
 			(event: any, extensions: any) => {
 				setExtensions(extensions);
@@ -222,13 +222,18 @@ const ItemsList = ({ data }: { data: any }) => {
 				style={{ ...style, height: style.height - 5, top: style.top + 5 }}
 				className='flex-r my-2 flex flex-auto rounded-xl bg-base-100  hover:cursor-pointer hover:bg-neutral'
 			>
-				<img
-					className={`mx-auto my-auto mr-auto max-h-12 text-white ${
-						data[index].image.startsWith('data:image/svg+xml;base64,') &&
-						'dark:invert'
-					}`}
-					src={data[index].image}
-				></img>
+				{data[index].image.startsWith('data:image/') ? (
+					<img
+						className='mx-auto my-auto mr-auto max-h-12'
+						src={data[index].image}
+					></img>
+				) : (
+					<div
+						className='my-auto ml-2'
+						dangerouslySetInnerHTML={{ __html: data[index].image }}
+					></div>
+				)}
+
 				<label className='mx-auto my-auto text-xs  hover:cursor-pointer'>
 					{data[index].properties?.name}
 				</label>

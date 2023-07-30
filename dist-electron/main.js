@@ -63,9 +63,9 @@ const loadExtensions = async (event) => {
         );
       }
       if (fs.existsSync(path.join(extensionsPath, extension, "components", name + ".svg"))) {
-        newComponent.image = "data:image/svg+xml;base64," + await fs__namespace.readFile(
+        newComponent.image = await fs__namespace.readFile(
           path.join(extensionsPath, extension, "components", name + ".svg"),
-          "base64"
+          "utf-8"
         );
       }
       if (fs.existsSync(path.join(extensionsPath, extension, "components", name + ".jsx"))) {
