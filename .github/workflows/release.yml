@@ -44,7 +44,7 @@ jobs:
         run: npm run build:win
         
       - name: Get tag name
-        uses: marketplacedevs/get-tag@v1
+        run: echo ::set-output name=tag_name::$(basename ${{ github.ref }}) 
         id: tag
 
       - name: release
