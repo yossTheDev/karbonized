@@ -64,7 +64,7 @@ We also need to create a **JSON** file with the same name of the component which
 
 ### Packaging
 
-See [icon-pack-plugin-template](https://github.com/karbon-apps/icon-pack-plugin-template)
+See [icon-pack-plugin-template](https://github.com/karbon-apps/icon-pack-extension-template)
 
 ### Limitations
 
