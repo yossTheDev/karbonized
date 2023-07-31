@@ -5,7 +5,7 @@
 	"appId": "com.yossthedev.karbonized",
 	"publish": {
 		"provider": "github",
-		"protocol" : "https", 
+		"protocol": "https",
 		"releaseType": "release"
 	},
 	"asar": true,
@@ -32,5 +32,9 @@
 		"perMachine": false,
 		"allowToChangeInstallationDirectory": true,
 		"deleteAppDataOnUninstall": false
+	},
+
+	"snap": {
+		"publish": "never"
 	}
 }
