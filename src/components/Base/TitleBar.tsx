@@ -26,13 +26,16 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='z-50 flex max-h-12 w-full  bg-base-200 p-1'
+			className='z-50 flex max-h-12 w-full  bg-base-200 p-0.5'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
 		>
-			<img className='my-auto ml-2 h-5' src={karbonized}></img>
+			<img
+				className='my-auto ml-2 h-5 text-black dark:text-white'
+				src={karbonized}
+			></img>
 
 			<MenuBar></MenuBar>
 
@@ -40,9 +43,9 @@ export const TitleBar: React.FC = () => {
 
 			{/* Icons */}
 			<div className='ml-auto mr-1 select-none'>
-				<div className='my-auto flex flex-row gap-1'>
+				<div className='my-auto flex flex-row gap-3'>
 					<div
-						className='mr-2 flex flex-auto rounded-xl p-2 hover:cursor-pointer hover:bg-neutral'
+						className='mr-2 flex flex-auto rounded px-3 py-2 hover:cursor-pointer hover:bg-neutral'
 						onClick={() => toggleTheme()}
 					>
 						{appTheme === 'light' ? (
@@ -53,7 +56,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded-xl p-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded  px-3 py-2 hover:bg-neutral'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 						}
@@ -68,7 +71,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded-xl p-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded  px-3 py-2 hover:bg-neutral'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 						}
@@ -93,7 +96,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded-xl p-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded px-3 py-2 hover:bg-neutral'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('closeApp')
 						}

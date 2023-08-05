@@ -1,1 +1,119 @@
-"use strict";const i=require("electron"),c=require("fs"),l=require("node:fs/promises"),t=require("path");function m(a){const e=Object.create(null,{[Symbol.toStringTag]:{value:"Module"}});if(a){for(const n in a)if(n!=="default"){const s=Object.getOwnPropertyDescriptor(a,n);Object.defineProperty(e,n,s.get?s:{enumerable:!0,get:()=>a[n]})}}return e.default=a,Object.freeze(e)}const r=m(l),d=async a=>{c.mkdirSync(t.join(i.app.getPath("appData"),"karbonized","extensions"),{recursive:!0}),a.reply("loading_extensions",!0);const e=t.join(i.app.getPath("appData"),"karbonized","extensions"),n=(await r.readdir(e)).filter(o=>o.endsWith(".kext")),s=[];for(const o of n){const p=JSON.parse(await r.readFile(t.join(e,o),"utf-8"));s.push(p),a.reply("extension_loaded",p)}await r.writeFile(t.join(i.app.getPath("appData"),"karbonized","extensions_data.json"),JSON.stringify(s)),a.reply("extensions_loaded",s),a.reply("loading_extensions",!1)};i.app.whenReady().then(()=>{const a=i.nativeImage.createFromPath(t.join(__dirname,"assets",process.platform==="win32"?"icon.ico":"icon.png")),e=new i.BrowserWindow({title:"Karbonized",icon:a,width:800,height:600,minHeight:600,minWidth:900,useContentSize:!0,frame:process.platform==="darwin",titleBarStyle:"hidden",webPreferences:{preload:t.join(__dirname,"preload.js"),sandbox:!1}});process.env.VITE_DEV_SERVER_URL||(i.app.applicationMenu=new i.Menu),e.maximize(),process.env.VITE_DEV_SERVER_URL?e.loadURL(process.env.VITE_DEV_SERVER_URL):e.loadFile("dist/index.html"),i.ipcMain.on("maximizeApp",n=>{e.isMaximized()?(e.unmaximize(),n.reply("maximizedStatus",e.isMaximized())):(e.maximize(),n.reply("maximizedStatus",e.isMaximized()))}),i.ipcMain.on("minimizeApp",()=>{e.minimize()}),i.ipcMain.on("closeApp",()=>{e.close()}),i.ipcMain.on("getAppData",async n=>{await(async()=>{if(c.existsSync(t.join(i.app.getPath("appData"),"karbonized","extensions_data.json"))){const o=JSON.parse(await r.readFile(t.join(i.app.getPath("appData"),"karbonized","extensions_data.json"),"utf-8"));n.reply("extensions_loaded",o)}else await d(n)})()}),i.ipcMain.on("reloadExtensions",async n=>{await d(n)})});
+"use strict";
+const electron = require("electron");
+const fs = require("fs");
+const fs$1 = require("node:fs/promises");
+const path = require("path");
+function _interopNamespaceDefault(e) {
+  const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
+  if (e) {
+    for (const k in e) {
+      if (k !== "default") {
+        const d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: () => e[k]
+        });
+      }
+    }
+  }
+  n.default = e;
+  return Object.freeze(n);
+}
+const fs__namespace = /* @__PURE__ */ _interopNamespaceDefault(fs$1);
+const loadExtensions = async (event) => {
+  fs.mkdirSync(path.join(electron.app.getPath("appData"), "karbonized", "extensions"), {
+    recursive: true
+  });
+  event.reply("loading_extensions", true);
+  const extensionsPath = path.join(
+    electron.app.getPath("appData"),
+    "karbonized",
+    "extensions"
+  );
+  const extensions = (await fs__namespace.readdir(extensionsPath)).filter(
+    (item) => item.endsWith(".kext")
+  );
+  const loadedExtensions = [];
+  for (const extension of extensions) {
+    const newExtension = JSON.parse(
+      await fs__namespace.readFile(path.join(extensionsPath, extension), "utf-8")
+    );
+    loadedExtensions.push(newExtension);
+    event.reply("extension_loaded", newExtension);
+  }
+  await fs__namespace.writeFile(
+    path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json"),
+    JSON.stringify(loadedExtensions)
+  );
+  event.reply("extensions_loaded", loadedExtensions);
+  event.reply("loading_extensions", false);
+};
+electron.app.whenReady().then(() => {
+  const icon = electron.nativeImage.createFromPath(
+    path.join(
+      __dirname,
+      "assets",
+      process.platform === "win32" ? "icon.ico" : "icon.png"
+    )
+  );
+  const win = new electron.BrowserWindow({
+    title: "Karbonized",
+    icon,
+    width: 800,
+    height: 600,
+    minHeight: 600,
+    minWidth: 900,
+    useContentSize: true,
+    frame: process.platform === "darwin",
+    titleBarStyle: "hidden",
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      sandbox: false
+    }
+  });
+  if (!process.env.VITE_DEV_SERVER_URL) {
+    electron.app.applicationMenu = new electron.Menu();
+  }
+  win.maximize();
+  if (process.env.VITE_DEV_SERVER_URL) {
+    win.loadURL(process.env.VITE_DEV_SERVER_URL);
+  } else {
+    win.loadFile("dist/index.html");
+  }
+  electron.ipcMain.on("maximizeApp", (event) => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+      event.reply("maximizedStatus", win.isMaximized());
+    } else {
+      win.maximize();
+      event.reply("maximizedStatus", win.isMaximized());
+    }
+  });
+  electron.ipcMain.on("minimizeApp", () => {
+    win.minimize();
+  });
+  electron.ipcMain.on("closeApp", () => {
+    win.close();
+  });
+  electron.ipcMain.on("getAppData", async (event) => {
+    const load = async () => {
+      if (fs.existsSync(
+        path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json")
+      )) {
+        const data = JSON.parse(
+          await fs__namespace.readFile(
+            path.join(electron.app.getPath("appData"), "karbonized", "extensions_data.json"),
+            "utf-8"
+          )
+        );
+        event.reply("extensions_loaded", data);
+      } else {
+        await loadExtensions(event);
+      }
+    };
+    await load();
+  });
+  electron.ipcMain.on("reloadExtensions", async (event) => {
+    await loadExtensions(event);
+  });
+});
