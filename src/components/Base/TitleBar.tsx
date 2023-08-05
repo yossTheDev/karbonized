@@ -43,7 +43,7 @@ export const TitleBar: React.FC = () => {
 
 			{/* Icons */}
 			<div className='ml-auto mr-1 select-none'>
-				<div className='my-auto flex flex-row gap-3'>
+				<div className='my-auto flex flex-row gap-1'>
 					<div
 						className='mr-2 flex flex-auto rounded px-3 py-2 hover:cursor-pointer hover:bg-neutral'
 						onClick={() => toggleTheme()}
@@ -56,7 +56,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded  px-3 py-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded  px-4 py-2 hover:bg-neutral'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 						}
@@ -71,7 +71,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded  px-3 py-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded  px-4 py-2 hover:bg-neutral'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 						}
@@ -96,7 +96,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded px-3 py-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded px-4 py-2 hover:bg-neutral'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('closeApp')
 						}
