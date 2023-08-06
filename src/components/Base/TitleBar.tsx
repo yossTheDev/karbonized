@@ -26,7 +26,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='z-50 flex max-h-12 w-full  bg-base-200 p-0.5'
+			className='z-50 flex max-h-12 w-full  bg-base-200 p-1'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
@@ -45,7 +45,7 @@ export const TitleBar: React.FC = () => {
 			<div className='ml-auto mr-1 select-none'>
 				<div className='my-auto flex flex-row gap-1'>
 					<div
-						className='mr-2 flex flex-auto rounded px-3 py-2 hover:cursor-pointer hover:bg-neutral'
+						className='mr-2 flex flex-auto rounded-full p-3 hover:cursor-pointer hover:bg-neutral active:bg-base-100'
 						onClick={() => toggleTheme()}
 					>
 						{appTheme === 'light' ? (
@@ -56,7 +56,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded  px-4 py-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded-full p-3 hover:bg-neutral active:bg-base-100'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 						}
@@ -71,7 +71,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded  px-4 py-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded-full p-3 hover:bg-neutral active:bg-base-100'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 						}
@@ -96,7 +96,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='flex flex-auto cursor-pointer rounded px-4 py-2 hover:bg-neutral'
+						className='flex flex-auto cursor-pointer rounded-full p-3 hover:bg-neutral active:bg-base-100'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('closeApp')
 						}
