@@ -3,6 +3,7 @@
 ## v 1.7.2
 
 feat: Auto Scroll Tabs
+fix: Minor fixes and improvements
 
 ## v 1.7.1
 

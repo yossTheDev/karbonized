@@ -7,6 +7,18 @@ interface Props {
 }
 
 const changelog = `
+## v 1.7.2
+
+feat: Auto Scroll Tabs
+fix: Minor fixes and improvements
+
+## v 1.7.1
+
+improve: Tabs System
+feat: Toggle Aspect Ratio Key Shortcut (Ctrl+R)
+fix: Minor UI Fixes
+fix: Open Multiples Menus at Time
+
 ## 1.7.0
 
 * New Stable Release
@@ -195,6 +207,7 @@ Controls
 * Text
 * Qr
 * Code
+
 `;
 export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 	return (
