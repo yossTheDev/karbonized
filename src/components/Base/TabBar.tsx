@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { IconPlus, IconSquareRotated, IconX } from '@tabler/icons-react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
@@ -15,6 +15,10 @@ export const TabBar: React.FC = () => {
 	);
 
 	const ref = useRef<Scrollbars>(null);
+
+	useEffect(() => {
+		ref.current?.scrollToRight();
+	}, [workspaces]);
 
 	return (
 		<div className='absolute z-30 my-auto ml-2 mt-2 flex max-h-20 w-2/3 max-w-fit  flex-auto flex-row overflow-auto'>
@@ -38,15 +42,14 @@ export const TabBar: React.FC = () => {
 					ref.current?.scrollLeft(ref.current.getScrollLeft() - delta * 20);
 					event.preventDefault();
 				}}
-				onDoubleClick={() => addWorkspace('')}
-				className='pointer-events-auto flex max-w-fit flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden  pr-4'
+				className='pointer-events-auto flex max-w-fit flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden'
 			>
 				<div className='flex flex-row gap-1 p-1'>
 					{workspaces.map((item) => (
 						<div
 							key={item.id}
 							id={item.id}
-							className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-neutral p-1  hover:cursor-pointer  hover:bg-neutral active:bg-base-100 dark:text-gray-300 ${
+							className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-base-200 p-1  hover:cursor-pointer  hover:bg-neutral active:bg-base-100 dark:text-gray-300 ${
 								currentWorkspaceID === item.id &&
 								'poppins-font-family  border border-neutral shadow'
 							}`}
@@ -76,7 +79,7 @@ export const TabBar: React.FC = () => {
 
 			<div
 				onClick={() => addWorkspace('')}
-				className='z-20  my-auto mr-2 cursor-pointer rounded-full  p-2 hover:bg-neutral active:bg-base-100'
+				className='z-20  mx-2 my-auto cursor-pointer rounded-full bg-base-200  p-2 hover:bg-neutral active:bg-base-100'
 			>
 				<IconPlus size={14} className='my-auto dark:text-white'></IconPlus>
 			</div>
