@@ -21,7 +21,7 @@ export const TabBar: React.FC = () => {
 	}, [workspaces]);
 
 	return (
-		<div className='absolute z-30 my-auto ml-2 mt-2 flex max-h-20 w-2/3 max-w-fit  flex-auto flex-row overflow-auto'>
+		<div className='absolute z-30 my-auto ml-2 mt-2  hidden max-h-20 w-2/3 max-w-fit flex-auto  flex-row overflow-auto lg:flex'>
 			<Scrollbars
 				ref={ref}
 				autoHeight
