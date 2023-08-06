@@ -14,12 +14,12 @@ import promotion from '../assets/promotion2.png';
 
 export const Home: React.FC = () => {
 	return (
-		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden  md:p-4'>
+		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 text-white md:p-4'>
 			{/* Nav Bar */}
 			<div className='flex flex-row'>
-				<div className='md:mt:0 mx-auto my-auto mt-4 flex h-fit w-fit select-none flex-row gap-2 rounded-xl  bg-base-200 p-2 text-black dark:text-white md:mx-0 md:flex'>
+				<div className='md:mt:0 mx-auto my-auto mt-4 flex h-fit w-fit select-none flex-row gap-2 rounded-xl  bg-base-100 p-2 text-black dark:text-white md:mx-0 md:flex'>
 					<img className='h-8 w-full ' src={karbonized}></img>
-					<p className='poppins-font-family my-auto text-xl dark:text-white'>
+					<p className='poppins-font-family my-auto text-xl text-white'>
 						Karbonized
 					</p>
 				</div>
@@ -85,7 +85,7 @@ export const Home: React.FC = () => {
 						{/* Try Editor Mobile */}
 						<a
 							href='https://github.com/yossTheDev/karbonized/'
-							className='mx-auto mt-2 flex h-fit w-fit skew-x-3 cursor-pointer select-none flex-row gap-2 rounded-xl bg-base-200 p-4 text-black transition-all hover:bg-neutral active:scale-90 dark:text-white  md:hidden'
+							className='mx-auto mt-2 flex h-fit w-fit skew-x-3 cursor-pointer select-none flex-row gap-2 rounded-xl bg-base-200 p-4 text-white transition-all hover:bg-neutral active:scale-90 dark:text-white  md:hidden'
 						>
 							<IconTools className='mx-2 my-auto'></IconTools>
 							<p className='poppins-font-family my-auto text-xl'>Try Editor</p>
