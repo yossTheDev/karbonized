@@ -206,21 +206,21 @@ const ItemsList = ({ data }: { data: any }) => {
 					handleAddItem(data[index].code, data[index].properties.name);
 				}}
 				style={{ ...style, height: style.height - 5, top: style.top + 5 }}
-				className='flex-r my-2 flex flex-auto rounded-xl bg-base-100  hover:cursor-pointer hover:bg-neutral'
+				className='flex-r my-2 flex flex-auto select-none rounded-xl  bg-base-100 hover:cursor-pointer hover:bg-neutral'
 			>
 				{data[index].image.startsWith('data:image/') ? (
 					<img
-						className='my-auto ml-2 mr-auto h-6 w-6'
+						className='my-auto ml-2 mr-auto h-6 w-6 select-none'
 						src={data[index].image}
 					></img>
 				) : (
 					<div
-						className='my-auto ml-2 mr-auto h-6 w-6'
+						className='my-auto ml-2 mr-auto h-6 w-6 select-none'
 						dangerouslySetInnerHTML={{ __html: data[index].image }}
 					></div>
 				)}
 
-				<label className='mx-auto my-auto text-xs  hover:cursor-pointer'>
+				<label className='pointer-events-none my-auto ml-auto mr-2  text-xs'>
 					{data[index].properties?.name}
 				</label>
 			</div>
