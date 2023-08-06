@@ -232,19 +232,7 @@ export const Editor: React.FC = () => {
 			<div className='relative flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-100 p-2 shadow-inner md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='pointer-events-none absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
-					<Navbar.Start className='z-20'>
-						{/* About Button */}
-						<Button
-							color='ghost'
-							className='ml-2 hidden rounded-full hover:border-base-100   hover:bg-base-100 md:hidden'
-							onClick={() => setShowAbout(true)}
-						>
-							<IconInfoCircle className='text-black dark:text-white'></IconInfoCircle>
-							<p className='hidden text-black dark:text-white md:ml-2 md:flex'>
-								Share
-							</p>
-						</Button>
-					</Navbar.Start>
+					<Navbar.Start className='z-20'></Navbar.Start>
 
 					<Navbar.End className='pointer-events-auto ml-auto max-w-fit flex-auto gap-0 md:hidden md:gap-1 lg:flex'>
 						{/* Change Theme */}

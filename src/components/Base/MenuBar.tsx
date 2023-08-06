@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
 import {
 	IconArrowBack,
 	IconArrowForward,
@@ -17,19 +15,20 @@ import {
 	IconSquareRotated,
 	IconTrash,
 } from '@tabler/icons-react';
-import { ProjectWizard } from '../Modals/ProjectWizard';
+import CryptoJS from 'crypto-js';
+import FileSaver from 'file-saver';
+import { toBlob, toJpeg } from 'html-to-image';
+import React, { useEffect, useState } from 'react';
+import { Project } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
-import { AboutModal } from '../Modals/AboutModal';
-
-import { toBlob, toJpeg } from 'html-to-image';
-import { PreviewModal } from '../Modals/PreviewModal';
 import { getRandomNumber } from '../../utils/getRandom';
+import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
+import { AboutModal } from '../Modals/AboutModal';
 import { ChangelogModal } from '../Modals/ChangelogModal';
 import { DonationsModal } from '../Modals/DonationsModal';
-import FileSaver from 'file-saver';
-import CryptoJS from 'crypto-js';
-import { Project } from '../../stores/AppStore';
+import { PreviewModal } from '../Modals/PreviewModal';
+import { ProjectWizard } from '../Modals/ProjectWizard';
 
 export const MenuBar: React.FC = () => {
 	/* Panels */

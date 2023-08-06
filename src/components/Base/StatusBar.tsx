@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import {
 	IconBrandGithub,
 	IconCircleDashed,
-	IconHeart,
+	IconCircleSquare,
 	IconHierarchy,
-	IconPalette,
-	IconSquareRotated,
 	IconSquareRotatedForbid2,
-	IconSquareRoundedPlus,
 	IconTag,
 	IconTools,
 } from '@tabler/icons-react';
-import { AboutModal } from '../Modals/AboutModal';
-import { IconCircleSquare } from '@tabler/icons-react';
+import React, { useEffect, useState } from 'react';
+import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { Tooltip } from '../CustomControls/Tooltip';
+import { AboutModal } from '../Modals/AboutModal';
 
 export const StatusBar: React.FC = () => {
 	/* Component Store */
@@ -62,8 +58,8 @@ export const StatusBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='hidden select-none flex-row p-1 text-gray-500 md:flex'>
-				<div className='my-auto flex flex-auto flex-row gap-2'>
+			<div className='mx-2 hidden select-none flex-row p-1 text-gray-500 md:flex'>
+				<div className=' my-auto flex flex-auto flex-row gap-2'>
 					{/* Layout Mode */}
 					<Tooltip
 						placement='top'

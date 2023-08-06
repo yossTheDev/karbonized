@@ -12,7 +12,7 @@ const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 
 	return (
-		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 transition-all ease-in-out'>
+		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 p-1 transition-all ease-in-out'>
 			{/* Noise Background */}
 			<svg
 				className='fixed'
@@ -77,10 +77,8 @@ const App: React.FC = () => {
 
 					{!isElectron() && (
 						<div className='flex flex-row'>
-							<img className='my-auto ml-4 h-6' src={karbonized}></img>
-							<p className='poppins-font-family my-auto ml-1 dark:text-white '>
-								Karbonized
-							</p>
+							<img className='my-auto ml-4 h-5' src={karbonized}></img>
+
 							<MenuBar></MenuBar>
 						</div>
 					)}
