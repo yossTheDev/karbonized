@@ -139,7 +139,7 @@ export const Editor: React.FC = () => {
 			setDrag(true);
 		} else if (event.ctrlKey && event.key === 'r') {
 			event.preventDefault();
-			setAspectRatio(true);
+			setAspectRatio(!aspectRatio);
 		} else if (event.ctrlKey && event.key === 's') {
 			event.preventDefault();
 		} else if (event.ctrlKey && event.key === 'z') {
@@ -166,7 +166,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, [currentWorkspace, workspaceMode, controlID]);
+	}, [currentWorkspace, workspaceMode, controlID, aspectRatio]);
 
 	/* Handle Duplicate Elements */
 	useEffect(() => {
