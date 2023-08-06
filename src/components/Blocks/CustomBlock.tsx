@@ -25,8 +25,8 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 	return (
 		<LiveProvider key={id} noInline scope={scope} code={code}>
 			<ControlTemplate
-				defaultHeight='50px'
-				defaultWidth='50px'
+				defaultHeight='80px'
+				defaultWidth='80px'
 				minHeight={'50px'}
 				minWidth={'50px'}
 				maxWidth={'2000px'}
@@ -64,7 +64,7 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 			>
 				<LivePreview
 					style={{ color: color, background: bgcolor }}
-					className='flex max-h-full w-full max-w-full flex-auto select-none flex-col '
+					className='mx-auto flex h-full w-full flex-auto select-none'
 					id={id}
 				></LivePreview>
 			</ControlTemplate>

@@ -12,7 +12,6 @@ export const ExtensionPanel: React.FC = () => {
 	const [extensions, setExtensions] = useState<Extension[]>([]);
 	const [query, setQuery] = useState('');
 	const [controls, setControls] = useState<any>([]);
-	const [isPending, startTransition] = useTransition();
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -211,12 +210,12 @@ const ItemsList = ({ data }: { data: any }) => {
 			>
 				{data[index].image.startsWith('data:image/') ? (
 					<img
-						className='mx-auto my-auto mr-auto max-h-12'
+						className='my-auto ml-2 mr-auto h-6 w-6'
 						src={data[index].image}
 					></img>
 				) : (
 					<div
-						className='my-auto ml-2'
+						className='my-auto ml-2 mr-auto h-6 w-6'
 						dangerouslySetInnerHTML={{ __html: data[index].image }}
 					></div>
 				)}
