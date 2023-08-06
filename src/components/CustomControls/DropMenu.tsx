@@ -21,6 +21,7 @@ interface Props {
 export const MenuContext = createContext({
 	isOpen: false,
 	setIsOpen: (value: boolean) => {},
+	setIsInside: (value: boolean) => {},
 });
 
 export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
@@ -33,7 +34,9 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	});
 
 	return (
-		<MenuContext.Provider value={{ isOpen: show, setIsOpen: setShow }}>
+		<MenuContext.Provider
+			value={{ isOpen: show, setIsOpen: setShow, setIsInside: setIsInside }}
+		>
 			<div
 				className={`select-none rounded px-3 py-0.5  hover:cursor-pointer hover:bg-neutral active:bg-base-100 ${
 					show && 'bg-base-100'
@@ -90,7 +93,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 	click,
 	shortcut,
 }) => {
-	const { isOpen, setIsOpen } = useContext(MenuContext);
+	const { setIsOpen, setIsInside } = useContext(MenuContext);
 
 	return (
 		<div
@@ -98,6 +101,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 			onMouseDown={() => {
 				click();
 				setIsOpen(false);
+				setIsInside(false);
 			}}
 		>
 			<div className='my-auto flex flex-auto flex-row gap-2 hover:cursor-pointer'>
