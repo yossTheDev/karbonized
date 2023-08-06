@@ -4,6 +4,7 @@
 
 feat: Toggle Aspect Ratio Key Shortcut (Ctrl+R)
 fix: Minor UI Fixes
+fix: Open Multiples Menus at Time
 
 ## 1.7.0
 
