@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useTransition } from 'react';
-import { CustomCollapse } from '../CustomControls/CustomCollapse';
-import { getRandomNumber } from '../../utils/getRandom';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { IconCircleDashed, IconReload, IconSearch } from '@tabler/icons-react';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'react-daisyui';
-import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList } from 'react-window';
+import { Extension } from '../../models/Extension';
+import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { getRandomNumber } from '../../utils/getRandom';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 export const ExtensionPanel: React.FC = () => {
 	/* Component State */
@@ -229,7 +230,7 @@ const ItemsList = ({ data }: { data: any }) => {
 
 	return (
 		<AutoSizer>
-			{({ height, width }) => (
+			{({ height, width }: { height: number; width: number }) => (
 				<FixedSizeList
 					height={height}
 					width={width}

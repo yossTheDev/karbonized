@@ -1,4 +1,4 @@
-interface Extension {
+export interface Extension {
 	logo: string;
 	info: {
 		name: string;
