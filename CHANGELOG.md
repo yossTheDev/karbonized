@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.7.1
+
+feat: Toggle Aspect Ratio Key Shortcut (Ctrl+R)
+
 ## 1.7.0
 
 * New Stable Release
