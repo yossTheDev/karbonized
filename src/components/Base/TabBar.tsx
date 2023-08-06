@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { IconSquareRotated, IconX } from '@tabler/icons-react';
+import { IconPlus, IconSquareRotated, IconX } from '@tabler/icons-react';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 export const TabBar: React.FC = () => {
 	const workspaces = useStoreState((state) => state.workspaces);
@@ -13,41 +14,71 @@ export const TabBar: React.FC = () => {
 		(state) => state.setCurrentWorkspace,
 	);
 
-	return (
-		<div className='pointer-events-none absolute z-30 mx-2  mt-1 hidden w-2/3 flex-auto flex-row gap-2 overflow-hidden p-2 lg:flex'>
-			<div
-				onDoubleClick={() => addWorkspace('')}
-				className='pointer-events-auto flex max-w-fit flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden px-1 py-2  pr-10'
-			>
-				{workspaces.map((item) => (
-					<div
-						key={item.id}
-						id={item.id}
-						className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-base-200 p-1 shadow  hover:cursor-pointer hover:bg-neutral dark:text-gray-300 ${
-							currentWorkspaceID === item.id &&
-							'poppins-font-family border border-neutral '
-						}`}
-					>
-						<div
-							onClick={() => setCurrentWorkspace(item.id)}
-							className='flex flex-row'
-						>
-							<IconSquareRotated
-								className='my-auto ml-2'
-								size={16}
-							></IconSquareRotated>
-							<label className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
-								{item.workspaceName}
-							</label>
-						</div>
+	const ref = useRef<Scrollbars>(null);
 
-						<IconX
-							size={16}
-							onClick={() => deleteWorkspace(item.id)}
-							className='my-auto ml-auto mr-2 rounded hover:bg-base-100'
-						></IconX>
-					</div>
-				))}
+	return (
+		<div className='absolute z-30 my-auto ml-2 mt-2 flex max-h-20 w-2/3 max-w-fit  flex-auto flex-row overflow-auto'>
+			<Scrollbars
+				ref={ref}
+				autoHeight
+				autoHide
+				renderThumbHorizontal={(props) => (
+					<div {...props} className='rounded bg-base-100/70' />
+				)}
+				onWheel={(event: any) => {
+					const delta = Math.max(
+						-1,
+						Math.min(
+							1,
+							(event.nativeEvent.wheelDelta as any) ||
+								-event.nativeEvent.detail,
+						),
+					);
+
+					ref.current?.scrollLeft(ref.current.getScrollLeft() - delta * 20);
+					event.preventDefault();
+				}}
+				onDoubleClick={() => addWorkspace('')}
+				className='pointer-events-auto flex max-w-fit flex-auto flex-row gap-2 overflow-x-auto overflow-y-hidden  pr-4'
+			>
+				<div className='flex flex-row gap-1 p-1'>
+					{workspaces.map((item) => (
+						<div
+							key={item.id}
+							id={item.id}
+							className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-neutral p-1  hover:cursor-pointer  hover:bg-neutral active:bg-base-100 dark:text-gray-300 ${
+								currentWorkspaceID === item.id &&
+								'poppins-font-family  border border-neutral shadow'
+							}`}
+						>
+							<div
+								onClick={() => setCurrentWorkspace(item.id)}
+								className='flex flex-row'
+							>
+								<IconSquareRotated
+									className='my-auto ml-2'
+									size={16}
+								></IconSquareRotated>
+								<label className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
+									{item.workspaceName}
+								</label>
+							</div>
+
+							<IconX
+								size={16}
+								onClick={() => deleteWorkspace(item.id)}
+								className='my-auto ml-auto mr-2 rounded hover:bg-base-100'
+							></IconX>
+						</div>
+					))}
+				</div>
+			</Scrollbars>
+
+			<div
+				onClick={() => addWorkspace('')}
+				className='z-20  my-auto mr-2 cursor-pointer rounded-full  p-2 hover:bg-neutral active:bg-base-100'
+			>
+				<IconPlus size={14} className='my-auto dark:text-white'></IconPlus>
 			</div>
 		</div>
 	);
