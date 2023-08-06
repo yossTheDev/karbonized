@@ -229,7 +229,7 @@ export const Editor: React.FC = () => {
 			</div>
 
 			{/* Content */}
-			<div className='relative flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-100 p-2 shadow-inner md:p-0'>
+			<div className='relative mb-1 flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-100 p-2 shadow-inner md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='pointer-events-none absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'></Navbar.Start>
