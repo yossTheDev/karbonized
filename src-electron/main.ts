@@ -45,11 +45,7 @@ const loadExtensions = async (event) => {
 
 app.whenReady().then(() => {
 	const icon = nativeImage.createFromPath(
-		join(
-			__dirname,
-			'assets',
-			process.platform === 'win32' ? 'icon.ico' : 'icon.png',
-		),
+		join(__dirname, process.platform === 'win32' ? 'icon.ico' : 'icon.png'),
 	);
 
 	const win = new BrowserWindow({

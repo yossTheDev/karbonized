@@ -50,11 +50,7 @@ const loadExtensions = async (event) => {
 };
 electron.app.whenReady().then(() => {
   const icon = electron.nativeImage.createFromPath(
-    path.join(
-      __dirname,
-      "assets",
-      process.platform === "win32" ? "icon.ico" : "icon.png"
-    )
+    path.join(__dirname, process.platform === "win32" ? "icon.ico" : "icon.png")
   );
   const win = new electron.BrowserWindow({
     title: "Karbonized",

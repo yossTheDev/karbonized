@@ -10,6 +10,7 @@ export default defineConfig({
 			entry: 'src-electron/main.ts',
 
 			vite: {
+				publicDir: 'src-electron/assets/',
 				build: {
 					rollupOptions: {
 						input: {
