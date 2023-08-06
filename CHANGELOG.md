@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.7.2
+
+feat: Auto Scroll Tabs
+
 ## v 1.7.1
 
 improve: Tabs System
