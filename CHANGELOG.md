@@ -1,11 +1,11 @@
 # Changelog
 
-## v 1.7.2
+## 1.7.2
 
 feat: Auto Scroll Tabs
 fix: Minor fixes and improvements
 
-## v 1.7.1
+## 1.7.1
 
 improve: Tabs System
 feat: Toggle Aspect Ratio Key Shortcut (Ctrl+R)
