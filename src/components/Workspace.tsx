@@ -122,7 +122,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					elementGuidelines={controlsClass}
 					useAccuratePosition // TODO Not Available For Groups
 					isDisplaySnapDigit
-					zoom={1.2}
 					snapGap
 					snapRotationDegrees={[0, 90, 180, 270]}
 					/* draggable */

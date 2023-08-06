@@ -27,8 +27,8 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 			<ControlTemplate
 				defaultHeight='80px'
 				defaultWidth='80px'
-				minHeight={'50px'}
-				minWidth={'50px'}
+				minHeight={'10px'}
+				minWidth={'10px'}
 				maxWidth={'2000px'}
 				maxHeight={'2000px'}
 				id={id}

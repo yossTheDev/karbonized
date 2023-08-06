@@ -166,7 +166,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, [currentWorkspace, workspaceMode, controlID, aspectRatio]);
+	}, [currentWorkspace, workspaceMode, aspectRatio]);
 
 	/* Handle Duplicate Elements */
 	useEffect(() => {
@@ -404,17 +404,13 @@ export const Editor: React.FC = () => {
 						<InfiniteViewer
 							ref={viewerRef}
 							className='viewer my-2 flex flex-auto'
+							useAutoZoom
 							useMouseDrag={drag}
 							threshold={0}
 							useResizeObserver
 							useWheelScroll
 							useWheelPinch
 							useTransform
-							onScroll={() => {
-								/*console.log(
-							'scroll left ' + e.scrollLeft + 'scroll top ' + e.scrollTop
-						);*/
-							}}
 						>
 							<div
 								style={{

@@ -1,10 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-	DropMenu,
-	MenuContext,
-	MenuItem,
-	MenuSeparator,
-} from '../CustomControls/DropMenu';
+import React, { useEffect, useState } from 'react';
+import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
 import {
 	IconArrowBack,
 	IconArrowForward,
@@ -17,7 +12,6 @@ import {
 	IconFileUpload,
 	IconFlask,
 	IconInfoHexagon,
-	IconMoneybag,
 	IconPigMoney,
 	IconPlus,
 	IconSquareRotated,

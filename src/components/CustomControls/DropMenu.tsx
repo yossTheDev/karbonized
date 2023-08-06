@@ -9,16 +9,16 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Portal } from 'react-portal';
 
-interface Props {
+type Props = {
 	id?: string;
 	show?: boolean;
 	position?: Placement;
 	label: string;
 	menu: ReactNode;
 	showOnEnter?: boolean;
-}
+};
 
-export const MenuContext = createContext({
+const MenuContext = createContext({
 	isOpen: false,
 	setIsOpen: (value: boolean) => {},
 	setIsInside: (value: boolean) => {},
@@ -81,12 +81,13 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	);
 };
 
-interface MenuItemProps {
+type MenuItemProps = {
 	icon: ReactNode;
 	label: string;
 	shortcut?: string;
 	click: () => void;
-}
+};
+
 export const MenuItem: React.FC<MenuItemProps> = ({
 	icon,
 	label,
