@@ -2,6 +2,7 @@
 
 ## v 1.7.1
 
+improve: Tabs System
 feat: Toggle Aspect Ratio Key Shortcut (Ctrl+R)
 fix: Minor UI Fixes
 fix: Open Multiples Menus at Time
