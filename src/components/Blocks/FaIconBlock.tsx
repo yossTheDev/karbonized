@@ -92,7 +92,13 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 
 			{showIconPicker && (
 				<Portal>
-					<Modal open={true} className='bg-base-200'>
+					<Modal.Legacy
+						onClickBackdrop={() => {
+							setShowIconPicker(false);
+						}}
+						open={true}
+						className='bg-base-200'
+					>
 						<Modal.Header className='font-bold dark:text-white'>
 							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
 								Select Icon
@@ -170,7 +176,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								Cancel
 							</Button>
 						</Modal.Actions>
-					</Modal>
+					</Modal.Legacy>
 				</Portal>
 			)}
 		</>

@@ -145,9 +145,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	};
 
 	return (
-		<Modal
+		<Modal.Legacy
 			open={open}
-			backdrop
+			onClickBackdrop={() => {
+				onClose && onClose();
+			}}
 			className='flex w-[50rem] max-w-none flex-col overflow-hidden border border-neutral bg-base-200/95 p-4 backdrop-blur-2xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
@@ -334,6 +336,6 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					Create
 				</Button>
 			</Modal.Actions>
-		</Modal>
+		</Modal.Legacy>
 	);
 };

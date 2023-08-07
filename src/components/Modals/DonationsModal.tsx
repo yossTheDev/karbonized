@@ -17,9 +17,11 @@ interface Props {
 
 export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 	return (
-		<Modal
+		<Modal.Legacy
 			open={open}
-			backdrop
+			onClickBackdrop={() => {
+				onClose && onClose();
+			}}
 			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='hidden font-bold dark:text-white'>
@@ -98,6 +100,6 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 					OK
 				</Button>
 			</Modal.Actions>
-		</Modal>
+		</Modal.Legacy>
 	);
 };

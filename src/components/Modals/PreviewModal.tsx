@@ -79,9 +79,11 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	}, []);
 
 	return (
-		<Modal
+		<Modal.Legacy
 			open={open}
-			backdrop
+			onClickBackdrop={() => {
+				onClose && onClose();
+			}}
 			className='max-h-fit overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='flex flex-row font-bold dark:text-white'>
@@ -167,6 +169,6 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 					</div>
 				</Button>
 			</Modal.Actions>
-		</Modal>
+		</Modal.Legacy>
 	);
 };

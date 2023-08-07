@@ -211,9 +211,11 @@ Controls
 `;
 export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 	return (
-		<Modal
+		<Modal.Legacy
 			open={open}
-			backdrop
+			onClickBackdrop={() => {
+				onClose && onClose();
+			}}
 			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
@@ -236,6 +238,6 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 					OK
 				</Button>
 			</Modal.Actions>
-		</Modal>
+		</Modal.Legacy>
 	);
 };

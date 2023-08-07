@@ -18,10 +18,11 @@ interface Props {
 
 export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 	return (
-		<Modal
-			ref={ref}
+		<Modal.Legacy
 			open
-			backdrop
+			onClickBackdrop={() => {
+				onClose && onClose();
+			}}
 			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='hidden font-bold dark:text-white'>
@@ -50,7 +51,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 				</label>
 
 				<div className='mx-auto w-fit select-none rounded-full bg-base-200/70 px-4 py-2 text-gray-500'>
-					<label>v1.7.0</label>
+					<label>v1.7.2</label>
 				</div>
 
 				{/* Social Networks */}
@@ -147,6 +148,6 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 					OK
 				</Button>
 			</Modal.Actions>
-		</Modal>
+		</Modal.Legacy>
 	);
 };

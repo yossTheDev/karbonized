@@ -3,7 +3,7 @@ import {
 	IconHexagon,
 	IconHexagonFilled,
 } from '@tabler/icons-react';
-import React, { useId, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import {
@@ -34,6 +34,8 @@ interface Props {
 
 export const ShapeBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
+	const modal = useRef<HTMLDialogElement>(null);
+
 	const [color, setColor] = useControlState('#f3f4f6', `${id}-color`);
 	const [shape, setShape] = useControlState('oval', `${id}-shape`);
 	const [showModal, setShowModal] = useState(false);
@@ -66,7 +68,9 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 							<div className='ml-2 flex flex-row gap-2'>
 								<label className='my-auto text-xs'>Shape</label>
 								<div
-									onClick={() => setShowModal(true)}
+									onClick={() => {
+										setShowModal(true);
+									}}
 									className='ml-2 h-16 w-20 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
 								>
 									<ShapeHandler
@@ -91,7 +95,11 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 
 			{showModal && (
 				<Portal>
-					<Modal open={true} className='bg-base-200'>
+					<Modal.Legacy
+						open
+						onClickBackdrop={() => setShowModal(false)}
+						className='bg-base-200'
+					>
 						<Modal.Header className='font-bold dark:text-white'>
 							<label className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
 								Shapes
@@ -218,7 +226,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 								Cancel
 							</Button>
 						</Modal.Actions>
-					</Modal>
+					</Modal.Legacy>
 				</Portal>
 			)}
 		</>
