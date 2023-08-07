@@ -49,6 +49,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 							{/* Text */}
 							<ButtonGroup className='mx-auto flex w-full flex-auto'>
 								<Button
+									color='neutral'
 									active={isBold}
 									onClick={() => setIsBold(!isBold)}
 									className='flex flex-auto font-bold'
@@ -56,6 +57,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 									B
 								</Button>
 								<Button
+									color='neutral'
 									active={isItalic}
 									onClick={() => setIsItalic(!isItalic)}
 									className='flex flex-auto italic'
@@ -63,6 +65,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 									I
 								</Button>
 								<Button
+									color='neutral'
 									active={isUnderline}
 									onClick={() => setIsUnderline(!isUnderline)}
 									className='flex flex-auto underline'
@@ -107,7 +110,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 				<p
 					style={{ color: color, fontSize: textSize + 'px' }}
 					className={`my-auto flex flex-auto select-none overflow-hidden whitespace-pre-wrap hover:border hover:border-blue-500 ${
-						isBold && 'font-bold'
+						isBold && 'poppins-font-family font-bold'
 					} ${isItalic && 'italic'} ${isUnderline && 'underline'}`}
 				>
 					{text}

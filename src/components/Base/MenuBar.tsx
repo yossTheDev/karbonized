@@ -18,7 +18,7 @@ import {
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
 import { toBlob, toJpeg } from 'html-to-image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Project } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
@@ -32,6 +32,8 @@ import { ProjectWizard } from '../Modals/ProjectWizard';
 
 export const MenuBar: React.FC = () => {
 	/* Panels */
+	const about = useRef<HTMLDialogElement>(null);
+
 	const [showWizard, setShowWizard] = useState(true);
 	const [showAbout, setShowAbout] = useState(false);
 	const [previewImage, setPreviewImage] = useState('');
@@ -397,6 +399,7 @@ export const MenuBar: React.FC = () => {
 							<MenuItem
 								click={() => {
 									setShowAbout(true);
+									about.current?.showModal();
 								}}
 								icon={<IconInfoHexagon size={16}></IconInfoHexagon>}
 								label='About'
@@ -414,7 +417,11 @@ export const MenuBar: React.FC = () => {
 			)}
 
 			{showAbout && (
-				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
+				<AboutModal
+					ref={about}
+					open
+					onClose={() => setShowAbout(false)}
+				></AboutModal>
 			)}
 
 			{showPreview && (

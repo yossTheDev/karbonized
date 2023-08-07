@@ -109,7 +109,9 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 								></Input>
 							</div>
 
-							<Button onClick={() => getTweetData()}>Update</Button>
+							<Button color='neutral' onClick={() => getTweetData()}>
+								Update
+							</Button>
 						</CustomCollapse>
 					</>
 				}

@@ -147,9 +147,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	return (
 		<Modal
 			open={open}
-			onClickBackdrop={() => {
-				onClose && onClose();
-			}}
+			backdrop
 			className='flex w-[50rem] max-w-none flex-col overflow-hidden border border-neutral bg-base-200/95 p-4 backdrop-blur-2xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
@@ -243,7 +241,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									tabIndex={0}
 									value={lang}
 									onChange={(e) => {
-										setLang(e);
+										setLang(e as any);
 									}}
 								>
 									{languages.map((i) => {
@@ -328,7 +326,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Body>
 
 			<Modal.Actions className=''>
-				<Button className='dark:text-white' onClick={handleCreate}>
+				<Button
+					color='neutral'
+					className='dark:text-white'
+					onClick={handleCreate}
+				>
 					Create
 				</Button>
 			</Modal.Actions>

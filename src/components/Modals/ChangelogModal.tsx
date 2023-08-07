@@ -213,9 +213,7 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 	return (
 		<Modal
 			open={open}
-			onClickBackdrop={() => {
-				onClose && onClose();
-			}}
+			backdrop
 			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>

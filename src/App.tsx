@@ -12,7 +12,10 @@ const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 
 	return (
-		<div className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 transition-all ease-in-out'>
+		<div
+			onContextMenu={(event) => event.preventDefault()}
+			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 transition-all ease-in-out'
+		>
 			{/* Noise Background */}
 			<svg
 				className='fixed'

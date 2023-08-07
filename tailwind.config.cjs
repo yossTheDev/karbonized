@@ -25,8 +25,6 @@ module.exports = {
 
 					neutral: '#e5e7eb',
 
-					'base-100': '#ECECEC',
-
 					info: '#22d3ee',
 
 					success: '#9CB686',
@@ -35,6 +33,7 @@ module.exports = {
 
 					error: '#FC9783',
 
+					'base-100': '#141414',
 					'base-200': '#f3f4f6',
 					'base-300': '#ced3d9',
 					'base-content': '#000000',

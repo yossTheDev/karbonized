@@ -6,22 +6,22 @@ import {
 	IconCoinBitcoin,
 	IconCurrencyDogecoin,
 } from '@tabler/icons-react';
-import React from 'react';
+import React, { Ref } from 'react';
 import { Button, Modal } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import qvapay from '../../assets/qvapay.svg';
 interface Props {
 	open: boolean;
 	onClose?: Function;
+	ref: Ref<HTMLDialogElement>;
 }
 
-export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
+export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 	return (
 		<Modal
-			open={open}
-			onClickBackdrop={() => {
-				onClose && onClose();
-			}}
+			ref={ref}
+			open
+			backdrop
 			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='hidden font-bold dark:text-white'>
@@ -56,7 +56,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 				{/* Social Networks */}
 				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2 dark:text-white'>
 					<a
-						href='https://twitter.com/yossthedev'
+						href='https://twitter.com/karbonized_app'
 						className='to flex flex-auto cursor-pointer select-none flex-row  gap-1 rounded-3xl bg-base-200/70 p-3 px-4 shadow hover:bg-neutral  '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
@@ -65,7 +65,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 					</a>
 
 					<a
-						href='https://t.me/yossthedev'
+						href='https://t.me/karbonized'
 						className='to flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200/70 p-3 px-4 shadow hover:bg-neutral'
 					>
 						<div className='mx-auto my-auto flex flex-row'>
@@ -74,7 +74,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 					</a>
 
 					<a
-						href='https://github.com/yossthedev'
+						href='https://github.com/yossthedev/karbonized'
 						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200/70 p-3 px-4 shadow  hover:bg-neutral '
 					>
 						<div className='mx-auto my-auto flex flex-row'>

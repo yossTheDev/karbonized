@@ -427,12 +427,14 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Flip Options */}
 								<div className='flex flex-auto gap-2'>
 									<Button
+										color='neutral'
 										className='flex flex-auto'
 										onClick={() => setFlipX(!flipX)}
 									>
 										<IconFlipVertical></IconFlipVertical>
 									</Button>
 									<Button
+										color='neutral'
 										className='flex flex-auto'
 										onClick={() => setFlipY(!flipY)}
 									>
@@ -631,6 +633,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setRotateX(0);
 											setRotateY(0);
@@ -797,6 +800,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={blur}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setBlur(-1 * 1);
 										}}
@@ -822,6 +826,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={brightness}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setBrightness(100);
 										}}
@@ -848,6 +853,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setContrast(100);
 										}}
+										color='neutral'
 										className='my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
@@ -868,6 +874,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={grayscale}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setGrayscale(0);
 										}}
@@ -891,6 +898,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={huerotate}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setHueRotate(0);
 										}}
@@ -914,6 +922,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={invert}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setInvert(0);
 										}}
@@ -937,6 +946,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={saturate}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setSaturate(100);
 										}}
@@ -960,6 +970,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={sepia}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setSepia(0);
 										}}
@@ -983,6 +994,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										value={opacity}
 									></Range>
 									<Button
+										color='neutral'
 										onMouseDown={() => {
 											setOpacity(100);
 										}}
