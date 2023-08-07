@@ -786,9 +786,6 @@ export const Editor: React.FC = () => {
 			{showWorkspacePanel && (
 				<Modal
 					open={showWorkspacePanel}
-					onClickBackdrop={() => {
-						setShowWorkspacePanel(false);
-					}}
 					className='overflow-hidden bg-base-200 dark:text-white'
 				>
 					<Modal.Header className='font-bold dark:text-white'>

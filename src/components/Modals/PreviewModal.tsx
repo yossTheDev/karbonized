@@ -82,7 +82,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 		<Modal
 			open={open}
 			backdrop
-			className='overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
+			className='max-h-fit overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
 		>
 			<Modal.Header className='flex flex-row font-bold dark:text-white'>
 				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-200/75 p-2'>
@@ -93,6 +93,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 
 				<Button
+					color='neutral'
 					shape='circle'
 					onClick={() => {
 						onClose && onClose();
@@ -124,6 +125,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 
 			<Modal.Actions>
 				<Button
+					color='neutral'
 					className='mr-auto cursor-pointer select-none rounded-2xl bg-base-100 bg-gradient-to-br from-violet-500 to-secondary p-3 text-white hover:bg-gradient-to-bl'
 					onMouseDown={handleShare}
 				>
@@ -138,6 +140,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 				</p>
 
 				<Button
+					color='neutral'
 					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
 					onMouseDown={() => exportImage(export_format.png)}
 				>
@@ -146,6 +149,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 					</div>
 				</Button>
 				<Button
+					color='neutral'
 					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
 					onMouseDown={() => exportImage(export_format.jpeg)}
 				>
@@ -154,6 +158,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 					</div>
 				</Button>
 				<Button
+					color='neutral'
 					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
 					onMouseDown={() => exportImage(export_format.svg)}
 				>
