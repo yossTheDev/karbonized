@@ -13,7 +13,7 @@ import qvapay from '../../assets/qvapay.svg';
 interface Props {
 	open: boolean;
 	onClose?: Function;
-	ref: Ref<HTMLDialogElement>;
+	ref?: Ref<HTMLDialogElement>;
 }
 
 export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {

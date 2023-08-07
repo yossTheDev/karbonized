@@ -108,7 +108,7 @@ export const WorkspacePanel: React.FC = () => {
 							className='flex flex-auto'
 							tabIndex={0}
 							onChange={(e) => {
-								const size = getSize(e as string);
+								const size = getSize(e.currentTarget.value);
 								size &&
 									setWorkspaceSize({
 										width: size?.width.toString(),

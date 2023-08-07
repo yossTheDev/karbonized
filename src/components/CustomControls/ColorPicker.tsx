@@ -464,9 +464,6 @@ export const ColorPicker: React.FC<Props> = ({
 			{!isHorizontal && (
 				<Modal
 					open={showColor && !isHorizontal}
-					onClickBackdrop={() => {
-						setShowColor(false);
-					}}
 					className='w-[17.5rem] overflow-hidden bg-base-200 dark:text-white'
 				>
 					<Modal.Header className='font-bold dark:text-white'>

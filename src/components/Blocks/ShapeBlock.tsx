@@ -91,17 +91,11 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 
 			{showModal && (
 				<Portal>
-					<Modal
-						open={true}
-						onClickBackdrop={() => {
-							setShowModal(false);
-						}}
-						className='bg-base-200'
-					>
+					<Modal open={true} className='bg-base-200'>
 						<Modal.Header className='font-bold dark:text-white'>
-							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
+							<label className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
 								Shapes
-							</p>
+							</label>
 						</Modal.Header>
 
 						<Modal.Body className='flex flex-auto select-none flex-col overflow-hidden'>
@@ -217,6 +211,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 
 						<Modal.Actions>
 							<Button
+								color='neutral'
 								className='dark:text-white'
 								onClick={() => setShowModal(false)}
 							>

@@ -35,7 +35,7 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 
 	return (
 		<>
-			<Dropdown vertical='middle' horizontal='center' className='my-auto'>
+			<Dropdown vertical='bottom' horizontal='left' className='my-auto'>
 				<button
 					className={`my-auto mr-2 w-12 rounded-2xl bg-base-200/90 p-0.5 text-black backdrop-blur-xl transition-all active:scale-90 dark:text-white md:flex ${className}`}
 					color='ghost'
