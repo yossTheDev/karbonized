@@ -4,11 +4,12 @@
 <h1 align="center">Karbonized</h1>
 
 <p align="center">
-Unleash your creativity with Karbonized! 💫</p>
-
-<p align="center"><b>Free</b> and <b>Open Source</b>. Made with ❤️ and ReactJS in 🇨🇺</p>
+Unleash your creativity with <b>Karbonized!</b> 💫</p>
 
 ![carbonizedscreen](./img/screen.png)
+<p align="center">
+Karbonized is a user-friendly app designed to help you create stunning visuals with ease. Our block-based system allows you to customize and arrange code snippets, text, images, QR codes, and more, giving you the freedom to bring your ideas to life.</p>
+<p align="center"><b>Free</b> and <b>Open Source</b>. Made with ❤️ and ReactJS in 🇨🇺</p>
 
 <div align="center">
 <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000&style=for-the-badge" alt="React Badge">
@@ -22,9 +23,9 @@ Unleash your creativity with Karbonized! 💫</p>
 
 * **🎨 Customization:** Easily personalize and arrange various elements to suit your unique style and preferences.
 * **💾 Export Options:** Save your designs as SVG, PNG, or JPG files, making it simple to share or use them in other projects.
-* **🔌 Extension Support:** Although Karbonized is a new app, we have plans to introduce an extension system in the future. Stay tuned for exciting updates!
-* **🖥 Multi-Platform Compatibility:** Access Karbonized as a Progressive Web App (PWA with **Offline** Support) via any web browser. We're also working on downloadable versions for Windows, Mac, and Linux to provide a seamless experience across platforms.
-* **🆓 Free and Open Source:** We believe in making creativity accessible to all. Karbonized is free to use and open source, allowing you to contribute and be part of the growing community.
+* **🔌 Extension Support:** Karbonized offers support for extensions, allowing you to enhance its functionality and extend its capabilities according to your needs.
+* **🖥 Multi-Platform Compatibility:** Access Karbonized as a Progressive Web App (PWA with **Offline** Support) via any web browser. We also provide downloadable versions for Windows, Linux, and macOS, ensuring a seamless experience across different platforms.
+* **🆓 Free and Open Source:** Karbonized is free to use and open source, allowing you to contribute and be part of the community.
 
 > While **Karbonized** is still in its early stages, we're committed to continuous improvement and value your feedback
 
