@@ -49,8 +49,6 @@ module.exports = {
 
 					neutral: '#111111',
 
-					'base-100': '#0A0A0A',
-
 					info: '#22d3ee',
 
 					success: '#9CB686',
@@ -59,8 +57,9 @@ module.exports = {
 
 					error: '#FC9783',
 
+					'base-100': '#141414',
 					'base-200': '#0E0E0E',
-					'base-300': '#ced3d9',
+					'base-300': '#090909',
 					'base-content': '#000000',
 				},
 			},

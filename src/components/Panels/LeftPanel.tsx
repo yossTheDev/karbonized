@@ -50,7 +50,7 @@ export const LeftPanel: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<div className='pointer-events-auto flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden  p-2  text-gray-950 shadow-xl backdrop-blur-2xl dark:text-gray-400'>
+		<div className='pointer-events-auto my-2 flex w-full flex-auto flex-row gap-1 overflow-y-auto overflow-x-hidden rounded-e-2xl bg-base-100  p-2  text-gray-950 shadow-xl backdrop-blur-2xl dark:text-gray-400'>
 			{/* Selectors */}
 			<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
 				{/* Hierarchy */}

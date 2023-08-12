@@ -55,7 +55,7 @@ export const RightPanel: React.FC = () => {
 	}, [workspaceTab]);
 
 	return (
-		<div className='pointer-events-auto flex w-full max-w-[23rem] flex-row gap-1 overflow-y-auto overflow-x-hidden  p-2  text-gray-950  backdrop-blur-2xl dark:text-gray-400'>
+		<div className='pointer-events-auto my-2 flex w-full max-w-[23rem] flex-row gap-1 overflow-y-auto overflow-x-hidden rounded-s-2xl bg-base-100 p-2  text-gray-950  backdrop-blur-2xl dark:text-gray-400'>
 			{/* Tab Panels */}
 			<div
 				className={`relative ${

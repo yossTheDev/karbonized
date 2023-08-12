@@ -14,7 +14,7 @@ const App: React.FC = () => {
 	return (
 		<div
 			onContextMenu={(event) => event.preventDefault()}
-			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-200 transition-all ease-in-out'
+			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 transition-all ease-in-out'
 		>
 			{/* Noise Background */}
 			<svg

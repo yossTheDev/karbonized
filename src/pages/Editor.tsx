@@ -221,7 +221,7 @@ export const Editor: React.FC = () => {
 				e.preventDefault();
 			}}
 			id='body'
-			className='relative flex flex-auto flex-row overflow-hidden bg-base-200'
+			className='relative flex flex-auto flex-row overflow-hidden'
 		>
 			{/* Left Panel */}
 			<div className='flex max-w-xs'>
@@ -229,7 +229,7 @@ export const Editor: React.FC = () => {
 			</div>
 
 			{/* Content */}
-			<div className='relative mb-1 flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-100 p-2 shadow-inner md:p-0'>
+			<div className='relative mb-1 flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-300  p-2 md:p-0'>
 				{/* Nav Bar */}
 				<Navbar className='pointer-events-none absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
 					<Navbar.Start className='z-20'></Navbar.Start>
@@ -383,11 +383,7 @@ export const Editor: React.FC = () => {
 					)}
 
 					{/* Workspace */}
-					<div
-						className={`flex flex-auto flex-col  bg-base-100 shadow-inner ${
-							drag && 'cursor-move'
-						}`}
-					>
+					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
 						{/* Ruler Horizontal */}
 						<InfiniteViewer
 							ref={viewerRef}
@@ -414,7 +410,7 @@ export const Editor: React.FC = () => {
 
 					{/* Controls Tree */}
 					<div className='pointer-events-none absolute  z-10 flex h-full  w-28'>
-						<div className='pointer-events-auto mx-auto my-auto ml-6 flex flex-col gap-3 rounded-2xl bg-base-200/90 p-2 backdrop-blur-xl'>
+						<div className='pointer-events-auto mx-auto my-auto ml-6 flex flex-col gap-3 rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl'>
 							{/* Tools */}
 							<div className='flex w-20 flex-row flex-wrap'>
 								{/* Actions */}
