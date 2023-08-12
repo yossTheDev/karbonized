@@ -369,7 +369,7 @@ export const Editor: React.FC = () => {
 						{/* Draw Bar */}
 						{(canDraw || isErasing) && (
 							<div className=' absolute flex h-full'>
-								<div className=' z-50 mb-2 ml-4 mt-auto flex flex-row gap-1 rounded-2xl bg-base-200/90 p-1 px-2 backdrop-blur-xl'>
+								<div className=' z-50 mb-1 ml-8 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5 backdrop-blur-xl'>
 									{/* Stroke Range */}
 									<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
 									<Range
@@ -437,7 +437,7 @@ export const Editor: React.FC = () => {
 
 						{/* Controls Tree */}
 						<div className='pointer-events-none absolute z-10 flex h-full w-full md:w-28'>
-							<div className='pointer-events-auto mx-auto mb-8 mt-auto flex h-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:my-auto md:mb-0 md:ml-6 md:flex-col'>
+							<div className='pointer-events-auto mx-auto mb-8  mt-auto flex h-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:my-auto md:ml-6  md:flex-col  md:overflow-hidden'>
 								{/* Tools */}
 								<div className='flex w-20 flex-row md:flex-wrap'>
 									{/* Actions */}
