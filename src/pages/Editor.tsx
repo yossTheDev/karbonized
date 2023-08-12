@@ -12,6 +12,7 @@ import {
 	IconHandFinger,
 	IconLetterT,
 	IconLock,
+	IconMenu2,
 	IconMoon,
 	IconPhoto,
 	IconPointer,
@@ -49,6 +50,7 @@ import '../utils.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import './Editor.css';
+import { PreviewModal } from '../components/Modals/PreviewModal';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -92,6 +94,7 @@ export const Editor: React.FC = () => {
 
 	const [drag, setDrag] = useState(false);
 	const [showAbout, setShowAbout] = useState(false);
+	const [showPreview, setShowPreview] = useState(false);
 	const [showWorkspacePanel, setShowWorkspacePanel] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
@@ -246,12 +249,12 @@ export const Editor: React.FC = () => {
 							<Navbar.Start className='z-20'>
 								<label
 									htmlFor='my-drawer-2'
-									className='btn btn-circle drawer-button lg:hidden'
+									className='btn btn-circle btn-ghost drawer-button lg:hidden'
 								>
-									<IconCircleSquare
+									<IconMenu2
 										className='mx-auto dark:text-gray-300'
 										size={16}
-									></IconCircleSquare>
+									></IconMenu2>
 								</label>
 							</Navbar.Start>
 
@@ -259,7 +262,15 @@ export const Editor: React.FC = () => {
 								<label className='dark:text-gray-300'>K A R B O N</label>
 							</Navbar.Center>
 
-							<Navbar.End></Navbar.End>
+							<Navbar.End>
+								<Button
+									onClick={() => setShowPreview(true)}
+									shape='circle'
+									className='mr-2 border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 px-2 hover:border-primary hover:bg-gradient-to-l '
+								>
+									<IconFlask size={22} className='text-white'></IconFlask>
+								</Button>
+							</Navbar.End>
 						</Navbar>
 					)}
 
@@ -868,6 +879,12 @@ export const Editor: React.FC = () => {
 							</Button>
 						</Modal.Actions>
 					</Modal>
+				)}
+				{showPreview && (
+					<PreviewModal
+						onClose={() => setShowPreview(false)}
+						open={showPreview}
+					></PreviewModal>
 				)}
 
 				{/* MenuBar */}
