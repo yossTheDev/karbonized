@@ -82,7 +82,7 @@ export const LeftPanel: React.FC = () => {
 										setShowMenu(true);
 									}}
 									className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-										tab === 'hierarchy' && showMenu && 'bg-base-100'
+										tab === 'hierarchy' && showMenu && 'bg-base-200'
 									}`}
 								>
 									<IconCircleSquare
@@ -150,7 +150,7 @@ export const LeftPanel: React.FC = () => {
 											setShowMenu(true);
 										}}
 										className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-											tab === 'control' && showMenu && 'bg-base-100'
+											tab === 'control' && showMenu && 'bg-base-200'
 										}`}
 									>
 										<IconEdit className='mx-auto' size={16}></IconEdit>
@@ -169,7 +169,7 @@ export const LeftPanel: React.FC = () => {
 											setShowMenu(true);
 										}}
 										className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
-											tab === 'workspace' && showMenu && 'bg-base-100'
+											tab === 'workspace' && showMenu && 'bg-base-200'
 										}`}
 									>
 										<IconWallpaper

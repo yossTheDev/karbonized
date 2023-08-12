@@ -263,29 +263,29 @@ export const Editor: React.FC = () => {
 						</Navbar>
 					)}
 
-					{/* Nav Bar */}
-					<Navbar className='pointer-events-none absolute z-30 mt-2 hidden h-2 shrink rounded-full bg-transparent  md:rounded-2xl lg:flex'>
-						<Navbar.Start className='z-20'></Navbar.Start>
-
-						<Navbar.End className='pointer-events-auto ml-auto max-w-fit flex-auto gap-0 md:hidden md:gap-1 lg:flex'>
+					{/* Quick Settings*/}
+					<div className='pointer-events-none absolute z-30  flex h-full  w-full bg-transparent '>
+						<div className='pointer-events-auto relative mb-28 ml-auto mr-2 mt-auto flex h-fit max-w-fit  flex-auto flex-col gap-1  md:mt-2 md:flex-row md:gap-1 lg:flex'>
 							{/* Change Theme */}
 							{!isElectron() && (
 								<>
 									<Tooltip placement='bottom' message='Change Theme'>
 										<Button
+											size='sm'
 											shape='circle'
-											className='hidden border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 lg:block'
+											color='neutral'
+											className='my-auto hidden border-none bg-base-200/90 backdrop-blur-xl  lg:flex'
 											onClick={() => toggleTheme()}
 										>
 											{appTheme === 'light' ? (
 												<IconMoon
-													size={20}
-													className='mx-auto dark:text-white'
+													size={16}
+													className='mx-auto my-auto dark:text-white'
 												></IconMoon>
 											) : (
 												<IconSun
-													size={20}
-													className='mx-auto dark:text-white'
+													size={16}
+													className='mx-auto my-auto dark:text-white'
 												></IconSun>
 											)}
 										</Button>
@@ -298,8 +298,9 @@ export const Editor: React.FC = () => {
 							{/* Lock Aspect Ratio */}
 							<Tooltip placement='bottom' message='Lock Aspect Ratio (Ctrl+R)'>
 								<Button
+									size='sm'
 									shape='circle'
-									className={`my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex ${
+									className={`my-auto hidden  flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex ${
 										aspectRatio &&
 										'border-none  bg-gradient-to-br from-violet-500 to-secondary text-white'
 									}`}
@@ -307,17 +308,18 @@ export const Editor: React.FC = () => {
 										setAspectRatio(!aspectRatio);
 									}}
 								>
-									<IconLock size={20} className='dark:text-white'></IconLock>
+									<IconLock size={22} className='dark:text-white'></IconLock>
 								</Button>
 							</Tooltip>
 
-							<p className='mx-1 my-auto h-0.5 rounded bg-base-200/90 p-0.5  backdrop-blur-xl '></p>
+							<p className='mx-1 my-auto hidden h-0.5 rounded bg-base-200/90 p-0.5 backdrop-blur-xl  md:flex '></p>
 
 							{/* Zoom Out */}
 							<Tooltip placement='bottom' message='Zoom Out'>
 								<Button
+									size='md'
 									shape='circle'
-									className='my-2  hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
+									className='my-auto  flex-auto rounded-full border-none bg-base-200/90  backdrop-blur-xl hover:bg-base-100 md:flex'
 									onClick={() =>
 										viewerRef.current?.setZoom(
 											viewerRef.current?.getZoom() - 0.2,
@@ -325,7 +327,7 @@ export const Editor: React.FC = () => {
 									}
 								>
 									<IconZoomOut
-										size={20}
+										size={22}
 										className='my-auto dark:text-white'
 									></IconZoomOut>
 								</Button>
@@ -334,8 +336,9 @@ export const Editor: React.FC = () => {
 							{/* Zoom In */}
 							<Tooltip placement='bottom' message='Zoom In'>
 								<Button
+									size='md'
 									shape='circle'
-									className='my-2 hidden h-12 w-12 flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
+									className='my-auto   flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
 									onClick={() =>
 										viewerRef.current?.setZoom(
 											viewerRef.current?.getZoom() + 0.2,
@@ -343,7 +346,7 @@ export const Editor: React.FC = () => {
 									}
 								>
 									<IconZoomIn
-										size={20}
+										size={22}
 										className='my-auto dark:text-white'
 									></IconZoomIn>
 								</Button>
@@ -352,14 +355,30 @@ export const Editor: React.FC = () => {
 							{/* Zoom Reset */}
 							<Tooltip placement='bottom' message='Zoom Reset'>
 								<Button
+									size='md'
 									shape='circle'
-									className='backdrop-blur-xlp-2 my-2 hidden h-12 w-12  flex-auto rounded-full border-none bg-base-200/90 backdrop-blur-xl hover:bg-base-100 md:flex'
+									className='my-auto hidden flex-auto rounded-full border-none bg-base-200/90 hover:bg-base-100  md:flex'
 									onClick={() => viewerRef.current?.setZoom(0.7)}
 								>
 									<IconZoomReset
-										size={20}
+										size={22}
 										className='my-auto dark:text-white'
 									></IconZoomReset>
+								</Button>
+							</Tooltip>
+
+							{/* Center View */}
+							<Tooltip placement='bottom' message='Center View'>
+								<Button
+									size='md'
+									shape='circle'
+									className=' my-auto  flex-auto rounded-full border-none bg-base-200/90 hover:bg-base-100 md:flex'
+									onClick={() => centerView()}
+								>
+									<IconFocusCentered
+										size={22}
+										className='my-auto dark:text-white'
+									></IconFocusCentered>
 								</Button>
 							</Tooltip>
 
@@ -369,8 +388,8 @@ export const Editor: React.FC = () => {
 									<IconFlask size={22} className='text-white'></IconFlask>
 								</Button>
 							</Tooltip>
-						</Navbar.End>
-					</Navbar>
+						</div>
+					</div>
 
 					<TabBar></TabBar>
 
@@ -447,11 +466,13 @@ export const Editor: React.FC = () => {
 							</InfiniteViewer>
 						</div>
 
-						{/* Controls Tree */}
-						<div className='pointer-events-none absolute z-10 flex h-full w-full md:w-32'>
-							<div className='pointer-events-auto mx-auto mb-8  mt-auto flex h-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:my-auto md:ml-6  md:flex-col  md:overflow-hidden'>
+						<p className='hidden h-full w-full bg-white text-white'></p>
+
+						{/* Controls */}
+						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:w-fit'>
+							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:mx-auto md:my-auto  md:flex-col  md:overflow-hidden'>
 								{/* Tools */}
-								<div className='flex w-20 flex-row md:flex-wrap'>
+								<div className='flex md:w-20  md:flex-wrap'>
 									{/* Actions */}
 
 									{/* Select */}
@@ -499,7 +520,7 @@ export const Editor: React.FC = () => {
 									</Tooltip>
 
 									{/* Brush */}
-									<Tooltip className='flex flex-auto' message='Brush'>
+									<Tooltip className='hidden flex-auto md:flex' message='Brush'>
 										<Button
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
@@ -521,7 +542,7 @@ export const Editor: React.FC = () => {
 									</Tooltip>
 
 									{/* Erase */}
-									<Tooltip className='flex flex-auto' message='Erase'>
+									<Tooltip className='hidden flex-auto md:flex' message='Erase'>
 										<Button
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
@@ -543,11 +564,11 @@ export const Editor: React.FC = () => {
 									</Tooltip>
 								</div>
 
-								<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
+								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 backdrop-blur-xl md:flex '></div>
 
 								{/* Basics */}
 
-								<div className='flex w-20 flex-row md:flex-wrap'>
+								<div className='flex md:w-20  md:flex-wrap'>
 									{/* Code Control */}
 									<Tooltip className='flex  flex-auto ' message='Code'>
 										<Button
@@ -641,11 +662,11 @@ export const Editor: React.FC = () => {
 									</Tooltip>
 								</div>
 
-								<div className='mx-auto my-auto h-1 w-1 rounded bg-base-100/80 p-1 backdrop-blur-xl '></div>
+								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 backdrop-blur-xl md:flex '></div>
 
 								{/* Others */}
 
-								<div className='flex w-20 flex-row md:flex-wrap '>
+								<div className='flex md:w-20 md:flex-wrap '>
 									<Tooltip className='flex flex-auto ' message='Qr Code'>
 										<Button
 											className='flex flex-auto rounded-2xl p-1'
