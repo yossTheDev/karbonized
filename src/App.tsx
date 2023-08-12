@@ -7,6 +7,7 @@ import { isElectron } from './utils/isElectron';
 import { MenuBar } from './components/Base/MenuBar';
 
 import karbonized from './assets/karbonized.svg';
+import { Navbar } from 'react-daisyui';
 
 const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
@@ -85,11 +86,12 @@ const App: React.FC = () => {
 							<MenuBar></MenuBar>
 						</div>
 					)}
+
 					<Editor></Editor>
 				</>
 			) : (
 				<>
-					<Home></Home>
+					<Editor></Editor>
 				</>
 			)}
 		</div>
