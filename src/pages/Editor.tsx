@@ -97,7 +97,7 @@ export const Editor: React.FC = () => {
 	const ref = useRef<HTMLDivElement>(null);
 	const viewerRef = useRef<InfiniteViewer>(null);
 
-	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.6);
+	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.4);
 
 	const getElementsByType = (type: string) => {
 		return (
@@ -108,16 +108,26 @@ export const Editor: React.FC = () => {
 	const centerView = () => {
 		const width = parseFloat(currentWorkspace.workspaceWidth);
 
-		if (width < 1280) {
-			viewerRef.current?.setZoom(0.9);
-		} else if (width >= 1280 && width < 1920) {
-			viewerRef.current?.setZoom(0.6);
-		} else if (width >= 1920 && width < 2560) {
-			viewerRef.current?.setZoom(0.4);
-		} else if (width >= 2560 && width < 3840) {
-			viewerRef.current?.setZoom(0.3);
-		} else if (width >= 3840) {
-			viewerRef.current?.setZoom(0.2);
+		if (isHorizontal) {
+			if (width < 1280) {
+				viewerRef.current?.setZoom(0.9);
+			} else if (width >= 1280 && width < 1920) {
+				viewerRef.current?.setZoom(0.6);
+			} else if (width >= 1920 && width < 2560) {
+				viewerRef.current?.setZoom(0.4);
+			} else if (width >= 2560 && width < 3840) {
+				viewerRef.current?.setZoom(0.3);
+			} else if (width >= 3840) {
+				viewerRef.current?.setZoom(0.2);
+			}
+		} else {
+			if (width < 1280) {
+				viewerRef.current?.setZoom(0.6);
+			} else if (width >= 1280 && width < 1920) {
+				viewerRef.current?.setZoom(0.25);
+			} else if (width >= 1920) {
+				viewerRef.current?.setZoom(0.1);
+			}
 		}
 
 		viewerRef.current?.scrollCenter();
@@ -417,6 +427,8 @@ export const Editor: React.FC = () => {
 								className='viewer my-2 flex flex-auto'
 								useAutoZoom
 								useMouseDrag={drag}
+								useGesture
+								usePinch={!drag}
 								threshold={0}
 								useResizeObserver
 								useWheelScroll
@@ -436,7 +448,7 @@ export const Editor: React.FC = () => {
 						</div>
 
 						{/* Controls Tree */}
-						<div className='pointer-events-none absolute z-10 flex h-full w-full md:w-28'>
+						<div className='pointer-events-none absolute z-10 flex h-full w-full md:w-32'>
 							<div className='pointer-events-auto mx-auto mb-8  mt-auto flex h-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:my-auto md:ml-6  md:flex-col  md:overflow-hidden'>
 								{/* Tools */}
 								<div className='flex w-20 flex-row md:flex-wrap'>

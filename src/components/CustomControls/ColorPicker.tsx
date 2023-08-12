@@ -462,281 +462,290 @@ export const ColorPicker: React.FC<Props> = ({
 
 			{/* Modal */}
 			{!isHorizontal && (
-				<Modal
-					open={showColor && !isHorizontal}
-					className='w-[17.5rem] overflow-hidden bg-base-200 dark:text-white'
-				>
-					<Modal.Header className='font-bold dark:text-white'>
-						<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
-							Color Picker
-						</p>
-					</Modal.Header>
+				<Portal>
+					<Modal
+						open={showColor && !isHorizontal}
+						className='w-[17.5rem] overflow-hidden bg-base-100 dark:text-white'
+					>
+						<Modal.Header className='font-bold dark:text-white'>
+							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
+								Color Picker
+							</p>
+						</Modal.Header>
 
-					<Modal.Body className='flex flex-auto select-none flex-col gap-2 overflow-auto'>
-						{/* Tabs */}
-						{isGradientEnable && (
-							<div className='mb-2 flex flex-auto select-none flex-row gap-2 text-black dark:text-gray-400'>
-								<button
-									onMouseDown={() => {
-										mode = 'Single';
-										onModeChange && onModeChange('Single');
-										setShowColor(true);
-									}}
-									className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 hover:bg-neutral ${
-										mode === 'Single' && 'bg-base-100'
-									}`}
-								>
-									<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 p-2'></div>
-								</button>
-
-								<button
-									onClick={() => {
-										mode = 'Gradient';
-										onModeChange && onModeChange('Gradient');
-										setShowColor(true);
-									}}
-									className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2  hover:bg-neutral  ${
-										mode === 'Gradient' && 'bg-base-100'
-									}`}
-								>
-									<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-gradient-to-br from-gray-400 to-gray-800 p-2'></div>
-								</button>
-							</div>
-						)}
-
-						{/* Simgle Color */}
-						{mode === 'Single' && (
-							<>
-								{type === 'Hex' ? (
-									<HexColorPicker
-										color={color}
-										onChange={(color) => {
-											onColorChange(color);
-										}}
-										className='mx-auto flex max-h-44 w-44 max-w-xs flex-auto'
-									></HexColorPicker>
-								) : (
-									<HexAlphaColorPicker
-										color={color}
-										onChange={(color) => {
-											onColorChange(color);
-										}}
-										className='mx-auto flex max-h-44 w-44 max-w-xs flex-auto'
-									></HexAlphaColorPicker>
-								)}
-								{/* Predefined colors */}
-								<div className='mx-auto flex flex-auto flex-row gap-x-0.5'>
-									<div
-										style={{ background: '#dc4040' }}
-										onClick={() => onColorChange('#dc4040')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3 hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: '#db8f40' }}
-										onClick={() => onColorChange('#db8f40')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: '#6ebb45' }}
-										onClick={() => onColorChange('#6ebb45')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: '#45ba97' }}
-										onClick={() => onColorChange('#45ba97')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: '#4582ba' }}
-										onClick={() => onColorChange('#4582ba')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: '#5545ba' }}
-										onClick={() => onColorChange('#5545ba')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-									<div
-										style={{ background: '#cc63b5' }}
-										onClick={() => onColorChange('#cc63b5')}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-								</div>
-								{/* Input */}
-								<div className='flex flex-auto flex-row text-black dark:text-gray-400'>
-									<div
-										className='my-auto rounded border-2 border-base-100 p-4'
-										style={{ backgroundColor: color }}
-									></div>
-									<Input
-										spellCheck={false}
-										onInput={(ev) => onColorChange(ev.currentTarget.value)}
-										className='my-auto ml-2 flex w-24 flex-auto'
-										value={color}
-									></Input>
-								</div>
-							</>
-						)}
-
-						{/* Gradient */}
-						{mode === 'Gradient' && (
-							<>
-								{gradientMode === 'Color1' ? (
-									<HexAlphaColorPicker
-										color={colorGradient1}
-										className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
-										onChange={(color) => {
-											onGradientChange &&
-												onGradientChange(color, colorGradient2);
-										}}
-									></HexAlphaColorPicker>
-								) : (
-									<HexAlphaColorPicker
-										color={colorGradient2}
-										className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
-										onChange={(color) => {
-											onGradientChange &&
-												onGradientChange(colorGradient1, color);
-										}}
-									></HexAlphaColorPicker>
-								)}
-
-								{/* Predefined Gradients */}
-								<div className='mx-auto flex flex-auto flex-row gap-0.5'>
-									<div
-										style={{ background: 'linear-gradient(#bf86da,#144ab4)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#bf86da', '#144ab4')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: 'linear-gradient(#9796F0,#FBC7D4)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#9796F0', '#FBC7D4')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: 'linear-gradient(#06BEB6,#48B1BF)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#06BEB6', '#48B1BF')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: 'linear-gradient(#00B4DB,#0083B0)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#00B4DB', '#0083B0')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: 'linear-gradient(#FF9A9E,#FECFEF)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#FF9A9E', '#FECFEF')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: 'linear-gradient(#5adb00,#0083b0)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#5adb00', '#0083b0')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-
-									<div
-										style={{ background: 'linear-gradient(#ed7b6b,#b07f00)' }}
-										onClick={() =>
-											onGradientChange && onGradientChange('#ed7b6b', '#b07f00')
-										}
-										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-									></div>
-								</div>
-
-								{/* Preview Colors */}
-								<div className=' mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
-									<div
-										className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
-											gradientMode === 'Color1' && 'border-gray-400'
-										}`}
+						<Modal.Body className='flex flex-auto select-none flex-col gap-2 overflow-auto'>
+							{/* Tabs */}
+							{isGradientEnable && (
+								<div className='mb-2 flex flex-auto select-none flex-row gap-2 text-black dark:text-gray-400'>
+									<button
 										onMouseDown={() => {
-											setGradientMode('Color1');
+											mode = 'Single';
+											onModeChange && onModeChange('Single');
+											setShowColor(true);
 										}}
-										style={{ background: colorGradient1 }}
-									></div>
+										className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 hover:bg-neutral ${
+											mode === 'Single' && 'bg-base-100'
+										}`}
+									>
+										<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 p-2'></div>
+									</button>
 
-									<Input
-										spellCheck={false}
-										onInput={(ev) => {
-											if (onGradientChange) {
-												gradientMode === 'Color1'
-													? onGradientChange(
-															ev.currentTarget.value,
-															colorGradient2,
-													  )
-													: onGradientChange(
-															colorGradient1,
-															ev.currentTarget.value,
-													  );
+									<button
+										onClick={() => {
+											mode = 'Gradient';
+											onModeChange && onModeChange('Gradient');
+											setShowColor(true);
+										}}
+										className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2  hover:bg-neutral  ${
+											mode === 'Gradient' && 'bg-base-100'
+										}`}
+									>
+										<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-gradient-to-br from-gray-400 to-gray-800 p-2'></div>
+									</button>
+								</div>
+							)}
+
+							{/* Simgle Color */}
+							{mode === 'Single' && (
+								<>
+									{type === 'Hex' ? (
+										<HexColorPicker
+											color={color}
+											onChange={(color) => {
+												onColorChange(color);
+											}}
+											className='mx-auto flex max-h-44 w-44 max-w-xs flex-auto'
+										></HexColorPicker>
+									) : (
+										<HexAlphaColorPicker
+											color={color}
+											onChange={(color) => {
+												onColorChange(color);
+											}}
+											className='mx-auto flex max-h-44 w-44 max-w-xs flex-auto'
+										></HexAlphaColorPicker>
+									)}
+									{/* Predefined colors */}
+									<div className='mx-auto flex flex-auto flex-row gap-x-0.5'>
+										<div
+											style={{ background: '#dc4040' }}
+											onClick={() => onColorChange('#dc4040')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3 hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: '#db8f40' }}
+											onClick={() => onColorChange('#db8f40')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: '#6ebb45' }}
+											onClick={() => onColorChange('#6ebb45')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: '#45ba97' }}
+											onClick={() => onColorChange('#45ba97')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: '#4582ba' }}
+											onClick={() => onColorChange('#4582ba')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: '#5545ba' }}
+											onClick={() => onColorChange('#5545ba')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+										<div
+											style={{ background: '#cc63b5' }}
+											onClick={() => onColorChange('#cc63b5')}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+									</div>
+									{/* Input */}
+									<div className='flex flex-auto flex-row text-black dark:text-gray-400'>
+										<div
+											className='my-auto rounded border-2 border-base-100 p-4'
+											style={{ backgroundColor: color }}
+										></div>
+										<Input
+											spellCheck={false}
+											onInput={(ev) => onColorChange(ev.currentTarget.value)}
+											className='my-auto ml-2 flex w-24 flex-auto'
+											value={color}
+										></Input>
+									</div>
+								</>
+							)}
+
+							{/* Gradient */}
+							{mode === 'Gradient' && (
+								<>
+									{gradientMode === 'Color1' ? (
+										<HexAlphaColorPicker
+											color={colorGradient1}
+											className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
+											onChange={(color) => {
+												onGradientChange &&
+													onGradientChange(color, colorGradient2);
+											}}
+										></HexAlphaColorPicker>
+									) : (
+										<HexAlphaColorPicker
+											color={colorGradient2}
+											className='mx-auto flex max-h-44 w-36 max-w-xs flex-auto'
+											onChange={(color) => {
+												onGradientChange &&
+													onGradientChange(colorGradient1, color);
+											}}
+										></HexAlphaColorPicker>
+									)}
+
+									{/* Predefined Gradients */}
+									<div className='mx-auto flex flex-auto flex-row gap-0.5'>
+										<div
+											style={{ background: 'linear-gradient(#bf86da,#144ab4)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#bf86da', '#144ab4')
 											}
-										}}
-										className='mx-2 my-auto flex w-24 flex-auto'
-										value={
-											gradientMode === 'Color1'
-												? colorGradient1
-												: colorGradient2
-										}
-									></Input>
-									<div
-										className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
-											gradientMode === 'Color2' && 'border-gray-400'
-										}`}
-										onMouseDown={() => {
-											setGradientMode('Color2');
-										}}
-										style={{ background: colorGradient2 }}
-									></div>
-								</div>
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
 
-								<div className='flex flex-auto flex-row'>
-									<Range
-										min={0}
-										max={180}
-										onChange={(ev) =>
-											onGradientDegChange &&
-											onGradientDegChange(parseInt(ev.currentTarget.value))
-										}
-										color='primary'
-										value={gradientDeg}
-										className='my-auto'
-									></Range>
-									<p className='my-auto  ml-2 text-gray-400'>deg</p>
-								</div>
-							</>
-						)}
-					</Modal.Body>
+										<div
+											style={{ background: 'linear-gradient(#9796F0,#FBC7D4)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#9796F0', '#FBC7D4')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
 
-					<Modal.Actions>
-						<Button
-							className='dark:text-white'
-							onClick={() => setShowColor(false)}
-						>
-							OK
-						</Button>
-					</Modal.Actions>
-				</Modal>
+										<div
+											style={{ background: 'linear-gradient(#06BEB6,#48B1BF)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#06BEB6', '#48B1BF')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: 'linear-gradient(#00B4DB,#0083B0)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#00B4DB', '#0083B0')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: 'linear-gradient(#FF9A9E,#FECFEF)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#FF9A9E', '#FECFEF')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: 'linear-gradient(#5adb00,#0083b0)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#5adb00', '#0083b0')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+
+										<div
+											style={{ background: 'linear-gradient(#ed7b6b,#b07f00)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#ed7b6b', '#b07f00')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></div>
+									</div>
+
+									{/* Preview Colors */}
+									<div className=' mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
+										<div
+											className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
+												gradientMode === 'Color1' && 'border-gray-400'
+											}`}
+											onMouseDown={() => {
+												setGradientMode('Color1');
+											}}
+											style={{ background: colorGradient1 }}
+										></div>
+
+										<Input
+											spellCheck={false}
+											onInput={(ev) => {
+												if (onGradientChange) {
+													gradientMode === 'Color1'
+														? onGradientChange(
+																ev.currentTarget.value,
+																colorGradient2,
+														  )
+														: onGradientChange(
+																colorGradient1,
+																ev.currentTarget.value,
+														  );
+												}
+											}}
+											className='mx-2 my-auto flex w-24 flex-auto'
+											value={
+												gradientMode === 'Color1'
+													? colorGradient1
+													: colorGradient2
+											}
+										></Input>
+										<div
+											className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
+												gradientMode === 'Color2' && 'border-gray-400'
+											}`}
+											onMouseDown={() => {
+												setGradientMode('Color2');
+											}}
+											style={{ background: colorGradient2 }}
+										></div>
+									</div>
+
+									<div className='flex flex-auto flex-row'>
+										<Range
+											min={0}
+											max={180}
+											onChange={(ev) =>
+												onGradientDegChange &&
+												onGradientDegChange(parseInt(ev.currentTarget.value))
+											}
+											color='primary'
+											value={gradientDeg}
+											className='my-auto'
+										></Range>
+										<p className='my-auto  ml-2 text-gray-400'>deg</p>
+									</div>
+								</>
+							)}
+						</Modal.Body>
+
+						<Modal.Actions>
+							<Button
+								className='dark:text-white'
+								onClick={() => setShowColor(false)}
+							>
+								OK
+							</Button>
+						</Modal.Actions>
+					</Modal>
+				</Portal>
 			)}
 		</>
 	);

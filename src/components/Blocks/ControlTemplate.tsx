@@ -357,6 +357,17 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								h: size.h,
 							});
 						}}
+						onTouchStart={() => {
+							setID(id);
+							setControlPos({
+								x: position.x,
+								y: position.y,
+							});
+							setControlSize({
+								w: size.w,
+								h: size.h,
+							});
+						}}
 						onDoubleClick={() => {
 							setWorkspaceTab('control');
 
@@ -752,7 +763,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											tabIndex={0}
 											className='flex flex-auto'
 											value={mask}
-											onChange={(e) => setMask(e)}
+											onChange={(e) => setMask(e.currentTarget.value)}
 										>
 											{Masks.map((i) => {
 												return (
