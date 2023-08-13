@@ -46,7 +46,7 @@ export const HierarchyPanel = () => {
 				</>
 			) : (
 				<div className='flex flex-auto'>
-					<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
+					<p className='mx-auto my-auto select-none text-center text-xs text-base-content/70'>
 						Start adding controls to the scene
 					</p>
 				</div>

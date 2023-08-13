@@ -75,7 +75,7 @@ export const RightPanel: React.FC = () => {
 						<div className='overflow-auto' id='menu'></div>
 						{currentID === '' && (
 							<div className='flex h-96 flex-auto'>
-								<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
+								<p className='mx-auto my-auto select-none text-center text-xs text-base-content/70'>
 									Select a control to start editing it
 								</p>
 							</div>

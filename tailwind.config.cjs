@@ -18,13 +18,30 @@ module.exports = {
 			{
 				light: {
 					...require('daisyui/src/theming/themes')['[data-theme=light]'],
-					primary: '#DB2979',
+					primary: '#f43f5e',
 					neutral: '#eff0f0',
 				},
 
 				dark: {
-					...require('daisyui/src/theming/themes')['[data-theme=dark]'],
-					primary: '#DB2979',
+					primary: '#f43f5e',
+
+					secondary: '#abfcc1',
+
+					accent: '#0ea5e9',
+
+					neutral: '#353535',
+
+					'base-100': '#232323',
+					'base-200': '#212121',
+					'base-300': '#161616',
+
+					info: '#38a5dc',
+
+					success: '#229187',
+
+					warning: '#cf7507',
+
+					error: '#fc4a27',
 				},
 			},
 		],
