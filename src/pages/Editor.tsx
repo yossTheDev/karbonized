@@ -270,7 +270,7 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden bg-base-300 p-0  md:rounded-2xl'>
+				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && (
 						<Navbar className='bg-base-100'>

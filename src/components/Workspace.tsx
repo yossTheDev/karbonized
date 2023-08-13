@@ -53,6 +53,11 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							: `linear-gradient(${currentWorkspace.workspaceGradientSettings.deg}deg, ${currentWorkspace.workspaceGradientSettings.color1},${currentWorkspace.workspaceGradientSettings.color2})`,
 					height: currentWorkspace.workspaceHeight + 'px',
 					width: currentWorkspace.workspaceWidth + 'px',
+					filter: `drop-shadow(0px 0px 1px ${
+						currentWorkspace.workspaceColorMode === 'Single'
+							? currentWorkspace.workspaceColor
+							: currentWorkspace.workspaceGradientSettings.color2
+					})`,
 				}}
 			>
 				{currentWorkspace.workspaceType === 'texture' && (
