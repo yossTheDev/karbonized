@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Karbonized</string>
-    <string name="title_activity_main">Karbonized</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="app_name">karbonized</string>
+    <string name="title_activity_main">karbonized</string>
+    <string name="package_name">com.yossthedev.karbonized</string>
+    <string name="custom_url_scheme">com.yossthedev.karbonized</string>
 </resources>
