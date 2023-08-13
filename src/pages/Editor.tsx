@@ -410,7 +410,7 @@ export const Editor: React.FC = () => {
 								<Button
 									size='md'
 									shape='circle'
-									className=' my-auto  flex-auto rounded-full border-none bg-base-200/90 hover:bg-base-100 md:flex'
+									className='bg-base-200/90 hover:bg-base-100 md:hidden'
 									onClick={() => centerView()}
 								>
 									<IconFocusCentered
