@@ -92,7 +92,7 @@ export const RightPanel: React.FC = () => {
 			</div>
 
 			{/* Selectors */}
-			<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
+			<div className='flex flex-auto flex-col gap-2 text-base-content'>
 				{/* Show/Close Menu */}
 				<Tooltip message='Show/Close Menu (Ctrl+B)'>
 					<button
@@ -100,7 +100,7 @@ export const RightPanel: React.FC = () => {
 							setShowMenu(!showMenu);
 							setWorkspaceMode('custom');
 						}}
-						className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
+						className={`btn btn-ghost btn-sm rounded-xl`}
 					>
 						{showMenu ? (
 							<IconChevronRight
@@ -121,7 +121,7 @@ export const RightPanel: React.FC = () => {
 							setWorkspaceMode('custom');
 							setShowMenu(true);
 						}}
-						className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+						className={`btn btn-ghost btn-sm rounded-xl ${
 							tab === 'control' && showMenu && 'bg-base-200'
 						}`}
 					>
@@ -138,7 +138,7 @@ export const RightPanel: React.FC = () => {
 							setWorkspaceTab('workspace');
 							setShowMenu(true);
 						}}
-						className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+						className={`btn btn-ghost btn-sm rounded-xl ${
 							tab === 'workspace' && showMenu && 'bg-base-200'
 						}`}
 					>

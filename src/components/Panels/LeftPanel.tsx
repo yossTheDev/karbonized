@@ -99,7 +99,7 @@ export const LeftPanel: React.FC = () => {
 						{/* Tabs */}
 						<div className='flex flex-auto overflow-y-auto'>
 							{/* Selectors */}
-							<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
+							<div className='flex flex-auto flex-col gap-2 text-base-content'>
 								{/* Hierarchy */}
 								<Tooltip message='Hierarchy'>
 									<button
@@ -108,7 +108,7 @@ export const LeftPanel: React.FC = () => {
 											setTab('hierarchy');
 											setShowMenu(true);
 										}}
-										className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+										className={`btn btn-ghost rounded-2xl md:btn-sm md:rounded-xl ${
 											tab === 'hierarchy' && showMenu && 'bg-base-200'
 										}`}
 									>
@@ -135,7 +135,7 @@ export const LeftPanel: React.FC = () => {
 
 												setShowMenu(true);
 											}}
-											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+											className={`btn btn-ghost btn-sm rounded-xl ${
 												tab === 'extensions' && showMenu && 'bg-base-100'
 											}`}
 										>
@@ -153,7 +153,7 @@ export const LeftPanel: React.FC = () => {
 												setTab('hierarchy');
 												setShowMenu(!showMenu);
 											}}
-											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
+											className={`btn btn-ghost rounded-2xl md:btn-sm md:rounded-xl`}
 										>
 											{showMenu ? (
 												<IconChevronLeft size={16}></IconChevronLeft>
@@ -176,7 +176,7 @@ export const LeftPanel: React.FC = () => {
 												setWorkspaceMode('custom');
 												setShowMenu(true);
 											}}
-											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+											className={`btn btn-ghost rounded-2xl  ${
 												tab === 'control' && showMenu && 'bg-base-200'
 											}`}
 										>
@@ -195,7 +195,7 @@ export const LeftPanel: React.FC = () => {
 												setWorkspaceTab('workspace');
 												setShowMenu(true);
 											}}
-											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+											className={`btn btn-ghost rounded-2xl ${
 												tab === 'workspace' && showMenu && 'bg-base-200'
 											}`}
 										>

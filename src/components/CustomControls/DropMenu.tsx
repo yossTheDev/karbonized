@@ -66,9 +66,8 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 							onBlur={() => !isInside && setShow(false)}
 							onMouseEnter={() => setIsInside(true)}
 							onMouseLeave={() => setIsInside(false)}
-							className={`z-30 ${
-								show ? 'flex' : 'hidden'
-							} poppins-font-family-regular w-52 flex-auto  flex-col gap-2 overflow-x-hidden rounded-xl border border-base-300 bg-base-200 px-1.5 py-2 shadow-2xl dark:text-gray-300`}
+							className={`poppins-font-family-regular z-30 
+							 flex w-52 flex-auto flex-col gap-2 overflow-x-hidden rounded-xl border border-base-300 bg-base-200 px-1.5 py-2 text-base-content shadow-2xl`}
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						>
