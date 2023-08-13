@@ -38,7 +38,9 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 			value={{ isOpen: show, setIsOpen: setShow, setIsInside: setIsInside }}
 		>
 			<button
-				className={`btn btn-ghost rounded btn-xs my-auto ${show && 'bg-base-100'}`}
+				className={`btn btn-ghost btn-xs my-auto rounded ${
+					show && 'bg-base-100'
+				}`}
 				tabIndex={1}
 				onBlur={() => {
 					if (!isInside) {
@@ -96,19 +98,17 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 
 	return (
 		<button
-			className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-neutral active:bg-base-100'
+			className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
 			onMouseDown={() => {
 				click();
 				setIsOpen(false);
 				setIsInside(false);
 			}}
 		>
-			<div className='my-auto flex flex-auto flex-row gap-2 hover:cursor-pointer'>
-				{icon}
-				<p className='my-auto hover:cursor-pointer'>{label}</p>
+			{icon}
+			<p className='my-auto ml-2 hover:cursor-pointer'>{label}</p>
 
-				<p className='my-auto ml-auto hover:cursor-pointer'>{shortcut}</p>
-			</div>
+			<p className='my-auto ml-auto hover:cursor-pointer'>{shortcut}</p>
 		</button>
 	);
 };

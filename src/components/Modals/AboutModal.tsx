@@ -19,7 +19,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='overflow-hidden'
+			className='overflow-hidden bg-base-300'
 		>
 			<Modal.Header className='hidden font-bold dark:text-white'>
 				<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
@@ -28,7 +28,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 			</Modal.Header>
 
 			<Modal.Body className='flex select-none flex-col'>
-				<div className='mx-auto rounded-2xl bg-base-300/70 p-4 shadow-xl'>
+				<div className='mx-auto rounded-2xl bg-base-100/70 p-4 shadow-xl'>
 					<img
 						className='mx-auto my-auto h-28 rounded-full'
 						src={karbonized}

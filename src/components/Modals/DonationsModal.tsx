@@ -22,7 +22,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='overflow-hidden'
+			className='overflow-hidden bg-base-300'
 		>
 			<Modal.Header className='hidden font-bold dark:text-white'>
 				<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>

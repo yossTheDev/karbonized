@@ -259,12 +259,12 @@ export const MenuBar: React.FC = () => {
 
 							<label
 								htmlFor='file-input'
-								className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-neutral active:bg-base-100'
+								className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
 							>
-								<div className='my-auto flex flex-auto flex-row gap-2 hover:cursor-pointer'>
-									<IconFileUpload size={16}></IconFileUpload>
-									<p className='my-auto hover:cursor-pointer'>Load Project</p>
-								</div>
+								<IconFileUpload size={16}></IconFileUpload>
+								<p className='my-auto ml-2 hover:cursor-pointer'>
+									Load Project
+								</p>
 							</label>
 
 							<input

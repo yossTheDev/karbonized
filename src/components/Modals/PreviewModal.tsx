@@ -84,7 +84,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='max-h-fit overflow-hidden'
+			className='max-h-fit overflow-hidden bg-base-300'
 		>
 			<Modal.Header className='flex flex-row font-bold dark:text-white'>
 				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-200/75 p-2'>
@@ -95,7 +95,6 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 
 				<Button
-					color='neutral'
 					shape='circle'
 					onClick={() => {
 						onClose && onClose();
@@ -123,47 +122,32 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Body>
 
 			<Modal.Actions>
-				<Button
-					color='neutral'
-					className='mr-auto cursor-pointer select-none rounded-2xl bg-base-100 bg-gradient-to-br from-violet-500 to-secondary p-3 text-white hover:bg-gradient-to-bl'
-					onMouseDown={handleShare}
-				>
-					<div className='my-auto flex flex-auto flex-row gap-2'>
-						<IconShare></IconShare>
-						<p className='my-auto'>Share</p>
-					</div>
+				<Button className='mr-auto rounded-2xl' onMouseDown={handleShare}>
+					<IconShare></IconShare>
+					<p className='my-auto cursor-pointer'>Share</p>
 				</Button>
 
-				<p className='my-auto ml-auto mr-3 select-none text-xs dark:text-gray-600'>
+				<p className='my-auto ml-auto mr-3 select-none text-xs text-base-content/70'>
 					Save as
 				</p>
 
 				<Button
-					color='neutral'
-					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
+					className='rounded-2xl'
 					onMouseDown={() => exportImage(export_format.png)}
 				>
-					<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
-						<IconFileTypePng className='mx-auto'></IconFileTypePng>
-					</div>
+					<IconFileTypePng className='mx-auto'></IconFileTypePng>
 				</Button>
 				<Button
-					color='neutral'
-					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
+					className='rounded-2xl'
 					onMouseDown={() => exportImage(export_format.jpeg)}
 				>
-					<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
-						<IconFileTypeJpg className='mx-auto'></IconFileTypeJpg>
-					</div>
+					<IconFileTypeJpg className='mx-auto'></IconFileTypeJpg>
 				</Button>
 				<Button
-					color='neutral'
-					className='flex cursor-pointer select-none rounded-2xl bg-base-200 p-3 hover:bg-neutral'
+					className='rounded-2xl'
 					onMouseDown={() => exportImage(export_format.svg)}
 				>
-					<div className='mx-auto my-auto flex flex-auto flex-row gap-2'>
-						<IconFileTypeSvg className='mx-auto'></IconFileTypeSvg>
-					</div>
+					<IconFileTypeSvg className='mx-auto'></IconFileTypeSvg>
 				</Button>
 			</Modal.Actions>
 		</Modal.Legacy>

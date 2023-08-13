@@ -76,7 +76,7 @@ export const LeftPanel: React.FC = () => {
 					<label htmlFor='my-drawer-2' className='drawer-overlay w-screen' />
 
 					{/* Content */}
-					<div className='bg pointer-events-auto z-30  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-e-2xl bg-base-100 p-2  text-gray-950 shadow-xl  backdrop-blur-2xl dark:text-gray-400 md:w-fit md:max-w-[20rem] '>
+					<div className='bg pointer-events-auto z-30  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-e-2xl bg-base-100 p-2 text-gray-950  shadow-xl backdrop-blur-2xl  dark:text-gray-400 md:w-fit md:max-w-[20rem] md:bg-base-200 '>
 						{/* Header */}
 						{!isHorizontal && (
 							<div className='flex h-16 shrink-0'>
