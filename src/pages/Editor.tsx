@@ -276,13 +276,15 @@ export const Editor: React.FC = () => {
 
 					{/* Quick Settings*/}
 					<div className='pointer-events-none absolute z-30  flex h-full  w-full bg-transparent '>
-						<div className='pointer-events-auto relative mb-28 ml-auto mr-2 mt-auto flex h-fit max-w-fit  flex-auto flex-col gap-1  md:mt-2 md:flex-row md:gap-1 lg:flex'>
+						<TabBar></TabBar>
+
+						<div className='pointer-events-auto relative mb-28 ml-auto mr-2 mt-auto flex h-fit max-w-fit flex-auto  flex-col gap-1 md:mr-4  md:mt-2 md:flex-row md:gap-1 lg:flex'>
 							{/* Change Theme */}
 							{!isElectron() && (
 								<>
 									<Tooltip placement='bottom' message='Change Theme'>
 										<Button
-											size='sm'
+											size='md'
 											shape='circle'
 											color='neutral'
 											className='my-auto hidden border-none bg-base-200/90 backdrop-blur-xl  lg:flex'
@@ -290,13 +292,13 @@ export const Editor: React.FC = () => {
 										>
 											{appTheme === 'light' ? (
 												<IconMoon
-													size={16}
-													className='mx-auto my-auto dark:text-white'
+													size={22}
+													className='mx-auto my-auto text-base-content dark:text-white'
 												></IconMoon>
 											) : (
 												<IconSun
-													size={16}
-													className='mx-auto my-auto dark:text-white'
+													size={22}
+													className='mx-auto my-auto text-base-content dark:text-white'
 												></IconSun>
 											)}
 										</Button>
@@ -309,11 +311,10 @@ export const Editor: React.FC = () => {
 							{/* Lock Aspect Ratio */}
 							<Tooltip placement='bottom' message='Lock Aspect Ratio (Ctrl+R)'>
 								<Button
-									size='sm'
+									size='md'
 									shape='circle'
 									className={`my-auto hidden  flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex ${
-										aspectRatio &&
-										'border-none  bg-gradient-to-br from-violet-500 to-secondary text-white'
+										aspectRatio && 'border-none bg-primary text-white'
 									}`}
 									onClick={() => {
 										setAspectRatio(!aspectRatio);
@@ -401,8 +402,6 @@ export const Editor: React.FC = () => {
 							</Tooltip>
 						</div>
 					</div>
-
-					<TabBar></TabBar>
 
 					{/* Content*/}
 					<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
@@ -492,8 +491,8 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
 												editing &&
-												'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
-											} p-1 hover:bg-gradient-to-bl`}
+												'border-none bg-primary text-white  hover:bg-primary-focus'
+											} p-1 `}
 											onClick={() => {
 												setEditing(true);
 												setDrag(false);
@@ -514,7 +513,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto flex-col rounded-2xl ${
 												drag &&
-												'border-none bg-gradient-to-br from-violet-500 to-secondary   text-white hover:bg-gradient-to-bl'
+												'border-none  bg-primary  text-white hover:bg-primary-focus'
 											} p-1`}
 											onClick={() => {
 												setDrag(true);
@@ -536,7 +535,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
 												canDraw &&
-												'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+												'border-none bg-primary text-white  hover:bg-primary-focus'
 											} p-1 hover:bg-gradient-to-bl`}
 											onClick={() => {
 												setCanDraw(!canDraw);
@@ -558,7 +557,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
 												isErasing &&
-												'border-none bg-gradient-to-br from-violet-500 to-secondary  text-white'
+												'border-none bg-primary text-white hover:bg-primary-focus'
 											} p-1 hover:bg-gradient-to-bl`}
 											onClick={() => {
 												setIsErasing(!isErasing);

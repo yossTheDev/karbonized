@@ -84,7 +84,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='max-h-fit overflow-hidden border border-neutral bg-base-200/95 backdrop-blur-2xl'
+			className='max-h-fit overflow-hidden'
 		>
 			<Modal.Header className='flex flex-row font-bold dark:text-white'>
 				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-200/75 p-2'>
@@ -107,7 +107,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Header>
 
 			<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-				<div className='mx-auto my-auto   w-96  rounded-2xl bg-base-200/70 p-4 shadow-inner'>
+				<div className='mx-auto my-auto w-96  rounded-2xl bg-base-200/70 p-4 shadow-inner'>
 					{previewImage !== '' ? (
 						<TransformWrapper>
 							<TransformComponent>
@@ -115,11 +115,8 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 							</TransformComponent>
 						</TransformWrapper>
 					) : (
-						<div className=' text-gray-500 dark:text-gray-300'>
-							<IconCircleDashed
-								size={56}
-								className='mx-auto my-auto animate-spin'
-							></IconCircleDashed>
+						<div className='text-center'>
+							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
 						</div>
 					)}
 				</div>

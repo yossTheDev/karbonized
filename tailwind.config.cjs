@@ -17,52 +17,17 @@ module.exports = {
 		themes: [
 			{
 				light: {
-					primary: '#e84467',
-
-					secondary: '#e36a5c',
-
-					accent: '#d97706',
-
-					neutral: '#e5e7eb',
-
-					'base-100': '#ECECEC',
-
-					info: '#22d3ee',
-
-					success: '#9CB686',
-
-					warning: '#FFD261',
-
-					error: '#FC9783',
-
-					'base-200': '#f3f4f6',
-					'base-300': '#ced3d9',
-					'base-content': '#000000',
+					...require('daisyui/src/theming/themes')['[data-theme=light]'],
+					primary: '#E838A7',
+					neutral: '#eff0f0',
 				},
 
 				dark: {
-					primary: '#e84467',
-
-					secondary: '#e36a5c',
-
-					accent: '#d97706',
-
-					neutral: '#111111',
-
-					info: '#22d3ee',
-
-					success: '#9CB686',
-
-					warning: '#FFD261',
-
-					error: '#FC9783',
-
-					'base-100': '#141414',
-					'base-200': '#0E0E0E',
-					'base-300': '#090909',
-					'base-content': '#000000',
+					...require('daisyui/src/theming/themes')['[data-theme=dark]'],
+					primary: '#E838A7',
 				},
 			},
+			'dark',
 		],
 		styled: true,
 		base: true,

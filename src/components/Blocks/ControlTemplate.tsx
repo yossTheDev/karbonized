@@ -423,7 +423,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					<motion.div
 						initial={{ marginTop: '25px' }}
 						animate={{ marginTop: '5px' }}
-						className='flex flex-col gap-1 text-xs font-bold'
+						className='flex flex-col gap-1 text-xs font-bold text-base-content'
 					>
 						{/* Position */}
 						<CustomCollapse
@@ -434,19 +434,19 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								</div>
 							}
 						>
-							<div className='flex flex-col flex-wrap text-xs'>
+							<div className='flex flex-col flex-wrap text-xs text-base-content'>
 								{/* Flip Options */}
 								<div className='flex flex-auto gap-2'>
 									<Button
 										color='neutral'
-										className='flex flex-auto'
+										className='flex flex-auto text-base-content'
 										onClick={() => setFlipX(!flipX)}
 									>
 										<IconFlipVertical></IconFlipVertical>
 									</Button>
 									<Button
 										color='neutral'
-										className='flex flex-auto'
+										className='flex flex-auto text-base-content'
 										onClick={() => setFlipY(!flipY)}
 									>
 										<IconFlipHorizontal></IconFlipHorizontal>
@@ -529,12 +529,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Position Z */}
 								<div className='flex flex-auto p-2 text-xs '>
 									<p className='my-auto p-2'>Z:</p>
-									<NumberInput
-										onChange={(number) => {
-											setzIndex(number.toString());
+
+									<Input
+										type={'number'}
+										className='w-full rounded-xl bg-base-100 p-2 text-xs'
+										onChange={(ev) => {
+											setzIndex(ev.currentTarget.value);
 										}}
-										number={parseInt(zIndex)}
-									></NumberInput>
+										value={parseInt(zIndex)}
+									></Input>
 								</div>
 
 								{/* Size */}
@@ -649,7 +652,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											setRotateX(0);
 											setRotateY(0);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -798,7 +801,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						>
 							<div className='flex flex-col flex-wrap gap-2 text-xs'>
 								{/* Blur Options */}
-								<div className='flex flex-auto flex-row gap-2'>
+								<div className='flex flex-auto flex-row gap-2 '>
 									<p className='my-auto p-2'>Blur:</p>
 									<Range
 										color='primary'
@@ -815,7 +818,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setBlur(-1 * 1);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -841,7 +844,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setBrightness(100);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -865,7 +868,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											setContrast(100);
 										}}
 										color='neutral'
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -889,7 +892,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setGrayscale(0);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -913,7 +916,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setHueRotate(0);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -937,7 +940,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setInvert(0);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -961,7 +964,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setSaturate(100);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -985,7 +988,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setSepia(0);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -1009,7 +1012,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										onMouseDown={() => {
 											setOpacity(100);
 										}}
-										className='my-auto flex flex-auto p-1'
+										className='my-auto flex flex-auto p-1 text-base-content'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -1023,20 +1026,20 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						<div id='custom_menu'></div>
 
 						{/* Delete */}
-						<div
+						<button
 							onClick={() => {
 								setID('');
 								setVisibility(false);
 							}}
-							className='mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl bg-neutral p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
+							className='btn mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
 						>
 							<div className='mx-auto my-auto flex flex-row gap-2'>
 								<IconTrash size={18}></IconTrash>
-								<label className='my-auto cursor-pointer text-xs'>
+								<label className='poppins-font-family my-auto cursor-pointer text-xs'>
 									Delete Component
 								</label>
 							</div>
-						</div>
+						</button>
 					</motion.div>
 				</Portal>
 			)}

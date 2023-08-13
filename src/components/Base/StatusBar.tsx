@@ -57,106 +57,99 @@ export const StatusBar: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<>
-			<div className='mx-2 hidden select-none flex-row p-1 text-gray-500 md:flex'>
-				<div className=' my-auto flex flex-auto flex-row gap-2'>
-					{/* Layout Mode */}
-					<Tooltip
-						placement='top'
-						className='my-auto'
-						message='Change Layout Mode (Tab)'
-					>
-						<div
-							onClick={handleChangeMode}
-							className='flex flex-row gap-1 rounded px-2 py-1 hover:cursor-pointer  hover:bg-neutral'
-						>
-							{workspaceMode === 'design' && (
-								<>
-									<IconCircleSquare
-										className='my-auto'
-										size={16}
-									></IconCircleSquare>
-									<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
-								</>
-							)}
+		<div className='pointer-events-none absolute flex h-full w-full'>
+			<div className='pointer-events-auto relative mb-2 mt-auto flex w-full flex-auto flex-row gap-2 px-4'>
+				{/* Layout Mode */}
+				<Tooltip
+					placement='top'
+					className='my-auto'
+					message='Change Layout Mode (Tab)'
+				>
+					<button onClick={handleChangeMode} className='btn btn-xs'>
+						{workspaceMode === 'design' && (
+							<>
+								<IconCircleSquare
+									className='my-auto'
+									size={16}
+								></IconCircleSquare>
+								<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
+							</>
+						)}
 
-							{workspaceMode === 'zen' && (
-								<>
-									<IconCircleDashed
-										className='my-auto'
-										size={16}
-									></IconCircleDashed>
-									<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
-								</>
-							)}
+						{workspaceMode === 'zen' && (
+							<>
+								<IconCircleDashed
+									className='my-auto'
+									size={16}
+								></IconCircleDashed>
+								<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
+							</>
+						)}
 
-							{workspaceMode === 'edit' && (
-								<>
-									<IconTools className='my-auto' size={16}></IconTools>
-									<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
-								</>
-							)}
+						{workspaceMode === 'edit' && (
+							<>
+								<IconTools className='my-auto' size={16}></IconTools>
+								<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
+							</>
+						)}
 
-							{workspaceMode === 'custom' && (
-								<>
-									<IconTools className='my-auto' size={16}></IconTools>
-									<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
-								</>
-							)}
-						</div>
-					</Tooltip>
+						{workspaceMode === 'custom' && (
+							<>
+								<IconTools className='my-auto' size={16}></IconTools>
+								<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
+							</>
+						)}
+					</button>
+				</Tooltip>
 
-					{/* Control Position */}
-					<div className='flex flex-row'>
-						<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
+				{/* Control Position */}
+				<div className='flex flex-row'>
+					<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
 
-						<p className='my-auto ml-2 text-center text-xs'>
-							Pos: x: {Math.round(controlPosition?.x as any)} y:{' '}
-							{Math.round(controlPosition?.y as any)}
-						</p>
-					</div>
-
-					{/* Workspace Name */}
-					<div className='flex flex-row'>
-						<IconTag className='my-auto ml-1' size={16}></IconTag>
-
-						<p className='my-auto ml-2 text-center text-xs'>
-							{currentWorkspace.workspaceName}
-						</p>
-					</div>
-
-					{/* Workspace Settings  Size*/}
-					<div className='flex flex-row'>
-						<IconSquareRotatedForbid2
-							className='my-auto'
-							size={16}
-						></IconSquareRotatedForbid2>
-
-						<p className='my-auto ml-2 text-center text-xs'>
-							Size: {currentWorkspace.workspaceWidth} X{' '}
-							{currentWorkspace.workspaceHeight}
-						</p>
-					</div>
-
-					{/* Source Code */}
-					<div className='my-auto ml-auto flex flex-row'>
-						<a
-							href='https://github.com/yossthedev/karbonized/'
-							target={'_blank'}
-							className='mx-2 my-auto flex flex-auto cursor-pointer flex-row p-1 hover:rounded hover:bg-neutral'
-						>
-							<IconBrandGithub className='my-auto' size={16}></IconBrandGithub>
-							<p className='my-auto ml-1 text-xs hover:cursor-pointer'>
-								Source Code
-							</p>
-						</a>
-					</div>
+					<p className='my-auto ml-2 text-center text-xs'>
+						Pos: x: {Math.round(controlPosition?.x as any)} y:{' '}
+						{Math.round(controlPosition?.y as any)}
+					</p>
 				</div>
+
+				{/* Workspace Name */}
+				<div className='flex flex-row'>
+					<IconTag className='my-auto ml-1' size={16}></IconTag>
+
+					<p className='my-auto ml-2 text-center text-xs'>
+						{currentWorkspace.workspaceName}
+					</p>
+				</div>
+
+				{/* Workspace Settings  Size*/}
+				<div className='flex flex-row'>
+					<IconSquareRotatedForbid2
+						className='my-auto'
+						size={16}
+					></IconSquareRotatedForbid2>
+
+					<p className='my-auto ml-2 text-center text-xs'>
+						Size: {currentWorkspace.workspaceWidth} X{' '}
+						{currentWorkspace.workspaceHeight}
+					</p>
+				</div>
+
+				{/* Source Code */}
+				<a
+					href='https://github.com/yossthedev/karbonized/'
+					target={'_blank'}
+					className='btn btn-xs ml-auto'
+				>
+					<IconBrandGithub className='my-auto' size={16}></IconBrandGithub>
+					<p className='my-auto ml-1 text-xs hover:cursor-pointer'>
+						Source Code
+					</p>
+				</a>
 			</div>
 
 			{showAbout && (
 				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
 			)}
-		</>
+		</div>
 	);
 };

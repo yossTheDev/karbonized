@@ -21,7 +21,7 @@ export const TabBar: React.FC = () => {
 	}, [workspaces]);
 
 	return (
-		<div className='absolute z-30 my-auto ml-2 mt-2  hidden max-h-20 w-2/3 max-w-fit flex-auto  flex-row overflow-auto lg:flex'>
+		<div className='my-auto ml-2 mr-28 mt-2 hidden max-h-20 w-2/3 max-w-fit flex-auto flex-row overflow-auto lg:flex'>
 			<Scrollbars
 				ref={ref}
 				autoHeight
@@ -46,43 +46,43 @@ export const TabBar: React.FC = () => {
 			>
 				<div className='flex flex-row gap-1 p-1'>
 					{workspaces.map((item) => (
-						<div
+						<button
 							key={item.id}
 							id={item.id}
-							className={`my-auto flex h-fit select-none gap-2 rounded-xl bg-base-200 p-1  hover:cursor-pointer  hover:bg-neutral active:bg-base-100 dark:text-gray-300 ${
+							onClick={() => setCurrentWorkspace(item.id)}
+							className={`btn btn-md my-auto flex select-none rounded-2xl text-base-content gap-2${
 								currentWorkspaceID === item.id &&
-								'poppins-font-family  border border-neutral shadow'
+								'poppins-font-family btn-neutral  shadow'
 							}`}
 						>
-							<div
-								onClick={() => setCurrentWorkspace(item.id)}
-								className='flex flex-row'
-							>
-								<IconSquareRotated
-									className='my-auto ml-2'
-									size={16}
-								></IconSquareRotated>
-								<label className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
-									{item.workspaceName}
-								</label>
-							</div>
-
-							<IconX
+							<IconSquareRotated
+								className='my-auto ml-2'
 								size={16}
-								onClick={() => deleteWorkspace(item.id)}
-								className='my-auto ml-auto mr-2 rounded hover:bg-base-100'
-							></IconX>
-						</div>
+							></IconSquareRotated>
+							<label className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
+								{item.workspaceName}
+							</label>
+
+							<button
+								onClick={(ev) => {
+									ev.stopPropagation();
+									deleteWorkspace(item.id);
+								}}
+								className='btn btn-circle btn-ghost btn-xs text-base-content'
+							>
+								<IconX size={16}></IconX>
+							</button>
+						</button>
 					))}
 				</div>
 			</Scrollbars>
 
-			<div
+			<button
 				onClick={() => addWorkspace('')}
-				className='z-20  mx-2 my-auto cursor-pointer rounded-full bg-base-200  p-2 hover:bg-neutral active:bg-base-100'
+				className='btn btn-circle btn-sm pointer-events-auto mx-2 my-auto'
 			>
 				<IconPlus size={14} className='my-auto dark:text-white'></IconPlus>
-			</div>
+			</button>
 		</div>
 	);
 };

@@ -68,11 +68,11 @@ export const LeftPanel: React.FC = () => {
 			<div className='drawer w-0 lg:drawer-open md:w-full lg:py-2'>
 				<input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
 
-				<div className='drawer-side relative z-50 h-full'>
+				<div className='drawer-side relative z-30 h-full'>
 					<label htmlFor='my-drawer-2' className='drawer-overlay w-screen' />
 
 					{/* Content */}
-					<div className='bg pointer-events-auto z-40  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-e-2xl bg-base-100 p-2  text-gray-950 shadow-xl  backdrop-blur-2xl dark:text-gray-400 md:w-fit md:max-w-[20rem] '>
+					<div className='bg pointer-events-auto z-30  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-e-2xl bg-base-100 p-2  text-gray-950 shadow-xl  backdrop-blur-2xl dark:text-gray-400 md:w-fit md:max-w-[20rem] '>
 						{/* Header */}
 						<label className='poppins-font-family mb-2 text-center text-xl md:hidden'>
 							K A R B O N
@@ -84,13 +84,13 @@ export const LeftPanel: React.FC = () => {
 							<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
 								{/* Hierarchy */}
 								<Tooltip message='Hierarchy'>
-									<div
+									<button
 										onClick={() => {
 											setWorkspaceMode('custom');
 											setTab('hierarchy');
 											setShowMenu(true);
 										}}
-										className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+										className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
 											tab === 'hierarchy' && showMenu && 'bg-base-200'
 										}`}
 									>
@@ -98,13 +98,13 @@ export const LeftPanel: React.FC = () => {
 											className='mx-auto'
 											size={16}
 										></IconCircleSquare>
-									</div>
+									</button>
 								</Tooltip>
 
 								{/* Extensions */}
 								{isElectron() && (
 									<Tooltip message='Extensions'>
-										<div
+										<button
 											onClick={() => {
 												setWorkspaceMode('custom');
 												setTab('extensions');
@@ -117,25 +117,25 @@ export const LeftPanel: React.FC = () => {
 
 												setShowMenu(true);
 											}}
-											className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
 												tab === 'extensions' && showMenu && 'bg-base-100'
 											}`}
 										>
 											<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
-										</div>
+										</button>
 									</Tooltip>
 								)}
 
 								{/* Show/Close Menu */}
 								{isHorizontal && (
 									<Tooltip message='Show/Close Menu (Ctrl+B)'>
-										<div
+										<button
 											onClick={() => {
 												setWorkspaceMode('custom');
 												setTab('hierarchy');
 												setShowMenu(!showMenu);
 											}}
-											className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
+											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
 										>
 											{showMenu ? (
 												<IconChevronLeft size={16}></IconChevronLeft>
@@ -145,39 +145,39 @@ export const LeftPanel: React.FC = () => {
 													size={16}
 												></IconChevronRight>
 											)}
-										</div>
+										</button>
 									</Tooltip>
 								)}
 
 								{/* Edit */}
 								{!isHorizontal && (
 									<Tooltip message='Edit'>
-										<div
+										<button
 											onClick={() => {
 												setTab('control');
 												setWorkspaceMode('custom');
 												setShowMenu(true);
 											}}
-											className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
 												tab === 'control' && showMenu && 'bg-base-200'
 											}`}
 										>
 											<IconEdit className='mx-auto' size={16}></IconEdit>
-										</div>
+										</button>
 									</Tooltip>
 								)}
 
 								{/* Workspace */}
 								{!isHorizontal && (
 									<Tooltip message='Workspace'>
-										<div
+										<button
 											onClick={() => {
 												setTab('workspace');
 												setWorkspaceMode('custom');
 												setWorkspaceTab('workspace');
 												setShowMenu(true);
 											}}
-											className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+											className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
 												tab === 'workspace' && showMenu && 'bg-base-200'
 											}`}
 										>
@@ -185,7 +185,7 @@ export const LeftPanel: React.FC = () => {
 												className='mx-auto'
 												size={16}
 											></IconWallpaper>
-										</div>
+										</button>
 									</Tooltip>
 								)}
 							</div>

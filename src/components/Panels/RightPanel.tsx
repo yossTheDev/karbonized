@@ -95,12 +95,12 @@ export const RightPanel: React.FC = () => {
 			<div className='flex flex-auto flex-col gap-1 dark:text-gray-300'>
 				{/* Show/Close Menu */}
 				<Tooltip message='Show/Close Menu (Ctrl+B)'>
-					<div
+					<button
 						onClick={() => {
 							setShowMenu(!showMenu);
 							setWorkspaceMode('custom');
 						}}
-						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
+						className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral`}
 					>
 						{showMenu ? (
 							<IconChevronRight
@@ -110,40 +110,40 @@ export const RightPanel: React.FC = () => {
 						) : (
 							<IconChevronLeft className='mx-auto' size={16}></IconChevronLeft>
 						)}
-					</div>
+					</button>
 				</Tooltip>
 
 				{/* Edit */}
 				<Tooltip message='Edit'>
-					<div
+					<button
 						onClick={() => {
 							setTab('control');
 							setWorkspaceMode('custom');
 							setShowMenu(true);
 						}}
-						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+						className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
 							tab === 'control' && showMenu && 'bg-base-200'
 						}`}
 					>
 						<IconEdit className='mx-auto' size={16}></IconEdit>
-					</div>
+					</button>
 				</Tooltip>
 
 				{/* Workspace */}
 				<Tooltip message='Workspace'>
-					<div
+					<button
 						onClick={() => {
 							setTab('workspace');
 							setWorkspaceMode('custom');
 							setWorkspaceTab('workspace');
 							setShowMenu(true);
 						}}
-						className={`h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
+						className={`btn btn-ghost h-fit max-h-fit cursor-pointer rounded-2xl p-4 hover:bg-neutral ${
 							tab === 'workspace' && showMenu && 'bg-base-200'
 						}`}
 					>
 						<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
-					</div>
+					</button>
 				</Tooltip>
 			</div>
 		</div>

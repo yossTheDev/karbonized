@@ -1,4 +1,5 @@
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
 import React, { ReactNode, useState } from 'react';
 interface Props {
 	isOpen?: boolean;
@@ -15,21 +16,31 @@ export const CustomCollapse: React.FC<Props> = ({
 
 	return (
 		<div>
-			<div
+			<button
 				onMouseDown={() => setOpen(!open)}
-				className='my-auto flex h-12 max-h-12 flex-auto cursor-pointer select-none flex-row rounded-xl p-1 text-xs font-bold text-black hover:bg-neutral dark:text-gray-400'
+				className='btn btn-ghost my-auto flex h-12 max-h-12 w-full flex-auto cursor-pointer select-none flex-row rounded-xl text-base-content'
 			>
 				{menu}
 				<div className='my-auto ml-auto'>
 					{open ? (
-						<IconChevronUp></IconChevronUp>
+						<motion.div
+							initial={{ rotate: '0deg' }}
+							animate={{ rotate: '90deg' }}
+						>
+							<IconChevronUp></IconChevronUp>
+						</motion.div>
 					) : (
-						<IconChevronDown></IconChevronDown>
+						<motion.div
+							initial={{ rotate: '180deg' }}
+							animate={{ rotate: '0deg' }}
+						>
+							<IconChevronDown></IconChevronDown>
+						</motion.div>
 					)}
 				</div>
-			</div>
+			</button>
 			{open && (
-				<div className='mt-2 flex flex-auto select-none flex-col gap-4 p-2'>
+				<div className='mt-2 flex flex-auto cursor-pointer select-none flex-col gap-4 p-2 text-base-content'>
 					{children}
 				</div>
 			)}

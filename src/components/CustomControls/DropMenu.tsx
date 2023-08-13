@@ -37,10 +37,8 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 		<MenuContext.Provider
 			value={{ isOpen: show, setIsOpen: setShow, setIsInside: setIsInside }}
 		>
-			<div
-				className={`select-none rounded px-3 py-0.5  hover:cursor-pointer hover:bg-neutral active:bg-base-100 ${
-					show && 'bg-base-100'
-				}`}
+			<button
+				className={`btn btn-ghost btn-xs my-auto ${show && 'bg-base-100'}`}
 				tabIndex={1}
 				onBlur={() => {
 					if (!isInside) {
@@ -55,7 +53,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 				<label className='poppins-font-family-regular my-auto text-xs hover:cursor-pointer '>
 					{label}
 				</label>
-			</div>
+			</button>
 
 			<AnimatePresence>
 				{show && (
@@ -68,7 +66,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 							onMouseLeave={() => setIsInside(false)}
 							className={`z-30 ${
 								show ? 'flex' : 'hidden'
-							} poppins-font-family-regular w-52 flex-auto  flex-col gap-2 rounded-xl border border-neutral bg-base-200 p-1 py-2 shadow-2xl dark:text-gray-300`}
+							} poppins-font-family-regular w-52 flex-auto  flex-col gap-2 overflow-x-hidden rounded-xl border border-base-300 bg-base-200 px-1.5 py-2 shadow-2xl dark:text-gray-300`}
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
 						>
@@ -97,7 +95,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 	const { setIsOpen, setIsInside } = useContext(MenuContext);
 
 	return (
-		<div
+		<button
 			className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-neutral active:bg-base-100'
 			onMouseDown={() => {
 				click();
@@ -111,7 +109,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 
 				<p className='my-auto ml-auto hover:cursor-pointer'>{shortcut}</p>
 			</div>
-		</div>
+		</button>
 	);
 };
 
