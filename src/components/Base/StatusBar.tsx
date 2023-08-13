@@ -58,7 +58,7 @@ export const StatusBar: React.FC = () => {
 
 	return (
 		<div className='pointer-events-none absolute flex h-full w-full'>
-			<div className='pointer-events-auto relative mb-2 mt-auto flex w-full flex-auto flex-row gap-2 px-4'>
+			<div className='pointer-events-auto relative mb-2 mt-auto hidden w-full flex-auto flex-row gap-2 px-4 md:flex'>
 				{/* Layout Mode */}
 				<Tooltip
 					placement='top'

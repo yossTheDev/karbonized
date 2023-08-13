@@ -242,7 +242,7 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden bg-base-300 p-0  md:rounded-2xl  md:p-2'>
+				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden bg-base-300 p-0  md:rounded-2xl'>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && (
 						<Navbar className='bg-base-100'>
@@ -479,7 +479,7 @@ export const Editor: React.FC = () => {
 						<p className='hidden h-full w-full bg-white text-white'></p>
 
 						{/* Controls */}
-						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:w-fit'>
+						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:ml-2 md:w-fit'>
 							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:mx-auto md:my-auto  md:flex-col  md:overflow-hidden'>
 								{/* Tools */}
 								<div className='flex md:w-20  md:flex-wrap'>
