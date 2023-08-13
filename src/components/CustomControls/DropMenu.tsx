@@ -6,7 +6,6 @@ import {
 	useFloating,
 } from '@floating-ui/react-dom';
 import React, { createContext, ReactNode, useContext, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Portal } from 'react-portal';
 
 type Props = {

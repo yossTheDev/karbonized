@@ -243,7 +243,7 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 mx-2 my-1 flex gap-0.5 bg-base-300 dark:text-gray-300'>
+			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 text-base-content'>
 				{/* File */}
 				<DropMenu
 					label='File'

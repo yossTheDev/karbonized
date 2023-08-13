@@ -44,7 +44,11 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 
 				<span className='mb-4 text-center text-xs text-base-content'>
 					Made by{' '}
-					<a className='link' href='https://twitter.com/yossthedev'>
+					<a
+						target='_blank'
+						className='link'
+						href='https://twitter.com/yossthedev'
+					>
 						@yossthedev
 					</a>
 				</span>
@@ -56,25 +60,31 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 				{/* Social Networks */}
 				<div className='m-2 mx-auto mt-4 flex w-fit flex-auto flex-row flex-wrap gap-2  p-2 dark:text-white'>
 					<a
+						target='_blank'
 						href='https://twitter.com/karbonized_app'
 						className=' btn btn-circle'
 					>
-						<div className='mx-auto my-auto flex flex-row'>
+						<div className='pointer-events-none mx-auto my-auto flex flex-row'>
 							<IconBrandTwitter></IconBrandTwitter>
 						</div>
 					</a>
 
-					<a href='https://t.me/karbonized' className=' btn btn-circle'>
-						<div className='mx-auto my-auto flex flex-row'>
+					<a
+						target='_blank'
+						href='https://t.me/karbonized'
+						className=' btn btn-circle'
+					>
+						<div className='pointer-events-none mx-auto my-auto flex flex-row'>
 							<IconBrandTelegram></IconBrandTelegram>
 						</div>
 					</a>
 
 					<a
+						target='_blank'
 						href='https://github.com/yossthedev/karbonized'
 						className=' btn btn-circle'
 					>
-						<div className='mx-auto my-auto flex flex-row'>
+						<div className='pointer-events-none mx-auto my-auto flex flex-row'>
 							<IconBrandGithub></IconBrandGithub>
 						</div>
 					</a>

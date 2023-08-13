@@ -140,8 +140,11 @@ export const StatusBar: React.FC = () => {
 					target={'_blank'}
 					className='btn btn-xs ml-auto'
 				>
-					<IconBrandGithub className='my-auto' size={16}></IconBrandGithub>
-					<p className='my-auto ml-1 text-xs hover:cursor-pointer'>
+					<IconBrandGithub
+						className='pointer-events-none my-auto'
+						size={16}
+					></IconBrandGithub>
+					<p className='pointer-events-none my-auto ml-1 text-xs hover:cursor-pointer'>
 						Source Code
 					</p>
 				</a>

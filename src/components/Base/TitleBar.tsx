@@ -27,14 +27,14 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='flex max-h-44 w-full bg-base-200 p-1'
+			className='flex max-h-44 w-full bg-base-300 p-1'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
 		>
 			<img
-				className='my-auto ml-2 h-5 text-black dark:text-white'
+				className='my-auto ml-2 h-5 select-none text-black dark:text-white'
 				src={karbonized}
 			></img>
 

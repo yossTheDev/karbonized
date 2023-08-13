@@ -68,7 +68,7 @@ export const LeftPanel: React.FC = () => {
 
 	return (
 		<>
-			<div className='drawer w-0 lg:drawer-open md:w-full lg:py-2'>
+			<div className='drawer w-0 md:drawer-open md:w-full lg:py-2'>
 				<input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
 
 				<div className='drawer-side relative z-30 h-full'>
