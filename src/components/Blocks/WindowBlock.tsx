@@ -74,7 +74,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									defaultValue={'mac'}
 									tabIndex={0}
 									value={windowStyle}
-									onChange={(e) => setWindowStyle(e)}
+									onChange={(e) => setWindowStyle(e.currentTarget.value)}
 								>
 									<option value={'mac'}>mac</option>
 									<option value={'window'}>window</option>
@@ -85,7 +85,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									defaultValue={'normal'}
 									tabIndex={0}
 									value={windowType}
-									onChange={(e) => setWindowType(e)}
+									onChange={(e) => setWindowType(e.currentTarget.value)}
 								>
 									<option value={'normal'}>normal</option>
 									<option value={'browser'}>browser</option>

@@ -244,10 +244,7 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Content */}
-				<div
-					tabIndex={1}
-					className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'
-				>
+				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && (
 						<Navbar className='bg-base-100'>
