@@ -112,7 +112,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 		`${id}-gradientdeg`,
 	);
 
-	/* Handle Chage Theme */
+	/* Handle Change Theme */
 	const handleChangeTheme = (theme: string) => {
 		return themes.find((value) => value.label === theme)?.theme;
 	};
@@ -121,15 +121,10 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 	useEffect(() => {
 		const newTheme = themes.find((value) => value.label === theme)?.theme;
 
-		if (
-			(newTheme as any)[':not(pre) > code[class*="language-"]'] !== undefined &&
-			(newTheme as any)[':not(pre) > code[class*="language-"]'].background !==
-				undefined &&
-			(newTheme as any)[':not(pre) > code[class*="language-"]'].background
-		)
-			setColor(
-				(newTheme as any)[':not(pre) > code[class*="language-"]'].background,
-			);
+		setColor(
+			(newTheme as any)[':not(pre) > code[class*="language-"]'].background ||
+				(newTheme as any)[`code[class*="language-"]`].background,
+		);
 	}, [theme]);
 
 	return (
@@ -186,7 +181,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 								tabIndex={0}
 								value={language}
 								onChange={(e) => {
-									setLanguage(e);
+									setLanguage(e.currentTarget.value);
 								}}
 							>
 								{SyntaxHighlighter.supportedLanguages.map((i) => {
@@ -203,7 +198,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 								tabIndex={0}
 								value={theme.toString()}
 								onChange={(e) => {
-									setTheme(e);
+									setTheme(e.currentTarget.value);
 								}}
 							>
 								{themes.map((i) => {
