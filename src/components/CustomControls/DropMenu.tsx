@@ -38,7 +38,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 			value={{ isOpen: show, setIsOpen: setShow, setIsInside: setIsInside }}
 		>
 			<button
-				className={`btn btn-ghost btn-xs my-auto ${show && 'bg-base-100'}`}
+				className={`btn btn-ghost rounded btn-xs my-auto ${show && 'bg-base-100'}`}
 				tabIndex={1}
 				onBlur={() => {
 					if (!isInside) {

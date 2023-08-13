@@ -676,22 +676,26 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										{/* Shadow X */}
 										<div className='flex flex-auto  p-2 '>
 											<p className='my-auto p-2'>X:</p>
-											<NumberInput
-												onChange={(number) => {
-													setShadowX(number);
+											<Input
+												type={'number'}
+												className='w-full rounded-xl bg-base-100 p-2 text-xs'
+												onChange={(ev) => {
+													setShadowX(ev.currentTarget.value);
 												}}
-												number={shadowX}
-											></NumberInput>
+												value={shadowX}
+											></Input>
 										</div>
 										{/* Shadow Y */}
 										<div className='flex flex-auto p-2 text-xs'>
 											<p className='my-auto p-2'>Y:</p>
-											<NumberInput
-												onChange={(number) => {
-													setShadowY(number);
+											<Input
+												type={'number'}
+												className='w-full rounded-xl bg-base-100 p-2 text-xs'
+												onChange={(ev) => {
+													setShadowY(ev.currentTarget.value);
 												}}
-												number={shadowY}
-											></NumberInput>
+												value={shadowY}
+											></Input>
 										</div>
 									</div>
 

@@ -27,7 +27,6 @@ module.exports = {
 					primary: '#E838A7',
 				},
 			},
-			'dark',
 		],
 		styled: true,
 		base: true,
