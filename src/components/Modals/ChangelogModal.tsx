@@ -7,24 +7,33 @@ interface Props {
 }
 
 const changelog = `
-## 1.7.2
+## v 1.8.1
+
+* fix: Change Theme Colors On Code Blocks
+
+## v 1.8.0
+
+* Change App The Colors
+* Improve UI/UX
+
+## v 1.7.2
 
 feat: Auto Scroll Tabs
 fix: Minor fixes and improvements
 
-## 1.7.1
+## v 1.7.1
 
 improve: Tabs System
 feat: Toggle Aspect Ratio Key Shortcut (Ctrl+R)
 fix: Minor UI Fixes
 fix: Open Multiples Menus at Time
 
-## 1.7.0
+## v 1.7.0
 
 * New Stable Release
 * Some Improvements and minor Bug Fixes
 
-## 1.6.2
+## v 1.6.2
 
 * feat: Background Color for Custom Blocks
 * improve: Loading extensions time
