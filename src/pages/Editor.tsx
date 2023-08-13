@@ -18,6 +18,8 @@ import {
 	IconPointer,
 	IconPuzzle,
 	IconQrcode,
+	IconShare2,
+	IconShare3,
 	IconSticker,
 	IconSun,
 	IconZoomIn,
@@ -51,6 +53,7 @@ import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import './Editor.css';
 import { PreviewModal } from '../components/Modals/PreviewModal';
+import { toBlob } from 'html-to-image';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -169,6 +172,31 @@ export const Editor: React.FC = () => {
 		}
 	};
 
+	// Share Image
+	const handleShare = async () => {
+		const element = document.getElementById('workspace');
+		if (element) {
+			const newFile = await toBlob(element);
+			if (newFile) {
+				const data = {
+					files: [
+						new File([newFile], 'image.png', {
+							type: newFile.type,
+						}),
+					],
+					title: 'Image',
+					text: 'image',
+				};
+
+				try {
+					await navigator.share(data);
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		}
+	};
+
 	/* Handle Key Shortcuts and Center View on Change Some Workspace Properties*/
 	useEffect(() => {
 		centerView();
@@ -253,29 +281,27 @@ export const Editor: React.FC = () => {
 								>
 									<IconMenu2
 										className='mx-auto dark:text-gray-300'
-										size={16}
+										size={24}
 									></IconMenu2>
 								</label>
 							</Navbar.Start>
 
 							<Navbar.Center>
-								<label className='dark:text-gray-300'>K A R B O N</label>
+								<label className='dark:text-gray-300'>
+									K A R B O N I Z E D
+								</label>
 							</Navbar.Center>
 
 							<Navbar.End>
-								<Button
-									onClick={() => setShowPreview(true)}
-									shape='circle'
-									className='mr-2 border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 px-2 hover:border-primary hover:bg-gradient-to-l '
-								>
-									<IconFlask size={22} className='text-white'></IconFlask>
+								<Button onClick={handleShare} shape='circle'>
+									<IconShare2></IconShare2>
 								</Button>
 							</Navbar.End>
 						</Navbar>
 					)}
 
 					{/* Quick Settings*/}
-					<div className='pointer-events-none absolute z-30  flex h-full  w-full bg-transparent '>
+					<div className='pointer-events-none absolute z-20  flex h-full  w-full bg-transparent '>
 						<TabBar></TabBar>
 
 						<div className='pointer-events-auto relative mb-28 ml-auto mr-2 mt-auto flex h-fit max-w-fit flex-auto  flex-col gap-1 md:mr-4  md:mt-2 md:flex-row md:gap-1 lg:flex'>
@@ -482,7 +508,7 @@ export const Editor: React.FC = () => {
 						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:ml-2 md:w-fit'>
 							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:mx-auto md:my-auto  md:flex-col  md:overflow-hidden'>
 								{/* Tools */}
-								<div className='flex md:w-20  md:flex-wrap'>
+								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0'>
 									{/* Actions */}
 
 									{/* Select */}
@@ -578,7 +604,7 @@ export const Editor: React.FC = () => {
 
 								{/* Basics */}
 
-								<div className='flex md:w-20  md:flex-wrap'>
+								<div className='flex gap-2 md:w-20 md:flex-wrap   md:gap-0'>
 									{/* Code Control */}
 									<Tooltip className='flex  flex-auto ' message='Code'>
 										<Button
@@ -676,7 +702,7 @@ export const Editor: React.FC = () => {
 
 								{/* Others */}
 
-								<div className='flex md:w-20 md:flex-wrap '>
+								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0 '>
 									<Tooltip className='flex flex-auto ' message='Qr Code'>
 										<Button
 											className='flex flex-auto rounded-2xl p-1'

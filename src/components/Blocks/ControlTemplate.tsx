@@ -1034,6 +1034,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							onClick={() => {
 								setID('');
 								setVisibility(false);
+
+								setWorkspaceControls(
+									currentWorkspace.controls.map((item) =>
+										item.id === id ? { ...item, isDeleted: true } : item,
+									),
+								);
 							}}
 							className='btn mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
 						>

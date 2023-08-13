@@ -15,7 +15,7 @@ export const HierarchyPanel = () => {
 			{/* Controls */}
 			{visibleControls.length > 0 ? (
 				<>
-					<label className='mb-2 ml-3 select-none text-xl font-bold'>
+					<label className='mb-2 ml-3 hidden select-none text-xl font-bold md:block'>
 						Hierarchy
 					</label>
 					<List

@@ -4,7 +4,9 @@ import {
 	IconChevronRight,
 	IconCircleSquare,
 	IconEdit,
+	IconMoon,
 	IconPuzzle,
+	IconSun,
 	IconWallpaper,
 } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
@@ -15,6 +17,7 @@ import { ExtensionPanel } from './ExtensionsPanel';
 import { isElectron } from '../../utils/isElectron';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { WorkspacePanel } from './WorkspacePanel';
+import { useTheme } from '../../hooks/useTheme';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -26,6 +29,7 @@ export const LeftPanel: React.FC = () => {
 
 	/* Component State */
 	const isHorizontal = useScreenDirection();
+	const [appTheme, toggleTheme] = useTheme();
 
 	const [show, setShow] = useState(isHorizontal ? false : true);
 	const [showMenu, setShowMenu] = useState(isHorizontal ? false : true);
@@ -74,9 +78,24 @@ export const LeftPanel: React.FC = () => {
 					{/* Content */}
 					<div className='bg pointer-events-auto z-30  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-e-2xl bg-base-100 p-2  text-gray-950 shadow-xl  backdrop-blur-2xl dark:text-gray-400 md:w-fit md:max-w-[20rem] '>
 						{/* Header */}
-						<label className='poppins-font-family mb-2 text-center text-xl md:hidden'>
-							K A R B O N
-						</label>
+						{!isHorizontal && (
+							<div className='flex h-16 shrink-0'>
+								{/* Theme Button */}
+								<button
+									className='btn btn-circle btn-sm absolute ml-2'
+									onClick={() => toggleTheme()}
+								>
+									{appTheme === 'light' ? (
+										<IconMoon className=' dark:text-white'></IconMoon>
+									) : (
+										<IconSun className=' dark:text-white'></IconSun>
+									)}
+								</button>
+								<label className='mx-auto my-auto text-center text-xl md:hidden'>
+									K A R B O N I Z E D
+								</label>
+							</div>
+						)}
 
 						{/* Tabs */}
 						<div className='flex flex-auto overflow-y-auto'>
@@ -218,13 +237,10 @@ export const LeftPanel: React.FC = () => {
 												tab === 'control' ? 'flex' : 'hidden'
 											}`}
 										>
-											<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
-												Control
-											</label>
 											<div className='overflow-auto' id='menu'></div>
 											{currentID === '' && (
 												<div className='flex h-96 flex-auto'>
-													<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
+													<p className='mx-auto my-auto select-none text-center text-xs text-base-content/70'>
 														Select a control to start editing it
 													</p>
 												</div>
