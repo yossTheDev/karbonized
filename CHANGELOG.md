@@ -1,5 +1,10 @@
 # Changelog
 
+## v 1.8.2
+
+* Reduce App Loading Time
+* Various Optimizations and Bug Fixes
+
 ## v 1.8.1
 
 * fix: Change Theme Colors On Code Blocks
