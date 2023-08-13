@@ -3,7 +3,6 @@ import {
 	IconBrandTwitter,
 	IconBrush,
 	IconCircle,
-	IconCircleSquare,
 	IconCode,
 	IconDeviceMobile,
 	IconEraser,
@@ -19,7 +18,6 @@ import {
 	IconPuzzle,
 	IconQrcode,
 	IconShare2,
-	IconShare3,
 	IconSticker,
 	IconSun,
 	IconZoomIn,
@@ -313,7 +311,7 @@ export const Editor: React.FC = () => {
 											size='md'
 											shape='circle'
 											color='neutral'
-											className='my-auto hidden border-none bg-base-200/90 backdrop-blur-xl  lg:flex'
+											className='my-auto hidden border-none bg-base-200/90 lg:flex'
 											onClick={() => toggleTheme()}
 										>
 											{appTheme === 'light' ? (
@@ -339,7 +337,7 @@ export const Editor: React.FC = () => {
 								<Button
 									size='md'
 									shape='circle'
-									className={`my-auto hidden  flex-auto rounded-full border-none bg-base-200/90 p-1 backdrop-blur-xl hover:bg-base-100 md:flex ${
+									className={`my-auto hidden  flex-auto rounded-full border-none bg-base-200/90 p-1 hover:bg-base-100 md:flex ${
 										aspectRatio && 'border-none bg-primary text-white'
 									}`}
 									onClick={() => {
@@ -350,14 +348,14 @@ export const Editor: React.FC = () => {
 								</Button>
 							</Tooltip>
 
-							<p className='mx-1 my-auto hidden h-0.5 rounded bg-base-200/90 p-0.5 backdrop-blur-xl  md:flex '></p>
+							<p className='mx-1 my-auto hidden h-0.5 rounded bg-base-200/90 p-0.5 md:flex '></p>
 
 							{/* Zoom Out */}
 							<Tooltip placement='bottom' message='Zoom Out'>
 								<Button
 									size='md'
 									shape='circle'
-									className='my-auto  flex-auto rounded-full border-none bg-base-200/90  backdrop-blur-xl hover:bg-base-100 md:flex'
+									className='my-auto  flex-auto rounded-full border-none bg-base-200/90  hover:bg-base-100 md:flex'
 									onClick={() =>
 										viewerRef.current?.setZoom(
 											viewerRef.current?.getZoom() - 0.2,
@@ -376,7 +374,7 @@ export const Editor: React.FC = () => {
 								<Button
 									size='md'
 									shape='circle'
-									className='my-auto   flex-auto rounded-full border-none bg-base-200/90 p-2 backdrop-blur-xl hover:bg-base-100 md:flex'
+									className='my-auto   flex-auto rounded-full border-none bg-base-200/90 p-2 hover:bg-base-100 md:flex'
 									onClick={() =>
 										viewerRef.current?.setZoom(
 											viewerRef.current?.getZoom() + 0.2,
@@ -434,7 +432,7 @@ export const Editor: React.FC = () => {
 						{/* Draw Bar */}
 						{(canDraw || isErasing) && (
 							<div className=' absolute flex h-full'>
-								<div className=' z-50 mb-1 ml-8 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5 backdrop-blur-xl'>
+								<div className=' z-50 mb-1 ml-8 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5'>
 									{/* Stroke Range */}
 									<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
 									<Range
@@ -506,7 +504,7 @@ export const Editor: React.FC = () => {
 
 						{/* Controls */}
 						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:ml-2 md:w-fit'>
-							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 backdrop-blur-xl md:mx-auto md:my-auto  md:flex-col  md:overflow-hidden'>
+							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 md:mx-auto  md:my-auto md:flex-col  md:overflow-hidden  md:backdrop-blur-xl'>
 								{/* Tools */}
 								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0'>
 									{/* Actions */}
@@ -600,7 +598,7 @@ export const Editor: React.FC = () => {
 									</Tooltip>
 								</div>
 
-								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 backdrop-blur-xl md:flex '></div>
+								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 md:flex '></div>
 
 								{/* Basics */}
 
@@ -698,7 +696,7 @@ export const Editor: React.FC = () => {
 									</Tooltip>
 								</div>
 
-								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 backdrop-blur-xl md:flex '></div>
+								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 md:flex '></div>
 
 								{/* Others */}
 

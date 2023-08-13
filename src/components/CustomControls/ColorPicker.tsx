@@ -144,7 +144,7 @@ export const ColorPicker: React.FC<Props> = ({
 							}}
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-							className='dropdown-content z-50 flex w-60 flex-auto select-none flex-col gap-2 rounded-2xl border border-neutral bg-base-200/90 px-2.5 py-4 shadow-2xl backdrop-blur-xl'
+							className='dropdown-content z-50 flex w-60 flex-auto select-none flex-col gap-2 rounded-2xl border border-neutral bg-base-200 px-2.5 py-4 shadow-2xl'
 						>
 							{/* Tabs */}
 							{isGradientEnable && (
