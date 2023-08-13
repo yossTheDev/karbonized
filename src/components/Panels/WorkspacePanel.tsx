@@ -130,28 +130,33 @@ export const WorkspacePanel: React.FC = () => {
 						{/* Size W */}
 						<div className='flex flex-auto flex-row'>
 							<p className='my-auto mr-2'>W:</p>
-							<NumberInput
-								onChange={(number) => {
+							<Input
+								type={'number'}
+								className='w-full rounded-xl bg-base-100 p-2 text-xs'
+								onChange={(ev) => {
 									setWorkspaceSize({
-										width: number.toString(),
+										width: ev.currentTarget.value,
 										height: currentWorkspace.workspaceHeight,
 									});
 								}}
-								number={parseInt(currentWorkspace.workspaceWidth)}
-							></NumberInput>
+								value={currentWorkspace.workspaceWidth}
+							></Input>
 						</div>
 						{/* Size H */}
 						<div className='ml-2 flex flex-auto select-none flex-row'>
 							<p className='my-auto mr-2'>H:</p>
-							<NumberInput
-								onChange={(number) => {
+
+							<Input
+								type={'number'}
+								className='w-full rounded-xl bg-base-100 p-2 text-xs'
+								onChange={(ev) => {
 									setWorkspaceSize({
-										height: number.toString(),
+										height: ev.currentTarget.value,
 										width: currentWorkspace.workspaceWidth,
 									});
 								}}
-								number={parseInt(currentWorkspace.workspaceHeight)}
-							></NumberInput>
+								value={currentWorkspace.workspaceHeight}
+							></Input>
 						</div>
 					</div>
 				</>
