@@ -18,17 +18,18 @@ import {
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
 import { toBlob, toJpeg } from 'html-to-image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Project } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
-import { AboutModal } from '../Modals/AboutModal';
-import { ChangelogModal } from '../Modals/ChangelogModal';
-import { DonationsModal } from '../Modals/DonationsModal';
-import { PreviewModal } from '../Modals/PreviewModal';
-import { ProjectWizard } from '../Modals/ProjectWizard';
+
+const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
+const ChangelogModal = React.lazy(() => import('../Modals/ChangelogModal'));
+const DonationsModal = React.lazy(() => import('../Modals/DonationsModal'));
+const PreviewModal = React.lazy(() => import('../Modals/PreviewModal'));
+const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 
 export const MenuBar: React.FC = () => {
 	/* Panels */
@@ -410,40 +411,52 @@ export const MenuBar: React.FC = () => {
 			</div>
 
 			{showWizard && (
-				<ProjectWizard
-					onClose={() => setShowWizard(false)}
-					open={showWizard}
-				></ProjectWizard>
+				<Suspense>
+					<ProjectWizard
+						onClose={() => setShowWizard(false)}
+						open={showWizard}
+					></ProjectWizard>
+				</Suspense>
 			)}
 
 			{showAbout && (
-				<AboutModal
-					ref={about}
-					open
-					onClose={() => setShowAbout(false)}
-				></AboutModal>
+				<Suspense>
+					<AboutModal
+						ref={about}
+						open
+						onClose={() => setShowAbout(false)}
+					></AboutModal>
+				</Suspense>
 			)}
 
 			{showPreview && (
-				<PreviewModal
-					onClose={() => setShowPreview(false)}
-					open={showPreview}
-				></PreviewModal>
+				<Suspense>
+					<PreviewModal
+						onClose={() => setShowPreview(false)}
+						open={showPreview}
+					></PreviewModal>
+				</Suspense>
 			)}
 
 			{showChangelog && (
-				<ChangelogModal
-					onClose={() => setShowChangelog(false)}
-					open={showChangelog}
-				></ChangelogModal>
+				<Suspense>
+					<ChangelogModal
+						onClose={() => setShowChangelog(false)}
+						open={showChangelog}
+					></ChangelogModal>
+				</Suspense>
 			)}
 
 			{showDonations && (
-				<DonationsModal
-					onClose={() => setShowDonations(false)}
-					open={showDonations}
-				></DonationsModal>
+				<Suspense>
+					<DonationsModal
+						onClose={() => setShowDonations(false)}
+						open={showDonations}
+					></DonationsModal>
+				</Suspense>
 			)}
 		</>
 	);
 };
+
+export default MenuBar;

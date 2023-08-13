@@ -153,3 +153,5 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 		</Modal.Legacy>
 	);
 };
+
+export default PreviewModal;

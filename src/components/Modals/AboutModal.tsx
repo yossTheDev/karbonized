@@ -102,3 +102,5 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 		</Modal.Legacy>
 	);
 };
+
+export default AboutModal;

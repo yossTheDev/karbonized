@@ -270,3 +270,5 @@ export const LeftPanel: React.FC = () => {
 		</>
 	);
 };
+
+export default LeftPanel;

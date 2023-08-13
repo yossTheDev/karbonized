@@ -156,3 +156,5 @@ export const StatusBar: React.FC = () => {
 		</div>
 	);
 };
+
+export default StatusBar;

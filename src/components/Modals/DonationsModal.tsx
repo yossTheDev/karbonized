@@ -103,3 +103,5 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 		</Modal.Legacy>
 	);
 };
+
+export default DonationsModal;

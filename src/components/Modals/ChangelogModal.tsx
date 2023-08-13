@@ -250,3 +250,5 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 		</Modal.Legacy>
 	);
 };
+
+export default ChangelogModal;

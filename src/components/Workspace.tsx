@@ -1,4 +1,4 @@
-import React, { type RefObject, Suspense, useEffect } from 'react';
+import React, { type RefObject, Suspense } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import './Workspace.css';
@@ -304,3 +304,5 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 		</>
 	);
 };
+
+export default Workspace;

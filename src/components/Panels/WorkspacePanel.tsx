@@ -357,3 +357,5 @@ export const WorkspacePanel: React.FC = () => {
 		</>
 	);
 };
+
+export default WorkspacePanel;

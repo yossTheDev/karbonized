@@ -17,32 +17,22 @@ import {
 	IconPointer,
 	IconPuzzle,
 	IconQrcode,
-	IconShare2,
 	IconSticker,
 	IconSun,
 	IconZoomIn,
 	IconZoomOut,
 	IconZoomReset,
 } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, Modal, Navbar, Range } from 'react-daisyui';
-import InfiniteViewer from 'react-infinite-viewer';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
+import { Button, Navbar, Range } from 'react-daisyui';
 import '../App.css';
-import { StatusBar } from '../components/Base/StatusBar';
-import { TabBar } from '../components/Base/TabBar';
-import { ColorPicker } from '../components/CustomControls/ColorPicker';
 import {
 	DropMenu,
 	MenuItem,
 	MenuSeparator,
 } from '../components/CustomControls/DropMenu';
 import { Tooltip } from '../components/CustomControls/Tooltip';
-import { AboutModal } from '../components/Modals/AboutModal';
-import { LeftPanel } from '../components/Panels/LeftPanel';
-import { RightPanel } from '../components/Panels/RightPanel';
-import { WorkspacePanel } from '../components/Panels/WorkspacePanel';
 import { CustomPortal } from '../components/Portal';
-import { Workspace } from '../components/Workspace';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useTheme } from '../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
@@ -50,9 +40,17 @@ import '../utils.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import './Editor.css';
-import { PreviewModal } from '../components/Modals/PreviewModal';
-import { toBlob } from 'html-to-image';
-import { HomeButton } from '../components/Base/HomeButton';
+
+const Workspace = React.lazy(() => import('../components/Workspace'));
+const StatusBar = React.lazy(() => import('../components/Base/StatusBar'));
+const HomeButton = React.lazy(() => import('../components/Base/HomeButton'));
+const ColorPicker = React.lazy(
+	() => import('../components/CustomControls/ColorPicker'),
+);
+const TabBar = React.lazy(() => import('../components/Base/TabBar'));
+const LeftPanel = React.lazy(() => import('../components/Panels/LeftPanel'));
+const RightPanel = React.lazy(() => import('../components/Panels/RightPanel'));
+const InfiniteViewer = React.lazy(() => import('react-infinite-viewer'));
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -96,11 +94,9 @@ export const Editor: React.FC = () => {
 
 	const [drag, setDrag] = useState(false);
 	const [showAbout, setShowAbout] = useState(false);
-	const [showPreview, setShowPreview] = useState(false);
-	const [showWorkspacePanel, setShowWorkspacePanel] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
-	const viewerRef = useRef<InfiniteViewer>(null);
+	const viewerRef = useRef<any>(null);
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.4);
 
@@ -251,7 +247,7 @@ export const Editor: React.FC = () => {
 							<Navbar.Start className='z-20'>
 								<label
 									htmlFor='my-drawer-2'
-									className='btn btn-circle btn-ghost drawer-button lg:hidden'
+									className='btn btn-circle btn-ghost drawer-button active:bg-base-300 lg:hidden'
 								>
 									<IconMenu2
 										className='mx-auto dark:text-gray-300'
@@ -469,7 +465,13 @@ export const Editor: React.FC = () => {
 									}}
 									className='viewport'
 								>
-									<Workspace reference={ref}></Workspace>
+									<Suspense
+										fallback={
+											<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+										}
+									>
+										<Workspace reference={ref}></Workspace>
+									</Suspense>
 								</div>
 							</InfiniteViewer>
 						</div>
@@ -846,44 +848,6 @@ export const Editor: React.FC = () => {
 					<RightPanel></RightPanel>
 				</div>
 
-				{/* Modals */}
-				{showAbout && (
-					<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
-				)}
-				{showWorkspacePanel && (
-					<Modal
-						open={showWorkspacePanel}
-						className='overflow-hidden bg-base-200 dark:text-white'
-					>
-						<Modal.Header className='font-bold dark:text-white'>
-							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
-								Settings
-							</p>
-						</Modal.Header>
-
-						<Modal.Body className='flex flex-auto select-none flex-col overflow-auto'>
-							<div className='flex h-80 overflow-auto'>
-								<WorkspacePanel></WorkspacePanel>
-							</div>
-						</Modal.Body>
-
-						<Modal.Actions>
-							<Button
-								className='dark:text-white'
-								onClick={() => setShowWorkspacePanel(false)}
-							>
-								OK
-							</Button>
-						</Modal.Actions>
-					</Modal>
-				)}
-				{showPreview && (
-					<PreviewModal
-						onClose={() => setShowPreview(false)}
-						open={showPreview}
-					></PreviewModal>
-				)}
-
 				{/* MenuBar */}
 				<CustomPortal id={'menubar'}>
 					<DropMenu
@@ -931,3 +895,5 @@ export const Editor: React.FC = () => {
 		</>
 	);
 };
+
+export default Editor;

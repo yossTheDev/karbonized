@@ -2,10 +2,8 @@ import { IconMenu, IconMenu2, IconMoon, IconSun } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import karbonized from '../../assets/karbonized.svg';
 import { useTheme } from '../../hooks/useTheme';
-
 import './TitleBar.css';
 import { MenuBar } from './MenuBar';
-import { TabBar } from './TabBar';
 
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(false);
@@ -140,3 +138,5 @@ export const TitleBar: React.FC = () => {
 		</div>
 	);
 };
+
+export default TitleBar;

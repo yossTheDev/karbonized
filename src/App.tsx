@@ -1,21 +1,21 @@
-import React from 'react';
-import { Editor } from './pages/Editor';
-import { TitleBar } from './components/Base/TitleBar';
-import { useScreenDirection } from './hooks/useScreenDirection';
-import { Home } from './pages/Home';
-import { isElectron } from './utils/isElectron';
-import { MenuBar } from './components/Base/MenuBar';
-
+import React, { Suspense } from 'react';
 import karbonized from './assets/karbonized.svg';
-import { Navbar } from 'react-daisyui';
+import { useScreenDirection } from './hooks/useScreenDirection';
+import { isElectron } from './utils/isElectron';
+import { useTheme } from './hooks/useTheme';
+
+const Editor = React.lazy(() => import('./pages/Editor'));
+const TitleBar = React.lazy(() => import('./components/Base/TitleBar'));
+const MenuBar = React.lazy(() => import('./components/Base/MenuBar'));
 
 const App: React.FC = () => {
+	const theme = useTheme();
 	const isHorizontal = useScreenDirection();
 
 	return (
 		<div
 			onContextMenu={(event) => event.preventDefault()}
-			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 transition-all ease-in-out'
+			className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 text-base-content transition-all ease-in-out'
 		>
 			{/* Noise Background */}
 			<svg
@@ -87,11 +87,23 @@ const App: React.FC = () => {
 						</div>
 					)}
 
-					<Editor></Editor>
+					<Suspense
+						fallback={
+							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+						}
+					>
+						<Editor></Editor>
+					</Suspense>
 				</>
 			) : (
 				<>
-					<Editor></Editor>
+					<Suspense
+						fallback={
+							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+						}
+					>
+						<Editor></Editor>
+					</Suspense>
 				</>
 			)}
 		</div>

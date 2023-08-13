@@ -1,18 +1,16 @@
 import {
 	IconDotsVertical,
-	IconHome,
 	IconInfoCircle,
 	IconPlus,
-	IconSettings,
 	IconShare,
 } from '@tabler/icons-react';
-import React, { useEffect, useState } from 'react';
-import { Dropdown } from 'react-daisyui';
-import { AboutModal } from '../Modals/AboutModal';
-import { ProjectWizard } from '../Modals/ProjectWizard';
-import { Portal } from 'react-portal';
 import { toBlob } from 'html-to-image';
-import { IconSettings2 } from '@tabler/icons-react';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Dropdown } from 'react-daisyui';
+import { Portal } from 'react-portal';
+
+const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
+const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 
 interface Props {
 	size?: number;
@@ -71,13 +69,13 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 	return (
 		<>
 			<Dropdown end className='z-20'>
-				<button className='btn btn-ghost'>
+				<button className='btn btn-circle btn-ghost active:bg-base-300'>
 					<IconDotsVertical
 						size={size}
 						className='mx-auto my-auto'
 					></IconDotsVertical>
 				</button>
-				<Dropdown.Menu className='mx-auto w-52 gap-1 rounded-2xl bg-base-200 dark:text-white'>
+				<Dropdown.Menu className='mx-auto w-52 gap-1 rounded-2xl bg-base-200 text-base-content'>
 					<Dropdown.Item
 						onClick={() => {
 							setShowWizard(true);
@@ -87,7 +85,7 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 						<label className='cursor-pointer'>New Project</label>
 					</Dropdown.Item>
 
-					<Dropdown.Item onClick={handleShare}>
+					<Dropdown.Item onClick={() => handleShare}>
 						<IconShare></IconShare>
 						<label className='cursor-pointer'>Share</label>
 					</Dropdown.Item>
@@ -100,19 +98,25 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 			</Dropdown>
 
 			{showAbout && (
-				<AboutModal
-					onClose={() => setShowAbout(false)}
-					open={showAbout}
-				></AboutModal>
+				<Suspense>
+					<AboutModal
+						onClose={() => setShowAbout(false)}
+						open={showAbout}
+					></AboutModal>
+				</Suspense>
 			)}
 			{showWizard && (
-				<Portal>
-					<ProjectWizard
-						onClose={() => setShowWizard(false)}
-						open={showWizard}
-					></ProjectWizard>
-				</Portal>
+				<Suspense>
+					<Portal>
+						<ProjectWizard
+							onClose={() => setShowWizard(false)}
+							open={showWizard}
+						></ProjectWizard>
+					</Portal>
+				</Suspense>
 			)}
 		</>
 	);
 };
+
+export default HomeButton;

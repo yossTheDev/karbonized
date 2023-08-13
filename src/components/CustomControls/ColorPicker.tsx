@@ -750,3 +750,5 @@ export const ColorPicker: React.FC<Props> = ({
 		</>
 	);
 };
+
+export default ColorPicker;
