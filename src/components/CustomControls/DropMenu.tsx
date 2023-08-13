@@ -57,25 +57,23 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 				</label>
 			</button>
 
-			<AnimatePresence>
-				{show && (
-					<Portal>
-						<motion.div
-							id={id}
-							tabIndex={1}
-							onBlur={() => !isInside && setShow(false)}
-							onMouseEnter={() => setIsInside(true)}
-							onMouseLeave={() => setIsInside(false)}
-							className={`poppins-font-family-regular z-30 
+			{show && (
+				<Portal>
+					<div
+						id={id}
+						tabIndex={1}
+						onBlur={() => !isInside && setShow(false)}
+						onMouseEnter={() => setIsInside(true)}
+						onMouseLeave={() => setIsInside(false)}
+						className={`poppins-font-family-regular z-30 
 							 flex w-52 flex-auto flex-col gap-2 overflow-x-hidden rounded-xl border border-base-300 bg-base-200 px-1.5 py-2 text-base-content shadow-2xl`}
-							ref={floating}
-							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-						>
-							{menu}
-						</motion.div>
-					</Portal>
-				)}
-			</AnimatePresence>
+						ref={floating}
+						style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+					>
+						{menu}
+					</div>
+				</Portal>
+			)}
 		</MenuContext.Provider>
 	);
 };
