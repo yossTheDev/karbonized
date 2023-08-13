@@ -15,12 +15,12 @@ export const useTheme = (): [string, () => void] => {
 		if (appTheme === 'dark') {
 			document.documentElement.classList.add('dark');
 			document.querySelector('html')?.setAttribute('data-theme', 'dark');
-			StatusBar.setBackgroundColor({ color: '#232323' });
+			StatusBar.setBackgroundColor({ color: '#242424' });
 			StatusBar.setStyle({ style: Style.Dark });
 		} else {
 			document.documentElement.classList.remove('dark');
 			document.querySelector('html')?.setAttribute('data-theme', 'light');
-			StatusBar.setBackgroundColor({ color: '#232323' });
+			StatusBar.setBackgroundColor({ color: '#FFFFFF' });
 			StatusBar.setStyle({ style: Style.Light });
 		}
 
