@@ -80,7 +80,7 @@ const App: React.FC = () => {
 						)}
 
 					{!isElectron() && (
-						<div className='flex flex-row'>
+						<div className='my-1 flex flex-row'>
 							<img className='my-auto ml-4 h-5' src={karbonized}></img>
 
 							<MenuBar></MenuBar>
