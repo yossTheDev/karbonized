@@ -52,6 +52,7 @@ import { isElectron } from '../utils/isElectron';
 import './Editor.css';
 import { PreviewModal } from '../components/Modals/PreviewModal';
 import { toBlob } from 'html-to-image';
+import { HomeButton } from '../components/Base/HomeButton';
 
 export const Editor: React.FC = () => {
 	/* App Store */
@@ -170,31 +171,6 @@ export const Editor: React.FC = () => {
 		}
 	};
 
-	// Share Image
-	const handleShare = async () => {
-		const element = document.getElementById('workspace');
-		if (element) {
-			const newFile = await toBlob(element);
-			if (newFile) {
-				const data = {
-					files: [
-						new File([newFile], 'image.png', {
-							type: newFile.type,
-						}),
-					],
-					title: 'Image',
-					text: 'image',
-				};
-
-				try {
-					await navigator.share(data);
-				} catch (err) {
-					console.log(err);
-				}
-			}
-		}
-	};
-
 	/* Handle Key Shortcuts and Center View on Change Some Workspace Properties*/
 	useEffect(() => {
 		centerView();
@@ -268,7 +244,10 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
+				<div
+					tabIndex={1}
+					className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'
+				>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && (
 						<Navbar className='bg-base-100'>
@@ -291,9 +270,7 @@ export const Editor: React.FC = () => {
 							</Navbar.Center>
 
 							<Navbar.End>
-								<Button onClick={handleShare} shape='circle'>
-									<IconShare2></IconShare2>
-								</Button>
+								<HomeButton></HomeButton>
 							</Navbar.End>
 						</Navbar>
 					)}

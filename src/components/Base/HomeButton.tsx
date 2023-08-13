@@ -1,8 +1,18 @@
-import { IconHome, IconInfoCircle, IconPlus } from '@tabler/icons-react';
+import {
+	IconDotsVertical,
+	IconHome,
+	IconInfoCircle,
+	IconPlus,
+	IconSettings,
+	IconShare,
+} from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'react-daisyui';
 import { AboutModal } from '../Modals/AboutModal';
 import { ProjectWizard } from '../Modals/ProjectWizard';
+import { Portal } from 'react-portal';
+import { toBlob } from 'html-to-image';
+import { IconSettings2 } from '@tabler/icons-react';
 
 interface Props {
 	size?: number;
@@ -25,6 +35,31 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 		}
 	};
 
+	// Share Image
+	const handleShare = async () => {
+		const element = document.getElementById('workspace');
+		if (element) {
+			const newFile = await toBlob(element);
+			if (newFile) {
+				const data = {
+					files: [
+						new File([newFile], 'image.png', {
+							type: newFile.type,
+						}),
+					],
+					title: 'Image',
+					text: 'image',
+				};
+
+				try {
+					await navigator.share(data);
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		}
+	};
+
 	useEffect(() => {
 		window.addEventListener('keydown', onKeyDown);
 
@@ -35,24 +70,29 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 
 	return (
 		<>
-			<Dropdown vertical='bottom' horizontal='left' className='my-auto'>
-				<button
-					className={`my-auto mr-2 w-12 rounded-2xl bg-base-200 p-0.5 text-black transition-all active:scale-90 dark:text-white md:flex ${className}`}
-					color='ghost'
-				>
-					<IconHome size={size} className='mx-auto my-auto'></IconHome>
+			<Dropdown end className='z-20'>
+				<button className='btn btn-ghost'>
+					<IconDotsVertical
+						size={size}
+						className='mx-auto my-auto'
+					></IconDotsVertical>
 				</button>
-				<Dropdown.Menu className='mt-2 w-52 rounded-2xl bg-base-200 dark:text-white'>
+				<Dropdown.Menu className='mx-auto w-52 gap-1 rounded-2xl bg-base-200 dark:text-white'>
 					<Dropdown.Item
 						onClick={() => {
 							setShowWizard(true);
 						}}
 					>
 						<IconPlus></IconPlus>
-						<label className='cursor-pointer'>New</label>
+						<label className='cursor-pointer'>New Project</label>
 					</Dropdown.Item>
 
-					<Dropdown.Item onClick={async () => setShowAbout(true)}>
+					<Dropdown.Item onClick={handleShare}>
+						<IconShare></IconShare>
+						<label className='cursor-pointer'>Share</label>
+					</Dropdown.Item>
+
+					<Dropdown.Item onClick={() => setShowAbout(true)}>
 						<IconInfoCircle></IconInfoCircle>
 						<label className='cursor-pointer'>About</label>
 					</Dropdown.Item>
@@ -66,10 +106,12 @@ export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
 				></AboutModal>
 			)}
 			{showWizard && (
-				<ProjectWizard
-					onClose={() => setShowWizard(false)}
-					open={showWizard}
-				></ProjectWizard>
+				<Portal>
+					<ProjectWizard
+						onClose={() => setShowWizard(false)}
+						open={showWizard}
+					></ProjectWizard>
+				</Portal>
 			)}
 		</>
 	);

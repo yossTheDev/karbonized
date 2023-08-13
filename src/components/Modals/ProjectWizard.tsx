@@ -149,7 +149,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='flex w-[50rem] max-w-none flex-col overflow-hidden bg-base-300'
+			className='flex max-h-[40rem] max-w-none flex-col overflow-hidden  bg-base-300 md:max-h-[34rem] md:max-w-4xl'
 		>
 			<Modal.Header className='font-bold dark:text-white'>
 				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-200/70 p-2 text-black dark:text-white md:flex'>
@@ -160,71 +160,66 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 			</Modal.Header>
 
-			<Modal.Body className='flex select-none flex-row gap-4 overflow-hidden'>
+			<Modal.Body className='flex select-none flex-col gap-4 overflow-auto md:flex-row'>
 				{/* Templates */}
-				<div className='flex w-56 flex-col gap-2 overflow-y-auto'>
-					<div
+				<label className='poppins-font-family mb-2 text-right text-xl font-bold md:hidden'>
+					Templates
+				</label>
+				<div className='mx-auto flex max-h-16 shrink-0 flex-row gap-2 overflow-y-auto  rounded bg-base-200 p-2 md:max-h-full md:flex-col md:bg-transparent'>
+					<button
 						onClick={() => setTemplate('blank')}
 						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80 active:bg-base-100'
 					>
-						{template === 'blank' && (
-							<div className='my-auto rounded-full bg-primary p-1'></div>
-						)}
-
 						<img
-							className='w-48 rounded-2xl shadow-xl'
+							className={`w-48 rounded md:rounded-2xl ${
+								template === 'blank' && 'border-2 border-primary  shadow-xl'
+							}`}
 							src={blank_template}
 						></img>
-					</div>
+					</button>
 
-					<div
+					<button
 						onClick={() => setTemplate('code')}
 						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
 					>
-						{template === 'code' && (
-							<div className='my-auto rounded-full bg-primary p-1'></div>
-						)}
-
 						<img
-							className='w-48 rounded-2xl shadow-xl'
+							className={`w-48 rounded md:rounded-2xl ${
+								template === 'code' && 'border-2 border-primary  shadow-xl'
+							}`}
 							src={code_template}
 						></img>
-					</div>
+					</button>
 
-					<div
+					<button
 						onClick={() => setTemplate('image')}
 						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
 					>
-						{template === 'image' && (
-							<div className='my-auto rounded-full bg-primary p-1'></div>
-						)}
-
 						<img
-							className='w-48 rounded-2xl shadow-xl'
+							className={`w-48 rounded md:rounded-2xl ${
+								template === 'image' && 'border-2 border-primary  shadow-xl'
+							}`}
 							src={image_template}
 						></img>
-					</div>
+					</button>
 
-					<div
+					<button
 						onClick={() => setTemplate('browser')}
 						className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
 					>
-						{template === 'browser' && (
-							<div className='my-auto rounded-full bg-primary p-1'></div>
-						)}
-
 						<img
-							className='w-48 rounded-2xl shadow-xl'
+							className={`w-48 rounded md:rounded-2xl ${
+								template === 'browser' && 'border-2 border-primary  shadow-xl'
+							}`}
 							src={browser_template}
 						></img>
-					</div>
+					</button>
 				</div>
 
 				{/* Menus */}
-				<div className='flex flex-auto flex-col gap-2 text-base-content'>
-					<p className='poppins-font-family mb-2 text-right text-xl font-bold'>
+				<div className='flex flex-auto flex-col gap-2 overflow-auto text-base-content'>
+					<label className='poppins-font-family mb-2 text-right text-xl font-bold'>
 						Properties
-					</p>
+					</label>
 
 					<div className='flex w-full flex-col gap-3 overflow-auto  p-2 font-bold'>
 						<p className='poppins-font-family'>Project Name</p>
