@@ -222,13 +222,13 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 
 				{/* Menus */}
-				<div className='flex flex-auto flex-col gap-2 dark:text-gray-400'>
+				<div className='flex flex-auto flex-col gap-2 text-base-content'>
 					<p className='poppins-font-family mb-2 text-right text-xl font-bold'>
 						Properties
 					</p>
 
 					<div className='flex w-full flex-col gap-3 overflow-auto  p-2 font-bold'>
-						<p className='poppins-font-family text-gray-500'>Project Name</p>
+						<p className='poppins-font-family'>Project Name</p>
 						<Input
 							className='min-h-12 w-full'
 							value={currentWorkspace.workspaceName}
@@ -237,7 +237,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 						{template === 'code' && (
 							<>
-								<p className='poppins-font-family text-gray-500'>Language</p>
+								<p className='poppins-font-family'>Language</p>
 								<Select
 									className='min-h-12 w-full'
 									tabIndex={0}
@@ -255,14 +255,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									})}
 								</Select>
 
-								<p className='poppins-font-family text-gray-500'>Title</p>
+								<p className='poppins-font-family'>Title</p>
 								<Input
 									className='min-h-12 w-full'
 									value={title}
 									onChange={(ev) => setTitle(ev.currentTarget.value)}
 								></Input>
 
-								<p className='poppins-font-family text-gray-500'>Code</p>
+								<p className='poppins-font-family'>Code</p>
 								<Textarea
 									spellCheck={false}
 									className='min-h-[16rem] w-full resize-none'
@@ -274,7 +274,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 						{template === 'image' && (
 							<>
-								<p className='poppins-font-family text-gray-500'>Source</p>
+								<p className='poppins-font-family'>Source</p>
 								<FileInput
 									className='min-h-12 w-full'
 									accept='image/*'
@@ -293,7 +293,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 						{template === 'browser' && (
 							<>
-								<p className='poppins-font-family text-gray-500'>Source</p>
+								<p className='poppins-font-family'>Source</p>
 								<FileInput
 									accept='image/*'
 									className='min-h-12 w-full'
@@ -308,14 +308,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									}}
 								></FileInput>
 
-								<p className='poppins-font-family text-gray-500'>Title</p>
+								<p className='poppins-font-family'>Title</p>
 								<Input
 									className='min-h-12 w-full'
 									value={titleBrowser}
 									onChange={(ev) => setTitleBrowser(ev.currentTarget.value)}
 								></Input>
 
-								<p className='poppins-font-family text-gray-500'>Url</p>
+								<p className='poppins-font-family'>Url</p>
 								<Input
 									className='min-h-12  w-full'
 									value={url}
@@ -327,12 +327,8 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				</div>
 			</Modal.Body>
 
-			<Modal.Actions className=''>
-				<Button
-					color='neutral'
-					className='dark:text-white'
-					onClick={handleCreate}
-				>
+			<Modal.Actions>
+				<Button className='dark:text-white' onClick={handleCreate}>
 					Create
 				</Button>
 			</Modal.Actions>
