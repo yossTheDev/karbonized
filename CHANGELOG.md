@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.8.0
+
+* Change App The Colors
+* Improve UI/UX
+
 ## 1.7.2
 
 feat: Auto Scroll Tabs
