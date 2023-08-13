@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import {
 	IconAppWindow,
 	IconBrandTwitter,
@@ -13,6 +12,7 @@ import {
 	IconQrcode,
 	IconSticker,
 } from '@tabler/icons-react';
+import React, { useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 
 export interface Item {
@@ -35,12 +35,9 @@ export const MenuItem: React.FC<Item> = ({
 	props,
 }) => {
 	const controlID = useStoreState((state) => state.currentControlID);
-	const ControlsTree = useStoreState((state) => state.ControlsTree);
-
 	const setCurrentControlID = useStoreActions(
 		(state) => state.setcurrentControlID,
 	);
-	const setControls = useStoreActions((state) => state.setControls);
 	const setWorkspaceControls = useStoreActions(
 		(state) => state.setWorkspaceControls,
 	);
@@ -54,49 +51,44 @@ export const MenuItem: React.FC<Item> = ({
 
 	return (
 		<>
-			<div
+			<button
 				onMouseDown={() => {
 					if (isVisible) setCurrentControlID(id);
 				}}
-				className={`z-50 list-none rounded-xl p-3 hover:bg-base-100/90 dark:text-gray-400 ${
+				className={`btn z-50 list-none rounded-2xl hover:bg-base-300/90 dark:text-gray-400 ${
 					!isDragged && 'hover:cursor-pointer'
 				} ${isDragged && 'cursor-grabbing'} ${
-					controlID === id && 'bg-base-100/70'
+					controlID === id && 'bg-base-300'
 				}`}
 				{...props}
 			>
-				<div className='pointer-events-none flex flex-row gap-2'>
-					<MenuIcon type={type}></MenuIcon>
-					<p
-						className={`${isDragged && 'cursor-grabbing'} ${
-							!isDragged && 'hover:cursor-pointer'
-						}`}
-					>
-						{name}
-					</p>
+				<MenuIcon type={type}></MenuIcon>
+				<p
+					className={`${isDragged && 'cursor-grabbing'} ${
+						!isDragged && 'hover:cursor-pointer'
+					}`}
+				>
+					{name}
+				</p>
 
-					<div></div>
-
-					<div
-						onMouseDown={() => {
-							setWorkspaceControls(
-								currentWorkspace.controls.map((item) =>
-									item.id === id
-										? { ...item, isVisible: !item.isVisible }
-										: item,
-								),
-							);
-						}}
-						className='pointer-events-auto my-auto ml-auto rounded p-1 hover:bg-base-200'
-					>
-						{isVisible ? (
-							<IconEye size={16}></IconEye>
-						) : (
-							<IconEyeClosed size={16}></IconEyeClosed>
-						)}
-					</div>
-				</div>
-			</div>
+				{/* Set Visibility */}
+				<button
+					onMouseDown={() => {
+						setWorkspaceControls(
+							currentWorkspace.controls.map((item) =>
+								item.id === id ? { ...item, isVisible: !item.isVisible } : item,
+							),
+						);
+					}}
+					className='btn btn-circle btn-ghost btn-xs pointer-events-auto ml-auto'
+				>
+					{isVisible ? (
+						<IconEye size={16}></IconEye>
+					) : (
+						<IconEyeClosed size={16}></IconEyeClosed>
+					)}
+				</button>
+			</button>
 		</>
 	);
 };
