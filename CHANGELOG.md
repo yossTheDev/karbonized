@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.1
+
+* fix: Change Theme Colors On Code Blocks
+
 ## 1.8.0
 
 * Change App The Colors
