@@ -7,14 +7,13 @@ import {
 	Select,
 	Textarea,
 } from 'react-daisyui';
-import karbonized from '../../assets/karbonized.svg';
-
 import blank_template from '../../assets/blank_template.png';
+import browser_template from '../../assets/browser_template.png';
 import code_template from '../../assets/code_template.png';
 import image_template from '../../assets/image_template.png';
-import browser_template from '../../assets/browser_template.png';
-import { languages } from '../../utils/Languages';
+import karbonized from '../../assets/karbonized.svg';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { languages } from '../../utils/Languages';
 import { getRandomNumber } from '../../utils/getRandom';
 
 interface Props {

@@ -31,7 +31,6 @@ export const LeftPanel: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 	const [appTheme, toggleTheme] = useTheme();
 
-	const [show, setShow] = useState(isHorizontal ? false : true);
 	const [showMenu, setShowMenu] = useState(isHorizontal ? false : true);
 	const [tab, setTab] = useState('hierarchy');
 
