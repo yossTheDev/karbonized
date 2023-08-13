@@ -1,9 +1,10 @@
 /* Simple hook to change app theme*/
 import { useEffect, useState } from 'react';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 export const useTheme = (): [string, () => void] => {
 	const [appTheme, setAppTheme] = useState(
-		localStorage.getItem('theme') ? localStorage.getItem('theme') : 'dark',
+		localStorage.getItem('theme') || 'dark',
 	);
 
 	const toggleTheme = () => {
@@ -14,9 +15,13 @@ export const useTheme = (): [string, () => void] => {
 		if (appTheme === 'dark') {
 			document.documentElement.classList.add('dark');
 			document.querySelector('html')?.setAttribute('data-theme', 'dark');
+			StatusBar.setBackgroundColor({ color: '#232323' });
+			StatusBar.setStyle({ style: Style.Dark });
 		} else {
 			document.documentElement.classList.remove('dark');
 			document.querySelector('html')?.setAttribute('data-theme', 'light');
+			StatusBar.setBackgroundColor({ color: '#232323' });
+			StatusBar.setStyle({ style: Style.Light });
 		}
 
 		localStorage.setItem('theme', appTheme as string);
