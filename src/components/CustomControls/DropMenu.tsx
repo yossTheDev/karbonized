@@ -94,7 +94,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 
 	return (
 		<button
-			className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
+			className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs text-base-content hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
 			onMouseDown={() => {
 				click();
 				setIsOpen(false);

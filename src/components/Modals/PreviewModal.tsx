@@ -8,7 +8,7 @@ import {
 } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Progress } from 'react-daisyui';
-import karbonized from '../../assets/karbonized.svg';
+import karbonized from '../../assets/logo.svg';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { toBlob, toJpeg } from 'html-to-image';

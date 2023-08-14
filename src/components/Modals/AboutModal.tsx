@@ -5,7 +5,7 @@ import {
 } from '@tabler/icons-react';
 import React, { Ref } from 'react';
 import { Button, Modal } from 'react-daisyui';
-import karbonized from '../../assets/karbonized.svg';
+import karbonized from '../../assets/logo.svg';
 interface Props {
 	open: boolean;
 	onClose?: Function;
@@ -38,8 +38,8 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 				<label className='mt-4 text-center text-2xl font-bold dark:text-white'>
 					Karbonized
 				</label>
-				<p className='mx-auto w-64 justify-center text-center text-base-content'>
-					Image Editing Made Easy
+				<p className='mx-auto mb-2 w-64 justify-center text-center text-sm text-base-content/70'>
+					Image Generator for Code Snippets & Mockups
 				</p>
 
 				<span className='mb-4 text-center text-xs text-base-content'>
