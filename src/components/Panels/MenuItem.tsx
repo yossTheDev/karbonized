@@ -72,7 +72,7 @@ export const MenuItem: React.FC<Item> = ({
 				</p>
 
 				{/* Set Visibility */}
-				<button
+				<div
 					onMouseDown={() => {
 						setWorkspaceControls(
 							currentWorkspace.controls.map((item) =>
@@ -87,7 +87,7 @@ export const MenuItem: React.FC<Item> = ({
 					) : (
 						<IconEyeClosed size={16}></IconEyeClosed>
 					)}
-				</button>
+				</div>
 			</button>
 		</>
 	);
