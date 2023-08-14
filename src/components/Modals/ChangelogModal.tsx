@@ -7,6 +7,14 @@ interface Props {
 }
 
 const changelog = `
+## v 1.9.0
+
+* Preparing Android Version
+* feat: Save To Gallery (Android)
+* feat: Share Image (Android)
+* improve: Animation on Change Workspace Size or Colors
+* fix: View Menu Disappear
+
 ## v 1.8.2
 
 * Reduce App Loading Time
