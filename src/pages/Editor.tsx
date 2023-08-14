@@ -40,10 +40,13 @@ import '../utils.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import './Editor.css';
+import { NavBarMobile } from '../components/Mobile/NavBarMobile';
 
 const Workspace = React.lazy(() => import('../components/Workspace'));
 const StatusBar = React.lazy(() => import('../components/Base/StatusBar'));
-const HomeButton = React.lazy(() => import('../components/Base/HomeButton'));
+const HomeButton = React.lazy(
+	() => import('../components/Mobile/SettingsButton'),
+);
 const ColorPicker = React.lazy(
 	() => import('../components/CustomControls/ColorPicker'),
 );
@@ -242,31 +245,7 @@ export const Editor: React.FC = () => {
 				{/* Content */}
 				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
 					{/* Nav Bar Mobile */}
-					{!isHorizontal && (
-						<Navbar className='bg-base-100'>
-							<Navbar.Start className='z-20'>
-								<label
-									htmlFor='my-drawer-2'
-									className='btn btn-circle btn-ghost drawer-button active:bg-base-300 lg:hidden'
-								>
-									<IconMenu2
-										className='mx-auto dark:text-gray-300'
-										size={24}
-									></IconMenu2>
-								</label>
-							</Navbar.Start>
-
-							<Navbar.Center>
-								<label className='dark:text-gray-300'>
-									K A R B O N I Z E D
-								</label>
-							</Navbar.Center>
-
-							<Navbar.End>
-								<HomeButton></HomeButton>
-							</Navbar.End>
-						</Navbar>
-					)}
+					{!isHorizontal && <NavBarMobile></NavBarMobile>}
 
 					{/* Quick Settings*/}
 					<div className='pointer-events-none absolute z-20  flex h-full  w-full bg-transparent '>

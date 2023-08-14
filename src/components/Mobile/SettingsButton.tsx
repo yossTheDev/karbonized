@@ -4,74 +4,66 @@ import {
 	IconPlus,
 	IconShare,
 } from '@tabler/icons-react';
-import { toBlob } from 'html-to-image';
-import React, { Suspense, useEffect, useState } from 'react';
+import { toBlob, toPng } from 'html-to-image';
+import React, { Suspense, useState } from 'react';
 import { Dropdown } from 'react-daisyui';
 import { Portal } from 'react-portal';
+import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+import { getRandomNumber } from '../../utils/getRandom';
 
 const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
 const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 
-interface Props {
-	size?: number;
-	className?: string;
-}
-
-export const HomeButton: React.FC<Props> = ({ size = 22, className }) => {
+export const HomeButton: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 	const [showWizard, setShowWizard] = useState(true);
-
-	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'n') {
-			event.preventDefault();
-
-			setShowWizard(true);
-		} else if (event.key === 'Escape') {
-			event.preventDefault();
-			setShowWizard(false);
-			setShowAbout(false);
-		}
-	};
 
 	// Share Image
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
 		if (element) {
-			const newFile = await toBlob(element);
-			if (newFile) {
-				const data = {
-					files: [
-						new File([newFile], 'image.png', {
-							type: newFile.type,
-						}),
-					],
-					title: 'Image',
-					text: 'image',
-				};
+			if (Capacitor.isNativePlatform()) {
+				const data = await toPng(element);
 
-				try {
-					await navigator.share(data);
-				} catch (err) {
-					console.log(err);
+				const file = await Filesystem.writeFile({
+					data: data,
+					directory: Directory.Data,
+					path: 'karbonized-image-' + getRandomNumber(),
+				});
+
+				Share.share({ title: 'Share', files: [file.uri] });
+			} else {
+				const newFile = await toBlob(element);
+
+				if (newFile) {
+					const data = {
+						files: [
+							new File([newFile], 'image.png', {
+								type: newFile.type,
+							}),
+						],
+						title: 'Image',
+						text: 'image',
+					};
+
+					try {
+						await navigator.share(data);
+					} catch (err) {
+						console.log(err);
+					}
 				}
 			}
 		}
 	};
-
-	useEffect(() => {
-		window.addEventListener('keydown', onKeyDown);
-
-		return () => {
-			window.removeEventListener('keydown', onKeyDown);
-		};
-	});
 
 	return (
 		<>
 			<Dropdown end className='z-20'>
 				<button className='btn btn-circle btn-ghost active:bg-base-300'>
 					<IconDotsVertical
-						size={size}
+						size={22}
 						className='mx-auto my-auto'
 					></IconDotsVertical>
 				</button>
