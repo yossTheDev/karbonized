@@ -15,55 +15,42 @@ export default defineConfig({
 			manifest: {
 				name: 'Karbonized',
 				display: 'standalone',
-				description:
-					'Make amazing images of your screenshots or your code and share them with the world',
+				description: 'Image Generator for Code Snippets & Mockups',
 				theme_color: '#141414',
 				background_color: '#141414',
 				icons: [
 					{
-						src: 'assets/icons/icon-72x72.png',
+						src: 'assets/icons/icon-72.webp',
 						sizes: '72x72',
 						type: 'image/png',
 						purpose: 'maskable any',
 					},
 					{
-						src: 'assets/icons/icon-96x96.png',
+						src: 'assets/icons/icon-96.webp',
 						sizes: '96x96',
 						type: 'image/png',
 						purpose: 'maskable any',
 					},
 					{
-						src: 'assets/icons/icon-128x128.png',
+						src: 'assets/icons/icon-128.webp',
 						sizes: '128x128',
 						type: 'image/png',
 						purpose: 'maskable any',
 					},
 					{
-						src: 'assets/icons/icon-144x144.png',
-						sizes: '144x144',
-						type: 'image/png',
-						purpose: 'maskable any',
-					},
-					{
-						src: 'assets/icons/icon-152x152.png',
-						sizes: '152x152',
-						type: 'image/png',
-						purpose: 'maskable any',
-					},
-					{
-						src: 'assets/icons/icon-192x192.png',
+						src: 'assets/icons/icon-192.webp',
 						sizes: '192x192',
 						type: 'image/png',
 						purpose: 'maskable any',
 					},
 					{
-						src: 'assets/icons/icon-384x384.png',
-						sizes: '384x384',
+						src: 'assets/icons/icon-256.webp',
+						sizes: '256x256',
 						type: 'image/png',
 						purpose: 'maskable any',
 					},
 					{
-						src: 'assets/icons/icon-512x512.png',
+						src: 'assets/icons/icon-512.webp',
 						sizes: '512x512',
 						type: 'image/png',
 						purpose: 'maskable any',
