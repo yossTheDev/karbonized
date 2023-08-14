@@ -25,6 +25,7 @@
 		"@capacitor/filesystem": "^5.1.2",
 		"@capacitor/share": "^5.0.6",
 		"@capacitor/status-bar": "^5.0.6",
+		"@capacitor/toast": "^5.0.6",
 		"@floating-ui/react-dom": "^1.0.1",
 		"@scena/react-guides": "^0.19.4",
 		"@scena/react-ruler": "^0.13.0",

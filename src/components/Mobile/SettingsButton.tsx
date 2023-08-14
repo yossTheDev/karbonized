@@ -1,3 +1,7 @@
+import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+import { Toast } from '@capacitor/toast';
 import {
 	IconDotsVertical,
 	IconInfoCircle,
@@ -8,9 +12,6 @@ import { toBlob, toPng } from 'html-to-image';
 import React, { Suspense, useState } from 'react';
 import { Dropdown } from 'react-daisyui';
 import { Portal } from 'react-portal';
-import { Capacitor } from '@capacitor/core';
-import { Directory, Filesystem } from '@capacitor/filesystem';
-import { Share } from '@capacitor/share';
 import { getRandomNumber } from '../../utils/getRandom';
 
 const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
@@ -23,17 +24,24 @@ export const HomeButton: React.FC = () => {
 	// Share Image
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
+
 		if (element) {
 			if (Capacitor.isNativePlatform()) {
-				const data = await toPng(element);
+				try {
+					const data = await toPng(element);
 
-				const file = await Filesystem.writeFile({
-					data: data,
-					directory: Directory.Data,
-					path: 'karbonized-image-' + getRandomNumber(),
-				});
+					const file = await Filesystem.writeFile({
+						data: data,
+						directory: Directory.Cache,
+						path: `karbonized-image-${getRandomNumber()}.png`,
+					});
 
-				Share.share({ title: 'Share', files: [file.uri] });
+					await Share.share({
+						url: file.uri,
+					});
+				} catch (err) {
+					Toast.show({ text: err as string });
+				}
 			} else {
 				const newFile = await toBlob(element);
 
@@ -77,7 +85,7 @@ export const HomeButton: React.FC = () => {
 						<label className='cursor-pointer'>New Project</label>
 					</Dropdown.Item>
 
-					<Dropdown.Item onClick={() => handleShare}>
+					<Dropdown.Item onClick={() => handleShare()}>
 						<IconShare></IconShare>
 						<label className='cursor-pointer'>Share</label>
 					</Dropdown.Item>
