@@ -54,7 +54,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 				</span>
 
 				<div className='mx-auto w-fit select-none rounded-full bg-base-200 px-4 py-2 text-base-content'>
-					<label>v1.8.2</label>
+					<label>v1.9.0</label>
 				</div>
 
 				{/* Social Networks */}
