@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.0
+
+* Preparing Android Version
+* feat: Save To Gallery (Android)
+* feat: Share Image (Android)
+
 ## v 1.8.2
 
 * Reduce App Loading Time
