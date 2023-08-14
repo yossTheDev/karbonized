@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.9.1
+
+update: App Branding
+
 ## v 1.9.0
 
 * Preparing Android Version
