@@ -5,15 +5,8 @@ import {
 	IconDots,
 	IconX,
 } from '@tabler/icons-react';
-import React, { useEffect, useId, useState } from 'react';
-import {
-	Checkbox,
-	Input,
-	Select,
-	Textarea,
-	Range,
-	Button,
-} from 'react-daisyui';
+import React, { useEffect } from 'react';
+import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import * as prismThemes from 'react-syntax-highlighter/dist/esm/styles/prism';

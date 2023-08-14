@@ -1,15 +1,13 @@
 import {
-	IconBattery,
 	IconBattery3,
 	IconBorderStyle,
 	IconCellSignal1,
 	IconDeviceMobile,
 	IconPalette,
-	IconPhoto,
 	IconSignal4g,
 	IconWifi,
 } from '@tabler/icons-react';
-import React, { useId, useState } from 'react';
+import React from 'react';
 import { Checkbox, FileInput, Range } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
