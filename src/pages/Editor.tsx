@@ -22,17 +22,18 @@ import {
 	IconZoomOut,
 	IconZoomReset,
 } from '@tabler/icons-react';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, {
+	Suspense,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { Button, Range } from 'react-daisyui';
 import '../App.css';
-import {
-	DropMenu,
-	MenuItem,
-	MenuSeparator,
-} from '../components/CustomControls/DropMenu';
+import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { NavBarMobile } from '../components/Mobile/NavBarMobile';
-import { CustomPortal } from '../components/Portal';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useTheme } from '../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
@@ -52,6 +53,7 @@ const RightPanel = React.lazy(() => import('../components/Panels/RightPanel'));
 const InfiniteViewer = React.lazy(() => import('react-infinite-viewer'));
 
 export const Editor: React.FC = () => {
+	const { viewerRef } = useContext(AppContext);
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
 	const setEditing = useStoreActions((state) => state.setEditing);
@@ -95,7 +97,6 @@ export const Editor: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
-	const viewerRef = useRef<any>(null);
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.4);
 
@@ -241,7 +242,7 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
+				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden p-0'>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && <NavBarMobile></NavBarMobile>}
 
@@ -826,50 +827,6 @@ export const Editor: React.FC = () => {
 						<RightPanel></RightPanel>
 					</Suspense>
 				</div>
-
-				{/* MenuBar */}
-				<CustomPortal id={'menubar'}>
-					<DropMenu
-						label='View'
-						menu={
-							<>
-								<MenuItem
-									click={() =>
-										viewerRef.current?.setZoom(
-											viewerRef.current?.getZoom() + 0.2,
-										)
-									}
-									icon={<IconZoomIn size={16}></IconZoomIn>}
-									label='Zoom In'
-								></MenuItem>
-								<MenuItem
-									click={() =>
-										viewerRef.current?.setZoom(
-											viewerRef.current?.getZoom() - 0.2,
-										)
-									}
-									icon={<IconZoomOut size={16}></IconZoomOut>}
-									label='Zoom Out'
-								></MenuItem>
-
-								<MenuItem
-									click={() => viewerRef.current?.setZoom(0.7)}
-									icon={<IconZoomReset size={16}></IconZoomReset>}
-									label='Zoom Reset'
-								></MenuItem>
-
-								<MenuSeparator></MenuSeparator>
-
-								<MenuItem
-									click={() => centerView()}
-									icon={<IconFocusCentered size={16}></IconFocusCentered>}
-									label='Center View'
-									shortcut='Ctrl+Space'
-								></MenuItem>
-							</>
-						}
-					></DropMenu>
-				</CustomPortal>
 			</div>
 		</>
 	);

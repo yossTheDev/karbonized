@@ -9,16 +9,28 @@ import {
 	IconFileTypeSvg,
 	IconFileUpload,
 	IconFlask,
+	IconFocusCentered,
 	IconInfoHexagon,
 	IconPigMoney,
 	IconPlus,
 	IconSquareRotated,
 	IconTrash,
+	IconZoomIn,
+	IconZoomOut,
+	IconZoomReset,
 } from '@tabler/icons-react';
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
-import { toBlob, toJpeg } from 'html-to-image';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import { toBlob } from 'html-to-image';
+import React, {
+	Suspense,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
+import { AppContext } from '../../AppContext';
+import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { Project } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
@@ -34,10 +46,11 @@ const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 export const MenuBar: React.FC = () => {
 	/* Panels */
 	const about = useRef<HTMLDialogElement>(null);
+	const { viewerRef } = useContext(AppContext);
+	const isHorizontal = useScreenDirection();
 
 	const [showWizard, setShowWizard] = useState(true);
 	const [showAbout, setShowAbout] = useState(false);
-	const [previewImage, setPreviewImage] = useState('');
 	const [showPreview, setShowPreview] = useState(false);
 	const [showChangelog, setShowChangelog] = useState(false);
 	const [showDonations, setShowDonations] = useState(false);
@@ -94,7 +107,7 @@ export const MenuBar: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	});
+	}, []);
 
 	const exportImage = (type: export_format) => {
 		ExportImage(
@@ -169,25 +182,6 @@ export const MenuBar: React.FC = () => {
 		}
 	};
 
-	const showPreviewImage = async () => {
-		const element = document.getElementById('workspace');
-
-		if (element === null) {
-			return;
-		}
-
-		toJpeg(element, {
-			cacheBust: true,
-		})
-			.then((dataUrl) => {
-				setPreviewImage(dataUrl);
-				setShowPreview(true);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
-
 	const handleLoadProject = (event: any) => {
 		event.preventDefault();
 
@@ -242,6 +236,34 @@ export const MenuBar: React.FC = () => {
 		cleanWorkspace();
 	};
 
+	const centerView = () => {
+		const width = parseFloat(currentWorkspace.workspaceWidth);
+
+		if (isHorizontal) {
+			if (width < 1280) {
+				viewerRef.current?.setZoom(0.9);
+			} else if (width >= 1280 && width < 1920) {
+				viewerRef.current?.setZoom(0.6);
+			} else if (width >= 1920 && width < 2560) {
+				viewerRef.current?.setZoom(0.4);
+			} else if (width >= 2560 && width < 3840) {
+				viewerRef.current?.setZoom(0.3);
+			} else if (width >= 3840) {
+				viewerRef.current?.setZoom(0.2);
+			}
+		} else {
+			if (width < 1280) {
+				viewerRef.current?.setZoom(0.6);
+			} else if (width >= 1280 && width < 1920) {
+				viewerRef.current?.setZoom(0.25);
+			} else if (width >= 1920) {
+				viewerRef.current?.setZoom(0.1);
+			}
+		}
+
+		viewerRef.current?.scrollCenter();
+	};
+
 	return (
 		<>
 			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 text-base-content'>
@@ -286,7 +308,7 @@ export const MenuBar: React.FC = () => {
 							<MenuSeparator></MenuSeparator>
 
 							<MenuItem
-								click={() => showPreviewImage()}
+								click={() => setShowPreview(true)}
 								icon={<IconFlask size={16}></IconFlask>}
 								label='Render'
 								shortcut='Ctrl+P'
@@ -373,8 +395,42 @@ export const MenuBar: React.FC = () => {
 					}
 				></DropMenu>
 
-				{/* View */}
-				<div id='menubar'></div>
+				<DropMenu
+					label='View'
+					menu={
+						<>
+							<MenuItem
+								click={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
+								}
+								icon={<IconZoomIn size={16}></IconZoomIn>}
+								label='Zoom In'
+							></MenuItem>
+							<MenuItem
+								click={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
+								}
+								icon={<IconZoomOut size={16}></IconZoomOut>}
+								label='Zoom Out'
+							></MenuItem>
+
+							<MenuItem
+								click={() => viewerRef.current?.setZoom(0.7)}
+								icon={<IconZoomReset size={16}></IconZoomReset>}
+								label='Zoom Reset'
+							></MenuItem>
+
+							<MenuSeparator></MenuSeparator>
+
+							<MenuItem
+								click={() => centerView()}
+								icon={<IconFocusCentered size={16}></IconFocusCentered>}
+								label='Center View'
+								shortcut='Ctrl+Space'
+							></MenuItem>
+						</>
+					}
+				></DropMenu>
 
 				{/* About */}
 				<DropMenu
