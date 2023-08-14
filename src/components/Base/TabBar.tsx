@@ -63,7 +63,7 @@ export const TabBar: React.FC = () => {
 								{item.workspaceName}
 							</label>
 
-							<button
+							<div
 								onClick={(ev) => {
 									ev.stopPropagation();
 									deleteWorkspace(item.id);
@@ -71,7 +71,7 @@ export const TabBar: React.FC = () => {
 								className='btn btn-circle btn-ghost btn-xs text-base-content'
 							>
 								<IconX size={16}></IconX>
-							</button>
+							</div>
 						</button>
 					))}
 				</div>
