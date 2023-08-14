@@ -1,5 +1,4 @@
 import React, { Suspense, useRef } from 'react';
-import karbonized from './assets/logo.svg';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { isElectron } from './utils/isElectron';
 import { useTheme } from './hooks/useTheme';
