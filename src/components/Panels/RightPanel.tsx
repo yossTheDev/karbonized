@@ -122,7 +122,7 @@ export const RightPanel: React.FC = () => {
 							setShowMenu(true);
 						}}
 						className={`btn btn-ghost btn-sm rounded-xl ${
-							tab === 'control' && showMenu && 'bg-base-200'
+							tab === 'control' && showMenu && 'bg-base-200 md:bg-base-300'
 						}`}
 					>
 						<IconEdit className='mx-auto' size={16}></IconEdit>
@@ -139,7 +139,7 @@ export const RightPanel: React.FC = () => {
 							setShowMenu(true);
 						}}
 						className={`btn btn-ghost btn-sm rounded-xl ${
-							tab === 'workspace' && showMenu && 'bg-base-200'
+							tab === 'workspace' && showMenu && 'bg-base-200 md:bg-base-300'
 						}`}
 					>
 						<IconWallpaper className='mx-auto' size={16}></IconWallpaper>

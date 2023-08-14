@@ -109,7 +109,9 @@ export const LeftPanel: React.FC = () => {
 											setShowMenu(true);
 										}}
 										className={`btn btn-ghost rounded-2xl md:btn-sm md:rounded-xl ${
-											tab === 'hierarchy' && showMenu && 'bg-base-200'
+											tab === 'hierarchy' &&
+											showMenu &&
+											'bg-base-200 md:bg-base-300'
 										}`}
 									>
 										<IconCircleSquare
@@ -136,7 +138,9 @@ export const LeftPanel: React.FC = () => {
 												setShowMenu(true);
 											}}
 											className={`btn btn-ghost btn-sm rounded-xl ${
-												tab === 'extensions' && showMenu && 'bg-base-100'
+												tab === 'extensions' &&
+												showMenu &&
+												'bg-base-100 md:bg-base-300'
 											}`}
 										>
 											<IconPuzzle className='mx-auto' size={16}></IconPuzzle>

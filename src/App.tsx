@@ -81,9 +81,11 @@ const App: React.FC = () => {
 
 					{!isElectron() && (
 						<div className='my-1 flex flex-row'>
-							<img className='my-auto ml-4 h-5' src={karbonized}></img>
+							<Suspense>
+								<img className='my-auto ml-4 h-5' src={karbonized}></img>
 
-							<MenuBar></MenuBar>
+								<MenuBar></MenuBar>
+							</Suspense>
 						</div>
 					)}
 
@@ -96,15 +98,13 @@ const App: React.FC = () => {
 					</Suspense>
 				</>
 			) : (
-				<>
-					<Suspense
-						fallback={
-							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
-						}
-					>
-						<Editor></Editor>
-					</Suspense>
-				</>
+				<Suspense
+					fallback={
+						<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+					}
+				>
+					<Editor></Editor>
+				</Suspense>
 			)}
 		</div>
 	);

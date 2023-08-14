@@ -11,7 +11,6 @@ import {
 	IconHandFinger,
 	IconLetterT,
 	IconLock,
-	IconMenu2,
 	IconMoon,
 	IconPhoto,
 	IconPointer,
@@ -24,7 +23,7 @@ import {
 	IconZoomReset,
 } from '@tabler/icons-react';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
-import { Button, Navbar, Range } from 'react-daisyui';
+import { Button, Range } from 'react-daisyui';
 import '../App.css';
 import {
 	DropMenu,
@@ -32,6 +31,7 @@ import {
 	MenuSeparator,
 } from '../components/CustomControls/DropMenu';
 import { Tooltip } from '../components/CustomControls/Tooltip';
+import { NavBarMobile } from '../components/Mobile/NavBarMobile';
 import { CustomPortal } from '../components/Portal';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useTheme } from '../hooks/useTheme';
@@ -40,13 +40,9 @@ import '../utils.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 import './Editor.css';
-import { NavBarMobile } from '../components/Mobile/NavBarMobile';
 
 const Workspace = React.lazy(() => import('../components/Workspace'));
 const StatusBar = React.lazy(() => import('../components/Base/StatusBar'));
-const HomeButton = React.lazy(
-	() => import('../components/Mobile/SettingsButton'),
-);
 const ColorPicker = React.lazy(
 	() => import('../components/CustomControls/ColorPicker'),
 );
@@ -239,7 +235,9 @@ export const Editor: React.FC = () => {
 			>
 				{/* Left Panel */}
 				<div className='flex max-w-xs'>
-					<LeftPanel></LeftPanel>
+					<Suspense>
+						<LeftPanel></LeftPanel>
+					</Suspense>
 				</div>
 
 				{/* Content */}
@@ -824,7 +822,9 @@ export const Editor: React.FC = () => {
 
 				{/* Right Panel */}
 				<div className='flex max-h-screen max-w-sm overflow-hidden'>
-					<RightPanel></RightPanel>
+					<Suspense>
+						<RightPanel></RightPanel>
+					</Suspense>
 				</div>
 
 				{/* MenuBar */}
