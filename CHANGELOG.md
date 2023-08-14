@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.0 Release
+
+* Android Version Available
+* All Previous Changes
+* Minor Fixes and Improvements
+
 ## v 1.9.1
 
 update: App Branding
