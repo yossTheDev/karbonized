@@ -7,6 +7,12 @@ interface Props {
 }
 
 const changelog = `
+## 1.10.0 Release
+
+* Android Version Available
+* All Previous Changes
+* Minor Fixes and Improvements
+
 ## v 1.9.0
 
 * Preparing Android Version
