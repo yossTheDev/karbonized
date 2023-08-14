@@ -17,11 +17,6 @@ const Flux = React.lazy(() => import('./Misc/SvgBackgrounds/Flux'));
 export const WorkspaceTexture: React.FC<{
 	texture: string;
 }> = ({ texture }) => {
-	// App Store
-	/*const currentWorkspace.workspaceWidth = useStoreState((state) => state.workspaceWidth);
-	const workspaceHeight = useStoreState((state) => state.workspaceHeight);
-	const workspaceGradient = useStoreState((state) => state.textureColors);*/
-
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	switch (texture) {
