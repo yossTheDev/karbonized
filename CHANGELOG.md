@@ -1,10 +1,11 @@
 # Changelog
 
-## 1.9.0
+## v 1.9.0
 
 * Preparing Android Version
 * feat: Save To Gallery (Android)
 * feat: Share Image (Android)
+* fix: View Menu Disappear
 
 ## v 1.8.2
 
