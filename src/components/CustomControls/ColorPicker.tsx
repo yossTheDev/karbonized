@@ -10,7 +10,6 @@ import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { Button, Input, Modal, Range, Tooltip } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { AnimatePresence, motion } from 'framer-motion';
 import { IconPlus } from '@tabler/icons-react';
 
 interface Props {
@@ -345,7 +344,7 @@ export const ColorPicker: React.FC<Props> = ({
 
 								{customGradients.length > 0 && (
 									<>
-										<div className='mx-2 rounded-xl bg-base-200/70 p-0.5'></div>
+										<div className='mx-2 rounded-xl bg-base-300 p-0.5'></div>
 
 										{/* Custom Gradients */}
 										<div className='flex max-h-28 flex-auto flex-row flex-wrap gap-0.5 overflow-y-auto overflow-x-hidden'>
