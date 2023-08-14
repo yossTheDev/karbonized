@@ -5,6 +5,7 @@ import { Toast } from '@capacitor/toast';
 import {
 	IconDotsVertical,
 	IconInfoCircle,
+	IconPhoto,
 	IconPlus,
 	IconShare,
 } from '@tabler/icons-react';
@@ -13,6 +14,7 @@ import React, { Suspense, useState } from 'react';
 import { Dropdown } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { getRandomNumber } from '../../utils/getRandom';
+import { Media } from '@capacitor-community/media';
 
 const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
 const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
@@ -21,7 +23,6 @@ export const HomeButton: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 	const [showWizard, setShowWizard] = useState(true);
 
-	// Share Image
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
 
@@ -66,6 +67,31 @@ export const HomeButton: React.FC = () => {
 		}
 	};
 
+	const handleSaveToGallery = async () => {
+		const element = document.getElementById('workspace');
+
+		if (element) {
+			const albums = await Media.getAlbums();
+
+			let karbonized = albums.albums.find((item) => item.name === 'karbonized');
+
+			if (!karbonized) {
+				await Media.createAlbum({ name: 'karbonized' });
+
+				karbonized = albums.albums.find((item) => item.name === 'karbonized');
+			}
+
+			const data = await toPng(element);
+
+			await Media.savePhoto({
+				path: data,
+				albumIdentifier: karbonized?.identifier,
+			});
+
+			await Toast.show({ text: 'Saved!' });
+		}
+	};
+
 	return (
 		<>
 			<Dropdown end className='z-20'>
@@ -89,6 +115,13 @@ export const HomeButton: React.FC = () => {
 						<IconShare></IconShare>
 						<label className='cursor-pointer'>Share</label>
 					</Dropdown.Item>
+
+					{Capacitor.isNativePlatform() && (
+						<Dropdown.Item onClick={() => handleSaveToGallery()}>
+							<IconPhoto></IconPhoto>
+							<label className='cursor-pointer'>Save To Gallery</label>
+						</Dropdown.Item>
+					)}
 
 					<Dropdown.Item onClick={() => setShowAbout(true)}>
 						<IconInfoCircle></IconInfoCircle>

@@ -19,6 +19,7 @@
 	},
 	"dependencies": {
 		"@capacitor-community/electron": "^4.1.2",
+		"@capacitor-community/media": "^5.2.1",
 		"@capacitor/android": "^5.2.3",
 		"@capacitor/clipboard": "^5.0.6",
 		"@capacitor/core": "^5.2.3",
