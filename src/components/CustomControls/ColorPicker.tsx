@@ -345,7 +345,7 @@ export const ColorPicker: React.FC<Props> = ({
 
 								{customGradients.length > 0 && (
 									<>
-										<div className='mx-2 rounded-xl bg-base-100/70 p-0.5'></div>
+										<div className='mx-2 rounded-xl bg-base-200/70 p-0.5'></div>
 
 										{/* Custom Gradients */}
 										<div className='flex max-h-28 flex-auto flex-row flex-wrap gap-0.5 overflow-y-auto overflow-x-hidden'>
@@ -451,7 +451,7 @@ export const ColorPicker: React.FC<Props> = ({
 				<Portal>
 					<Modal
 						open={showColor && !isHorizontal}
-						className='w-[17.5rem] overflow-hidden bg-base-100 dark:text-white'
+						className='w-[17.5rem] overflow-hidden bg-base-100 px-3 dark:text-white'
 					>
 						<Modal.Header className='font-bold dark:text-white'>
 							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
@@ -470,7 +470,7 @@ export const ColorPicker: React.FC<Props> = ({
 											setShowColor(true);
 										}}
 										className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 hover:bg-neutral ${
-											mode === 'Single' && 'bg-base-100'
+											mode === 'Single' && 'bg-base-300'
 										}`}
 									>
 										<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 p-2'></div>
@@ -483,7 +483,7 @@ export const ColorPicker: React.FC<Props> = ({
 											setShowColor(true);
 										}}
 										className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2  hover:bg-neutral  ${
-											mode === 'Gradient' && 'bg-base-100'
+											mode === 'Gradient' && 'bg-base-300'
 										}`}
 									>
 										<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-gradient-to-br from-gray-400 to-gray-800 p-2'></div>
@@ -513,46 +513,47 @@ export const ColorPicker: React.FC<Props> = ({
 									)}
 									{/* Predefined colors */}
 									<div className='mx-auto flex flex-auto flex-row gap-x-0.5'>
-										<div
+										<button
 											style={{ background: '#dc4040' }}
 											onClick={() => onColorChange('#dc4040')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3 hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: '#db8f40' }}
 											onClick={() => onColorChange('#db8f40')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: '#6ebb45' }}
 											onClick={() => onColorChange('#6ebb45')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: '#45ba97' }}
 											onClick={() => onColorChange('#45ba97')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: '#4582ba' }}
 											onClick={() => onColorChange('#4582ba')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: '#5545ba' }}
 											onClick={() => onColorChange('#5545ba')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
-										<div
+										></button>
+
+										<button
 											style={{ background: '#cc63b5' }}
 											onClick={() => onColorChange('#cc63b5')}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 									</div>
 
 									{/* Input */}
@@ -596,117 +597,69 @@ export const ColorPicker: React.FC<Props> = ({
 
 									{/* Predefined Gradients */}
 									<div className='mx-auto flex flex-auto flex-row gap-0.5'>
-										<div
+										<button
 											style={{ background: 'linear-gradient(#bf86da,#144ab4)' }}
 											onClick={() =>
 												onGradientChange &&
 												onGradientChange('#bf86da', '#144ab4')
 											}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: 'linear-gradient(#06BEB6,#48B1BF)' }}
 											onClick={() =>
 												onGradientChange &&
 												onGradientChange('#06BEB6', '#48B1BF')
 											}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: 'linear-gradient(#00B4DB,#0083B0)' }}
 											onClick={() =>
 												onGradientChange &&
 												onGradientChange('#00B4DB', '#0083B0')
 											}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: 'linear-gradient(#FF9A9E,#FECFEF)' }}
 											onClick={() =>
 												onGradientChange &&
 												onGradientChange('#FF9A9E', '#FECFEF')
 											}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: 'linear-gradient(#5adb00,#0083b0)' }}
 											onClick={() =>
 												onGradientChange &&
 												onGradientChange('#5adb00', '#0083b0')
 											}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
+										<button
 											style={{ background: 'linear-gradient(#ed7b6b,#b07f00)' }}
 											onClick={() =>
 												onGradientChange &&
 												onGradientChange('#ed7b6b', '#b07f00')
 											}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-										></div>
+										></button>
 
-										<div
-											onClick={() => {
-												let copy = [...customGradients];
-												copy.push({
-													color1: colorGradient1,
-													color2: colorGradient2,
-												});
-												setCustomGradients(copy);
-
-												localStorage.setItem(
-													'custom-gradients',
-													JSON.stringify(copy),
-												);
-											}}
-											className='cursor-pointer rounded border-2 border-base-100   hover:border-gray-400'
-										>
-											<IconPlus className='text-gray-600'></IconPlus>
-										</div>
+										<button
+											style={{ background: 'linear-gradient(#ffe03a,#b94bdd)' }}
+											onClick={() =>
+												onGradientChange &&
+												onGradientChange('#ffe03a', '#b94bdd')
+											}
+											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
+										></button>
 									</div>
-
-									{customGradients.length > 0 && (
-										<>
-											<div className='mx-2 rounded-xl bg-base-100/70 p-0.5'></div>
-
-											{/* Custom Gradients */}
-											<div className='flex max-h-28 flex-auto flex-row flex-wrap gap-0.5 overflow-y-auto overflow-x-hidden'>
-												{customGradients.map(({ color1, color2 }) => (
-													<Tooltip message='Double Click To Delete'>
-														<div
-															onDoubleClick={() => {
-																let copy = [...customGradients];
-																copy = copy.filter(
-																	(colors) =>
-																		colors.color1 + colors.color2 !==
-																		color1 + color2,
-																);
-																setCustomGradients(copy);
-
-																localStorage.setItem(
-																	'custom-gradients',
-																	JSON.stringify(copy),
-																);
-															}}
-															style={{
-																background: `linear-gradient(${color1},${color2})`,
-															}}
-															onClick={() =>
-																onGradientChange &&
-																onGradientChange(color1, color2)
-															}
-															className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
-														></div>
-													</Tooltip>
-												))}
-											</div>
-										</>
-									)}
 
 									{/* Preview Colors */}
 									<div className='mx-auto mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>

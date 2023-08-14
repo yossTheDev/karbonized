@@ -76,30 +76,27 @@ export const LeftPanel: React.FC = () => {
 
 					{/* Content */}
 					<div className='bg pointer-events-auto z-30  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-e-2xl bg-base-100 p-2 text-gray-950  shadow-xl dark:text-gray-400 md:w-fit md:max-w-[20rem] md:bg-base-200 '>
-						{/* Header */}
-						{!isHorizontal && (
-							<div className='flex h-16 shrink-0'>
-								{/* Theme Button */}
-								<button
-									className='btn btn-circle btn-sm absolute ml-2'
-									onClick={() => toggleTheme()}
-								>
-									{appTheme === 'light' ? (
-										<IconMoon className=' dark:text-white'></IconMoon>
-									) : (
-										<IconSun className=' dark:text-white'></IconSun>
-									)}
-								</button>
-								<label className='mx-auto my-auto text-center text-xl md:hidden'>
-									K A R B O N I Z E D
-								</label>
-							</div>
-						)}
-
 						{/* Tabs */}
 						<div className='flex flex-auto overflow-y-auto'>
 							{/* Selectors */}
 							<div className='flex flex-auto flex-col gap-2 text-base-content'>
+								{/* Theme Button */}
+								{!isHorizontal && (
+									<button
+										className='btn btn-circle btn-sm  mx-auto mb-2'
+										onClick={() => toggleTheme()}
+									>
+										{appTheme === 'light' ? (
+											<IconMoon
+												size={16}
+												className=' dark:text-white'
+											></IconMoon>
+										) : (
+											<IconSun size={16} className=' dark:text-white'></IconSun>
+										)}
+									</button>
+								)}
+
 								{/* Hierarchy */}
 								<Tooltip message='Hierarchy'>
 									<button

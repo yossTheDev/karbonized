@@ -11,7 +11,7 @@ import {
 } from '@tabler/icons-react';
 import { toBlob, toPng } from 'html-to-image';
 import React, { Suspense, useState } from 'react';
-import { Dropdown } from 'react-daisyui';
+import { Dropdown, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { getRandomNumber } from '../../utils/getRandom';
 import { Media } from '@capacitor-community/media';
@@ -22,6 +22,7 @@ const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 export const HomeButton: React.FC = () => {
 	const [showAbout, setShowAbout] = useState(false);
 	const [showWizard, setShowWizard] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
@@ -68,28 +69,38 @@ export const HomeButton: React.FC = () => {
 	};
 
 	const handleSaveToGallery = async () => {
+		setLoading(true);
+
 		const element = document.getElementById('workspace');
 
 		if (element) {
-			const albums = await Media.getAlbums();
+			try {
+				const albums = await Media.getAlbums();
 
-			let karbonized = albums.albums.find((item) => item.name === 'karbonized');
+				let karbonized = albums.albums.find(
+					(item) => item.name === 'karbonized',
+				);
 
-			if (!karbonized) {
-				await Media.createAlbum({ name: 'karbonized' });
+				if (!karbonized) {
+					await Media.createAlbum({ name: 'karbonized' });
 
-				karbonized = albums.albums.find((item) => item.name === 'karbonized');
+					karbonized = albums.albums.find((item) => item.name === 'karbonized');
+				}
+
+				const data = await toPng(element);
+
+				await Media.savePhoto({
+					path: data,
+					albumIdentifier: karbonized?.identifier,
+				});
+
+				await Toast.show({ text: 'Saved!' });
+			} catch (err) {
+				await Toast.show({ text: err as string });
 			}
-
-			const data = await toPng(element);
-
-			await Media.savePhoto({
-				path: data,
-				albumIdentifier: karbonized?.identifier,
-			});
-
-			await Toast.show({ text: 'Saved!' });
 		}
+
+		setLoading(false);
 	};
 
 	return (
@@ -147,6 +158,15 @@ export const HomeButton: React.FC = () => {
 						></ProjectWizard>
 					</Portal>
 				</Suspense>
+			)}
+			{loading && (
+				<Modal className='w-fit' open={loading}>
+					<Modal.Body>
+						<div className='mx-auto flex'>
+							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+						</div>
+					</Modal.Body>
+				</Modal>
 			)}
 		</>
 	);
