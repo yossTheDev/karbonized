@@ -18,8 +18,7 @@ interface Props {
 	reference: RefObject<HTMLDivElement>;
 }
 export const Workspace: React.FC<Props> = ({ reference }) => {
-	// App Store
-
+	/* App Store */
 	const controlID = useStoreState((state) => state.currentControlID);
 	const controlsClass = useStoreState((state) => state.controlsClass);
 
@@ -36,7 +35,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const pastHistory = useStoreState((state) => state.pastHistory);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
-
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	return (
@@ -44,7 +42,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			<div
 				ref={reference}
 				id='workspace'
-				className='shadow-2xl'
+				className='shadow-2xl transition-all'
 				style={{
 					background:
 						currentWorkspace.workspaceColorMode === 'Single'
