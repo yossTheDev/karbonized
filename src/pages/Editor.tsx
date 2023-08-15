@@ -379,8 +379,8 @@ export const Editor: React.FC = () => {
 					<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
 						{/* Draw Bar */}
 						{(canDraw || isErasing) && (
-							<div className=' absolute flex h-full'>
-								<div className=' z-50 mb-1 ml-8 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5'>
+							<div className=' absolute flex h-full w-full'>
+								<div className=' z-50 mb-12 ml-auto mr-4 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5'>
 									{/* Stroke Range */}
 									<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
 									<Range
