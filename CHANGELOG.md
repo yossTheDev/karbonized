@@ -1,9 +1,12 @@
 # Changelog
 
-## 1.10.0 Release
+## v 1.10.1
+
+* fix: Show Menu Bar on Mac
+
+## v 1.10.0
 
 * Android Version Available
-* All Previous Changes
 * Minor Fixes and Improvements
 
 ## v 1.9.1
