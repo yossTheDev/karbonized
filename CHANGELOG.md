@@ -3,6 +3,7 @@
 ## v 1.10.1
 
 * fix: Show Menu Bar on Mac
+* fix: Wrong Position of Drawing Panel
 
 ## v 1.10.0
 
