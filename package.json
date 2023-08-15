@@ -5,6 +5,9 @@
 	"main": "dist-electron/main.js",
 	"author": "Yoannis Sánchez Soto",
 	"description": "Image Editing Made Easy",
+	"engines" :{
+	   "node" :">= 16" 	
+	}, 
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
