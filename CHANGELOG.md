@@ -1,6 +1,6 @@
 # Changelog
 
-## v 1.10.1
+## v 1.10.1 - Release (August 16th, 2023)
 
 * fix: Show Menu Bar on Mac
 * fix: Wrong Position of Drawing Panel
@@ -36,7 +36,7 @@ update: App Branding
 * Change App The Colors
 * Improve UI/UX
 
-## v 1.7.2
+## v 1.7.2 - Release (August 6th, 2023)
 
 feat: Auto Scroll Tabs
 fix: Minor fixes and improvements
