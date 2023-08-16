@@ -4,6 +4,7 @@ import { Share } from '@capacitor/share';
 import { Toast } from '@capacitor/toast';
 import {
 	IconDotsVertical,
+	IconDownload,
 	IconInfoCircle,
 	IconPhoto,
 	IconPlus,
@@ -103,6 +104,25 @@ export const HomeButton: React.FC = () => {
 		setLoading(false);
 	};
 
+	const handleDownload = () => {
+		const element = document.getElementById('workspace');
+
+		if (element) {
+			toPng(element, {
+				cacheBust: true,
+			})
+				.then(async (dataUrl) => {
+					const link = document.createElement('a');
+					link.download = name + '.png';
+					link.href = dataUrl;
+					link.click();
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
+
 	return (
 		<>
 			<Dropdown end className='z-20'>
@@ -126,6 +146,13 @@ export const HomeButton: React.FC = () => {
 						<IconShare></IconShare>
 						<label className='cursor-pointer'>Share</label>
 					</Dropdown.Item>
+
+					{!Capacitor.isNativePlatform() && (
+						<Dropdown.Item onClick={() => handleDownload()}>
+							<IconDownload></IconDownload>
+							<label className='cursor-pointer'>Download</label>
+						</Dropdown.Item>
+					)}
 
 					{Capacitor.isNativePlatform() && (
 						<Dropdown.Item onClick={() => handleSaveToGallery()}>
