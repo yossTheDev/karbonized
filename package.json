@@ -1,13 +1,14 @@
 {
 	"name": "karbonized",
 	"private": true,
-	"version": "1.10.1",
+	"version": "1.10.2",
 	"main": "dist-electron/main.js",
 	"author": "Yoannis Sánchez Soto",
+	"email": "yossthedev@gmail.com",
 	"description": "Image Editing Made Easy",
-	"engines" :{
-	   "node" :">= 16" 	
-	}, 
+	"engines": {
+		"node": ">= 16"
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",

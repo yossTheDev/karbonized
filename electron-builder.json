@@ -27,10 +27,16 @@
 		"icon": "/src-electron/assets/icon.ico",
 		"artifactName": "${productName}_${version}.${ext}"
 	},
+	"linux": {
+		"target": ["AppImage", "snap", "deb", "rpm", "pacman"]
+	},
 	"nsis": {
 		"oneClick": false,
 		"perMachine": false,
 		"allowToChangeInstallationDirectory": true,
 		"deleteAppDataOnUninstall": false
+	},
+	"snap": {
+		"provider": "github"
 	}
 }
