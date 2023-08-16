@@ -7,6 +7,10 @@ interface Props {
 }
 
 const changelog = `
+## v 1.10.2
+
+* feat: Add Download Image Option for Mobile Devices
+
 ## v 1.10.1 - Release (August 16th, 2023)
 
 * fix: Show Menu Bar on Mac
