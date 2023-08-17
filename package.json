@@ -3,8 +3,11 @@
 	"private": true,
 	"version": "1.10.2",
 	"main": "dist-electron/main.js",
-	"author": "Yoannis Sánchez Soto",
-	"email": "yossthedev@gmail.com",
+	"author": {
+		"name": "Yoannis Sánchez Soto",
+		"email": "yossthedev@gmail.com",
+		"url": "http://yossthedev.github.io/"
+	},
 	"description": "Image Editing Made Easy",
 	"engines": {
 		"node": ">= 16"

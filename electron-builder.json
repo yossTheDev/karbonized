@@ -35,8 +35,5 @@
 		"perMachine": false,
 		"allowToChangeInstallationDirectory": true,
 		"deleteAppDataOnUninstall": false
-	},
-	"snap": {
-		"provider": "github"
 	}
 }
