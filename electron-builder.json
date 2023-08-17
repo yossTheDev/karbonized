@@ -15,19 +15,21 @@
 	"files": ["dist", "dist-electron"],
 	"mac": {
 		"artifactName": "${productName}_${version}.${ext}",
-		"target": ["dmg"]
+		"target": ["dmg"],
+		"icon": "./src-electron/assets/icon.icns"
 	},
 	"win": {
+		"artifactName": "${productName}_${version}.${ext}",
 		"target": [
 			{
 				"target": "nsis",
 				"arch": ["x64"]
 			}
 		],
-		"icon": "/src-electron/assets/icon.ico",
-		"artifactName": "${productName}_${version}.${ext}"
+		"icon": "./src-electron/assets/icon.ico"
 	},
 	"linux": {
+		"icon": "./src-electron/assets/icon.png",
 		"target": ["AppImage", "snap", "deb", "rpm", "pacman"]
 	},
 	"nsis": {
