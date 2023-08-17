@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.0
+
+* feat: New Devices Mockups
+
 ## v 1.10.3
 
 * Update App Icons on Desktop Platforms
