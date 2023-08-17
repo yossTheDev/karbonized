@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.10.3
+
+* Update App Icons on Desktop Platforms
+
 ## v 1.10.2
 
 * feat: Add Download Image Option for Mobile Devices
