@@ -322,9 +322,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Body>
 
 			<Modal.Actions>
-				<Button className='dark:text-white' onClick={handleCreate}>
-					Create
-				</Button>
+				<Button onClick={handleCreate}>Create</Button>
 			</Modal.Actions>
 		</Modal.Legacy>
 	);

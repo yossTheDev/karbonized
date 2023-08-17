@@ -40,7 +40,7 @@ export const CustomCollapse: React.FC<Props> = ({
 				</div>
 			</button>
 			{open && (
-				<div className='mt-2 flex flex-auto cursor-pointer select-none flex-col gap-4 p-2 text-base-content'>
+				<div className='mt-2 flex flex-auto cursor-pointer select-none flex-col gap-4 p-3 text-base-content'>
 					{children}
 				</div>
 			)}
