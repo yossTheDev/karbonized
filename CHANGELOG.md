@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.11.2
+
+fix: Save Transform Properties of Blocks
+
 ## v 1.11.1
 
 * feat: Save Project as Template
