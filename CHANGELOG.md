@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.3
+
+* feat: Background Images
+
 ## v1.11.2
 
 * improve: Save as Template
