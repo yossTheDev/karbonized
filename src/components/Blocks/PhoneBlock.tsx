@@ -353,19 +353,19 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						</>
 					)}
 
-					{/* iPhone 14 Pro */}
+					{/* iPhone X */}
 					{template === 'iPhone X' && (
 						<>
-							<div className='absolute flex h-full w-full px-6 pb-4 pt-8'>
+							<div className='absolute flex h-full w-full px-7 pb-6 pt-10'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mx-auto my-auto h-full w-full bg-white'
 										src={src}
 									></img>
 								</div>
 							</div>
 
-							<img className='mask absolute' src={iphoneX}></img>
+							<img className='absolute' src={iphoneX}></img>
 						</>
 					)}
 
@@ -391,14 +391,15 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-6 pb-11 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mx-auto my-auto h-[34rem] max-h-full w-full bg-white'
 										src={src}
 									></img>
 								</div>
 							</div>
 
 							<img
-								className='mask absolute flex flex-auto'
+								id='masked-iphone'
+								className='absolute flex flex-auto'
 								src={iphone14}
 							></img>
 						</>
@@ -407,10 +408,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 					{/* Google Pixel 5  */}
 					{template === 'Google Pixel 5' && (
 						<>
-							<div className='h-full w-full px-8 pb-16 pt-8'>
+							<div className='h-full w-full px-10 pb-16 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mask mx-auto my-auto flex h-[31.5rem] w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -426,7 +427,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-12'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mask mx-auto my-auto flex h-[36rem] w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -442,7 +443,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-7'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mask mx-auto my-auto flex h-[37rem] w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -455,7 +456,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 					{/* Samsung Galaxy S20 */}
 					{template === 'Samsung Galaxy S20' && (
 						<>
-							<div className='h-full w-full px-8 pb-6 pt-7'>
+							<div className='h-full w-full px-9 pb-7 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
 										className='mask mx-auto my-auto h-full w-full bg-white'
@@ -474,7 +475,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-5 pb-6 pt-6'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mask mx-auto my-auto flex h-[35.5rem] w-full bg-white'
 										src={src}
 									></img>
 								</div>
