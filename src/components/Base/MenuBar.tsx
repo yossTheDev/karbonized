@@ -292,175 +292,190 @@ export const MenuBar: React.FC = () => {
 		<>
 			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 text-base-content'>
 				{/* File */}
-				<DropMenu
-					label='File'
-					id='filebar'
-					menu={
-						<>
-							<MenuItem
-								click={() => setShowWizard(true)}
-								icon={<IconPlus size={16}></IconPlus>}
-								label='New Project'
-								shortcut='Ctrl+N'
-							></MenuItem>
+				{!showWizard && (
+					<DropMenu
+						label='File'
+						id='filebar'
+						menu={
+							<>
+								<MenuItem
+									click={() => setShowWizard(true)}
+									icon={<IconPlus size={16}></IconPlus>}
+									label='New Project'
+									shortcut='Ctrl+N'
+								></MenuItem>
 
-							<label
-								htmlFor='file-input'
-								className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
-							>
-								<IconFileUpload size={16}></IconFileUpload>
-								<p className='my-auto ml-2 hover:cursor-pointer'>
-									Load Project
-								</p>
-							</label>
+								<label
+									htmlFor='file-input'
+									className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
+								>
+									<IconFileUpload size={16}></IconFileUpload>
+									<p className='my-auto ml-2 hover:cursor-pointer'>
+										Load Project
+									</p>
+								</label>
 
-							<input
-								className='hidden'
-								accept='.kproject'
-								onInput={handleLoadProject}
-								type='file'
-								id='file-input'
-							></input>
+								<input
+									className='hidden'
+									accept='.kproject'
+									onInput={handleLoadProject}
+									type='file'
+									id='file-input'
+								></input>
 
-							<MenuItem
-								click={() => handleSaveProject()}
-								icon={<IconFileDownload size={16}></IconFileDownload>}
-								label='Save Project'
-								shortcut='Ctrl+S'
-							></MenuItem>
+								<MenuItem
+									click={() => handleSaveProject()}
+									icon={<IconFileDownload size={16}></IconFileDownload>}
+									label='Save Project'
+									shortcut='Ctrl+S'
+								></MenuItem>
 
-							<MenuSeparator></MenuSeparator>
+								<MenuSeparator></MenuSeparator>
 
-							<MenuItem
-								click={() => setShowPreview(true)}
-								icon={<IconFlask size={16}></IconFlask>}
-								label='Render'
-								shortcut='Ctrl+P'
-							></MenuItem>
+								<MenuItem
+									click={() => setShowPreview(true)}
+									icon={<IconFlask size={16}></IconFlask>}
+									label='Render'
+									shortcut='Ctrl+P'
+								></MenuItem>
 
-							<MenuItem
-								click={() => handleSaveAsJson()}
-								icon={<IconJson size={16}></IconJson>}
-								label='Save as Template'
-							></MenuItem>
+								<MenuItem
+									click={() => handleSaveAsJson()}
+									icon={<IconJson size={16}></IconJson>}
+									label='Save as Template'
+								></MenuItem>
 
-							<MenuItem
-								click={() => exportImage(export_format.png)}
-								icon={<IconFileTypePng size={16}></IconFileTypePng>}
-								label='Export as PNG'
-							></MenuItem>
+								<MenuItem
+									click={() => exportImage(export_format.png)}
+									icon={<IconFileTypePng size={16}></IconFileTypePng>}
+									label='Export as PNG'
+								></MenuItem>
 
-							<MenuItem
-								click={() => exportImage(export_format.jpeg)}
-								icon={<IconFileTypeJpg size={16}></IconFileTypeJpg>}
-								label='Export as JPEG'
-							></MenuItem>
+								<MenuItem
+									click={() => exportImage(export_format.jpeg)}
+									icon={<IconFileTypeJpg size={16}></IconFileTypeJpg>}
+									label='Export as JPEG'
+								></MenuItem>
 
-							<MenuItem
-								click={() => exportImage(export_format.svg)}
-								icon={<IconFileTypeSvg size={16}></IconFileTypeSvg>}
-								label='Export as SVG'
-							></MenuItem>
-						</>
-					}
-				></DropMenu>
+								<MenuItem
+									click={() => exportImage(export_format.svg)}
+									icon={<IconFileTypeSvg size={16}></IconFileTypeSvg>}
+									label='Export as SVG'
+								></MenuItem>
+							</>
+						}
+					></DropMenu>
+				)}
 
 				{/* Edit */}
-				<DropMenu
-					label='Edit'
-					menu={
-						<>
-							<MenuItem
-								click={() => undo()}
-								icon={
-									<IconArrowBack
-										size={16}
-										className='-scale-y-[1]'
-									></IconArrowBack>
-								}
-								label='Undo'
-								shortcut='Ctrl+Z'
-							></MenuItem>
+				{!showWizard && (
+					<DropMenu
+						label='Edit'
+						menu={
+							<>
+								<MenuItem
+									click={() => undo()}
+									icon={
+										<IconArrowBack
+											size={16}
+											className='-scale-y-[1]'
+										></IconArrowBack>
+									}
+									label='Undo'
+									shortcut='Ctrl+Z'
+								></MenuItem>
 
-							<MenuItem
-								click={() => redo()}
-								icon={
-									<IconArrowForward
-										size={16}
-										className='-scale-y-[1]'
-									></IconArrowForward>
-								}
-								label='Redo'
-								shortcut='Ctrl+Y'
-							></MenuItem>
+								<MenuItem
+									click={() => redo()}
+									icon={
+										<IconArrowForward
+											size={16}
+											className='-scale-y-[1]'
+										></IconArrowForward>
+									}
+									label='Redo'
+									shortcut='Ctrl+Y'
+								></MenuItem>
 
-							<MenuItem
-								click={() => duplicate()}
-								icon={<IconCopy size={16} className='-scale-y-[1]'></IconCopy>}
-								label='Duplicate'
-								shortcut='Ctrl+D'
-							></MenuItem>
-						</>
-					}
-				></DropMenu>
+								<MenuItem
+									click={() => duplicate()}
+									icon={
+										<IconCopy size={16} className='-scale-y-[1]'></IconCopy>
+									}
+									label='Duplicate'
+									shortcut='Ctrl+D'
+								></MenuItem>
+							</>
+						}
+					></DropMenu>
+				)}
 
 				{/* Workspace */}
-				<DropMenu
-					label='Workspace'
-					menu={
-						<>
-							<MenuItem
-								click={handleNewWorkspace}
-								icon={<IconSquareRotated size={16}></IconSquareRotated>}
-								label='New Workspace'
-								shortcut='Ctrl+M'
-							></MenuItem>
+				{!showWizard && (
+					<DropMenu
+						label='Workspace'
+						menu={
+							<>
+								<MenuItem
+									click={handleNewWorkspace}
+									icon={<IconSquareRotated size={16}></IconSquareRotated>}
+									label='New Workspace'
+									shortcut='Ctrl+M'
+								></MenuItem>
 
-							<MenuItem
-								click={handleCleanWorkspace}
-								icon={<IconTrash size={16}></IconTrash>}
-								label='Clean Workspace'
-							></MenuItem>
-						</>
-					}
-				></DropMenu>
+								<MenuItem
+									click={handleCleanWorkspace}
+									icon={<IconTrash size={16}></IconTrash>}
+									label='Clean Workspace'
+								></MenuItem>
+							</>
+						}
+					></DropMenu>
+				)}
 
-				<DropMenu
-					label='View'
-					menu={
-						<>
-							<MenuItem
-								click={() =>
-									viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
-								}
-								icon={<IconZoomIn size={16}></IconZoomIn>}
-								label='Zoom In'
-							></MenuItem>
-							<MenuItem
-								click={() =>
-									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
-								}
-								icon={<IconZoomOut size={16}></IconZoomOut>}
-								label='Zoom Out'
-							></MenuItem>
+				{/* View */}
+				{!showWizard && (
+					<DropMenu
+						label='View'
+						menu={
+							<>
+								<MenuItem
+									click={() =>
+										viewerRef.current?.setZoom(
+											viewerRef.current?.getZoom() + 0.2,
+										)
+									}
+									icon={<IconZoomIn size={16}></IconZoomIn>}
+									label='Zoom In'
+								></MenuItem>
+								<MenuItem
+									click={() =>
+										viewerRef.current?.setZoom(
+											viewerRef.current?.getZoom() - 0.2,
+										)
+									}
+									icon={<IconZoomOut size={16}></IconZoomOut>}
+									label='Zoom Out'
+								></MenuItem>
 
-							<MenuItem
-								click={() => viewerRef.current?.setZoom(0.7)}
-								icon={<IconZoomReset size={16}></IconZoomReset>}
-								label='Zoom Reset'
-							></MenuItem>
+								<MenuItem
+									click={() => viewerRef.current?.setZoom(0.7)}
+									icon={<IconZoomReset size={16}></IconZoomReset>}
+									label='Zoom Reset'
+								></MenuItem>
 
-							<MenuSeparator></MenuSeparator>
+								<MenuSeparator></MenuSeparator>
 
-							<MenuItem
-								click={() => centerView()}
-								icon={<IconFocusCentered size={16}></IconFocusCentered>}
-								label='Center View'
-								shortcut='Ctrl+Space'
-							></MenuItem>
-						</>
-					}
-				></DropMenu>
+								<MenuItem
+									click={() => centerView()}
+									icon={<IconFocusCentered size={16}></IconFocusCentered>}
+									label='Center View'
+									shortcut='Ctrl+Space'
+								></MenuItem>
+							</>
+						}
+					></DropMenu>
+				)}
 
 				{/* About */}
 				<DropMenu

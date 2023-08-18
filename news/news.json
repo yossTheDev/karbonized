@@ -1,0 +1,15 @@
+[
+	{
+		"title": "Breaking News",
+		"description": "Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum",
+		"link": "https://google.com",
+		"img": "side_image.jpg"
+	},
+
+	{
+		"title": "Breaking News 2",
+		"description": "Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum",
+		"link": "https://google.com",
+		"img": "side_image.jpg"
+	}
+]
