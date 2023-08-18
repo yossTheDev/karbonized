@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1
+
+* improve: Add Device Thumbnails on PhoneBlock Device Selection Menu
+
 ## v 1.11.0
 
 * feat: New Devices Mockups
