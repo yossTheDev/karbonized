@@ -231,9 +231,7 @@ export const Editor: React.FC = () => {
 				onContextMenu={(e) => {
 					e.preventDefault();
 				}}
-				className={`relative flex flex-auto flex-row overflow-hidden ${
-					!showWizard ? 'flex' : 'hidden'
-				}`}
+				className={`relative flex flex-auto flex-row overflow-hidden`}
 			>
 				{/* Left Panel */}
 				<div className='flex max-w-xs'>

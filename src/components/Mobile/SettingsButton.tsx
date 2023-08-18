@@ -11,18 +11,19 @@ import {
 	IconShare,
 } from '@tabler/icons-react';
 import { toBlob, toPng } from 'html-to-image';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useContext, useState } from 'react';
 import { Dropdown, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { getRandomNumber } from '../../utils/getRandom';
 import { Media } from '@capacitor-community/media';
+import { AppContext } from '../../AppContext';
 
 const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
 const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 
 export const HomeButton: React.FC = () => {
+	const { showWizard, setShowWizard } = useContext(AppContext);
 	const [showAbout, setShowAbout] = useState(false);
-	const [showWizard, setShowWizard] = useState(true);
 	const [loading, setLoading] = useState(false);
 
 	const handleShare = async () => {
@@ -177,14 +178,11 @@ export const HomeButton: React.FC = () => {
 				</Suspense>
 			)}
 			{showWizard && (
-				<Suspense>
-					<Portal>
-						<ProjectWizard
-							onClose={() => setShowWizard(false)}
-							open={showWizard}
-						></ProjectWizard>
-					</Portal>
-				</Suspense>
+				<Portal>
+					<Suspense>
+						<ProjectWizard open={showWizard}></ProjectWizard>
+					</Suspense>
+				</Portal>
 			)}
 			{loading && (
 				<Modal className='w-fit' open={loading}>

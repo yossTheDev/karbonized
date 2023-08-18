@@ -1,8 +1,16 @@
-import React, { useContext, useState } from 'react';
+import {
+	IconAppWindow,
+	IconCode,
+	IconDeviceIpad,
+	IconStars,
+} from '@tabler/icons-react';
+import { motion } from 'framer-motion';
+import React, { useContext, useRef, useState } from 'react';
 import { Button } from 'react-daisyui';
 import { Portal } from 'react-portal';
-import karbonized from '../../assets/logo.svg';
+import { AppContext } from '../../AppContext';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { NewsPanel } from '../Panels/NewsPanel';
 
 /* Project Templates */
 import code_template1 from '../../assets/templates/code_template1.json';
@@ -12,20 +20,11 @@ import window_template1 from '../../assets/templates/window_template1.json';
 import window_template2 from '../../assets/templates/window_template2.json';
 import window_template3 from '../../assets/templates/window_template3.json';
 
-import {
-	IconAppWindow,
-	IconCode,
-	IconDeviceIpad,
-	IconStars,
-} from '@tabler/icons-react';
-import { motion } from 'framer-motion';
-import { AppContext } from '../../AppContext';
 import phone_template1 from '../../assets/templates/phone_template1.json';
 import phone_template2 from '../../assets/templates/phone_template2.json';
 import phone_template3 from '../../assets/templates/phone_template3.json';
 import phone_template4 from '../../assets/templates/phone_template4.json';
 import phone_template5 from '../../assets/templates/phone_template5.json';
-import { NewsPanel } from '../Panels/NewsPanel';
 
 const code_templates = [code_template1, code_template2];
 
@@ -45,6 +44,8 @@ interface Props {
 }
 
 export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
+	const ref = useRef<any>(null);
+
 	/* App Context */
 	const { setShowWizard } = useContext(AppContext);
 
@@ -74,98 +75,102 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			<motion.div
 				animate={{ marginTop: '0rem' }}
 				initial={{ marginTop: '4rem' }}
-				className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300'
+				className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/30 md:bg-base-300'
 			>
-				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-200/70 p-2 text-black dark:text-white'>
-					<img className='my-auto h-6' src={karbonized}></img>
-					<label className='poppins-font-family my-auto mr-1 select-none'>
-						Templates
-					</label>
-				</div>
-
-				<div className='flex h-full select-none flex-row gap-4 overflow-hidden bg-base-300 text-base-content'>
+				<div className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-0 md:h-full'>
 					{/* News Panel */}
-					<NewsPanel></NewsPanel>
+					<div className='hidden w-96 md:flex'>
+						<NewsPanel></NewsPanel>
+					</div>
 
 					{/* Templates */}
 					<div className='flex h-full w-full flex-auto flex-col overflow-hidden'>
-						<div className='mb-3 mt-2 flex gap-2'>
+						<div className='mb-3 ml-6 mt-2 flex gap-2 md:ml-0'>
 							<IconStars className='my-auto'></IconStars>
 							<p className='poppins-font-family text-2xl'>Templates</p>
 						</div>
 
-						<div className='flex flex-auto flex-col gap-3 overflow-auto rounded-tl-2xl bg-base-100 p-2 shadow'>
+						<div className='flex flex-auto flex-col gap-3 overflow-hidden rounded-t-2xl bg-base-100 p-2 shadow md:rounded-tl-2xl'>
 							<div className='flex h-full w-full flex-col gap-4 overflow-auto'>
 								{/* Code Templates */}
-								<div className=' flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
-									<IconCode className='my-auto' size={20}></IconCode>
-									<p>Code</p>
-								</div>
-								<div className='flex flex-auto flex-wrap gap-2 px-2'>
-									{code_templates.map((item) => (
-										<button
-											key={item.workspace.id}
-											onClick={() => setCurrent(item)}
-											className='transition-all active:scale-90'
-										>
-											<img
-												className={`flex h-36 rounded-2xl border-4 border-base-100 ${
-													current?.workspace.id === item.workspace.id &&
-													'border-primary shadow shadow-primary'
-												}`}
-												src={item.thumb}
-											></img>
-										</button>
-									))}
+								<div className='flex h-fit w-full flex-col gap-2'>
+									<div className=' flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
+										<IconCode className='my-auto' size={20}></IconCode>
+										<p>Code</p>
+									</div>
+									<div className='flex h-full flex-row gap-2 overflow-x-auto overflow-y-hidden  px-2 md:flex-wrap'>
+										{code_templates.map((item) => (
+											<button
+												key={item.workspace.id}
+												onClick={() => setCurrent(item)}
+												className='h-28 w-fit min-w-fit overflow-hidden transition-all active:scale-90'
+											>
+												<img
+													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
+														current?.workspace.id === item.workspace.id &&
+														'shadow- border-primary shadow-primary'
+													}`}
+													src={item.thumb}
+												></img>
+											</button>
+										))}
+									</div>
 								</div>
 
 								{/* Window Templates */}
-								<div className='flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
-									<IconAppWindow className='my-auto' size={20}></IconAppWindow>
-									<p>Browser</p>
-								</div>
-								<div className='flex flex-auto flex-wrap gap-2 px-2'>
-									{window_templates.map((item) => (
-										<button
-											key={item.workspace.id}
-											onClick={() => setCurrent(item)}
-											className='transition-all active:scale-90'
-										>
-											<img
-												className={`flex h-36 rounded-2xl border-4 border-base-100 ${
-													current?.workspace.id === item.workspace.id &&
-													'shadow- border-primary shadow-primary'
-												}`}
-												src={item.thumb}
-											></img>
-										</button>
-									))}
+								<div className='flex h-fit w-full flex-col gap-2 '>
+									<div className='flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
+										<IconAppWindow
+											className='my-auto'
+											size={20}
+										></IconAppWindow>
+										<p>Browser</p>
+									</div>
+									<div className='flex h-full flex-row gap-2 overflow-x-auto  px-2 md:flex-wrap'>
+										{window_templates.map((item) => (
+											<button
+												key={item.workspace.id}
+												onClick={() => setCurrent(item)}
+												className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
+											>
+												<img
+													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
+														current?.workspace.id === item.workspace.id &&
+														'shadow- border-primary shadow-primary'
+													}`}
+													src={item.thumb}
+												></img>
+											</button>
+										))}
+									</div>
 								</div>
 
 								{/* Phone Templates */}
-								<div className='flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
-									<IconDeviceIpad
-										className='my-auto'
-										size={20}
-									></IconDeviceIpad>
-									<p>Devices</p>
-								</div>
-								<div className='flex flex-auto flex-wrap gap-2 px-2'>
-									{phone_templates.map((item) => (
-										<button
-											key={item.controls[0].id}
-											onClick={() => setCurrent(item)}
-											className='transition-all active:scale-90'
-										>
-											<img
-												className={`flex h-36 rounded-2xl border-4 border-base-100  ${
-													current?.workspace.id === item.workspace.id &&
-													'border-primary shadow shadow-primary'
-												}`}
-												src={item.thumb}
-											></img>
-										</button>
-									))}
+								<div className='flex h-fit w-full flex-col  gap-2'>
+									<div className='flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
+										<IconDeviceIpad
+											className='my-auto'
+											size={20}
+										></IconDeviceIpad>
+										<p>Devices</p>
+									</div>
+									<div className='flex h-full  flex-row gap-2 overflow-x-auto px-2 md:flex-wrap'>
+										{phone_templates.map((item) => (
+											<button
+												key={item.workspace.id}
+												onClick={() => setCurrent(item)}
+												className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
+											>
+												<img
+													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
+														current?.workspace.id === item.workspace.id &&
+														'shadow- border-primary shadow-primary'
+													}`}
+													src={item.thumb}
+												></img>
+											</button>
+										))}
+									</div>
 								</div>
 							</div>
 

@@ -165,13 +165,19 @@ const App: React.FC = () => {
 							className='relative flex h-full w-full flex-auto overflow-hidden'
 							id='body'
 						>
-							<Suspense
-								fallback={
-									<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
-								}
+							<div
+								className={`flex h-full w-full flex-auto ${
+									!showWizard ? 'flex' : 'hidden'
+								}`}
 							>
-								<Editor></Editor>
-							</Suspense>
+								<Suspense
+									fallback={
+										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+									}
+								>
+									<Editor></Editor>
+								</Suspense>
+							</div>
 						</div>
 					</>
 				) : (
