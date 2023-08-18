@@ -25,6 +25,16 @@ import galaxyS10 from '../../assets/device_mockups/galaxyS10.png';
 import galaxyS20 from '../../assets/device_mockups/galaxyS20.png';
 import galaxyNote10 from '../../assets/device_mockups/galaxy_note10.png';
 
+/* Thumbnails */
+import iphoneX_thumb from '../../assets/device_mockups/iphonex_thumb.png';
+import iphone14pro_thumb from '../../assets/device_mockups/iphone14pro_thumb.png';
+import iphone14_thumb from '../../assets/device_mockups/iphone14_thumb.png';
+import pixel5_thumb from '../../assets/device_mockups/google_pixel5_thumb.png';
+import pixel4_thumb from '../../assets/device_mockups/google_pixel4_thumb.png';
+import galaxyS10_thumb from '../../assets/device_mockups/galaxyS10_thumb.png';
+import galaxyS20_thumb from '../../assets/device_mockups/galaxyS20_thumb.png';
+import galaxyNote10_thumb from '../../assets/device_mockups/galaxy_note10_thumb.png';
+
 import { Portal } from 'react-portal';
 
 interface Props {
@@ -34,17 +44,22 @@ interface Props {
 interface Device {
 	name: models;
 	img: string;
+	thumb: string;
 }
 
 const devices: Device[] = [
-	{ name: 'iPhone X', img: iphoneX },
-	{ name: 'iPhone 14', img: iphone14 },
-	{ name: 'iPhone 14 Pro', img: iphone14pro },
-	{ name: 'Google Pixel 4', img: pixel4 },
-	{ name: 'Google Pixel 5', img: pixel5 },
-	{ name: 'Samsung Galaxy S10', img: galaxyS10 },
-	{ name: 'Samsung Galaxy S20', img: galaxyS20 },
-	{ name: 'Samsung Galaxy Note 10', img: galaxyNote10 },
+	{ name: 'iPhone X', img: iphoneX, thumb: iphoneX_thumb },
+	{ name: 'iPhone 14', img: iphone14, thumb: iphone14_thumb },
+	{ name: 'iPhone 14 Pro', img: iphone14pro, thumb: iphone14pro_thumb },
+	{ name: 'Google Pixel 4', img: pixel4, thumb: pixel4_thumb },
+	{ name: 'Google Pixel 5', img: pixel5, thumb: pixel5_thumb },
+	{ name: 'Samsung Galaxy S10', img: galaxyS10, thumb: galaxyS10_thumb },
+	{ name: 'Samsung Galaxy S20', img: galaxyS20, thumb: galaxyS20_thumb },
+	{
+		name: 'Samsung Galaxy Note 10',
+		img: galaxyNote10,
+		thumb: galaxyNote10_thumb,
+	},
 ];
 
 type models =
@@ -63,7 +78,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	const [template, setTemplate] = useControlState(
-		'iPhone 14',
+		'iPhone X',
 		`${id}-device_model`,
 	);
 
@@ -372,7 +387,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 					{/* iPhone 14 Pro */}
 					{template === 'iPhone 14 Pro' && (
 						<>
-							<div className='absolute flex h-full w-full px-6 pb-11 pt-8'>
+							<div className='absolute flex h-full w-full px-8 pb-11 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
 										className='mask mx-auto my-auto h-full w-full bg-white'
@@ -507,7 +522,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 										>
 											<img
 												className='mx-auto flex h-full '
-												src={item.img}
+												src={item.thumb}
 											></img>
 										</button>
 										<p className='mx-auto'>{item.name}</p>
