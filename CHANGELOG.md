@@ -2,6 +2,7 @@
 
 ## v 1.11.1
 
+* feat: Save Project as Template
 * improve: Add Device Thumbnails on PhoneBlock Device Selection Menu
 * improve: Project Wizard (Added more project templates and implement a new template system)
 
