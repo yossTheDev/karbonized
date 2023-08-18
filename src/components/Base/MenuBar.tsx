@@ -240,6 +240,8 @@ export const MenuBar: React.FC = () => {
 
 			const project = { ...saveProject, thumb: data };
 
+			project.workspace.id = getRandomNumber().toString();
+
 			var blob = new Blob([JSON.stringify(project)], {
 				type: 'text/plain;charset=utf-8',
 			});
