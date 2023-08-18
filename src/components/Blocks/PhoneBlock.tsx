@@ -122,76 +122,80 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 				menu={
 					<>
 						{/* Border Settings */}
-						<CustomCollapse
-							menu={
-								<div className='m-2 flex flex-row gap-2'>
-									<IconBorderStyle></IconBorderStyle>
-									<p className='my-auto'>Borders</p>
+						{template === 'adaptive' && (
+							<CustomCollapse
+								menu={
+									<div className='m-2 flex flex-row gap-2'>
+										<IconBorderStyle></IconBorderStyle>
+										<p className='my-auto'>Borders</p>
+									</div>
+								}
+							>
+								{/* Phone Radius */}
+								<div className='flex flex-auto p-2 text-xs '>
+									<p className='my-auto p-2'>Phone Radius:</p>
+									<Range
+										className='my-auto'
+										color='primary'
+										onChange={(ev) =>
+											setPhoneRadius(ev.target.value as unknown as number)
+										}
+										value={phoneRadius}
+										max={'30'}
+									></Range>
 								</div>
-							}
-						>
-							{/* Phone Radius */}
-							<div className='flex flex-auto p-2 text-xs '>
-								<p className='my-auto p-2'>Phone Radius:</p>
-								<Range
-									className='my-auto'
-									color='primary'
-									onChange={(ev) =>
-										setPhoneRadius(ev.target.value as unknown as number)
-									}
-									value={phoneRadius}
-									max={'30'}
-								></Range>
-							</div>
 
-							{/* Screen Radius*/}
-							<div className='flex flex-auto p-2 text-xs '>
-								<p className='my-auto p-2'>Screen Radius:</p>
-								<Range
-									className='my-auto'
-									color='primary'
-									onChange={(ev) =>
-										setScreenRadius(ev.target.value as unknown as number)
-									}
-									value={screenRadius}
-									max={'30'}
-								></Range>
-							</div>
-						</CustomCollapse>
+								{/* Screen Radius*/}
+								<div className='flex flex-auto p-2 text-xs '>
+									<p className='my-auto p-2'>Screen Radius:</p>
+									<Range
+										className='my-auto'
+										color='primary'
+										onChange={(ev) =>
+											setScreenRadius(ev.target.value as unknown as number)
+										}
+										value={screenRadius}
+										max={'30'}
+									></Range>
+								</div>
+							</CustomCollapse>
+						)}
 
 						{/* Color Options */}
-						<CustomCollapse
-							menu={
-								<div className='m-2 flex flex-row gap-2'>
-									<IconPalette size={22}></IconPalette>
-									<p className='my-auto font-bold'>Colors</p>
+						{template === 'adaptive' && (
+							<CustomCollapse
+								menu={
+									<div className='m-2 flex flex-row gap-2'>
+										<IconPalette size={22}></IconPalette>
+										<p className='my-auto font-bold'>Colors</p>
+									</div>
+								}
+							>
+								{/* Show Line Numbers */}
+								<div className='flex flex-auto flex-col p-2'>
+									<ColorPicker
+										color={borderColor}
+										onColorChange={setBorderColor}
+										isGradientEnable={false}
+										label='Border Color'
+									></ColorPicker>
+
+									<ColorPicker
+										color={statusColor}
+										onColorChange={setStatusColor}
+										isGradientEnable={false}
+										label='Status Bar Color'
+									></ColorPicker>
+
+									<ColorPicker
+										color={statusControlsColor}
+										onColorChange={setStatusControlsColor}
+										isGradientEnable={false}
+										label='Icons Color'
+									></ColorPicker>
 								</div>
-							}
-						>
-							{/* Show Line Numbers */}
-							<div className='flex flex-auto flex-col p-2'>
-								<ColorPicker
-									color={borderColor}
-									onColorChange={setBorderColor}
-									isGradientEnable={false}
-									label='Border Color'
-								></ColorPicker>
-
-								<ColorPicker
-									color={statusColor}
-									onColorChange={setStatusColor}
-									isGradientEnable={false}
-									label='Status Bar Color'
-								></ColorPicker>
-
-								<ColorPicker
-									color={statusControlsColor}
-									onColorChange={setStatusControlsColor}
-									isGradientEnable={false}
-									label='Icons Color'
-								></ColorPicker>
-							</div>
-						</CustomCollapse>
+							</CustomCollapse>
+						)}
 
 						{/* Device Settings */}
 						<CustomCollapse

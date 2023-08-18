@@ -46,12 +46,14 @@ const PreviewModal = React.lazy(() => import('../Modals/PreviewModal'));
 const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 
 export const MenuBar: React.FC = () => {
+	/* App Context */
+	const { showWizard, setShowWizard } = useContext(AppContext);
+
 	/* Panels */
 	const about = useRef<HTMLDialogElement>(null);
 	const { viewerRef } = useContext(AppContext);
 	const isHorizontal = useScreenDirection();
 
-	const [showWizard, setShowWizard] = useState(true);
 	const [showAbout, setShowAbout] = useState(false);
 	const [showPreview, setShowPreview] = useState(false);
 	const [showChangelog, setShowChangelog] = useState(false);

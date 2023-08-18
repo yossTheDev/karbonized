@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
-import { Button, FileInput, Input, Select, Textarea } from 'react-daisyui';
-import blank_template from '../../assets/blank_template.png';
-import browser_template from '../../assets/browser_template.png';
-import code_template from '../../assets/code_template.png';
-import image_template from '../../assets/image_template.png';
+import React, { useContext, useState } from 'react';
+import { Button } from 'react-daisyui';
 import karbonized from '../../assets/logo.svg';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { languages } from '../../utils/Languages';
-import { getRandomNumber } from '../../utils/getRandom';
 import { Portal } from 'react-portal';
 
 /* Project Templates */
@@ -23,6 +17,7 @@ import phone_template2 from '../../assets/templates/phone_template2.json';
 import phone_template3 from '../../assets/templates/phone_template3.json';
 import phone_template4 from '../../assets/templates/phone_template4.json';
 import phone_template5 from '../../assets/templates/phone_template5.json';
+import { AppContext } from '../../AppContext';
 
 const code_templates = [code_template1, code_template2];
 
@@ -42,26 +37,11 @@ interface Props {
 }
 
 export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
+	/* App Context */
+	const { setShowWizard } = useContext(AppContext);
+
 	/* Component State */
 	const [current, setCurrent] = useState<any>(null);
-	const [template, setTemplate] = useState<
-		'blank' | 'code' | 'browser' | 'image'
-	>('blank');
-
-	/* Code Settings */
-	const [title, setTitle] = useState('code');
-	const [code, setCode] = useState(
-		`<pre><code class="language-jsx"></code></pre>`,
-	);
-	const [lang, setLang] = useState('jsx');
-
-	/* Image Settings */
-	const [src, setSrc] = useState(karbonized);
-
-	/* Browser Settings */
-	const [srcBrowser, setSrcBrowser] = useState(karbonized);
-	const [titleBrowser, setTitleBrowser] = useState('karbonized');
-	const [url, setUrl] = useState('karbonized.onrender.com');
 
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
@@ -75,16 +55,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
 
-	const getElementsByType = (type: string) => {
-		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
-		);
-	};
-
 	const handleCreate = () => {
 		if (current) loadProject(current);
 
-		onClose && onClose();
+		setShowWizard(false);
 	};
 
 	return (

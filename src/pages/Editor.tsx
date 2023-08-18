@@ -53,7 +53,7 @@ const RightPanel = React.lazy(() => import('../components/Panels/RightPanel'));
 const InfiniteViewer = React.lazy(() => import('react-infinite-viewer'));
 
 export const Editor: React.FC = () => {
-	const { viewerRef } = useContext(AppContext);
+	const { viewerRef, showWizard } = useContext(AppContext);
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
 	const setEditing = useStoreActions((state) => state.setEditing);
@@ -231,8 +231,9 @@ export const Editor: React.FC = () => {
 				onContextMenu={(e) => {
 					e.preventDefault();
 				}}
-				id='body'
-				className='relative flex flex-auto flex-row overflow-hidden '
+				className={`relative flex flex-auto flex-row overflow-hidden ${
+					!showWizard ? 'flex' : 'hidden'
+				}`}
 			>
 				{/* Left Panel */}
 				<div className='flex max-w-xs'>

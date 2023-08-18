@@ -1,8 +1,8 @@
-import React, { Suspense, useRef } from 'react';
-import { useScreenDirection } from './hooks/useScreenDirection';
-import { isElectron } from './utils/isElectron';
-import { useTheme } from './hooks/useTheme';
+import React, { Suspense, useRef, useState } from 'react';
 import { AppContext } from './AppContext';
+import { useScreenDirection } from './hooks/useScreenDirection';
+import { useTheme } from './hooks/useTheme';
+import { isElectron } from './utils/isElectron';
 
 const Editor = React.lazy(() => import('./pages/Editor'));
 const TitleBar = React.lazy(() => import('./components/Base/TitleBar'));
@@ -12,9 +12,16 @@ const App: React.FC = () => {
 	const theme = useTheme();
 	const isHorizontal = useScreenDirection();
 	let viewerRef = useRef(null);
+	const [showWizard, setShowWizard] = useState(true);
 
 	return (
-		<AppContext.Provider value={{ viewerRef: viewerRef }}>
+		<AppContext.Provider
+			value={{
+				viewerRef: viewerRef,
+				showWizard: showWizard,
+				setShowWizard: setShowWizard,
+			}}
+		>
 			<div
 				onContextMenu={(event) => event.preventDefault()}
 				className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 text-base-content transition-all ease-in-out'
@@ -153,6 +160,25 @@ const App: React.FC = () => {
 							</div>
 						)}
 
+						{/* Body */}
+						<div
+							className='relative flex h-full w-full flex-auto overflow-hidden'
+							id='body'
+						>
+							<Suspense
+								fallback={
+									<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+								}
+							>
+								<Editor></Editor>
+							</Suspense>
+						</div>
+					</>
+				) : (
+					<div
+						className='relative flex h-full w-full flex-auto overflow-hidden'
+						id='body'
+					>
 						<Suspense
 							fallback={
 								<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
@@ -160,15 +186,7 @@ const App: React.FC = () => {
 						>
 							<Editor></Editor>
 						</Suspense>
-					</>
-				) : (
-					<Suspense
-						fallback={
-							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
-						}
-					>
-						<Editor></Editor>
-					</Suspense>
+					</div>
 				)}
 			</div>
 		</AppContext.Provider>
