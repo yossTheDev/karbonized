@@ -3,6 +3,7 @@
 ## v 1.11.1
 
 * improve: Add Device Thumbnails on PhoneBlock Device Selection Menu
+* improve: Project Wizard (Added more project templates and implement a new template system)
 
 ## v 1.11.0
 
