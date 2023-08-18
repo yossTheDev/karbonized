@@ -93,11 +93,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-200/70 p-2 text-black dark:text-white md:flex'>
 					<img className='my-auto h-6' src={karbonized}></img>
 					<label className='poppins-font-family my-auto mr-1 select-none'>
-						Project Wizard
+						Templates
 					</label>
 				</div>
 
-				<div className='mb-2 mt-2 flex h-full select-none flex-col gap-2 overflow-auto  rounded-2xl bg-base-200 p-2'>
+				<div className='mb-2 mt-2 flex h-full select-none flex-col gap-1 overflow-auto  rounded-2xl bg-base-100 p-2'>
 					{/* Templates */}
 					<label className='poppins-font-family mb-2 text-right text-xl font-bold md:hidden'>
 						Templates

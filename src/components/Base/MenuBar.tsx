@@ -325,12 +325,6 @@ export const MenuBar: React.FC = () => {
 								shortcut='Ctrl+S'
 							></MenuItem>
 
-							<MenuItem
-								click={() => handleSaveAsJson()}
-								icon={<IconJson size={16}></IconJson>}
-								label='Save Project as Json'
-							></MenuItem>
-
 							<MenuSeparator></MenuSeparator>
 
 							<MenuItem
@@ -338,6 +332,12 @@ export const MenuBar: React.FC = () => {
 								icon={<IconFlask size={16}></IconFlask>}
 								label='Render'
 								shortcut='Ctrl+P'
+							></MenuItem>
+
+							<MenuItem
+								click={() => handleSaveAsJson()}
+								icon={<IconJson size={16}></IconJson>}
+								label='Save as Template'
 							></MenuItem>
 
 							<MenuItem
