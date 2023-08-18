@@ -77,6 +77,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 	const controls = useStoreState((state) => state.ControlsTree);
 	const controlSize = useStoreState((state) => state.controlSize);
+	const controlTransform = useStoreState((state) => state.controlTransform);
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const controlPos = useStoreState((state) => state.controlPosition);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
@@ -106,6 +107,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	});
 
 	/* Position and Size */
+	const [transform, setTransform] = useControlState(
+		'',
+		`${id}-transform`,
+		true,
+	);
 	const [position, setPosition] = useControlState(
 		{ x: 33, y: 190 },
 		`${id}-pos`,
@@ -242,6 +248,19 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		}
 	}, [controlSize]);
 
+	useEffect(() => {
+		if (id === controlID) {
+			setTransform(controlTransform);
+
+			//console.log(controlTransform);
+			//console.log(transform);
+		}
+	}, [controlTransform]);
+
+	useEffect(() => {
+		console.log('actualizado');
+	}, [transform]);
+
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
 		if (ref.current === null) {
@@ -338,6 +357,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						minWidth: minWidth,
 						left: position.x,
 						top: position.y,
+						transform: transform,
 					}}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}

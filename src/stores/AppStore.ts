@@ -75,7 +75,9 @@ export interface AppStoreModel {
 
 	controlSize?: { w: number; h: number };
 	controlPosition?: { x: number; y: number };
+	controlTransform?: string;
 
+	setControlTransform: Action<AppStoreModel, string>;
 	setControlPosition: Action<AppStoreModel, { x: number; y: number }>;
 	setControlSize: Action<AppStoreModel, { w: number; h: number }>;
 
@@ -586,6 +588,10 @@ export const AppStore = createStore<AppStoreModel>({
 
 	setControlPosition: action((state, payload) => {
 		state.controlPosition = payload;
+	}),
+
+	setControlTransform: action((state, payload) => {
+		state.controlTransform = payload;
 	}),
 
 	setEditing: action((state, payload) => {

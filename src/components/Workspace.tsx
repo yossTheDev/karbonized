@@ -10,6 +10,7 @@ import Moveable, {
 	type OnDragGroup,
 	type OnResizeGroup,
 	type OnRotateGroup,
+	OnRotateStart,
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';
@@ -28,6 +29,9 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const workspaces = useStoreState((state) => state.workspaces);
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
 
+	const setControlTransform = useStoreActions(
+		(state) => state.setControlTransform,
+	);
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
 
@@ -239,18 +243,25 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// console.log('onScale scale', scale);
 						// target!.style.transform = transform;
 					}}
-					onScaleEnd={() => {
+					onScaleEnd={({ target }) => {
 						// console.log('onScaleEnd', target, isDrag);
 					}}
 					/* rotatable */
 					rotatable={true}
 					throttleRotate={0}
-					onRotateStart={({ target }) => {
-						console.log('onRotateStart', target);
+					onRotateStart={({ target }: OnRotateStart) => {
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-transform`,
+								value: target.style.transform,
+							},
+						]);
 					}}
 					onRotate={({ target, transform }: OnRotate) => {
 						// console.log('onRotate', dist);
 						target.style.transform = transform;
+						setControlTransform(transform);
 					}}
 					onRotateGroup={({ target, targets, transform }: OnRotateGroup) => {
 						// events.forEach(this.handleRotate);
@@ -267,7 +278,13 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// console.log('onRotate', dist);
 						target.style.transform = transform;
 					}}
-					onRotateEnd={() => {
+					onRotateEnd={({ target }) => {
+						setControlState({
+							id: `${controlID}-transform`,
+							value: target.style.transform,
+						});
+
+						setFutureHistory([]);
 						// console.log('onRotateEnd', target, isDrag);
 					}}
 					// Enabling pinchable lets you use events that

@@ -97,7 +97,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					</label>
 				</div>
 
-				<div className='mb-2 mt-2 flex h-full select-none flex-col gap-1 overflow-auto  rounded-2xl bg-base-100 p-2'>
+				<div className='mb-2 mt-2 flex h-full select-none flex-col gap-1 overflow-auto  rounded-2xl bg-base-300 p-2'>
 					{/* Templates */}
 					<label className='poppins-font-family mb-2 text-right text-xl font-bold md:hidden'>
 						Templates
