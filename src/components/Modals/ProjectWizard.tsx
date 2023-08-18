@@ -82,8 +82,6 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	};
 
 	const handleCreate = () => {
-		cleanWorkspace();
-
 		if (current) loadProject(current);
 
 		onClose && onClose();
@@ -99,211 +97,74 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					</label>
 				</div>
 
-				<div className='flex select-none flex-col gap-2 overflow-auto'>
+				<div className='mb-2 mt-2 flex h-full select-none flex-col gap-2 overflow-auto  rounded-2xl bg-base-200 p-2'>
 					{/* Templates */}
 					<label className='poppins-font-family mb-2 text-right text-xl font-bold md:hidden'>
 						Templates
 					</label>
-					<div className='mx-auto hidden max-h-16 shrink-0 flex-row flex-wrap gap-2 overflow-y-auto rounded bg-base-200 p-2 md:max-h-full'>
-						<button
-							onClick={() => setTemplate('blank')}
-							className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80 active:bg-base-100'
-						>
-							<img
-								className={`w-48 rounded md:rounded-2xl ${
-									template === 'blank' && 'border-2 border-primary  shadow-xl'
-								}`}
-								src={blank_template}
-							></img>
-						</button>
 
-						<button
-							onClick={() => setTemplate('code')}
-							className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
-						>
-							<img
-								className={`w-48 rounded md:rounded-2xl ${
-									template === 'code' && 'border-2 border-primary  shadow-xl'
-								}`}
-								src={code_template}
-							></img>
-						</button>
-
-						<button
-							onClick={() => setTemplate('image')}
-							className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
-						>
-							<img
-								className={`w-48 rounded md:rounded-2xl ${
-									template === 'image' && 'border-2 border-primary  shadow-xl'
-								}`}
-								src={image_template}
-							></img>
-						</button>
-
-						<button
-							onClick={() => setTemplate('browser')}
-							className='flex flex-row gap-2 rounded-xl p-2 hover:cursor-pointer hover:bg-base-100/80  active:bg-base-100'
-						>
-							<img
-								className={`w-48 rounded md:rounded-2xl ${
-									template === 'browser' && 'border-2 border-primary  shadow-xl'
-								}`}
-								src={browser_template}
-							></img>
-						</button>
-					</div>
-
+					{/* Code Templates */}
 					<div className='mt-4 flex flex-auto flex-wrap gap-2'>
 						{code_templates.map((item) => (
 							<button
+								key={item.controls[0].id}
 								onClick={() => setCurrent(item)}
 								className='transition-all active:scale-90'
 							>
 								<img
-									className='flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl'
+									className={`flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl ${
+										current?.workspace.id === item.workspace.id &&
+										'border-primary'
+									}`}
 									src={item.thumb}
 								></img>
 							</button>
 						))}
 					</div>
 
+					{/* Window Templates */}
 					<div className='mt-4 flex flex-auto flex-wrap gap-2'>
 						{window_templates.map((item) => (
 							<button
+								key={item.controls[0].id}
 								onClick={() => setCurrent(item)}
 								className='transition-all active:scale-90'
 							>
 								<img
-									className='flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl'
+									className={`flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl ${
+										current?.workspace.id === item.workspace.id &&
+										'border-primary'
+									}`}
 									src={item.thumb}
 								></img>
 							</button>
 						))}
 					</div>
 
+					{/* Phone Templates */}
 					<div className='mt-4 flex flex-auto flex-wrap gap-2'>
 						{phone_templates.map((item) => (
 							<button
+								key={item.controls[0].id}
 								onClick={() => setCurrent(item)}
 								className='transition-all active:scale-90'
 							>
 								<img
-									className='flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl'
+									className={`flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl ${
+										current?.workspace.id === item.workspace.id &&
+										'border-primary'
+									}`}
 									src={item.thumb}
 								></img>
 							</button>
 						))}
 					</div>
-
-					{/* Menus */}
-					<div className='hidden flex-auto flex-col gap-2 overflow-auto text-base-content'>
-						<label className='poppins-font-family mb-2 text-right text-xl font-bold'>
-							Properties
-						</label>
-
-						<div className='flex w-full flex-col gap-3 overflow-auto  p-2 font-bold'>
-							<p className='poppins-font-family'>Project Name</p>
-							<Input
-								className='min-h-12 w-full'
-								value={currentWorkspace.workspaceName}
-								onChange={(ev) => setWorkspaceName(ev.currentTarget.value)}
-							></Input>
-
-							{template === 'code' && (
-								<>
-									<p className='poppins-font-family'>Language</p>
-									<Select
-										className='min-h-12 w-full'
-										tabIndex={0}
-										value={lang}
-										onChange={(e) => {
-											setLang(e as any);
-										}}
-									>
-										{languages.map((i) => {
-											return (
-												<option key={i} value={i}>
-													{i}
-												</option>
-											);
-										})}
-									</Select>
-
-									<p className='poppins-font-family'>Title</p>
-									<Input
-										className='min-h-12 w-full'
-										value={title}
-										onChange={(ev) => setTitle(ev.currentTarget.value)}
-									></Input>
-
-									<p className='poppins-font-family'>Code</p>
-									<Textarea
-										spellCheck={false}
-										className='min-h-[16rem] w-full resize-none'
-										value={code}
-										onChange={(ev) => setCode(ev.target.value)}
-									></Textarea>
-								</>
-							)}
-
-							{template === 'image' && (
-								<>
-									<p className='poppins-font-family'>Source</p>
-									<FileInput
-										className='min-h-12 w-full'
-										accept='image/*'
-										onChange={(e) => {
-											if (e.target.files && e.target.files.length > 0) {
-												const reader = new FileReader();
-												reader.addEventListener('load', () => {
-													setSrc(reader.result?.toString() || '');
-												});
-												reader.readAsDataURL(e.target.files[0]);
-											}
-										}}
-									></FileInput>
-								</>
-							)}
-
-							{template === 'browser' && (
-								<>
-									<p className='poppins-font-family'>Source</p>
-									<FileInput
-										accept='image/*'
-										className='min-h-12 w-full'
-										onChange={(e) => {
-											if (e.target.files && e.target.files.length > 0) {
-												const reader = new FileReader();
-												reader.addEventListener('load', () => {
-													setSrcBrowser(reader.result?.toString() || '');
-												});
-												reader.readAsDataURL(e.target.files[0]);
-											}
-										}}
-									></FileInput>
-
-									<p className='poppins-font-family'>Title</p>
-									<Input
-										className='min-h-12 w-full'
-										value={titleBrowser}
-										onChange={(ev) => setTitleBrowser(ev.currentTarget.value)}
-									></Input>
-
-									<p className='poppins-font-family'>Url</p>
-									<Input
-										className='min-h-12  w-full'
-										value={url}
-										onChange={(ev) => setUrl(ev.currentTarget.value)}
-									></Input>
-								</>
-							)}
-						</div>
-					</div>
 				</div>
 
-				<div>
-					<Button onClick={handleCreate}>Create</Button>
+				<div className='mt-auto flex rounded-2xl p-1'>
+					<Button className='my-auto' onClick={handleCreate}>
+						Create
+					</Button>
 				</div>
 			</div>
 		</Portal>
