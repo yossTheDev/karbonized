@@ -1,8 +1,15 @@
-import { IconAspectRatio, IconPalette, IconTag } from '@tabler/icons-react';
+import {
+	IconAspectRatio,
+	IconPalette,
+	IconSettings,
+	IconTag,
+} from '@tabler/icons-react';
 import React, { Suspense } from 'react';
 import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { Wallpapers } from '../../utils/wallpapers';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
 const Coil = React.lazy(() => import('../Misc/SvgBackgrounds/Coil'));
 const Circular = React.lazy(() => import('../Misc/SvgBackgrounds/Circular'));
@@ -70,122 +77,138 @@ export const WorkspacePanel: React.FC = () => {
 			</label>
 
 			<div className='flex flex-auto select-none flex-col overflow-auto p-1 text-xs'>
-				{/* Workspace Name */}
-				<>
-					<div className='m-2 flex flex-row gap-2'>
-						<IconTag size={22}></IconTag>
+				{/* Background Settings */}
+				<CustomCollapse
+					menu={
+						<div className='m-2 flex flex-row gap-2'>
+							<IconSettings></IconSettings>
+							<p className='my-auto font-bold'>Settings</p>
+						</div>
+					}
+				>
+					{/* Workspace Name */}
+					<>
 						<p className='my-auto font-bold'>Workspace Name</p>
-					</div>
-					<div className='flex max-h-14 flex-auto flex-row p-2'>
-						<Input
-							spellCheck={false}
-							className='my-auto w-full rounded-xl bg-base-100  p-2'
-							onChange={(ev) => setWorkspaceName(ev.target.value)}
-							value={currentWorkspace.workspaceName}
-						></Input>
-					</div>
-				</>
 
-				{/* Size */}
-				<>
-					<div className='m-2 flex select-none flex-row gap-2'>
-						<IconAspectRatio size={22}></IconAspectRatio>
+						<div className='flex max-h-14 flex-auto flex-row p-2'>
+							<Input
+								spellCheck={false}
+								className='my-auto w-full rounded-xl bg-base-100  p-2'
+								onChange={(ev) => setWorkspaceName(ev.target.value)}
+								value={currentWorkspace.workspaceName}
+							></Input>
+						</div>
+					</>
+
+					{/* Size */}
+					<>
 						<p className='my-auto font-bold'>Size</p>
-					</div>
 
-					{/* Predefined Sizes */}
-					<div className='mx-2 my-2 flex'>
-						<Select
-							defaultValue={'Default'}
-							className='flex flex-auto'
-							tabIndex={0}
-							onChange={(e) => {
-								const size = getSize(e.currentTarget.value);
-								size &&
-									setWorkspaceSize({
-										width: size?.width.toString(),
-										height: size?.height.toString(),
-									});
-							}}
-						>
-							{Sizes.map((i) => {
-								return (
-									<option key={i.label} value={i.label}>
-										{i.label}
-									</option>
-								);
-							})}
-						</Select>
-					</div>
-
-					<div className='flex max-h-16 flex-auto select-none flex-row p-2'>
-						{/* Size W */}
-						<div className='flex flex-auto flex-row'>
-							<p className='my-auto mr-2'>W:</p>
-							<Input
-								type={'number'}
-								className='w-full rounded-xl bg-base-100 p-2 text-xs'
-								onChange={(ev) => {
-									setWorkspaceSize({
-										width: ev.currentTarget.value,
-										height: currentWorkspace.workspaceHeight,
-									});
+						{/* Predefined Sizes */}
+						<div className='mx-2 my-2 flex'>
+							<Select
+								defaultValue={'Default'}
+								className='flex flex-auto'
+								tabIndex={0}
+								onChange={(e) => {
+									const size = getSize(e.currentTarget.value);
+									size &&
+										setWorkspaceSize({
+											width: size?.width.toString(),
+											height: size?.height.toString(),
+										});
 								}}
-								value={currentWorkspace.workspaceWidth}
-							></Input>
+							>
+								{Sizes.map((i) => {
+									return (
+										<option key={i.label} value={i.label}>
+											{i.label}
+										</option>
+									);
+								})}
+							</Select>
 						</div>
-						{/* Size H */}
-						<div className='ml-2 flex flex-auto select-none flex-row'>
-							<p className='my-auto mr-2'>H:</p>
 
-							<Input
-								type={'number'}
-								className='w-full rounded-xl bg-base-100 p-2 text-xs'
-								onChange={(ev) => {
-									setWorkspaceSize({
-										height: ev.currentTarget.value,
-										width: currentWorkspace.workspaceWidth,
-									});
-								}}
-								value={currentWorkspace.workspaceHeight}
-							></Input>
+						<div className='flex max-h-16 flex-auto select-none flex-row p-2'>
+							{/* Size W */}
+							<div className='flex flex-auto flex-row'>
+								<p className='my-auto mr-2'>W:</p>
+								<Input
+									type={'number'}
+									className='w-full rounded-xl bg-base-100 p-2 text-xs'
+									onChange={(ev) => {
+										setWorkspaceSize({
+											width: ev.currentTarget.value,
+											height: currentWorkspace.workspaceHeight,
+										});
+									}}
+									value={currentWorkspace.workspaceWidth}
+								></Input>
+							</div>
+							{/* Size H */}
+							<div className='ml-2 flex flex-auto select-none flex-row'>
+								<p className='my-auto mr-2'>H:</p>
+
+								<Input
+									type={'number'}
+									className='w-full rounded-xl bg-base-100 p-2 text-xs'
+									onChange={(ev) => {
+										setWorkspaceSize({
+											height: ev.currentTarget.value,
+											width: currentWorkspace.workspaceWidth,
+										});
+									}}
+									value={currentWorkspace.workspaceHeight}
+								></Input>
+							</div>
 						</div>
-					</div>
-				</>
+					</>
+				</CustomCollapse>
 
 				{/* Background Color */}
-				<>
-					{/* Header */}
-					<div className='m-2 flex flex-row gap-2 '>
-						<IconPalette size={22}></IconPalette>
-						<p className='my-auto font-bold'>Background</p>
-					</div>
-
+				<CustomCollapse
+					isOpen
+					menu={
+						<div className='m-2 flex flex-row gap-2'>
+							<IconPalette></IconPalette>
+							<p className='my-auto font-bold'>Background</p>
+						</div>
+					}
+				>
 					{/* Workspace  Background Type */}
-					<div className='mb-1 flex h-8 flex-row gap-2'>
-						<div
+					<div className='mb-1 flex h-fit flex-row gap-2 rounded-2xl bg-base-300/60 p-2'>
+						<button
 							onClick={() => {
 								setWorkspaceType('color');
 							}}
-							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer hover:bg-neutral ${
-								currentWorkspace.workspaceType === 'color' &&
-								'border-2 border-neutral'
+							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+								currentWorkspace.workspaceType === 'color' && 'bg-base-300'
 							}`}
 						>
 							<label className='mx-auto my-auto cursor-pointer'>Color</label>
-						</div>
+						</button>
 
-						<div
-							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 hover:cursor-pointer  hover:bg-neutral ${
-								currentWorkspace.workspaceType === 'texture' &&
-								'border-2 border-neutral'
+						<button
+							className={`flex  h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+								currentWorkspace.workspaceType === 'texture' && 'bg-base-300'
 							}`}
 							onClick={() => {
 								setWorkspaceType('texture');
 							}}
 						>
 							<label className='mx-auto my-auto cursor-pointer'>Texture</label>
-						</div>
+						</button>
+
+						<button
+							className={`flex  h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+								currentWorkspace.workspaceType === 'image' && 'bg-base-300'
+							}`}
+							onClick={() => {
+								setWorkspaceType('image');
+							}}
+						>
+							<label className='mx-auto my-auto cursor-pointer'>Image</label>
+						</button>
 					</div>
 
 					{/* Select Texture */}
@@ -303,7 +326,28 @@ export const WorkspacePanel: React.FC = () => {
 						</div>
 					)}
 
-					{currentWorkspace.workspaceType === 'color' ? (
+					{/* Image */}
+					{currentWorkspace.workspaceType === 'image' && (
+						<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
+							{Wallpapers.map((item) => (
+								<button
+									className={`mx-auto  w-24 overflow-hidden rounded-2xl bg-base-100 transition-transform hover:shadow active:scale-90 ${
+										currentWorkspace.textureName === item.id &&
+										'border-2 border-primary'
+									}`}
+									onClick={() => setTexture(item.id)}
+								>
+									<img
+										className='flex h-full w-full flex-auto hover:scale-150'
+										src={item.thumb}
+									></img>
+								</button>
+							))}
+						</div>
+					)}
+
+					{/* Color or Gradient */}
+					{currentWorkspace.workspaceType === 'color' && (
 						<ColorPicker
 							type='HexAlpha'
 							colorGradient1={currentWorkspace.workspaceGradientSettings.color1}
@@ -328,7 +372,9 @@ export const WorkspacePanel: React.FC = () => {
 							color={currentWorkspace.workspaceColor}
 							onColorChange={setWorkspaceColor}
 						></ColorPicker>
-					) : (
+					)}
+
+					{currentWorkspace.workspaceType === 'texture' && (
 						<ColorPicker
 							type='HexAlpha'
 							colorGradient1={currentWorkspace.textureColors.color1}
@@ -344,7 +390,8 @@ export const WorkspacePanel: React.FC = () => {
 							onColorChange={() => {}}
 						></ColorPicker>
 					)}
-				</>
+					{/* Select Shape */}
+				</CustomCollapse>
 			</div>
 		</>
 	);

@@ -81,6 +81,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 							</div>
 
 							<ColorPicker
+								type='HexAlpha'
 								label='Color'
 								isGradientEnable={false}
 								color={color}

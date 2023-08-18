@@ -14,6 +14,7 @@ import Moveable, {
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';
+import { Wallpapers } from '../utils/wallpapers';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;
@@ -62,6 +63,25 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							texture={currentWorkspace.textureName}
 						></WorkspaceTexture>
 					</Suspense>
+				)}
+
+				{currentWorkspace.workspaceType === 'image' && (
+					<div
+						style={{
+							height: currentWorkspace.workspaceHeight + 'px',
+							width: currentWorkspace.workspaceWidth + 'px',
+						}}
+						className='overflow-hidden transition-all'
+					>
+						<img
+							className='flex h-full w-full select-none'
+							src={
+								Wallpapers.find(
+									(item) => item.id === currentWorkspace.textureName,
+								)?.img
+							}
+						></img>
+					</div>
 				)}
 
 				{workspaces.map((workspace) => (
