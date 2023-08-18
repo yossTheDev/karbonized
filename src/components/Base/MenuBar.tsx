@@ -11,6 +11,7 @@ import {
 	IconFlask,
 	IconFocusCentered,
 	IconInfoHexagon,
+	IconJson,
 	IconPigMoney,
 	IconPlus,
 	IconSquareRotated,
@@ -21,7 +22,7 @@ import {
 } from '@tabler/icons-react';
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
-import { toBlob } from 'html-to-image';
+import { toBlob, toPng } from 'html-to-image';
 import React, {
 	Suspense,
 	useContext,
@@ -36,6 +37,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
+import { PROJECT_KEY } from '../../utils/secrets';
 
 const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
 const ChangelogModal = React.lazy(() => import('../Modals/ChangelogModal'));
@@ -157,7 +159,6 @@ export const MenuBar: React.FC = () => {
 		});
 	};
 
-	// Share Image
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
 		if (element) {
@@ -192,7 +193,7 @@ export const MenuBar: React.FC = () => {
 					try {
 						let text = CryptoJS.AES.decrypt(
 							reader.result as string,
-							'sdfkf8524ß325-5235$74363/535&',
+							PROJECT_KEY,
 						).toString(CryptoJS.enc.Utf8);
 						const project = JSON.parse(text) as Project;
 
@@ -212,20 +213,39 @@ export const MenuBar: React.FC = () => {
 		}
 	};
 
-	const handleSaveProject = () => {
-		var blob = new Blob(
-			[
-				CryptoJS.AES.encrypt(
-					JSON.stringify(saveProject),
-					'sdfkf8524ß325-5235$74363/535&',
-				).toString(),
-			],
-			{
-				type: 'text/plain;charset=utf-8',
-			},
-		);
+	const handleSaveProject = async () => {
+		const element = document.getElementById('workspace');
 
-		FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.kproject');
+		if (element) {
+			const data = await toPng(element);
+
+			const project = { ...saveProject, thumb: data };
+
+			var blob = new Blob(
+				[CryptoJS.AES.encrypt(JSON.stringify(project), PROJECT_KEY).toString()],
+				{
+					type: 'text/plain;charset=utf-8',
+				},
+			);
+
+			FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.kproject');
+		}
+	};
+
+	const handleSaveAsJson = async () => {
+		const element = document.getElementById('workspace');
+
+		if (element) {
+			const data = await toPng(element);
+
+			const project = { ...saveProject, thumb: data };
+
+			var blob = new Blob([JSON.stringify(project)], {
+				type: 'text/plain;charset=utf-8',
+			});
+
+			FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.json');
+		}
 	};
 
 	const handleNewWorkspace = () => {
@@ -303,6 +323,12 @@ export const MenuBar: React.FC = () => {
 								icon={<IconFileDownload size={16}></IconFileDownload>}
 								label='Save Project'
 								shortcut='Ctrl+S'
+							></MenuItem>
+
+							<MenuItem
+								click={() => handleSaveAsJson()}
+								icon={<IconJson size={16}></IconJson>}
+								label='Save Project as Json'
 							></MenuItem>
 
 							<MenuSeparator></MenuSeparator>

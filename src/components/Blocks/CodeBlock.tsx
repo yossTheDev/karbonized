@@ -232,7 +232,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 								defaultValue={'mac'}
 								tabIndex={0}
 								value={windowStyle}
-								onChange={(e) => setWindowStyle(e)}
+								onChange={(e) => setWindowStyle(e.currentTarget.value)}
 							>
 								<option value={'mac'}>mac</option>
 								<option value={'window'}>window</option>

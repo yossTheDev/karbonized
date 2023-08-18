@@ -1,5 +1,6 @@
 import { Action, action, createStore, Computed, computed } from 'easy-peasy';
 import { getRandomNumber } from '../utils/getRandom';
+import { toPng } from 'html-to-image';
 
 export interface Item {
 	id: string;
@@ -11,6 +12,7 @@ export interface Item {
 }
 
 export interface Project {
+	thumb?: string;
 	properties: History[];
 	workspace: Workspace;
 }
