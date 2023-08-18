@@ -388,20 +388,16 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 					{/* iPhone 14  */}
 					{template === 'iPhone 14' && (
 						<>
-							<div className='h-full w-full px-6 pb-11 pt-8'>
+							<div className='h-full w-full px-8 pb-28 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mx-auto my-auto h-[34rem] max-h-full w-full bg-white'
+										className='mx-auto my-auto flex h-[33.5rem] max-h-full w-full bg-white'
 										src={src}
 									></img>
 								</div>
 							</div>
 
-							<img
-								id='masked-iphone'
-								className='absolute flex flex-auto'
-								src={iphone14}
-							></img>
+							<img className='absolute flex flex-auto' src={iphone14}></img>
 						</>
 					)}
 
@@ -459,7 +455,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-9 pb-7 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto h-full w-full bg-white'
+										className='mask mx-auto my-auto flex h-[35rem] w-full bg-white'
 										src={src}
 									></img>
 								</div>
