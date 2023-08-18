@@ -18,6 +18,12 @@ import phone_template3 from '../../assets/templates/phone_template3.json';
 import phone_template4 from '../../assets/templates/phone_template4.json';
 import phone_template5 from '../../assets/templates/phone_template5.json';
 import { AppContext } from '../../AppContext';
+import {
+	IconAppWindow,
+	IconBell,
+	IconCode,
+	IconDeviceIpad,
+} from '@tabler/icons-react';
 
 const code_templates = [code_template1, code_template2];
 
@@ -63,82 +69,106 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	return (
 		<Portal node={document.getElementById('body')}>
-			<div className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300 p-4'>
-				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-200/70 p-2 text-black dark:text-white md:flex'>
+			<div className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300'>
+				<div className='hidden w-fit select-none flex-row gap-2 rounded-xl bg-base-200/70 p-2 text-black dark:text-white'>
 					<img className='my-auto h-6' src={karbonized}></img>
 					<label className='poppins-font-family my-auto mr-1 select-none'>
 						Templates
 					</label>
 				</div>
 
-				<div className='mb-2 mt-2 flex h-full select-none flex-col gap-1 overflow-auto  rounded-2xl bg-base-300 p-2'>
+				<div className='mb-2 mt-2 flex h-full select-none flex-row gap-4 overflow-hidden bg-base-300 text-base-content'>
+					{/* News Panel */}
+					<div className='flex h-full w-[30rem] flex-col p-2'>
+						<div className='flex w-fit gap-1 rounded-2xl bg-base-200 p-2'>
+							<IconBell></IconBell>
+							<p className='poppins-font-family'>News</p>
+						</div>
+					</div>
+
 					{/* Templates */}
-					<label className='poppins-font-family mb-2 text-right text-xl font-bold md:hidden'>
-						Templates
-					</label>
+					<div className='flex h-full w-full flex-col gap-3 rounded-s-2xl bg-base-200 p-6 shadow'>
+						<div className='flex h-full w-full flex-col gap-4 overflow-auto'>
+							{/* Code Templates */}
+							<div className='flex gap-2'>
+								<IconCode></IconCode>
+								<p>Code</p>
+							</div>
+							<div className='flex flex-auto flex-wrap gap-2 px-2'>
+								{code_templates.map((item) => (
+									<button
+										key={item.workspace.id}
+										onClick={() => setCurrent(item)}
+										className='transition-all active:scale-90'
+									>
+										<img
+											className={`flex h-36 rounded-2xl border-4 border-base-100 ${
+												current?.workspace.id === item.workspace.id &&
+												'border-primary shadow shadow-primary'
+											}`}
+											src={item.thumb}
+										></img>
+									</button>
+								))}
+							</div>
 
-					{/* Code Templates */}
-					<div className='mt-4 flex flex-auto flex-wrap gap-2'>
-						{code_templates.map((item) => (
-							<button
-								key={item.controls[0].id}
-								onClick={() => setCurrent(item)}
-								className='transition-all active:scale-90'
+							{/* Window Templates */}
+							<div className='flex gap-2'>
+								<IconAppWindow></IconAppWindow>
+								<p>Browser</p>
+							</div>
+							<div className='flex flex-auto flex-wrap gap-2 px-2'>
+								{window_templates.map((item) => (
+									<button
+										key={item.workspace.id}
+										onClick={() => setCurrent(item)}
+										className='transition-all active:scale-90'
+									>
+										<img
+											className={`flex h-36 rounded-2xl border-4 border-base-100 ${
+												current?.workspace.id === item.workspace.id &&
+												'shadow- border-primary shadow-primary'
+											}`}
+											src={item.thumb}
+										></img>
+									</button>
+								))}
+							</div>
+
+							{/* Phone Templates */}
+							<div className='flex gap-2'>
+								<IconDeviceIpad></IconDeviceIpad>
+								<p>Devices</p>
+							</div>
+							<div className='flex flex-auto flex-wrap gap-2 px-2'>
+								{phone_templates.map((item) => (
+									<button
+										key={item.controls[0].id}
+										onClick={() => setCurrent(item)}
+										className='transition-all active:scale-90'
+									>
+										<img
+											className={`flex h-36 rounded-2xl border-4 border-base-100  ${
+												current?.workspace.id === item.workspace.id &&
+												'border-primary shadow shadow-primary'
+											}`}
+											src={item.thumb}
+										></img>
+									</button>
+								))}
+							</div>
+						</div>
+
+						<div className='mt-auto flex'>
+							<Button
+								color='primary'
+								className='my-auto ml-auto'
+								onClick={handleCreate}
 							>
-								<img
-									className={`flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl ${
-										current?.workspace.id === item.workspace.id &&
-										'border-primary'
-									}`}
-									src={item.thumb}
-								></img>
-							</button>
-						))}
+								Create
+							</Button>
+						</div>
 					</div>
-
-					{/* Window Templates */}
-					<div className='mt-4 flex flex-auto flex-wrap gap-2'>
-						{window_templates.map((item) => (
-							<button
-								key={item.controls[0].id}
-								onClick={() => setCurrent(item)}
-								className='transition-all active:scale-90'
-							>
-								<img
-									className={`flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl ${
-										current?.workspace.id === item.workspace.id &&
-										'border-primary'
-									}`}
-									src={item.thumb}
-								></img>
-							</button>
-						))}
-					</div>
-
-					{/* Phone Templates */}
-					<div className='mt-4 flex flex-auto flex-wrap gap-2'>
-						{phone_templates.map((item) => (
-							<button
-								key={item.controls[0].id}
-								onClick={() => setCurrent(item)}
-								className='transition-all active:scale-90'
-							>
-								<img
-									className={`flex h-36 rounded-2xl border-4 border-base-100 shadow-2xl ${
-										current?.workspace.id === item.workspace.id &&
-										'border-primary'
-									}`}
-									src={item.thumb}
-								></img>
-							</button>
-						))}
-					</div>
-				</div>
-
-				<div className='mt-auto flex rounded-2xl p-1'>
-					<Button className='my-auto' onClick={handleCreate}>
-						Create
-					</Button>
 				</div>
 			</div>
 		</Portal>
