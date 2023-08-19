@@ -38,7 +38,7 @@ export const NewsPanel: React.FC = () => {
 				<Tooltip className='ml-auto' message='Refresh'>
 					<button
 						onClick={handleFetch}
-						className='btn btn-circle my-auto ml-auto h-6 hover:bg-base-100/80'
+						className='btn btn-circle my-auto ml-auto h-6 hover:bg-base-200/40'
 					>
 						<IconReload size={18}></IconReload>
 					</button>
@@ -85,7 +85,7 @@ export const NewsPanel: React.FC = () => {
 										)}
 
 										{index != data.length - 1 && (
-											<div className='mx-auto my-4 h-1 w-5/6 rounded-full bg-base-100 p-0.5 dark:bg-base-200/70'></div>
+											<div className='mx-auto my-4 h-1 w-5/6 rounded-full bg-base-100 p-0.5 dark:bg-base-200/40'></div>
 										)}
 									</div>
 								))}
