@@ -78,7 +78,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				initial={{ marginTop: '4rem' }}
 				className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/30 md:bg-base-300'
 			>
-				<div className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-0 md:h-full'>
+				<div className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2 md:h-full'>
 					{/* News Panel */}
 					<div className='hidden w-80 md:flex'>
 						<NewsPanel></NewsPanel>
@@ -88,14 +88,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					<div className='flex h-full w-full flex-auto flex-col overflow-hidden'>
 						{/* Header */}
 						<div className='flex h-fit w-full'>
-							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-3xl bg-base-100 px-3 py-1 md:ml-0'>
+							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0 md:bg-base-100'>
 								<IconStars size={20} className='my-auto'></IconStars>
 								<p className='borel-font mt-4 text-lg'>Templates</p>
 							</div>
 
-							<div className='mb-3 ml-auto mr-2 mt-2 hidden w-fit gap-2 rounded-3xl bg-gradient-to-br from-violet-600 to-primary px-3 py-1 text-white shadow-sm shadow-pink-600 md:flex'>
+							<div className='mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-2 rounded-full border-2 border-base-content px-4 py-0.5 shadow-sm dark:border-white dark:text-white  md:flex'>
 								<svg
-									className='my-auto ml-2 flex h-7 w-7 fill-white'
+									className='my-auto flex h-7 w-7 fill-base-content dark:fill-white'
 									viewBox='0 0 451.31622 451.31616'
 									version='1.1'
 									xmlns='http://www.w3.org/2000/svg'
@@ -124,11 +124,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='flex flex-auto flex-col gap-3 overflow-hidden rounded-t-2xl bg-base-100 p-2 shadow md:rounded-tl-2xl'>
+						<div className='flex flex-auto flex-col gap-3 overflow-hidden rounded-t-2xl bg-base-100 p-2 shadow-xl md:rounded-tl-2xl'>
 							<div className='flex h-full w-full flex-col gap-4 overflow-auto'>
 								{/* Code Templates */}
 								<div className='flex h-fit w-full flex-col gap-2'>
-									<div className=' flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
+									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
 										<IconCode className='my-auto' size={20}></IconCode>
 										<p>Code</p>
 									</div>
@@ -141,8 +141,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 											>
 												<img
 													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-														current?.workspace.id === item.workspace.id &&
-														'shadow- border-primary shadow-primary'
+														current?.workspace.id === item.workspace.id
+															? 'border-primary shadow shadow-primary'
+															: 'border-base-300'
 													}`}
 													src={item.thumb}
 												></img>
@@ -153,7 +154,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 								{/* Window Templates */}
 								<div className='flex h-fit w-full flex-col gap-2 '>
-									<div className='flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
+									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
 										<IconAppWindow
 											className='my-auto'
 											size={20}
@@ -169,8 +170,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 											>
 												<img
 													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-														current?.workspace.id === item.workspace.id &&
-														'shadow- border-primary shadow-primary'
+														current?.workspace.id === item.workspace.id
+															? 'border-primary shadow shadow-primary'
+															: 'border-base-300'
 													}`}
 													src={item.thumb}
 												></img>
@@ -181,7 +183,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 								{/* Phone Templates */}
 								<div className='flex h-fit w-full flex-col  gap-2'>
-									<div className='flex w-fit gap-2 rounded-2xl bg-base-200 px-4 py-2'>
+									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
 										<IconDeviceIpad
 											className='my-auto'
 											size={20}
@@ -197,8 +199,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 											>
 												<img
 													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-														current?.workspace.id === item.workspace.id &&
-														'shadow- border-primary shadow-primary'
+														current?.workspace.id === item.workspace.id
+															? 'border-primary shadow shadow-primary'
+															: 'border-base-300'
 													}`}
 													src={item.thumb}
 												></img>
@@ -211,7 +214,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							{/* Actions */}
 							<div className='mt-auto flex flex-auto gap-2 p-1'>
 								<button
-									className='btn my-auto ml-auto rounded-3xl bg-base-300 hover:bg-primary hover:text-white'
+									className='btn my-auto ml-auto rounded-3xl border-none bg-base-300 hover:bg-primary hover:text-white'
 									onClick={handleCreate}
 								>
 									Create
