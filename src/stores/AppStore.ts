@@ -155,12 +155,20 @@ export const AppStore = createStore<AppStoreModel>({
 
 	/* Project System */
 	saveProject: computed((state) => {
+		const controls = state.currentWorkspace.controls.filter(
+			(item) => !item.isDeleted,
+		);
+
 		return {
 			controls: state.currentWorkspace.controls.filter(
 				(item) => !item.isDeleted,
 			),
 			properties: state.ControlProperties.filter(
-				(item) => item.workspace === state.currentWorkspaceID,
+				(item) =>
+					item.workspace === state.currentWorkspaceID &&
+					controls.find(
+						(i) => item.id.split('-')[0] + '-' + item.id.split('-')[1] === i.id,
+					),
 			),
 			workspace: {
 				...state.currentWorkspace,
