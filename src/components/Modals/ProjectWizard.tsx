@@ -5,40 +5,13 @@ import {
 	IconStars,
 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Portal } from 'react-portal';
 import { AppContext } from '../../AppContext';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { NewsPanel } from '../Panels/NewsPanel';
 
-/* Project Templates */
-import code_template1 from '../../assets/templates/code_template1.json';
-import code_template2 from '../../assets/templates/code_template2.json';
-
-import window_template1 from '../../assets/templates/window_template1.json';
-import window_template2 from '../../assets/templates/window_template2.json';
-import window_template3 from '../../assets/templates/window_template3.json';
-
-import phone_template1 from '../../assets/templates/phone_template1.json';
-import phone_template2 from '../../assets/templates/phone_template2.json';
-import phone_template3 from '../../assets/templates/phone_template3.json';
-import phone_template4 from '../../assets/templates/phone_template4.json';
-import phone_template5 from '../../assets/templates/phone_template5.json';
-import phone_template6 from '../../assets/templates/phone_template6.json';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-
-const code_templates = [code_template1, code_template2];
-
-const window_templates = [window_template1, window_template2, window_template3];
-
-const phone_templates = [
-	phone_template1,
-	phone_template2,
-	phone_template3,
-	phone_template4,
-	phone_template5,
-	phone_template6,
-];
 
 interface Props {
 	open: boolean;
@@ -52,6 +25,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const { setShowWizard } = useContext(AppContext);
 
 	/* Component State */
+	const [codeTemplates, setCodeTemplates] = useState<any>(null);
+	const [devicesTemplates, setDevicesTemplates] = useState<any>(null);
+	const [windowsTemplates, setWindowsTemplates] = useState<any>(null);
+
 	const [current, setCurrent] = useState<any>(null);
 	const isHorizontal = useScreenDirection();
 
@@ -66,6 +43,32 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const loadProject = useStoreActions((state) => state.loadProject);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+
+	useEffect(() => {
+		const loadTemplates = async () => {
+			setCodeTemplates([
+				(await import('../../assets/templates/code_template1.json')).default,
+				(await import('../../assets/templates/code_template2.json')).default,
+			]);
+
+			setDevicesTemplates([
+				(await import('../../assets/templates/phone_template1.json')).default,
+				(await import('../../assets/templates/phone_template2.json')).default,
+				(await import('../../assets/templates/phone_template3.json')).default,
+				(await import('../../assets/templates/phone_template4.json')).default,
+				(await import('../../assets/templates/phone_template5.json')).default,
+				(await import('../../assets/templates/phone_template6.json')).default,
+			]);
+
+			setWindowsTemplates([
+				(await import('../../assets/templates/window_template1.json')).default,
+				(await import('../../assets/templates/window_template2.json')).default,
+				(await import('../../assets/templates/window_template3.json')).default,
+			]);
+		};
+
+		loadTemplates();
+	}, []);
 
 	const handleCreate = () => {
 		if (current) loadProject(current);
@@ -137,22 +140,23 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 										<p>Code</p>
 									</div>
 									<div className='flex h-full flex-row gap-2 overflow-x-auto overflow-y-hidden  px-2 md:flex-wrap'>
-										{code_templates.map((item) => (
-											<button
-												key={item.workspace.id}
-												onClick={() => setCurrent(item)}
-												className='h-28 w-fit min-w-fit overflow-hidden transition-all active:scale-90'
-											>
-												<img
-													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-														current?.workspace.id === item.workspace.id
-															? 'border-primary shadow shadow-primary'
-															: 'border-base-300'
-													}`}
-													src={item.thumb}
-												></img>
-											</button>
-										))}
+										{codeTemplates &&
+											codeTemplates.map((item: any) => (
+												<button
+													key={item.workspace.id}
+													onClick={() => setCurrent(item)}
+													className='h-28 w-fit min-w-fit overflow-hidden transition-all active:scale-90'
+												>
+													<img
+														className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
+															current?.workspace.id === item.workspace.id
+																? 'border-primary shadow shadow-primary'
+																: 'border-base-300'
+														}`}
+														src={item.thumb}
+													></img>
+												</button>
+											))}
 									</div>
 								</div>
 
@@ -166,22 +170,23 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 										<p>Browser</p>
 									</div>
 									<div className='flex h-full flex-row gap-2 overflow-x-auto  px-2 md:flex-wrap'>
-										{window_templates.map((item) => (
-											<button
-												key={item.workspace.id}
-												onClick={() => setCurrent(item)}
-												className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
-											>
-												<img
-													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-														current?.workspace.id === item.workspace.id
-															? 'border-primary shadow shadow-primary'
-															: 'border-base-300'
-													}`}
-													src={item.thumb}
-												></img>
-											</button>
-										))}
+										{windowsTemplates &&
+											windowsTemplates.map((item: any) => (
+												<button
+													key={item.workspace.id}
+													onClick={() => setCurrent(item)}
+													className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
+												>
+													<img
+														className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
+															current?.workspace.id === item.workspace.id
+																? 'border-primary shadow shadow-primary'
+																: 'border-base-300'
+														}`}
+														src={item.thumb}
+													></img>
+												</button>
+											))}
 									</div>
 								</div>
 
@@ -195,22 +200,23 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 										<p>Devices</p>
 									</div>
 									<div className='flex h-full  flex-row gap-2 overflow-x-auto px-2 md:flex-wrap'>
-										{phone_templates.map((item) => (
-											<button
-												key={item.workspace.id}
-												onClick={() => setCurrent(item)}
-												className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
-											>
-												<img
-													className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-														current?.workspace.id === item.workspace.id
-															? 'border-primary shadow shadow-primary'
-															: 'border-base-300'
-													}`}
-													src={item.thumb}
-												></img>
-											</button>
-										))}
+										{devicesTemplates &&
+											devicesTemplates.map((item: any) => (
+												<button
+													key={item.workspace.id}
+													onClick={() => setCurrent(item)}
+													className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
+												>
+													<img
+														className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
+															current?.workspace.id === item.workspace.id
+																? 'border-primary shadow shadow-primary'
+																: 'border-base-300'
+														}`}
+														src={item.thumb}
+													></img>
+												</button>
+											))}
 									</div>
 								</div>
 							</div>
