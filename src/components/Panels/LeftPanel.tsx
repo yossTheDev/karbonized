@@ -259,7 +259,7 @@ export const LeftPanel: React.FC = () => {
 						</div>
 
 						{/* Footer */}
-						<span className='mx-auto mt-2 py-2 text-xs md:hidden'>
+						<span className='mx-auto mt-2 py-2 text-xs text-base-content/70 md:hidden'>
 							Made with 💙 and ReactJS by{' '}
 							<a className='link' href='https://github.com/yossthedev/'>
 								@yossthedev

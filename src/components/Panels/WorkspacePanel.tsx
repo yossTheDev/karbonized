@@ -365,7 +365,7 @@ export const WorkspacePanel: React.FC = () => {
 						<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
 							{Wallpapers.map((item) => (
 								<button
-									className={`mx-auto h-20 w-32 overflow-hidden rounded-2xl border-4 bg-base-100 transition-transform hover:shadow active:scale-90 ${
+									className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 bg-base-100 transition-transform hover:shadow active:scale-90 md:h-20 md:w-32 ${
 										currentWorkspace.textureName === item.id
 											? 'border-2 border-primary shadow-2xl'
 											: 'border-base-300'

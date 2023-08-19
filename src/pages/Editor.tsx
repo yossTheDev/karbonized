@@ -457,7 +457,7 @@ export const Editor: React.FC = () => {
 
 						{/* Controls */}
 						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:ml-2 md:w-fit'>
-							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-scroll rounded-2xl bg-base-100/90 p-2 md:mx-auto  md:my-auto md:flex-col  md:overflow-hidden  md:backdrop-blur-xl'>
+							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-auto rounded-2xl bg-base-100/90 p-2 md:mx-auto  md:my-auto md:flex-col  md:overflow-hidden  md:backdrop-blur-xl'>
 								{/* Tools */}
 								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0'>
 									{/* Actions */}

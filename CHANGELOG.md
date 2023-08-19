@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.5
+
+* feat: News Panel with App Updates
+
 ## v 1.11.4
 
 * fix: Wrong Data on Saving Projects

@@ -77,13 +77,13 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		<Portal node={document.getElementById('body')}>
 			<div className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/40 md:bg-base-300'>
 				<motion.div
-					animate={{ marginTop: '0rem' }}
+					animate={{ marginTop: isHorizontal ? '0rem' : 'auto' }}
 					initial={{ marginTop: '4rem' }}
 					className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2 md:h-full'
 				>
 					{/* News Panel */}
 					{isHorizontal && (
-						<div className='flex w-80'>
+						<div className='flex w-[30rem]'>
 							<NewsPanel></NewsPanel>
 						</div>
 					)}

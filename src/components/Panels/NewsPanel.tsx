@@ -18,6 +18,8 @@ export const NewsPanel: React.FC = () => {
 		try {
 			const resp = await fetch('https://karbon-apps.github.io/news/news.json');
 			setData((await resp.json()) || null);
+		} catch (err) {
+			console.log(err);
 		} finally {
 			setLoading(false);
 		}
@@ -27,10 +29,10 @@ export const NewsPanel: React.FC = () => {
 		handleFetch();
 	}, []);
 	return (
-		<div className='flex h-full w-[30rem] flex-col p-2'>
+		<div className='flex h-full w-full flex-col gap-1 p-2'>
 			{/* Header */}
 			<div className='flex w-full'>
-				<div className='mb-2 ml-2 flex w-fit gap-1 rounded-3xl bg-base-200 px-3 py-0.5 shadow'>
+				<div className='mb-2 flex w-fit gap-1 rounded-3xl bg-base-200 px-3 py-0.5 shadow md:ml-2'>
 					<IconBell className='my-auto'></IconBell>
 					<p className='borel-font mt-3 text-lg'>News</p>
 				</div>
