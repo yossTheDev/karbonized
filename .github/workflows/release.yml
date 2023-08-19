@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo snap install snapcraft --classic
-          sudo apt-get install libssl3-dev rpm
+          sudo apt-get install rpm
 
       - name: build-linux
         env:

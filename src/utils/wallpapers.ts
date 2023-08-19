@@ -44,3 +44,5 @@ export const Wallpapers = [
 	{ id: 'wallpaper13', img: wallpaper13, thumb: wallpaper13_thumb },
 	{ id: 'wallpaper14', img: wallpaper14, thumb: wallpaper14_thumb },
 ];
+
+export default Wallpapers;
