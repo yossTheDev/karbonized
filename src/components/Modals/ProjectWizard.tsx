@@ -25,6 +25,7 @@ import phone_template3 from '../../assets/templates/phone_template3.json';
 import phone_template4 from '../../assets/templates/phone_template4.json';
 import phone_template5 from '../../assets/templates/phone_template5.json';
 import phone_template6 from '../../assets/templates/phone_template6.json';
+import { useScreenDirection } from '../../hooks/useScreenDirection';
 
 const code_templates = [code_template1, code_template2];
 
@@ -52,6 +53,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	/* Component State */
 	const [current, setCurrent] = useState<any>(null);
+	const isHorizontal = useScreenDirection();
 
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
@@ -73,16 +75,18 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	return (
 		<Portal node={document.getElementById('body')}>
-			<motion.div
-				animate={{ marginTop: '0rem' }}
-				initial={{ marginTop: '4rem' }}
-				className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/30 md:bg-base-300'
-			>
-				<div className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2 md:h-full'>
+			<div className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/40 md:bg-base-300'>
+				<motion.div
+					animate={{ marginTop: '0rem' }}
+					initial={{ marginTop: '4rem' }}
+					className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2 md:h-full'
+				>
 					{/* News Panel */}
-					<div className='hidden w-80 md:flex'>
-						<NewsPanel></NewsPanel>
-					</div>
+					{isHorizontal && (
+						<div className='flex w-80'>
+							<NewsPanel></NewsPanel>
+						</div>
+					)}
 
 					{/* Templates */}
 					<div className='flex h-full w-full flex-auto flex-col overflow-hidden'>
@@ -222,8 +226,8 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 					</div>
-				</div>
-			</motion.div>
+				</motion.div>
+			</div>
 		</Portal>
 	);
 };
