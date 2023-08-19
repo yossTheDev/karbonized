@@ -1,15 +1,14 @@
 [
 	{
-		"title": "Breaking News",
-		"description": "Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum",
-		"link": "https://google.com",
-		"img": "side_image.jpg"
+		"title": "Wallpapers!!! 🎉",
+		"description": "New backgrounds for your designs",
+		"img": "wallpapers.png"
 	},
 
 	{
-		"title": "Breaking News 2",
-		"description": "Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum",
-		"link": "https://google.com",
-		"img": "side_image.jpg"
+		"title": "Mockups, Mockups, and More Mockups",
+		"description": "7 new devices for mockups, several improvements and new Editor features",
+		"link": "https://github.com/yossTheDev/karbonized",
+		"img": "mockups.png"
 	}
 ]

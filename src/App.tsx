@@ -126,7 +126,9 @@ const App: React.FC = () => {
 						)}
 
 						{!isElectron() && (
-							<div className='my-1 flex flex-row'>
+							<div
+								className={`my-1 ${showWizard ? 'hidden' : 'flex'} flex-row`}
+							>
 								<Suspense>
 									<svg
 										className='my-auto ml-2 flex h-6 w-6 fill-base-content dark:fill-white'
@@ -167,7 +169,7 @@ const App: React.FC = () => {
 						>
 							<div
 								className={`flex h-full w-full flex-auto ${
-									!showWizard ? 'flex' : 'hidden'
+									!showWizard ? 'flex' : 'flex'
 								}`}
 							>
 								<Suspense

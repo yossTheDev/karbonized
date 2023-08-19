@@ -1,6 +1,7 @@
 @font-face {
 	font-family: 'Poppins-Bold';
-	src: url('./fonts/Poppins-Bold.ttf') format('woff2'),
+	src:
+		url('./fonts/Poppins-Bold.ttf') format('woff2'),
 		url('./fonts/Poppins-Bold.ttf') format('woff');
 	font-weight: bold;
 	font-style: bold;
@@ -9,11 +10,28 @@
 
 @font-face {
 	font-family: 'Poppins-Regular';
-	src: url('./fonts/Poppins-Regular.ttf') format('woff2'),
+	src:
+		url('./fonts/Poppins-Regular.ttf') format('woff2'),
 		url('./fonts/Poppins-Regular.ttf') format('woff');
 	font-weight: bold;
 	font-style: bold;
 	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Borel-Regular';
+	src:
+		url('./fonts/Borel-Regular.ttf') format('woff2'),
+		url('./fonts/Borel-Regular.ttf') format('woff');
+	font-weight: bold;
+	font-style: bold;
+	font-display: swap;
+}
+
+.borel-font {
+	font-family: 'Borel-Regular';
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 .poppins-font-family {
@@ -31,7 +49,6 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
 
 #root {
 	font-family: 'Poppins-Regular';
