@@ -6,7 +6,35 @@ interface Props {
 	onClose?: Function;
 }
 
-const changelog = `
+const changelog = `# Changelog
+## v 1.11.5
+
+* feat: News Panel with App Updates
+
+## v 1.11.4
+
+* fix: Wrong Data on Saving Projects
+* fix: Missing Image on Blocks
+
+## v 1.11.3
+
+* feat: Background Images
+
+## v1.11.2
+
+* improve: Save as Template
+* fix: Save Transform Properties of Blocks
+
+## v 1.11.1
+
+* feat: Save Project as Template
+* improve: Add Device Thumbnails on PhoneBlock Device Selection Menu
+* improve: Project Wizard (Added more project templates and implement a new template system)
+
+## v 1.11.0
+
+* feat: New Devices Mockups
+
 ## v 1.10.3
 
 * Update App Icons on Desktop Platforms
