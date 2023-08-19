@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
+import default_logo from '../assets/logo.svg';
 
 export const useControlState = (
 	initialState: any,
@@ -7,12 +8,8 @@ export const useControlState = (
 	manual: boolean = false,
 ) => {
 	const controlState = useStoreState((state) => state.controlState);
-	const ControlsTree = useStoreState((state) => state.ControlsTree);
 	const ControlProperties = useStoreState((state) => state.ControlProperties);
 	const initialProperties = useStoreState((state) => state.initialProperties);
-	const addInitialProperty = useStoreActions(
-		(state) => state.addInitialProperty,
-	);
 	const removeInitialProperty = useStoreActions(
 		(state) => state.removeInitialProperty,
 	);
@@ -20,9 +17,6 @@ export const useControlState = (
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const addControlProperty = useStoreActions(
 		(state) => state.addControlProperty,
-	);
-	const setControlProperties = useStoreActions(
-		(state) => state.setControlProperties,
 	);
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
@@ -34,20 +28,22 @@ export const useControlState = (
 		return null;
 	};
 
-	const hasProperty = (id: string) => {
-		for (const item of ControlProperties) {
-			if (item.id === id) return item.value;
-		}
-		return null;
-	};
-
 	const [state, setState] = useState(initialState);
 
 	/* Set Initial Properties */
 	useEffect(() => {
 		const prop = hasInitialProperty(id);
 		if (prop) {
-			setState(prop);
+			if (
+				id.endsWith('-src') &&
+				(prop === '/src/assets/logo.svg' ||
+					prop === '/src/assets/karbonized.svg')
+			) {
+				setState(default_logo);
+			} else {
+				setState(prop);
+			}
+
 			removeInitialProperty(id);
 		}
 	}, [initialProperties]);

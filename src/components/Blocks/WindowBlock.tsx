@@ -11,11 +11,11 @@ import {
 	IconStar,
 	IconX,
 } from '@tabler/icons-react';
-import React, { useId, useState } from 'react';
+import React from 'react';
 import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import karbonized from '../../assets/karbonized.svg';
+import karbonized from '../../assets/logo.svg';
 import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useControlState } from '../../hooks/useControlState';
