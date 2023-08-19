@@ -2,6 +2,7 @@
 
 ## v 1.11.4
 
+* fix: Wrong Data on Saving Projects
 * fix: Missing Image on Blocks
 
 ## v 1.11.3
