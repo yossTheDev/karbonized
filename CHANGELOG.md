@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.6
+
+fix: Lazy Load Templates
+
 ## v 1.11.5
 
 * feat: News Panel with App Updates
