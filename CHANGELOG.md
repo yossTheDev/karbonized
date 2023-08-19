@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.4
+
+* fix: Missing Image on Blocks
+
 ## v 1.11.3
 
 * feat: Background Images
