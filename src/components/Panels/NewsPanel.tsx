@@ -2,6 +2,8 @@ import { IconBell, IconLink } from '@tabler/icons-react';
 import React from 'react';
 
 import mock from '../../../news/news.json';
+import { IconInfoCircle } from '@tabler/icons-react';
+import { isElectron } from '../../utils/isElectron';
 
 export const NewsPanel: React.FC = () => {
 	return (
@@ -43,6 +45,19 @@ export const NewsPanel: React.FC = () => {
 					</div>
 				))}
 			</div>
+
+			{isElectron() && (
+				<div className='flex gap-2 p-1 text-base-content/70'>
+					<IconInfoCircle></IconInfoCircle>
+					<p className='text-xs'>
+						Some of this information may refer to new version of the app.
+						Download the updates{' '}
+						<a href='https://github.com/karbonized/releases/' className='link'>
+							from here
+						</a>
+					</p>
+				</div>
+			)}
 		</div>
 	);
 };

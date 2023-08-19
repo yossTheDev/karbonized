@@ -93,9 +93,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								<p className='borel-font mt-4 text-lg'>Templates</p>
 							</div>
 
-							<div className='mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-2 rounded-full border-2 border-base-content px-4 py-0.5 shadow-sm dark:border-white dark:text-white  md:flex'>
+							<div className='mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-1 rounded-full border-2 border-base-content px-3 py-0.5 shadow-sm dark:border-white dark:text-white  md:flex'>
 								<svg
-									className='my-auto flex h-7 w-7 fill-base-content dark:fill-white'
+									className='my-auto flex h-6 w-6 fill-base-content dark:fill-white'
 									viewBox='0 0 451.31622 451.31616'
 									version='1.1'
 									xmlns='http://www.w3.org/2000/svg'
@@ -120,7 +120,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 										/>
 									</g>
 								</svg>
-								<p className='borel-font mt-4 text-lg'>Karbonized</p>
+								<p className='borel-font mt-4 text-base'>Karbonized</p>
 							</div>
 						</div>
 
@@ -129,7 +129,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								{/* Code Templates */}
 								<div className='flex h-fit w-full flex-col gap-2'>
 									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
-										<IconCode className='my-auto' size={20}></IconCode>
+										<IconCode className='my-auto' size={18}></IconCode>
 										<p>Code</p>
 									</div>
 									<div className='flex h-full flex-row gap-2 overflow-x-auto overflow-y-hidden  px-2 md:flex-wrap'>
@@ -157,7 +157,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
 										<IconAppWindow
 											className='my-auto'
-											size={20}
+											size={18}
 										></IconAppWindow>
 										<p>Browser</p>
 									</div>
@@ -186,7 +186,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
 										<IconDeviceIpad
 											className='my-auto'
-											size={20}
+											size={18}
 										></IconDeviceIpad>
 										<p>Devices</p>
 									</div>

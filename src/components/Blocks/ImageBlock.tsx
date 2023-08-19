@@ -3,7 +3,7 @@ import React, { useId, useState } from 'react';
 import { FileInput, Range } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import karbonized from '../../assets/karbonized.svg';
+import karbonized from '../../assets/logo.svg';
 import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
