@@ -35,8 +35,9 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo snap install snapcraft --classic
           sudo apt-get install rpm
+          sudo apt-get install --no-install-recommends -y bsdtar
+          sudo snap install snapcraft --classic
 
       - name: build-linux
         env:
