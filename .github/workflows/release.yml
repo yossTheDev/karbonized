@@ -35,7 +35,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install rpm libopenjp2-tools bsdtar
+          sudo apt-get install rpm libopenjp2-tools
           sudo snap install snapcraft --classic
 
       - name: build-linux
