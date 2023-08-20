@@ -29,7 +29,6 @@
 		"icon": "./src-electron/assets/icon.ico"
 	},
 	"linux": {
-		"icon": "./src-electron/assets/icon.png",
 		"target": ["AppImage", "snap", "deb", "rpm", "pacman"]
 	},
 	"nsis": {
