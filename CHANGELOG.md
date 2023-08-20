@@ -2,6 +2,7 @@
 
 ## v 1.11.6
 
+fix: Missing App Icon on Linux
 fix: Lazy Load Templates
 
 ## v 1.11.5
