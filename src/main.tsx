@@ -10,5 +10,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		<StoreProvider store={AppStore}>
 			<App />
 		</StoreProvider>
-	</React.StrictMode>
+	</React.StrictMode>,
 );
