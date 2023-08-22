@@ -2,7 +2,11 @@ import {
 	IconAppWindow,
 	IconCode,
 	IconDeviceIpad,
+	IconFileImport,
+	IconPlus,
+	IconShoppingCart,
 	IconStars,
+	IconUser,
 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -12,6 +16,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { NewsPanel } from '../Panels/NewsPanel';
 
 import { useScreenDirection } from '../../hooks/useScreenDirection';
+import { getRandomNumber } from '../../utils/getRandom';
 
 interface Props {
 	open: boolean;
@@ -43,6 +48,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const loadProject = useStoreActions((state) => state.loadProject);
 	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+	const addWorkspace = useStoreActions((state) => state.addWorkspace);
+	const setCurrentWorkspace = useStoreActions(
+		(state) => state.setCurrentWorkspace,
+	);
 
 	useEffect(() => {
 		const loadTemplates = async () => {
@@ -69,6 +78,13 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 		loadTemplates();
 	}, []);
+
+	const handleCreateProject = () => {
+		const num = getRandomNumber().toString();
+		addWorkspace(num);
+		setCurrentWorkspace(num);
+		setShowWizard(false);
+	};
 
 	const handleCreate = () => {
 		if (current) loadProject(current);
@@ -131,7 +147,59 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='flex flex-auto flex-col gap-3 overflow-hidden rounded-t-2xl bg-base-100 p-2 shadow-xl md:rounded-tl-2xl'>
+						<div className='flex flex-auto flex-col gap-3 overflow-hidden rounded-t-2xl bg-base-100 p-4 shadow-xl md:rounded-tl-2xl'>
+							{/* Actions */}
+							<div className='flex w-full gap-4'>
+								<button
+									onClick={handleCreateProject}
+									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
+								>
+									<div>
+										<IconPlus size={28} className='mx-auto my-auto'></IconPlus>
+										<p className='mt-2 text-xs'>New Project</p>
+									</div>
+								</button>
+
+								<button className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'>
+									<div>
+										<IconFileImport
+											size={28}
+											className='mx-auto my-auto'
+										></IconFileImport>
+										<p className='mt-2 text-xs'>Import Template</p>
+									</div>
+								</button>
+							</div>
+
+							<div className='mx-auto w-4/5 rounded-full bg-base-300/20 p-0.5'></div>
+
+							{/* Workspace  Background Type */}
+							<div className='mb-1 flex h-fit flex-row gap-3 rounded-2xl bg-base-300/60 p-3'>
+								<button
+									onClick={() => {}}
+									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${''}`}
+								>
+									<div className='mx-auto flex gap-2'>
+										<IconUser></IconUser>
+										<label className='mx-auto my-auto cursor-pointer'>
+											User
+										</label>
+									</div>
+								</button>
+
+								<button
+									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${''}`}
+									onClick={() => {}}
+								>
+									<div className='mx-auto flex gap-2'>
+										<IconShoppingCart></IconShoppingCart>
+										<label className='mx-auto my-auto cursor-pointer'>
+											Store
+										</label>
+									</div>
+								</button>
+							</div>
+
 							<div className='flex h-full w-full flex-col gap-4 overflow-auto'>
 								{/* Code Templates */}
 								<div className='flex h-fit w-full flex-col gap-2'>
@@ -222,7 +290,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 
 							{/* Actions */}
-							<div className='mt-auto flex flex-auto gap-2 p-1'>
+							<div className='mt-auto hidden flex-auto gap-2 p-1'>
 								<button
 									className='btn my-auto ml-auto rounded-3xl border-none bg-base-300 hover:bg-primary hover:text-white'
 									onClick={handleCreate}

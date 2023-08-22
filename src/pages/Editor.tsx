@@ -30,17 +30,14 @@ import React, {
 	useState,
 } from 'react';
 import { Button, Range } from 'react-daisyui';
-import '../App.css';
 import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { NavBarMobile } from '../components/Mobile/NavBarMobile';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useTheme } from '../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
-import '../utils.css';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
-import './Editor.css';
 
 const Workspace = React.lazy(() => import('../components/Workspace'));
 const StatusBar = React.lazy(() => import('../components/Base/StatusBar'));

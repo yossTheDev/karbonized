@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
+import { motion } from 'framer-motion';
 
 export const NewsPanel: React.FC = () => {
 	const [loading, setLoading] = useState(false);
@@ -49,7 +50,20 @@ export const NewsPanel: React.FC = () => {
 
 			<div className='flex h-full w-full flex-auto flex-col overflow-auto'>
 				{loading ? (
-					<span className='loading loading-spinner loading-xs mx-auto my-auto text-center' />
+					<motion.div
+						initial={{ opacity: '0' }}
+						animate={{ opacity: '100%' }}
+						className='mt-2 flex h-full w-full flex-col gap-4 overflow-hidden'
+					>
+						<div className='flex h-40 w-full animate-pulse rounded-2xl bg-slate-400/30 dark:bg-slate-400/10'></div>
+						<div className='flex h-8 w-80 animate-pulse rounded-2xl bg-slate-400/30 dark:bg-slate-400/10'></div>
+
+						<div className='flex h-40 w-full animate-pulse rounded-2xl bg-slate-400/30 dark:bg-slate-400/10'></div>
+						<div className='flex h-8 w-44 animate-pulse rounded-2xl bg-slate-400/30 dark:bg-slate-400/10'></div>
+
+						<div className='flex h-40 w-full animate-pulse rounded-2xl bg-slate-400/30 dark:bg-slate-400/10'></div>
+						<div className='flex h-8 w-64 animate-pulse rounded-2xl bg-slate-400/30 dark:bg-slate-400/10'></div>
+					</motion.div>
 				) : (
 					<>
 						{data ? (

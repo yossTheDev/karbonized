@@ -155,28 +155,36 @@ export const AppStore = createStore<AppStoreModel>({
 
 	/* Project System */
 	saveProject: computed((state) => {
-		const controls = state.currentWorkspace.controls.filter(
-			(item) => !item.isDeleted,
-		);
-
-		return {
-			controls: state.currentWorkspace.controls.filter(
+		if (state.currentWorkspace) {
+			const controls = state.currentWorkspace.controls.filter(
 				(item) => !item.isDeleted,
-			),
-			properties: state.ControlProperties.filter(
-				(item) =>
-					item.workspace === state.currentWorkspaceID &&
-					controls.find(
-						(i) => item.id.split('-')[0] + '-' + item.id.split('-')[1] === i.id,
-					),
-			),
-			workspace: {
-				...state.currentWorkspace,
+			);
+			return {
 				controls: state.currentWorkspace.controls.filter(
 					(item) => !item.isDeleted,
 				),
-			},
-		} as Project;
+				properties: state.ControlProperties.filter(
+					(item) =>
+						item.workspace === state.currentWorkspaceID &&
+						controls.find(
+							(i) =>
+								item.id.split('-')[0] + '-' + item.id.split('-')[1] === i.id,
+						),
+				),
+				workspace: {
+					...state.currentWorkspace,
+					controls: state.currentWorkspace.controls.filter(
+						(item) => !item.isDeleted,
+					),
+				},
+			} as Project;
+		} else {
+			return {
+				controls: [],
+				properties: [],
+				workspace: {},
+			} as unknown as Project;
+		}
 	}),
 
 	loadProject: action((state, project) => {
@@ -273,47 +281,52 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	/* Workspace System */
-	workspaces: [
-		{
-			id: '----',
-			controls: [],
-			workspaceColor: '#019091',
-			workspaceHeight: '512',
-			workspaceWidth: '512',
-			workspaceColorMode: 'Gradient',
-			workspaceName: 'Workspace 1',
-			workspaceType: 'color',
-			workspaceGradientSettings: {
-				color1: '#00B4DB',
-				color2: '#0083B0',
-				deg: 98,
-			},
-			textureName: 'grayrate',
-			textureColors: { color1: '#409ccf', color2: '#136179' },
-		},
-	],
+	workspaces: [],
 	currentWorkspaceID: '----',
 	addWorkspace: action((state, payload) => {
-		state.workspaces = [
-			...state.workspaces,
-			{
-				id: getRandomNumber().toString(),
-				controls: [],
-				workspaceColor: '#019091',
-				workspaceHeight: '512',
-				workspaceWidth: '512',
-				workspaceColorMode: 'Gradient',
-				workspaceName: 'Workspace ' + (state.workspaces.length + 1),
-				workspaceType: 'color',
-				workspaceGradientSettings: {
-					color1: '#00B4DB',
-					color2: '#0083B0',
-					deg: 98,
+		if (payload === '') {
+			state.workspaces = [
+				...state.workspaces,
+				{
+					id: getRandomNumber().toString(),
+					controls: [],
+					workspaceColor: '#019091',
+					workspaceHeight: '512',
+					workspaceWidth: '512',
+					workspaceColorMode: 'Gradient',
+					workspaceName: 'Workspace ' + (state.workspaces.length + 1),
+					workspaceType: 'color',
+					workspaceGradientSettings: {
+						color1: '#00B4DB',
+						color2: '#0083B0',
+						deg: 98,
+					},
+					textureName: 'grayrate',
+					textureColors: { color1: '#409ccf', color2: '#136179' },
 				},
-				textureName: 'grayrate',
-				textureColors: { color1: '#409ccf', color2: '#136179' },
-			},
-		];
+			];
+		} else {
+			state.workspaces = [
+				...state.workspaces,
+				{
+					id: payload,
+					controls: [],
+					workspaceColor: '#019091',
+					workspaceHeight: '512',
+					workspaceWidth: '512',
+					workspaceColorMode: 'Gradient',
+					workspaceName: 'Workspace ' + (state.workspaces.length + 1),
+					workspaceType: 'color',
+					workspaceGradientSettings: {
+						color1: '#00B4DB',
+						color2: '#0083B0',
+						deg: 98,
+					},
+					textureName: 'grayrate',
+					textureColors: { color1: '#409ccf', color2: '#136179' },
+				},
+			];
+		}
 	}),
 	setCurrentWorkspace: action((state, payload) => {
 		state.currentWorkspaceID = payload;
@@ -421,7 +434,7 @@ export const AppStore = createStore<AppStoreModel>({
 	controlsClass: computed((state) => {
 		const controlsClass: string[] = [];
 
-		state.currentWorkspace.controls.forEach((item) => {
+		state.currentWorkspace?.controls.forEach((item) => {
 			if (item.id !== state.currentControlID)
 				controlsClass.push('.block-' + item.id);
 		});
@@ -430,7 +443,7 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	visibleControls: computed((state) => {
-		return state.currentWorkspace.controls.filter((item) => !item.isDeleted);
+		return state.currentWorkspace?.controls?.filter((item) => !item.isDeleted);
 	}),
 
 	/* History System */

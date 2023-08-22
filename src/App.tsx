@@ -3,6 +3,9 @@ import { AppContext } from './AppContext';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { useTheme } from './hooks/useTheme';
 import { isElectron } from './utils/isElectron';
+import { useStoreState } from './stores/Hooks';
+import './utils.css';
+import './App.css';
 
 const Editor = React.lazy(() => import('./pages/Editor'));
 const TitleBar = React.lazy(() => import('./components/Base/TitleBar'));
@@ -13,6 +16,7 @@ const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 	let viewerRef = useRef(null);
 	const [showWizard, setShowWizard] = useState(true);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	return (
 		<AppContext.Provider
@@ -177,7 +181,7 @@ const App: React.FC = () => {
 										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
 									}
 								>
-									<Editor></Editor>
+									{currentWorkspace && <Editor></Editor>}
 								</Suspense>
 							</div>
 						</div>
@@ -193,6 +197,7 @@ const App: React.FC = () => {
 							}
 						>
 							<Editor></Editor>
+							{currentWorkspace && <Editor></Editor>}
 						</Suspense>
 					</div>
 				)}
