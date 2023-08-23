@@ -17,7 +17,7 @@ import { getRandomNumber } from '../../utils/getRandom';
 import { Media } from '@capacitor-community/media';
 import { AppContext } from '../../AppContext';
 
-const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
+const ProjectWizard = React.lazy(() => import('../../pages/ProjectWizard'));
 
 export const SettingsButton: React.FC = () => {
 	const { showWizard, setShowWizard } = useContext(AppContext);

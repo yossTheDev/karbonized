@@ -7,7 +7,7 @@ import { useStoreState } from './stores/Hooks';
 import './utils.css';
 import './App.css';
 import { NavBarMobile } from './components/Mobile/NavBarMobileEditor';
-import ProjectWizard from './components/Modals/ProjectWizard';
+import ProjectWizard from './pages/ProjectWizard';
 
 const Editor = React.lazy(() => import('./pages/Editor'));
 const TitleBar = React.lazy(() => import('./components/Base/TitleBar'));

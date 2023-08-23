@@ -11,13 +11,15 @@ import {
 import { motion } from 'framer-motion';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Portal } from 'react-portal';
-import { AppContext } from '../../AppContext';
-import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { getRandomNumber } from '../../utils/getRandom';
-import { NewsPanel } from '../Panels/NewsPanel';
+import { AppContext } from '../AppContext';
+import { useScreenDirection } from '../hooks/useScreenDirection';
+import { useStoreActions, useStoreState } from '../stores/Hooks';
+import { getRandomNumber } from '../utils/getRandom';
+import { NewsPanel } from '../components/Panels/NewsPanel';
 
-const NavBarMobile = React.lazy(() => import('../Mobile/NavBarMobile'));
+const NavBarMobile = React.lazy(
+	() => import('../components/Mobile/NavBarMobile'),
+);
 
 interface Props {
 	open: boolean;
@@ -57,23 +59,23 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	useEffect(() => {
 		const loadTemplates = async () => {
 			setCodeTemplates([
-				(await import('../../assets/templates/code_template1.json')).default,
-				(await import('../../assets/templates/code_template2.json')).default,
+				(await import('../assets/templates/code_template1.json')).default,
+				(await import('../assets/templates/code_template2.json')).default,
 			]);
 
 			setDevicesTemplates([
-				(await import('../../assets/templates/phone_template1.json')).default,
-				(await import('../../assets/templates/phone_template2.json')).default,
-				(await import('../../assets/templates/phone_template3.json')).default,
-				(await import('../../assets/templates/phone_template4.json')).default,
-				(await import('../../assets/templates/phone_template5.json')).default,
-				(await import('../../assets/templates/phone_template6.json')).default,
+				(await import('../assets/templates/phone_template1.json')).default,
+				(await import('../assets/templates/phone_template2.json')).default,
+				(await import('../assets/templates/phone_template3.json')).default,
+				(await import('../assets/templates/phone_template4.json')).default,
+				(await import('../assets/templates/phone_template5.json')).default,
+				(await import('../assets/templates/phone_template6.json')).default,
 			]);
 
 			setWindowsTemplates([
-				(await import('../../assets/templates/window_template1.json')).default,
-				(await import('../../assets/templates/window_template2.json')).default,
-				(await import('../../assets/templates/window_template3.json')).default,
+				(await import('../assets/templates/window_template1.json')).default,
+				(await import('../assets/templates/window_template2.json')).default,
+				(await import('../assets/templates/window_template3.json')).default,
 			]);
 		};
 

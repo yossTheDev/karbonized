@@ -43,7 +43,7 @@ const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
 const ChangelogModal = React.lazy(() => import('../Modals/ChangelogModal'));
 const DonationsModal = React.lazy(() => import('../Modals/DonationsModal'));
 const PreviewModal = React.lazy(() => import('../Modals/PreviewModal'));
-const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
+const ProjectWizard = React.lazy(() => import('../../pages/ProjectWizard'));
 
 export const MenuBar: React.FC = () => {
 	/* App Context */
