@@ -23,6 +23,42 @@ interface SizeItem {
 	width: number;
 }
 
+const Gradients = [
+	{ c1: '#ff9a9e', c2: '#fad0c4' },
+	{ c1: '#a18cd1', c2: '#fbc2eb' },
+	{ c1: '#fad0c4', c2: '#ffd1ff' },
+	{ c1: '#ffecd2', c2: '#fcb69f' },
+	{ c1: '#fe9698', c2: '#fecfef' },
+	{ c1: '#f6d365', c2: '#fda085' },
+	{ c1: '#fbc2eb', c2: '#a6c1ee' },
+	{ c1: '#a1c4fd', c2: '#c2e9fb' },
+	{ c1: '#d4fc79', c2: '#96a6a1' },
+	{ c1: '#84fab0', c2: '#8fd3f4' },
+	{ c1: '#a6c0fe', c2: '#f68084' },
+	{ c1: '#fccb90', c2: '#d57eeb' },
+	{ c1: '#e0c3fc', c2: '#8ec5fc' },
+	{ c1: '#f093fb', c2: '#f5576c' },
+	{ c1: '#43e97b', c2: '#38f9d8' },
+	{ c1: '#fa709a', c2: '#fee140' },
+	{ c1: '#30cfd0', c2: '#330867' },
+	{ c1: '#a8edea', c2: '#fed6e3' },
+	{ c1: '#5ee7df', c2: '#b490ca' },
+	{ c1: '#d299c2', c2: '#fef9d7' },
+	{ c1: '#667eea', c2: '#764ba2' },
+	{ c1: '#89f7fe', c2: '#66a6ff' },
+	{ c1: '#fddb92', c2: '#d1fdff' },
+	{ c1: '#9890e3', c2: '#b1f4cf' },
+	{ c1: '#96fbc4', c2: '#f9f586' },
+	{ c1: '#2af958', c2: '#009efd' },
+	{ c1: '#37ecba', c2: '#72afd3' },
+	{ c1: '#fff1eb', c2: '#ace0f9' },
+	{ c1: '#c471f5', c2: '#fa71cd' },
+	{ c1: '#0ba360', c2: '#3cba92' },
+	{ c1: '#0250c5', c2: '#d43f8d' },
+	{ c1: '#ff0844', c2: '#ffb199' },
+	{ c1: '#92fe9d', c2: '#00c9ff' },
+];
+
 const Sizes: SizeItem[] = [
 	{ label: 'Default', width: 512, height: 512 },
 	{ label: 'Ultra HD', width: 3840, height: 2160 },
@@ -159,7 +195,7 @@ export const WorkspacePanel: React.FC = () => {
 					</>
 				</CustomCollapse>
 
-				{/* Background Color */}
+				{/* Background Type */}
 				<CustomCollapse
 					isOpen
 					menu={
@@ -169,13 +205,13 @@ export const WorkspacePanel: React.FC = () => {
 						</div>
 					}
 				>
-					{/* Workspace  Background Type */}
+					{/* Workspace Background Type Selectors */}
 					<div className='mb-1 flex h-fit flex-row gap-2 rounded-2xl bg-base-300/60 p-2'>
 						<button
 							onClick={() => {
 								setWorkspaceType('color');
 							}}
-							className={`flex h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+							className={`flex h-8 w-fit shrink-0 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
 								currentWorkspace.workspaceType === 'color' && 'bg-base-300'
 							}`}
 						>
@@ -183,7 +219,7 @@ export const WorkspacePanel: React.FC = () => {
 						</button>
 
 						<button
-							className={`flex  h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+							className={`flex h-8  w-fit shrink-0 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
 								currentWorkspace.workspaceType === 'texture' && 'bg-base-300'
 							}`}
 							onClick={() => {
@@ -194,7 +230,7 @@ export const WorkspacePanel: React.FC = () => {
 						</button>
 
 						<button
-							className={`flex  h-8 w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+							className={`flex h-8  w-fit shrink-0 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
 								currentWorkspace.workspaceType === 'image' && 'bg-base-300'
 							}`}
 							onClick={() => {
@@ -381,34 +417,7 @@ export const WorkspacePanel: React.FC = () => {
 						</div>
 					)}
 
-					{/* Color or Gradient */}
-					{currentWorkspace.workspaceType === 'color' && (
-						<ColorPicker
-							type='HexAlpha'
-							colorGradient1={currentWorkspace.workspaceGradientSettings.color1}
-							colorGradient2={currentWorkspace.workspaceGradientSettings.color2}
-							gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
-							onGradientChange={(color: any, color2: any) => {
-								setWorkspaceGradient({
-									color1: color,
-									color2: color2,
-									deg: currentWorkspace.workspaceGradientSettings.deg,
-								});
-							}}
-							onGradientDegChange={(deg) => {
-								setWorkspaceGradient({
-									color1: currentWorkspace.workspaceGradientSettings.color1,
-									color2: currentWorkspace.workspaceGradientSettings.color2,
-									deg: deg,
-								});
-							}}
-							onModeChange={(mode) => setWorkspaceColorMode(mode)}
-							mode={currentWorkspace.workspaceColorMode}
-							color={currentWorkspace.workspaceColor}
-							onColorChange={setWorkspaceColor}
-						></ColorPicker>
-					)}
-
+					{/* Select Shape */}
 					{currentWorkspace.workspaceType === 'texture' && (
 						<ColorPicker
 							type='HexAlpha'
@@ -425,7 +434,64 @@ export const WorkspacePanel: React.FC = () => {
 							onColorChange={() => {}}
 						></ColorPicker>
 					)}
-					{/* Select Shape */}
+
+					{/* Gradients */}
+					{currentWorkspace.workspaceType === 'color' && (
+						<>
+							<div className='flex h-full flex-auto flex-row flex-wrap gap-2 overflow-auto '>
+								{Gradients.map((item) => (
+									<button
+										className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 transition-transform hover:bg-gradient-to-bl hover:shadow active:scale-90 md:h-16 md:w-20 ${
+											currentWorkspace.workspaceGradientSettings.color1 ===
+											item.c1
+												? 'border-2 border-primary shadow-2xl'
+												: 'border-base-300'
+										}`}
+										style={{
+											background: `linear-gradient(${item.c1},${item.c2})`,
+										}}
+										onClick={() => {
+											setWorkspaceColorMode('Gradient');
+											setWorkspaceGradient({
+												color1: item.c1,
+												color2: item.c2,
+												deg: currentWorkspace.workspaceGradientSettings.deg,
+											});
+										}}
+									></button>
+								))}
+							</div>
+
+							<ColorPicker
+								type='HexAlpha'
+								colorGradient1={
+									currentWorkspace.workspaceGradientSettings.color1
+								}
+								colorGradient2={
+									currentWorkspace.workspaceGradientSettings.color2
+								}
+								gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
+								onGradientChange={(color: any, color2: any) => {
+									setWorkspaceGradient({
+										color1: color,
+										color2: color2,
+										deg: currentWorkspace.workspaceGradientSettings.deg,
+									});
+								}}
+								onGradientDegChange={(deg) => {
+									setWorkspaceGradient({
+										color1: currentWorkspace.workspaceGradientSettings.color1,
+										color2: currentWorkspace.workspaceGradientSettings.color2,
+										deg: deg,
+									});
+								}}
+								onModeChange={(mode) => setWorkspaceColorMode(mode)}
+								mode={currentWorkspace.workspaceColorMode}
+								color={currentWorkspace.workspaceColor}
+								onColorChange={setWorkspaceColor}
+							></ColorPicker>
+						</>
+					)}
 				</CustomCollapse>
 			</div>
 		</>
