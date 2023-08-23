@@ -9,8 +9,6 @@ import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { motion } from 'framer-motion';
 
-import mock from '../../../news/news.json';
-
 export const NewsPanel: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState<any>(null);

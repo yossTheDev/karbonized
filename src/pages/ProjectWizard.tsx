@@ -12,10 +12,10 @@ import { motion } from 'framer-motion';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Portal } from 'react-portal';
 import { AppContext } from '../AppContext';
+import { NewsPanel } from '../components/Panels/NewsPanel';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
-import { NewsPanel } from '../components/Panels/NewsPanel';
 
 const NavBarMobile = React.lazy(
 	() => import('../components/Mobile/NavBarMobile'),
@@ -112,7 +112,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					)}
 
 					{/* Templates */}
-					<div className='flex h-full w-full flex-auto flex-col overflow-hidden bg-base-100 md:bg-transparent'>
+					<div className='flex h-full w-full flex-auto flex-col overflow-hidden bg-base-100 md:rounded-tl-3xl md:shadow-xl'>
 						{/* Header */}
 						<div className='hidden h-fit w-full md:flex'>
 							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0 md:bg-base-100'>
@@ -151,7 +151,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='flex flex-auto flex-col gap-3 overflow-hidden bg-base-100 p-4 shadow-xl md:rounded-tl-2xl'>
+						<div className='flex flex-auto flex-col gap-3 overflow-hidden bg-base-100 p-4'>
 							{/* Actions */}
 							<div className='flex w-full gap-4'>
 								<button
