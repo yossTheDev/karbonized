@@ -36,7 +36,7 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						{/* Border Settings */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconBorderStyle size={22}></IconBorderStyle>
 									<p className='my-auto font-bold'>Borders</p>
 								</div>
@@ -62,7 +62,7 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconPhoto></IconPhoto>
 									<p className='my-auto'>Image</p>
 								</div>

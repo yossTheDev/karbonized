@@ -137,7 +137,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						{/* Border  */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconBorderStyle size={22}></IconBorderStyle>
 									<p className='my-auto font-bold'>Borders</p>
 								</div>
@@ -163,7 +163,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2 '>
+								<div className='flex flex-row gap-2 '>
 									<IconCode size={22}></IconCode>
 									<p className='my-auto font-bold'>Code</p>
 								</div>
@@ -221,7 +221,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						{/* Window Settings */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2 '>
+								<div className='flex flex-row gap-2 '>
 									<IconAppWindow size={22}></IconAppWindow>
 									<p className='my-auto font-bold'>Window</p>
 								</div>
@@ -278,7 +278,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						{/* Other Options */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconDots size={22}></IconDots>
 									<p className='my-auto font-bold'>Other Options</p>
 								</div>

@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+import React from 'react';
 import { FileInput, Input } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
@@ -32,8 +32,8 @@ export const BadgeBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
-									<div className='my-auto h-2 w-4 rounded-full border-2 border-gray-400'></div>
+								<div className='flex flex-row gap-2'>
+									<div className='my-auto h-2 w-4 rounded-full border-2 border-base-content'></div>
 									<p className='my-auto'>Badge</p>
 								</div>
 							}

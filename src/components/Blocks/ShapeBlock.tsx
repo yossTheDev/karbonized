@@ -58,7 +58,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconHexagon></IconHexagon>
 									<p className='my-auto'>Shapes</p>
 								</div>

@@ -41,7 +41,7 @@ export const QrControl: React.FC<Props> = ({ id }) => {
 						{/* Colors Settings */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconPalette size={22}></IconPalette>
 									<p className='my-auto font-bold'>Colors</p>
 								</div>
@@ -68,7 +68,7 @@ export const QrControl: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconQrcode></IconQrcode>
 									<p className='my-auto'>QR Settings</p>
 								</div>

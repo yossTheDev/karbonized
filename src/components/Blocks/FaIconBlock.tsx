@@ -49,7 +49,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconSticker className='text-xl dark:text-gray-400'></IconSticker>
 									<p className='my-auto'>Icon</p>
 								</div>

@@ -651,6 +651,7 @@ export const Editor: React.FC = () => {
 								{/* Others */}
 
 								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0 '>
+									{/* QR Code */}
 									<Tooltip className='flex flex-auto ' message='Qr Code'>
 										<Button
 											className='flex flex-auto rounded-2xl p-1'
@@ -712,7 +713,7 @@ export const Editor: React.FC = () => {
 												})
 											}
 										>
-											<div className='h-2 w-4 rounded-full border-2 border-black dark:border-white'></div>
+											<div className='h-2 w-4 rounded-full border-2 border-base-content'></div>
 										</Button>
 									</Tooltip>
 

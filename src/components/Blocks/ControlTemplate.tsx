@@ -448,7 +448,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{/* Position */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconHierarchy size={22}></IconHierarchy>
 									<p className='my-auto font-bold'>Position</p>
 								</div>
@@ -684,7 +684,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{shadowEditable && (
 							<CustomCollapse
 								menu={
-									<div className='m-2 flex flex-row gap-2'>
+									<div className='flex flex-row gap-2'>
 										<IconShadow size={22}></IconShadow>
 										<p className='my-auto font-bold'>Shadow</p>
 									</div>
@@ -750,7 +750,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{borderEditable && (
 							<CustomCollapse
 								menu={
-									<div className='m-2 flex flex-row gap-2'>
+									<div className='flex flex-row gap-2'>
 										<IconBorderStyle size={22}></IconBorderStyle>
 										<p className='my-auto font-bold'>Borders</p>
 									</div>
@@ -777,7 +777,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{maskEditable && (
 							<CustomCollapse
 								menu={
-									<div className='m-2 flex flex-row gap-2'>
+									<div className='flex flex-row gap-2'>
 										<IconMask size={22}></IconMask>
 										<p className='my-auto font-bold'>Mask</p>
 									</div>
@@ -817,7 +817,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{/* Filters */}
 						<CustomCollapse
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconColorFilter size={22}></IconColorFilter>
 									<p className='my-auto font-bold'>Filters</p>
 								</div>

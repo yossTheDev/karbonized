@@ -125,7 +125,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						{template === 'adaptive' && (
 							<CustomCollapse
 								menu={
-									<div className='m-2 flex flex-row gap-2'>
+									<div className='flex flex-row gap-2'>
 										<IconBorderStyle></IconBorderStyle>
 										<p className='my-auto'>Borders</p>
 									</div>
@@ -165,7 +165,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						{template === 'adaptive' && (
 							<CustomCollapse
 								menu={
-									<div className='m-2 flex flex-row gap-2'>
+									<div className='flex flex-row gap-2'>
 										<IconPalette size={22}></IconPalette>
 										<p className='my-auto font-bold'>Colors</p>
 									</div>
@@ -201,7 +201,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconDeviceMobile></IconDeviceMobile>
 									<p className='my-auto'>Phone Mockup</p>
 								</div>

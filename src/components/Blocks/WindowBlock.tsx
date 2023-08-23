@@ -62,7 +62,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconAppWindow></IconAppWindow>
 									<p className='my-auto'>Window</p>
 								</div>

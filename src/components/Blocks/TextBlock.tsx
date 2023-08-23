@@ -39,7 +39,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
+								<div className='flex flex-row gap-2'>
 									<IconLetterT></IconLetterT>
 									<p className='my-auto'>Text</p>
 								</div>

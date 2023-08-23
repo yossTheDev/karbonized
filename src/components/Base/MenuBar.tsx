@@ -116,7 +116,7 @@ export const MenuBar: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
-	}, []);
+	}, [workspaces]);
 
 	const exportImage = (type: export_format) => {
 		ExportImage(
