@@ -84,10 +84,10 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			onClickBackdrop={() => {
 				onClose && onClose();
 			}}
-			className='max-h-fit overflow-hidden bg-base-300'
+			className='max-h-fit overflow-hidden'
 		>
 			<Modal.Header className='flex flex-row font-bold dark:text-white'>
-				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-200/75 p-2'>
+				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-300/75 px-3 py-2'>
 					<img className='h-10' src={karbonized}></img>
 					<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
 						Export
@@ -99,14 +99,14 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 					onClick={() => {
 						onClose && onClose();
 					}}
-					className='ml-auto'
+					className='ml-auto bg-base-300/75'
 				>
 					<IconX></IconX>
 				</Button>
 			</Modal.Header>
 
 			<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-				<div className='mx-auto my-auto w-96  rounded-2xl bg-base-200/70 p-4 shadow-inner'>
+				<div className='mx-auto my-auto w-96  rounded-2xl bg-base-300/75 p-4 shadow-inner'>
 					{previewImage !== '' ? (
 						<TransformWrapper>
 							<TransformComponent>
