@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.7
+
+feat: Add a set of predefined gradients for background
+
 ## v 1.11.6
 
 fix: Missing App Icon on Linux
