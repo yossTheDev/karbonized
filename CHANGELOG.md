@@ -3,6 +3,7 @@
 ## v 1.11.7
 
 feat: Add a set of predefined gradients for background
+fix: Change Background Color of Modals for better Consistency
 
 ## v 1.11.6
 
