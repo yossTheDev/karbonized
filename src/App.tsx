@@ -6,6 +6,8 @@ import { isElectron } from './utils/isElectron';
 import { useStoreState } from './stores/Hooks';
 import './utils.css';
 import './App.css';
+import { NavBarMobile } from './components/Mobile/NavBarMobileEditor';
+import ProjectWizard from './components/Modals/ProjectWizard';
 
 const Editor = React.lazy(() => import('./pages/Editor'));
 const TitleBar = React.lazy(() => import('./components/Base/TitleBar'));
@@ -171,11 +173,7 @@ const App: React.FC = () => {
 							className='relative flex h-full w-full flex-auto overflow-hidden'
 							id='body'
 						>
-							<div
-								className={`flex h-full w-full flex-auto ${
-									!showWizard ? 'flex' : 'flex'
-								}`}
-							>
+							<div className={`flex h-full w-full flex-auto`}>
 								<Suspense
 									fallback={
 										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
@@ -188,7 +186,7 @@ const App: React.FC = () => {
 					</>
 				) : (
 					<div
-						className='relative flex h-full w-full flex-auto overflow-hidden'
+						className='relative flex h-full w-full flex-auto flex-col overflow-hidden'
 						id='body'
 					>
 						<Suspense
@@ -196,8 +194,8 @@ const App: React.FC = () => {
 								<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
 							}
 						>
-							<Editor></Editor>
 							{currentWorkspace && <Editor></Editor>}
+							{showWizard && <ProjectWizard open={showWizard}></ProjectWizard>}
 						</Suspense>
 					</div>
 				)}

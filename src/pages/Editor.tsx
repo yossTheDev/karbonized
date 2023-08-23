@@ -32,7 +32,7 @@ import React, {
 import { Button, Range } from 'react-daisyui';
 import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
-import { NavBarMobile } from '../components/Mobile/NavBarMobile';
+import { NavBarMobile } from '../components/Mobile/NavBarMobileEditor';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useTheme } from '../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../stores/Hooks';

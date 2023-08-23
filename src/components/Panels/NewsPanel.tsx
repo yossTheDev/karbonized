@@ -9,6 +9,8 @@ import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { motion } from 'framer-motion';
 
+import mock from '../../../news/news.json';
+
 export const NewsPanel: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState<any>(null);
@@ -48,7 +50,7 @@ export const NewsPanel: React.FC = () => {
 				</Tooltip>
 			</div>
 
-			<div className='flex h-full w-full flex-auto flex-col overflow-auto'>
+			<div className='flex h-full w-full flex-auto flex-col gap-2 overflow-auto'>
 				{loading ? (
 					<motion.div
 						initial={{ opacity: '0' }}
@@ -69,7 +71,7 @@ export const NewsPanel: React.FC = () => {
 						{data ? (
 							<>
 								{data.map((item: any, index: any) => (
-									<div key={item.title} className='gap-2 bg-base-300 p-2'>
+									<div key={item.title} className='gap-2 p-2'>
 										<img
 											className='flex rounded-2xl'
 											src={

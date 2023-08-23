@@ -12,11 +12,12 @@ import { motion } from 'framer-motion';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Portal } from 'react-portal';
 import { AppContext } from '../../AppContext';
+import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { getRandomNumber } from '../../utils/getRandom';
 import { NewsPanel } from '../Panels/NewsPanel';
 
-import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { getRandomNumber } from '../../utils/getRandom';
+const NavBarMobile = React.lazy(() => import('../Mobile/NavBarMobile'));
 
 interface Props {
 	open: boolean;
@@ -95,10 +96,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	return (
 		<Portal node={document.getElementById('body')}>
 			<div className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/40 md:bg-base-300'>
+				{!isHorizontal && <NavBarMobile></NavBarMobile>}
 				<motion.div
-					animate={{ marginTop: isHorizontal ? '0rem' : 'auto' }}
-					initial={{ marginTop: '4rem' }}
-					className='mt-auto flex h-5/6 select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2 md:h-full'
+					animate={{ marginTop: '0rem' }}
+					initial={{ marginTop: isHorizontal ? '4rem' : '0rem' }}
+					className='mt-auto flex  h-full select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2'
 				>
 					{/* News Panel */}
 					{isHorizontal && (
@@ -108,9 +110,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					)}
 
 					{/* Templates */}
-					<div className='flex h-full w-full flex-auto flex-col overflow-hidden'>
+					<div className='flex h-full w-full flex-auto flex-col overflow-hidden bg-base-100 md:bg-transparent'>
 						{/* Header */}
-						<div className='flex h-fit w-full'>
+						<div className='hidden h-fit w-full md:flex'>
 							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0 md:bg-base-100'>
 								<IconStars size={20} className='my-auto'></IconStars>
 								<p className='borel-font mt-4 text-lg'>Templates</p>
@@ -147,7 +149,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='flex flex-auto flex-col gap-3 overflow-hidden rounded-t-2xl bg-base-100 p-4 shadow-xl md:rounded-tl-2xl'>
+						<div className='flex flex-auto flex-col gap-3 overflow-hidden bg-base-100 p-4 shadow-xl md:rounded-tl-2xl'>
 							{/* Actions */}
 							<div className='flex w-full gap-4'>
 								<button
@@ -160,7 +162,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									</div>
 								</button>
 
-								<button className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'>
+								<button className='btn btn-lg hidden h-28 rounded-2xl bg-base-300 p-4 md:block'>
 									<div>
 										<IconFileImport
 											size={28}

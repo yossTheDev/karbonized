@@ -5,7 +5,6 @@ import { Toast } from '@capacitor/toast';
 import {
 	IconDotsVertical,
 	IconDownload,
-	IconInfoCircle,
 	IconPhoto,
 	IconPlus,
 	IconShare,
@@ -18,12 +17,10 @@ import { getRandomNumber } from '../../utils/getRandom';
 import { Media } from '@capacitor-community/media';
 import { AppContext } from '../../AppContext';
 
-const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
 const ProjectWizard = React.lazy(() => import('../Modals/ProjectWizard'));
 
-export const HomeButton: React.FC = () => {
+export const SettingsButton: React.FC = () => {
 	const { showWizard, setShowWizard } = useContext(AppContext);
-	const [showAbout, setShowAbout] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	const handleShare = async () => {
@@ -161,22 +158,9 @@ export const HomeButton: React.FC = () => {
 							<label className='cursor-pointer'>Save To Gallery</label>
 						</Dropdown.Item>
 					)}
-
-					<Dropdown.Item onClick={() => setShowAbout(true)}>
-						<IconInfoCircle></IconInfoCircle>
-						<label className='cursor-pointer'>About</label>
-					</Dropdown.Item>
 				</Dropdown.Menu>
 			</Dropdown>
 
-			{showAbout && (
-				<Suspense>
-					<AboutModal
-						onClose={() => setShowAbout(false)}
-						open={showAbout}
-					></AboutModal>
-				</Suspense>
-			)}
 			{showWizard && (
 				<Portal>
 					<Suspense>
@@ -197,4 +181,4 @@ export const HomeButton: React.FC = () => {
 	);
 };
 
-export default HomeButton;
+export default SettingsButton;

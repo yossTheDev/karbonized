@@ -441,7 +441,7 @@ export const WorkspacePanel: React.FC = () => {
 							<div className='flex h-full flex-auto flex-row flex-wrap gap-2 overflow-auto '>
 								{Gradients.map((item) => (
 									<button
-										className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 transition-transform hover:bg-gradient-to-bl hover:shadow active:scale-90 md:h-16 md:w-20 ${
+										className={`mx-auto h-16 w-16 overflow-hidden rounded-2xl border-4 transition-transform hover:bg-gradient-to-bl hover:shadow active:scale-90 md:h-16 md:w-20 ${
 											currentWorkspace.workspaceGradientSettings.color1 ===
 											item.c1
 												? 'border-2 border-primary shadow-2xl'
