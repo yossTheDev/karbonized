@@ -1,21 +1,26 @@
 import {
-	IconAppWindow,
-	IconCode,
-	IconDeviceIpad,
+	IconDownload,
 	IconFileImport,
 	IconPlus,
-	IconShoppingCart,
+	IconSearch,
 	IconStars,
 	IconUser,
+	IconUsersGroup,
+	IconX,
 } from '@tabler/icons-react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import * as localforage from 'localforage';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Input, Select } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { AppContext } from '../AppContext';
 import { NewsPanel } from '../components/Panels/NewsPanel';
+import { CustomPortal } from '../components/Portal';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
+
+const TEMPLATE_SYSTEM_ROOT = ' http://localhost:4000/';
 
 const NavBarMobile = React.lazy(
 	() => import('../components/Mobile/NavBarMobile'),
@@ -33,9 +38,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const { setShowWizard } = useContext(AppContext);
 
 	/* Component State */
-	const [codeTemplates, setCodeTemplates] = useState<any>(null);
-	const [devicesTemplates, setDevicesTemplates] = useState<any>(null);
-	const [windowsTemplates, setWindowsTemplates] = useState<any>(null);
+	const [templateType, setTemplateType] = useState<'user' | 'community'>(
+		'user',
+	);
+
+	const [userTemplates, setUserTemplates] = useState<any>([]);
+	const [loadingUserTemplates, setLoadingUserTemplates] = useState(true);
+	const [communityTemplates, setCommunityTemplates] = useState<any>(null);
+	const [communityTemplateType, setCommunityTemplateType] = useState('code');
 
 	const [current, setCurrent] = useState<any>(null);
 	const isHorizontal = useScreenDirection();
@@ -57,39 +67,98 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	);
 
 	useEffect(() => {
-		const loadTemplates = async () => {
-			setCodeTemplates([
-				(await import('../assets/templates/code_template1.json')).default,
-				(await import('../assets/templates/code_template2.json')).default,
-			]);
+		/* Load From Cache */
+		const load = async () => {
+			setLoadingUserTemplates(true);
+			const templates = await localforage.getItem('user_templates_test');
 
-			setDevicesTemplates([
-				(await import('../assets/templates/phone_template1.json')).default,
-				(await import('../assets/templates/phone_template2.json')).default,
-				(await import('../assets/templates/phone_template3.json')).default,
-				(await import('../assets/templates/phone_template4.json')).default,
-				(await import('../assets/templates/phone_template5.json')).default,
-				(await import('../assets/templates/phone_template6.json')).default,
-			]);
+			if (templates) setUserTemplates(templates);
 
-			setWindowsTemplates([
-				(await import('../assets/templates/window_template1.json')).default,
-				(await import('../assets/templates/window_template2.json')).default,
-				(await import('../assets/templates/window_template3.json')).default,
-			]);
+			setLoadingUserTemplates(false);
 		};
 
-		loadTemplates();
+		load();
 	}, []);
 
-	const handleCreateProject = () => {
+	useEffect(() => {
+		setCurrent(null);
+	}, [templateType, communityTemplateType]);
+
+	useEffect(() => {
+		const load = async () => {
+			const data = await (
+				await fetch(TEMPLATE_SYSTEM_ROOT + 'index.json')
+			).json();
+
+			if (data) setCommunityTemplates(data);
+		};
+
+		load();
+	}, [templateType]);
+
+	const handleAddUserTemplate = (e: React.ChangeEvent<HTMLInputElement>) => {
+		localforage.setItem('user_templates_test', userTemplates);
+
+		if (e.target?.files && e.target?.files?.length > 0) {
+			const reader = new FileReader();
+
+			reader.addEventListener('load', () => {
+				if (reader.result) {
+					const newTemplate = JSON.parse(reader.result?.toString());
+
+					if (newTemplate.workspace && newTemplate.properties) {
+						if (
+							!userTemplates.find(
+								(item: any) => item.workspace.id === newTemplate.workspace.id,
+							)
+						) {
+							localforage.setItem('user_templates_test', [
+								...userTemplates,
+								newTemplate,
+							]);
+
+							setUserTemplates([...userTemplates, newTemplate]);
+						} else {
+							alert('Has template');
+						}
+					}
+				}
+			});
+			reader.readAsText(e.target.files[0]);
+		}
+	};
+
+	const handleDeleteUserTemplate = (id: string) => {
+		const copy = userTemplates.filter((item: any) => item.workspace.id !== id);
+		setUserTemplates(copy);
+		localforage.setItem('user_templates_test', copy);
+	};
+
+	const handleDownloadTemplate = (template: any) => {
+		if (
+			!userTemplates.find(
+				(item: any) => item.workspace.id === template.workspace.id,
+			)
+		) {
+			localforage.setItem('user_templates_test', [...userTemplates, template]);
+
+			setUserTemplates([...userTemplates, template]);
+			alert('Template installed in User Templates');
+		} else {
+			alert('You already have this template installed');
+		}
+
+		setCurrent(null);
+	};
+
+	const handleCreateNewProject = () => {
 		const num = getRandomNumber().toString();
 		addWorkspace(num);
 		setCurrentWorkspace(num);
 		setShowWizard(false);
 	};
 
-	const handleCreate = () => {
+	const handleCreateFromTemplate = () => {
 		if (current) loadProject(current);
 
 		setShowWizard(false);
@@ -106,13 +175,13 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				>
 					{/* News Panel */}
 					{isHorizontal && (
-						<div className='flex w-[30rem]'>
+						<div className='flex w-[30rem] flex-auto grow-0'>
 							<NewsPanel></NewsPanel>
 						</div>
 					)}
 
 					{/* Templates */}
-					<div className='flex h-full w-full flex-auto flex-col overflow-hidden bg-base-100 md:rounded-tl-3xl md:shadow-xl'>
+					<div className='relative flex h-full w-full flex-auto  flex-col overflow-hidden bg-base-100 md:rounded-tl-3xl md:shadow-xl'>
 						{/* Header */}
 						<div className='hidden h-fit w-full md:flex'>
 							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0 md:bg-base-100'>
@@ -155,7 +224,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							{/* Actions */}
 							<div className='flex w-full gap-4'>
 								<button
-									onClick={handleCreateProject}
+									onClick={handleCreateNewProject}
 									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
 								>
 									<div>
@@ -164,24 +233,40 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									</div>
 								</button>
 
-								<button className='btn btn-lg hidden h-28 rounded-2xl bg-base-300 p-4 md:block'>
-									<div>
+								<input
+									onInput={handleAddUserTemplate}
+									id='input'
+									name='input'
+									accept='.json'
+									hidden
+									type='file'
+								/>
+
+								<label
+									htmlFor='input'
+									className='btn btn-lg hidden h-28 rounded-2xl bg-base-300 p-4 md:flex'
+								>
+									<div className='mx-auto my-auto'>
 										<IconFileImport
-											size={28}
 											className='mx-auto my-auto'
+											size={28}
 										></IconFileImport>
 										<p className='mt-2 text-xs'>Import Template</p>
 									</div>
-								</button>
+								</label>
 							</div>
 
 							<div className='mx-auto w-4/5 rounded-full bg-base-300/20 p-0.5'></div>
 
-							{/* Workspace  Background Type */}
-							<div className='mb-1 flex h-fit flex-row gap-3 rounded-2xl bg-base-300/60 p-3'>
+							{/* Template Type Selector */}
+							<div className='flex h-fit flex-row gap-3 rounded-2xl bg-base-300/60 p-3 lg:mx-56'>
 								<button
-									onClick={() => {}}
-									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${''}`}
+									onClick={() => {
+										setTemplateType('user');
+									}}
+									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+										templateType === 'user' && 'bg-base-300'
+									}`}
 								>
 									<div className='mx-auto flex gap-2'>
 										<IconUser></IconUser>
@@ -192,117 +277,153 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								</button>
 
 								<button
-									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${''}`}
-									onClick={() => {}}
+									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+										templateType === 'community' && 'bg-base-300'
+									}`}
+									onClick={() => {
+										setTemplateType('community');
+									}}
 								>
 									<div className='mx-auto flex gap-2'>
-										<IconShoppingCart></IconShoppingCart>
+										<IconUsersGroup></IconUsersGroup>
 										<label className='mx-auto my-auto cursor-pointer'>
-											Store
+											Community
 										</label>
 									</div>
 								</button>
 							</div>
 
-							<div className='flex h-full w-full flex-col gap-4 overflow-auto'>
-								{/* Code Templates */}
-								<div className='flex h-fit w-full flex-col gap-2'>
-									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
-										<IconCode className='my-auto' size={18}></IconCode>
-										<p>Code</p>
-									</div>
-									<div className='flex h-full flex-row gap-2 overflow-x-auto overflow-y-hidden  px-2 md:flex-wrap'>
-										{codeTemplates &&
-											codeTemplates.map((item: any) => (
-												<button
-													key={item.workspace.id}
-													onClick={() => setCurrent(item)}
-													className='h-28 w-fit min-w-fit overflow-hidden transition-all active:scale-90'
-												>
-													<img
-														className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-															current?.workspace.id === item.workspace.id
-																? 'border-primary shadow shadow-primary'
-																: 'border-base-300'
-														}`}
-														src={item.thumb}
-													></img>
-												</button>
-											))}
-									</div>
-								</div>
+							{/* Community Templates */}
+							{templateType === 'community' && (
+								<div className='flex h-full w-full flex-col gap-4 overflow-hidden'>
+									{communityTemplates ? (
+										<>
+											{/* Header */}
+											<div className='mt-1 flex w-full flex-auto flex-row gap-2 p-1'>
+												<div className='mr-2 flex flex-auto flex-row'>
+													<IconSearch className='my-auto mr-2 dark:text-white'></IconSearch>
+													<div className='flex w-full' id='search_bar'></div>
+												</div>
 
-								{/* Window Templates */}
-								<div className='flex h-fit w-full flex-col gap-2 '>
-									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
-										<IconAppWindow
-											className='my-auto'
-											size={18}
-										></IconAppWindow>
-										<p>Browser</p>
-									</div>
-									<div className='flex h-full flex-row gap-2 overflow-x-auto  px-2 md:flex-wrap'>
-										{windowsTemplates &&
-											windowsTemplates.map((item: any) => (
-												<button
-													key={item.workspace.id}
-													onClick={() => setCurrent(item)}
-													className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
+												<p className='my-auto text-xs'>Type</p>
+												<Select
+													defaultValue={'code'}
+													tabIndex={0}
+													value={communityTemplateType}
+													onChange={(e) =>
+														setCommunityTemplateType(e.currentTarget.value)
+													}
 												>
-													<img
-														className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-															current?.workspace.id === item.workspace.id
-																? 'border-primary shadow shadow-primary'
-																: 'border-base-300'
-														}`}
-														src={item.thumb}
-													></img>
-												</button>
-											))}
-									</div>
-								</div>
+													<option value={'code'}>Code</option>
+													<option value={'devices'}>Devices</option>
+													<option value={'window'}>Window</option>
+												</Select>
+											</div>
 
-								{/* Phone Templates */}
-								<div className='flex h-fit w-full flex-col  gap-2'>
-									<div className='flex w-fit gap-2 rounded-2xl bg-base-300/70 px-2.5 py-1'>
-										<IconDeviceIpad
-											className='my-auto'
-											size={18}
-										></IconDeviceIpad>
-										<p>Devices</p>
-									</div>
-									<div className='flex h-full  flex-row gap-2 overflow-x-auto px-2 md:flex-wrap'>
-										{devicesTemplates &&
-											devicesTemplates.map((item: any) => (
-												<button
-													key={item.workspace.id}
-													onClick={() => setCurrent(item)}
-													className='h-28 w-52 min-w-fit overflow-hidden transition-all active:scale-90'
-												>
-													<img
-														className={`flex h-full w-full rounded-2xl border-4 border-base-100 ${
-															current?.workspace.id === item.workspace.id
-																? 'border-primary shadow shadow-primary'
-																: 'border-base-300'
-														}`}
-														src={item.thumb}
-													></img>
-												</button>
-											))}
-									</div>
-								</div>
-							</div>
+											{communityTemplateType === 'code' && (
+												<Templates
+													current={current}
+													setCurrent={setCurrent}
+													handleDownloadTemplate={handleDownloadTemplate}
+													templates={communityTemplates.code}
+												></Templates>
+											)}
 
-							{/* Actions */}
-							<div className='mt-auto hidden flex-auto gap-2 p-1'>
-								<button
-									className='btn my-auto ml-auto rounded-3xl border-none bg-base-300 hover:bg-primary hover:text-white'
-									onClick={handleCreate}
-								>
-									Create
-								</button>
-							</div>
+											{communityTemplateType === 'window' && (
+												<Templates
+													current={current}
+													setCurrent={setCurrent}
+													handleDownloadTemplate={handleDownloadTemplate}
+													templates={communityTemplates.window}
+												></Templates>
+											)}
+
+											{communityTemplateType === 'devices' && (
+												<Templates
+													current={current}
+													setCurrent={setCurrent}
+													handleDownloadTemplate={handleDownloadTemplate}
+													templates={communityTemplates.devices}
+												></Templates>
+											)}
+										</>
+									) : (
+										<p className='mx-auto my-auto text-xs text-base-content/70'>
+											No templates available go online to get new templates
+											created by the community
+										</p>
+									)}
+								</div>
+							)}
+
+							{/* User Templates */}
+							{templateType === 'user' && (
+								<>
+									{!loadingUserTemplates ? (
+										<div className='flex  h-full w-full flex-row flex-wrap gap-4 overflow-auto'>
+											{userTemplates?.length > 0 ? (
+												userTemplates.map((item: any) => (
+													<>
+														<button
+															key={item.workspace.id}
+															onClick={() => setCurrent(item)}
+															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${
+																current?.workspace.id === item.workspace.id
+																	? 'border-base-100 shadow-xl'
+																	: 'border-base-300'
+															}`}
+														>
+															<img
+																className='flex h-36 w-full rounded-2xl'
+																src={item.thumb}
+															></img>
+
+															{current?.workspace.id === item.workspace.id && (
+																<label
+																	onClick={() =>
+																		handleDeleteUserTemplate(item.workspace.id)
+																	}
+																	className='btn btn-circle absolute -ml-1 -mt-1  border-none bg-base-300 hover:bg-neutral'
+																>
+																	<IconX></IconX>
+																</label>
+															)}
+														</button>
+													</>
+												))
+											) : (
+												<p className='mx-auto my-auto text-base-content/70'>
+													No templates
+												</p>
+											)}
+										</div>
+									) : (
+										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+									)}
+								</>
+							)}
 						</div>
+
+						{/* Actions */}
+						<AnimatePresence>
+							{current && (
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									className='pointer-events-none absolute flex h-full w-full'
+								>
+									<div className='mt-auto flex h-fit w-full flex-auto gap-2 bg-gradient-to-t from-base-300 to-transparent p-4'>
+										<button
+											className='btn pointer-events-auto my-auto ml-auto rounded-3xl border-none bg-base-300 shadow hover:bg-primary hover:text-white'
+											onClick={handleCreateFromTemplate}
+										>
+											Create
+										</button>
+									</div>
+								</motion.div>
+							)}
+						</AnimatePresence>
 					</div>
 				</motion.div>
 			</div>
@@ -311,3 +432,109 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 };
 
 export default ProjectWizard;
+
+interface TemplateItem {
+	user: string;
+	name: string;
+	path: string;
+	data: any;
+}
+
+const Templates: React.FC<{
+	templates: any;
+	current: any;
+	setCurrent: (item: any) => void;
+	handleDownloadTemplate: (id: string) => void;
+}> = ({ templates, current, setCurrent, handleDownloadTemplate }) => {
+	/* Component State */
+	const [items, setItems] = useState<TemplateItem[]>([]);
+	const [query, setQuery] = useState('');
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const load = async () => {
+			setLoading(true);
+			const copy = [];
+
+			for (const item of templates) {
+				const data = await (
+					await fetch(TEMPLATE_SYSTEM_ROOT + 'templates/' + item.path)
+				).json();
+
+				copy.push({ ...item, data: data });
+			}
+
+			setItems(copy);
+			setLoading(false);
+		};
+
+		load();
+	}, []);
+
+	useEffect(() => {
+		setCurrent(null);
+	}, [query]);
+
+	return (
+		<div className='flex h-full w-full flex-row flex-wrap gap-4 overflow-auto'>
+			{!loading ? (
+				<>
+					{items.length > 0 ? (
+						<>
+							{items
+								?.filter(
+									(item) =>
+										item.name.toUpperCase().indexOf(query.toUpperCase()) > -1,
+								)
+								.map((item: any) => (
+									<button
+										key={item.data.workspace.id}
+										onClick={() => setCurrent(item.data)}
+										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${
+											current?.workspace.id === item.data.workspace.id
+												? 'border-base-100 shadow-xl'
+												: 'border-base-300'
+										}`}
+									>
+										<img
+											className='flex h-36 w-full rounded-2xl'
+											src={item.data.thumb}
+										></img>
+
+										<p className='poppins-font-family mt-2 text-black dark:text-white'>
+											{item.name}
+										</p>
+										<p className='text-xs'>{item.user}</p>
+
+										{current?.workspace.id === item.data.workspace.id && (
+											<label
+												onClick={() => handleDownloadTemplate(item.data)}
+												className='btn btn-circle absolute -ml-1 -mt-1  border-none bg-base-300 hover:bg-neutral'
+											>
+												<IconDownload></IconDownload>
+											</label>
+										)}
+									</button>
+								))}
+						</>
+					) : (
+						<p className='mx-auto my-auto text-xs text-base-content/70'>
+							No templates available go online to get new templates created by
+							the community
+						</p>
+					)}
+				</>
+			) : (
+				<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+			)}
+
+			<CustomPortal id='search_bar'>
+				<Input
+					onChange={(ev) => setQuery(ev.currentTarget.value)}
+					value={query}
+					className='flex w-full flex-auto text-gray-400'
+				></Input>
+			</CustomPortal>
+		</div>
+	);
+};
