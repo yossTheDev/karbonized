@@ -1,5 +1,9 @@
 # Changelog
 
+## v 1.11.8
+
+* feat: New Template System with Community-Generated Content
+
 ## v 1.11.7
 
 feat: Add a set of predefined gradients for background
