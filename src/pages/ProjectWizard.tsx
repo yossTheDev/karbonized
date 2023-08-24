@@ -119,7 +119,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 							setUserTemplates([...userTemplates, newTemplate]);
 						} else {
-							alert('Has template');
+							alert('You already have this template installed');
 						}
 					}
 				}
@@ -220,9 +220,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='flex flex-auto flex-col gap-3 overflow-hidden bg-base-100 p-4'>
+						<div className='flex flex-auto  flex-col gap-3 overflow-hidden bg-base-100 p-4'>
 							{/* Actions */}
-							<div className='flex w-full gap-4'>
+							<div className='flex w-full gap-4 '>
 								<button
 									onClick={handleCreateNewProject}
 									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
@@ -244,7 +244,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 								<label
 									htmlFor='input'
-									className='btn btn-lg hidden h-28 rounded-2xl bg-base-300 p-4 md:flex'
+									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
 								>
 									<div className='mx-auto my-auto'>
 										<IconFileImport
@@ -497,7 +497,7 @@ const Templates: React.FC<{
 										}`}
 									>
 										<img
-											className='flex h-36 w-full rounded-2xl'
+											className='mx-auto flex h-20 w-full rounded-2xl md:h-36'
 											src={item.data.thumb}
 										></img>
 
