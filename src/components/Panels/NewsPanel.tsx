@@ -33,7 +33,7 @@ export const NewsPanel: React.FC = () => {
 		<div className='flex h-full w-full flex-col gap-1 p-2'>
 			{/* Header */}
 			<div className='flex w-full'>
-				<div className='mb-2 flex w-fit gap-1 rounded-3xl bg-base-200 px-3 py-0.5 shadow md:ml-2'>
+				<div className='mb-2 flex w-fit gap-1 rounded-3xl bg-base-200 px-3 py-0.5 md:ml-2 md:shadow'>
 					<IconBell className='my-auto'></IconBell>
 					<p className='borel-font mt-3 text-lg'>News</p>
 				</div>
