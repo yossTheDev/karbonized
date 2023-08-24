@@ -20,7 +20,7 @@ import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
 
-const TEMPLATE_SYSTEM_ROOT = ' http://localhost:4000/';
+const TEMPLATE_SYSTEM_ROOT = 'https://karbon-apps.github.io/templates/';
 
 const NavBarMobile = React.lazy(
 	() => import('../components/Mobile/NavBarMobile'),
@@ -348,7 +348,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 											)}
 										</>
 									) : (
-										<p className='mx-auto my-auto text-xs text-base-content/70'>
+										<p className='mx-6 my-auto text-center text-xs text-base-content/70 md:mx-auto'>
 											No templates available go online to get new templates
 											created by the community
 										</p>
@@ -392,8 +392,8 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 													</>
 												))
 											) : (
-												<p className='mx-auto my-auto text-base-content/70'>
-													No templates
+												<p className='mx-auto my-auto text-center text-xs text-base-content/70'>
+													You haven't saved any template yet
 												</p>
 											)}
 										</div>
@@ -518,7 +518,7 @@ const Templates: React.FC<{
 								))}
 						</>
 					) : (
-						<p className='mx-auto my-auto text-xs text-base-content/70'>
+						<p className='mx-6 my-auto text-center text-xs text-base-content/70 md:mx-auto'>
 							No templates available go online to get new templates created by
 							the community
 						</p>
