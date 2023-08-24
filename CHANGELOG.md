@@ -1,8 +1,11 @@
 # Changelog
 
-## v 1.11.8
+## v 1.12.0 - Release (August 24th, 2023)
 
 * feat: New Template System with Community-Generated Content
+* New installation formats available for Linux
+* All Previous Changes
+* Minor Fixes and Improvements
 
 ## v 1.11.7
 
