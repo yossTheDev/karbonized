@@ -1,25 +1,17 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
-	IconArrowBack,
-	IconArrowForward,
-	IconClock,
-	IconCopy,
-	IconFileDownload,
-	IconFileTypeJpg,
-	IconFileTypePng,
-	IconFileTypeSvg,
-	IconFileUpload,
-	IconFlask,
-	IconFocusCentered,
-	IconInfoHexagon,
-	IconJson,
-	IconPigMoney,
-	IconPlus,
-	IconSquareRotated,
-	IconTrash,
-	IconZoomIn,
-	IconZoomOut,
-	IconZoomReset,
-} from '@tabler/icons-react';
+	Menubar,
+	MenubarContent,
+	MenubarItem,
+	MenubarMenu,
+	MenubarSeparator,
+	MenubarShortcut,
+	MenubarSub,
+	MenubarSubContent,
+	MenubarSubTrigger,
+	MenubarTrigger,
+} from '@/components/ui/menubar';
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
 import { toBlob, toPng } from 'html-to-image';
@@ -36,14 +28,21 @@ import { type Project } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
-import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
 import { PROJECT_KEY } from '../../utils/secrets';
 
-const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
-const ChangelogModal = React.lazy(() => import('../Modals/ChangelogModal'));
-const DonationsModal = React.lazy(() => import('../Modals/DonationsModal'));
-const PreviewModal = React.lazy(() => import('../Modals/PreviewModal'));
-const ProjectWizard = React.lazy(() => import('../../pages/ProjectWizard'));
+const AboutModal = React.lazy(async () => await import('../Modals/AboutModal'));
+const ChangelogModal = React.lazy(
+	async () => await import('../Modals/ChangelogModal'),
+);
+const DonationsModal = React.lazy(
+	async () => await import('../Modals/DonationsModal'),
+);
+const PreviewModal = React.lazy(
+	async () => await import('../Modals/PreviewModal'),
+);
+const ProjectWizard = React.lazy(
+	async () => await import('../../pages/ProjectWizard'),
+);
 
 export const MenuBar: React.FC = () => {
 	/* App Context */
@@ -198,7 +197,7 @@ export const MenuBar: React.FC = () => {
 				const reader = new FileReader();
 				reader.addEventListener('load', () => {
 					try {
-						let text = CryptoJS.AES.decrypt(
+						const text = CryptoJS.AES.decrypt(
 							reader.result as string,
 							PROJECT_KEY,
 						).toString(CryptoJS.enc.Utf8);
@@ -249,7 +248,7 @@ export const MenuBar: React.FC = () => {
 
 			project.workspace.id = getRandomNumber().toString();
 
-			var blob = new Blob([JSON.stringify(project)], {
+			const blob = new Blob([JSON.stringify(project)], {
 				type: 'text/plain;charset=utf-8',
 			});
 
@@ -295,221 +294,188 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 '>
-				{!showWizard && (
-					<>
-						{/* File */}
-						<DropMenu
-							label='File'
-							id='filebar'
-							menu={
-								<>
-									<MenuItem
-										click={() => setShowWizard(true)}
-										icon={<IconPlus size={16}></IconPlus>}
-										label='New Project'
-										shortcut='Ctrl+N'
-									></MenuItem>
+			<div className='z-10'>
+				<Menubar>
+					{/* File */}
+					<MenubarMenu>
+						<MenubarTrigger>File</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem onClick={() => setShowWizard(true)}>
+								New Project <MenubarShortcut>⌘N</MenubarShortcut>
+							</MenubarItem>
 
-									<label
-										htmlFor='file-input'
-										className='hover:bg-base-300 active:bg-base-300 flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer'
+							<MenubarItem
+								onClick={() => {
+									loadProject();
+								}}
+							>
+								Load Project
+							</MenubarItem>
+
+							<MenubarItem
+								onClick={async () => {
+									await handleSaveProject();
+								}}
+							>
+								Save Project
+							</MenubarItem>
+
+							<MenubarItem
+								onClick={async () => {
+									await handleSaveAsJson();
+								}}
+							>
+								Save Project as Template
+							</MenubarItem>
+
+							<MenubarItem
+								onClick={async () => {
+									setShowPreview(true);
+								}}
+							>
+								Render
+								<MenubarShortcut>⌘P</MenubarShortcut>
+							</MenubarItem>
+
+							<MenubarSub>
+								<MenubarSubTrigger>Export as</MenubarSubTrigger>
+								<MenubarSubContent>
+									<MenubarItem
+										onClick={() => {
+											exportImage(export_format.png);
+										}}
 									>
-										<IconFileUpload size={16}></IconFileUpload>
-										<p className='my-auto ml-2 hover:cursor-pointer'>
-											Load Project
-										</p>
-									</label>
+										Export as PNG
+									</MenubarItem>
 
-									<input
-										className='hidden'
-										accept='.kproject'
-										onInput={handleLoadProject}
-										type='file'
-										id='file-input'
-									></input>
-
-									<MenuItem
-										click={() => handleSaveProject()}
-										icon={<IconFileDownload size={16}></IconFileDownload>}
-										label='Save Project'
-										shortcut='Ctrl+S'
-									></MenuItem>
-
-									<MenuSeparator></MenuSeparator>
-
-									<MenuItem
-										click={() => setShowPreview(true)}
-										icon={<IconFlask size={16}></IconFlask>}
-										label='Render'
-										shortcut='Ctrl+P'
-									></MenuItem>
-
-									<MenuItem
-										click={() => handleSaveAsJson()}
-										icon={<IconJson size={16}></IconJson>}
-										label='Save as Template'
-									></MenuItem>
-
-									<MenuItem
-										click={() => exportImage(export_format.png)}
-										icon={<IconFileTypePng size={16}></IconFileTypePng>}
-										label='Export as PNG'
-									></MenuItem>
-
-									<MenuItem
-										click={() => exportImage(export_format.jpeg)}
-										icon={<IconFileTypeJpg size={16}></IconFileTypeJpg>}
-										label='Export as JPEG'
-									></MenuItem>
-
-									<MenuItem
-										click={() => exportImage(export_format.svg)}
-										icon={<IconFileTypeSvg size={16}></IconFileTypeSvg>}
-										label='Export as SVG'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-
-						{/* Edit */}
-						<DropMenu
-							label='Edit'
-							menu={
-								<>
-									<MenuItem
-										click={() => undo()}
-										icon={
-											<IconArrowBack
-												size={16}
-												className='-scale-y-[1]'
-											></IconArrowBack>
-										}
-										label='Undo'
-										shortcut='Ctrl+Z'
-									></MenuItem>
-
-									<MenuItem
-										click={() => redo()}
-										icon={
-											<IconArrowForward
-												size={16}
-												className='-scale-y-[1]'
-											></IconArrowForward>
-										}
-										label='Redo'
-										shortcut='Ctrl+Y'
-									></MenuItem>
-
-									<MenuItem
-										click={() => duplicate()}
-										icon={
-											<IconCopy size={16} className='-scale-y-[1]'></IconCopy>
-										}
-										label='Duplicate'
-										shortcut='Ctrl+D'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-
-						{/* Workspace */}
-						<DropMenu
-							label='Workspace'
-							menu={
-								<>
-									<MenuItem
-										click={handleNewWorkspace}
-										icon={<IconSquareRotated size={16}></IconSquareRotated>}
-										label='New Workspace'
-										shortcut='Ctrl+M'
-									></MenuItem>
-
-									<MenuItem
-										click={handleCleanWorkspace}
-										icon={<IconTrash size={16}></IconTrash>}
-										label='Clean Workspace'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-
-						{/* View */}
-						<DropMenu
-							label='View'
-							menu={
-								<>
-									<MenuItem
-										click={() =>
-											viewerRef.current?.setZoom(
-												viewerRef.current?.getZoom() + 0.2,
-											)
-										}
-										icon={<IconZoomIn size={16}></IconZoomIn>}
-										label='Zoom In'
-									></MenuItem>
-									<MenuItem
-										click={() =>
-											viewerRef.current?.setZoom(
-												viewerRef.current?.getZoom() - 0.2,
-											)
-										}
-										icon={<IconZoomOut size={16}></IconZoomOut>}
-										label='Zoom Out'
-									></MenuItem>
-
-									<MenuItem
-										click={() => viewerRef.current?.setZoom(0.7)}
-										icon={<IconZoomReset size={16}></IconZoomReset>}
-										label='Zoom Reset'
-									></MenuItem>
-
-									<MenuSeparator></MenuSeparator>
-
-									<MenuItem
-										click={() => centerView()}
-										icon={<IconFocusCentered size={16}></IconFocusCentered>}
-										label='Center View'
-										shortcut='Ctrl+Space'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-						{/* About */}
-
-						<DropMenu
-							label='About'
-							menu={
-								<>
-									<MenuItem
-										click={() => {
-											setShowDonations(true);
+									<MenubarItem
+										onClick={() => {
+											exportImage(export_format.jpeg);
 										}}
-										icon={<IconPigMoney size={16}></IconPigMoney>}
-										label='Donations'
-									></MenuItem>
+									>
+										Export as JPEG
+									</MenubarItem>
 
-									<MenuItem
-										click={() => {
-											setShowChangelog(true);
+									<MenubarItem
+										onClick={() => {
+											exportImage(export_format.svg);
 										}}
-										icon={<IconClock size={16}></IconClock>}
-										label='Changelog'
-									></MenuItem>
+									>
+										Export as SVG
+									</MenubarItem>
+								</MenubarSubContent>
+							</MenubarSub>
 
-									<MenuItem
-										click={() => {
-											setShowAbout(true);
-											about.current?.showModal();
-										}}
-										icon={<IconInfoHexagon size={16}></IconInfoHexagon>}
-										label='About'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-					</>
-				)}
+							<MenubarSeparator />
+							<MenubarItem>Share</MenubarItem>
+							<MenubarSeparator />
+							<MenubarItem>Print</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* Edit */}
+					<MenubarMenu>
+						<MenubarTrigger>Edit</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								onClick={() => {
+									undo();
+								}}
+							>
+								Undo
+								<MenubarShortcut>⌘Z</MenubarShortcut>
+							</MenubarItem>
+							<MenubarItem
+								onClick={() => {
+									redo();
+								}}
+							>
+								Redo
+								<MenubarShortcut>⌘Y</MenubarShortcut>
+							</MenubarItem>
+
+							<MenubarItem
+								onClick={() => {
+									duplicate();
+								}}
+							>
+								Duplicate
+								<MenubarShortcut>⌘D</MenubarShortcut>
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* Workspace */}
+					<MenubarMenu>
+						<MenubarTrigger>Workspace</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								onClick={() => {
+									handleNewWorkspace();
+								}}
+							>
+								New Workspace
+								<MenubarShortcut>⌘M</MenubarShortcut>
+							</MenubarItem>
+							<MenubarItem
+								onClick={() => {
+									handleCleanWorkspace();
+								}}
+							>
+								Clean Workspace
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* View */}
+					<MenubarMenu>
+						<MenubarTrigger>View</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								onClick={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
+								}
+							>
+								Zoom In
+							</MenubarItem>
+
+							<MenubarItem
+								onClick={() =>
+									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
+								}
+							>
+								Zoom In
+							</MenubarItem>
+
+							<MenubarItem onClick={() => viewerRef.current?.setZoom(0.7)}>
+								Zoom Reset
+							</MenubarItem>
+
+							<MenubarSeparator></MenubarSeparator>
+
+							<MenubarItem
+								onClick={() => {
+									centerView();
+								}}
+							>
+								Center View
+								<MenubarShortcut>⌘Space</MenubarShortcut>
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* About */}
+					<MenubarMenu>
+						<MenubarTrigger>About</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem>Donations</MenubarItem>
+
+							<MenubarItem>Changelog</MenubarItem>
+
+							<MenubarItem>About</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+				</Menubar>
 			</div>
 
 			{showWizard && (
@@ -526,7 +492,9 @@ export const MenuBar: React.FC = () => {
 					<AboutModal
 						ref={about}
 						open
-						onClose={() => setShowAbout(false)}
+						onClose={() => {
+							setShowAbout(false);
+						}}
 					></AboutModal>
 				</Suspense>
 			)}
@@ -534,7 +502,9 @@ export const MenuBar: React.FC = () => {
 			{showPreview && (
 				<Suspense>
 					<PreviewModal
-						onClose={() => setShowPreview(false)}
+						onClose={() => {
+							setShowPreview(false);
+						}}
 						open={showPreview}
 					></PreviewModal>
 				</Suspense>
@@ -543,7 +513,9 @@ export const MenuBar: React.FC = () => {
 			{showChangelog && (
 				<Suspense>
 					<ChangelogModal
-						onClose={() => setShowChangelog(false)}
+						onClose={() => {
+							setShowChangelog(false);
+						}}
 						open={showChangelog}
 					></ChangelogModal>
 				</Suspense>
@@ -552,7 +524,9 @@ export const MenuBar: React.FC = () => {
 			{showDonations && (
 				<Suspense>
 					<DonationsModal
-						onClose={() => setShowDonations(false)}
+						onClose={() => {
+							setShowDonations(false);
+						}}
 						open={showDonations}
 					></DonationsModal>
 				</Suspense>
