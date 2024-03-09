@@ -80,7 +80,8 @@
 		"react-zoom-pan-pinch": "^3.0.7",
 		"refractor": "^4.8.0",
 		"tailwind-merge": "^2.2.1",
-		"tailwindcss-animate": "^1.0.7"
+		"tailwindcss-animate": "^1.0.7",
+		"tailwindcss-themer": "^4.0.0"
 	},
 	"devDependencies": {
 		"@capacitor/assets": "^2.0.4",

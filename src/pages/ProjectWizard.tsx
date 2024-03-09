@@ -167,7 +167,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	return (
 		<Portal node={document.getElementById('body')}>
-			<div className='md:bg-base-300 absolute z-30 flex h-full w-full flex-auto flex-col bg-neutral-50 dark:bg-neutral-900'>
+			<div className=' absolute z-30 flex h-full w-full flex-auto flex-col bg-neutral-50 dark:bg-neutral-900'>
 				{!isHorizontal && <NavBarMobile></NavBarMobile>}
 				<motion.div
 					animate={{ marginTop: '0rem' }}
