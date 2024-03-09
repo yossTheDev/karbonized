@@ -38,9 +38,12 @@
 		"@capacitor/toast": "^5.0.6",
 		"@floating-ui/react-dom": "^1.0.1",
 		"@nextui-org/react": "^2.1.2",
+		"@radix-ui/react-slot": "^1.0.2",
 		"@tabler/icons-react": "^2.26.0",
 		"@tauri-apps/api": "^1.3.0",
 		"adm-zip": "^0.5.10",
+		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.1.0",
 		"crypto-js": "^4.1.1",
 		"daisyui": "latest",
 		"easy-peasy": "^6.0.1",
@@ -50,6 +53,7 @@
 		"html-to-image": "^1.10.8",
 		"localforage": "^1.10.0",
 		"lowlight": "^2.7.0",
+		"lucide-react": "^0.353.0",
 		"luxon": "^3.1.0",
 		"prismjs": "^1.29.0",
 		"qrcode.react": "^3.1.0",
@@ -73,7 +77,9 @@
 		"react-virtualized-auto-sizer": "^1.0.20",
 		"react-window": "^1.8.9",
 		"react-zoom-pan-pinch": "^3.0.7",
-		"refractor": "^4.8.0"
+		"refractor": "^4.8.0",
+		"tailwind-merge": "^2.2.1",
+		"tailwindcss-animate": "^1.0.7"
 	},
 	"devDependencies": {
 		"@capacitor/assets": "^2.0.4",
