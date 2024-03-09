@@ -19,6 +19,7 @@ import { CustomPortal } from '../components/Portal';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
+import { Button } from '@/components/ui/button';
 
 const TEMPLATE_SYSTEM_ROOT = 'https://karbon-apps.github.io/templates/';
 
@@ -166,12 +167,12 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	return (
 		<Portal node={document.getElementById('body')}>
-			<div className='absolute z-30 flex h-full w-full flex-auto flex-col bg-base-300/40 md:bg-base-300'>
+			<div className='md:bg-base-300 absolute z-30 flex h-full w-full flex-auto flex-col bg-neutral-50 dark:bg-neutral-900'>
 				{!isHorizontal && <NavBarMobile></NavBarMobile>}
 				<motion.div
 					animate={{ marginTop: '0rem' }}
 					initial={{ marginTop: isHorizontal ? '4rem' : '0rem' }}
-					className='mt-auto flex  h-full select-none flex-row gap-4 overflow-hidden text-base-content md:mt-2'
+					className='text-base-content mt-auto  flex h-full select-none flex-row gap-4 overflow-hidden md:mt-2'
 				>
 					{/* News Panel */}
 					{isHorizontal && (
@@ -180,18 +181,21 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 						</div>
 					)}
 
+					<Button>Hola</Button>
+					<Button>fdf</Button>
+
 					{/* Templates */}
-					<div className='relative flex h-full w-full flex-auto  flex-col overflow-hidden bg-base-100 md:rounded-tl-3xl md:shadow-xl'>
+					<div className='bg-base-100 relative flex h-full w-full  flex-auto flex-col overflow-hidden md:rounded-tl-3xl md:shadow-xl'>
 						{/* Header */}
 						<div className='hidden h-fit w-full md:flex'>
-							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0 md:bg-base-100'>
+							<div className='md:bg-base-100 mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0'>
 								<IconStars size={20} className='my-auto'></IconStars>
 								<p className='borel-font mt-4 text-lg'>Templates</p>
 							</div>
 
-							<div className='mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-1 rounded-full border-2 border-base-content px-3 py-0.5 shadow-sm dark:border-white dark:text-white  md:flex'>
+							<div className='border-base-content mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-1 rounded-full border-2 px-3 py-0.5 shadow-sm md:flex dark:border-white  dark:text-white'>
 								<svg
-									className='my-auto flex h-6 w-6 fill-base-content dark:fill-white'
+									className='fill-base-content my-auto flex h-6 w-6 dark:fill-white'
 									viewBox='0 0 451.31622 451.31616'
 									version='1.1'
 									xmlns='http://www.w3.org/2000/svg'
@@ -220,12 +224,12 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='flex flex-auto  flex-col gap-3 overflow-hidden bg-base-100 p-4'>
+						<div className='bg-base-100 flex  flex-auto flex-col gap-3 overflow-hidden p-4'>
 							{/* Actions */}
 							<div className='flex w-full gap-4 '>
 								<button
 									onClick={handleCreateNewProject}
-									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
+									className='btn btn-lg bg-base-300 h-28 rounded-2xl p-4'
 								>
 									<div>
 										<IconPlus size={28} className='mx-auto my-auto'></IconPlus>
@@ -244,7 +248,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 								<label
 									htmlFor='input'
-									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
+									className='btn btn-lg bg-base-300 h-28 rounded-2xl p-4'
 								>
 									<div className='mx-auto my-auto'>
 										<IconFileImport
@@ -256,15 +260,15 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								</label>
 							</div>
 
-							<div className='mx-auto w-4/5 rounded-full bg-base-300/20 p-0.5'></div>
+							<div className='bg-base-300/20 mx-auto w-4/5 rounded-full p-0.5'></div>
 
 							{/* Template Type Selector */}
-							<div className='flex h-fit flex-row gap-3 rounded-2xl bg-base-300/60 p-3 lg:mx-56'>
+							<div className='bg-base-300/60 flex h-fit flex-row gap-3 rounded-2xl p-3 lg:mx-56'>
 								<button
 									onClick={() => {
 										setTemplateType('user');
 									}}
-									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+									className={`bg-base-100 hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl p-2 transition-all hover:cursor-pointer active:scale-90 ${
 										templateType === 'user' && 'bg-base-300'
 									}`}
 								>
@@ -277,7 +281,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								</button>
 
 								<button
-									className={`flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:cursor-pointer hover:bg-neutral active:scale-90 ${
+									className={`bg-base-100 hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl  p-2 transition-all hover:cursor-pointer active:scale-90 ${
 										templateType === 'community' && 'bg-base-300'
 									}`}
 									onClick={() => {
@@ -348,7 +352,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 											)}
 										</>
 									) : (
-										<p className='mx-6 my-auto text-center text-xs text-base-content/70 md:mx-auto'>
+										<p className='text-base-content/70 mx-6 my-auto text-center text-xs md:mx-auto'>
 											No templates available go online to get new templates
 											created by the community
 										</p>
@@ -367,7 +371,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 														<button
 															key={item.workspace.id}
 															onClick={() => setCurrent(item)}
-															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${
+															className={`bg-base-300 relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 p-2 transition-all active:scale-90 ${
 																current?.workspace.id === item.workspace.id
 																	? 'border-base-100 shadow-xl'
 																	: 'border-base-300'
@@ -383,7 +387,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 																	onClick={() =>
 																		handleDeleteUserTemplate(item.workspace.id)
 																	}
-																	className='btn btn-circle absolute -ml-1 -mt-1  border-none bg-base-300 hover:bg-neutral'
+																	className='btn btn-circle bg-base-300 hover:bg-neutral absolute  -ml-1 -mt-1 border-none'
 																>
 																	<IconX></IconX>
 																</label>
@@ -392,7 +396,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 													</>
 												))
 											) : (
-												<p className='mx-auto my-auto text-center text-xs text-base-content/70'>
+												<p className='text-base-content/70 mx-auto my-auto text-center text-xs'>
 													You haven't saved any template yet
 												</p>
 											)}
@@ -413,9 +417,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									exit={{ opacity: 0 }}
 									className='pointer-events-none absolute flex h-full w-full'
 								>
-									<div className='mt-auto flex h-fit w-full flex-auto gap-2 bg-gradient-to-t from-base-300 to-transparent p-4'>
+									<div className='from-base-300 mt-auto flex h-fit w-full flex-auto gap-2 bg-gradient-to-t to-transparent p-4'>
 										<button
-											className='btn pointer-events-auto my-auto ml-auto rounded-3xl border-none bg-base-300 shadow hover:bg-primary hover:text-white'
+											className='btn bg-base-300 hover:bg-primary pointer-events-auto my-auto ml-auto rounded-3xl border-none shadow hover:text-white'
 											onClick={handleCreateFromTemplate}
 										>
 											Create
@@ -490,7 +494,7 @@ const Templates: React.FC<{
 									<button
 										key={item.data.workspace.id}
 										onClick={() => setCurrent(item.data)}
-										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${
+										className={`bg-base-300 relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2  p-2 transition-all active:scale-90 ${
 											current?.workspace.id === item.data.workspace.id
 												? 'border-base-100 shadow-xl'
 												: 'border-base-300'
@@ -509,7 +513,7 @@ const Templates: React.FC<{
 										{current?.workspace.id === item.data.workspace.id && (
 											<label
 												onClick={() => handleDownloadTemplate(item.data)}
-												className='btn btn-circle absolute -ml-1 -mt-1  border-none bg-base-300 hover:bg-neutral'
+												className='btn btn-circle bg-base-300 hover:bg-neutral absolute  -ml-1 -mt-1 border-none'
 											>
 												<IconDownload></IconDownload>
 											</label>
@@ -518,7 +522,7 @@ const Templates: React.FC<{
 								))}
 						</>
 					) : (
-						<p className='mx-6 my-auto text-center text-xs text-base-content/70 md:mx-auto'>
+						<p className='text-base-content/70 mx-6 my-auto text-center text-xs md:mx-auto'>
 							No templates available go online to get new templates created by
 							the community
 						</p>

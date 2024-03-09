@@ -35,7 +35,7 @@ const App: React.FC = () => {
 				onContextMenu={(event) => {
 					event.preventDefault();
 				}}
-				className='flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 text-base-content transition-all ease-in-out'
+				className='text-base-content flex h-screen w-screen flex-auto flex-col overflow-hidden text-neutral-900 transition-all ease-in-out dark:bg-dark-base-300 dark:text-neutral-50'
 			>
 				{/* Noise Background */}
 				<svg
@@ -108,7 +108,7 @@ const App: React.FC = () => {
 								<div className='my-1 flex flex-row'>
 									<Suspense>
 										<svg
-											className='my-auto ml-2 flex h-6 w-6 fill-base-content dark:fill-white'
+											className='fill-base-content my-auto ml-2 flex h-6 w-6 dark:fill-white'
 											viewBox='0 0 451.31622 451.31616'
 											version='1.1'
 											xmlns='http://www.w3.org/2000/svg'
@@ -145,7 +145,7 @@ const App: React.FC = () => {
 							>
 								<Suspense>
 									<svg
-										className='my-auto ml-2 flex h-6 w-6 fill-base-content dark:fill-white'
+										className='fill-base-content my-auto ml-2 flex h-6 w-6 dark:fill-white'
 										viewBox='0 0 451.31622 451.31616'
 										version='1.1'
 										xmlns='http://www.w3.org/2000/svg'

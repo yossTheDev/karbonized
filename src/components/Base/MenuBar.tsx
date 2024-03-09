@@ -32,7 +32,7 @@ import React, {
 } from 'react';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { Project } from '../../stores/AppStore';
+import { type Project } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
@@ -95,7 +95,7 @@ export const MenuBar: React.FC = () => {
 			setShowPreview(true);
 		} else if (event.ctrlKey && event.key === 's') {
 			event.preventDefault();
-			handleSaveProject();
+			void handleSaveProject();
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
 
@@ -132,7 +132,7 @@ export const MenuBar: React.FC = () => {
 		);
 	};
 
-	const duplicate = () => {
+	const duplicate = (): void => {
 		/* Copy Control Properties */
 		const newControlID =
 			controlID.split('-')[0] + '-' + getRandomNumber().toString();
@@ -223,12 +223,12 @@ export const MenuBar: React.FC = () => {
 	const handleSaveProject = async () => {
 		const element = document.getElementById('workspace');
 
-		if (element) {
+		if (element != null) {
 			const data = await toPng(element);
 
 			const project = { ...saveProject, thumb: data };
 
-			var blob = new Blob(
+			const blob = new Blob(
 				[CryptoJS.AES.encrypt(JSON.stringify(project), PROJECT_KEY).toString()],
 				{
 					type: 'text/plain;charset=utf-8',
@@ -295,7 +295,7 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 text-base-content'>
+			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 '>
 				{!showWizard && (
 					<>
 						{/* File */}
@@ -313,7 +313,7 @@ export const MenuBar: React.FC = () => {
 
 									<label
 										htmlFor='file-input'
-										className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
+										className='hover:bg-base-300 active:bg-base-300 flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer'
 									>
 										<IconFileUpload size={16}></IconFileUpload>
 										<p className='my-auto ml-2 hover:cursor-pointer'>
