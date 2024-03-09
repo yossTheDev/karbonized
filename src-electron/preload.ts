@@ -7,7 +7,7 @@ document.addEventListener('click', (event: any) => {
 	}
 });
 
-window.addEventListener('DOMContentLoaded', () => {});
+window.addEventListener('DOMContentLoaded', () => { });
 
 export type Channels = 'minimizeApp' | 'maximizeApp' | 'closeApp';
 
@@ -43,7 +43,7 @@ contextBridge.exposeInMainWorld('electron', {
 		},
 
 		isLinuxOrWindows() {
-			return process.platform === 'darwin' || process.platform === 'linux';
+			return process.platform === 'win32' || process.platform === 'linux';
 		},
 
 		getAppData() {
