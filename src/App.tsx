@@ -3,7 +3,6 @@ import './App.css';
 import { AppContext } from './AppContext';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { useTheme } from './hooks/useTheme';
-import ProjectWizard from './pages/ProjectWizard';
 import { useStoreState } from './stores/Hooks';
 import './utils.css';
 import { isElectron } from './utils/isElectron';
@@ -35,7 +34,7 @@ const App: React.FC = () => {
 				onContextMenu={(event) => {
 					event.preventDefault();
 				}}
-				className='text-base-content flex h-screen w-screen flex-auto flex-col overflow-hidden text-neutral-800 transition-all ease-in-out dark:bg-dark-base-100 dark:text-neutral-50'
+				className='text-base-content flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 text-neutral-800 transition-all ease-in-out dark:text-neutral-50'
 			>
 				{/* Noise Background */}
 				<svg

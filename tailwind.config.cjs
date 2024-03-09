@@ -45,7 +45,10 @@ module.exports = {
 			extend: {
 				// colors is used here for demonstration purposes
 				colors: {
-					primary: 'red'
+					primary: '#f87171',
+					'base-100': '#e1fff2',
+					'base-200': '#c8e3d7',
+					'base-300': '#d4f0e4',
 				}
 			}
 		},
@@ -53,12 +56,19 @@ module.exports = {
 			{
 				// name your theme anything that could be a valid css class name
 				// remember what you named your theme because you will use it as a class to enable the theme
-				name: 'my-theme',
+				name: 'dark',
 				// put any overrides your theme has here
 				// just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
 				extend: {
 					colors: {
-						primary: 'blue'
+						primary: '#f87171',
+						'base-100': '#232323',
+						'base-200': '#212121',
+						'base-300': '#161616',
+
+					},
+					borderRadius: {
+						"base": "2rem"
 					}
 				}
 			}
