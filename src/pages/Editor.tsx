@@ -1,22 +1,9 @@
 import {
-	IconAppWindow,
-	IconBrandTwitter,
 	IconBrush,
-	IconCircle,
-	IconCode,
-	IconDeviceMobile,
-	IconEraser,
 	IconFlask,
 	IconFocusCentered,
-	IconHandFinger,
-	IconLetterT,
 	IconLock,
 	IconMoon,
-	IconPhoto,
-	IconPointer,
-	IconPuzzle,
-	IconQrcode,
-	IconSticker,
 	IconSun,
 	IconZoomIn,
 	IconZoomOut,
@@ -39,22 +26,35 @@ import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
 import { isElectron } from '../utils/isElectron';
 
-const Workspace = React.lazy(() => import('../components/Workspace'));
-const StatusBar = React.lazy(() => import('../components/Base/StatusBar'));
-const ColorPicker = React.lazy(
-	() => import('../components/CustomControls/ColorPicker'),
+const Workspace = React.lazy(
+	async () => await import('../components/Workspace'),
 );
-const TabBar = React.lazy(() => import('../components/Base/TabBar'));
-const LeftPanel = React.lazy(() => import('../components/Panels/LeftPanel'));
-const RightPanel = React.lazy(() => import('../components/Panels/RightPanel'));
-const InfiniteViewer = React.lazy(() => import('react-infinite-viewer'));
+const StatusBar = React.lazy(
+	async () => await import('../components/Base/StatusBar'),
+);
+const ColorPicker = React.lazy(
+	async () => await import('../components/CustomControls/ColorPicker'),
+);
+const TabBar = React.lazy(
+	async () => await import('../components/Base/TabBar'),
+);
+const LeftPanel = React.lazy(
+	async () => await import('../components/Panels/LeftPanel'),
+);
+const RightPanel = React.lazy(
+	async () => await import('../components/Panels/RightPanel'),
+);
+const InfiniteViewer = React.lazy(
+	async () => await import('react-infinite-viewer'),
+);
 
 export const Editor: React.FC = () => {
-	const { viewerRef, showWizard } = useContext(AppContext);
+	const { viewerRef } = useContext(AppContext);
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
 	const setEditing = useStoreActions((state) => state.setEditing);
-	const editing = useStoreState((state) => state.editing);
+	const drag = useStoreState((state) => state.drag);
+	const setDrag = useStoreActions((state) => state.setDrag);
 	const canDraw = useStoreState((state) => state.isDrawing);
 	const setCanDraw = useStoreActions((state) => state.setIsDrawing);
 	const isErasing = useStoreState((state) => state.isErasing);
@@ -90,8 +90,7 @@ export const Editor: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 	const [appTheme, toggleTheme] = useTheme();
 
-	const [drag, setDrag] = useState(false);
-	const [showAbout, setShowAbout] = useState(false);
+	const [, setShowAbout] = useState(false);
 
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -164,7 +163,7 @@ export const Editor: React.FC = () => {
 		}
 	};
 
-	/* Handle Key Shortcuts and Center View on Change Some Workspace Properties*/
+	/* Handle Key Shortcuts and Center View on Change Some Workspace Properties */
 	useEffect(() => {
 		centerView();
 
@@ -231,14 +230,14 @@ export const Editor: React.FC = () => {
 				className={`relative flex flex-auto flex-row overflow-hidden`}
 			>
 				{/* Left Panel */}
-				<div className='flex max-w-xs bg-base-200'>
+				<div className='flex max-w-xs'>
 					<Suspense>
 						<LeftPanel></LeftPanel>
 					</Suspense>
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-300 p-0'>
+				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && <NavBarMobile></NavBarMobile>}
 
@@ -256,7 +255,9 @@ export const Editor: React.FC = () => {
 											shape='circle'
 											color='neutral'
 											className='my-auto hidden border-none bg-base-200/90 lg:flex'
-											onClick={() => toggleTheme()}
+											onClick={() => {
+												toggleTheme();
+											}}
 										>
 											{appTheme === 'light' ? (
 												<IconMoon
@@ -353,7 +354,9 @@ export const Editor: React.FC = () => {
 									size='md'
 									shape='circle'
 									className='bg-base-200/90 hover:bg-base-100 md:hidden'
-									onClick={() => centerView()}
+									onClick={() => {
+										centerView();
+									}}
 								>
 									<IconFocusCentered
 										size={22}
@@ -404,7 +407,9 @@ export const Editor: React.FC = () => {
 										<Button
 											className='flex flex-auto p-1'
 											color='ghost'
-											onClick={() => setZoom(zoom + 0.2)}
+											onClick={() => {
+												setZoom(zoom + 0.2);
+											}}
 										>
 											<IconZoomIn
 												size={15}
@@ -449,377 +454,13 @@ export const Editor: React.FC = () => {
 								</div>
 							</InfiniteViewer>
 						</div>
-
-						<p className='hidden h-full w-full bg-white text-white'></p>
-
-						{/* Controls */}
-						<div className='pointer-events-none absolute z-10 flex h-full w-full px-2 md:ml-2 md:w-fit'>
-							<div className='pointer-events-auto mb-8 mt-auto flex  h-fit w-fit gap-3 overflow-x-auto rounded-2xl bg-base-100/90 p-2 md:mx-auto  md:my-auto md:flex-col  md:overflow-hidden  md:backdrop-blur-xl'>
-								{/* Tools */}
-								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0'>
-									{/* Actions */}
-
-									{/* Select */}
-									<Tooltip className='flex flex-auto' message='Select (Ctrl+W)'>
-										<Button
-											color='ghost'
-											className={`flex flex-auto rounded-2xl ${
-												editing &&
-												'hover:bg-primary-focus border-none bg-primary  text-white'
-											} p-1 `}
-											onClick={() => {
-												setEditing(true);
-												setDrag(false);
-												setCanDraw(false);
-												setIsErasing(false);
-											}}
-										>
-											<IconPointer
-												size={18}
-												className='dark:text-white'
-											></IconPointer>
-										</Button>
-									</Tooltip>
-
-									{/* Hand */}
-									<Tooltip className='flex flex-auto ' message='Hand (Ctrl+E)'>
-										<Button
-											color='ghost'
-											className={`flex flex-auto flex-col rounded-2xl ${
-												drag &&
-												'hover:bg-primary-focus  border-none  bg-primary text-white'
-											} p-1`}
-											onClick={() => {
-												setDrag(true);
-												setEditing(false);
-												setCanDraw(false);
-												setIsErasing(false);
-											}}
-										>
-											<IconHandFinger
-												size={18}
-												className='dark:text-white'
-											></IconHandFinger>
-										</Button>
-									</Tooltip>
-
-									{/* Brush */}
-									<Tooltip className='hidden flex-auto md:flex' message='Brush'>
-										<Button
-											color='ghost'
-											className={`flex flex-auto rounded-2xl ${
-												canDraw &&
-												'hover:bg-primary-focus border-none bg-primary  text-white'
-											} p-1 hover:bg-gradient-to-bl`}
-											onClick={() => {
-												setCanDraw(!canDraw);
-												setEditing(false);
-												setDrag(false);
-												setIsErasing(false);
-											}}
-										>
-											<IconBrush
-												size={18}
-												className='dark:text-white'
-											></IconBrush>
-										</Button>
-									</Tooltip>
-
-									{/* Erase */}
-									<Tooltip className='hidden flex-auto md:flex' message='Erase'>
-										<Button
-											color='ghost'
-											className={`flex flex-auto rounded-2xl ${
-												isErasing &&
-												'hover:bg-primary-focus border-none bg-primary text-white'
-											} p-1 hover:bg-gradient-to-bl`}
-											onClick={() => {
-												setIsErasing(!isErasing);
-												setEditing(false);
-												setDrag(false);
-												setCanDraw(false);
-											}}
-										>
-											<IconEraser
-												size={18}
-												className='dark:text-white'
-											></IconEraser>
-										</Button>
-									</Tooltip>
-								</div>
-
-								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 md:flex '></div>
-
-								{/* Basics */}
-
-								<div className='flex gap-2 md:w-20 md:flex-wrap   md:gap-0'>
-									{/* Code Control */}
-									<Tooltip className='flex  flex-auto ' message='Code'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'code',
-													id: `code-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `code ${getElementsByType('code')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconCode
-												size={18}
-												className='dark:text-white'
-											></IconCode>
-										</Button>
-									</Tooltip>
-
-									{/* FaIcon Control */}
-									<Tooltip className='flex flex-auto ' message='Icon'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'icon',
-													id: `icon-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `icon ${getElementsByType('icon')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconSticker
-												size={18}
-												className='dark:text-white'
-											></IconSticker>
-										</Button>
-									</Tooltip>
-
-									{/* Text Control */}
-									<Tooltip className='flex flex-auto ' message='Text'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'text',
-													id: `text-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `text ${getElementsByType('text')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconLetterT
-												size={18}
-												className='dark:text-white'
-											></IconLetterT>
-										</Button>
-									</Tooltip>
-
-									{/* Shape Control */}
-									<Tooltip className='flex flex-auto ' message='Shape'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'shape',
-													id: `shape-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `shape ${getElementsByType('shape')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconCircle
-												size={18}
-												className='dark:text-white'
-											></IconCircle>
-										</Button>
-									</Tooltip>
-								</div>
-
-								<div className='mx-auto my-auto hidden h-1 w-1 rounded bg-base-200/80 p-1 md:flex '></div>
-
-								{/* Others */}
-
-								<div className='flex gap-2 md:w-20 md:flex-wrap  md:gap-0 '>
-									{/* QR Code */}
-									<Tooltip className='flex flex-auto ' message='Qr Code'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'qr',
-													id: `qr-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `qr ${getElementsByType('qr')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconQrcode
-												size={18}
-												className='dark:text-white'
-											></IconQrcode>
-										</Button>
-									</Tooltip>
-
-									{/* Image Control */}
-									<Tooltip className='flex flex-auto ' message='Image'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'image',
-													id: `image-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `image ${getElementsByType('image')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconPhoto
-												size={18}
-												className='dark:text-white'
-											></IconPhoto>
-										</Button>
-									</Tooltip>
-
-									{/* Badge Control */}
-									<Tooltip className='flex flex-auto' message='Badge'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'badge',
-													id: `badge-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `badge ${getElementsByType('badge')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<div className='border-base-content h-2 w-4 rounded-full border-2'></div>
-										</Button>
-									</Tooltip>
-
-									{/* Tweet Control */}
-									<Tooltip className='flex flex-auto ' message='Tweet'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'tweet',
-													id: `tweet-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `tweet ${getElementsByType('tweet')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconBrandTwitter
-												size={18}
-												className='dark:text-white'
-											></IconBrandTwitter>
-										</Button>
-									</Tooltip>
-
-									{/* Window Control */}
-									<Tooltip className='flex flex-auto ' message='Window'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'window',
-													id: `window-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `window ${getElementsByType('window')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconAppWindow
-												size={18}
-												className='dark:text-white'
-											></IconAppWindow>
-										</Button>
-									</Tooltip>
-
-									{/* Phone Mockup Control */}
-									<Tooltip className='flex flex-auto ' message='Phone Mockup'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'phone_mockup',
-													id: `phone_mockup-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `phone mockup ${getElementsByType(
-														'phone_mockup',
-													)}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconDeviceMobile
-												size={18}
-												className='dark:text-white'
-											></IconDeviceMobile>
-										</Button>
-									</Tooltip>
-
-									{/* Custom Control */}
-									<Tooltip className='hidden flex-auto ' message='Custom'>
-										<Button
-											className='flex flex-auto rounded-2xl p-1'
-											color='ghost'
-											onClick={() =>
-												addControl({
-													type: 'custom',
-													id: `custom-${getRandomNumber()}`,
-													isSelectable: true,
-													isDeleted: false,
-													name: `custom ${getElementsByType('custom')}`,
-													isVisible: true,
-												})
-											}
-										>
-											<IconPuzzle
-												size={18}
-												className='dark:text-white'
-											></IconPuzzle>
-										</Button>
-									</Tooltip>
-								</div>
-							</div>
-						</div>
 					</div>
 
 					<StatusBar></StatusBar>
 				</div>
 
 				{/* Right Panel */}
-				<div className='flex max-h-screen max-w-sm overflow-hidden bg-base-200'>
+				<div className='flex max-h-screen max-w-sm overflow-hidden rounded-l-md bg-base-200'>
 					<Suspense>
 						<RightPanel></RightPanel>
 					</Suspense>

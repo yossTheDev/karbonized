@@ -41,7 +41,7 @@ export const StatusBar: React.FC = () => {
 	};
 
 	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.key === 'Tab') {
+		if (event.ctrlKey && event.key === 'Tab') {
 			event.preventDefault();
 			handleChangeMode();
 		}
@@ -121,7 +121,7 @@ export const StatusBar: React.FC = () => {
 					</p>
 				</div>
 
-				{/* Workspace Settings  Size*/}
+				{/* Workspace Settings Size */}
 				<div className='flex flex-row'>
 					<IconSquareRotatedForbid2
 						className='my-auto'
@@ -139,6 +139,7 @@ export const StatusBar: React.FC = () => {
 					href='https://github.com/yossthedev/karbonized/'
 					target={'_blank'}
 					className='btn btn-xs ml-auto'
+					rel='noreferrer'
 				>
 					<IconBrandGithub
 						className='pointer-events-none my-auto'

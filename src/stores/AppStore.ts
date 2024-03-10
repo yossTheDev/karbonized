@@ -1,4 +1,4 @@
-import { Action, action, createStore, Computed, computed } from 'easy-peasy';
+import { type Action, action, createStore, type Computed, computed } from 'easy-peasy';
 import { getRandomNumber } from '../utils/getRandom';
 
 export interface Item {
@@ -44,6 +44,8 @@ export interface AppStoreModel {
 	currentControlID: string;
 	readyToSave: boolean;
 	editing: boolean;
+	drag: boolean,
+	setDrag: Action<AppStoreModel, boolean>,
 	lockAspect: boolean;
 	setLockAspect: Action<AppStoreModel, boolean>;
 
@@ -150,7 +152,10 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
-
+	drag: false,
+	setDrag: action((state, payload) => {
+		state.drag = payload;
+	}),
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 
 	/* Project System */
@@ -211,10 +216,10 @@ export const AppStore = createStore<AppStoreModel>({
 							id: prop.id.replace(
 								prop.id,
 								prop.id.split('-')[0] +
-									'-' +
-									newID +
-									'-' +
-									prop.id.split('-')[2],
+								'-' +
+								newID +
+								'-' +
+								prop.id.split('-')[2],
 							),
 							value: prop.value,
 							workspace: wId.toString(),
@@ -241,10 +246,10 @@ export const AppStore = createStore<AppStoreModel>({
 							id: prop.id.replace(
 								prop.id,
 								prop.id.split('-')[0] +
-									'-' +
-									newID +
-									'-' +
-									prop.id.split('-')[2],
+								'-' +
+								newID +
+								'-' +
+								prop.id.split('-')[2],
 							),
 							value: prop.value,
 							workspace: wId.toString(),
@@ -399,10 +404,10 @@ export const AppStore = createStore<AppStoreModel>({
 			state.ControlProperties = state.ControlProperties.map((item) =>
 				item.id === payload.id
 					? {
-							id: payload.id,
-							value: payload.value,
-							workspace: state.currentWorkspaceID,
-					  }
+						id: payload.id,
+						value: payload.value,
+						workspace: state.currentWorkspaceID,
+					}
 					: item,
 			);
 		}
@@ -639,10 +644,10 @@ export const AppStore = createStore<AppStoreModel>({
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? {
-						...item,
-						workspaceHeight: payload.height,
-						workspaceWidth: payload.width,
-				  }
+					...item,
+					workspaceHeight: payload.height,
+					workspaceWidth: payload.width,
+				}
 				: item,
 		);
 	}),

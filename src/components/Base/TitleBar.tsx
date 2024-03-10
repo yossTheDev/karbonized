@@ -24,7 +24,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='flex max-h-44 w-full bg-base-200 p-1'
+			className='flex max-h-44 w-full  p-1'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
