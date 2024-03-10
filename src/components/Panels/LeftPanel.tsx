@@ -186,6 +186,24 @@ export const LeftPanel: React.FC = () => {
 					<CodeSquare size={18}></CodeSquare>
 				</Button>
 
+				{/* Image Control */}
+				<Button
+					variant={'ghost'}
+					size={'icon'}
+					onClick={() => {
+						addControl({
+							type: 'image',
+							id: `image-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `image ${getElementsByType('image')}`,
+							isVisible: true,
+						});
+					}}
+				>
+					<Image size={18}></Image>
+				</Button>
+
 				{/* FaIcon Control */}
 				<Button
 					variant={'ghost'}
@@ -240,6 +258,24 @@ export const LeftPanel: React.FC = () => {
 					<Circle size={18}></Circle>
 				</Button>
 
+				{/* Phone Mockup Control */}
+				<Button
+					variant={'ghost'}
+					size={'icon'}
+					onClick={() => {
+						addControl({
+							type: 'phone_mockup',
+							id: `phone_mockup-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `phone mockup ${getElementsByType('phone_mockup')}`,
+							isVisible: true,
+						});
+					}}
+				>
+					<Smartphone size={18}></Smartphone>
+				</Button>
+
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Button size={'icon'} variant={'ghost'}>
@@ -262,21 +298,6 @@ export const LeftPanel: React.FC = () => {
 							}}
 						>
 							<QrCode className='mr-2' size={18}></QrCode> Qr Code
-						</DropdownMenuItem>
-
-						<DropdownMenuItem
-							onClick={() => {
-								addControl({
-									type: 'image',
-									id: `image-${getRandomNumber()}`,
-									isSelectable: true,
-									isDeleted: false,
-									name: `image ${getElementsByType('image')}`,
-									isVisible: true,
-								});
-							}}
-						>
-							<Image className='mr-2' size={18}></Image> Image
 						</DropdownMenuItem>
 
 						<DropdownMenuItem
@@ -322,21 +343,6 @@ export const LeftPanel: React.FC = () => {
 							}}
 						>
 							<AppWindow className='mr-2' size={18}></AppWindow> Window
-						</DropdownMenuItem>
-
-						<DropdownMenuItem
-							onClick={() => {
-								addControl({
-									type: 'phone_mockup',
-									id: `phone_mockup-${getRandomNumber()}`,
-									isSelectable: true,
-									isDeleted: false,
-									name: `phone mockup ${getElementsByType('phone_mockup')}`,
-									isVisible: true,
-								});
-							}}
-						>
-							<Smartphone className='mr-2' size={18}></Smartphone> Phone Mockup
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
