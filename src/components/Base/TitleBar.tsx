@@ -24,14 +24,14 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='flex max-h-44 w-full bg-base-300 p-1'
+			className='flex max-h-44 w-full bg-base-200 p-1'
 			data-tauri-drag-region
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
 		>
 			<svg
-				className='my-auto ml-2 flex h-6 w-6 fill-base-content dark:fill-white'
+				className='fill-base-content my-auto ml-2 flex h-6 w-6 dark:fill-white'
 				viewBox='0 0 451.31622 451.31616'
 				version='1.1'
 				xmlns='http://www.w3.org/2000/svg'
@@ -65,7 +65,7 @@ export const TitleBar: React.FC = () => {
 			<div className='z-30 ml-auto mr-1 select-none'>
 				<div className='my-auto flex flex-row gap-1'>
 					<div
-						className='mr-2 flex flex-auto rounded-full p-3 hover:cursor-pointer hover:bg-neutral active:bg-base-100'
+						className='hover:bg-neutral mr-2 flex flex-auto rounded-full p-3 hover:cursor-pointer active:bg-base-100'
 						onClick={() => toggleTheme()}
 					>
 						{appTheme === 'light' ? (
@@ -76,7 +76,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='my-auto  cursor-pointer rounded-full  p-3 hover:bg-neutral active:bg-base-100'
+						className='hover:bg-neutral  my-auto cursor-pointer  rounded-full p-3 active:bg-base-100'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 						}
@@ -97,7 +97,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='my-auto  cursor-pointer rounded-full  p-3 hover:bg-neutral active:bg-base-100'
+						className='hover:bg-neutral  my-auto cursor-pointer  rounded-full p-3 active:bg-base-100'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 						}
@@ -135,7 +135,7 @@ export const TitleBar: React.FC = () => {
 					</div>
 
 					<div
-						className='my-auto  cursor-pointer rounded-full  p-3 hover:bg-neutral active:bg-base-100'
+						className='hover:bg-neutral  my-auto cursor-pointer  rounded-full p-3 active:bg-base-100'
 						onClick={() =>
 							(window as any).electron.ipcRenderer.sendMessage('closeApp')
 						}

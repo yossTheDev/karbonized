@@ -231,18 +231,18 @@ export const Editor: React.FC = () => {
 				className={`relative flex flex-auto flex-row overflow-hidden`}
 			>
 				{/* Left Panel */}
-				<div className='flex max-w-xs'>
+				<div className='flex max-w-xs bg-base-200'>
 					<Suspense>
 						<LeftPanel></LeftPanel>
 					</Suspense>
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden p-0'>
+				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden rounded-2xl bg-base-300 p-0'>
 					{/* Nav Bar Mobile */}
 					{!isHorizontal && <NavBarMobile></NavBarMobile>}
 
-					{/* Quick Settings*/}
+					{/* Quick Settings */}
 					<div className='pointer-events-none absolute z-20  flex h-full  w-full bg-transparent '>
 						<TabBar></TabBar>
 
@@ -261,12 +261,12 @@ export const Editor: React.FC = () => {
 											{appTheme === 'light' ? (
 												<IconMoon
 													size={22}
-													className='mx-auto my-auto text-base-content dark:text-white'
+													className='text-base-content mx-auto my-auto dark:text-white'
 												></IconMoon>
 											) : (
 												<IconSun
 													size={22}
-													className='mx-auto my-auto text-base-content dark:text-white'
+													className='text-base-content mx-auto my-auto dark:text-white'
 												></IconSun>
 											)}
 										</Button>
@@ -364,14 +364,14 @@ export const Editor: React.FC = () => {
 
 							{/* Preview Button */}
 							<Tooltip placement='bottom' message='Render (Ctrl+S)'>
-								<Button className='mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 to-secondary p-1 hover:border-primary hover:bg-gradient-to-l '>
+								<Button className='to-secondary mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 p-1 hover:border-primary hover:bg-gradient-to-l '>
 									<IconFlask size={22} className='text-white'></IconFlask>
 								</Button>
 							</Tooltip>
 						</div>
 					</div>
 
-					{/* Content*/}
+					{/* Content */}
 					<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
 						{/* Draw Bar */}
 						{(canDraw || isErasing) && (
@@ -465,7 +465,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
 												editing &&
-												'border-none bg-primary text-white  hover:bg-primary-focus'
+												'hover:bg-primary-focus border-none bg-primary  text-white'
 											} p-1 `}
 											onClick={() => {
 												setEditing(true);
@@ -487,7 +487,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto flex-col rounded-2xl ${
 												drag &&
-												'border-none  bg-primary  text-white hover:bg-primary-focus'
+												'hover:bg-primary-focus  border-none  bg-primary text-white'
 											} p-1`}
 											onClick={() => {
 												setDrag(true);
@@ -509,7 +509,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
 												canDraw &&
-												'border-none bg-primary text-white  hover:bg-primary-focus'
+												'hover:bg-primary-focus border-none bg-primary  text-white'
 											} p-1 hover:bg-gradient-to-bl`}
 											onClick={() => {
 												setCanDraw(!canDraw);
@@ -531,7 +531,7 @@ export const Editor: React.FC = () => {
 											color='ghost'
 											className={`flex flex-auto rounded-2xl ${
 												isErasing &&
-												'border-none bg-primary text-white hover:bg-primary-focus'
+												'hover:bg-primary-focus border-none bg-primary text-white'
 											} p-1 hover:bg-gradient-to-bl`}
 											onClick={() => {
 												setIsErasing(!isErasing);
@@ -713,7 +713,7 @@ export const Editor: React.FC = () => {
 												})
 											}
 										>
-											<div className='h-2 w-4 rounded-full border-2 border-base-content'></div>
+											<div className='border-base-content h-2 w-4 rounded-full border-2'></div>
 										</Button>
 									</Tooltip>
 
@@ -819,7 +819,7 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Right Panel */}
-				<div className='flex max-h-screen max-w-sm overflow-hidden'>
+				<div className='flex max-h-screen max-w-sm overflow-hidden bg-base-200'>
 					<Suspense>
 						<RightPanel></RightPanel>
 					</Suspense>

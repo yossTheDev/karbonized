@@ -10,7 +10,7 @@ import Moveable, {
 	type OnDragGroup,
 	type OnResizeGroup,
 	type OnRotateGroup,
-	OnRotateStart,
+	type OnRotateStart,
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';
