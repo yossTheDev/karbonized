@@ -1,21 +1,15 @@
 import {
 	IconBrandGithub,
-	IconCircleDashed,
-	IconCircleSquare,
 	IconHierarchy,
 	IconSquareRotatedForbid2,
 	IconTag,
-	IconTools,
 } from '@tabler/icons-react';
-import React, { useEffect, useState } from 'react';
+import { Axis3D, CircleDashed, PencilRuler } from 'lucide-react';
+import React, { useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { Tooltip } from '../CustomControls/Tooltip';
-import { AboutModal } from '../Modals/AboutModal';
+import { Button } from '../ui/button';
 
 export const StatusBar: React.FC = () => {
-	/* Component Store */
-	const [showAbout, setShowAbout] = useState(false);
-
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
@@ -24,7 +18,7 @@ export const StatusBar: React.FC = () => {
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
 
-	const handleChangeMode = () => {
+	const handleChangeMode = (): void => {
 		const modes = ['design', 'edit', 'zen'];
 
 		let i = modes.findIndex((mode) => mode === workspaceMode);
@@ -40,7 +34,7 @@ export const StatusBar: React.FC = () => {
 		console.log(modes[i]);
 	};
 
-	const onKeyDown = (event: KeyboardEvent) => {
+	const onKeyDown = (event: KeyboardEvent): void => {
 		if (event.ctrlKey && event.key === 'Tab') {
 			event.preventDefault();
 			handleChangeMode();
@@ -57,63 +51,55 @@ export const StatusBar: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<div className='pointer-events-none absolute flex h-full w-full'>
-			<div className='pointer-events-auto relative mb-2 mt-auto hidden w-full flex-auto flex-row gap-2 px-4 md:flex'>
+		<>
+			<div className='flex h-8 w-full items-center gap-2 border-t-2 border-base-200/40 bg-base-300 py-4 shadow-2xl shadow-base-200 dark:text-gray-200 '>
 				{/* Layout Mode */}
-				<Tooltip
-					placement='top'
-					className='my-auto'
-					message='Change Layout Mode (Tab)'
+				<Button
+					className='ml-1 h-7 gap-2 px-2 py-1'
+					onClick={handleChangeMode}
+					variant={'ghost'}
 				>
-					<button onClick={handleChangeMode} className='btn btn-xs'>
-						{workspaceMode === 'design' && (
-							<>
-								<IconCircleSquare
-									className='my-auto'
-									size={16}
-								></IconCircleSquare>
-								<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
-							</>
-						)}
+					{workspaceMode === 'design' && (
+						<>
+							<Axis3D className='my-auto' size={16}></Axis3D>
+							<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
+						</>
+					)}
 
-						{workspaceMode === 'zen' && (
-							<>
-								<IconCircleDashed
-									className='my-auto'
-									size={16}
-								></IconCircleDashed>
-								<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
-							</>
-						)}
+					{workspaceMode === 'zen' && (
+						<>
+							<CircleDashed className='my-auto' size={16}></CircleDashed>
+							<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
+						</>
+					)}
 
-						{workspaceMode === 'edit' && (
-							<>
-								<IconTools className='my-auto' size={16}></IconTools>
-								<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
-							</>
-						)}
+					{workspaceMode === 'edit' && (
+						<>
+							<PencilRuler className='my-auto' size={16}></PencilRuler>
+							<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
+						</>
+					)}
 
-						{workspaceMode === 'custom' && (
-							<>
-								<IconTools className='my-auto' size={16}></IconTools>
-								<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
-							</>
-						)}
-					</button>
-				</Tooltip>
+					{workspaceMode === 'custom' && (
+						<>
+							<PencilRuler className='my-auto' size={16}></PencilRuler>
+							<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
+						</>
+					)}
+				</Button>
 
 				{/* Control Position */}
-				<div className='flex flex-row'>
+				<div className='flex items-center'>
 					<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
 
-					<p className='my-auto ml-2 text-center text-xs'>
+					<p className='ml-2 text-center text-xs'>
 						Pos: x: {Math.round(controlPosition?.x as any)} y:{' '}
 						{Math.round(controlPosition?.y as any)}
 					</p>
 				</div>
 
 				{/* Workspace Name */}
-				<div className='flex flex-row'>
+				<div className='flex items-center'>
 					<IconTag className='my-auto ml-1' size={16}></IconTag>
 
 					<p className='my-auto ml-2 text-center text-xs'>
@@ -122,7 +108,7 @@ export const StatusBar: React.FC = () => {
 				</div>
 
 				{/* Workspace Settings Size */}
-				<div className='flex flex-row'>
+				<div className='flex items-center'>
 					<IconSquareRotatedForbid2
 						className='my-auto'
 						size={16}
@@ -135,26 +121,24 @@ export const StatusBar: React.FC = () => {
 				</div>
 
 				{/* Source Code */}
-				<a
-					href='https://github.com/yossthedev/karbonized/'
-					target={'_blank'}
-					className='btn btn-xs ml-auto'
-					rel='noreferrer'
-				>
-					<IconBrandGithub
-						className='pointer-events-none my-auto'
-						size={16}
-					></IconBrandGithub>
-					<p className='pointer-events-none my-auto ml-1 text-xs hover:cursor-pointer'>
-						Source Code
-					</p>
-				</a>
+				<Button variant={'link'} asChild>
+					<a
+						href='https://github.com/yossthedev/karbonized/'
+						target={'_blank'}
+						className='btn btn-xs ml-auto'
+						rel='noreferrer'
+					>
+						<IconBrandGithub
+							className='pointer-events-none my-auto'
+							size={16}
+						></IconBrandGithub>
+						<p className='pointer-events-none my-auto ml-1 text-xs hover:cursor-pointer'>
+							Source Code
+						</p>
+					</a>
+				</Button>
 			</div>
-
-			{showAbout && (
-				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
-			)}
-		</div>
+		</>
 	);
 };
 

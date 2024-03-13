@@ -222,12 +222,12 @@ export const Editor: React.FC = () => {
 	}, [controlID, ControlProperties, initialProperties]);
 
 	return (
-		<>
+		<div className='flex h-full w-full flex-col overflow-hidden'>
 			<div
 				onContextMenu={(e) => {
 					e.preventDefault();
 				}}
-				className={`relative flex flex-auto flex-row overflow-hidden`}
+				className='relative flex flex-auto flex-row overflow-hidden'
 			>
 				{/* Left Panel */}
 				<div className='flex max-w-xs'>
@@ -453,8 +453,6 @@ export const Editor: React.FC = () => {
 							</InfiniteViewer>
 						</div>
 					</div>
-
-					<StatusBar></StatusBar>
 				</div>
 
 				{/* Right Panel */}
@@ -464,7 +462,9 @@ export const Editor: React.FC = () => {
 					</Suspense>
 				</div>
 			</div>
-		</>
+
+			<StatusBar></StatusBar>
+		</div>
 	);
 };
 

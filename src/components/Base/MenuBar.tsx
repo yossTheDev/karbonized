@@ -455,7 +455,7 @@ export const MenuBar: React.FC = () => {
 									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
 								}
 							>
-								Zoom In
+								Zoom Out
 							</MenubarItem>
 
 							<MenubarItem onClick={() => viewerRef.current?.setZoom(0.7)}>
