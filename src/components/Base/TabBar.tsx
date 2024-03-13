@@ -25,7 +25,7 @@ export const TabBar: React.FC = () => {
 			ref={ref}
 			autoHeight
 			autoHide
-			style={{ width: '55%' }}
+			style={{ width: '100%' }}
 			renderThumbHorizontal={(props) => (
 				<div {...props} className='rounded bg-base-100 p-1' />
 			)}
@@ -42,7 +42,7 @@ export const TabBar: React.FC = () => {
 				event.preventDefault();
 			}}
 		>
-			<div className='flex w-[55%]   gap-1 p-1'>
+			<div className='flex w-[70%]   gap-1 p-1'>
 				{workspaces.map((item) => (
 					<button
 						key={item.id}

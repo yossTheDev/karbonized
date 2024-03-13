@@ -31,7 +31,7 @@ export const TitleBar: React.FC = () => {
 			}}
 		>
 			<div className='flex w-[80%] overflow-x-hidden'>
-				<div className='ml-2 flex items-center'>
+				<div className='ml-3 mr-1 flex items-center'>
 					<svg
 						className=' flex h-6 w-6 dark:fill-white'
 						viewBox='0 0 451.31622 451.31616'

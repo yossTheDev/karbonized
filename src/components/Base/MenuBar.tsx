@@ -296,7 +296,7 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 flex items-center dark:text-gray-100'>
+			<div className='z-10 flex items-center overflow-hidden dark:text-gray-100'>
 				<Menubar>
 					{/* File */}
 					<MenubarMenu>
