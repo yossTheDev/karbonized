@@ -243,8 +243,6 @@ export const Editor: React.FC = () => {
 
 					{/* Quick Settings */}
 					<div className='pointer-events-none absolute z-20  flex h-full  w-full bg-transparent '>
-						<TabBar></TabBar>
-
 						<div className='pointer-events-auto relative mb-28 ml-auto mr-2 mt-auto flex h-fit max-w-fit flex-auto  flex-col gap-1 md:mr-4  md:mt-2 md:flex-row md:gap-1 lg:flex'>
 							{/* Change Theme */}
 							{!isElectron() && (

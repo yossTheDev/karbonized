@@ -30,6 +30,7 @@ import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { PROJECT_KEY } from '../../utils/secrets';
 import { Edit, File, Info, Square, View } from 'lucide-react';
+import TabBar from './TabBar';
 
 const AboutModal = React.lazy(async () => await import('../Modals/AboutModal'));
 const ChangelogModal = React.lazy(
@@ -295,7 +296,7 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 dark:text-gray-100'>
+			<div className='z-10 flex items-center dark:text-gray-100'>
 				<Menubar>
 					{/* File */}
 					<MenubarMenu>
@@ -487,6 +488,8 @@ export const MenuBar: React.FC = () => {
 						</MenubarContent>
 					</MenubarMenu>
 				</Menubar>
+
+				<TabBar></TabBar>
 			</div>
 
 			{showWizard && (
