@@ -29,6 +29,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { PROJECT_KEY } from '../../utils/secrets';
+import { Edit, File, Info, Square, View } from 'lucide-react';
 
 const AboutModal = React.lazy(async () => await import('../Modals/AboutModal'));
 const ChangelogModal = React.lazy(
@@ -294,11 +295,13 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10'>
+			<div className='z-10 dark:text-gray-100'>
 				<Menubar>
 					{/* File */}
 					<MenubarMenu>
-						<MenubarTrigger>File</MenubarTrigger>
+						<MenubarTrigger>
+							<File size={16}></File>
+						</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem onClick={() => setShowWizard(true)}>
 								New Project <MenubarShortcut>⌘N</MenubarShortcut>
@@ -375,7 +378,9 @@ export const MenuBar: React.FC = () => {
 
 					{/* Edit */}
 					<MenubarMenu>
-						<MenubarTrigger>Edit</MenubarTrigger>
+						<MenubarTrigger>
+							<Edit size={16}></Edit>
+						</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
 								onClick={() => {
@@ -407,7 +412,9 @@ export const MenuBar: React.FC = () => {
 
 					{/* Workspace */}
 					<MenubarMenu>
-						<MenubarTrigger>Workspace</MenubarTrigger>
+						<MenubarTrigger>
+							<Square size={16}></Square>
+						</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
 								onClick={() => {
@@ -429,7 +436,9 @@ export const MenuBar: React.FC = () => {
 
 					{/* View */}
 					<MenubarMenu>
-						<MenubarTrigger>View</MenubarTrigger>
+						<MenubarTrigger>
+							<View size={16}></View>
+						</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
 								onClick={() =>
@@ -466,7 +475,9 @@ export const MenuBar: React.FC = () => {
 
 					{/* About */}
 					<MenubarMenu>
-						<MenubarTrigger>About</MenubarTrigger>
+						<MenubarTrigger>
+							<Info size={16}></Info>
+						</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem>Donations</MenubarItem>
 
