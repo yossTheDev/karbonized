@@ -72,7 +72,7 @@ export const LeftPanel: React.FC = () => {
 	const [tab, setTab] = useState('hierarchy');
 
 	/* Show/Close Menu KeyShortcut */
-	const onKeyDown = (event: KeyboardEvent) => {
+	const onKeyDown = (event: KeyboardEvent): void => {
 		if (event.ctrlKey && event.key === 'b') {
 			event.preventDefault();
 
@@ -111,9 +111,9 @@ export const LeftPanel: React.FC = () => {
 	};
 
 	return (
-		<div className='bg pointer-events-auto z-30  mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden rounded-tr-lg bg-base-200/60 p-2 text-gray-950  shadow-xl dark:text-gray-400 md:w-fit md:max-w-[20rem] md:bg-base-200 '>
+		<div className='border-r-1 pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden  rounded-tr-sm border-base-200 bg-base-300 p-2 text-gray-950 shadow-sm dark:text-gray-400 dark:shadow-base-200 md:w-fit md:max-w-[10rem]'>
 			{/* Controls */}
-			<div className='flex h-full w-10 flex-col items-center gap-1  dark:text-white'>
+			<div className='flex h-full w-10 flex-col items-center gap-2  dark:text-white'>
 				<Button
 					onClick={() => {
 						setEditing(true);
@@ -122,7 +122,7 @@ export const LeftPanel: React.FC = () => {
 						setIsErasing(false);
 					}}
 					variant={editing ? 'primary' : 'ghost'}
-					size={'icon'}
+					size={'small'}
 				>
 					<MousePointer2 size={18}></MousePointer2>
 				</Button>
@@ -135,7 +135,7 @@ export const LeftPanel: React.FC = () => {
 						setDrag(true);
 					}}
 					variant={drag ? 'primary' : 'ghost'}
-					size={'icon'}
+					size={'small'}
 				>
 					<Hand size={18}></Hand>
 				</Button>
@@ -148,7 +148,7 @@ export const LeftPanel: React.FC = () => {
 						setIsErasing(false);
 					}}
 					variant={canDraw ? 'primary' : 'ghost'}
-					size={'icon'}
+					size={'small'}
 				>
 					<Brush size={18}></Brush>
 				</Button>
@@ -161,17 +161,17 @@ export const LeftPanel: React.FC = () => {
 						setCanDraw(false);
 					}}
 					variant={isErasing ? 'primary' : 'ghost'}
-					size={'icon'}
+					size={'small'}
 				>
 					<Eraser size={18}></Eraser>
 				</Button>
 
-				<div className='mx-auto my-2 hidden h-1 w-1 rounded bg-base-300/80 p-1 md:flex '></div>
+				<div className='mx-auto my-4 hidden h-1 w-1 rounded bg-base-200/80 p-1 md:flex '></div>
 
 				{/* Code Control */}
 				<Button
 					variant={'ghost'}
-					size={'icon'}
+					size={'small'}
 					onClick={() => {
 						addControl({
 							type: 'code',
@@ -189,7 +189,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Image Control */}
 				<Button
 					variant={'ghost'}
-					size={'icon'}
+					size={'small'}
 					onClick={() => {
 						addControl({
 							type: 'image',
@@ -207,7 +207,7 @@ export const LeftPanel: React.FC = () => {
 				{/* FaIcon Control */}
 				<Button
 					variant={'ghost'}
-					size={'icon'}
+					size={'small'}
 					onClick={() => {
 						addControl({
 							type: 'icon',
@@ -225,7 +225,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Text Control */}
 				<Button
 					variant={'ghost'}
-					size={'icon'}
+					size={'small'}
 					onClick={() => {
 						addControl({
 							type: 'text',
@@ -243,7 +243,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Shape Control */}
 				<Button
 					variant={'ghost'}
-					size={'icon'}
+					size={'small'}
 					onClick={() => {
 						addControl({
 							type: 'shape',
@@ -261,7 +261,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Phone Mockup Control */}
 				<Button
 					variant={'ghost'}
-					size={'icon'}
+					size={'small'}
 					onClick={() => {
 						addControl({
 							type: 'phone_mockup',
