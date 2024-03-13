@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { IconPlus, IconSquareRotated, IconX } from '@tabler/icons-react';
+import { IconSquareRotated, IconX } from '@tabler/icons-react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
 export const TabBar: React.FC = () => {
@@ -8,7 +8,6 @@ export const TabBar: React.FC = () => {
 
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
 
-	const addWorkspace = useStoreActions((state) => state.addWorkspace);
 	const deleteWorkspace = useStoreActions((state) => state.deleteWorkspace);
 	const setCurrentWorkspace = useStoreActions(
 		(state) => state.setCurrentWorkspace,
@@ -50,9 +49,9 @@ export const TabBar: React.FC = () => {
 						onClick={() => {
 							setCurrentWorkspace(item.id);
 						}}
-						className={`flex items-center rounded bg-base-200 px-3 ${
+						className={`flex items-center rounded-sm bg-base-200 px-3 ${
 							currentWorkspaceID === item.id &&
-							'poppins-font-family btn-neutral  shadow'
+							'poppins-font-family btn-neutral border-b-2 border-primary shadow'
 						}`}
 					>
 						<IconSquareRotated

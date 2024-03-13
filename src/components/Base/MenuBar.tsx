@@ -29,8 +29,9 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { PROJECT_KEY } from '../../utils/secrets';
-import { Edit, File, Info, Square, View } from 'lucide-react';
+import { Edit, File, Info, Plus, Square, View } from 'lucide-react';
 import TabBar from './TabBar';
+import { Button } from '@/components/ui/button';
 
 const AboutModal = React.lazy(async () => await import('../Modals/AboutModal'));
 const ChangelogModal = React.lazy(
@@ -296,7 +297,7 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 flex items-center overflow-hidden dark:text-gray-100'>
+			<div className='z-10 flex items-center gap-1 overflow-hidden dark:text-gray-200'>
 				<Menubar>
 					{/* File */}
 					<MenubarMenu>
@@ -490,6 +491,9 @@ export const MenuBar: React.FC = () => {
 				</Menubar>
 
 				<TabBar></TabBar>
+				<Button onClick={handleNewWorkspace} size={'icon'} variant={'ghost'}>
+					<Plus size={16}></Plus>
+				</Button>
 			</div>
 
 			{showWizard && (
