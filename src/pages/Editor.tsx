@@ -237,221 +237,84 @@ export const Editor: React.FC = () => {
 				</div>
 
 				{/* Content */}
-				<div className='relative mb-1 flex flex-auto flex-col overflow-hidden  p-0'>
-					{/* Nav Bar Mobile */}
-					{!isHorizontal && <NavBarMobile></NavBarMobile>}
-
-					{/* Quick Settings */}
-					<div className='pointer-events-none absolute z-20  flex h-full  w-full bg-transparent '>
-						<div className='pointer-events-auto relative mb-28 ml-auto mr-2 mt-auto flex h-fit max-w-fit flex-auto  flex-col gap-1 md:mr-4  md:mt-2 md:flex-row md:gap-1 lg:flex'>
-							{/* Change Theme */}
-							{!isElectron() && (
-								<>
-									<Tooltip placement='bottom' message='Change Theme'>
-										<Button
-											size='md'
-											shape='circle'
-											color='neutral'
-											className='my-auto hidden border-none bg-base-200/90 lg:flex'
-											onClick={() => {
-												toggleTheme();
-											}}
-										>
-											{appTheme === 'light' ? (
-												<IconMoon
-													size={22}
-													className='text-base-content mx-auto my-auto dark:text-white'
-												></IconMoon>
-											) : (
-												<IconSun
-													size={22}
-													className='text-base-content mx-auto my-auto dark:text-white'
-												></IconSun>
-											)}
-										</Button>
-									</Tooltip>
-
-									<p className='mx-1 my-auto hidden h-0.5 rounded  bg-base-200 p-0.5 lg:block'></p>
-								</>
-							)}
-
-							{/* Lock Aspect Ratio */}
-							<Tooltip placement='bottom' message='Lock Aspect Ratio (Ctrl+R)'>
-								<Button
-									size='md'
-									shape='circle'
-									className={`my-auto hidden  flex-auto rounded-full border-none bg-base-200/90 p-1 hover:bg-base-100 md:flex ${
-										aspectRatio && 'border-none bg-primary text-white'
-									}`}
-									onClick={() => {
-										setAspectRatio(!aspectRatio);
+				<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
+					{/* Draw Bar */}
+					{(canDraw || isErasing) && (
+						<div className=' absolute flex h-full w-full'>
+							<div className=' z-50 mb-12 ml-auto mr-4 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5'>
+								{/* Stroke Range */}
+								<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
+								<Range
+									color='primary'
+									className='my-auto flex  flex-auto p-1'
+									min={0}
+									max={100}
+									onChange={(ev) => {
+										setLineWidth(parseInt(ev.currentTarget.value));
 									}}
-								>
-									<IconLock size={22} className='dark:text-white'></IconLock>
-								</Button>
-							</Tooltip>
+									value={lineWidth}
+								></Range>
 
-							<p className='mx-1 my-auto hidden h-0.5 rounded bg-base-200/90 p-0.5 md:flex '></p>
+								<ColorPicker
+									isGradientEnable={false}
+									color={strokeColor}
+									onColorChange={setStrokeColor}
+									showLabel={false}
+									placement='right-end'
+									label='Color'
+								></ColorPicker>
 
-							{/* Zoom Out */}
-							<Tooltip placement='bottom' message='Zoom Out'>
-								<Button
-									size='md'
-									shape='circle'
-									className='my-auto  flex-auto rounded-full border-none bg-base-200/90  hover:bg-base-100 md:flex'
-									onClick={() =>
-										viewerRef.current?.setZoom(
-											viewerRef.current?.getZoom() - 0.2,
-										)
-									}
-								>
-									<IconZoomOut
-										size={22}
-										className='my-auto dark:text-white'
-									></IconZoomOut>
-								</Button>
-							</Tooltip>
-
-							{/* Zoom In */}
-							<Tooltip placement='bottom' message='Zoom In'>
-								<Button
-									size='md'
-									shape='circle'
-									className='my-auto   flex-auto rounded-full border-none bg-base-200/90 p-2 hover:bg-base-100 md:flex'
-									onClick={() =>
-										viewerRef.current?.setZoom(
-											viewerRef.current?.getZoom() + 0.2,
-										)
-									}
-								>
-									<IconZoomIn
-										size={22}
-										className='my-auto dark:text-white'
-									></IconZoomIn>
-								</Button>
-							</Tooltip>
-
-							{/* Zoom Reset */}
-							<Tooltip placement='bottom' message='Zoom Reset'>
-								<Button
-									size='md'
-									shape='circle'
-									className='my-auto hidden flex-auto rounded-full border-none bg-base-200/90 hover:bg-base-100  md:flex'
-									onClick={() => viewerRef.current?.setZoom(0.7)}
-								>
-									<IconZoomReset
-										size={22}
-										className='my-auto dark:text-white'
-									></IconZoomReset>
-								</Button>
-							</Tooltip>
-
-							{/* Center View */}
-							<Tooltip placement='bottom' message='Center View'>
-								<Button
-									size='md'
-									shape='circle'
-									className='bg-base-200/90 hover:bg-base-100 md:hidden'
-									onClick={() => {
-										centerView();
-									}}
-								>
-									<IconFocusCentered
-										size={22}
-										className='my-auto dark:text-white'
-									></IconFocusCentered>
-								</Button>
-							</Tooltip>
-
-							{/* Preview Button */}
-							<Tooltip placement='bottom' message='Render (Ctrl+S)'>
-								<Button className='to-secondary mr-2 hidden h-12 w-12 rounded-full border-none border-primary bg-gradient-to-br from-violet-500 p-1 hover:border-primary hover:bg-gradient-to-l '>
-									<IconFlask size={22} className='text-white'></IconFlask>
-								</Button>
-							</Tooltip>
-						</div>
-					</div>
-
-					{/* Content */}
-					<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
-						{/* Draw Bar */}
-						{(canDraw || isErasing) && (
-							<div className=' absolute flex h-full w-full'>
-								<div className=' z-50 mb-12 ml-auto mr-4 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5'>
-									{/* Stroke Range */}
-									<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
-									<Range
-										color='primary'
-										className='my-auto flex  flex-auto p-1'
-										min={0}
-										max={100}
-										onChange={(ev) => {
-											setLineWidth(parseInt(ev.currentTarget.value));
+								{/* Zoom In */}
+								<Tooltip className='hidden flex-auto ' message='Zoom In'>
+									<Button
+										className='flex flex-auto p-1'
+										color='ghost'
+										onClick={() => {
+											setZoom(zoom + 0.2);
 										}}
-										value={lineWidth}
-									></Range>
-
-									<ColorPicker
-										isGradientEnable={false}
-										color={strokeColor}
-										onColorChange={setStrokeColor}
-										showLabel={false}
-										placement='right-end'
-										label='Color'
-									></ColorPicker>
-
-									{/* Zoom In */}
-									<Tooltip className='hidden flex-auto ' message='Zoom In'>
-										<Button
-											className='flex flex-auto p-1'
-											color='ghost'
-											onClick={() => {
-												setZoom(zoom + 0.2);
-											}}
-										>
-											<IconZoomIn
-												size={15}
-												className='dark:text-white'
-											></IconZoomIn>
-										</Button>
-									</Tooltip>
-								</div>
-							</div>
-						)}
-
-						{/* Workspace */}
-						<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
-							{/* Ruler Horizontal */}
-							<InfiniteViewer
-								ref={viewerRef}
-								className='viewer my-2 flex flex-auto'
-								useAutoZoom
-								useMouseDrag={drag}
-								useGesture
-								usePinch={!drag}
-								threshold={0}
-								useResizeObserver
-								useWheelScroll
-								useWheelPinch
-								useTransform
-							>
-								<div
-									style={{
-										width: currentWorkspace.workspaceWidth + 'px',
-										height: currentWorkspace.workspaceHeight + 'px',
-									}}
-									className='viewport'
-								>
-									<Suspense
-										fallback={
-											<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
-										}
 									>
-										<Workspace reference={ref}></Workspace>
-									</Suspense>
-								</div>
-							</InfiniteViewer>
+										<IconZoomIn
+											size={15}
+											className='dark:text-white'
+										></IconZoomIn>
+									</Button>
+								</Tooltip>
+							</div>
 						</div>
+					)}
+
+					{/* Workspace */}
+					<div className={`flex flex-auto flex-col ${drag && 'cursor-move'}`}>
+						{/* Ruler Horizontal */}
+						<InfiniteViewer
+							ref={viewerRef}
+							className='viewer my-2 flex flex-auto'
+							useAutoZoom
+							useMouseDrag={drag}
+							useGesture
+							usePinch={!drag}
+							threshold={0}
+							useResizeObserver
+							useWheelScroll
+							useWheelPinch
+							useTransform
+						>
+							<div
+								style={{
+									width: currentWorkspace.workspaceWidth + 'px',
+									height: currentWorkspace.workspaceHeight + 'px',
+								}}
+								className='viewport'
+							>
+								<Suspense
+									fallback={
+										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+									}
+								>
+									<Workspace reference={ref}></Workspace>
+								</Suspense>
+							</div>
+						</InfiniteViewer>
 					</div>
 				</div>
 

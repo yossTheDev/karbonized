@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import './TitleBar.css';
 import { MenuBar } from './MenuBar';
+import { Moon, Sun } from 'lucide-react';
 
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(false);
@@ -46,14 +47,14 @@ export const TitleBar: React.FC = () => {
 						</defs>
 						<g id='Group-3'>
 							<g id='Rec-Subtract'>
-								<g clip-path='url(#clip_1)'>
-									<use fill='none' stroke-width='12' />
+								<g clipPath='url(#clip_1)'>
+									<use fill='none' strokeWidth='12' />
 								</g>
 							</g>
 							<path
 								d='M203.05 47.5693C215.56 35.0586 235.838 35.0586 248.349 47.5693L403.75 202.971C416.261 215.482 416.261 235.759 403.75 248.27L248.349 403.672C244.634 407.387 240.234 409.999 235.556 411.507C235.585 398.816 232.019 400.749 239.573 374.964C247.126 349.179 255.652 338.375 265.771 308.368C275.89 278.36 275.179 275.842 280.05 254.932C284.92 234.023 281.278 201.52 258.561 169.564C233.034 133.656 192.433 98.9087 169.001 81.618L203.05 47.5693L203.05 47.5693ZM88.4009 288.828C88.3898 288.882 88.3787 288.936 88.3677 288.99L47.6482 248.27C35.1375 235.759 35.1375 215.482 47.6482 202.971L162.022 86.373C165.225 101.533 178.6 131.78 169.14 158.04C150.072 210.97 99.9601 233.004 88.4009 288.828L88.4009 288.828Z'
 								id='Vector'
-								fill-rule='evenodd'
+								fillRule='evenodd'
 								stroke='none'
 							/>
 						</g>
@@ -69,12 +70,14 @@ export const TitleBar: React.FC = () => {
 					<div className='my-auto flex flex-row gap-1'>
 						<div
 							className='hover:bg-neutral mr-2 flex flex-auto rounded-full p-3 hover:cursor-pointer active:bg-base-100'
-							onClick={() => toggleTheme()}
+							onClick={() => {
+								toggleTheme();
+							}}
 						>
 							{appTheme === 'light' ? (
-								<IconMoon className='ml-auto h-4 w-4 dark:text-white'></IconMoon>
+								<Moon className='ml-auto h-4 w-4 dark:text-white'></Moon>
 							) : (
-								<IconSun className='ml-auto h-4 w-4 dark:text-white'></IconSun>
+								<Sun className='ml-auto h-4 w-4 dark:text-white'></Sun>
 							)}
 						</div>
 
@@ -93,7 +96,7 @@ export const TitleBar: React.FC = () => {
 								<path
 									d='M0 0L412 0L412 41L0 41L0 0Z'
 									id='Rectangle-2'
-									fill-rule='evenodd'
+									fillRule='evenodd'
 									stroke='none'
 								/>
 							</svg>
@@ -116,7 +119,7 @@ export const TitleBar: React.FC = () => {
 									<path
 										d='M371 0L412 0L412 416L0 416L0 -1.90735e-05L41 0L371 0ZM371 41L41 41L41 375L371 375L371 41Z'
 										id='Rectangle-2-Union'
-										fill-rule='evenodd'
+										fillRule='evenodd'
 										stroke='none'
 									/>
 								</svg>
@@ -130,7 +133,7 @@ export const TitleBar: React.FC = () => {
 									<path
 										d='M368 0.00012207L368 0L412 0L412 331L368 331L329 331L329 412L42.2462 412L42.2462 412.5L0.246216 412.5L0.246216 412L0 412L0 370L0.246212 370L0.246178 125L0 125L0 83.0001L81 83.0001L81 0.00012207L368 0.00012207ZM42.2462 125L42.2462 370L287 370L287 125L42.2462 125ZM287 83.0001L329 83.0001L329 125L329 288L368 288L368 41.0001L125 41.0001L125 83.0001L287 83.0001Z'
 										id='Rectangle-2-Union'
-										fill-rule='evenodd'
+										fillRule='evenodd'
 										stroke='none'
 									/>
 								</svg>
@@ -152,7 +155,7 @@ export const TitleBar: React.FC = () => {
 								<path
 									d='M27.5772 0L0 27.5772L179.385 206.962L11.1242 375.222L38.7013 402.8L206.962 234.539L372.645 400.222L400.222 372.645L234.539 206.962L411.347 30.1543L383.769 2.57716L206.962 179.385L27.5772 0Z'
 									id='Rectangle-2-Union'
-									fill-rule='evenodd'
+									fillRule='evenodd'
 									stroke='none'
 								/>
 							</svg>

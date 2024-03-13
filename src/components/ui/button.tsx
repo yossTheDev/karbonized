@@ -28,6 +28,7 @@ const buttonVariants = cva(
 				lg: 'h-11 rounded-md px-8',
 				icon: 'h-10 w-10',
 				small: 'w-8 h-8',
+				statusbar: 'w-6 h-6',
 			},
 		},
 		defaultVariants: {
