@@ -26,7 +26,7 @@ export const TabBar: React.FC = () => {
 			autoHide
 			style={{ width: '100%' }}
 			renderThumbHorizontal={(props) => (
-				<div {...props} className='rounded bg-base-100 p-1' />
+				<div {...props} className='rounded bg-base-100/75 p-1' />
 			)}
 			onWheel={(event: any) => {
 				const delta = Math.max(
