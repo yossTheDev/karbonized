@@ -10,6 +10,14 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { WorkspacePanel } from './WorkspacePanel';
 import { ResizablePanel } from '../ui/resizable';
+import { Button } from '../ui/button';
+import {
+	ChevronLeft,
+	ChevronRight,
+	DraftingCompass,
+	InspectionPanel,
+	SquarePen,
+} from 'lucide-react';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
@@ -66,7 +74,7 @@ export const RightPanel: React.FC = () => {
 
 	return (
 		<ResizablePanel
-			className={'min-w-8 max-w-96'}
+			className={'min-w-14 max-w-[30rem]'}
 			collapsible
 			minSize={2}
 			ref={panel}
@@ -78,65 +86,54 @@ export const RightPanel: React.FC = () => {
 			}}
 		>
 			<div
-				className={`pointer-events-auto mr-auto flex h-full w-full gap-1 overflow-hidden rounded-tl-sm border-l-2 border-base-200 bg-base-300 p-2 text-gray-950 shadow-sm dark:text-gray-100 dark:shadow-base-200 `}
+				className={`pointer-events-auto mr-auto flex h-full w-full gap-4 overflow-hidden rounded-tl-sm border-l-2 border-base-200 bg-base-300 p-2 text-gray-950 shadow-sm dark:text-gray-100 dark:shadow-base-200 `}
 			>
 				{/* Selectors */}
-				<div className='text-base-content flex flex-auto flex-col gap-2'>
+				<div className='flex flex-col gap-2'>
 					{/* Show/Close Menu */}
-					<Tooltip message='Show/Close Menu (Ctrl+B)'>
-						<button
-							onClick={() => {
-								setShowMenu(!showMenu);
-								setWorkspaceMode('custom');
-							}}
-							className={`btn btn-ghost btn-sm rounded-xl`}
-						>
-							{showMenu ? (
-								<IconChevronRight
-									className='mx-auto'
-									size={16}
-								></IconChevronRight>
-							) : (
-								<IconChevronLeft
-									className='mx-auto'
-									size={16}
-								></IconChevronLeft>
-							)}
-						</button>
-					</Tooltip>
+					<Button
+						size={'icon'}
+						variant={'ghost'}
+						onClick={() => {
+							setShowMenu(!showMenu);
+							setWorkspaceMode('custom');
+						}}
+					>
+						{showMenu ? (
+							<ChevronRight size={16}></ChevronRight>
+						) : (
+							<ChevronLeft size={16}></ChevronLeft>
+						)}
+					</Button>
 
 					{/* Edit */}
-					<Tooltip message='Edit'>
-						<button
-							onClick={() => {
-								setTab('control');
-								setWorkspaceMode('custom');
-								setShowMenu(true);
-							}}
-							className={`btn btn-ghost btn-sm rounded-xl ${
-								tab === 'control' && showMenu && 'bg-base-200 md:bg-base-300'
-							}`}
-						>
-							<IconEdit className='mx-auto' size={16}></IconEdit>
-						</button>
-					</Tooltip>
+					<Button
+						variant={'ghost'}
+						size={'icon'}
+						onClick={() => {
+							setTab('control');
+							setWorkspaceMode('custom');
+							setShowMenu(true);
+						}}
+						className={`${tab === 'control' && showMenu && 'bg-primary'}`}
+					>
+						<SquarePen size={16}></SquarePen>
+					</Button>
 
 					{/* Workspace */}
-					<Tooltip message='Workspace'>
-						<button
-							onClick={() => {
-								setTab('workspace');
-								setWorkspaceMode('custom');
-								setWorkspaceTab('workspace');
-								setShowMenu(true);
-							}}
-							className={`btn btn-ghost btn-sm rounded-xl ${
-								tab === 'workspace' && showMenu && 'bg-base-200 md:bg-base-300'
-							}`}
-						>
-							<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
-						</button>
-					</Tooltip>
+					<Button
+						variant={'ghost'}
+						size={'icon'}
+						onClick={() => {
+							setTab('workspace');
+							setWorkspaceMode('custom');
+							setWorkspaceTab('workspace');
+							setShowMenu(true);
+						}}
+						className={`${tab === 'workspace' && showMenu && 'bg-primary'}`}
+					>
+						<InspectionPanel className='mx-auto' size={16}></InspectionPanel>
+					</Button>
 				</div>
 
 				{/* Tab Panels */}
