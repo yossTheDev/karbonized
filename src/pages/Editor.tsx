@@ -1,3 +1,8 @@
+import {
+	ResizableHandle,
+	ResizablePanel,
+	ResizablePanelGroup,
+} from '@/components/ui/resizable';
 import { IconBrush, IconZoomIn } from '@tabler/icons-react';
 import React, {
 	Suspense,
@@ -304,11 +309,13 @@ export const Editor: React.FC = () => {
 					</div>
 
 					{/* Right Panel */}
-					<div className='pointer-events-auto ml-auto flex h-full max-w-sm overflow-hidden rounded-l-md bg-base-200'>
+					<ResizablePanelGroup direction='horizontal'>
+						<ResizablePanel></ResizablePanel>
+						<ResizableHandle withHandle />
 						<Suspense>
 							<RightPanel></RightPanel>
 						</Suspense>
-					</div>
+					</ResizablePanelGroup>
 				</div>
 			</div>
 
