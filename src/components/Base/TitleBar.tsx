@@ -25,13 +25,13 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='flex max-h-44 w-full p-1'
-			data-tauri-drag-region
+			className='draggable flex max-h-44 w-full border-b-2 border-base-200/40 px-1 pt-1 dark:shadow-base-200'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
 		>
-			<div className='flex w-[80%] items-center overflow-x-hidden'>
+			{/* Menu Bar */}
+			<div className='not-draggable flex max-w-[80%] items-center overflow-x-hidden'>
 				<svg
 					className='ml-3 mr-1 h-6 w-6 min-w-6 dark:fill-white'
 					viewBox='0 0 451.31622 451.31616'
@@ -63,7 +63,7 @@ export const TitleBar: React.FC = () => {
 			</div>
 
 			{/* Icons */}
-			<div className='flex w-[20%]'>
+			<div className='not-draggable ml-auto flex w-[20%]'>
 				<div className='z-30 ml-auto mr-1 select-none'>
 					<div className='my-auto flex flex-row gap-1'>
 						<div

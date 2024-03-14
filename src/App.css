@@ -58,6 +58,10 @@
 	-webkit-app-region: drag;
 }
 
+.not-draggable {
+	-webkit-app-region: no-drag;
+}
+
 .grid-background {
 	background-image: url('./assets/grid-pattern2.svg');
 }
