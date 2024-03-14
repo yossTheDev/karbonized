@@ -25,7 +25,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable flex max-h-44 w-full border-b-2 border-base-200/40 px-1 py-1 dark:shadow-base-200'
+			className='draggable flex max-h-44 w-full border-b-2 border-base-200 px-1 py-0.5 dark:shadow-base-200'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
@@ -63,7 +63,7 @@ export const TitleBar: React.FC = () => {
 			</div>
 
 			{/* Actions */}
-			<div className='not-draggable pointer-events-auto z-10 ml-auto flex w-[20%] gap-1'>
+			<div className='not-draggable pointer-events-auto z-10 ml-auto flex w-[20%] items-center gap-1'>
 				<Button
 					size={'icon'}
 					variant={'ghost'}

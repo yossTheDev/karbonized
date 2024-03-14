@@ -55,7 +55,7 @@ export const RightPanel: React.FC = () => {
 	}, [workspaceTab]);
 
 	return (
-		<div className='pointer-events-auto my-2 hidden w-full max-w-[23rem] flex-row gap-1 overflow-y-auto overflow-x-hidden rounded-s-2xl bg-base-200 p-2 text-gray-950 dark:text-gray-400 md:flex'>
+		<div className='pointer-events-auto z-30 mr-auto flex h-full grow-0  flex-col gap-1 overflow-hidden rounded-tl-sm  border-l-2 border-base-200 bg-base-300 p-2 text-gray-950 shadow-sm dark:text-gray-100 dark:shadow-base-200 md:w-fit md:max-w-[50rem]'>
 			{/* Tab Panels */}
 			<div
 				className={`relative ${
@@ -75,7 +75,7 @@ export const RightPanel: React.FC = () => {
 						<div className='overflow-auto' id='menu'></div>
 						{currentID === '' && (
 							<div className='flex h-96 flex-auto'>
-								<p className='mx-auto my-auto select-none text-center text-xs text-base-content/70'>
+								<p className='text-base-content/70 mx-auto my-auto select-none text-center text-xs'>
 									Select a control to start editing it
 								</p>
 							</div>
@@ -92,7 +92,7 @@ export const RightPanel: React.FC = () => {
 			</div>
 
 			{/* Selectors */}
-			<div className='flex flex-auto flex-col gap-2 text-base-content'>
+			<div className='text-base-content flex flex-auto flex-col gap-2'>
 				{/* Show/Close Menu */}
 				<Tooltip message='Show/Close Menu (Ctrl+B)'>
 					<button
