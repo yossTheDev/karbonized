@@ -1,14 +1,4 @@
-import {
-	IconBrush,
-	IconFlask,
-	IconFocusCentered,
-	IconLock,
-	IconMoon,
-	IconSun,
-	IconZoomIn,
-	IconZoomOut,
-	IconZoomReset,
-} from '@tabler/icons-react';
+import { IconBrush, IconZoomIn } from '@tabler/icons-react';
 import React, {
 	Suspense,
 	useContext,
@@ -19,12 +9,9 @@ import React, {
 import { Button, Range } from 'react-daisyui';
 import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
-import { NavBarMobile } from '../components/Mobile/NavBarMobileEditor';
 import { useScreenDirection } from '../hooks/useScreenDirection';
-import { useTheme } from '../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
-import { isElectron } from '../utils/isElectron';
 
 const Workspace = React.lazy(
 	async () => await import('../components/Workspace'),
@@ -34,9 +21,6 @@ const StatusBar = React.lazy(
 );
 const ColorPicker = React.lazy(
 	async () => await import('../components/CustomControls/ColorPicker'),
-);
-const TabBar = React.lazy(
-	async () => await import('../components/Base/TabBar'),
 );
 const LeftPanel = React.lazy(
 	async () => await import('../components/Panels/LeftPanel'),
@@ -88,7 +72,6 @@ export const Editor: React.FC = () => {
 
 	/* Component Store and Actions */
 	const isHorizontal = useScreenDirection();
-	const [appTheme, toggleTheme] = useTheme();
 
 	const [, setShowAbout] = useState(false);
 
@@ -96,13 +79,13 @@ export const Editor: React.FC = () => {
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.4);
 
-	const getElementsByType = (type: string) => {
+	const getElementsByType = (type: string): number => {
 		return (
 			currentWorkspace.controls.filter((item) => item.type === type).length + 1
 		);
 	};
 
-	const centerView = () => {
+	const centerView = (): void => {
 		const width = parseFloat(currentWorkspace.workspaceWidth);
 
 		if (isHorizontal) {
