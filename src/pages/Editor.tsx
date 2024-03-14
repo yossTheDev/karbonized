@@ -212,13 +212,6 @@ export const Editor: React.FC = () => {
 				}}
 				className='relative flex flex-auto flex-row overflow-hidden'
 			>
-				{/* Left Panel */}
-				<div className='flex max-w-xs'>
-					<Suspense>
-						<LeftPanel></LeftPanel>
-					</Suspense>
-				</div>
-
 				{/* Content */}
 				<div className='relative flex flex-auto flex-col overflow-hidden md:flex-row'>
 					{/* Draw Bar */}
@@ -301,11 +294,21 @@ export const Editor: React.FC = () => {
 					</div>
 				</div>
 
-				{/* Right Panel */}
-				<div className='flex max-h-screen max-w-sm overflow-hidden rounded-l-md bg-base-200'>
-					<Suspense>
-						<RightPanel></RightPanel>
-					</Suspense>
+				{/* Panels */}
+				<div className='pointer-events-none absolute flex h-full w-full'>
+					{/* Left Panel */}
+					<div className='pointer-events-auto flex max-w-xs'>
+						<Suspense>
+							<LeftPanel></LeftPanel>
+						</Suspense>
+					</div>
+
+					{/* Right Panel */}
+					<div className='pointer-events-auto ml-auto flex h-full max-w-sm overflow-hidden rounded-l-md bg-base-200'>
+						<Suspense>
+							<RightPanel></RightPanel>
+						</Suspense>
+					</div>
 				</div>
 			</div>
 
