@@ -1,21 +1,52 @@
-import { IconPalette, IconSettings } from '@tabler/icons-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Palette, Settings } from 'lucide-react';
 import React, { Suspense } from 'react';
-import { Input, Select } from 'react-daisyui';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { ColorPicker } from '../CustomControls/ColorPicker';
 import { Wallpapers } from '../../utils/wallpapers';
+import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { ScrollArea } from '../ui/scroll-area';
 
-const Coil = React.lazy(() => import('../Misc/SvgBackgrounds/Coil'));
-const Circular = React.lazy(() => import('../Misc/SvgBackgrounds/Circular'));
-const Horizon = React.lazy(() => import('../Misc/SvgBackgrounds/Horizon'));
-const Grayrate = React.lazy(() => import('../Misc/SvgBackgrounds/Grayrate'));
-const Hirl = React.lazy(() => import('../Misc/SvgBackgrounds/Hirl'));
-const Neon = React.lazy(() => import('../Misc/SvgBackgrounds/Neon'));
-const Undulate = React.lazy(() => import('../Misc/SvgBackgrounds/Undulate'));
-const Chaos = React.lazy(() => import('../Misc/SvgBackgrounds/Chaos'));
-const Oscilate = React.lazy(() => import('../Misc/SvgBackgrounds/Oscilate'));
-const Vortex = React.lazy(() => import('../Misc/SvgBackgrounds/Vortex'));
+const Coil = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Coil'),
+);
+const Circular = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Circular'),
+);
+const Horizon = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Horizon'),
+);
+const Grayrate = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Grayrate'),
+);
+const Hirl = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Hirl'),
+);
+const Neon = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Neon'),
+);
+const Undulate = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Undulate'),
+);
+const Chaos = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Chaos'),
+);
+const Oscilate = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Oscilate'),
+);
+const Vortex = React.lazy(
+	async () => await import('../Misc/SvgBackgrounds/Vortex'),
+);
 
 interface SizeItem {
 	label: string;
@@ -80,7 +111,7 @@ const Sizes: SizeItem[] = [
 	{ label: 'Pinterest', width: 735, height: 1102 },
 ];
 
-const getSize = (label: string) => {
+const getSize = (label: string): SizeItem | undefined => {
 	return Sizes.find((item) => label === item.label);
 };
 
@@ -106,66 +137,67 @@ export const WorkspacePanel: React.FC = () => {
 				Workspace
 			</label>
 
-			<div className='flex flex-auto select-none flex-col overflow-auto p-1 text-xs'>
+			<Separator></Separator>
+
+			<ScrollArea className='mt-4'>
 				{/* Background Settings */}
 				<CustomCollapse
 					menu={
-						<div className='m-2 flex flex-row gap-2'>
-							<IconSettings></IconSettings>
-							<p className='my-auto font-bold'>Settings</p>
+						<div className='m-2 flex flex-row items-center gap-2'>
+							<Settings></Settings>
+							<Label>Settings</Label>
 						</div>
 					}
 				>
 					{/* Workspace Name */}
 					<>
-						<p className='my-auto font-bold'>Workspace Name</p>
-
-						<div className='flex max-h-14 flex-auto flex-row p-2'>
-							<Input
-								spellCheck={false}
-								className='my-auto w-full rounded-xl bg-base-100  p-2'
-								onChange={(ev) => setWorkspaceName(ev.target.value)}
-								value={currentWorkspace.workspaceName}
-							></Input>
-						</div>
+						<Label htmlFor='workspace-name'>Workspace Name</Label>
+						<Input
+							id='workspace-name'
+							spellCheck={false}
+							onChange={(ev) => {
+								setWorkspaceName(ev.target.value);
+							}}
+							value={currentWorkspace.workspaceName}
+						></Input>
 					</>
 
 					{/* Size */}
 					<>
-						<p className='my-auto font-bold'>Size</p>
+						<Label>Size</Label>
 
 						{/* Predefined Sizes */}
-						<div className='mx-2 my-2 flex'>
-							<Select
-								defaultValue={'Default'}
-								className='flex flex-auto'
-								tabIndex={0}
-								onChange={(e) => {
-									const size = getSize(e.currentTarget.value);
-									size &&
-										setWorkspaceSize({
-											width: size?.width.toString(),
-											height: size?.height.toString(),
-										});
-								}}
-							>
+						<Select
+							onValueChange={(e) => {
+								const size = getSize(e);
+								size != null &&
+									setWorkspaceSize({
+										width: size?.width.toString(),
+										height: size?.height.toString(),
+									});
+							}}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder='Workspace Size' />
+							</SelectTrigger>
+							<SelectContent>
 								{Sizes.map((i) => {
 									return (
-										<option key={i.label} value={i.label}>
+										<SelectItem key={i.label} value={i.label}>
 											{i.label}
-										</option>
+										</SelectItem>
 									);
 								})}
-							</Select>
-						</div>
+							</SelectContent>
+						</Select>
 
-						<div className='flex max-h-16 flex-auto select-none flex-row p-2'>
+						<div className='flex flex-auto select-none'>
 							{/* Size W */}
-							<div className='flex flex-auto flex-row'>
-								<p className='my-auto mr-2'>W:</p>
+							<div className='flex flex-auto flex-row items-center gap-2'>
+								<Label>W:</Label>
 								<Input
 									type={'number'}
-									className='w-full rounded-xl bg-base-100 p-2 text-xs'
+									placeholder='Width'
 									onChange={(ev) => {
 										setWorkspaceSize({
 											width: ev.currentTarget.value,
@@ -175,13 +207,14 @@ export const WorkspacePanel: React.FC = () => {
 									value={currentWorkspace.workspaceWidth}
 								></Input>
 							</div>
+
 							{/* Size H */}
-							<div className='ml-2 flex flex-auto select-none flex-row'>
-								<p className='my-auto mr-2'>H:</p>
+							<div className='ml-2 flex flex-auto select-none flex-row items-center gap-2'>
+								<Label>H:</Label>
 
 								<Input
 									type={'number'}
-									className='w-full rounded-xl bg-base-100 p-2 text-xs'
+									placeholder='Height'
 									onChange={(ev) => {
 										setWorkspaceSize({
 											height: ev.currentTarget.value,
@@ -199,301 +232,274 @@ export const WorkspacePanel: React.FC = () => {
 				<CustomCollapse
 					isOpen
 					menu={
-						<div className='m-2 flex flex-row gap-2'>
-							<IconPalette></IconPalette>
-							<p className='my-auto font-bold'>Background</p>
+						<div className='m-2 flex items-center gap-2'>
+							<Palette></Palette>
+							<Label>Background</Label>
 						</div>
 					}
 				>
-					{/* Workspace Background Type Selectors */}
-					<div className='mb-1 flex h-fit flex-row gap-2 rounded-2xl bg-base-300/60 p-2'>
-						<button
-							onClick={() => {
-								setWorkspaceType('color');
-							}}
-							className={`flex h-8 w-fit shrink-0 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
-								currentWorkspace.workspaceType === 'color' && 'bg-base-300'
-							}`}
-						>
-							<label className='mx-auto my-auto cursor-pointer'>Color</label>
-						</button>
+					<Tabs
+						value={currentWorkspace.workspaceType}
+						onValueChange={(e: string) => {
+							setWorkspaceType(e);
+						}}
+					>
+						<TabsList className='mx-auto mb-4 flex w-fit'>
+							<TabsTrigger value='color'>Color</TabsTrigger>
+							<TabsTrigger value='texture'>Texture</TabsTrigger>
+							<TabsTrigger value='image'>Image</TabsTrigger>
+						</TabsList>
+						<TabsContent value='color'>
+							<>
+								<div className='flex flex-wrap items-start gap-2'>
+									{Gradients.map((item) => (
+										<button
+											key={item.c1 + item.c2}
+											className={`mx-auto h-16 w-16 overflow-hidden rounded-xl border-b-4 transition-all hover:bg-gradient-to-bl hover:shadow active:scale-90 active:zoom-in-150 md:h-16 md:w-20 ${
+												currentWorkspace.workspaceGradientSettings.color1 ===
+												item.c1
+													? 'border-2 border-primary shadow-2xl'
+													: 'border-base-200'
+											}`}
+											style={{
+												background: `linear-gradient(${item.c1},${item.c2})`,
+											}}
+											onClick={() => {
+												setWorkspaceColorMode('Gradient');
+												setWorkspaceGradient({
+													color1: item.c1,
+													color2: item.c2,
+													deg: currentWorkspace.workspaceGradientSettings.deg,
+												});
+											}}
+										></button>
+									))}
+								</div>
 
-						<button
-							className={`flex h-8  w-fit shrink-0 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
-								currentWorkspace.workspaceType === 'texture' && 'bg-base-300'
-							}`}
-							onClick={() => {
-								setWorkspaceType('texture');
-							}}
-						>
-							<label className='mx-auto my-auto cursor-pointer'>Texture</label>
-						</button>
-
-						<button
-							className={`flex h-8  w-fit shrink-0 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2  transition-all hover:scale-105 hover:cursor-pointer hover:bg-neutral active:scale-90 ${
-								currentWorkspace.workspaceType === 'image' && 'bg-base-300'
-							}`}
-							onClick={() => {
-								setWorkspaceType('image');
-							}}
-						>
-							<label className='mx-auto my-auto cursor-pointer'>Image</label>
-						</button>
-					</div>
-
-					{/* Select Texture */}
-					{currentWorkspace.workspaceType === 'texture' && (
-						<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-auto'>
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'grayrate'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('grayrate');
-								}}
-							>
-								<Suspense>
-									<Grayrate className='flex h-full w-full flex-auto rounded-full'></Grayrate>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'coil'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('coil');
-								}}
-							>
-								<Suspense>
-									<Coil className='flex h-full w-full flex-auto rounded-full'></Coil>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'circular'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('circular');
-								}}
-							>
-								<Suspense>
-									<Circular className='flex h-full w-full flex-auto rounded-full'></Circular>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'horizon'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('horizon');
-								}}
-							>
-								<Suspense>
-									<Horizon className='flex h-full w-full flex-auto rounded-full'></Horizon>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'hirl'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('hirl');
-								}}
-							>
-								<Suspense>
-									<Hirl className='flex h-full w-full flex-auto rounded-full'></Hirl>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'neon'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('neon');
-								}}
-							>
-								<Suspense>
-									<Neon className='flex h-full w-full flex-auto rounded-full'></Neon>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'undulate'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('undulate');
-								}}
-							>
-								<Suspense>
-									<Undulate className='flex h-full w-full flex-auto rounded-full'></Undulate>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'chaos'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('chaos');
-								}}
-							>
-								<Suspense>
-									<Chaos className='flex h-full w-full flex-auto rounded-full'></Chaos>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'oscilate'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('oscilate');
-								}}
-							>
-								<Suspense>
-									<Oscilate className='flex h-full w-full flex-auto rounded-full'></Oscilate>
-								</Suspense>
-							</div>
-
-							<div
-								className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-									currentWorkspace.textureName === 'vortex'
-										? 'border-primary'
-										: 'border-base-300'
-								}`}
-								onClick={() => {
-									setTexture('vortex');
-								}}
-							>
-								<Suspense>
-									<Vortex className='flex h-full w-full flex-auto rounded-full'></Vortex>
-								</Suspense>
-							</div>
-						</div>
-					)}
-
-					{/* Image */}
-					{currentWorkspace.workspaceType === 'image' && (
-						<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
-							{Wallpapers.map((item) => (
-								<button
-									className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 bg-base-100 transition-transform hover:shadow active:scale-90 md:h-20 md:w-32 ${
-										currentWorkspace.textureName === item.id
-											? 'border-2 border-primary shadow-2xl'
+								<ColorPicker
+									type='HexAlpha'
+									colorGradient1={
+										currentWorkspace.workspaceGradientSettings.color1
+									}
+									colorGradient2={
+										currentWorkspace.workspaceGradientSettings.color2
+									}
+									gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
+									onGradientChange={(color: any, color2: any) => {
+										setWorkspaceGradient({
+											color1: color,
+											color2,
+											deg: currentWorkspace.workspaceGradientSettings.deg,
+										});
+									}}
+									onGradientDegChange={(deg) => {
+										setWorkspaceGradient({
+											color1: currentWorkspace.workspaceGradientSettings.color1,
+											color2: currentWorkspace.workspaceGradientSettings.color2,
+											deg,
+										});
+									}}
+									onModeChange={(mode) => {
+										setWorkspaceColorMode(mode);
+									}}
+									mode={currentWorkspace.workspaceColorMode}
+									color={currentWorkspace.workspaceColor}
+									onColorChange={setWorkspaceColor}
+								></ColorPicker>
+							</>
+						</TabsContent>
+						<TabsContent value='texture'>
+							<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-auto'>
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'grayrate'
+											? 'border-primary'
 											: 'border-base-300'
 									}`}
-									onClick={() => setTexture(item.id)}
+									onClick={() => {
+										setTexture('grayrate');
+									}}
 								>
-									<img
-										className='flex h-full w-full flex-auto'
-										src={item.thumb}
-									></img>
-								</button>
-							))}
-						</div>
-					)}
+									<Suspense>
+										<Grayrate className='flex h-full w-full flex-auto rounded-full'></Grayrate>
+									</Suspense>
+								</div>
 
-					{/* Select Shape */}
-					{currentWorkspace.workspaceType === 'texture' && (
-						<ColorPicker
-							type='HexAlpha'
-							colorGradient1={currentWorkspace.textureColors.color1}
-							colorGradient2={currentWorkspace.textureColors.color2}
-							onGradientChange={(color: any, color2: any) => {
-								setTextureColors({
-									color1: color,
-									color2: color2,
-								});
-							}}
-							color={currentWorkspace.workspaceColor}
-							mode={'Gradient'}
-							onColorChange={() => {}}
-						></ColorPicker>
-					)}
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'coil'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('coil');
+									}}
+								>
+									<Suspense>
+										<Coil className='flex h-full w-full flex-auto rounded-full'></Coil>
+									</Suspense>
+								</div>
 
-					{/* Gradients */}
-					{currentWorkspace.workspaceType === 'color' && (
-						<>
-							<div className='flex h-full flex-auto flex-row flex-wrap gap-2 overflow-auto '>
-								{Gradients.map((item) => (
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'circular'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('circular');
+									}}
+								>
+									<Suspense>
+										<Circular className='flex h-full w-full flex-auto rounded-full'></Circular>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'horizon'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('horizon');
+									}}
+								>
+									<Suspense>
+										<Horizon className='flex h-full w-full flex-auto rounded-full'></Horizon>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'hirl'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('hirl');
+									}}
+								>
+									<Suspense>
+										<Hirl className='flex h-full w-full flex-auto rounded-full'></Hirl>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'neon'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('neon');
+									}}
+								>
+									<Suspense>
+										<Neon className='flex h-full w-full flex-auto rounded-full'></Neon>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'undulate'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('undulate');
+									}}
+								>
+									<Suspense>
+										<Undulate className='flex h-full w-full flex-auto rounded-full'></Undulate>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'chaos'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('chaos');
+									}}
+								>
+									<Suspense>
+										<Chaos className='flex h-full w-full flex-auto rounded-full'></Chaos>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'oscilate'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('oscilate');
+									}}
+								>
+									<Suspense>
+										<Oscilate className='flex h-full w-full flex-auto rounded-full'></Oscilate>
+									</Suspense>
+								</div>
+
+								<div
+									className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
+										currentWorkspace.textureName === 'vortex'
+											? 'border-primary'
+											: 'border-base-300'
+									}`}
+									onClick={() => {
+										setTexture('vortex');
+									}}
+								>
+									<Suspense>
+										<Vortex className='flex h-full w-full flex-auto rounded-full'></Vortex>
+									</Suspense>
+								</div>
+							</div>
+							<ColorPicker
+								type='HexAlpha'
+								colorGradient1={currentWorkspace.textureColors.color1}
+								colorGradient2={currentWorkspace.textureColors.color2}
+								onGradientChange={(color: any, color2: any) => {
+									setTextureColors({
+										color1: color,
+										color2,
+									});
+								}}
+								color={currentWorkspace.workspaceColor}
+								mode={'Gradient'}
+								onColorChange={() => {}}
+							></ColorPicker>
+						</TabsContent>
+						<TabsContent value='image'>
+							<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
+								{Wallpapers.map((item) => (
 									<button
-										className={`mx-auto h-16 w-16 overflow-hidden rounded-2xl border-4 transition-transform hover:bg-gradient-to-bl hover:shadow active:scale-90 md:h-16 md:w-20 ${
-											currentWorkspace.workspaceGradientSettings.color1 ===
-											item.c1
+										key={item.id}
+										className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 bg-base-100 transition-transform hover:shadow active:scale-90 md:h-20 md:w-32 ${
+											currentWorkspace.textureName === item.id
 												? 'border-2 border-primary shadow-2xl'
 												: 'border-base-300'
 										}`}
-										style={{
-											background: `linear-gradient(${item.c1},${item.c2})`,
-										}}
 										onClick={() => {
-											setWorkspaceColorMode('Gradient');
-											setWorkspaceGradient({
-												color1: item.c1,
-												color2: item.c2,
-												deg: currentWorkspace.workspaceGradientSettings.deg,
-											});
+											setTexture(item.id);
 										}}
-									></button>
+									>
+										<img
+											className='flex h-full w-full flex-auto'
+											src={item.thumb}
+										></img>
+									</button>
 								))}
 							</div>
-
-							<ColorPicker
-								type='HexAlpha'
-								colorGradient1={
-									currentWorkspace.workspaceGradientSettings.color1
-								}
-								colorGradient2={
-									currentWorkspace.workspaceGradientSettings.color2
-								}
-								gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
-								onGradientChange={(color: any, color2: any) => {
-									setWorkspaceGradient({
-										color1: color,
-										color2: color2,
-										deg: currentWorkspace.workspaceGradientSettings.deg,
-									});
-								}}
-								onGradientDegChange={(deg) => {
-									setWorkspaceGradient({
-										color1: currentWorkspace.workspaceGradientSettings.color1,
-										color2: currentWorkspace.workspaceGradientSettings.color2,
-										deg: deg,
-									});
-								}}
-								onModeChange={(mode) => setWorkspaceColorMode(mode)}
-								mode={currentWorkspace.workspaceColorMode}
-								color={currentWorkspace.workspaceColor}
-								onColorChange={setWorkspaceColor}
-							></ColorPicker>
-						</>
-					)}
+						</TabsContent>
+					</Tabs>
 				</CustomCollapse>
-			</div>
+			</ScrollArea>
 		</>
 	);
 };

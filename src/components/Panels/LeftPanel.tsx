@@ -282,7 +282,7 @@ export const LeftPanel: React.FC = () => {
 							<Ellipsis size={20}></Ellipsis>
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent>
+					<DropdownMenuContent side='right'>
 						<DropdownMenuLabel>More Controls</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem

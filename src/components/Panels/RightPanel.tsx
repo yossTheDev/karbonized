@@ -86,7 +86,7 @@ export const RightPanel: React.FC = () => {
 			}}
 		>
 			<div
-				className={`pointer-events-auto mr-auto flex h-full w-full gap-4 overflow-hidden rounded-tl-sm border-l-2 border-base-200 bg-base-300 p-2 text-gray-950 shadow-sm dark:text-gray-100 dark:shadow-base-200 `}
+				className={`pointer-events-auto mr-auto flex h-full w-full gap-4 overflow-hidden rounded-tl-sm border-l-2 border-r-2 border-base-200 bg-base-300 p-2 text-gray-950 shadow-sm dark:text-gray-100 dark:shadow-base-200 `}
 			>
 				{/* Selectors */}
 				<div className='flex flex-col gap-2'>

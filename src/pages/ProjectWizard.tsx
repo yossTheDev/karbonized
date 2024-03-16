@@ -69,7 +69,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	useEffect(() => {
 		/* Load From Cache */
-		const load = async () => {
+		/* const load = async () => {
 			setLoadingUserTemplates(true);
 			const templates = await localforage.getItem('user_templates_test');
 
@@ -78,7 +78,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			setLoadingUserTemplates(false);
 		};
 
-		load();
+		load(); */
 	}, []);
 
 	useEffect(() => {
@@ -86,7 +86,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	}, [templateType, communityTemplateType]);
 
 	useEffect(() => {
-		const load = async () => {
+		/* const load = async () => {
 			const data = await (
 				await fetch(TEMPLATE_SYSTEM_ROOT + 'index.json')
 			).json();
@@ -94,7 +94,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			if (data) setCommunityTemplates(data);
 		};
 
-		load();
+		load(); */
 	}, [templateType]);
 
 	const handleAddUserTemplate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,15 +185,15 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 					<Button>fdf</Button>
 
 					{/* Templates */}
-					<div className='bg-base-100 relative flex h-full w-full  flex-auto flex-col overflow-hidden md:rounded-tl-3xl md:shadow-xl'>
+					<div className='relative flex h-full w-full flex-auto  flex-col overflow-hidden bg-base-100 md:rounded-tl-3xl md:shadow-xl'>
 						{/* Header */}
 						<div className='hidden h-fit w-full md:flex'>
-							<div className='md:bg-base-100 mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0'>
+							<div className='mb-3 ml-6 mt-2 flex w-fit gap-2 rounded-full px-4 py-0.5 md:ml-0 md:bg-base-100'>
 								<IconStars size={20} className='my-auto'></IconStars>
 								<p className='borel-font mt-4 text-lg'>Templates</p>
 							</div>
 
-							<div className='border-base-content mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-1 rounded-full border-2 px-3 py-0.5 shadow-sm md:flex dark:border-white  dark:text-white'>
+							<div className='border-base-content mb-3 ml-auto mr-4 mt-2 hidden w-fit gap-1 rounded-full border-2 px-3 py-0.5 shadow-sm dark:border-white dark:text-white  md:flex'>
 								<svg
 									className='fill-base-content my-auto flex h-6 w-6 dark:fill-white'
 									viewBox='0 0 451.31622 451.31616'
@@ -224,12 +224,12 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 
-						<div className='bg-base-100 flex  flex-auto flex-col gap-3 overflow-hidden p-4'>
+						<div className='flex flex-auto  flex-col gap-3 overflow-hidden bg-base-100 p-4'>
 							{/* Actions */}
 							<div className='flex w-full gap-4 '>
 								<button
 									onClick={handleCreateNewProject}
-									className='btn btn-lg bg-base-300 h-28 rounded-2xl p-4'
+									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
 								>
 									<div>
 										<IconPlus size={28} className='mx-auto my-auto'></IconPlus>
@@ -248,7 +248,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 								<label
 									htmlFor='input'
-									className='btn btn-lg bg-base-300 h-28 rounded-2xl p-4'
+									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
 								>
 									<div className='mx-auto my-auto'>
 										<IconFileImport
@@ -260,15 +260,15 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								</label>
 							</div>
 
-							<div className='bg-base-300/20 mx-auto w-4/5 rounded-full p-0.5'></div>
+							<div className='mx-auto w-4/5 rounded-full bg-base-300/20 p-0.5'></div>
 
 							{/* Template Type Selector */}
-							<div className='bg-base-300/60 flex h-fit flex-row gap-3 rounded-2xl p-3 lg:mx-56'>
+							<div className='flex h-fit flex-row gap-3 rounded-2xl bg-base-300/60 p-3 lg:mx-56'>
 								<button
 									onClick={() => {
 										setTemplateType('user');
 									}}
-									className={`bg-base-100 hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl p-2 transition-all hover:cursor-pointer active:scale-90 ${
+									className={`hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:cursor-pointer active:scale-90 ${
 										templateType === 'user' && 'bg-base-300'
 									}`}
 								>
@@ -281,7 +281,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 								</button>
 
 								<button
-									className={`bg-base-100 hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl  p-2 transition-all hover:cursor-pointer active:scale-90 ${
+									className={`hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100  p-2 transition-all hover:cursor-pointer active:scale-90 ${
 										templateType === 'community' && 'bg-base-300'
 									}`}
 									onClick={() => {
@@ -371,7 +371,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 														<button
 															key={item.workspace.id}
 															onClick={() => setCurrent(item)}
-															className={`bg-base-300 relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 p-2 transition-all active:scale-90 ${
+															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${
 																current?.workspace.id === item.workspace.id
 																	? 'border-base-100 shadow-xl'
 																	: 'border-base-300'
@@ -387,7 +387,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 																	onClick={() =>
 																		handleDeleteUserTemplate(item.workspace.id)
 																	}
-																	className='btn btn-circle bg-base-300 hover:bg-neutral absolute  -ml-1 -mt-1 border-none'
+																	className='btn btn-circle hover:bg-neutral absolute -ml-1  -mt-1 border-none bg-base-300'
 																>
 																	<IconX></IconX>
 																</label>
@@ -417,9 +417,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									exit={{ opacity: 0 }}
 									className='pointer-events-none absolute flex h-full w-full'
 								>
-									<div className='from-base-300 mt-auto flex h-fit w-full flex-auto gap-2 bg-gradient-to-t to-transparent p-4'>
+									<div className='mt-auto flex h-fit w-full flex-auto gap-2 bg-gradient-to-t from-base-300 to-transparent p-4'>
 										<button
-											className='btn bg-base-300 hover:bg-primary pointer-events-auto my-auto ml-auto rounded-3xl border-none shadow hover:text-white'
+											className='btn pointer-events-auto my-auto ml-auto rounded-3xl border-none bg-base-300 shadow hover:bg-primary hover:text-white'
 											onClick={handleCreateFromTemplate}
 										>
 											Create
@@ -494,7 +494,7 @@ const Templates: React.FC<{
 									<button
 										key={item.data.workspace.id}
 										onClick={() => setCurrent(item.data)}
-										className={`bg-base-300 relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2  p-2 transition-all active:scale-90 ${
+										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${
 											current?.workspace.id === item.data.workspace.id
 												? 'border-base-100 shadow-xl'
 												: 'border-base-300'
@@ -513,7 +513,7 @@ const Templates: React.FC<{
 										{current?.workspace.id === item.data.workspace.id && (
 											<label
 												onClick={() => handleDownloadTemplate(item.data)}
-												className='btn btn-circle bg-base-300 hover:bg-neutral absolute  -ml-1 -mt-1 border-none'
+												className='btn btn-circle hover:bg-neutral absolute -ml-1  -mt-1 border-none bg-base-300'
 											>
 												<IconDownload></IconDownload>
 											</label>
