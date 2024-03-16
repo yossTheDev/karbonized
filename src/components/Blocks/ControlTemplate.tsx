@@ -6,7 +6,6 @@ import {
 	IconEye,
 	IconFlipHorizontal,
 	IconFlipVertical,
-	IconHierarchy,
 	IconJpg,
 	IconMask,
 	IconPng,
@@ -15,25 +14,35 @@ import {
 	IconSvg,
 	IconTrash,
 } from '@tabler/icons-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { toJpeg, toPng, toSvg } from 'html-to-image';
 import React, {
-	ReactNode,
+	type ReactNode,
 	useCallback,
 	useEffect,
-	useId,
 	useRef,
 	useState,
 } from 'react';
-import { Button, Checkbox, Input, Range, Select } from 'react-daisyui';
+import { Checkbox } from 'react-daisyui';
 import { Portal } from 'react-portal';
+import { useControlState } from '../../hooks/useControlState';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { CustomCollapse } from '../CustomControls/CustomCollapse';
-import { NumberInput } from '../CustomControls/NumberInput';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ContextMenu } from '../CustomControls/ContextMenu';
-import { useControlState } from '../../hooks/useControlState';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { Move3D, Trash, Trash2 } from 'lucide-react';
+import { Label } from '../ui/label';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Slider } from '@/components/ui/slider';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/select';
 
 interface ControlProps {
 	id: string;
@@ -52,7 +61,7 @@ interface ControlProps {
 	minHeight?: string;
 	minWidth?: string;
 
-	onClick?: Function;
+	onClick?: () => void;
 }
 
 export const ControlTemplate: React.FC<ControlProps> = ({
@@ -252,8 +261,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		if (id === controlID) {
 			setTransform(controlTransform);
 
-			//console.log(controlTransform);
-			//console.log(transform);
+			// console.log(controlTransform);
+			// console.log(transform);
 		}
 	}, [controlTransform]);
 
@@ -341,23 +350,23 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					}}
 					onContextMenu={(e) => {
 						setContextMenu(!contextMenu);
-						//setDisable(true);
+						// setDisable(true);
 						e.preventDefault();
 					}}
 					className={`absolute flex flex-auto select-none block-${id} ${
 						!maskRepeat && 'mask'
 					}  ${mask}`}
 					style={{
-						zIndex: zIndex,
+						zIndex,
 						height: size.h + 'px',
 						width: size.w + 'px',
-						maxHeight: maxHeight,
-						maxWidth: maxWidth,
-						minHeight: minHeight,
-						minWidth: minWidth,
+						maxHeight,
+						maxWidth,
+						minHeight,
+						minWidth,
 						left: position.x,
 						top: position.y,
-						transform: transform,
+						transform,
 					}}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -443,44 +452,47 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					<motion.div
 						initial={{ marginTop: '25px' }}
 						animate={{ marginTop: '5px' }}
-						className='flex flex-col gap-1 text-xs font-bold text-base-content'
+						className='flex flex-col gap-2'
 					>
 						{/* Position */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconHierarchy size={22}></IconHierarchy>
-									<p className='my-auto font-bold'>Position</p>
+								<div className='flex items-center gap-2'>
+									<Move3D size={22}></Move3D>
+									<Label>Position</Label>
 								</div>
 							}
 						>
-							<div className='flex flex-col flex-wrap text-xs text-base-content'>
+							<div className='flex flex-col gap-4'>
 								{/* Flip Options */}
 								<div className='flex flex-auto gap-2'>
 									<Button
 										color='neutral'
-										className='flex flex-auto text-base-content'
-										onClick={() => setFlipX(!flipX)}
+										className='text-base-content flex flex-auto'
+										onClick={() => {
+											setFlipX(!flipX);
+										}}
 									>
 										<IconFlipVertical></IconFlipVertical>
 									</Button>
 									<Button
 										color='neutral'
-										className='flex flex-auto text-base-content'
-										onClick={() => setFlipY(!flipY)}
+										className='text-base-content flex flex-auto'
+										onClick={() => {
+											setFlipY(!flipY);
+										}}
 									>
 										<IconFlipHorizontal></IconFlipHorizontal>
 									</Button>
 								</div>
 
 								{/* Position */}
-								<div className='flex flex-auto flex-row'>
+								<div className='flex gap-2'>
 									{/* Position X */}
-									<div className='flex flex-auto  p-2 '>
+									<div className='flex items-center gap-2'>
 										<p className='my-auto p-2'>X:</p>
 										<Input
 											type={'number'}
-											className='w-full rounded-xl bg-base-100 p-2  text-xs'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -509,12 +521,12 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											value={controlPos?.x}
 										></Input>
 									</div>
+
 									{/* Position Y */}
-									<div className='flex flex-auto  p-2 text-xs'>
-										<p className='my-auto p-2'>Y:</p>
+									<div className='flex items-center gap-2'>
+										<Label>Y:</Label>
 										<Input
 											type={'number'}
-											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -544,29 +556,26 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											value={controlPos?.y}
 										></Input>
 									</div>
-								</div>
 
-								{/* Position Z */}
-								<div className='flex flex-auto p-2 text-xs '>
-									<p className='my-auto p-2'>Z:</p>
-
-									<Input
-										type={'number'}
-										className='w-full rounded-xl bg-base-100 p-2 text-xs'
-										onChange={(ev) => {
-											setzIndex(ev.currentTarget.value);
-										}}
-										value={parseInt(zIndex)}
-									></Input>
+									{/* Position Z */}
+									<div className='flex items-center gap-2'>
+										<Label>Z:</Label>
+										<Input
+											type={'number'}
+											onChange={(ev) => {
+												setzIndex(ev.currentTarget.value);
+											}}
+											value={parseInt(zIndex)}
+										></Input>
+									</div>
 								</div>
 
 								{/* Size */}
-								<div className='flex flex-row'>
-									<div className='flex flex-auto  p-2 '>
-										<p className='my-auto p-2'>W:</p>
+								<div className='flex flex-row gap-2'>
+									<div className='flex items-center gap-2'>
+										<Label>W:</Label>
 										<Input
 											type={'number'}
-											className='w-full rounded-xl bg-base-100 p-2 text-xs'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -597,11 +606,10 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										></Input>
 									</div>
 
-									<div className='flex flex-auto  p-2 '>
-										<p className='my-auto p-2'>H:</p>
+									<div className='flex items-center gap-2'>
+										<Label>H:</Label>
 										<Input
 											type={'number'}
-											className='w-full rounded-xl bg-base-100  p-2 text-xs'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -634,45 +642,45 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								</div>
 
 								{/* Rotation */}
-								<p>Rotation</p>
+								<Label>Rotation</Label>
 
-								<div className='flex flex-auto flex-row'>
+								<div className='flex gap-2'>
 									{/* Rotation X */}
-									<div className='my-auto flex  flex-auto p-2 text-xs'>
+									<div className='flex w-1/3 gap-2 text-xs'>
 										<p className='my-auto p-2'>X:</p>
-										<Range
+										<Slider
 											color='primary'
 											min={-180}
 											max={180}
-											className='my-auto'
-											onChange={(ev) => {
-												setRotateX(ev.currentTarget.value as unknown as number);
+											onValueChange={(ev) => {
+												setRotateX(ev[0]);
 											}}
-											value={rotateX}
-										></Range>
+											value={[rotateX]}
+										></Slider>
 									</div>
+
 									{/* Rotation Y */}
-									<div className='my-auto flex  flex-auto p-2 text-xs'>
+									<div className='flex w-1/3 gap-2 text-xs'>
 										<p className='my-auto p-2'>Y:</p>
-										<Range
+										<Slider
 											color='primary'
-											className='my-auto'
 											min={-180}
 											max={180}
-											onChange={(ev) => {
-												setRotateY(ev.currentTarget.value as unknown as number);
+											onValueChange={(ev) => {
+												setRotateY(ev[0]);
 											}}
-											value={rotateY}
-										></Range>
+											value={[rotateY]}
+										></Slider>
 									</div>
 
 									<Button
+										size={'icon'}
 										color='neutral'
-										onMouseDown={() => {
+										onClick={() => {
 											setRotateX(0);
 											setRotateY(0);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -684,35 +692,33 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{shadowEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
+									<div className='flex flex-row items-center gap-2'>
 										<IconShadow size={22}></IconShadow>
-										<p className='my-auto font-bold'>Shadow</p>
+										<Label>Shadow</Label>
 									</div>
 								}
 							>
-								<div className='flex flex-row flex-wrap text-xs'>
+								<div className='flex flex-col gap-4'>
 									{/* Position */}
-									<div className='flex flex-auto flex-row'>
+									<div className='flex gap-2'>
 										{/* Shadow X */}
-										<div className='flex flex-auto  p-2 '>
-											<p className='my-auto p-2'>X:</p>
+										<div className='flex items-center gap-2'>
+											<Label>X:</Label>
 											<Input
 												type={'number'}
-												className='w-full rounded-xl bg-base-100 p-2 text-xs'
 												onChange={(ev) => {
-													setShadowX(ev.currentTarget.value);
+													setShadowX(parseFloat(ev.currentTarget.value));
 												}}
 												value={shadowX}
 											></Input>
 										</div>
 										{/* Shadow Y */}
-										<div className='flex flex-auto p-2 text-xs'>
-											<p className='my-auto p-2'>Y:</p>
+										<div className='flex  items-center gap-2'>
+											<Label>Y:</Label>
 											<Input
 												type={'number'}
-												className='w-full rounded-xl bg-base-100 p-2 text-xs'
 												onChange={(ev) => {
-													setShadowY(ev.currentTarget.value);
+													setShadowY(parseFloat(ev.currentTarget.value));
 												}}
 												value={shadowY}
 											></Input>
@@ -720,26 +726,28 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 
 									{/* Shadow Blur */}
-									<div className='flex flex-auto  text-xs '>
-										<p className='my-auto p-2'>Blur:</p>
-										<Range
+									<div className='flex items-center gap-2'>
+										<Label>Blur</Label>
+										<Slider
 											className='my-auto'
 											color='primary'
-											onChange={(ev) =>
-												setShadowBlur(ev.target.value as unknown as number)
-											}
-											value={shadowBlur}
-											max={'100'}
-										></Range>
+											onValueChange={(ev) => {
+												setShadowBlur(ev[0]);
+											}}
+											value={[shadowBlur]}
+											max={100}
+										></Slider>
 									</div>
 
 									{/* Shadow Color */}
-									<div className='flex flex-auto flex-col'>
+									<div className='flex flex-col'>
 										<ColorPicker
 											type='HexAlpha'
 											label='Shadow Color'
 											color={shadowColor}
-											onColorChange={(color) => setShadowColor(color)}
+											onColorChange={(color) => {
+												setShadowColor(color);
+											}}
 										></ColorPicker>
 									</div>
 								</div>
@@ -750,25 +758,21 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						{borderEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
+									<div className='flex items-center gap-2'>
 										<IconBorderStyle size={22}></IconBorderStyle>
-										<p className='my-auto font-bold'>Borders</p>
+										<Label>Border</Label>
 									</div>
 								}
 							>
-								<div className='flex flex-row flex-wrap text-xs'>
-									<div className='flex flex-auto p-2'>
-										<p className='my-auto p-2'>Radius:</p>
-										<Range
-											className='my-auto'
-											color='primary'
-											onChange={(ev) =>
-												setBorderRadius(ev.target.value as unknown as number)
-											}
-											value={borderRadius}
-											max={'22'}
-										></Range>
-									</div>
+								<div className='flex gap-2'>
+									<Label>Radius:</Label>
+									<Slider
+										onValueChange={(ev) => {
+											setBorderRadius(ev[0]);
+										}}
+										value={[borderRadius]}
+										max={22}
+									></Slider>
 								</div>
 							</CustomCollapse>
 						)}
@@ -783,22 +787,28 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</div>
 								}
 							>
-								<div className='flex flex-row flex-wrap text-xs'>
+								<div className='flex'>
 									{/* Select Mask */}
 									<div className='flex flex-auto p-2 '>
 										<Select
-											tabIndex={0}
-											className='flex flex-auto'
 											value={mask}
-											onChange={(e) => setMask(e.currentTarget.value)}
+											onValueChange={(e: string) => {
+												setMask(e);
+												// FIX Mask is not Working
+											}}
 										>
-											{Masks.map((i) => {
-												return (
-													<option key={i} value={i}>
-														{i.replace('mask-', '').replace('-', ' ')}
-													</option>
-												);
-											})}
+											<SelectTrigger>
+												<SelectValue placeholder='Mask Shape' />
+											</SelectTrigger>
+											<SelectContent>
+												{Masks.map((i) => {
+													return (
+														<SelectItem key={i} value={i}>
+															{i.replace('mask-', '').replace('-', ' ')}
+														</SelectItem>
+													);
+												})}
+											</SelectContent>
 										</Select>
 									</div>
 
@@ -806,7 +816,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										<p className='my-auto text-xs'>Mask Repeat</p>
 										<Checkbox
 											color='primary'
-											onChange={(ev) => setMaskRepeat(ev.currentTarget.checked)}
+											onChange={(ev) => {
+												setMaskRepeat(ev.currentTarget.checked);
+											}}
 											checked={maskRepeat}
 										></Checkbox>
 									</div>
@@ -827,22 +839,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Blur Options */}
 								<div className='flex flex-auto flex-row gap-2 '>
 									<p className='my-auto p-2'>Blur:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={-1}
 										max={100}
-										onChange={(ev) => {
-											setBlur(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setBlur(ev[0]);
 										}}
-										value={blur}
-									></Range>
+										value={[blur]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setBlur(-1 * 1);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -851,24 +863,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Brightness Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Brightness:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={1}
 										max={200}
 										onChange={(ev) => {
-											setBrightness(
-												ev.currentTarget.value as unknown as number,
-											);
+											setBrightness(ev[0]);
 										}}
-										value={brightness}
-									></Range>
+										value={[brightness]}
+									></Slider>
 									<Button
 										color='neutral'
-										onMouseDown={() => {
+										onClick={() => {
 											setBrightness(100);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -877,22 +887,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Contrast Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Contrast:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={100}
 										max={300}
-										onChange={(ev) => {
-											setContrast(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setContrast(ev[0]);
 										}}
-										value={contrast}
-									></Range>
+										value={[contrast]}
+									></Slider>
 									<Button
 										onMouseDown={() => {
 											setContrast(100);
 										}}
 										color='neutral'
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -901,22 +911,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Grayscale Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Grayscale:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
 										max={100}
-										onChange={(ev) => {
-											setGrayscale(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setGrayscale(ev[0]);
 										}}
-										value={grayscale}
-									></Range>
+										value={[grayscale]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setGrayscale(0);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -925,22 +935,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Hue Rotate Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Hue Rotate:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
 										max={359}
-										onChange={(ev) => {
-											setHueRotate(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setHueRotate(ev[0]);
 										}}
-										value={huerotate}
-									></Range>
+										value={[huerotate]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setHueRotate(0);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -949,22 +959,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Invert Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Invert:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
 										max={100}
-										onChange={(ev) => {
-											setInvert(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setInvert(ev[0]);
 										}}
-										value={invert}
-									></Range>
+										value={[invert]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setInvert(0);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -973,22 +983,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Saturate Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Saturate:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
 										max={200}
-										onChange={(ev) => {
-											setSaturate(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setSaturate(ev[0]);
 										}}
-										value={saturate}
-									></Range>
+										value={[saturate]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setSaturate(100);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -997,22 +1007,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Sepia Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Sepia:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
 										max={100}
-										onChange={(ev) => {
-											setSepia(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setSepia(ev[0]);
 										}}
-										value={sepia}
-									></Range>
+										value={[sepia]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setSepia(0);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -1021,22 +1031,22 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Opacity Options */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<p className='my-auto p-2'>Opacity:</p>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
 										max={100}
-										onChange={(ev) => {
-											setOpacity(ev.currentTarget.value as unknown as number);
+										onValueChange={(ev) => {
+											setOpacity(ev[0]);
 										}}
-										value={opacity}
-									></Range>
+										value={[opacity]}
+									></Slider>
 									<Button
 										color='neutral'
 										onMouseDown={() => {
 											setOpacity(100);
 										}}
-										className='my-auto flex flex-auto p-1 text-base-content'
+										className='text-base-content my-auto flex flex-auto p-1'
 									>
 										<IconReload size={18}></IconReload>
 									</Button>
@@ -1050,26 +1060,21 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						<div id='custom_menu'></div>
 
 						{/* Delete */}
-						<button
+						<Button
+							variant={'destructive'}
 							onClick={() => {
 								setID('');
 								setVisibility(false);
-
 								setWorkspaceControls(
 									currentWorkspace.controls.map((item) =>
 										item.id === id ? { ...item, isDeleted: true } : item,
 									),
 								);
 							}}
-							className='btn mt-auto flex max-h-12  flex-auto cursor-pointer flex-row gap-2 rounded-2xl p-2 transition-all hover:bg-red-600 hover:text-white active:scale-90'
 						>
-							<div className='mx-auto my-auto flex flex-row gap-2'>
-								<IconTrash size={18}></IconTrash>
-								<label className='poppins-font-family my-auto cursor-pointer text-xs'>
-									Delete Component
-								</label>
-							</div>
-						</button>
+							<Trash2 className='mr-2' size={18}></Trash2>
+							Delete Component
+						</Button>
 					</motion.div>
 				</Portal>
 			)}
@@ -1083,7 +1088,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							className='absolute z-50'
 							ref={floating}
 							style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
-							onMouseLeave={() => setContextMenu(false)}
+							onMouseLeave={() => {
+								setContextMenu(false);
+							}}
 							initial={{ scale: 0.5, opacity: 0.94 }}
 							animate={{ scale: 1, opacity: 1 }}
 							exit={{ scale: 0, opacity: 0 }}
@@ -1092,7 +1099,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								{/* Opacity Control */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<IconEye className='my-auto ml-2' size={22}></IconEye>
-									<Range
+									<Slider
 										color='primary'
 										className='my-auto'
 										min={0}
@@ -1101,7 +1108,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 											setOpacity(ev.currentTarget.value as unknown as number);
 										}}
 										value={opacity}
-									></Range>
+									></Slider>
 								</div>
 
 								<ContextMenu
@@ -1111,7 +1118,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									menu={
 										<>
 											<div
-												className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
+												className='hover:bg-neutral flex flex-auto cursor-pointer select-none rounded p-2'
 												onMouseDown={exportAsPng}
 											>
 												<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -1120,7 +1127,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 												</div>
 											</div>
 											<div
-												className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
+												className='hover:bg-neutral flex flex-auto cursor-pointer select-none rounded p-2'
 												onMouseDown={exportAsJpeg}
 											>
 												<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -1129,7 +1136,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 												</div>
 											</div>
 											<div
-												className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
+												className='hover:bg-neutral flex flex-auto cursor-pointer select-none rounded p-2'
 												onMouseDown={exportAsSvg}
 											>
 												<div className='my-auto flex flex-auto flex-row gap-2'>
@@ -1140,7 +1147,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										</>
 									}
 								>
-									<div className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'>
+									<div className='hover:bg-neutral flex flex-auto cursor-pointer select-none rounded p-2'>
 										<div className='my-auto flex flex-auto flex-row gap-2'>
 											<IconCamera className='my-auto' size={22}></IconCamera>
 											<p className='my-auto'>Save Component</p>
@@ -1154,7 +1161,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 										setID('');
 										setVisibility(false);
 									}}
-									className='flex flex-auto cursor-pointer select-none rounded p-2 hover:bg-neutral'
+									className='hover:bg-neutral flex flex-auto cursor-pointer select-none rounded p-2'
 								>
 									<div className='my-auto flex flex-auto flex-row gap-2'>
 										<IconTrash className='my-auto' size={22}></IconTrash>

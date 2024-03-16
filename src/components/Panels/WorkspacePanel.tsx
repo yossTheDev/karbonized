@@ -133,13 +133,13 @@ export const WorkspacePanel: React.FC = () => {
 
 	return (
 		<>
-			<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
+			<Label className='mb-1 mt-4 select-none text-xl font-bold'>
 				Workspace
-			</label>
+			</Label>
 
-			<Separator></Separator>
+			<Separator className='mb-4'></Separator>
 
-			<ScrollArea className='mt-4'>
+			<ScrollArea>
 				{/* Background Settings */}
 				<CustomCollapse
 					menu={

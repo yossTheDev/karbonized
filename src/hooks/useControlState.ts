@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import default_logo from '../assets/logo.svg';
 
-export const useControlState = (
-	initialState: any,
+
+export function useControlState<T>(
+	initialState: T,
 	id: string,
 	manual: boolean = false,
-) => {
+): [T, (newState: T) => void] {
 	const controlState = useStoreState((state) => state.controlState);
 	const ControlProperties = useStoreState((state) => state.ControlProperties);
 	const initialProperties = useStoreState((state) => state.initialProperties);

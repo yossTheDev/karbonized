@@ -18,6 +18,9 @@ import {
 	InspectionPanel,
 	SquarePen,
 } from 'lucide-react';
+import { Label } from '../ui/label';
+import { ScrollArea } from '../ui/scroll-area';
+import { Separator } from '../ui/separator';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
@@ -145,21 +148,23 @@ export const RightPanel: React.FC = () => {
 					{/* Controls */}
 					<AnimatePresence>
 						<div
-							className={` h-full min-h-full  flex-col overflow-hidden ${
-								tab === 'control' ? 'flex' : 'hidden'
-							}`}
+							className={`flex-col overflow-hidden ${tab === 'control' ? 'flex' : 'hidden'}`}
 						>
-							<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
+							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
 								Control
-							</label>
-							<div className='overflow-auto' id='menu'></div>
-							{currentID === '' && (
-								<div className='flex h-96 flex-auto'>
-									<p className='text-base-content/70 mx-auto my-auto select-none text-center text-xs'>
-										Select a control to start editing it
-									</p>
-								</div>
-							)}
+							</Label>
+
+							<Separator className='mb-4'></Separator>
+							<ScrollArea>
+								<div className='overflow-auto' id='menu'></div>
+								{currentID === '' && (
+									<div className='flex h-96 flex-auto'>
+										<p className='text-base-content/70 mx-auto my-auto select-none text-center text-xs'>
+											Select a control to start editing it
+										</p>
+									</div>
+								)}
+							</ScrollArea>
 						</div>
 					</AnimatePresence>
 
