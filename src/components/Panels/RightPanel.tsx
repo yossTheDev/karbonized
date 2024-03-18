@@ -1,20 +1,12 @@
-import {
-	IconChevronLeft,
-	IconChevronRight,
-	IconEdit,
-	IconWallpaper,
-} from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { Tooltip } from '../CustomControls/Tooltip';
 import { WorkspacePanel } from './WorkspacePanel';
 import { ResizablePanel } from '../ui/resizable';
 import { Button } from '../ui/button';
 import {
 	ChevronLeft,
 	ChevronRight,
-	DraftingCompass,
 	InspectionPanel,
 	SquarePen,
 } from 'lucide-react';
@@ -30,7 +22,7 @@ export const RightPanel: React.FC = () => {
 
 	/* Component State */
 	const panel = useRef<any>(null);
-	const [showMenu, setShowMenu] = useState(false);
+	const [showMenu, setShowMenu] = useState(true);
 	const [tab, setTab] = useState<'workspace' | 'control'>('control');
 
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
@@ -77,8 +69,9 @@ export const RightPanel: React.FC = () => {
 
 	return (
 		<ResizablePanel
-			className={'min-w-14 max-w-[30rem]'}
+			className={'w-14 min-w-14 max-w-[30rem]'}
 			collapsible
+			collapsedSize={4}
 			minSize={2}
 			ref={panel}
 			onCollapse={() => {
