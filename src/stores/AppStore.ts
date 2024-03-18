@@ -295,10 +295,10 @@ export const AppStore = createStore<AppStoreModel>({
 				{
 					id: getRandomNumber().toString(),
 					controls: [],
-					workspaceColor: '#019091',
+					workspaceColor: '#ffffff',
 					workspaceHeight: '512',
 					workspaceWidth: '512',
-					workspaceColorMode: 'Gradient',
+					workspaceColorMode: 'Single',
 					workspaceName: 'Workspace ' + (state.workspaces.length + 1),
 					workspaceType: 'color',
 					workspaceGradientSettings: {
@@ -316,10 +316,10 @@ export const AppStore = createStore<AppStoreModel>({
 				{
 					id: payload,
 					controls: [],
-					workspaceColor: '#019091',
+					workspaceColor: '#ffffff',
 					workspaceHeight: '512',
 					workspaceWidth: '512',
-					workspaceColorMode: 'Gradient',
+					workspaceColorMode: 'Single',
 					workspaceName: 'Workspace ' + (state.workspaces.length + 1),
 					workspaceType: 'color',
 					workspaceGradientSettings: {
@@ -556,8 +556,8 @@ export const AppStore = createStore<AppStoreModel>({
 	/* Workspace */
 	workspaceName: 'karbonized-image',
 	workspaceType: 'color', // Color or Texture
-	workspaceColor: '#6ebb45',
-	workspaceColorMode: 'Gradient', // Single or Gradient
+	workspaceColor: '#ffffff',
+	workspaceColorMode: 'Single', // Single or Gradient
 	workspaceHeight: '512',
 	workspaceWidth: '512',
 
