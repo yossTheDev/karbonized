@@ -492,7 +492,12 @@ export const MenuBar: React.FC = () => {
 
 				<TabBar></TabBar>
 
-				<Button onClick={handleNewWorkspace} size={'icon'} variant={'ghost'}>
+				<Button
+					className='h-8 w-8 px-2'
+					onClick={handleNewWorkspace}
+					size={'icon'}
+					variant={'ghost'}
+				>
 					<Plus size={16}></Plus>
 				</Button>
 			</div>
