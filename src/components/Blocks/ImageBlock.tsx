@@ -5,6 +5,7 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/logo.svg';
 import { useControlState } from '../../hooks/useControlState';
+import { Input } from '../ui/input';
 
 interface Props {
 	id: string;
@@ -36,14 +37,14 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						{/* Border Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row gap-2'>
+								<div className='flex items-center gap-2'>
 									<IconBorderStyle size={22}></IconBorderStyle>
-									<p className='my-auto font-bold'>Borders</p>
+									<p className=' font-bold'>Borders</p>
 								</div>
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
-								<div className='flex flex-auto  p-2 '>
+								<div className='flex flex-auto  p-2'>
 									<p className='my-auto p-2'>Radius:</p>
 									<Range
 										className='my-auto'
@@ -62,18 +63,19 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
+								<div className='flex items-center gap-2'>
 									<IconPhoto></IconPhoto>
-									<p className='my-auto'>Image</p>
+									<p>Image</p>
 								</div>
 							}
 						>
 							{/* Source */}
 							<p>Source</p>
-							<FileInput
+							<Input
+								type='file'
 								accept='image/*'
 								onChange={(e) => {
-									if (e.target.files && e.target.files.length > 0) {
+									if (e.target.files != null && e.target.files.length > 0) {
 										const reader = new FileReader();
 										reader.addEventListener('load', () => {
 											setSrc(reader.result?.toString() || '');
@@ -81,7 +83,7 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 										reader.readAsDataURL(e.target.files[0]);
 									}
 								}}
-							></FileInput>
+							></Input>
 						</CustomCollapse>
 					</>
 				}
