@@ -46,9 +46,9 @@ module.exports = {
 				// colors is used here for demonstration purposes
 				colors: {
 					primary: '#f87171',
-					'base-100': '#e1fff2',
-					'base-200': '#c8e3d7',
-					'base-300': '#d4f0e4',
+					'base-100': '#ffffff',
+					'base-200': '#ececec',
+					'base-300': '#e9e9e9',
 				}
 			}
 		},
