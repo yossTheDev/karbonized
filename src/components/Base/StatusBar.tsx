@@ -4,13 +4,17 @@ import {
 	IconSquareRotatedForbid2,
 	IconTag,
 } from '@tabler/icons-react';
-import { Axis3D, CircleDashed, PencilRuler } from 'lucide-react';
+import { Axis3D, CircleDashed, MousePointer, PencilRuler } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { Button } from '../ui/button';
 import { ViewPanel } from '../Panels/ViewPanel';
+import useMousePosition from '@/hooks/useMousePosition';
 
 export const StatusBar: React.FC = () => {
+	/* Component State */
+	const mousePosition = useMousePosition();
+
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
@@ -87,6 +91,15 @@ export const StatusBar: React.FC = () => {
 					</>
 				)}
 			</Button>
+
+			{/* Mouse Position */}
+			<div className='flex items-center'>
+				<MousePointer className='ml-1' size={16}></MousePointer>
+
+				<p className='ml-2 text-center text-xs'>
+					Pos: x: {Math.round(mousePosition.x)} y: {Math.round(mousePosition.y)}
+				</p>
+			</div>
 
 			{/* Control Position */}
 			<div className='flex items-center'>
