@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Palette, Settings } from 'lucide-react';
+import { Check, Palette, Settings } from 'lucide-react';
 import React, { Suspense } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { Wallpapers } from '../../utils/wallpapers';
@@ -252,11 +252,11 @@ export const WorkspacePanel: React.FC = () => {
 							</TabsList>
 							<TabsContent value='color'>
 								<>
-									<div className='flex flex-wrap items-start gap-2'>
+									<div className='flex flex-wrap  items-center justify-between gap-2'>
 										{Gradients.map((item) => (
 											<button
 												key={item.c1 + item.c2}
-												className={`mx-auto h-16 w-16 overflow-hidden rounded-xl border-b-4 transition-all hover:bg-gradient-to-bl hover:shadow active:scale-90 active:zoom-in-150 md:h-16 md:w-20 ${
+												className={`h-8 w-16 overflow-hidden rounded transition-all hover:bg-gradient-to-bl hover:shadow active:scale-90 md:h-8 md:w-14 ${
 													currentWorkspace.workspaceGradientSettings.color1 ===
 													item.c1
 														? 'border-2 border-primary shadow-2xl'
@@ -273,7 +273,12 @@ export const WorkspacePanel: React.FC = () => {
 														deg: currentWorkspace.workspaceGradientSettings.deg,
 													});
 												}}
-											></button>
+											>
+												{currentWorkspace.workspaceGradientSettings.color1 ===
+													item.c1 &&
+													currentWorkspace.workspaceGradientSettings.color2 ===
+														item.c2 && <Check></Check>}
+											</button>
 										))}
 									</div>
 
