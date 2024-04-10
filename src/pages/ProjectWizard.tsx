@@ -536,7 +536,7 @@ const Templates: React.FC<{
 				<Input
 					onChange={(ev) => setQuery(ev.currentTarget.value)}
 					value={query}
-					className='flex w-full flex-auto text-gray-400'
+					className='flex w-full flex-auto text-neutral-400'
 				></Input>
 			</CustomPortal>
 		</div>

@@ -16,7 +16,7 @@ export const NavBarMobile: React.FC = () => {
 						className='btn btn-circle btn-ghost drawer-button active:bg-base-300 lg:hidden'
 					>
 						<IconMenu2
-							className='mx-auto dark:text-gray-300'
+							className='mx-auto dark:text-neutral-300'
 							size={24}
 						></IconMenu2>
 					</label>

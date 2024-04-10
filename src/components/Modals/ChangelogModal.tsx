@@ -312,7 +312,7 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 				</p>
 			</Modal.Header>
 
-			<Modal.Body className='flex select-none flex-col dark:text-gray-300'>
+			<Modal.Body className='flex select-none flex-col dark:text-neutral-300'>
 				<div className='flex max-h-96 flex-col overflow-auto font-mono'>
 					<ReactMarkdown>{changelog}</ReactMarkdown>
 				</div>

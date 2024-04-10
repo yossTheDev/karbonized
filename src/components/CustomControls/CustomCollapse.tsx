@@ -21,7 +21,7 @@ export const CustomCollapse: React.FC<Props> = ({
 				onClick={() => {
 					setOpen(!open);
 				}}
-				className={`text-base-content my-auto flex h-12 max-h-12 w-full flex-auto cursor-pointer select-none items-center rounded border-b-2 border-base-200 bg-base-200 px-2 transition-all ${open && 'border-b-2 border-primary'}`}
+				className={`text-base-content my-auto flex h-12 max-h-12 w-full flex-auto cursor-pointer select-none items-center rounded border-primary px-2 transition-all hover:bg-base-200/80 ${open && 'border-l-2'}`}
 			>
 				{menu}
 				<div className='ml-auto'>

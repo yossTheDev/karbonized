@@ -157,7 +157,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 					{/* Title */}
 					<div className='flex max-h-12 flex-auto p-1'>
 						<div className='my-auto flex flex-auto flex-row '>
-							<div className='my-auto flex w-1/3 flex-auto flex-row text-gray-600  '>
+							<div className='my-auto flex w-1/3 flex-auto flex-row text-neutral-600  '>
 								{windowStyle === 'window' && (
 									<>
 										{windowType === 'normal' ? (
@@ -209,7 +209,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 
 							<div
 								spellCheck={false}
-								className='my-auto flex w-1/3 flex-auto select-none flex-row text-gray-600'
+								className='my-auto flex w-1/3 flex-auto select-none flex-row text-neutral-600'
 							>
 								{windowStyle === 'mac' && windowType === 'normal' && (
 									<p

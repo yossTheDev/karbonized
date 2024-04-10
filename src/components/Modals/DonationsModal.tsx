@@ -31,7 +31,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Header>
 
 			<Modal.Body className='flex select-none flex-col'>
-				<p className='mx-auto dark:text-gray-300'>
+				<p className='mx-auto dark:text-neutral-300'>
 					Support the Project. Make a Donation 😃
 				</p>
 

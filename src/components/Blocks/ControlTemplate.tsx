@@ -1095,7 +1095,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							animate={{ scale: 1, opacity: 1 }}
 							exit={{ scale: 0, opacity: 0 }}
 						>
-							<div className='flex w-64 flex-auto flex-col gap-2 rounded-2xl bg-base-100 p-2 shadow-2xl dark:text-gray-400'>
+							<div className='flex w-64 flex-auto flex-col gap-2 rounded-2xl bg-base-100 p-2 shadow-2xl dark:text-neutral-400'>
 								{/* Opacity Control */}
 								<div className='flex flex-auto flex-row gap-2'>
 									<IconEye className='my-auto ml-2' size={22}></IconEye>

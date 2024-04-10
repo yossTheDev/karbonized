@@ -71,7 +71,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 									onClick={() => {
 										setShowModal(true);
 									}}
-									className='ml-2 h-16 w-20 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
+									className='hover:bg-neutral ml-2 h-16 w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
 								>
 									<ShapeHandler
 										color={appTheme === 'light' ? '#000000' : '#eeeeee'}
@@ -110,7 +110,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 						<Modal.Body className='flex flex-auto select-none flex-col overflow-hidden'>
 							{/* Shapes List */}
 							<div className='mt-2 flex max-h-64 flex-auto flex-col gap-4 overflow-y-auto'>
-								<label className='text-gray-500'>Arrows</label>
+								<label className='text-neutral-500'>Arrows</label>
 
 								<div className='flex flex-auto flex-wrap gap-2'>
 									<div
@@ -156,7 +156,7 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 									</div>
 								</div>
 
-								<label className='text-gray-500'>Forms</label>
+								<label className='text-neutral-500'>Forms</label>
 
 								<div className='flex flex-auto flex-wrap gap-2'>
 									<div

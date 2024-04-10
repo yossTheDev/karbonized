@@ -140,14 +140,14 @@ export const ColorPicker: React.FC<Props> = ({
 					>
 						{/* Tabs */}
 						{isGradientEnable && (
-							<div className='mb-2 flex flex-auto select-none flex-row gap-2 text-black dark:text-gray-400'>
+							<div className='mb-2 flex flex-auto select-none flex-row gap-2 text-black dark:text-neutral-400'>
 								<button
 									onMouseDown={() => {
 										mode = 'Single';
 										onModeChange && onModeChange('Single');
 										setShowColor(true);
 									}}
-									className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 hover:bg-neutral ${
+									className={`hover:bg-neutral flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 ${
 										mode === 'Single' && 'bg-base-300'
 									}`}
 								>
@@ -160,7 +160,7 @@ export const ColorPicker: React.FC<Props> = ({
 										onModeChange && onModeChange('Gradient');
 										setShowColor(true);
 									}}
-									className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2  hover:bg-neutral  ${
+									className={`hover:bg-neutral flex w-8 grow cursor-pointer flex-col rounded-2xl  p-2  ${
 										mode === 'Gradient' && 'bg-base-300'
 									}`}
 								>
@@ -234,7 +234,7 @@ export const ColorPicker: React.FC<Props> = ({
 								</div>
 
 								{/* Input */}
-								<div className='flex flex-auto flex-row text-black dark:text-gray-400'>
+								<div className='flex flex-auto flex-row text-black dark:text-neutral-400'>
 									<div
 										className='my-auto rounded border-2 border-base-100 p-4'
 										style={{ backgroundColor: color }}
@@ -338,7 +338,7 @@ export const ColorPicker: React.FC<Props> = ({
 										}}
 										className='cursor-pointer rounded border-2 border-base-100   hover:border-gray-400'
 									>
-										<IconPlus className='text-gray-600'></IconPlus>
+										<IconPlus className='text-neutral-600'></IconPlus>
 									</div>
 								</div>
 
@@ -381,7 +381,7 @@ export const ColorPicker: React.FC<Props> = ({
 								)}
 
 								{/* Preview Colors */}
-								<div className='mx-auto mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
+								<div className='mx-auto mt-2 flex flex-auto flex-row gap-2 text-black dark:text-neutral-400'>
 									<div
 										className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
 											gradientMode === 'Color1' && 'border-gray-400'
@@ -400,11 +400,11 @@ export const ColorPicker: React.FC<Props> = ({
 													? onGradientChange(
 															ev.currentTarget.value,
 															colorGradient2,
-													  )
+														)
 													: onGradientChange(
 															colorGradient1,
 															ev.currentTarget.value,
-													  );
+														);
 											}
 										}}
 										className='mx-2 my-auto flex w-24 flex-auto'
@@ -437,7 +437,7 @@ export const ColorPicker: React.FC<Props> = ({
 										value={gradientDeg}
 										className='my-auto'
 									></Range>
-									<p className='my-auto  ml-2 text-gray-400'>deg</p>
+									<p className='my-auto  ml-2 text-neutral-400'>deg</p>
 								</div>
 							</>
 						)}
@@ -461,14 +461,14 @@ export const ColorPicker: React.FC<Props> = ({
 						<Modal.Body className='flex flex-auto select-none flex-col gap-2 overflow-auto'>
 							{/* Tabs */}
 							{isGradientEnable && (
-								<div className='mb-2 flex flex-auto select-none flex-row gap-2 text-black dark:text-gray-400'>
+								<div className='mb-2 flex flex-auto select-none flex-row gap-2 text-black dark:text-neutral-400'>
 									<button
 										onMouseDown={() => {
 											mode = 'Single';
 											onModeChange && onModeChange('Single');
 											setShowColor(true);
 										}}
-										className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 hover:bg-neutral ${
+										className={`hover:bg-neutral flex w-8 grow cursor-pointer flex-col rounded-2xl p-2 ${
 											mode === 'Single' && 'bg-base-300'
 										}`}
 									>
@@ -481,7 +481,7 @@ export const ColorPicker: React.FC<Props> = ({
 											onModeChange && onModeChange('Gradient');
 											setShowColor(true);
 										}}
-										className={`flex w-8 grow cursor-pointer flex-col rounded-2xl p-2  hover:bg-neutral  ${
+										className={`hover:bg-neutral flex w-8 grow cursor-pointer flex-col rounded-2xl  p-2  ${
 											mode === 'Gradient' && 'bg-base-300'
 										}`}
 									>
@@ -556,7 +556,7 @@ export const ColorPicker: React.FC<Props> = ({
 									</div>
 
 									{/* Input */}
-									<div className='flex flex-auto flex-row text-black dark:text-gray-400'>
+									<div className='flex flex-auto flex-row text-black dark:text-neutral-400'>
 										<div
 											className='my-auto rounded border-2 border-base-100 p-4'
 											style={{ backgroundColor: color }}
@@ -661,7 +661,7 @@ export const ColorPicker: React.FC<Props> = ({
 									</div>
 
 									{/* Preview Colors */}
-									<div className='mx-auto mt-2 flex flex-auto flex-row gap-2 text-black dark:text-gray-400'>
+									<div className='mx-auto mt-2 flex flex-auto flex-row gap-2 text-black dark:text-neutral-400'>
 										<div
 											className={`my-auto flex h-4 flex-auto cursor-pointer rounded-xl border-2 border-base-200 p-4 ${
 												gradientMode === 'Color1' && 'border-gray-400'
@@ -680,11 +680,11 @@ export const ColorPicker: React.FC<Props> = ({
 														? onGradientChange(
 																ev.currentTarget.value,
 																colorGradient2,
-														  )
+															)
 														: onGradientChange(
 																colorGradient1,
 																ev.currentTarget.value,
-														  );
+															);
 												}
 											}}
 											className='mx-2 my-auto flex w-24 flex-auto'
@@ -717,7 +717,7 @@ export const ColorPicker: React.FC<Props> = ({
 											value={gradientDeg}
 											className='my-auto'
 										></Range>
-										<p className='my-auto  ml-2 text-gray-400'>deg</p>
+										<p className='my-auto  ml-2 text-neutral-400'>deg</p>
 									</div>
 								</>
 							)}

@@ -116,7 +116,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 					</>
 				}
 			>
-				<div className='flex h-full w-full flex-auto flex-col overflow-hidden rounded-lg bg-white p-5 text-gray-800 shadow'>
+				<div className='flex h-full w-full flex-auto flex-col overflow-hidden rounded-lg bg-white p-5 text-neutral-800 shadow'>
 					<div className='mb-4 flex w-full'>
 						<div className='h-12 w-12 overflow-hidden rounded-full'>
 							<img
@@ -127,7 +127,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 						</div>
 						<div className='flex-grow pl-3'>
 							<h6 className='text-md font-bold'>{tweetUser}</h6>
-							<p className='text-xs text-gray-600'>{tweetUserName}</p>
+							<p className='text-xs text-neutral-600'>{tweetUserName}</p>
 						</div>
 						<div className='w-12 text-right'>
 							<IconBrandTwitter className='fill-blue-400 text-3xl text-blue-400'></IconBrandTwitter>
@@ -147,7 +147,9 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 					)}
 
 					<div className='hidden w-full'>
-						<p className='text-right text-xs text-gray-500'>Oct 15th 8:33pm</p>
+						<p className='text-right text-xs text-neutral-500'>
+							Oct 15th 8:33pm
+						</p>
 					</div>
 				</div>
 			</ControlTemplate>

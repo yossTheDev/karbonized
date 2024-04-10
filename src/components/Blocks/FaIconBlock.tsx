@@ -50,7 +50,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							isOpen
 							menu={
 								<div className='flex flex-row gap-2'>
-									<IconSticker className='text-xl dark:text-gray-400'></IconSticker>
+									<IconSticker className='text-xl dark:text-neutral-400'></IconSticker>
 									<p className='my-auto'>Icon</p>
 								</div>
 							}
@@ -59,7 +59,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-auto flex-row'>
 								<p className='my-auto text-xs'>Select Icon</p>
 								<div
-									className='ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
+									className='hover:bg-neutral ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
 									onMouseDown={() => setShowIconPicker(true)}
 								>
 									<FaIcon
@@ -112,16 +112,16 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								<Input
 									onChange={(ev) => setQuery(ev.currentTarget.value)}
 									value={query}
-									className='flex flex-auto text-gray-400'
+									className='flex flex-auto text-neutral-400'
 								></Input>
 							</div>
 
 							{/* Licence */}
-							<p className='my-2 text-xs text-gray-500'>
+							<p className='my-2 text-xs text-neutral-500'>
 								Icons From{' '}
 								<span>
 									<a
-										className='text-gray-400'
+										className='text-neutral-400'
 										href='https://fontawesome.com/'
 										target={'_blank'}
 									>
@@ -131,7 +131,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								<span> Licence:</span>
 								<span>
 									<a
-										className='text-gray-400'
+										className='text-neutral-400'
 										href='https://creativecommons.org/licenses/by/4.0/'
 										target={'_blank'}
 									>
@@ -152,7 +152,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 									.map((el, i) => (
 										<Suspense fallback={<></>}>
 											<div
-												className='inline-flex flex-auto cursor-pointer rounded-xl bg-base-100 p-2 text-3xl hover:bg-base-200 dark:text-gray-400'
+												className='inline-flex flex-auto cursor-pointer rounded-xl bg-base-100 p-2 text-3xl hover:bg-base-200 dark:text-neutral-400'
 												onMouseDown={() => {
 													setIcon(el.label);
 													setShowIconPicker(false);

@@ -55,7 +55,7 @@ export const MenuItem: React.FC<Item> = ({
 				onMouseDown={() => {
 					if (isVisible) setCurrentControlID(id);
 				}}
-				className={`btn z-50 list-none rounded-2xl hover:bg-base-300/90 dark:text-gray-400 ${
+				className={`btn z-50 list-none rounded-2xl hover:bg-base-300/90 dark:text-neutral-400 ${
 					!isDragged && 'hover:cursor-pointer'
 				} ${isDragged && 'cursor-grabbing'} ${
 					controlID === id && 'bg-base-300'
