@@ -48,7 +48,7 @@ module.exports = {
 					primary: '#f87171',
 					'base-100': '#ffffff',
 					'base-200': '#ececec',
-					'base-300': '#e9e9e9',
+					'base-300': '#e5e5e5',
 				}
 			}
 		},

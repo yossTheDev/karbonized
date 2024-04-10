@@ -17,9 +17,7 @@ export const StatusBar: React.FC = () => {
 
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-
 	const controlPosition = useStoreState((state) => state.controlPosition);
-
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
 
@@ -56,7 +54,7 @@ export const StatusBar: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<div className='flex h-8 w-full items-center gap-2 border-t-2 border-base-200 bg-base-300 py-4 shadow-2xl shadow-base-200 dark:text-gray-200 '>
+		<div className='flex h-8 w-full items-center gap-2 bg-base-300 py-4 shadow-2xl shadow-base-200 dark:text-neutral-200'>
 			{/* Layout Mode */}
 			<Button
 				className='ml-1 h-7 gap-2 px-2 py-1'

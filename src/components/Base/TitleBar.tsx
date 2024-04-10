@@ -25,7 +25,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable flex max-h-44 w-full border-b-2 border-base-200 px-1 py-0.5 dark:shadow-base-200'
+			className='draggable flex max-h-44 w-full border-base-200 bg-transparent px-1 py-0.5 dark:shadow-base-200'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
@@ -33,7 +33,7 @@ export const TitleBar: React.FC = () => {
 			{/* Menu Bar */}
 			<div className='not-draggable flex max-w-[80%] items-center overflow-x-hidden'>
 				<svg
-					className='ml-3 mr-1 h-6 w-6 min-w-6 dark:fill-white'
+					className='ml-3 mr-1 h-6 w-6 min-w-6  fill-primary'
 					viewBox='0 0 451.31622 451.31616'
 					version='1.1'
 					xmlns='http://www.w3.org/2000/svg'
