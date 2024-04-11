@@ -118,7 +118,6 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 					className={`flex h-full w-full flex-auto select-none rounded-3xl `}
 					src={src}
 				></img>
-				<p>{imgRef.current?.naturalWidth}</p>
 			</ControlTemplate>
 		</>
 	);
