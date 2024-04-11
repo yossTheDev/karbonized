@@ -1,11 +1,13 @@
 import { IconBorderStyle, IconPhoto } from '@tabler/icons-react';
-import React, { useId, useState } from 'react';
-import { FileInput, Range } from 'react-daisyui';
-import { CustomCollapse } from '../CustomControls/CustomCollapse';
-import { ControlTemplate } from './ControlTemplate';
+import React, { useRef } from 'react';
 import karbonized from '../../assets/logo.svg';
 import { useControlState } from '../../hooks/useControlState';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { Input } from '../ui/input';
+import { Slider } from '../ui/slider';
+import { ControlTemplate } from './ControlTemplate';
+import { useStoreActions, useStoreState } from '@/stores/Hooks';
+import { Button } from '../ui/button';
 
 interface Props {
 	id: string;
@@ -13,13 +15,16 @@ interface Props {
 
 export const ImageBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
-
+	const imgRef = useRef<HTMLImageElement>(null);
 	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
 	const [borderRadius, setBorderRadius] = useControlState(
 		3,
 		`${id}-borderRadius`,
 	);
 
+	const setControlSize = useStoreActions((state) => state.setControlSize);
+	const setControlState = useStoreActions((state) => state.setControlState);
+	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
 	return (
 		<>
 			<ControlTemplate
@@ -46,15 +51,14 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-row flex-wrap text-xs'>
 								<div className='flex flex-auto  p-2'>
 									<p className='my-auto p-2'>Radius:</p>
-									<Range
-										className='my-auto'
+									<Slider
 										color='primary'
-										onChange={(ev) =>
-											setBorderRadius(ev.target.value as unknown as number)
-										}
-										value={borderRadius}
-										max={'22'}
-									></Range>
+										onValueChange={(ev) => {
+											setBorderRadius(ev[0]);
+										}}
+										value={[borderRadius]}
+										max={22}
+									></Slider>
 								</div>
 							</div>
 						</CustomCollapse>
@@ -78,21 +82,43 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 									if (e.target.files != null && e.target.files.length > 0) {
 										const reader = new FileReader();
 										reader.addEventListener('load', () => {
-											setSrc(reader.result?.toString() || '');
+											setSrc(reader.result?.toString() ?? '');
 										});
 										reader.readAsDataURL(e.target.files[0]);
 									}
 								}}
 							></Input>
+
+							<Button
+								onClick={() => {
+									setControlSize({
+										w: imgRef.current?.naturalWidth ?? 100,
+										h: imgRef.current?.naturalHeight ?? 100,
+									});
+
+									setControlState({
+										id: `${id}-control_size`,
+										value: {
+											w: imgRef.current?.naturalWidth,
+											h: imgRef.current?.naturalHeight,
+										},
+										workspace: currentWorkspaceID,
+									});
+								}}
+							>
+								Set Original Image Size
+							</Button>
 						</CustomCollapse>
 					</>
 				}
 			>
 				<img
+					ref={imgRef}
 					style={{ borderRadius: borderRadius + 'px' }}
 					className={`flex h-full w-full flex-auto select-none rounded-3xl `}
 					src={src}
 				></img>
+				<p>{imgRef.current?.naturalWidth}</p>
 			</ControlTemplate>
 		</>
 	);
