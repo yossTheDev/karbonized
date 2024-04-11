@@ -16,7 +16,7 @@ const MenuBar = React.lazy(
 );
 
 const App: React.FC = () => {
-	const theme = useTheme();
+	useTheme();
 	const isHorizontal = useScreenDirection();
 	const viewerRef = useRef(null);
 	const [showWizard, setShowWizard] = useState(true);
@@ -147,7 +147,7 @@ const App: React.FC = () => {
 										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
 									}
 								>
-									{currentWorkspace && <Editor></Editor>}
+									{currentWorkspace !== undefined && <Editor></Editor>}
 								</Suspense>
 							</div>
 						</div>

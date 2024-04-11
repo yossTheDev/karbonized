@@ -55,7 +55,7 @@ export interface AppStoreModel {
 
 	/* Workspace System */
 	currentWorkspaceID: string;
-	currentWorkspace: Computed<AppStoreModel, Workspace>;
+	currentWorkspace: Computed<AppStoreModel, Workspace | undefined>;
 	setCurrentWorkspace: Action<AppStoreModel, string>;
 	deleteWorkspace: Action<AppStoreModel, string>;
 	workspaces: Workspace[];
@@ -286,7 +286,23 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	/* Workspace System */
-	workspaces: [],
+	workspaces: [{
+		id: "----",
+		controls: [],
+		workspaceColor: '#ffffff',
+		workspaceHeight: '512',
+		workspaceWidth: '512',
+		workspaceColorMode: 'Single',
+		workspaceName: 'Workspace 1',
+		workspaceType: 'color',
+		workspaceGradientSettings: {
+			color1: '#00B4DB',
+			color2: '#0083B0',
+			deg: 98,
+		},
+		textureName: 'grayrate',
+		textureColors: { color1: '#409ccf', color2: '#136179' },
+	}],
 	currentWorkspaceID: '----',
 	addWorkspace: action((state, payload) => {
 		if (payload === '') {
@@ -368,7 +384,7 @@ export const AppStore = createStore<AppStoreModel>({
 	currentWorkspace: computed((state) => {
 		return state.workspaces.find(
 			(item) => item.id === state.currentWorkspaceID,
-		) as any;
+		);
 	}),
 
 	/* Controls System */

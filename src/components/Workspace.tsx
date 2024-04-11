@@ -50,14 +50,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				className='shadow-2xl transition-all'
 				style={{
 					background:
-						currentWorkspace.workspaceColorMode === 'Single'
+						currentWorkspace?.workspaceColorMode === 'Single'
 							? currentWorkspace.workspaceColor
-							: `linear-gradient(${currentWorkspace.workspaceGradientSettings.deg}deg, ${currentWorkspace.workspaceGradientSettings.color1},${currentWorkspace.workspaceGradientSettings.color2})`,
-					height: currentWorkspace.workspaceHeight + 'px',
-					width: currentWorkspace.workspaceWidth + 'px',
+							: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace.workspaceGradientSettings.color1},${currentWorkspace.workspaceGradientSettings.color2})`,
+					height: currentWorkspace?.workspaceHeight + 'px',
+					width: currentWorkspace?.workspaceWidth + 'px',
 				}}
 			>
-				{currentWorkspace.workspaceType === 'texture' && (
+				{currentWorkspace?.workspaceType === 'texture' && (
 					<Suspense fallback={<></>}>
 						<WorkspaceTexture
 							texture={currentWorkspace.textureName}
@@ -65,7 +65,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					</Suspense>
 				)}
 
-				{currentWorkspace.workspaceType === 'image' && (
+				{currentWorkspace?.workspaceType === 'image' && (
 					<div
 						style={{
 							height: currentWorkspace.workspaceHeight + 'px',
