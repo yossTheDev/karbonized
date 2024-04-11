@@ -25,7 +25,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable flex max-h-44 w-full border-base-200 bg-transparent px-1 py-0.5 dark:shadow-base-200'
+			className='draggable flex h-fit w-screen border-base-200 bg-transparent dark:shadow-base-200'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
@@ -63,7 +63,7 @@ export const TitleBar: React.FC = () => {
 			</div>
 
 			{/* Actions */}
-			<div className='not-draggable pointer-events-auto z-10 ml-auto flex w-[20%] items-center gap-1'>
+			<div className='not-draggable pointer-events-auto z-10 ml-auto flex items-center gap-1'>
 				<Button
 					size={'icon'}
 					variant={'ghost'}
@@ -80,7 +80,7 @@ export const TitleBar: React.FC = () => {
 				</Button>
 
 				<button
-					className='hover:bg-neutral cursor-pointer rounded p-3 hover:bg-base-200 active:bg-base-200/70'
+					className='hover:bg-neutral cursor-pointer px-5 py-4 hover:bg-base-200 active:bg-base-200/70'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 					}
@@ -101,7 +101,7 @@ export const TitleBar: React.FC = () => {
 				</button>
 
 				<button
-					className='hover:bg-neutral cursor-pointer rounded p-3 hover:bg-base-200 active:bg-base-200/70'
+					className='hover:bg-neutral cursor-pointer px-5 py-4  hover:bg-base-200 active:bg-base-200/70'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 					}
@@ -139,7 +139,7 @@ export const TitleBar: React.FC = () => {
 				</button>
 
 				<button
-					className='hover:bg-neutral group cursor-pointer rounded p-3 hover:bg-red-600 active:bg-base-200/70'
+					className='hover:bg-neutral group cursor-pointer px-5 py-4  hover:bg-red-600 active:bg-base-200/70'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('closeApp')
 					}
