@@ -1,13 +1,13 @@
+import { useStoreActions, useStoreState } from '@/stores/Hooks';
 import { IconBorderStyle, IconPhoto } from '@tabler/icons-react';
 import React, { useRef } from 'react';
 import karbonized from '../../assets/logo.svg';
 import { useControlState } from '../../hooks/useControlState';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { ContextMenuItem } from '../ui/context-menu';
 import { Input } from '../ui/input';
 import { Slider } from '../ui/slider';
 import { ControlTemplate } from './ControlTemplate';
-import { useStoreActions, useStoreState } from '@/stores/Hooks';
-import { Button } from '../ui/button';
 
 interface Props {
 	id: string;
@@ -25,6 +25,23 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
+
+	// Handle Load Image
+	const handleLoadImage = (): void => {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = 'image/*';
+		input.addEventListener('change', (ev: any) => {
+			if (ev.target?.files != null && ev.target?.files.length > 0) {
+				const reader = new FileReader();
+				reader.addEventListener('load', () => {
+					setSrc(reader.result?.toString() ?? '');
+				});
+				reader.readAsDataURL(ev.target?.files[0]);
+			}
+		});
+		input.click();
+	};
 	return (
 		<>
 			<ControlTemplate
@@ -37,6 +54,37 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 				maxHeight={'5000px'}
 				defaultHeight={'100px'}
 				defaultWidth={'100px'}
+				contextMenu={
+					<>
+						<ContextMenuItem
+							onClick={() => {
+								handleLoadImage();
+							}}
+						>
+							Load Image
+						</ContextMenuItem>
+
+						<ContextMenuItem
+							onClick={() => {
+								setControlSize({
+									w: imgRef.current?.naturalWidth ?? 100,
+									h: imgRef.current?.naturalHeight ?? 100,
+								});
+
+								setControlState({
+									id: `${id}-control_size`,
+									value: {
+										w: imgRef.current?.naturalWidth,
+										h: imgRef.current?.naturalHeight,
+									},
+									workspace: currentWorkspaceID,
+								});
+							}}
+						>
+							Set Original Image Size
+						</ContextMenuItem>
+					</>
+				}
 				menu={
 					<>
 						{/* Border Settings */}
@@ -88,26 +136,6 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 									}
 								}}
 							></Input>
-
-							<Button
-								onClick={() => {
-									setControlSize({
-										w: imgRef.current?.naturalWidth ?? 100,
-										h: imgRef.current?.naturalHeight ?? 100,
-									});
-
-									setControlState({
-										id: `${id}-control_size`,
-										value: {
-											w: imgRef.current?.naturalWidth,
-											h: imgRef.current?.naturalHeight,
-										},
-										workspace: currentWorkspaceID,
-									});
-								}}
-							>
-								Set Original Image Size
-							</Button>
 						</CustomCollapse>
 					</>
 				}

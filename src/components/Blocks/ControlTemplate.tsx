@@ -476,8 +476,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 							{contextMenu !== undefined && (
 								<>
-									{contextMenu}
 									<ContextMenuSeparator></ContextMenuSeparator>
+									{contextMenu}
 								</>
 							)}
 
