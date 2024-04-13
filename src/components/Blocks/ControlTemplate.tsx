@@ -399,6 +399,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									}}
 								>
 									<div
+										id={'control-' + id}
 										ref={ref}
 										style={{
 											borderRadius: borderRadius + 'px',

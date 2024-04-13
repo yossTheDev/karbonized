@@ -12,7 +12,8 @@ import {
 	IconQrcode,
 	IconSticker,
 } from '@tabler/icons-react';
-import React, { useEffect } from 'react';
+import { toPng } from 'html-to-image';
+import React, { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 
 export interface Item {
@@ -42,6 +43,23 @@ export const MenuItem: React.FC<Item> = ({
 		(state) => state.setWorkspaceControls,
 	);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const controlProperties = useStoreState((state) => state.ControlProperties);
+	const [src, setSrc] = useState('');
+
+	useEffect(() => {
+		const item = document.getElementById('control-' + id);
+
+		if (item !== null && isVisible)
+			toPng(item, {
+				cacheBust: true,
+			})
+				.then((dataUrl) => {
+					setSrc(dataUrl);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+	}, [currentWorkspace, controlProperties]);
 
 	useEffect(() => {
 		if (controlID === id && !isVisible) {
@@ -51,11 +69,11 @@ export const MenuItem: React.FC<Item> = ({
 
 	return (
 		<>
-			<button
+			<div
 				onMouseDown={() => {
 					if (isVisible) setCurrentControlID(id);
 				}}
-				className={`btn z-50 list-none rounded-2xl hover:bg-base-300/90 dark:text-neutral-400 ${
+				className={`z-50 flex list-none items-center gap-2 rounded-xl px-4 py-2 hover:bg-base-200/60 dark:text-neutral-400 ${
 					!isDragged && 'hover:cursor-pointer'
 				} ${isDragged && 'cursor-grabbing'} ${
 					controlID === id && 'bg-base-300'
@@ -63,6 +81,12 @@ export const MenuItem: React.FC<Item> = ({
 				{...props}
 			>
 				<MenuIcon type={type}></MenuIcon>
+
+				{/* Image */}
+				<div className='flex h-12 w-12 items-center  justify-center rounded bg-base-200 px-3 py-2 shadow'>
+					{src !== 'data:,' && <img src={src}></img>}
+				</div>
+
 				<p
 					className={`${isDragged && 'cursor-grabbing'} ${
 						!isDragged && 'hover:cursor-pointer'
@@ -74,13 +98,16 @@ export const MenuItem: React.FC<Item> = ({
 				{/* Set Visibility */}
 				<div
 					onMouseDown={() => {
-						setWorkspaceControls(
-							currentWorkspace.controls.map((item) =>
-								item.id === id ? { ...item, isVisible: !item.isVisible } : item,
-							),
-						);
+						if (currentWorkspace !== undefined)
+							setWorkspaceControls(
+								currentWorkspace.controls.map((item) =>
+									item.id === id
+										? { ...item, isVisible: !item.isVisible }
+										: item,
+								),
+							);
 					}}
-					className='btn btn-circle btn-ghost btn-xs pointer-events-auto ml-auto'
+					className='pointer-events-auto ml-auto rounded p-2 hover:bg-base-200'
 				>
 					{isVisible ? (
 						<IconEye size={16}></IconEye>
@@ -88,7 +115,7 @@ export const MenuItem: React.FC<Item> = ({
 						<IconEyeClosed size={16}></IconEyeClosed>
 					)}
 				</div>
-			</button>
+			</div>
 		</>
 	);
 };

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { type RefObject, Suspense } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';

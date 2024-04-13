@@ -8,11 +8,13 @@ import {
 	ChevronLeft,
 	ChevronRight,
 	InspectionPanel,
+	Layers,
 	SquarePen,
 } from 'lucide-react';
 import { Label } from '../ui/label';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
+import { HierarchyPanel } from './HierarchyPanel';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
@@ -23,7 +25,9 @@ export const RightPanel: React.FC = () => {
 	/* Component State */
 	const panel = useRef<any>(null);
 	const [showMenu, setShowMenu] = useState(true);
-	const [tab, setTab] = useState<'workspace' | 'control'>('control');
+	const [tab, setTab] = useState<'workspace' | 'control' | 'hierarchy'>(
+		'control',
+	);
 
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
@@ -102,6 +106,20 @@ export const RightPanel: React.FC = () => {
 						)}
 					</Button>
 
+					{/* Layers */}
+					<Button
+						variant={'ghost'}
+						size={'icon'}
+						onClick={() => {
+							setTab('hierarchy');
+							setWorkspaceMode('custom');
+							setShowMenu(true);
+						}}
+						className={`${tab === 'hierarchy' && showMenu && 'bg-primary'}`}
+					>
+						<Layers size={16}></Layers>
+					</Button>
+
 					{/* Edit */}
 					<Button
 						variant={'ghost'}
@@ -165,6 +183,13 @@ export const RightPanel: React.FC = () => {
 					{tab === 'workspace' && (
 						<AnimatePresence>
 							{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
+						</AnimatePresence>
+					)}
+
+					{/* Hierarchy */}
+					{tab === 'hierarchy' && (
+						<AnimatePresence>
+							{tab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
 						</AnimatePresence>
 					)}
 				</div>

@@ -19,7 +19,6 @@ import {
 	IconSun,
 	IconWallpaper,
 } from '@tabler/icons-react';
-import { AnimatePresence } from 'framer-motion';
 import {
 	AppWindow,
 	Badge,
@@ -45,9 +44,6 @@ import { useTheme } from '../../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
-import { ExtensionPanel } from './ExtensionsPanel';
-import { HierarchyPanel } from './HierarchyPanel';
-import { WorkspacePanel } from './WorkspacePanel';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -542,54 +538,6 @@ export const LeftPanel: React.FC = () => {
 								<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
 							</button>
 						</Tooltip>
-					)}
-				</div>
-
-				{/* Tab Panels */}
-				<div
-					className={`relative ${
-						showMenu ? 'flex' : 'hidden'
-					} h-full w-80 flex-auto flex-col overflow-hidden md:w-96 md:max-w-full`}
-				>
-					{/* Hierarchy */}
-					{tab === 'hierarchy' && (
-						<AnimatePresence>
-							{tab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
-						</AnimatePresence>
-					)}
-
-					{/* Extensions */}
-					{tab === 'extensions' && isElectron() && (
-						<AnimatePresence>
-							{tab === 'extensions' && <ExtensionPanel></ExtensionPanel>}
-						</AnimatePresence>
-					)}
-
-					{/* Controls */}
-					{!isHorizontal && (
-						<AnimatePresence>
-							<div
-								className={` h-full min-h-full  flex-col overflow-hidden ${
-									tab === 'control' ? 'flex' : 'hidden'
-								}`}
-							>
-								<div className='overflow-auto' id='menu'></div>
-								{currentID === '' && (
-									<div className='flex h-96 flex-auto'>
-										<p className='text-base-content/70 mx-auto my-auto select-none text-center text-xs'>
-											Select a control to start editing it
-										</p>
-									</div>
-								)}
-							</div>
-						</AnimatePresence>
-					)}
-
-					{/* Workspace */}
-					{tab === 'workspace' && (
-						<AnimatePresence>
-							{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
-						</AnimatePresence>
 					)}
 				</div>
 			</div>
