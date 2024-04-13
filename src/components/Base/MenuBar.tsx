@@ -29,7 +29,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { PROJECT_KEY } from '../../utils/secrets';
-import { Edit, File, Info, Plus, Square, View } from 'lucide-react';
+import { Edit, File as FileIcon, Info, Plus, Square, View } from 'lucide-react';
 import TabBar from './TabBar';
 import { Button } from '@/components/ui/button';
 
@@ -170,9 +170,10 @@ export const MenuBar: React.FC = () => {
 
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
-		if (element) {
+		console.log('share');
+		if (element != null) {
 			const newFile = await toBlob(element);
-			if (newFile) {
+			if (newFile != null) {
 				const data = {
 					files: [
 						new File([newFile], 'image.png', {
@@ -192,34 +193,38 @@ export const MenuBar: React.FC = () => {
 		}
 	};
 
-	const handleLoadProject = (event: any) => {
-		event.preventDefault();
+	const handleLoadProject = () => {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = '.kproject';
+		input.addEventListener('change', (ev: any) => {
+			if (event.target.files.length > 0) {
+				if ((event.target.files[0].name as string).endsWith('.kproject')) {
+					const reader = new FileReader();
+					reader.addEventListener('load', () => {
+						try {
+							const text = CryptoJS.AES.decrypt(
+								reader.result as string,
+								PROJECT_KEY,
+							).toString(CryptoJS.enc.Utf8);
+							const project = JSON.parse(text) as Project;
 
-		if (event.target.files && event.target.files.length > 0) {
-			if ((event.target.files[0].name as string).endsWith('.kproject')) {
-				const reader = new FileReader();
-				reader.addEventListener('load', () => {
-					try {
-						const text = CryptoJS.AES.decrypt(
-							reader.result as string,
-							PROJECT_KEY,
-						).toString(CryptoJS.enc.Utf8);
-						const project = JSON.parse(text) as Project;
-
-						if (project.properties && project.workspace) {
-							loadProject(project);
-						} else {
-							alert('Please provide a valid Karbonized Project');
+							if (project.properties !== null && project.workspace !== null) {
+								loadProject(project);
+							} else {
+								alert('Please provide a valid Karbonized Project');
+							}
+						} catch (err) {
+							alert('Invalid Project File');
 						}
-					} catch (err) {
-						alert('Invalid Project File');
-					}
-				});
-				reader.readAsText(event.target?.files[0]);
-			} else {
-				alert('Only Karbonized Projects are allowed');
+					});
+					reader.readAsText(event.target?.files[0]);
+				} else {
+					alert('Only Karbonized Projects are allowed');
+				}
 			}
-		}
+		});
+		input.click();
 	};
 
 	const handleSaveProject = async () => {
@@ -302,7 +307,7 @@ export const MenuBar: React.FC = () => {
 					{/* File */}
 					<MenubarMenu>
 						<MenubarTrigger>
-							<File size={16}></File>
+							<FileIcon size={16}></FileIcon>
 						</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem onClick={() => setShowWizard(true)}>
@@ -311,7 +316,7 @@ export const MenuBar: React.FC = () => {
 
 							<MenubarItem
 								onClick={() => {
-									loadProject();
+									handleLoadProject();
 								}}
 							>
 								Load Project
@@ -372,8 +377,15 @@ export const MenuBar: React.FC = () => {
 							</MenubarSub>
 
 							<MenubarSeparator />
-							<MenubarItem>Share</MenubarItem>
+							<MenubarItem
+								onClick={async () => {
+									await handleShare();
+								}}
+							>
+								Share
+							</MenubarItem>
 							<MenubarSeparator />
+
 							<MenubarItem>Print</MenubarItem>
 						</MenubarContent>
 					</MenubarMenu>
