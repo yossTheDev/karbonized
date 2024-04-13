@@ -46,6 +46,7 @@ interface ControlProps {
 	id: string;
 	color?: string;
 	children?: ReactNode;
+	contextMenu?: ReactNode;
 	menu?: ReactNode;
 	lockAspectRatio?: boolean;
 	border?: number;
@@ -66,6 +67,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	id,
 	color,
 	children,
+	contextMenu,
 	menu,
 	shadowEditable = true,
 	maskEditable = true,
@@ -471,6 +473,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 									</ContextMenuItem>
 								</ContextMenuSubContent>
 							</ContextMenuSub>
+
+							{contextMenu !== undefined && (
+								<>
+									{contextMenu}
+									<ContextMenuSeparator></ContextMenuSeparator>
+								</>
+							)}
 
 							<ContextMenuSeparator></ContextMenuSeparator>
 
