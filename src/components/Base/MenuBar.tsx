@@ -328,6 +328,7 @@ export const MenuBar: React.FC = () => {
 								}}
 							>
 								Save Project
+								<MenubarShortcut>⌘S</MenubarShortcut>
 							</MenubarItem>
 
 							<MenubarItem
@@ -384,9 +385,6 @@ export const MenuBar: React.FC = () => {
 							>
 								Share
 							</MenubarItem>
-							<MenubarSeparator />
-
-							<MenubarItem>Print</MenubarItem>
 						</MenubarContent>
 					</MenubarMenu>
 
