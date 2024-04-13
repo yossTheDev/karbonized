@@ -15,6 +15,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
+		"build:web": "vite build",
 		"build:electron": "vite build -c vite.electron.config.ts",
 		"preview": "vite preview",
 		"tauri": "tauri",
