@@ -14,17 +14,19 @@ import {
 	IconCircleSquare,
 	IconEdit,
 	IconMoon,
+	IconPerspective,
 	IconPuzzle,
 	IconSun,
 	IconWallpaper,
 } from '@tabler/icons-react';
-import { AnimatePresence, wrap } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import {
 	AppWindow,
 	Badge,
 	Brush,
 	Circle,
 	CodeSquare,
+	Crop,
 	Ellipsis,
 	Eraser,
 	Hand,
@@ -46,10 +48,6 @@ import { Tooltip } from '../CustomControls/Tooltip';
 import { ExtensionPanel } from './ExtensionsPanel';
 import { HierarchyPanel } from './HierarchyPanel';
 import { WorkspacePanel } from './WorkspacePanel';
-import {
-	SolarCropMinimalisticLineDuotone,
-	SolarStructureBoldDuotone,
-} from '../Icons/Icons';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -191,10 +189,7 @@ export const LeftPanel: React.FC = () => {
 					variant={crop ? 'primary' : 'ghost'}
 					size={'small'}
 				>
-					<SolarCropMinimalisticLineDuotone
-						height={18}
-						width={18}
-					></SolarCropMinimalisticLineDuotone>
+					<Crop size={18}></Crop>
 				</Button>
 
 				<Button
@@ -208,10 +203,7 @@ export const LeftPanel: React.FC = () => {
 					variant={warp ? 'primary' : 'ghost'}
 					size={'small'}
 				>
-					<SolarStructureBoldDuotone
-						height={18}
-						width={18}
-					></SolarStructureBoldDuotone>
+					<IconPerspective size={18}></IconPerspective>
 				</Button>
 
 				<Button
