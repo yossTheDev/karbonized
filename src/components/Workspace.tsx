@@ -11,8 +11,8 @@ import Moveable, {
 	type OnResizeGroup,
 	type OnRotateGroup,
 	type OnRotateStart,
-	OnWarpStart,
-	OnWarp,
+	type OnWarpStart,
+	type OnWarp,
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';

@@ -39,15 +39,12 @@ const InfiniteViewer = React.lazy(
 
 export const Editor: React.FC = () => {
 	const { viewerRef } = useContext(AppContext);
+
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
-	const setEditing = useStoreActions((state) => state.setEditing);
 	const drag = useStoreState((state) => state.drag);
-	const setDrag = useStoreActions((state) => state.setDrag);
 	const canDraw = useStoreState((state) => state.isDrawing);
-	const setCanDraw = useStoreActions((state) => state.setIsDrawing);
 	const isErasing = useStoreState((state) => state.isErasing);
-	const setIsErasing = useStoreActions((state) => state.setIsErasing);
 	const lineWidth = useStoreState((state) => state.lineWidth);
 	const strokeColor = useStoreState((state) => state.strokeColor);
 	const setStrokeColor = useStoreActions((state) => state.setStrokeColor);
@@ -119,7 +116,7 @@ export const Editor: React.FC = () => {
 		viewerRef.current?.scrollCenter();
 	};
 
-	const onKeyDown = (event: KeyboardEvent) => {
+	const onKeyDown = (event: KeyboardEvent): void => {
 		if (event.ctrlKey && event.key === 'r') {
 			event.preventDefault();
 			setAspectRatio(!aspectRatio);
