@@ -19,12 +19,11 @@ import { CustomPortal } from '../components/Portal';
 import { useScreenDirection } from '../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
-import { Button } from '@/components/ui/button';
 
 const TEMPLATE_SYSTEM_ROOT = 'https://karbon-apps.github.io/templates/';
 
 const NavBarMobile = React.lazy(
-	() => import('../components/Mobile/NavBarMobile'),
+	async () => await import('../components/Mobile/NavBarMobile'),
 );
 
 interface Props {
@@ -181,9 +180,6 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 						</div>
 					)}
 
-					<Button>Hola</Button>
-					<Button>fdf</Button>
-
 					{/* Templates */}
 					<div className='relative flex h-full w-full flex-auto  flex-col overflow-hidden bg-base-100 md:rounded-tl-3xl md:shadow-xl'>
 						{/* Header */}
@@ -208,14 +204,14 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									</defs>
 									<g id='Group-3'>
 										<g id='Rec-Subtract'>
-											<g clip-path='url(#clip_1)'>
-												<use fill='none' stroke-width='12' />
+											<g clipPath='url(#clip_1)'>
+												<use fill='none' strokeWidth='12' />
 											</g>
 										</g>
 										<path
 											d='M203.05 47.5693C215.56 35.0586 235.838 35.0586 248.349 47.5693L403.75 202.971C416.261 215.482 416.261 235.759 403.75 248.27L248.349 403.672C244.634 407.387 240.234 409.999 235.556 411.507C235.585 398.816 232.019 400.749 239.573 374.964C247.126 349.179 255.652 338.375 265.771 308.368C275.89 278.36 275.179 275.842 280.05 254.932C284.92 234.023 281.278 201.52 258.561 169.564C233.034 133.656 192.433 98.9087 169.001 81.618L203.05 47.5693L203.05 47.5693ZM88.4009 288.828C88.3898 288.882 88.3787 288.936 88.3677 288.99L47.6482 248.27C35.1375 235.759 35.1375 215.482 47.6482 202.971L162.022 86.373C165.225 101.533 178.6 131.78 169.14 158.04C150.072 210.97 99.9601 233.004 88.4009 288.828L88.4009 288.828Z'
 											id='Vector'
-											fill-rule='evenodd'
+											fillRule='evenodd'
 											stroke='none'
 										/>
 									</g>
@@ -314,9 +310,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 													defaultValue={'code'}
 													tabIndex={0}
 													value={communityTemplateType}
-													onChange={(e) =>
-														setCommunityTemplateType(e.currentTarget.value)
-													}
+													onChange={(e) => {
+														setCommunityTemplateType(e.currentTarget.value);
+													}}
 												>
 													<option value={'code'}>Code</option>
 													<option value={'devices'}>Devices</option>
@@ -370,7 +366,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 													<>
 														<button
 															key={item.workspace.id}
-															onClick={() => setCurrent(item)}
+															onClick={() => {
+																setCurrent(item);
+															}}
 															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${
 																current?.workspace.id === item.workspace.id
 																	? 'border-base-100 shadow-xl'
@@ -384,9 +382,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 															{current?.workspace.id === item.workspace.id && (
 																<label
-																	onClick={() =>
-																		handleDeleteUserTemplate(item.workspace.id)
-																	}
+																	onClick={() => {
+																		handleDeleteUserTemplate(item.workspace.id);
+																	}}
 																	className='btn btn-circle hover:bg-neutral absolute -ml-1  -mt-1 border-none bg-base-300'
 																>
 																	<IconX></IconX>
@@ -465,7 +463,7 @@ const Templates: React.FC<{
 					await fetch(TEMPLATE_SYSTEM_ROOT + 'templates/' + item.path)
 				).json();
 
-				copy.push({ ...item, data: data });
+				copy.push({ ...item, data });
 			}
 
 			setItems(copy);
@@ -486,14 +484,15 @@ const Templates: React.FC<{
 					{items.length > 0 ? (
 						<>
 							{items
-								?.filter(
-									(item) =>
-										item.name.toUpperCase().indexOf(query.toUpperCase()) > -1,
+								?.filter((item) =>
+									item.name.toUpperCase().includes(query.toUpperCase()),
 								)
 								.map((item: any) => (
 									<button
 										key={item.data.workspace.id}
-										onClick={() => setCurrent(item.data)}
+										onClick={() => {
+											setCurrent(item.data);
+										}}
 										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${
 											current?.workspace.id === item.data.workspace.id
 												? 'border-base-100 shadow-xl'
@@ -512,7 +511,9 @@ const Templates: React.FC<{
 
 										{current?.workspace.id === item.data.workspace.id && (
 											<label
-												onClick={() => handleDownloadTemplate(item.data)}
+												onClick={() => {
+													handleDownloadTemplate(item.data);
+												}}
 												className='btn btn-circle hover:bg-neutral absolute -ml-1  -mt-1 border-none bg-base-300'
 											>
 												<IconDownload></IconDownload>
@@ -534,7 +535,9 @@ const Templates: React.FC<{
 
 			<CustomPortal id='search_bar'>
 				<Input
-					onChange={(ev) => setQuery(ev.currentTarget.value)}
+					onChange={(ev) => {
+						setQuery(ev.currentTarget.value);
+					}}
 					value={query}
 					className='flex w-full flex-auto text-neutral-400'
 				></Input>
