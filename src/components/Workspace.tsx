@@ -11,6 +11,8 @@ import Moveable, {
 	type OnResizeGroup,
 	type OnRotateGroup,
 	type OnRotateStart,
+	OnWarpStart,
+	OnWarp,
 } from 'react-moveable';
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';
@@ -25,6 +27,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const controlsClass = useStoreState((state) => state.controlsClass);
 
 	const editing = useStoreState((state) => state.editing);
+	const crop = useStoreState((state) => state.crop);
+	const warp = useStoreState((state) => state.warp);
 	const lockAspect = useStoreState((state) => state.lockAspect);
 
 	const workspaces = useStoreState((state) => state.workspaces);
@@ -51,8 +55,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				style={{
 					background:
 						currentWorkspace?.workspaceColorMode === 'Single'
-							? currentWorkspace.workspaceColor
-							: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace.workspaceGradientSettings.color1},${currentWorkspace.workspaceGradientSettings.color2})`,
+							? currentWorkspace?.workspaceColor
+							: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`,
 					height: currentWorkspace?.workspaceHeight + 'px',
 					width: currentWorkspace?.workspaceWidth + 'px',
 				}}
@@ -60,7 +64,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				{currentWorkspace?.workspaceType === 'texture' && (
 					<Suspense fallback={<></>}>
 						<WorkspaceTexture
-							texture={currentWorkspace.textureName}
+							texture={currentWorkspace?.textureName}
 						></WorkspaceTexture>
 					</Suspense>
 				)}
@@ -68,8 +72,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				{currentWorkspace?.workspaceType === 'image' && (
 					<div
 						style={{
-							height: currentWorkspace.workspaceHeight + 'px',
-							width: currentWorkspace.workspaceWidth + 'px',
+							height: currentWorkspace?.workspaceHeight + 'px',
+							width: currentWorkspace?.workspaceWidth + 'px',
 						}}
 						className='overflow-hidden transition-all'
 					>
@@ -77,14 +81,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							className='flex h-full w-full select-none'
 							src={
 								Wallpapers.find(
-									(item) => item.id === currentWorkspace.textureName,
+									(item) => item.id === currentWorkspace?.textureName,
 								)?.img
 							}
 						></img>
 					</div>
 				)}
 
-				{workspaces.map((workspace) => (
+				{workspaces.map((workspace: { id: string; controls: any[] }) => (
 					<div
 						className={`${
 							currentWorkspaceID === workspace.id ? 'block' : 'hidden'
@@ -127,17 +131,17 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					snapThreshold={10}
 					verticalGuidelines={[
 						0,
-						parseFloat(currentWorkspace.workspaceWidth) * 0.2,
-						parseFloat(currentWorkspace.workspaceWidth) / 2,
-						parseFloat(currentWorkspace.workspaceWidth) * 0.8,
-						currentWorkspace.workspaceWidth,
+						parseFloat(currentWorkspace?.workspaceWidth ?? '1080') * 0.2,
+						parseFloat(currentWorkspace?.workspaceWidth ?? '1080') / 2,
+						parseFloat(currentWorkspace?.workspaceWidth ?? '1080') * 0.8,
+						currentWorkspace?.workspaceWidth ?? 1080,
 					]}
 					horizontalGuidelines={[
 						0,
-						parseFloat(currentWorkspace.workspaceHeight) * 0.2,
-						parseFloat(currentWorkspace.workspaceHeight) / 2,
-						parseFloat(currentWorkspace.workspaceHeight) * 0.8,
-						currentWorkspace.workspaceHeight,
+						parseFloat(currentWorkspace?.workspaceHeight ?? '1980') * 0.2,
+						parseFloat(currentWorkspace?.workspaceHeight ?? '1980') / 2,
+						parseFloat(currentWorkspace?.workspaceHeight ?? '1980') * 0.8,
+						currentWorkspace?.workspaceHeight ?? 1980,
 					]}
 					elementSnapDirections
 					elementGuidelines={controlsClass}
@@ -197,7 +201,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					keepRatio={lockAspect}
 					/* resizable */
 					/* Only one of resizable, scalable, warpable can be used. */
-					resizable={true}
+					resizable={!warp}
 					throttleResize={0}
 					onResizeStart={({ target }) => {
 						setPastHistory([
@@ -247,7 +251,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					/* scalable */
 					/* Only one of resizable, scalable, warpable can be used. */
-					scalable={true}
+					scalable={false}
 					throttleScale={0}
 					onScaleStart={() => {
 						// console.log('onScaleStart', target);
@@ -328,6 +332,61 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					defaultGroupOrigin=''
 					useMutationObserver
+					clippable={crop}
+					dragWithClip={false}
+					clipTargetBounds
+					onClip={(e) => {
+						setControlState({
+							id: `${controlID}-clip`,
+							value: e.clipStyle,
+							workspace: currentWorkspaceID,
+						});
+
+						e.target.style.clipPath = e.clipStyle;
+					}}
+					onClipStart={({ target }) => {
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-clip`,
+								value: target.style.clipPath,
+							},
+						]);
+					}}
+					onClipEnd={({ target }) => {
+						// console.log('onResizeEnd', target, isDrag);
+						setControlState({
+							id: `${controlID}-clip`,
+							value: target.style.clipPath,
+						});
+
+						setFutureHistory([]);
+					}}
+					warpable={warp}
+					onWarpStart={({ target }: OnWarpStart) => {
+						setPastHistory([
+							...pastHistory,
+							{
+								id: `${controlID}-transform`,
+								value: target.style.transform,
+							},
+						]);
+					}}
+					onWarp={({ target, transform }: OnWarp) => {
+						// console.log('onRotate', dist);
+						target.style.transform = transform;
+						setControlTransform(transform);
+					}}
+					onWarpEnd={({ target }) => {
+						setControlState({
+							id: `${controlID}-transform`,
+							value: target.style.transform,
+						});
+
+						setFutureHistory([]);
+						// console.log('onRotateEnd', target, isDrag);
+					}}
+					renderDirections={['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se']}
 				/>
 			)}
 		</>

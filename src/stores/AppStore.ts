@@ -45,7 +45,11 @@ export interface AppStoreModel {
 	readyToSave: boolean;
 	editing: boolean;
 	drag: boolean,
+	crop: boolean,
+	warp: boolean,
 	setDrag: Action<AppStoreModel, boolean>,
+	setCrop: Action<AppStoreModel, boolean>,
+	setWarp: Action<AppStoreModel, boolean>,
 	lockAspect: boolean;
 	setLockAspect: Action<AppStoreModel, boolean>;
 
@@ -152,6 +156,14 @@ export const AppStore = createStore<AppStoreModel>({
 	currentControlID: '',
 	editing: true,
 	lockAspect: false,
+	warp: false,
+	setWarp: action((state, payload) => {
+		state.warp = payload;
+	}),
+	crop: false,
+	setCrop: action((state, payload) => {
+		state.crop = payload;
+	}),
 	drag: false,
 	setDrag: action((state, payload) => {
 		state.drag = payload;

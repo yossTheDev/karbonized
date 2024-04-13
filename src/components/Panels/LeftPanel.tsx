@@ -18,7 +18,7 @@ import {
 	IconSun,
 	IconWallpaper,
 } from '@tabler/icons-react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, wrap } from 'framer-motion';
 import {
 	AppWindow,
 	Badge,
@@ -46,6 +46,10 @@ import { Tooltip } from '../CustomControls/Tooltip';
 import { ExtensionPanel } from './ExtensionsPanel';
 import { HierarchyPanel } from './HierarchyPanel';
 import { WorkspacePanel } from './WorkspacePanel';
+import {
+	SolarCropMinimalisticLineDuotone,
+	SolarStructureBoldDuotone,
+} from '../Icons/Icons';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -62,6 +66,10 @@ export const LeftPanel: React.FC = () => {
 	const setCanDraw = useStoreActions((state) => state.setIsDrawing);
 	const drag = useStoreState((state) => state.drag);
 	const setDrag = useStoreActions((state) => state.setDrag);
+	const crop = useStoreState((state) => state.crop);
+	const setCrop = useStoreActions((state) => state.setCrop);
+	const warp = useStoreState((state) => state.warp);
+	const setWarp = useStoreActions((state) => state.setWarp);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	/* Component State */
@@ -75,16 +83,43 @@ export const LeftPanel: React.FC = () => {
 	const onKeyDown = (event: KeyboardEvent): void => {
 		if (event.ctrlKey && event.key === 'b') {
 			event.preventDefault();
-
 			setShowMenu(!showMenu);
+		} else if (event.ctrlKey && event.key === 'w') {
+			event.preventDefault();
+			setEditing(true);
+			setDrag(false);
+			setCanDraw(false);
+			setIsErasing(false);
+			setWarp(false);
+			setCrop(false);
+		} else if (event.ctrlKey && event.key === 'e') {
+			event.preventDefault();
+			setEditing(false);
+			setCanDraw(false);
+			setIsErasing(false);
+			setCrop(false);
+			setWarp(false);
+			setDrag(true);
+		} else if (event.ctrlKey && event.key === 'f') {
+			event.preventDefault();
+			setEditing(true);
+			setCanDraw(false);
+			setIsErasing(false);
+			setDrag(false);
+			setWarp(false);
+			setCrop(true);
+		} else if (event.ctrlKey && event.key === 'g') {
+			event.preventDefault();
+			setEditing(true);
+			setCanDraw(false);
+			setIsErasing(false);
+			setDrag(false);
+			setCrop(false);
+			setWarp(true);
+		} else if (event.ctrlKey && event.key === 's') {
+			event.preventDefault();
 		}
 	};
-
-	useEffect(() => {
-		if (!isHorizontal) {
-			setShowMenu(true);
-		}
-	});
 
 	useEffect(() => {
 		window.addEventListener('keydown', onKeyDown);
@@ -106,7 +141,8 @@ export const LeftPanel: React.FC = () => {
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+			currentWorkspace?.controls.filter((item) => item.type === type)?.length +
+			1
 		);
 	};
 
@@ -120,8 +156,10 @@ export const LeftPanel: React.FC = () => {
 						setDrag(false);
 						setCanDraw(false);
 						setIsErasing(false);
+						setCrop(false);
+						setWarp(false);
 					}}
-					variant={editing ? 'primary' : 'ghost'}
+					variant={editing && !crop && !warp ? 'primary' : 'ghost'}
 					size={'small'}
 				>
 					<MousePointer2 size={18}></MousePointer2>
@@ -132,12 +170,48 @@ export const LeftPanel: React.FC = () => {
 						setEditing(false);
 						setCanDraw(false);
 						setIsErasing(false);
+						setCrop(false);
+						setWarp(false);
 						setDrag(true);
 					}}
 					variant={drag ? 'primary' : 'ghost'}
 					size={'small'}
 				>
 					<Hand size={18}></Hand>
+				</Button>
+
+				<Button
+					onClick={() => {
+						setCanDraw(false);
+						setIsErasing(false);
+						setDrag(false);
+						setWarp(false);
+						setCrop(true);
+					}}
+					variant={crop ? 'primary' : 'ghost'}
+					size={'small'}
+				>
+					<SolarCropMinimalisticLineDuotone
+						height={18}
+						width={18}
+					></SolarCropMinimalisticLineDuotone>
+				</Button>
+
+				<Button
+					onClick={() => {
+						setCanDraw(false);
+						setIsErasing(false);
+						setDrag(false);
+						setCrop(false);
+						setWarp(!warp);
+					}}
+					variant={warp ? 'primary' : 'ghost'}
+					size={'small'}
+				>
+					<SolarStructureBoldDuotone
+						height={18}
+						width={18}
+					></SolarStructureBoldDuotone>
 				</Button>
 
 				<Button

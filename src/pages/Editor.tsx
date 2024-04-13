@@ -86,7 +86,8 @@ export const Editor: React.FC = () => {
 
 	const getElementsByType = (type: string): number => {
 		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+			currentWorkspace?.controls.filter((item) => item.type === type)?.length +
+			1
 		);
 	};
 
@@ -119,19 +120,7 @@ export const Editor: React.FC = () => {
 	};
 
 	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'w') {
-			event.preventDefault();
-			setEditing(true);
-			setDrag(false);
-			setCanDraw(false);
-			setIsErasing(false);
-		} else if (event.ctrlKey && event.key === 'e') {
-			event.preventDefault();
-			setEditing(false);
-			setCanDraw(false);
-			setIsErasing(false);
-			setDrag(true);
-		} else if (event.ctrlKey && event.key === 'r') {
+		if (event.ctrlKey && event.key === 'r') {
 			event.preventDefault();
 			setAspectRatio(!aspectRatio);
 		} else if (event.ctrlKey && event.key === 's') {

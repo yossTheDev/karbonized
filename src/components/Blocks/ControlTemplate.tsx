@@ -134,6 +134,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		`${id}-control_size`,
 		true,
 	);
+	const [clip, setClip] = useControlState('', `${id}-clip`, true);
 	const [borderRadius, setBorderRadius] = useControlState(
 		border,
 		`${id}-borderRadius`,
@@ -367,6 +368,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						left: position.x,
 						top: position.y,
 						transform,
+						clipPath: clip,
 					}}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
