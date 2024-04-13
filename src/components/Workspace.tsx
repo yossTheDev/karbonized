@@ -218,8 +218,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					onResize={({ target, width, height, delta }: OnResize) => {
 						// console.log('onResize', target);
-						delta[0] && (target.style.width = `${width}px`);
-						delta[1] && (target.style.height = `${height}px`);
+						delta[0] !== 0 && (target.style.width = `${width}px`);
+						delta[1] !== 0 && (target.style.height = `${height}px`);
 						// console.log('height' + target!.style.height);
 						setControlSize({
 							w: target.style.width.replace('px', '') as unknown as number,
@@ -228,8 +228,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					onResizeGroup={({ targets, width, height, delta }: OnResizeGroup) => {
 						targets.map((el) => {
-							delta[0] && (el.style.width = `${width}px`);
-							delta[1] && (el.style.height = `${height}px`);
+							delta[0] !== 0 && (el.style.width = `${width}px`);
+							delta[1] !== 0 && (el.style.height = `${height}px`);
 						});
 
 						// console.log('height' + target!.style.height);

@@ -7,7 +7,6 @@ import { Separator } from '../ui/separator';
 
 export const HierarchyPanel: React.FC = () => {
 	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const visibleControls = useStoreState((state) => state.visibleControls);
 	const setWorkspaceControls = useStoreActions(
 		(state) => state.setWorkspaceControls,

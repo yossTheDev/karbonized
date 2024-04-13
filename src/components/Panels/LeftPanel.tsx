@@ -47,7 +47,6 @@ import { Tooltip } from '../CustomControls/Tooltip';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
-	const currentID = useStoreState((state) => state.currentControlID);
 	const addControl = useStoreActions((state) => state.addControl);
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
@@ -134,10 +133,11 @@ export const LeftPanel: React.FC = () => {
 
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const getElementsByType = (type: string) => {
-		return (
-			currentWorkspace?.controls.filter((item) => item.type === type)?.length +
-			1
-		);
+		if (currentWorkspace !== undefined)
+			return (
+				currentWorkspace?.controls.filter((item) => item.type === type)
+					?.length + 1
+			);
 	};
 
 	return (
@@ -203,6 +203,7 @@ export const LeftPanel: React.FC = () => {
 				</Button>
 
 				<Button
+					className='hidden'
 					onClick={() => {
 						setCanDraw(!canDraw);
 						setEditing(false);
@@ -216,6 +217,7 @@ export const LeftPanel: React.FC = () => {
 				</Button>
 
 				<Button
+					className='hidden'
 					onClick={() => {
 						setIsErasing(!isErasing);
 						setEditing(false);

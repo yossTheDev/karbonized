@@ -81,39 +81,42 @@ export const Editor: React.FC = () => {
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.4);
 
-	const getElementsByType = (type: string): number => {
-		return (
-			currentWorkspace?.controls.filter((item) => item.type === type)?.length +
-			1
-		);
+	const getElementsByType = (type: string): number | undefined => {
+		if (currentWorkspace !== undefined)
+			return (
+				currentWorkspace?.controls.filter((item) => item.type === type)
+					?.length + 1
+			);
 	};
 
 	const centerView = (): void => {
-		const width = parseFloat(currentWorkspace.workspaceWidth);
+		if (currentWorkspace !== undefined) {
+			const width = parseFloat(currentWorkspace?.workspaceWidth);
 
-		if (isHorizontal) {
-			if (width < 1280) {
-				viewerRef.current?.setZoom(0.9);
-			} else if (width >= 1280 && width < 1920) {
-				viewerRef.current?.setZoom(0.6);
-			} else if (width >= 1920 && width < 2560) {
-				viewerRef.current?.setZoom(0.4);
-			} else if (width >= 2560 && width < 3840) {
-				viewerRef.current?.setZoom(0.3);
-			} else if (width >= 3840) {
-				viewerRef.current?.setZoom(0.2);
+			if (isHorizontal) {
+				if (width < 1280) {
+					viewerRef.current?.setZoom(0.9);
+				} else if (width >= 1280 && width < 1920) {
+					viewerRef.current?.setZoom(0.6);
+				} else if (width >= 1920 && width < 2560) {
+					viewerRef.current?.setZoom(0.4);
+				} else if (width >= 2560 && width < 3840) {
+					viewerRef.current?.setZoom(0.3);
+				} else if (width >= 3840) {
+					viewerRef.current?.setZoom(0.2);
+				}
+			} else {
+				if (width < 1280) {
+					viewerRef.current?.setZoom(0.6);
+				} else if (width >= 1280 && width < 1920) {
+					viewerRef.current?.setZoom(0.25);
+				} else if (width >= 1920) {
+					viewerRef.current?.setZoom(0.1);
+				}
 			}
-		} else {
-			if (width < 1280) {
-				viewerRef.current?.setZoom(0.6);
-			} else if (width >= 1280 && width < 1920) {
-				viewerRef.current?.setZoom(0.25);
-			} else if (width >= 1920) {
-				viewerRef.current?.setZoom(0.1);
-			}
+
+			viewerRef.current?.scrollCenter();
 		}
-
-		viewerRef.current?.scrollCenter();
 	};
 
 	const onKeyDown = (event: KeyboardEvent): void => {
@@ -150,7 +153,7 @@ export const Editor: React.FC = () => {
 
 	/* Handle Duplicate Elements */
 	useEffect(() => {
-		const OnKeyDown = (event: KeyboardEvent) => {
+		const OnKeyDown = (event: KeyboardEvent): void => {
 			if (event.ctrlKey && event.key === 'd') {
 				event.preventDefault();
 
@@ -175,7 +178,7 @@ export const Editor: React.FC = () => {
 				/* Add Control To Workspace */
 				addControl({
 					type:
-						currentWorkspace.controls.find((item) => item.id === controlID)
+						currentWorkspace?.controls.find((item) => item.id === controlID)
 							?.type ?? newControlID.split('-')[0],
 					id: newControlID,
 					isSelectable: true,
@@ -268,8 +271,8 @@ export const Editor: React.FC = () => {
 						>
 							<div
 								style={{
-									width: currentWorkspace.workspaceWidth + 'px',
-									height: currentWorkspace.workspaceHeight + 'px',
+									width: currentWorkspace?.workspaceWidth + 'px',
+									height: currentWorkspace?.workspaceHeight + 'px',
 								}}
 								className='viewport'
 							>
