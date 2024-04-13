@@ -150,7 +150,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					snapGap
 					snapRotationDegrees={[0, 90, 180, 270]}
 					/* draggable */
-					draggable={true}
+					draggable={!crop}
 					throttleDrag={0}
 					onDragStart={({ target }) => {
 						// console.log('onDragStart', target);
