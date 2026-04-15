@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import * as React from "react"
 import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/components/lib/utils"
@@ -38,7 +40,7 @@ function ResizableHandle({
       )}
       {...props}
     >
-      {withHandle && (
+      {(withHandle ?? false) && (
         <div className="z-10 flex h-6 w-1 shrink-0 rounded-lg bg-border" />
       )}
     </ResizablePrimitive.Separator>
