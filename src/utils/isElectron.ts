@@ -1,9 +1,15 @@
+declare global {
+	interface Window {
+		process?: any;
+	}
+}
+
 export const isElectron = () => {
 	// Renderer process
 	if (
 		typeof window !== 'undefined' &&
 		typeof window.process === 'object' &&
-		(window.process as any).type === 'renderer'
+		window.process.type === 'renderer'
 	) {
 		return true;
 	}

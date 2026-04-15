@@ -131,6 +131,10 @@ export const WorkspacePanel: React.FC = () => {
 		(state) => state.setWorkspaceColorMode,
 	);
 
+	if (currentWorkspace == null) {
+		return <></>;
+	}
+
 	return (
 		<>
 			<Label className='mb-1 mt-4 select-none text-xl font-bold'>
@@ -256,12 +260,11 @@ export const WorkspacePanel: React.FC = () => {
 										{Gradients.map((item) => (
 											<button
 												key={item.c1 + item.c2}
-												className={`h-8 w-16 overflow-hidden rounded transition-all hover:bg-linear-to-bl hover:shadow active:scale-90 md:h-8 md:w-14 ${
-													currentWorkspace.workspaceGradientSettings.color1 ===
+												className={`h-8 w-16 overflow-hidden rounded transition-all hover:bg-linear-to-bl hover:shadow active:scale-90 md:h-8 md:w-14 ${currentWorkspace.workspaceGradientSettings.color1 ===
 													item.c1
-														? 'border-2 border-primary shadow-2xl'
-														: 'border-base-200'
-												}`}
+													? 'border-2 border-primary shadow-2xl'
+													: 'border-base-200'
+													}`}
 												style={{
 													background: `linear-gradient(${item.c1},${item.c2})`,
 												}}
@@ -277,7 +280,7 @@ export const WorkspacePanel: React.FC = () => {
 												{currentWorkspace.workspaceGradientSettings.color1 ===
 													item.c1 &&
 													currentWorkspace.workspaceGradientSettings.color2 ===
-														item.c2 && <Check></Check>}
+													item.c2 && <Check></Check>}
 											</button>
 										))}
 									</div>
@@ -319,11 +322,10 @@ export const WorkspacePanel: React.FC = () => {
 							<TabsContent value='texture'>
 								<div className='flex flex-auto flex-row flex-wrap  gap-2 overflow-auto'>
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'grayrate'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'grayrate'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('grayrate');
 										}}
@@ -334,11 +336,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'coil'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'coil'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('coil');
 										}}
@@ -349,11 +350,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'circular'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'circular'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('circular');
 										}}
@@ -364,11 +364,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'horizon'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'horizon'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('horizon');
 										}}
@@ -379,11 +378,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'hirl'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'hirl'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('hirl');
 										}}
@@ -394,11 +392,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'neon'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'neon'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('neon');
 										}}
@@ -409,11 +406,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'undulate'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'undulate'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('undulate');
 										}}
@@ -424,11 +420,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'chaos'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'chaos'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('chaos');
 										}}
@@ -439,11 +434,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'oscilate'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'oscilate'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('oscilate');
 										}}
@@ -454,11 +448,10 @@ export const WorkspacePanel: React.FC = () => {
 									</div>
 
 									<div
-										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${
-											currentWorkspace.textureName === 'vortex'
-												? 'border-primary'
-												: 'border-base-300'
-										}`}
+										className={`h-12 w-12 cursor-pointer rounded-full border-2 bg-base-300 p-2 hover:border-2 hover:border-gray-400 active:scale-95 ${currentWorkspace.textureName === 'vortex'
+											? 'border-primary'
+											: 'border-base-300'
+											}`}
 										onClick={() => {
 											setTexture('vortex');
 										}}
@@ -480,7 +473,7 @@ export const WorkspacePanel: React.FC = () => {
 									}}
 									color={currentWorkspace.workspaceColor}
 									mode={'Gradient'}
-									onColorChange={() => {}}
+									onColorChange={() => { }}
 								></ColorPicker>
 							</TabsContent>
 							<TabsContent value='image'>
@@ -488,11 +481,10 @@ export const WorkspacePanel: React.FC = () => {
 									{Wallpapers.map((item) => (
 										<button
 											key={item.id}
-											className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 bg-base-100 transition-transform hover:shadow active:scale-90 md:h-20 md:w-32 ${
-												currentWorkspace.textureName === item.id
-													? 'border-2 border-primary shadow-2xl'
-													: 'border-base-300'
-											}`}
+											className={`mx-auto h-16 w-20 overflow-hidden rounded-2xl border-4 bg-base-100 transition-transform hover:shadow active:scale-90 md:h-20 md:w-32 ${currentWorkspace.textureName === item.id
+												? 'border-2 border-primary shadow-2xl'
+												: 'border-base-300'
+												}`}
 											onClick={() => {
 												setTexture(item.id);
 											}}
