@@ -153,8 +153,8 @@ export const LeftPanel: React.FC = () => {
 						setCrop(false);
 						setWarp(false);
 					}}
-					variant={editing && !crop && !warp ? 'primary' : 'ghost'}
-					size={'small'}
+					variant={editing && !crop && !warp ? 'default' : 'ghost'}
+					size={'icon'}
 				>
 					<MousePointer2 size={18}></MousePointer2>
 				</Button>
@@ -168,8 +168,8 @@ export const LeftPanel: React.FC = () => {
 						setWarp(false);
 						setDrag(true);
 					}}
-					variant={drag ? 'primary' : 'ghost'}
-					size={'small'}
+					variant={drag ? 'default' : 'ghost'}
+					size={'icon'}
 				>
 					<Hand size={18}></Hand>
 				</Button>
@@ -182,8 +182,8 @@ export const LeftPanel: React.FC = () => {
 						setWarp(false);
 						setCrop(true);
 					}}
-					variant={crop ? 'primary' : 'ghost'}
-					size={'small'}
+					variant={crop ? 'default' : 'ghost'}
+					size={'icon'}
 				>
 					<Crop size={18}></Crop>
 				</Button>
@@ -196,8 +196,8 @@ export const LeftPanel: React.FC = () => {
 						setCrop(false);
 						setWarp(!warp);
 					}}
-					variant={warp ? 'primary' : 'ghost'}
-					size={'small'}
+					variant={warp ? 'default' : 'ghost'}
+					size={'icon'}
 				>
 					<IconPerspective size={18}></IconPerspective>
 				</Button>
@@ -210,8 +210,8 @@ export const LeftPanel: React.FC = () => {
 						setDrag(false);
 						setIsErasing(false);
 					}}
-					variant={canDraw ? 'primary' : 'ghost'}
-					size={'small'}
+					variant={canDraw ? 'default' : 'ghost'}
+					size={'icon'}
 				>
 					<Brush size={18}></Brush>
 				</Button>
@@ -224,8 +224,8 @@ export const LeftPanel: React.FC = () => {
 						setDrag(false);
 						setCanDraw(false);
 					}}
-					variant={isErasing ? 'primary' : 'ghost'}
-					size={'small'}
+					variant={isErasing ? 'default' : 'ghost'}
+					size={'icon'}
 				>
 					<Eraser size={18}></Eraser>
 				</Button>
@@ -235,7 +235,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Code Control */}
 				<Button
 					variant={'ghost'}
-					size={'small'}
+					size={'icon'}
 					onClick={() => {
 						addControl({
 							type: 'code',
@@ -253,7 +253,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Image Control */}
 				<Button
 					variant={'ghost'}
-					size={'small'}
+					size={'icon'}
 					onClick={() => {
 						addControl({
 							type: 'image',
@@ -271,7 +271,7 @@ export const LeftPanel: React.FC = () => {
 				{/* FaIcon Control */}
 				<Button
 					variant={'ghost'}
-					size={'small'}
+					size={'icon'}
 					onClick={() => {
 						addControl({
 							type: 'icon',
@@ -289,7 +289,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Text Control */}
 				<Button
 					variant={'ghost'}
-					size={'small'}
+					size={'icon'}
 					onClick={() => {
 						addControl({
 							type: 'text',
@@ -307,7 +307,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Shape Control */}
 				<Button
 					variant={'ghost'}
-					size={'small'}
+					size={'icon'}
 					onClick={() => {
 						addControl({
 							type: 'shape',
@@ -325,7 +325,7 @@ export const LeftPanel: React.FC = () => {
 				{/* Phone Mockup Control */}
 				<Button
 					variant={'ghost'}
-					size={'small'}
+					size={'icon'}
 					onClick={() => {
 						addControl({
 							type: 'phone_mockup',
