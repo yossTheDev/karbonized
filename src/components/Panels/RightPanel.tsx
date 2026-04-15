@@ -73,7 +73,7 @@ export const RightPanel: React.FC = () => {
 
 	return (
 		<ResizablePanel
-			className={'w-14 min-w-14 max-w-[30rem]'}
+			className={'w-14 min-w-14 max-w-120'}
 			collapsible
 			collapsedSize={4}
 			minSize={2}

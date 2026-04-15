@@ -38,7 +38,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 				{/* Donations*/}
 				<div className='m-2 mx-auto flex flex-auto flex-row flex-wrap gap-2  p-2'>
 					<div
-						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 text-white hover:bg-gradient-to-bl  '
+						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-linear-to-br from-yellow-400 to-yellow-500 p-3 text-white hover:bg-linear-to-bl  '
 						onClick={async () => {
 							//await Toast.show({ text: 'Copied!' });
 							await Clipboard.write({
@@ -65,7 +65,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 
 							alert('copied!');
 						}}
-						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-yellow-500 to-yellow-600 p-3 text-white hover:bg-gradient-to-bl  '
+						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-linear-to-br from-yellow-500 to-yellow-600 p-3 text-white hover:bg-linear-to-bl  '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
 							<IconCurrencyDogecoin className='my-auto'></IconCurrencyDogecoin>
@@ -77,7 +77,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 
 					<a
 						href='https://qvapay.com/payme/yoannisgnw'
-						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-gradient-to-br from-blue-300 to-blue-400 p-3 text-white hover:bg-gradient-to-bl  '
+						className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-linear-to-br from-blue-300 to-blue-400 p-3 text-white hover:bg-linear-to-bl  '
 					>
 						<div className='mx-auto my-auto flex flex-row'>
 							<img

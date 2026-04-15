@@ -164,7 +164,7 @@ export const ColorPicker: React.FC<Props> = ({
 										mode === 'Gradient' && 'bg-base-300'
 									}`}
 								>
-									<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-gradient-to-br from-gray-400 to-gray-800 p-2'></div>
+									<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-linear-to-br from-gray-400 to-gray-800 p-2'></div>
 								</button>
 							</div>
 						)}
@@ -450,7 +450,7 @@ export const ColorPicker: React.FC<Props> = ({
 				<Portal>
 					<Modal
 						open={showColor && !isHorizontal}
-						className='w-[17.5rem] overflow-hidden bg-base-100 px-3 dark:text-white'
+						className='w-70 overflow-hidden bg-base-100 px-3 dark:text-white'
 					>
 						<Modal.Header className='font-bold dark:text-white'>
 							<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
@@ -485,7 +485,7 @@ export const ColorPicker: React.FC<Props> = ({
 											mode === 'Gradient' && 'bg-base-300'
 										}`}
 									>
-										<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-gradient-to-br from-gray-400 to-gray-800 p-2'></div>
+										<div className='mx-auto my-auto h-5 w-5 rounded-xl bg-gray-600/40 bg-linear-to-br from-gray-400 to-gray-800 p-2'></div>
 									</button>
 								</div>
 							)}

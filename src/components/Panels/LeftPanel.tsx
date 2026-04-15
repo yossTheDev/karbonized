@@ -141,7 +141,7 @@ export const LeftPanel: React.FC = () => {
 	};
 
 	return (
-		<div className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden bg-base-300 p-2 text-neutral-950 dark:text-neutral-100 dark:shadow-base-200 md:w-fit md:max-w-[10rem]'>
+		<div className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden bg-base-300 p-2 text-neutral-950 dark:text-neutral-100 dark:shadow-base-200 md:w-fit md:max-w-40'>
 			{/* Controls */}
 			<div className='flex h-full w-10 flex-col items-center gap-2  dark:text-white'>
 				<Button

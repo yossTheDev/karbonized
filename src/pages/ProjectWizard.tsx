@@ -175,7 +175,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				>
 					{/* News Panel */}
 					{isHorizontal && (
-						<div className='flex w-[30rem] flex-auto grow-0'>
+						<div className='flex w-120 flex-auto grow-0'>
 							<NewsPanel></NewsPanel>
 						</div>
 					)}
@@ -415,7 +415,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									exit={{ opacity: 0 }}
 									className='pointer-events-none absolute flex h-full w-full'
 								>
-									<div className='mt-auto flex h-fit w-full flex-auto gap-2 bg-gradient-to-t from-base-300 to-transparent p-4'>
+									<div className='mt-auto flex h-fit w-full flex-auto gap-2 bg-linear-to-t from-base-300 to-transparent p-4'>
 										<button
 											className='btn pointer-events-auto my-auto ml-auto rounded-3xl border-none bg-base-300 shadow hover:bg-primary hover:text-white'
 											onClick={handleCreateFromTemplate}

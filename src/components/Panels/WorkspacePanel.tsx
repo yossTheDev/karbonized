@@ -256,7 +256,7 @@ export const WorkspacePanel: React.FC = () => {
 										{Gradients.map((item) => (
 											<button
 												key={item.c1 + item.c2}
-												className={`h-8 w-16 overflow-hidden rounded transition-all hover:bg-gradient-to-bl hover:shadow active:scale-90 md:h-8 md:w-14 ${
+												className={`h-8 w-16 overflow-hidden rounded transition-all hover:bg-linear-to-bl hover:shadow active:scale-90 md:h-8 md:w-14 ${
 													currentWorkspace.workspaceGradientSettings.color1 ===
 													item.c1
 														? 'border-2 border-primary shadow-2xl'

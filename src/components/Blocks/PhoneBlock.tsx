@@ -410,7 +410,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-8 pb-28 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mx-auto my-auto flex h-[33.5rem] max-h-full w-full bg-white'
+										className='mx-auto my-auto flex h-134 max-h-full w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -426,7 +426,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-10 pb-16 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[31.5rem] w-full bg-white'
+										className='mask mx-auto my-auto flex h-126 w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -442,7 +442,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-12'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[36rem] w-full bg-white'
+										className='mask mx-auto my-auto flex h-144 w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -458,7 +458,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-7'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[37rem] w-full bg-white'
+										className='mask mx-auto my-auto flex h-148 w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -474,7 +474,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-9 pb-7 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[35rem] w-full bg-white'
+										className='mask mx-auto my-auto flex h-140 w-full bg-white'
 										src={src}
 									></img>
 								</div>
@@ -490,7 +490,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-5 pb-6 pt-6'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[35.5rem] w-full bg-white'
+										className='mask mx-auto my-auto flex h-142 w-full bg-white'
 										src={src}
 									></img>
 								</div>

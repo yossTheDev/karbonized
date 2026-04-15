@@ -125,7 +125,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 								alt='User Image'
 							></img>
 						</div>
-						<div className='flex-grow pl-3'>
+						<div className='grow pl-3'>
 							<h6 className='text-md font-bold'>{tweetUser}</h6>
 							<p className='text-xs text-neutral-600'>{tweetUserName}</p>
 						</div>
