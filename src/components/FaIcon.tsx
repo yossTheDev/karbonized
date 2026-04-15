@@ -1,5 +1,5 @@
 import React, { createElement, useEffect, useState } from 'react';
-import { IconType } from '../utils/FaIconList';
+import { type IconType } from '../utils/FaIconList';
 
 interface IconProps {
 	icon: string;
@@ -16,7 +16,7 @@ export const FaIcon: React.FC<IconProps> = ({ icon, style, className }) => {
 
 			function findIcon(): IconType {
 				const iconSelected = icons.iconFaList.find((i) => i.label === icon);
-				return iconSelected ? iconSelected : icons.iconFaList[0];
+				return iconSelected || icons.iconFaList[0];
 			}
 
 			setFaIcon(findIcon());
@@ -27,7 +27,7 @@ export const FaIcon: React.FC<IconProps> = ({ icon, style, className }) => {
 	return (
 		<>
 			{faIcon &&
-				createElement(faIcon.icon, { className: className, style: style })}
+				createElement(faIcon.icon, { className, style })}
 		</>
 	);
 };

@@ -172,14 +172,11 @@ export const AppStore = createStore<AppStoreModel>({
 
 	/* Project System */
 	saveProject: computed((state) => {
-		if (state.currentWorkspace) {
+		if (state.currentWorkspace !== undefined) {
 			const controls = state.currentWorkspace.controls.filter(
 				(item) => !item.isDeleted,
 			);
-			return {
-				controls: state.currentWorkspace.controls.filter(
-					(item) => !item.isDeleted,
-				),
+			const project: Project = {
 				properties: state.ControlProperties.filter(
 					(item) =>
 						item.workspace === state.currentWorkspaceID &&
@@ -194,13 +191,14 @@ export const AppStore = createStore<AppStoreModel>({
 						(item) => !item.isDeleted,
 					),
 				},
-			} as Project;
+			};
+			return project;
 		} else {
-			return {
-				controls: [],
+			const emptyProject: Project = {
 				properties: [],
-				workspace: {},
-			} as unknown as Project;
+				workspace: {} as any,
+			};
+			return emptyProject;
 		}
 	}),
 
@@ -212,7 +210,7 @@ export const AppStore = createStore<AppStoreModel>({
 		let lastProp = '';
 		let newID = getRandomNumber();
 		const wId = getRandomNumber();
-		const props: { id: string; value: any; workspace: string }[] = [];
+		const props: Array<{ id: string; value: any; workspace: string }> = [];
 		const controls: any[] = [];
 
 		project.workspace.controls.forEach((item) => {
@@ -245,7 +243,7 @@ export const AppStore = createStore<AppStoreModel>({
 								prop.id.split('-')[0] + '-' + prop.id.split('-')[1],
 						);
 
-						if (newItem) {
+						if (newItem !== undefined) {
 							controls.push({
 								...newItem,
 								id: prop.id.split('-')[0] + '-' + newID,
@@ -272,15 +270,14 @@ export const AppStore = createStore<AppStoreModel>({
 				});
 		});
 
-		const copy = {
-			controls: controls,
+		const copy: Project = {
 			properties: props,
 			workspace: {
 				...project.workspace,
 				id: wId.toString(),
-				controls: controls,
+				controls,
 			},
-		} as Project;
+		};
 
 		/* Set Initial Properties */
 		state.initialProperties = copy.properties;
@@ -444,17 +441,17 @@ export const AppStore = createStore<AppStoreModel>({
 		state.ControlProperties = payload;
 	}),
 	setControls: action((state, items) => {
-		/*state.workspaces = state.workspaces.map((item) =>
+		/* state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? { ...item, controls: items }
 				: item,
-		);*/
-		/*state.workspaces = state.workspaces.map((item) =>
+		); */
+		/* state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? { ...item, controls: items }
 				: item,
-		);*/
-		//state.ControlsTree = items;
+		); */
+		// state.ControlsTree = items;
 	}),
 
 	setWorkspaceControls: action((state, items) => {
@@ -476,7 +473,7 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	visibleControls: computed((state) => {
-		return state.currentWorkspace?.controls?.filter((item) => !item.isDeleted);
+		return state.currentWorkspace?.controls?.filter((item) => !item.isDeleted) ?? [];
 	}),
 
 	/* History System */
@@ -509,11 +506,11 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 	undo: action((state) => {
 		if (state.pastHistory.length > 0) {
-			let previous = state.pastHistory[state.pastHistory.length - 1];
+			const previous = state.pastHistory[state.pastHistory.length - 1];
 
-			let newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
+			const newPast = state.pastHistory.slice(0, state.pastHistory.length - 1);
 
-			/*if (
+			/* if (
 				state.pastHistory[state.pastHistory.length - 1] &&
 				state.pastHistory[state.pastHistory.length - 2] &&
 				state.pastHistory[state.pastHistory.length - 1].value !==
@@ -532,7 +529,7 @@ export const AppStore = createStore<AppStoreModel>({
 					state.pastHistory[state.pastHistory.length - 3].value
 			) {
 				previous = state.pastHistory[state.pastHistory.length - 3];
-			}*/
+			} */
 
 			state.pastHistory = newPast;
 

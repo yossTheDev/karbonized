@@ -82,7 +82,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 		<Modal.Legacy
 			open={open}
 			onClickBackdrop={() => {
-				onClose && onClose();
+				onClose?.();
 			}}
 			className='max-h-fit overflow-hidden'
 		>
@@ -97,7 +97,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 				<Button
 					shape='circle'
 					onClick={() => {
-						onClose && onClose();
+						onClose?.();
 					}}
 					className='ml-auto bg-base-300/75'
 				>
@@ -133,19 +133,19 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 
 				<Button
 					className='rounded-2xl'
-					onMouseDown={() => exportImage(export_format.png)}
+					onMouseDown={() => { exportImage(export_format.png); }}
 				>
 					<IconFileTypePng className='mx-auto'></IconFileTypePng>
 				</Button>
 				<Button
 					className='rounded-2xl'
-					onMouseDown={() => exportImage(export_format.jpeg)}
+					onMouseDown={() => { exportImage(export_format.jpeg); }}
 				>
 					<IconFileTypeJpg className='mx-auto'></IconFileTypeJpg>
 				</Button>
 				<Button
 					className='rounded-2xl'
-					onMouseDown={() => exportImage(export_format.svg)}
+					onMouseDown={() => { exportImage(export_format.svg); }}
 				>
 					<IconFileTypeSvg className='mx-auto'></IconFileTypeSvg>
 				</Button>

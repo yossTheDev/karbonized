@@ -51,7 +51,7 @@ export const Canvas: React.FC = ({}) => {
 		if (ctx) {
 			ctx.lineCap = 'round';
 			ctx.lineJoin = 'round';
-			//ctx.globalAlpha = 0.1;
+			// ctx.globalAlpha = 0.1;
 			ctx.lineWidth = lineWidth;
 			ctx.strokeStyle = strokeColor;
 			ctxRef.current = ctx;

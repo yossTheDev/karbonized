@@ -138,21 +138,21 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 										className='my-auto'
 										color='primary'
 										onChange={(ev) =>
-											setPhoneRadius(ev.target.value as unknown as number)
+											{ setPhoneRadius(ev.target.value as unknown as number); }
 										}
 										value={phoneRadius}
 										max={'30'}
 									></Range>
 								</div>
 
-								{/* Screen Radius*/}
+								{/* Screen Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
 									<p className='my-auto p-2'>Screen Radius:</p>
 									<Range
 										className='my-auto'
 										color='primary'
 										onChange={(ev) =>
-											setScreenRadius(ev.target.value as unknown as number)
+											{ setScreenRadius(ev.target.value as unknown as number); }
 										}
 										value={screenRadius}
 										max={'30'}
@@ -256,7 +256,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 											className='my-auto'
 											color='primary'
 											onChange={(ev) =>
-												setNotchWidth(ev.target.value as unknown as number)
+												{ setNotchWidth(ev.target.value as unknown as number); }
 											}
 											value={notchWidth}
 											min={'20'}
@@ -270,7 +270,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 											<p className='my-auto text-xs'>Drop</p>
 											<Checkbox
 												color='primary'
-												onChange={(ev) => setDrop(ev.currentTarget.checked)}
+												onChange={(ev) => { setDrop(ev.currentTarget.checked); }}
 												checked={drop}
 											></Checkbox>
 										</div>
@@ -289,7 +289,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 								<div
 									style={{
 										borderRadius: phoneRadius + 'px',
-										borderColor: borderColor,
+										borderColor,
 									}}
 									className='flex flex-auto select-none flex-col border-4 bg-black p-3'
 								>
@@ -506,7 +506,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 				<Portal>
 					<Modal.Legacy
 						open
-						onClickBackdrop={() => setShowModal(false)}
+						onClickBackdrop={() => { setShowModal(false); }}
 						className='overflow-hidden bg-base-200'
 					>
 						<Modal.Header className='font-bold dark:text-white'>
@@ -521,7 +521,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 								{devices.map((item) => (
 									<div className='flex w-32 flex-auto flex-col'>
 										<button
-											onClick={() => setTemplate(item.name)}
+											onClick={() => { setTemplate(item.name); }}
 											className='btn h-28 rounded-2xl bg-base-300 p-3'
 										>
 											<img
@@ -536,7 +536,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						</Modal.Body>
 
 						<Modal.Actions>
-							<Button onClick={() => setShowModal(false)}>Cancel</Button>
+							<Button onClick={() => { setShowModal(false); }}>Cancel</Button>
 						</Modal.Actions>
 					</Modal.Legacy>
 				</Portal>

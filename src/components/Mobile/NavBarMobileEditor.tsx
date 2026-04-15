@@ -2,7 +2,7 @@ import { IconMenu2 } from '@tabler/icons-react';
 import React, { useState } from 'react';
 import { Navbar } from 'react-daisyui';
 
-const HomeButton = React.lazy(() => import('./SettingsButton'));
+const HomeButton = React.lazy(async () => await import('./SettingsButton'));
 
 export const NavBarMobile: React.FC = () => {
 	const [showNews, setShowNews] = useState(false);

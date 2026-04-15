@@ -111,7 +111,7 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 		case 'heart':
 			return (
 				<IconHeartFilled
-					style={{ color: color }}
+					style={{ color }}
 					className='mx-auto flex h-full w-full flex-auto border-none'
 				></IconHeartFilled>
 			);
@@ -119,7 +119,7 @@ export const ShapeHandler: React.FC<Props> = ({ type, color }) => {
 		case 'hexagon':
 			return (
 				<IconHexagonFilled
-					style={{ color: color }}
+					style={{ color }}
 					className='mx-auto flex h-full w-full flex-auto border-none'
 				></IconHexagonFilled>
 			);

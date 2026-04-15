@@ -302,7 +302,7 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 		<Modal.Legacy
 			open={open}
 			onClickBackdrop={() => {
-				onClose && onClose();
+				onClose?.();
 			}}
 			className='overflow-hidden'
 		>
@@ -321,7 +321,7 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 			<Modal.Actions className='hidden'>
 				<Button
 					className='dark:text-white'
-					onClick={() => onClose && onClose()}
+					onClick={() => onClose?.()}
 				>
 					OK
 				</Button>

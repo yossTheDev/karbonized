@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './Backgrounds';
+import { type Props } from './Backgrounds';
 
 export const Horizon: React.FC<Props> = ({
 	className,
@@ -19,8 +19,8 @@ export const Horizon: React.FC<Props> = ({
 		>
 			<defs>
 				<linearGradient x1='50%' y1='0%' x2='50%' y2='100%' id='hhhorizon-grad'>
-					<stop stop-color={color1} stop-opacity='1' offset='25%'></stop>
-					<stop stop-color={color2} stop-opacity='1' offset='100%'></stop>
+					<stop stopColor={color1} stopOpacity='1' offset='25%'></stop>
+					<stop stopColor={color2} stopOpacity='1' offset='100%'></stop>
 				</linearGradient>
 				<linearGradient
 					x1='50%'
@@ -29,8 +29,8 @@ export const Horizon: React.FC<Props> = ({
 					y2='100%'
 					id='hhhorizon-grad2'
 				>
-					<stop stop-color={color1} stop-opacity='1' offset='0%'></stop>
-					<stop stop-color={color2} stop-opacity='1' offset='75%'></stop>
+					<stop stopColor={color1} stopOpacity='1' offset='0%'></stop>
+					<stop stopColor={color2} stopOpacity='1' offset='75%'></stop>
 				</linearGradient>
 				<clipPath id='SvgjsClipPath1000'>
 					<rect width='800' height='35' x='0' y='0'></rect>
@@ -97,21 +97,21 @@ export const Horizon: React.FC<Props> = ({
 			</defs>
 			<rect
 				fill='url(#hhhorizon-grad)'
-				clip-path='url("#SvgjsClipPath1000")'
+				clipPath='url("#SvgjsClipPath1000")'
 			></rect>
 			<circle
 				r='400'
 				cx='400'
 				cy='0'
 				fill='url(#hhhorizon-grad)'
-				clip-path='url("#SvgjsClipPath1000")'
+				clipPath='url("#SvgjsClipPath1000")'
 			></circle>
 			<circle
 				r='400'
 				cx='400'
 				cy='800'
 				fill='url(#hhhorizon-grad)'
-				clip-path='url("#SvgjsClipPath1000")'
+				clipPath='url("#SvgjsClipPath1000")'
 			></circle>
 		</svg>
 	);

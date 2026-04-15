@@ -1,4 +1,4 @@
-/* Simple hook to change app theme*/
+/* Simple hook to change app theme */
 import { useEffect, useState } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -30,8 +30,8 @@ export const useTheme = (): [string, () => void] => {
 			}
 		}
 
-		localStorage.setItem('theme', appTheme as string);
+		localStorage.setItem('theme', appTheme);
 	}, [appTheme]);
 
-	return [appTheme as string, toggleTheme];
+	return [appTheme, toggleTheme];
 };

@@ -2,7 +2,7 @@ import * as prismThemes from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface Style {
 	label: string;
-	theme: {};
+	theme: Record<string, unknown>;
 }
 
 export const themes: Style[] = [

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Input } from 'react-daisyui';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
-import { Extension } from '../../models/Extension';
+import { type Extension } from '../../models/Extension';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { getRandomNumber } from '../../utils/getRandom';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -29,7 +29,7 @@ export const ExtensionPanel: React.FC = () => {
 					(item) =>
 						(item.properties.name as string)
 							.toUpperCase()
-							.indexOf(query.toUpperCase()) > -1,
+							.includes(query.toUpperCase()),
 				),
 			);
 		}
@@ -105,7 +105,7 @@ export const ExtensionPanel: React.FC = () => {
 				<IconSearch className='my-auto ml-2 h-full' size={18}></IconSearch>
 				<Input
 					className='my-auto mb-2 flex  h-full w-full'
-					onChange={(ev) => setQuery(ev.target.value)}
+					onChange={(ev) => { setQuery(ev.target.value); }}
 					value={query}
 				></Input>
 			</div>

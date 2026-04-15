@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useId, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { FaIcon } from '../FaIcon';
-import { IconType } from '../../utils/FaIconList';
+import { type IconType } from '../../utils/FaIconList';
 import { Button, Input, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { IconSearch, IconSticker } from '@tabler/icons-react';
@@ -60,7 +60,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								<p className='my-auto text-xs'>Select Icon</p>
 								<div
 									className='hover:bg-neutral ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
-									onMouseDown={() => setShowIconPicker(true)}
+									onMouseDown={() => { setShowIconPicker(true); }}
 								>
 									<FaIcon
 										className='mx-auto my-auto text-4xl'
@@ -75,7 +75,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								label='Icon Color'
 								color={iconColor}
 								isGradientEnable={false}
-								onColorChange={(color) => setIconColor(color)}
+								onColorChange={(color) => { setIconColor(color); }}
 							></ColorPicker>
 
 							{/* Text */}
@@ -110,7 +110,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-auto flex-row'>
 								<IconSearch className='my-auto mr-2 dark:text-white'></IconSearch>
 								<Input
-									onChange={(ev) => setQuery(ev.currentTarget.value)}
+									onChange={(ev) => { setQuery(ev.currentTarget.value); }}
 									value={query}
 									className='flex flex-auto text-neutral-400'
 								></Input>
@@ -123,7 +123,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 									<a
 										className='text-neutral-400'
 										href='https://fontawesome.com/'
-										target={'_blank'}
+										target={'_blank'} rel="noreferrer"
 									>
 										Font Awesome
 									</a>
@@ -133,7 +133,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 									<a
 										className='text-neutral-400'
 										href='https://creativecommons.org/licenses/by/4.0/'
-										target={'_blank'}
+										target={'_blank'} rel="noreferrer"
 									>
 										{' '}
 										CC BY 4.0 License
@@ -146,8 +146,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								{faIcons
 									?.filter(
 										(icon) =>
-											icon.label.toUpperCase().indexOf(query.toUpperCase()) >
-											-1,
+											icon.label.toUpperCase().includes(query.toUpperCase()),
 									)
 									.map((el, i) => (
 										<Suspense fallback={<></>}>
@@ -171,7 +170,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<Button
 								color='neutral'
 								className='dark:text-white'
-								onClick={() => setShowIconPicker(false)}
+								onClick={() => { setShowIconPicker(false); }}
 							>
 								Cancel
 							</Button>

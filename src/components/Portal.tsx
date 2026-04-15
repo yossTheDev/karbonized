@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { type ReactNode, useEffect, useState } from 'react';
 import { Portal } from 'react-portal';
 
 export const CustomPortal: React.FC<{ id: string; children: ReactNode }> = ({

@@ -63,7 +63,7 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 				}
 			>
 				<LivePreview
-					style={{ color: color, background: bgcolor }}
+					style={{ color, background: bgcolor }}
 					className='mx-auto flex h-full w-full flex-auto select-none'
 					id={id}
 				></LivePreview>

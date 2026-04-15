@@ -150,7 +150,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 										className='my-auto'
 										color='primary'
 										onChange={(ev) =>
-											setBorder(ev.target.value as unknown as number)
+											{ setBorder(ev.target.value as unknown as number); }
 										}
 										value={border}
 										max={'22'}
@@ -206,7 +206,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 							<p>Title</p>
 							<Input
 								value={title}
-								onChange={(ev) => setTitle(ev.currentTarget.value)}
+								onChange={(ev) => { setTitle(ev.currentTarget.value); }}
 							></Input>
 
 							<p>Code</p>
@@ -214,7 +214,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 								spellCheck={false}
 								className=' flex h-32 flex-auto resize-none'
 								value={code}
-								onChange={(ev) => setCode(ev.target.value)}
+								onChange={(ev) => { setCode(ev.target.value); }}
 							></Textarea>
 						</CustomCollapse>
 
@@ -232,7 +232,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 								defaultValue={'mac'}
 								tabIndex={0}
 								value={windowStyle}
-								onChange={(e) => setWindowStyle(e.currentTarget.value)}
+								onChange={(e) => { setWindowStyle(e.currentTarget.value); }}
 							>
 								<option value={'mac'}>mac</option>
 								<option value={'window'}>window</option>
@@ -243,7 +243,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 								<p className='my-auto text-xs'>Show Tabs</p>
 								<Checkbox
 									color='primary'
-									onChange={(ev) => setShowTabs(ev.currentTarget.checked)}
+									onChange={(ev) => { setShowTabs(ev.currentTarget.checked); }}
 									checked={showTabs}
 								></Checkbox>
 							</div>
@@ -252,12 +252,12 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 							<ColorPicker
 								label='Window Color'
 								type='HexAlpha'
-								onModeChange={(mode) => setColorMode(mode)}
+								onModeChange={(mode) => { setColorMode(mode); }}
 								onGradientChange={(color1, color2) => {
 									setGColor1(color1);
 									setGColor2(color2);
 								}}
-								onGradientDegChange={(deg) => setGradientDeg(deg)}
+								onGradientDegChange={(deg) => { setGradientDeg(deg); }}
 								color={color}
 								mode={colorMode}
 								gradientDeg={gradientDeg}
@@ -291,7 +291,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 									<Checkbox
 										color='primary'
 										onChange={(ev) =>
-											setShowLineNumbers(ev.currentTarget.checked)
+											{ setShowLineNumbers(ev.currentTarget.checked); }
 										}
 										checked={showLineNumbers}
 									></Checkbox>
@@ -304,7 +304,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 									<p className='my-auto text-xs'> Wrap Lines</p>
 									<Checkbox
 										color='primary'
-										onChange={(ev) => setWrapLines(ev.currentTarget.checked)}
+										onChange={(ev) => { setWrapLines(ev.currentTarget.checked); }}
 										checked={wrapLines}
 									></Checkbox>
 								</div>

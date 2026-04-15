@@ -58,14 +58,14 @@ export function useControlState<T>(
 
 	/* Save Control Property in Store */
 	useEffect(() => {
-		addControlProperty({ id: id, value: state });
+		addControlProperty({ id, value: state });
 	}, [state]);
 
 	const set = (newState: any) => {
 		if (!manual) {
-			setPastHistory([...pastHistory, { id: id, value: state }]);
+			setPastHistory([...pastHistory, { id, value: state }]);
 			setState(newState);
-			setControlState({ id: id, value: newState });
+			setControlState({ id, value: newState });
 
 			/* Clean Future */
 			setFutureHistory([]);

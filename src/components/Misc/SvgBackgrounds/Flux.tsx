@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './Backgrounds';
+import { type Props } from './Backgrounds';
 
 export const Flux: React.FC<Props> = ({
 	className,
@@ -24,8 +24,8 @@ export const Flux: React.FC<Props> = ({
 					y2='100%'
 					id='ffflux-gradient'
 				>
-					<stop stop-color={color1} stop-opacity='1' offset='0%'></stop>
-					<stop stop-color={color2} stop-opacity='1' offset='100%'></stop>
+					<stop stopColor={color1} stopOpacity='1' offset='0%'></stop>
+					<stop stopColor={color2} stopOpacity='1' offset='100%'></stop>
 				</linearGradient>
 				<filter
 					id='ffflux-filter'
@@ -35,7 +35,7 @@ export const Flux: React.FC<Props> = ({
 					height='140%'
 					filterUnits='objectBoundingBox'
 					primitiveUnits='userSpaceOnUse'
-					color-interpolation-filters='sRGB'
+					colorInterpolationFilters='sRGB'
 				>
 					<feTurbulence
 						type='fractalNoise'

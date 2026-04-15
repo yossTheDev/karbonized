@@ -14,7 +14,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 	const [url, setUrl] = useState(
 		'https://twitter.com/karbonized_app/status/1651550611140116480?s=20',
 	);
-	/**https://twitter.com/karbonized_app/status/1651550611140116480?s=20 */
+	/** https://twitter.com/karbonized_app/status/1651550611140116480?s=20 */
 
 	const [tweetText, setTweetText] = useState(
 		'Make Awesome Images of your screenshots or your code with Karbonized. \n Made by @yossthedev',
@@ -24,17 +24,17 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 	const [tweetUserImage, setUserImage] = useState(karbonized);
 	const [tweetImageUrl, setImageUrl] = useState<any>('');
 
-	/*useEffect(() => {
+	/* useEffect(() => {
 		getTweetData();
-	});*/
+	}); */
 
-	function getImageDataUrl(url: RequestInfo | URL) {
-		return fetch(url)
-			.then((response) => response.blob())
-			.then((blob) => {
-				return new Promise((resolve, reject) => {
+	async function getImageDataUrl(url: RequestInfo | URL) {
+		return await fetch(url)
+			.then(async (response) => await response.blob())
+			.then(async (blob) => {
+				return await new Promise((resolve, reject) => {
 					const reader = new FileReader();
-					reader.onloadend = () => resolve(reader.result);
+					reader.onloadend = () => { resolve(reader.result); };
 					reader.onerror = reject;
 					reader.readAsDataURL(blob);
 				});
@@ -54,7 +54,7 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 		/* Set User image */
 		getImageDataUrl(r.data.user.profile_image_url_https)
 			.then((dataUrl) => {
-				setUserImage(dataUrl as unknown as string);
+				setUserImage(dataUrl as string);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -104,12 +104,12 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 
 								<Input
 									className='ml-2 flex w-full flex-auto'
-									onChange={(ev) => setUrl(ev.target.value)}
+									onChange={(ev) => { setUrl(ev.target.value); }}
 									value={url}
 								></Input>
 							</div>
 
-							<Button color='neutral' onClick={() => getTweetData()}>
+							<Button color='neutral' onClick={async () => { await getTweetData(); }}>
 								Update
 							</Button>
 						</CustomCollapse>

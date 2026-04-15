@@ -17,7 +17,7 @@ import { getRandomNumber } from '../../utils/getRandom';
 import { Media } from '@capacitor-community/media';
 import { AppContext } from '../../AppContext';
 
-const ProjectWizard = React.lazy(() => import('../../pages/ProjectWizard'));
+const ProjectWizard = React.lazy(async () => await import('../../pages/ProjectWizard'));
 
 export const SettingsButton: React.FC = () => {
 	const { showWizard, setShowWizard } = useContext(AppContext);
@@ -32,7 +32,7 @@ export const SettingsButton: React.FC = () => {
 					const data = await toPng(element);
 
 					const file = await Filesystem.writeFile({
-						data: data,
+						data,
 						directory: Directory.Cache,
 						path: `karbonized-image-${getRandomNumber()}.png`,
 					});
@@ -140,20 +140,20 @@ export const SettingsButton: React.FC = () => {
 						<label className='cursor-pointer'>New Project</label>
 					</Dropdown.Item>
 
-					<Dropdown.Item onClick={() => handleShare()}>
+					<Dropdown.Item onClick={async () => { await handleShare(); }}>
 						<IconShare></IconShare>
 						<label className='cursor-pointer'>Share</label>
 					</Dropdown.Item>
 
 					{!Capacitor.isNativePlatform() && (
-						<Dropdown.Item onClick={() => handleDownload()}>
+						<Dropdown.Item onClick={() => { handleDownload(); }}>
 							<IconDownload></IconDownload>
 							<label className='cursor-pointer'>Download</label>
 						</Dropdown.Item>
 					)}
 
 					{Capacitor.isNativePlatform() && (
-						<Dropdown.Item onClick={() => handleSaveToGallery()}>
+						<Dropdown.Item onClick={async () => { await handleSaveToGallery(); }}>
 							<IconPhoto></IconPhoto>
 							<label className='cursor-pointer'>Save To Gallery</label>
 						</Dropdown.Item>

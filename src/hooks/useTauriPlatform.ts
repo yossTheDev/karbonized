@@ -1,4 +1,4 @@
-/* Simple hook to check if the app is running over Tauri Platfotm*/
+/* Simple hook to check if the app is running over Tauri Platfotm */
 import { useEffect, useState } from 'react';
 import { platform } from '@tauri-apps/api/os';
 

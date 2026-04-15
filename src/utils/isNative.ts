@@ -1,6 +1,6 @@
 import { platform } from '@tauri-apps/api/os';
 
-export const isNative = async () => {
+export const isNative = async (): Promise<boolean> => {
 	try {
 		const platformName = await platform();
 		if (platformName.toString() !== '') return true;

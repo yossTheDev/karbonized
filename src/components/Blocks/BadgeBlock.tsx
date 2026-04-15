@@ -54,7 +54,7 @@ export const BadgeBlock: React.FC<Props> = ({ id }) => {
 
 								<Input
 									className='ml-2 flex flex-auto'
-									onChange={(ev) => setText(ev.target.value)}
+									onChange={(ev) => { setText(ev.target.value); }}
 									value={text}
 								></Input>
 							</>

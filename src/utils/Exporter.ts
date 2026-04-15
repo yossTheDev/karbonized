@@ -14,7 +14,7 @@ export const ExportImage = (
 	name: string,
 	ref: HTMLElement | null,
 	type: export_format,
-) => {
+): void => {
 	if (ref === null) {
 		return;
 	}
@@ -48,7 +48,7 @@ export const ExportImage = (
 								],
 							});
 
-							if (filePath) {
+							if (filePath !== null) {
 								await writeBinaryFile(filePath, img);
 							}
 						} catch (err) {
@@ -89,7 +89,7 @@ export const ExportImage = (
 								],
 							});
 
-							if (filePath) {
+							if (filePath !== null) {
 								await writeBinaryFile(filePath, img);
 							}
 						} catch (err) {
@@ -116,7 +116,7 @@ export const ExportImage = (
 						link.click();
 					} else {
 						try {
-							const img = Base64Binary.decodeArrayBuffer(
+							Base64Binary.decodeArrayBuffer(
 								dataUrl.replace('data:image/svg+xml;charset=utf-8,', ''),
 							);
 
@@ -130,7 +130,7 @@ export const ExportImage = (
 								],
 							});
 
-							if (filePath) {
+							if (filePath !== null) {
 								await writeTextFile(filePath, dataUrl);
 							}
 						} catch (err) {

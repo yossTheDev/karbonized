@@ -20,7 +20,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 		<Modal.Legacy
 			open={open}
 			onClickBackdrop={() => {
-				onClose && onClose();
+				onClose?.();
 			}}
 			className='overflow-hidden'
 		>
@@ -35,12 +35,12 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 					Support the Project. Make a Donation 😃
 				</p>
 
-				{/* Donations*/}
+				{/* Donations */}
 				<div className='m-2 mx-auto flex flex-auto flex-row flex-wrap gap-2  p-2'>
 					<div
 						className='to flex w-24 flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-linear-to-br from-yellow-400 to-yellow-500 p-3 text-white hover:bg-linear-to-bl  '
 						onClick={async () => {
-							//await Toast.show({ text: 'Copied!' });
+							// await Toast.show({ text: 'Copied!' });
 							await Clipboard.write({
 								string: 'bc1qwr6wltxvpvuqhx94lqjrdr090747yz9rw5mpec',
 							});
@@ -58,7 +58,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 
 					<div
 						onClick={async () => {
-							//await Toast.show({ text: 'Copied!' });
+							// await Toast.show({ text: 'Copied!' });
 							await Clipboard.write({
 								string: 'DFUAWcJLiqYKmZydxFsowdsEZio5ue9JYC',
 							});
@@ -95,7 +95,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 			<Modal.Actions className='hidden'>
 				<Button
 					className='dark:text-white'
-					onClick={() => onClose && onClose()}
+					onClick={() => onClose?.()}
 				>
 					OK
 				</Button>

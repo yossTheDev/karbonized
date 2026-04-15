@@ -3,7 +3,7 @@ import {
 	IconBrandTelegram,
 	IconBrandTwitter,
 } from '@tabler/icons-react';
-import React, { Ref } from 'react';
+import React, { type Ref } from 'react';
 import { Button, Modal } from 'react-daisyui';
 import karbonized from '../../assets/logo.svg';
 interface Props {
@@ -17,7 +17,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 		<Modal.Legacy
 			open
 			onClickBackdrop={() => {
-				onClose && onClose();
+				onClose?.();
 			}}
 			className='overflow-hidden'
 		>
@@ -47,7 +47,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 					<a
 						target='_blank'
 						className='link'
-						href='https://twitter.com/yossthedev'
+						href='https://twitter.com/yossthedev' rel="noreferrer"
 					>
 						@yossthedev
 					</a>
@@ -62,7 +62,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 					<a
 						target='_blank'
 						href='https://twitter.com/karbonized_app'
-						className=' btn btn-circle'
+						className=' btn btn-circle' rel="noreferrer"
 					>
 						<div className='pointer-events-none mx-auto my-auto flex flex-row'>
 							<IconBrandTwitter></IconBrandTwitter>
@@ -72,7 +72,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 					<a
 						target='_blank'
 						href='https://t.me/karbonized'
-						className=' btn btn-circle'
+						className=' btn btn-circle' rel="noreferrer"
 					>
 						<div className='pointer-events-none mx-auto my-auto flex flex-row'>
 							<IconBrandTelegram></IconBrandTelegram>
@@ -82,7 +82,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 					<a
 						target='_blank'
 						href='https://github.com/yossthedev/karbonized'
-						className=' btn btn-circle'
+						className=' btn btn-circle' rel="noreferrer"
 					>
 						<div className='pointer-events-none mx-auto my-auto flex flex-row'>
 							<IconBrandGithub></IconBrandGithub>
@@ -94,7 +94,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose, ref }) => {
 			<Modal.Actions className='hidden'>
 				<Button
 					className='dark:text-white'
-					onClick={() => onClose && onClose()}
+					onClick={() => onClose?.()}
 				>
 					OK
 				</Button>

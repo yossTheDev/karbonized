@@ -4,7 +4,7 @@ declare global {
 	}
 }
 
-export const isElectron = () => {
+export const isElectron = (): boolean => {
 	// Renderer process
 	if (
 		typeof window !== 'undefined' &&
@@ -18,7 +18,7 @@ export const isElectron = () => {
 	if (
 		typeof process !== 'undefined' &&
 		typeof process.versions === 'object' &&
-		!!process.versions.electron
+		process.versions.electron !== undefined
 	) {
 		return true;
 	}
@@ -27,7 +27,7 @@ export const isElectron = () => {
 	if (
 		typeof navigator === 'object' &&
 		typeof navigator.userAgent === 'string' &&
-		navigator.userAgent.indexOf('Electron') >= 0
+		navigator.userAgent.includes('Electron')
 	) {
 		return true;
 	}

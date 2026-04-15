@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './Backgrounds';
+import { type Props } from './Backgrounds';
 
 export const Coil: React.FC<Props> = ({
 	className,
@@ -17,17 +17,17 @@ export const Coil: React.FC<Props> = ({
 		>
 			<defs>
 				<linearGradient x1='50%' y1='0%' x2='50%' y2='100%' id='cccoil-grad'>
-					<stop stop-color={color1} stop-opacity='1' offset='0%'></stop>
-					<stop stop-color={color2} stop-opacity='1' offset='100%'></stop>
+					<stop stopColor={color1} stopOpacity='1' offset='0%'></stop>
+					<stop stopColor={color2} stopOpacity='1' offset='100%'></stop>
 				</linearGradient>
 			</defs>
-			<g stroke='url(#cccoil-grad)' fill='none' stroke-linecap='round'>
+			<g stroke='url(#cccoil-grad)' fill='none' strokeLinecap='round'>
 				<circle
 					r='808.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='4318 5080'
+					strokeWidth='7'
+					strokeDasharray='4318 5080'
 					transform='rotate(360, 400, 400)'
 					opacity='0.05'
 				></circle>
@@ -35,8 +35,8 @@ export const Coil: React.FC<Props> = ({
 					r='792'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='4142 4976'
+					strokeWidth='7'
+					strokeDasharray='4142 4976'
 					transform='rotate(353, 400, 400)'
 					opacity='0.07'
 				></circle>
@@ -44,8 +44,8 @@ export const Coil: React.FC<Props> = ({
 					r='775.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3969 4873'
+					strokeWidth='7'
+					strokeDasharray='3969 4873'
 					transform='rotate(345, 400, 400)'
 					opacity='0.09'
 				></circle>
@@ -53,8 +53,8 @@ export const Coil: React.FC<Props> = ({
 					r='759'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3800 4769'
+					strokeWidth='7'
+					strokeDasharray='3800 4769'
 					transform='rotate(338, 400, 400)'
 					opacity='0.11'
 				></circle>
@@ -62,8 +62,8 @@ export const Coil: React.FC<Props> = ({
 					r='742.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3635 4665'
+					strokeWidth='7'
+					strokeDasharray='3635 4665'
 					transform='rotate(330, 400, 400)'
 					opacity='0.13'
 				></circle>
@@ -71,8 +71,8 @@ export const Coil: React.FC<Props> = ({
 					r='726'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3473 4562'
+					strokeWidth='7'
+					strokeDasharray='3473 4562'
 					transform='rotate(323, 400, 400)'
 					opacity='0.15'
 				></circle>
@@ -80,8 +80,8 @@ export const Coil: React.FC<Props> = ({
 					r='709.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3316 4458'
+					strokeWidth='7'
+					strokeDasharray='3316 4458'
 					transform='rotate(315, 400, 400)'
 					opacity='0.17'
 				></circle>
@@ -89,8 +89,8 @@ export const Coil: React.FC<Props> = ({
 					r='693'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3161 4354'
+					strokeWidth='7'
+					strokeDasharray='3161 4354'
 					transform='rotate(308, 400, 400)'
 					opacity='0.19'
 				></circle>
@@ -98,8 +98,8 @@ export const Coil: React.FC<Props> = ({
 					r='676.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='3011 4251'
+					strokeWidth='7'
+					strokeDasharray='3011 4251'
 					transform='rotate(300, 400, 400)'
 					opacity='0.21'
 				></circle>
@@ -107,8 +107,8 @@ export const Coil: React.FC<Props> = ({
 					r='660'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2864 4147'
+					strokeWidth='7'
+					strokeDasharray='2864 4147'
 					transform='rotate(293, 400, 400)'
 					opacity='0.23'
 				></circle>
@@ -116,8 +116,8 @@ export const Coil: React.FC<Props> = ({
 					r='643.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2721 4043'
+					strokeWidth='7'
+					strokeDasharray='2721 4043'
 					transform='rotate(285, 400, 400)'
 					opacity='0.25'
 				></circle>
@@ -125,8 +125,8 @@ export const Coil: React.FC<Props> = ({
 					r='627'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2581 3940'
+					strokeWidth='7'
+					strokeDasharray='2581 3940'
 					transform='rotate(278, 400, 400)'
 					opacity='0.27'
 				></circle>
@@ -134,8 +134,8 @@ export const Coil: React.FC<Props> = ({
 					r='610.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2445 3836'
+					strokeWidth='7'
+					strokeDasharray='2445 3836'
 					transform='rotate(270, 400, 400)'
 					opacity='0.29'
 				></circle>
@@ -143,8 +143,8 @@ export const Coil: React.FC<Props> = ({
 					r='594'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2313 3732'
+					strokeWidth='7'
+					strokeDasharray='2313 3732'
 					transform='rotate(263, 400, 400)'
 					opacity='0.31'
 				></circle>
@@ -152,8 +152,8 @@ export const Coil: React.FC<Props> = ({
 					r='577.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2185 3629'
+					strokeWidth='7'
+					strokeDasharray='2185 3629'
 					transform='rotate(255, 400, 400)'
 					opacity='0.33'
 				></circle>
@@ -161,8 +161,8 @@ export const Coil: React.FC<Props> = ({
 					r='561'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='2060 3525'
+					strokeWidth='7'
+					strokeDasharray='2060 3525'
 					transform='rotate(248, 400, 400)'
 					opacity='0.35'
 				></circle>
@@ -170,8 +170,8 @@ export const Coil: React.FC<Props> = ({
 					r='544.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1939 3421'
+					strokeWidth='7'
+					strokeDasharray='1939 3421'
 					transform='rotate(240, 400, 400)'
 					opacity='0.37'
 				></circle>
@@ -179,8 +179,8 @@ export const Coil: React.FC<Props> = ({
 					r='528'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1821 3318'
+					strokeWidth='7'
+					strokeDasharray='1821 3318'
 					transform='rotate(233, 400, 400)'
 					opacity='0.39'
 				></circle>
@@ -188,8 +188,8 @@ export const Coil: React.FC<Props> = ({
 					r='511.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1707 3214'
+					strokeWidth='7'
+					strokeDasharray='1707 3214'
 					transform='rotate(225, 400, 400)'
 					opacity='0.41'
 				></circle>
@@ -197,8 +197,8 @@ export const Coil: React.FC<Props> = ({
 					r='495'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1597 3110'
+					strokeWidth='7'
+					strokeDasharray='1597 3110'
 					transform='rotate(218, 400, 400)'
 					opacity='0.43'
 				></circle>
@@ -206,8 +206,8 @@ export const Coil: React.FC<Props> = ({
 					r='478.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1491 3007'
+					strokeWidth='7'
+					strokeDasharray='1491 3007'
 					transform='rotate(210, 400, 400)'
 					opacity='0.45'
 				></circle>
@@ -215,8 +215,8 @@ export const Coil: React.FC<Props> = ({
 					r='462'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1388 2903'
+					strokeWidth='7'
+					strokeDasharray='1388 2903'
 					transform='rotate(203, 400, 400)'
 					opacity='0.47'
 				></circle>
@@ -224,8 +224,8 @@ export const Coil: React.FC<Props> = ({
 					r='445.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1289 2799'
+					strokeWidth='7'
+					strokeDasharray='1289 2799'
 					transform='rotate(195, 400, 400)'
 					opacity='0.49'
 				></circle>
@@ -233,8 +233,8 @@ export const Coil: React.FC<Props> = ({
 					r='429'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1193 2695'
+					strokeWidth='7'
+					strokeDasharray='1193 2695'
 					transform='rotate(188, 400, 400)'
 					opacity='0.51'
 				></circle>
@@ -242,8 +242,8 @@ export const Coil: React.FC<Props> = ({
 					r='412.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1102 2592'
+					strokeWidth='7'
+					strokeDasharray='1102 2592'
 					transform='rotate(180, 400, 400)'
 					opacity='0.53'
 				></circle>
@@ -251,8 +251,8 @@ export const Coil: React.FC<Props> = ({
 					r='396'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='1013 2488'
+					strokeWidth='7'
+					strokeDasharray='1013 2488'
 					transform='rotate(173, 400, 400)'
 					opacity='0.54'
 				></circle>
@@ -260,8 +260,8 @@ export const Coil: React.FC<Props> = ({
 					r='379.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='929 2384'
+					strokeWidth='7'
+					strokeDasharray='929 2384'
 					transform='rotate(165, 400, 400)'
 					opacity='0.56'
 				></circle>
@@ -269,8 +269,8 @@ export const Coil: React.FC<Props> = ({
 					r='363'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='848 2281'
+					strokeWidth='7'
+					strokeDasharray='848 2281'
 					transform='rotate(158, 400, 400)'
 					opacity='0.58'
 				></circle>
@@ -278,8 +278,8 @@ export const Coil: React.FC<Props> = ({
 					r='346.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='771 2177'
+					strokeWidth='7'
+					strokeDasharray='771 2177'
 					transform='rotate(150, 400, 400)'
 					opacity='0.60'
 				></circle>
@@ -287,8 +287,8 @@ export const Coil: React.FC<Props> = ({
 					r='330'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='698 2073'
+					strokeWidth='7'
+					strokeDasharray='698 2073'
 					transform='rotate(143, 400, 400)'
 					opacity='0.62'
 				></circle>
@@ -296,8 +296,8 @@ export const Coil: React.FC<Props> = ({
 					r='313.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='628 1970'
+					strokeWidth='7'
+					strokeDasharray='628 1970'
 					transform='rotate(135, 400, 400)'
 					opacity='0.64'
 				></circle>
@@ -305,8 +305,8 @@ export const Coil: React.FC<Props> = ({
 					r='297'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='562 1866'
+					strokeWidth='7'
+					strokeDasharray='562 1866'
 					transform='rotate(128, 400, 400)'
 					opacity='0.66'
 				></circle>
@@ -314,8 +314,8 @@ export const Coil: React.FC<Props> = ({
 					r='280.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='499 1762'
+					strokeWidth='7'
+					strokeDasharray='499 1762'
 					transform='rotate(120, 400, 400)'
 					opacity='0.68'
 				></circle>
@@ -323,8 +323,8 @@ export const Coil: React.FC<Props> = ({
 					r='264'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='441 1659'
+					strokeWidth='7'
+					strokeDasharray='441 1659'
 					transform='rotate(113, 400, 400)'
 					opacity='0.70'
 				></circle>
@@ -332,8 +332,8 @@ export const Coil: React.FC<Props> = ({
 					r='247.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='386 1555'
+					strokeWidth='7'
+					strokeDasharray='386 1555'
 					transform='rotate(105, 400, 400)'
 					opacity='0.72'
 				></circle>
@@ -341,8 +341,8 @@ export const Coil: React.FC<Props> = ({
 					r='231'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='334 1451'
+					strokeWidth='7'
+					strokeDasharray='334 1451'
 					transform='rotate(98, 400, 400)'
 					opacity='0.74'
 				></circle>
@@ -350,8 +350,8 @@ export const Coil: React.FC<Props> = ({
 					r='214.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='286 1348'
+					strokeWidth='7'
+					strokeDasharray='286 1348'
 					transform='rotate(90, 400, 400)'
 					opacity='0.76'
 				></circle>
@@ -359,8 +359,8 @@ export const Coil: React.FC<Props> = ({
 					r='198'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='242 1244'
+					strokeWidth='7'
+					strokeDasharray='242 1244'
 					transform='rotate(83, 400, 400)'
 					opacity='0.78'
 				></circle>
@@ -368,8 +368,8 @@ export const Coil: React.FC<Props> = ({
 					r='181.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='202 1140'
+					strokeWidth='7'
+					strokeDasharray='202 1140'
 					transform='rotate(75, 400, 400)'
 					opacity='0.80'
 				></circle>
@@ -377,8 +377,8 @@ export const Coil: React.FC<Props> = ({
 					r='165'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='165 1037'
+					strokeWidth='7'
+					strokeDasharray='165 1037'
 					transform='rotate(68, 400, 400)'
 					opacity='0.82'
 				></circle>
@@ -386,8 +386,8 @@ export const Coil: React.FC<Props> = ({
 					r='148.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='132 933'
+					strokeWidth='7'
+					strokeDasharray='132 933'
 					transform='rotate(60, 400, 400)'
 					opacity='0.84'
 				></circle>
@@ -395,8 +395,8 @@ export const Coil: React.FC<Props> = ({
 					r='132'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='103 829'
+					strokeWidth='7'
+					strokeDasharray='103 829'
 					transform='rotate(53, 400, 400)'
 					opacity='0.86'
 				></circle>
@@ -404,8 +404,8 @@ export const Coil: React.FC<Props> = ({
 					r='115.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='77 726'
+					strokeWidth='7'
+					strokeDasharray='77 726'
 					transform='rotate(45, 400, 400)'
 					opacity='0.88'
 				></circle>
@@ -413,8 +413,8 @@ export const Coil: React.FC<Props> = ({
 					r='99'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='55 622'
+					strokeWidth='7'
+					strokeDasharray='55 622'
 					transform='rotate(38, 400, 400)'
 					opacity='0.90'
 				></circle>
@@ -422,8 +422,8 @@ export const Coil: React.FC<Props> = ({
 					r='82.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='37 518'
+					strokeWidth='7'
+					strokeDasharray='37 518'
 					transform='rotate(30, 400, 400)'
 					opacity='0.92'
 				></circle>
@@ -431,8 +431,8 @@ export const Coil: React.FC<Props> = ({
 					r='66'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='22 415'
+					strokeWidth='7'
+					strokeDasharray='22 415'
 					transform='rotate(23, 400, 400)'
 					opacity='0.94'
 				></circle>
@@ -440,8 +440,8 @@ export const Coil: React.FC<Props> = ({
 					r='49.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='11 311'
+					strokeWidth='7'
+					strokeDasharray='11 311'
 					transform='rotate(15, 400, 400)'
 					opacity='0.96'
 				></circle>
@@ -449,8 +449,8 @@ export const Coil: React.FC<Props> = ({
 					r='33'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='4 207'
+					strokeWidth='7'
+					strokeDasharray='4 207'
 					transform='rotate(8, 400, 400)'
 					opacity='0.98'
 				></circle>
@@ -458,8 +458,8 @@ export const Coil: React.FC<Props> = ({
 					r='16.5'
 					cx='400'
 					cy='400'
-					stroke-width='7'
-					stroke-dasharray='0 104'
+					strokeWidth='7'
+					strokeDasharray='0 104'
 					opacity='1.00'
 				></circle>
 			</g>

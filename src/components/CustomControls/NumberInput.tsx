@@ -19,7 +19,7 @@ export const NumberInput: React.FC<Props> = ({
 				onChange={(e) => {
 					onChange(parseInt(e.currentTarget.value));
 				}}
-				value={number ? number : 0}
+				value={number || 0}
 			></Input>
 
 			<div className='ml-2 flex flex-auto flex-col'>

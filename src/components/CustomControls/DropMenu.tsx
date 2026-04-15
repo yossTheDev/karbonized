@@ -1,21 +1,21 @@
 import {
 	flip,
 	offset,
-	Placement,
+	type Placement,
 	shift,
 	useFloating,
 } from '@floating-ui/react-dom';
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, { createContext, type ReactNode, useContext, useState } from 'react';
 import { Portal } from 'react-portal';
 
-type Props = {
+interface Props {
 	id?: string;
 	show?: boolean;
 	position?: Placement;
 	label: string;
 	menu: ReactNode;
 	showOnEnter?: boolean;
-};
+}
 
 const MenuContext = createContext({
 	isOpen: false,
@@ -34,7 +34,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 
 	return (
 		<MenuContext.Provider
-			value={{ isOpen: show, setIsOpen: setShow, setIsInside: setIsInside }}
+			value={{ isOpen: show, setIsOpen: setShow, setIsInside }}
 		>
 			<button
 				className={`btn btn-ghost btn-xs my-auto rounded ${
@@ -62,8 +62,8 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 						id={id}
 						tabIndex={1}
 						onBlur={() => !isInside && setShow(false)}
-						onMouseEnter={() => setIsInside(true)}
-						onMouseLeave={() => setIsInside(false)}
+						onMouseEnter={() => { setIsInside(true); }}
+						onMouseLeave={() => { setIsInside(false); }}
 						className={`poppins-font-family-regular z-30 
 							 flex w-52 flex-auto flex-col gap-2 overflow-x-hidden rounded-xl border border-base-300 bg-base-200 px-1.5 py-2 text-base-content shadow-2xl`}
 						ref={floating}
@@ -77,12 +77,12 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 	);
 };
 
-type MenuItemProps = {
+interface MenuItemProps {
 	icon: ReactNode;
 	label: string;
 	shortcut?: string;
 	click: () => void;
-};
+}
 
 export const MenuItem: React.FC<MenuItemProps> = ({
 	icon,

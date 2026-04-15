@@ -74,7 +74,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									defaultValue={'mac'}
 									tabIndex={0}
 									value={windowStyle}
-									onChange={(e) => setWindowStyle(e.currentTarget.value)}
+									onChange={(e) => { setWindowStyle(e.currentTarget.value); }}
 								>
 									<option value={'mac'}>mac</option>
 									<option value={'window'}>window</option>
@@ -85,7 +85,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									defaultValue={'normal'}
 									tabIndex={0}
 									value={windowType}
-									onChange={(e) => setWindowType(e.currentTarget.value)}
+									onChange={(e) => { setWindowType(e.currentTarget.value); }}
 								>
 									<option value={'normal'}>normal</option>
 									<option value={'browser'}>browser</option>
@@ -96,7 +96,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 								<p className='text-xs'>Title</p>
 								<Input
 									spellCheck={false}
-									onChange={(ev) => setTitle(ev.target.value)}
+									onChange={(ev) => { setTitle(ev.target.value); }}
 									value={title}
 									className='flex flex-auto'
 								></Input>
@@ -108,7 +108,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									<p className='text-xs'>Url</p>
 									<Input
 										spellCheck={false}
-										onChange={(ev) => setUrl(ev.target.value)}
+										onChange={(ev) => { setUrl(ev.target.value); }}
 										value={url}
 										className='flex flex-auto'
 									></Input>
@@ -190,7 +190,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 											<div className='my-auto h-4  w-4 rounded-full bg-yellow-300 p-1'></div>
 											<div className='my-auto h-4  w-4 rounded-full  bg-green-500 p-1'></div>
 
-											{/* Browser Buttons Mac*/}
+											{/* Browser Buttons Mac */}
 											{windowType === 'browser' && (
 												<div className='my-auto  ml-2 flex flex-row gap-1'>
 													<div className='rounded bg-slate-500/20 p-1'>

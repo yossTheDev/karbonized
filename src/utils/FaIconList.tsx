@@ -1,5 +1,5 @@
 import * as SvgIcon from 'react-icons/fa';
-import { IconType as Icon } from 'react-icons';
+import { type IconType as Icon } from 'react-icons';
 
 export interface IconType {
 	label: string;

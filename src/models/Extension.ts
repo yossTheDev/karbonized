@@ -7,7 +7,7 @@ export interface Extension {
 		version: string;
 	};
 
-	components: { properties: Properties; code: string; image: string }[];
+	components: Array<{ properties: Properties; code: string; image: string }>;
 }
 
 interface Properties {
