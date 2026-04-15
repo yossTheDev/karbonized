@@ -1,5 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { usePanelRef } from 'react-resizable-panels';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { WorkspacePanel } from './WorkspacePanel';
 import { ResizablePanel } from '../ui/resizable';
@@ -23,7 +24,7 @@ export const RightPanel: React.FC = () => {
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 
 	/* Component State */
-	const panel = useRef<any>(null);
+	const panel = usePanelRef();
 	const [showMenu, setShowMenu] = useState(true);
 	const [tab, setTab] = useState<'workspace' | 'control' | 'hierarchy'>(
 		'control',
@@ -77,13 +78,7 @@ export const RightPanel: React.FC = () => {
 			collapsible
 			collapsedSize={4}
 			minSize={2}
-			ref={panel}
-			onCollapse={() => {
-				setShowMenu(false);
-			}}
-			onExpand={() => {
-				setShowMenu(true);
-			}}
+			panelRef={panel}
 		>
 			<div
 				className={`pointer-events-auto mr-auto flex h-full w-full gap-4 overflow-hidden rounded-tl-sm bg-base-300 p-2 text-neutral-950 shadow-sm dark:text-neutral-100 dark:shadow-base-200 `}
@@ -152,9 +147,8 @@ export const RightPanel: React.FC = () => {
 
 				{/* Tab Panels */}
 				<div
-					className={`relative ${
-						showMenu ? 'flex' : 'hidden'
-					} w-96 flex-auto flex-col overflow-hidden`}
+					className={`relative ${showMenu ? 'flex' : 'hidden'
+						} w-96 flex-auto flex-col overflow-hidden`}
 				>
 					{/* Controls */}
 					<AnimatePresence>
