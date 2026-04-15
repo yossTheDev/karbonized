@@ -298,7 +298,7 @@ export const Editor: React.FC = () => {
 					</div>
 
 					{/* Right Panel */}
-					<ResizablePanelGroup direction='horizontal'>
+					<ResizablePanelGroup orientation='horizontal'>
 						<ResizablePanel></ResizablePanel>
 						<ResizableHandle withHandle />
 						<Suspense>
