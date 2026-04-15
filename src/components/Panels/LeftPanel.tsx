@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getRandomNumber } from '@/utils/getRandom';
 import {
+	IconBrandTwitter,
 	IconChevronLeft,
 	IconChevronRight,
 	IconCircleSquare,
@@ -35,7 +36,6 @@ import {
 	Settings,
 	Smartphone,
 	Sticker,
-	Twitter,
 	Type,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -391,7 +391,7 @@ export const LeftPanel: React.FC = () => {
 								});
 							}}
 						>
-							<Twitter className='mr-2' size={18}></Twitter> Tweet
+							<IconBrandTwitter className='mr-2' size={18}></IconBrandTwitter> Tweet
 						</DropdownMenuItem>
 
 						<DropdownMenuItem
@@ -444,9 +444,8 @@ export const LeftPanel: React.FC = () => {
 								setTab('hierarchy');
 								setShowMenu(true);
 							}}
-							className={`btn btn-ghost md:btn-sm rounded-2xl md:rounded-xl ${
-								tab === 'hierarchy' && showMenu && 'bg-base-200 md:bg-base-300'
-							}`}
+							className={`btn btn-ghost md:btn-sm rounded-2xl md:rounded-xl ${tab === 'hierarchy' && showMenu && 'bg-base-200 md:bg-base-300'
+								}`}
 						>
 							<IconCircleSquare
 								className='mx-auto'
@@ -471,11 +470,10 @@ export const LeftPanel: React.FC = () => {
 
 									setShowMenu(true);
 								}}
-								className={`btn btn-ghost btn-sm rounded-xl ${
-									tab === 'extensions' &&
+								className={`btn btn-ghost btn-sm rounded-xl ${tab === 'extensions' &&
 									showMenu &&
 									'bg-base-100 md:bg-base-300'
-								}`}
+									}`}
 							>
 								<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
 							</button>
@@ -514,9 +512,8 @@ export const LeftPanel: React.FC = () => {
 									setWorkspaceMode('custom');
 									setShowMenu(true);
 								}}
-								className={`btn btn-ghost rounded-2xl  ${
-									tab === 'control' && showMenu && 'bg-base-200'
-								}`}
+								className={`btn btn-ghost rounded-2xl  ${tab === 'control' && showMenu && 'bg-base-200'
+									}`}
 							>
 								<IconEdit className='mx-auto' size={16}></IconEdit>
 							</button>
@@ -533,9 +530,8 @@ export const LeftPanel: React.FC = () => {
 									setWorkspaceTab('workspace');
 									setShowMenu(true);
 								}}
-								className={`btn btn-ghost rounded-2xl ${
-									tab === 'workspace' && showMenu && 'bg-base-200'
-								}`}
+								className={`btn btn-ghost rounded-2xl ${tab === 'workspace' && showMenu && 'bg-base-200'
+									}`}
 							>
 								<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
 							</button>
