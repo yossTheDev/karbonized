@@ -3,7 +3,6 @@ import './App.css';
 import { AppContext } from './AppContext';
 import { useScreenDirection } from './hooks/useScreenDirection';
 import { useTheme } from './hooks/useTheme';
-import { useStoreState } from './stores/Hooks';
 import './utils.css';
 import { isElectron } from './utils/isElectron';
 
@@ -20,7 +19,6 @@ const App: React.FC = () => {
 	const isHorizontal = useScreenDirection();
 	const viewerRef = useRef(null);
 	const [showWizard, setShowWizard] = useState(true);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	return (
 		<AppContext.Provider
@@ -142,12 +140,13 @@ const App: React.FC = () => {
 							id='body'
 						>
 							<div className={`flex h-full w-full flex-auto`}>
+								<p>HOLAAAA!@!!!!</p>
 								<Suspense
 									fallback={
 										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
 									}
 								>
-									{currentWorkspace !== undefined && <Editor></Editor>}
+									<Editor></Editor>
 								</Suspense>
 							</div>
 						</div>
