@@ -76,7 +76,9 @@ export const RightPanel: React.FC = () => {
 		<ResizablePanel
 			className={'w-14 min-w-14 max-w-120'}
 			collapsible
-			collapsedSize={4}
+			collapsedSize={64}
+			defaultSize={500}
+			maxSize={500}
 			minSize={2}
 			panelRef={panel}
 		>
@@ -147,8 +149,9 @@ export const RightPanel: React.FC = () => {
 
 				{/* Tab Panels */}
 				<div
-					className={`relative ${showMenu ? 'flex' : 'hidden'
-						} w-96 flex-auto flex-col overflow-hidden`}
+					className={`relative ${
+						showMenu ? 'flex' : 'hidden'
+					} w-96 flex-auto flex-col overflow-hidden`}
 				>
 					{/* Controls */}
 					<AnimatePresence>

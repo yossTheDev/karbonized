@@ -6,7 +6,9 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 export const useTheme = (): [string, () => void] => {
 	const [appTheme, setAppTheme] = useState<string>(() => {
 		const savedTheme = localStorage.getItem('theme');
-		return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark';
+		return savedTheme === 'light' || savedTheme === 'dark'
+			? savedTheme
+			: 'dark';
 	});
 
 	const toggleTheme = () => {

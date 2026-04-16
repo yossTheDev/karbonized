@@ -9,7 +9,7 @@ export const AppContext = createContext<{
 }>({
 	viewerRef: null,
 	showWizard: true,
-	setShowWizard: () => { },
+	setShowWizard: () => {},
 	theme: 'dark',
-	toggleTheme: () => { },
+	toggleTheme: () => {},
 });
