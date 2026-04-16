@@ -139,10 +139,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 	const handleDownloadTemplate = (template: any): void => {
 		if (
-			template?.workspace?.id &&
-			!userTemplates.find(
+			template?.workspace?.id !== undefined &&
+			userTemplates.find(
 				(item: any) => item.workspace.id === template.workspace.id,
-			)
+			) === undefined
 		) {
 			void localforage.setItem('user_templates_test', [...userTemplates, template]);
 
