@@ -77,13 +77,13 @@ export const RightPanel: React.FC = () => {
 			className={'min-w-16'}
 			collapsible
 			collapsedSize={54}
-			defaultSize={400}
+			defaultSize={500}
 			maxSize={600}
-			minSize={60}
+			minSize={120}
 			panelRef={panel}
 		>
 			<div
-				className={`pointer-events-auto mr-auto flex h-full w-full gap-2 overflow-hidden rounded-tl-sm bg-muted p-2 text-foreground shadow-sm transition-all`}
+				className={`pointer-events-auto mr-auto flex h-full w-full gap-2 overflow-hidden rounded-lg bg-background p-2 text-foreground shadow-md border border-border transition-all`}
 			>
 				{/* Selectors */}
 				<div className='flex flex-col gap-1 shrink-0'>
