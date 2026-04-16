@@ -120,7 +120,7 @@
 		"@types/react-syntax-highlighter": "^15.5.5",
 		"@types/react-window": "^1.8.5",
 		"@typescript-eslint/eslint-plugin": "^6.1.0",
-		"@vitejs/plugin-react": "4.2.1",
+		"@vitejs/plugin-react": "^6.0.0",
 		"autoprefixer": "^10.5.0",
 		"electron": "^29.1.1",
 		"electron-builder": "^24.13.3",
@@ -138,9 +138,9 @@
 		"react-router-dom": "^6.4.3",
 		"tailwindcss": "^4.2.2",
 		"typescript": "*",
-		"vite": "5.1.5",
-		"vite-plugin-electron": "^0.28.4",
-		"vite-plugin-pwa": "^0.16.4"
+		"vite": "^8.0.0",
+		"vite-plugin-electron": "^0.29.0",
+		"vite-plugin-pwa": "^0.20.0"
 	},
 	"packageManager": "yarn@4.13.0"
 }

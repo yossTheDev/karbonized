@@ -140,7 +140,6 @@ const App: React.FC = () => {
 							id='body'
 						>
 							<div className={`flex h-full w-full flex-auto`}>
-								<p>HOLAAAA!@!!!!</p>
 								<Suspense
 									fallback={
 										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
