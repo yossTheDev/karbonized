@@ -70,218 +70,239 @@ export const LeftPanel: React.FC = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// Tool configuration
-	const tools = useMemo(() => [
-		{
-			id: 'select',
-			icon: MousePointer2,
-			label: 'Select',
-			shortcut: 'Ctrl+W',
-			action: () => {
-				setEditing(true);
-				setDrag(false);
-				setCrop(false);
-				setWarp(false);
+	const tools = useMemo(() => {
+		const getElementsByType = (type: string) => {
+			if (currentWorkspace !== undefined)
+				return (
+					currentWorkspace?.controls.filter((item) => item.type === type)
+						?.length + 1
+				);
+		};
+
+		return [
+			{
+				id: 'select',
+				icon: MousePointer2,
+				label: 'Select',
+				shortcut: 'Ctrl+W',
+				action: () => {
+					setEditing(true);
+					setDrag(false);
+					setCrop(false);
+					setWarp(false);
+				},
+				isActive: editing && !crop && !warp,
 			},
-			isActive: editing && !crop && !warp,
-		},
-		{
-			id: 'pan',
-			icon: Hand,
-			label: 'Pan',
-			shortcut: 'Ctrl+E',
-			action: () => {
-				setEditing(false);
-				setCrop(false);
-				setWarp(false);
-				setDrag(true);
+			{
+				id: 'pan',
+				icon: Hand,
+				label: 'Pan',
+				shortcut: 'Ctrl+E',
+				action: () => {
+					setEditing(false);
+					setCrop(false);
+					setWarp(false);
+					setDrag(true);
+				},
+				isActive: drag,
 			},
-			isActive: drag,
-		},
-		{
-			id: 'crop',
-			icon: Crop,
-			label: 'Crop',
-			shortcut: 'Ctrl+Y',
-			action: () => {
-				setDrag(false);
-				setWarp(false);
-				setCrop(true);
+			{
+				id: 'crop',
+				icon: Crop,
+				label: 'Crop',
+				shortcut: 'Ctrl+Y',
+				action: () => {
+					setDrag(false);
+					setWarp(false);
+					setCrop(true);
+				},
+				isActive: crop,
 			},
-			isActive: crop,
-		},
-		{
-			id: 'warp',
-			icon: BoxSelect,
-			label: 'Warp',
-			shortcut: 'Ctrl+G',
-			action: () => {
-				setDrag(false);
-				setCrop(false);
-				setWarp(!warp);
+			{
+				id: 'warp',
+				icon: BoxSelect,
+				label: 'Warp',
+				shortcut: 'Ctrl+G',
+				action: () => {
+					setDrag(false);
+					setCrop(false);
+					setWarp(!warp);
+				},
+				isActive: warp,
 			},
-			isActive: warp,
-		},
-		{
-			id: 'code',
-			icon: CodeSquare,
-			label: 'Code',
-			action: () => {
-				addControl({
-					type: 'code',
-					id: `code-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `code ${getElementsByType('code')}`,
-					isVisible: true,
-				});
+			{
+				id: 'code',
+				icon: CodeSquare,
+				label: 'Code',
+				action: () => {
+					addControl({
+						type: 'code',
+						id: `code-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `code ${getElementsByType('code')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'image',
-			icon: Image,
-			label: 'Image',
-			action: () => {
-				addControl({
-					type: 'image',
-					id: `image-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `image ${getElementsByType('image')}`,
-					isVisible: true,
-				});
+			{
+				id: 'image',
+				icon: Image,
+				label: 'Image',
+				action: () => {
+					addControl({
+						type: 'image',
+						id: `image-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `image ${getElementsByType('image')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'icon',
-			icon: Sticker,
-			label: 'Icon',
-			action: () => {
-				addControl({
-					type: 'icon',
-					id: `icon-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `icon ${getElementsByType('icon')}`,
-					isVisible: true,
-				});
+			{
+				id: 'icon',
+				icon: Sticker,
+				label: 'Icon',
+				action: () => {
+					addControl({
+						type: 'icon',
+						id: `icon-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `icon ${getElementsByType('icon')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'text',
-			icon: Type,
-			label: 'Text',
-			action: () => {
-				addControl({
-					type: 'text',
-					id: `text-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `text ${getElementsByType('text')}`,
-					isVisible: true,
-				});
+			{
+				id: 'text',
+				icon: Type,
+				label: 'Text',
+				action: () => {
+					addControl({
+						type: 'text',
+						id: `text-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `text ${getElementsByType('text')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'shape',
-			icon: Circle,
-			label: 'Shape',
-			action: () => {
-				addControl({
-					type: 'shape',
-					id: `shape-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `shape ${getElementsByType('shape')}`,
-					isVisible: true,
-				});
+			{
+				id: 'shape',
+				icon: Circle,
+				label: 'Shape',
+				action: () => {
+					addControl({
+						type: 'shape',
+						id: `shape-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `shape ${getElementsByType('shape')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'phone',
-			icon: Smartphone,
-			label: 'Phone',
-			action: () => {
-				addControl({
-					type: 'phone_mockup',
-					id: `phone_mockup-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `phone mockup ${getElementsByType('phone_mockup')}`,
-					isVisible: true,
-				});
+			{
+				id: 'phone',
+				icon: Smartphone,
+				label: 'Phone',
+				action: () => {
+					addControl({
+						type: 'phone_mockup',
+						id: `phone_mockup-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `phone mockup ${getElementsByType('phone_mockup')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'qr',
-			icon: QrCode,
-			label: 'QR Code',
-			action: () => {
-				addControl({
-					type: 'qr',
-					id: `qr-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `qr ${getElementsByType('qr')}`,
-					isVisible: true,
-				});
+			{
+				id: 'qr',
+				icon: QrCode,
+				label: 'QR Code',
+				action: () => {
+					addControl({
+						type: 'qr',
+						id: `qr-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `qr ${getElementsByType('qr')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'badge',
-			icon: Badge,
-			label: 'Badge',
-			action: () => {
-				addControl({
-					type: 'badge',
-					id: `badge-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `badge ${getElementsByType('badge')}`,
-					isVisible: true,
-				});
+			{
+				id: 'badge',
+				icon: Badge,
+				label: 'Badge',
+				action: () => {
+					addControl({
+						type: 'badge',
+						id: `badge-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `badge ${getElementsByType('badge')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'tweet',
-			icon: X,
-			label: 'Tweet',
-			action: () => {
-				addControl({
-					type: 'tweet',
-					id: `tweet-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `tweet ${getElementsByType('tweet')}`,
-					isVisible: true,
-				});
+			{
+				id: 'tweet',
+				icon: X,
+				label: 'Tweet',
+				action: () => {
+					addControl({
+						type: 'tweet',
+						id: `tweet-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `tweet ${getElementsByType('tweet')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-		{
-			id: 'window',
-			icon: AppWindow,
-			label: 'Window',
-			action: () => {
-				addControl({
-					type: 'window',
-					id: `window-${getRandomNumber()}`,
-					isSelectable: true,
-					isDeleted: false,
-					name: `window ${getElementsByType('window')}`,
-					isVisible: true,
-				});
+			{
+				id: 'window',
+				icon: AppWindow,
+				label: 'Window',
+				action: () => {
+					addControl({
+						type: 'window',
+						id: `window-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `window ${getElementsByType('window')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
 			},
-			isActive: false,
-		},
-	], [editing, drag, crop, warp, addControl, currentWorkspace]);
+		];
+	}, [
+		editing,
+		crop,
+		warp,
+		drag,
+		setEditing,
+		setDrag,
+		setCrop,
+		setWarp,
+		addControl,
+		currentWorkspace,
+	]);
 
 	// Calculate visible tools based on screen height
 	useEffect(() => {
@@ -291,7 +312,8 @@ export const LeftPanel: React.FC = () => {
 				const itemHeight = 44; // Button height + gap
 				const separatorHeight = 20;
 				const settingsHeight = 44;
-				const availableHeight = containerHeight - separatorHeight - settingsHeight;
+				const availableHeight =
+					containerHeight - separatorHeight - settingsHeight;
 				const maxVisible = Math.floor(availableHeight / itemHeight);
 				setVisibleCount(Math.max(3, maxVisible)); // Minimum 3 visible items
 			}
@@ -355,15 +377,6 @@ export const LeftPanel: React.FC = () => {
 		}
 	}, [workspaceMode]);
 
-	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-	const getElementsByType = (type: string) => {
-		if (currentWorkspace !== undefined)
-			return (
-				currentWorkspace?.controls.filter((item) => item.type === type)
-					?.length + 1
-			);
-	};
-
 	return (
 		<div
 			className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden p-2 text-foreground md:w-fit md:max-w-40'
@@ -372,30 +385,37 @@ export const LeftPanel: React.FC = () => {
 			{/* Controls */}
 			<div className='flex h-full w-10 flex-col items-center gap-2 text-foreground bg-background shadow-md rounded-lg border border-border px-6 py-3'>
 				{visibleTools.map((tool, index) => (
-					<Tooltip
-						key={tool.id}
-						message={`${tool.label}${tool.shortcut ? ` (${tool.shortcut})` : ''}`}
-					>
-						<Button
-							onClick={tool.action}
-							variant={tool.isActive ? 'default' : 'ghost'}
-							size={'icon'}
-							className='relative transition-all duration-200 hover:scale-110'
-							onMouseEnter={() => setHoveredIndex(index)}
-							onMouseLeave={() => setHoveredIndex(null)}
+					<React.Fragment key={tool.id}>
+						<Tooltip
+							message={`${tool.label}${tool.shortcut ? ` (${tool.shortcut})` : ''}`}
 						>
-							<tool.icon
-								size={18}
-								className={`transition-transform duration-200 ${hoveredIndex === index ? 'scale-125' : 'scale-100'
-									}`}
+							<Button
+								onClick={tool.action}
+								variant={tool.isActive ? 'default' : 'ghost'}
+								size={'icon'}
+								className='relative transition-all duration-200 hover:scale-110'
+								onMouseEnter={() => setHoveredIndex(index)}
+								onMouseLeave={() => setHoveredIndex(null)}
+							>
+								<tool.icon
+									size={18}
+									className={`transition-transform duration-200 ${hoveredIndex === index ? 'scale-125' : 'scale-100'
+										}`}
+								/>
+								{tool.shortcut && (
+									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-bold text-primary-foreground'>
+										{tool.shortcut.split('+')[1]}
+									</span>
+								)}
+							</Button>
+						</Tooltip>
+						{index === 3 && (
+							<Separator
+								orientation='horizontal'
+								className='my-2 border w-16 px-3'
 							/>
-							{tool.shortcut && (
-								<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-bold text-primary-foreground'>
-									{tool.shortcut.split('+')[1]}
-								</span>
-							)}
-						</Button>
-					</Tooltip>
+						)}
+					</React.Fragment>
 				))}
 
 				{overflowTools.length > 0 && (
@@ -421,11 +441,7 @@ export const LeftPanel: React.FC = () => {
 					</>
 				)}
 
-				<Button
-					className='mt-auto'
-					size={'icon'}
-					variant={'ghost'}
-				>
+				<Button className='mt-auto' size={'icon'} variant={'ghost'}>
 					<Settings size={20}></Settings>
 				</Button>
 			</div>
