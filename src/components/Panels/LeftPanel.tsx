@@ -399,8 +399,9 @@ export const LeftPanel: React.FC = () => {
 							>
 								<tool.icon
 									size={18}
-									className={`transition-transform duration-200 ${hoveredIndex === index ? 'scale-125' : 'scale-100'
-										}`}
+									className={`transition-transform duration-200 ${
+										hoveredIndex === index ? 'scale-125' : 'scale-100'
+									}`}
 								/>
 								{tool.shortcut && (
 									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-bold text-primary-foreground'>

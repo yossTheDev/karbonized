@@ -265,11 +265,12 @@ export const WorkspacePanel: React.FC = () => {
 								{Gradients.map((item) => (
 									<button
 										key={item.c1 + item.c2}
-										className={`h-16 w-16 overflow-hidden rounded-lg transition-all hover:shadow-md active:scale-90 ${currentWorkspace.workspaceGradientSettings.color1 ===
+										className={`h-16 w-16 overflow-hidden rounded-lg transition-all hover:shadow-md active:scale-90 ${
+											currentWorkspace.workspaceGradientSettings.color1 ===
 											item.c1
-											? 'border-2 border-primary shadow-md'
-											: 'border border-border'
-											}`}
+												? 'border-2 border-primary shadow-md'
+												: 'border border-border'
+										}`}
 										style={{
 											background: `linear-gradient(${item.c1},${item.c2})`,
 										}}
@@ -285,7 +286,7 @@ export const WorkspacePanel: React.FC = () => {
 										{currentWorkspace.workspaceGradientSettings.color1 ===
 											item.c1 &&
 											currentWorkspace.workspaceGradientSettings.color2 ===
-											item.c2 && <Check></Check>}
+												item.c2 && <Check></Check>}
 									</button>
 								))}
 							</div>
@@ -308,10 +309,8 @@ export const WorkspacePanel: React.FC = () => {
 								}}
 								onGradientDegChange={(deg) => {
 									setWorkspaceGradient({
-										color1:
-											currentWorkspace.workspaceGradientSettings.color1,
-										color2:
-											currentWorkspace.workspaceGradientSettings.color2,
+										color1: currentWorkspace.workspaceGradientSettings.color1,
+										color2: currentWorkspace.workspaceGradientSettings.color2,
 										deg,
 									});
 								}}
@@ -329,10 +328,11 @@ export const WorkspacePanel: React.FC = () => {
 							{textures.map((texture) => (
 								<div
 									key={texture.name}
-									className={`size-16 cursor-pointer rounded-lg border-2 bg-background p-2 hover:border-border active:scale-95 transition-all ${currentWorkspace.textureName === texture.name
-										? 'border-primary shadow-md'
-										: 'border-border'
-										}`}
+									className={`size-16 cursor-pointer rounded-lg border-2 bg-background p-2 hover:border-border active:scale-95 transition-all ${
+										currentWorkspace.textureName === texture.name
+											? 'border-primary shadow-md'
+											: 'border-border'
+									}`}
 									onClick={() => {
 										setTexture(texture.name);
 									}}
@@ -355,7 +355,7 @@ export const WorkspacePanel: React.FC = () => {
 							}}
 							color={currentWorkspace.workspaceColor}
 							mode={'Gradient'}
-							onColorChange={() => { }}
+							onColorChange={() => {}}
 						></ColorPicker>
 					</TabsContent>
 					<TabsContent value='image'>
@@ -363,10 +363,11 @@ export const WorkspacePanel: React.FC = () => {
 							{Wallpapers.map((item) => (
 								<button
 									key={item.id}
-									className={`h-16 w-16 overflow-hidden rounded-lg border-2 bg-background transition-all hover:shadow-md active:scale-90 ${currentWorkspace.textureName === item.id
-										? 'border-primary shadow-md'
-										: 'border-border'
-										}`}
+									className={`h-16 w-16 overflow-hidden rounded-lg border-2 bg-background transition-all hover:shadow-md active:scale-90 ${
+										currentWorkspace.textureName === item.id
+											? 'border-primary shadow-md'
+											: 'border-border'
+									}`}
 									onClick={() => {
 										setTexture(item.id);
 									}}
