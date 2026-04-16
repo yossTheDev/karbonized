@@ -9,26 +9,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getRandomNumber } from '@/utils/getRandom';
 import {
-	IconBrandTwitter,
-	IconChevronLeft,
-	IconChevronRight,
-	IconCircleSquare,
-	IconEdit,
-	IconMoon,
-	IconPerspective,
-	IconPuzzle,
-	IconSun,
-	IconWallpaper,
-} from '@tabler/icons-react';
-import {
 	AppWindow,
 	Badge,
-	Brush,
 	Circle,
 	CodeSquare,
 	Crop,
 	Ellipsis,
-	Eraser,
 	Hand,
 	Image,
 	MousePointer2,
@@ -37,13 +23,24 @@ import {
 	Smartphone,
 	Sticker,
 	Type,
+	ChevronLeft,
+	ChevronRight,
+	Square,
+	PenTool,
+	Puzzle,
+	Moon,
+	Sun,
+	LayoutTemplate,
+	BoxSelect,
+	X,
 } from 'lucide-react';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
+import { Separator } from '../ui/separator';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -53,10 +50,6 @@ export const LeftPanel: React.FC = () => {
 	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
 	const setEditing = useStoreActions((state) => state.setEditing);
 	const editing = useStoreState((state) => state.editing);
-	const isErasing = useStoreState((state) => state.isErasing);
-	const setIsErasing = useStoreActions((state) => state.setIsErasing);
-	const canDraw = useStoreState((state) => state.isDrawing);
-	const setCanDraw = useStoreActions((state) => state.setIsDrawing);
 	const drag = useStoreState((state) => state.drag);
 	const setDrag = useStoreActions((state) => state.setDrag);
 	const crop = useStoreState((state) => state.crop);
@@ -71,6 +64,246 @@ export const LeftPanel: React.FC = () => {
 
 	const [showMenu, setShowMenu] = useState(!isHorizontal);
 	const [tab, setTab] = useState('hierarchy');
+	const [visibleCount, setVisibleCount] = useState(10);
+	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	// Tool configuration
+	const tools = useMemo(() => [
+		{
+			id: 'select',
+			icon: MousePointer2,
+			label: 'Select',
+			shortcut: 'Ctrl+W',
+			action: () => {
+				setEditing(true);
+				setDrag(false);
+				setCrop(false);
+				setWarp(false);
+			},
+			isActive: editing && !crop && !warp,
+		},
+		{
+			id: 'pan',
+			icon: Hand,
+			label: 'Pan',
+			shortcut: 'Ctrl+E',
+			action: () => {
+				setEditing(false);
+				setCrop(false);
+				setWarp(false);
+				setDrag(true);
+			},
+			isActive: drag,
+		},
+		{
+			id: 'crop',
+			icon: Crop,
+			label: 'Crop',
+			shortcut: 'Ctrl+Y',
+			action: () => {
+				setDrag(false);
+				setWarp(false);
+				setCrop(true);
+			},
+			isActive: crop,
+		},
+		{
+			id: 'warp',
+			icon: BoxSelect,
+			label: 'Warp',
+			shortcut: 'Ctrl+G',
+			action: () => {
+				setDrag(false);
+				setCrop(false);
+				setWarp(!warp);
+			},
+			isActive: warp,
+		},
+		{
+			id: 'code',
+			icon: CodeSquare,
+			label: 'Code',
+			action: () => {
+				addControl({
+					type: 'code',
+					id: `code-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `code ${getElementsByType('code')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'image',
+			icon: Image,
+			label: 'Image',
+			action: () => {
+				addControl({
+					type: 'image',
+					id: `image-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `image ${getElementsByType('image')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'icon',
+			icon: Sticker,
+			label: 'Icon',
+			action: () => {
+				addControl({
+					type: 'icon',
+					id: `icon-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `icon ${getElementsByType('icon')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'text',
+			icon: Type,
+			label: 'Text',
+			action: () => {
+				addControl({
+					type: 'text',
+					id: `text-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `text ${getElementsByType('text')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'shape',
+			icon: Circle,
+			label: 'Shape',
+			action: () => {
+				addControl({
+					type: 'shape',
+					id: `shape-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `shape ${getElementsByType('shape')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'phone',
+			icon: Smartphone,
+			label: 'Phone',
+			action: () => {
+				addControl({
+					type: 'phone_mockup',
+					id: `phone_mockup-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `phone mockup ${getElementsByType('phone_mockup')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'qr',
+			icon: QrCode,
+			label: 'QR Code',
+			action: () => {
+				addControl({
+					type: 'qr',
+					id: `qr-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `qr ${getElementsByType('qr')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'badge',
+			icon: Badge,
+			label: 'Badge',
+			action: () => {
+				addControl({
+					type: 'badge',
+					id: `badge-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `badge ${getElementsByType('badge')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'tweet',
+			icon: X,
+			label: 'Tweet',
+			action: () => {
+				addControl({
+					type: 'tweet',
+					id: `tweet-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `tweet ${getElementsByType('tweet')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+		{
+			id: 'window',
+			icon: AppWindow,
+			label: 'Window',
+			action: () => {
+				addControl({
+					type: 'window',
+					id: `window-${getRandomNumber()}`,
+					isSelectable: true,
+					isDeleted: false,
+					name: `window ${getElementsByType('window')}`,
+					isVisible: true,
+				});
+			},
+			isActive: false,
+		},
+	], [editing, drag, crop, warp, addControl, currentWorkspace]);
+
+	// Calculate visible tools based on screen height
+	useEffect(() => {
+		const updateVisibleCount = () => {
+			if (containerRef.current) {
+				const containerHeight = containerRef.current.clientHeight;
+				const itemHeight = 44; // Button height + gap
+				const separatorHeight = 20;
+				const settingsHeight = 44;
+				const availableHeight = containerHeight - separatorHeight - settingsHeight;
+				const maxVisible = Math.floor(availableHeight / itemHeight);
+				setVisibleCount(Math.max(3, maxVisible)); // Minimum 3 visible items
+			}
+		};
+
+		updateVisibleCount();
+		window.addEventListener('resize', updateVisibleCount);
+		return () => window.removeEventListener('resize', updateVisibleCount);
+	}, []);
+
+	const visibleTools = tools.slice(0, visibleCount);
+	const overflowTools = tools.slice(visibleCount);
 
 	/* Show/Close Menu KeyShortcut */
 	const onKeyDown = (event: KeyboardEvent): void => {
@@ -81,31 +314,22 @@ export const LeftPanel: React.FC = () => {
 			event.preventDefault();
 			setEditing(true);
 			setDrag(false);
-			setCanDraw(false);
-			setIsErasing(false);
 			setWarp(false);
 			setCrop(false);
 		} else if (event.ctrlKey && event.key === 'e') {
 			event.preventDefault();
 			setEditing(false);
-			setCanDraw(false);
-			setIsErasing(false);
 			setCrop(false);
 			setWarp(false);
 			setDrag(true);
-		} else if (event.ctrlKey && event.key === 'f') {
+		} else if (event.ctrlKey && event.key === 'y') {
 			event.preventDefault();
-			setEditing(true);
-			setCanDraw(false);
-			setIsErasing(false);
 			setDrag(false);
 			setWarp(false);
 			setCrop(true);
 		} else if (event.ctrlKey && event.key === 'g') {
 			event.preventDefault();
 			setEditing(true);
-			setCanDraw(false);
-			setIsErasing(false);
 			setDrag(false);
 			setCrop(false);
 			setWarp(true);
@@ -141,280 +365,67 @@ export const LeftPanel: React.FC = () => {
 	};
 
 	return (
-		<div className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden bg-muted p-2 text-foreground md:w-fit md:max-w-40'>
+		<div
+			className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden p-2 text-foreground md:w-fit md:max-w-40'
+			ref={containerRef}
+		>
 			{/* Controls */}
-			<div className='flex h-full w-10 flex-col items-center gap-2 text-foreground'>
-				<Button
-					onClick={() => {
-						setEditing(true);
-						setDrag(false);
-						setCanDraw(false);
-						setIsErasing(false);
-						setCrop(false);
-						setWarp(false);
-					}}
-					variant={editing && !crop && !warp ? 'default' : 'ghost'}
-					size={'icon'}
-				>
-					<MousePointer2 size={18}></MousePointer2>
-				</Button>
-
-				<Button
-					onClick={() => {
-						setEditing(false);
-						setCanDraw(false);
-						setIsErasing(false);
-						setCrop(false);
-						setWarp(false);
-						setDrag(true);
-					}}
-					variant={drag ? 'default' : 'ghost'}
-					size={'icon'}
-				>
-					<Hand size={18}></Hand>
-				</Button>
-
-				<Button
-					onClick={() => {
-						setCanDraw(false);
-						setIsErasing(false);
-						setDrag(false);
-						setWarp(false);
-						setCrop(true);
-					}}
-					variant={crop ? 'default' : 'ghost'}
-					size={'icon'}
-				>
-					<Crop size={18}></Crop>
-				</Button>
-
-				<Button
-					onClick={() => {
-						setCanDraw(false);
-						setIsErasing(false);
-						setDrag(false);
-						setCrop(false);
-						setWarp(!warp);
-					}}
-					variant={warp ? 'default' : 'ghost'}
-					size={'icon'}
-				>
-					<IconPerspective size={18}></IconPerspective>
-				</Button>
-
-				<Button
-					className='hidden'
-					onClick={() => {
-						setCanDraw(!canDraw);
-						setEditing(false);
-						setDrag(false);
-						setIsErasing(false);
-					}}
-					variant={canDraw ? 'default' : 'ghost'}
-					size={'icon'}
-				>
-					<Brush size={18}></Brush>
-				</Button>
-
-				<Button
-					className='hidden'
-					onClick={() => {
-						setIsErasing(!isErasing);
-						setEditing(false);
-						setDrag(false);
-						setCanDraw(false);
-					}}
-					variant={isErasing ? 'default' : 'ghost'}
-					size={'icon'}
-				>
-					<Eraser size={18}></Eraser>
-				</Button>
-
-				<div className='mx-auto my-4 hidden h-1 w-1 rounded bg-border p-1 md:flex '></div>
-
-				{/* Code Control */}
-				<Button
-					variant={'ghost'}
-					size={'icon'}
-					onClick={() => {
-						addControl({
-							type: 'code',
-							id: `code-${getRandomNumber()}`,
-							isSelectable: true,
-							isDeleted: false,
-							name: `code ${getElementsByType('code')}`,
-							isVisible: true,
-						});
-					}}
-				>
-					<CodeSquare size={18}></CodeSquare>
-				</Button>
-
-				{/* Image Control */}
-				<Button
-					variant={'ghost'}
-					size={'icon'}
-					onClick={() => {
-						addControl({
-							type: 'image',
-							id: `image-${getRandomNumber()}`,
-							isSelectable: true,
-							isDeleted: false,
-							name: `image ${getElementsByType('image')}`,
-							isVisible: true,
-						});
-					}}
-				>
-					<Image size={18}></Image>
-				</Button>
-
-				{/* FaIcon Control */}
-				<Button
-					variant={'ghost'}
-					size={'icon'}
-					onClick={() => {
-						addControl({
-							type: 'icon',
-							id: `icon-${getRandomNumber()}`,
-							isSelectable: true,
-							isDeleted: false,
-							name: `icon ${getElementsByType('icon')}`,
-							isVisible: true,
-						});
-					}}
-				>
-					<Sticker size={18} className='text-foreground'></Sticker>
-				</Button>
-
-				{/* Text Control */}
-				<Button
-					variant={'ghost'}
-					size={'icon'}
-					onClick={() => {
-						addControl({
-							type: 'text',
-							id: `text-${getRandomNumber()}`,
-							isSelectable: true,
-							isDeleted: false,
-							name: `text ${getElementsByType('text')}`,
-							isVisible: true,
-						});
-					}}
-					className='btn'
-				>
-					<Type size={18} className='text-base-content'></Type>
-				</Button>
-
-				{/* Shape Control */}
-				<Button
-					variant={'ghost'}
-					size={'icon'}
-					onClick={() => {
-						addControl({
-							type: 'shape',
-							id: `shape-${getRandomNumber()}`,
-							isSelectable: true,
-							isDeleted: false,
-							name: `shape ${getElementsByType('shape')}`,
-							isVisible: true,
-						});
-					}}
-					className='btn'
-				>
-					<Circle size={18}></Circle>
-				</Button>
-
-				{/* Phone Mockup Control */}
-				<Button
-					variant={'ghost'}
-					size={'icon'}
-					onClick={() => {
-						addControl({
-							type: 'phone_mockup',
-							id: `phone_mockup-${getRandomNumber()}`,
-							isSelectable: true,
-							isDeleted: false,
-							name: `phone mockup ${getElementsByType('phone_mockup')}`,
-							isVisible: true,
-						});
-					}}
-				>
-					<Smartphone size={18}></Smartphone>
-				</Button>
-
-				<DropdownMenu>
-					<DropdownMenuTrigger>
-						<Button size={'icon'} variant={'ghost'} className='btn'>
-							<Ellipsis size={20}></Ellipsis>
+			<div className='flex h-full w-10 flex-col items-center gap-2 text-foreground bg-background shadow-md rounded-lg border border-border px-6 py-3'>
+				{visibleTools.map((tool, index) => (
+					<Tooltip
+						key={tool.id}
+						message={`${tool.label}${tool.shortcut ? ` (${tool.shortcut})` : ''}`}
+					>
+						<Button
+							onClick={tool.action}
+							variant={tool.isActive ? 'default' : 'ghost'}
+							size={'icon'}
+							className='relative transition-all duration-200 hover:scale-110'
+							onMouseEnter={() => setHoveredIndex(index)}
+							onMouseLeave={() => setHoveredIndex(null)}
+						>
+							<tool.icon
+								size={18}
+								className={`transition-transform duration-200 ${hoveredIndex === index ? 'scale-125' : 'scale-100'
+									}`}
+							/>
+							{tool.shortcut && (
+								<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-bold text-primary-foreground'>
+									{tool.shortcut.split('+')[1]}
+								</span>
+							)}
 						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent side='right'>
-						<DropdownMenuLabel>More Controls</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem
-							onClick={() => {
-								addControl({
-									type: 'qr',
-									id: `qr-${getRandomNumber()}`,
-									isSelectable: true,
-									isDeleted: false,
-									name: `qr ${getElementsByType('qr')}`,
-									isVisible: true,
-								});
-							}}
-						>
-							<QrCode className='mr-2' size={18}></QrCode> Qr Code
-						</DropdownMenuItem>
+					</Tooltip>
+				))}
 
-						<DropdownMenuItem
-							onClick={() => {
-								addControl({
-									type: 'badge',
-									id: `badge-${getRandomNumber()}`,
-									isSelectable: true,
-									isDeleted: false,
-									name: `badge ${getElementsByType('badge')}`,
-									isVisible: true,
-								});
-							}}
-						>
-							<Badge className='mr-2' size={18}></Badge> Badge
-						</DropdownMenuItem>
+				{overflowTools.length > 0 && (
+					<>
+						<Separator orientation='horizontal' className='my-2 w-8' />
+						<DropdownMenu>
+							<DropdownMenuTrigger>
+								<Button size={'icon'} variant={'ghost'} className='btn'>
+									<Ellipsis size={20}></Ellipsis>
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent side='right'>
+								<DropdownMenuLabel>More Controls</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								{overflowTools.map((tool) => (
+									<DropdownMenuItem key={tool.id} onClick={tool.action}>
+										<tool.icon className='mr-2' size={18} />
+										{tool.label}
+									</DropdownMenuItem>
+								))}
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</>
+				)}
 
-						<DropdownMenuItem
-							onClick={() => {
-								addControl({
-									type: 'tweet',
-									id: `tweet-${getRandomNumber()}`,
-									isSelectable: true,
-									isDeleted: false,
-									name: `tweet ${getElementsByType('tweet')}`,
-									isVisible: true,
-								});
-							}}
-						>
-							<IconBrandTwitter className='mr-2' size={18}></IconBrandTwitter>{' '}
-							Tweet
-						</DropdownMenuItem>
-
-						<DropdownMenuItem
-							onClick={() => {
-								addControl({
-									type: 'window',
-									id: `window-${getRandomNumber()}`,
-									isSelectable: true,
-									isDeleted: false,
-									name: `window ${getElementsByType('window')}`,
-									isVisible: true,
-								});
-							}}
-						>
-							<AppWindow className='mr-2' size={18}></AppWindow> Window
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-
-				<Button className='mt-auto' size={'icon'} variant={'ghost'}>
+				<Button
+					className='mt-auto'
+					size={'icon'}
+					variant={'ghost'}
+				>
 					<Settings size={20}></Settings>
 				</Button>
 			</div>
@@ -434,9 +445,9 @@ export const LeftPanel: React.FC = () => {
 							}}
 						>
 							{theme === 'light' ? (
-								<IconMoon size={16} className='text-foreground'></IconMoon>
+								<Moon size={16} className='text-foreground'></Moon>
 							) : (
-								<IconSun size={16} className='text-foreground'></IconSun>
+								<Sun size={16} className='text-foreground'></Sun>
 							)}
 						</Button>
 					)}
@@ -453,10 +464,7 @@ export const LeftPanel: React.FC = () => {
 							}}
 							className='rounded-2xl md:rounded-xl btn'
 						>
-							<IconCircleSquare
-								className='mx-auto'
-								size={16}
-							></IconCircleSquare>
+							<Square className='mx-auto' size={16}></Square>
 						</Button>
 					</Tooltip>
 
@@ -480,7 +488,7 @@ export const LeftPanel: React.FC = () => {
 								}}
 								className='rounded-xl btn'
 							>
-								<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
+								<Puzzle className='mx-auto' size={16}></Puzzle>
 							</Button>
 						</Tooltip>
 					)}
@@ -499,12 +507,9 @@ export const LeftPanel: React.FC = () => {
 								className='rounded-2xl md:rounded-xl'
 							>
 								{showMenu ? (
-									<IconChevronLeft size={16}></IconChevronLeft>
+									<ChevronLeft size={16}></ChevronLeft>
 								) : (
-									<IconChevronRight
-										className='mx-auto'
-										size={16}
-									></IconChevronRight>
+									<ChevronRight className='mx-auto' size={16}></ChevronRight>
 								)}
 							</Button>
 						</Tooltip>
@@ -523,7 +528,7 @@ export const LeftPanel: React.FC = () => {
 								}}
 								className='rounded-2xl'
 							>
-								<IconEdit className='mx-auto' size={16}></IconEdit>
+								<PenTool className='mx-auto' size={16}></PenTool>
 							</Button>
 						</Tooltip>
 					)}
@@ -542,7 +547,7 @@ export const LeftPanel: React.FC = () => {
 								}}
 								className='rounded-2xl'
 							>
-								<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
+								<LayoutTemplate className='mx-auto' size={16}></LayoutTemplate>
 							</Button>
 						</Tooltip>
 					)}
