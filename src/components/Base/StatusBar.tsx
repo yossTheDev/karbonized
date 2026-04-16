@@ -1,15 +1,19 @@
 import {
-	IconBrandGithub,
-	IconHierarchy,
-	IconSquareRotatedForbid2,
-	IconTag,
-} from '@tabler/icons-react';
-import { Axis3D, CircleDashed, MousePointer, PencilRuler } from 'lucide-react';
+	GitBranch,
+	Layers,
+	MousePointer2,
+	PencilRuler,
+	Square,
+	Tag,
+	Box,
+	CircleDashed,
+} from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { Button } from '../ui/button';
 import { ViewPanel } from '../Panels/ViewPanel';
 import useMousePosition from '@/hooks/useMousePosition';
+import { Separator } from '../ui/separator';
 
 export const StatusBar: React.FC = () => {
 	/* Component State */
@@ -54,99 +58,99 @@ export const StatusBar: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<div className='flex h-8 w-full items-center gap-2 border-t border-border bg-muted py-4 text-foreground shadow-2xl'>
+		<div className='flex h-9 w-full items-center gap-3 border-t border-border bg-background px-3 text-xs text-muted-foreground shadow-sm'>
 			{/* Layout Mode */}
 			<Button
-				className='ml-1 h-7 gap-2 px-2 py-1'
+				className='h-7 gap-1.5 px-2.5 font-medium text-xs'
 				onClick={handleChangeMode}
 				variant={'ghost'}
 			>
 				{workspaceMode === 'design' && (
 					<>
-						<Axis3D className='my-auto' size={16}></Axis3D>
-						<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
+						<Box className='h-3.5 w-3.5' />
+						<span>Design</span>
 					</>
 				)}
 
 				{workspaceMode === 'zen' && (
 					<>
-						<CircleDashed className='my-auto' size={16}></CircleDashed>
-						<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
+						<CircleDashed className='h-3.5 w-3.5' />
+						<span>Zen</span>
 					</>
 				)}
 
 				{workspaceMode === 'edit' && (
 					<>
-						<PencilRuler className='my-auto' size={16}></PencilRuler>
-						<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
+						<PencilRuler className='h-3.5 w-3.5' />
+						<span>Edit</span>
 					</>
 				)}
 
 				{workspaceMode === 'custom' && (
 					<>
-						<PencilRuler className='my-auto' size={16}></PencilRuler>
-						<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
+						<PencilRuler className='h-3.5 w-3.5' />
+						<span>Custom</span>
 					</>
 				)}
 			</Button>
 
-			{/* Mouse Position */}
-			<div className='flex items-center'>
-				<MousePointer className='ml-1' size={16}></MousePointer>
+			<Separator orientation='vertical' className='h-4' />
 
-				<p className='ml-2 text-center text-xs'>
-					Pos: x: {Math.round(mousePosition.x)} y: {Math.round(mousePosition.y)}
-				</p>
+			{/* Mouse Position */}
+			<div className='flex items-center gap-2'>
+				<MousePointer2 className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-mono'>
+					x: {Math.round(mousePosition.x)} y: {Math.round(mousePosition.y)}
+				</span>
 			</div>
 
 			{/* Control Position */}
-			<div className='flex items-center'>
-				<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
-
-				<p className='ml-2 text-center text-xs'>
-					Pos: x: {Math.round(controlPosition?.x as any)} y:{' '}
+			<div className='flex items-center gap-2'>
+				<Layers className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-mono'>
+					x: {Math.round(controlPosition?.x as any)} y:{' '}
 					{Math.round(controlPosition?.y as any)}
-				</p>
+				</span>
 			</div>
 
-			{/* Workspace Name */}
-			<div className='flex items-center'>
-				<IconTag className='my-auto ml-1' size={16}></IconTag>
+			<Separator orientation='vertical' className='h-4' />
 
-				<p className='my-auto ml-2 text-center text-xs'>
-					{currentWorkspace.workspaceName}
-				</p>
+			{/* Workspace Name */}
+			<div className='flex items-center gap-2'>
+				<Tag className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-medium'>{currentWorkspace?.workspaceName}</span>
 			</div>
 
 			{/* Workspace Settings Size */}
-			<div className='flex items-center'>
-				<IconSquareRotatedForbid2
-					className='my-auto'
-					size={16}
-				></IconSquareRotatedForbid2>
-
-				<p className='my-auto ml-2 text-center text-xs'>
-					Size: {currentWorkspace.workspaceWidth} X{' '}
-					{currentWorkspace.workspaceHeight}
-				</p>
+			<div className='flex items-center gap-2'>
+				<Square className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-mono'>
+					{currentWorkspace?.workspaceWidth}
+					{' × '}
+					{currentWorkspace?.workspaceHeight}
+				</span>
 			</div>
 
-			<ViewPanel></ViewPanel>
+			<div className='flex-auto' />
+
+			<ViewPanel />
+
+			<Separator orientation='vertical' className='h-4' />
 
 			{/* Source Code */}
-			<Button variant={'link'} asChild>
+			<Button
+				variant={'ghost'}
+				size={'sm'}
+				className='h-7 gap-1.5 text-xs'
+				asChild
+			>
 				<a
 					href='https://github.com/yossthedev/karbonized/'
 					target={'_blank'}
 					rel='noreferrer'
 				>
-					<IconBrandGithub
-						className='pointer-events-none my-auto'
-						size={16}
-					></IconBrandGithub>
-					<p className='pointer-events-none my-auto ml-1 text-xs hover:cursor-pointer'>
-						Source Code
-					</p>
+					<GitBranch className='h-3.5 w-3.5' />
+					<span>Source</span>
 				</a>
 			</Button>
 		</div>

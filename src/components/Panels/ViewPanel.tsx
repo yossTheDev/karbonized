@@ -3,8 +3,16 @@ import { isElectron } from '@/utils/isElectron';
 import React, { useContext } from 'react';
 import { Button } from '../ui/button';
 import { useStoreActions, useStoreState } from '@/stores/Hooks';
-import { Focus, Lock, Moon, Sun, ZoomIn, ZoomOut } from 'lucide-react';
-import { IconZoomReset } from '@tabler/icons-react';
+import {
+	Focus,
+	Lock,
+	Moon,
+	Sun,
+	ZoomIn,
+	ZoomOut,
+	RotateCcw,
+} from 'lucide-react';
+import { Separator } from '../ui/separator';
 
 export const ViewPanel: React.FC = () => {
 	const { viewerRef, theme, toggleTheme } = useContext(AppContext);
@@ -13,7 +21,7 @@ export const ViewPanel: React.FC = () => {
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
 
 	const centerView = (): void => {
-		const width = parseFloat(currentWorkspace.workspaceWidth);
+		const width = parseFloat(currentWorkspace?.workspaceWidth || '0');
 
 		if (width < 1280) {
 			viewerRef.current?.setZoom(0.9);
@@ -39,76 +47,80 @@ export const ViewPanel: React.FC = () => {
 						<Button
 							size='icon'
 							variant={'ghost'}
+							className='h-7 w-7'
 							onClick={() => {
 								toggleTheme();
 							}}
 						>
 							{theme === 'light' ? (
-								<Moon size={22}></Moon>
+								<Moon className='h-4 w-4' />
 							) : (
-								<Sun size={22}></Sun>
+								<Sun className='h-4 w-4' />
 							)}
 						</Button>
 
-						<p className='mx-1 my-auto hidden h-0.5 rounded  bg-base-200 p-0.5 lg:block'></p>
+						<Separator orientation='vertical' className='h-4 mx-1' />
 					</>
 				)}
 
 				{/* Lock Aspect Ratio */}
 				<Button
-					size='xs'
+					size='icon'
+					className='h-7 w-7'
 					onClick={() => {
 						setAspectRatio(!aspectRatio);
 					}}
-					variant={aspectRatio ? 'primary' : 'ghost'}
+					variant={aspectRatio ? 'default' : 'ghost'}
 				>
-					<Lock size={16}></Lock>
+					<Lock className='h-3.5 w-3.5' />
 				</Button>
 
-				<p className='mx-1 my-auto hidden h-0.5 rounded bg-base-200/90 p-0.5 md:flex '></p>
+				<Separator orientation='vertical' className='h-4 mx-1' />
 
 				{/* Zoom Out */}
 				<Button
-					className='h-6 w-6'
-					size='statusbar'
+					size='icon'
 					variant={'ghost'}
+					className='h-7 w-7'
 					onClick={() =>
 						viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
 					}
 				>
-					<ZoomOut size={16}></ZoomOut>
+					<ZoomOut className='h-3.5 w-3.5' />
 				</Button>
 
 				{/* Zoom In */}
 				<Button
-					className='h-6 w-6'
-					size='statusbar'
+					size='icon'
 					variant={'ghost'}
+					className='h-7 w-7'
 					onClick={() =>
 						viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
 					}
 				>
-					<ZoomIn size={16}></ZoomIn>
+					<ZoomIn className='h-3.5 w-3.5' />
 				</Button>
 
 				{/* Zoom Reset */}
 				<Button
-					size='statusbar'
+					size='icon'
 					variant={'ghost'}
+					className='h-7 w-7'
 					onClick={() => viewerRef.current?.setZoom(0.7)}
 				>
-					<IconZoomReset size={16}></IconZoomReset>
+					<RotateCcw className='h-3.5 w-3.5' />
 				</Button>
 
 				{/* Center View */}
 				<Button
-					size='statusbar'
+					size='icon'
 					variant={'ghost'}
+					className='h-7 w-7'
 					onClick={() => {
 						centerView();
 					}}
 				>
-					<Focus size={16} className='my-auto dark:text-white'></Focus>
+					<Focus className='h-3.5 w-3.5' />
 				</Button>
 			</div>
 		</>
