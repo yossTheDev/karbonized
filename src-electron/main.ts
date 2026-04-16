@@ -2,8 +2,13 @@ import { app, BrowserWindow, ipcMain, Menu, nativeImage } from 'electron';
 import { existsSync, mkdirSync } from 'fs';
 import * as fs from 'node:fs/promises';
 import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const loadExtensions = async (event) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const loadExtensions = async (event: Electron.IpcMainEvent) => {
 	/* Create Extensions Folder */
 	mkdirSync(join(app.getPath('appData'), 'karbonized', 'extensions'), {
 		recursive: true,
