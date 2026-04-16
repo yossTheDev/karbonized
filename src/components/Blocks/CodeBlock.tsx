@@ -24,6 +24,7 @@ import {
 	SelectValue,
 } from '../ui/select';
 import { Slider } from '../ui/slider';
+import { Checkbox } from '../ui/checkbox';
 
 interface Props {
 	id: string;
@@ -205,14 +206,12 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 							{/* Show Tabs */}
 							<div className='m-2 flex flex-row gap-2'>
 								<Label className='my-auto text-xs text-muted-foreground'>Show Tabs</Label>
-								<input
-									type='checkbox'
-									className='h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary'
-									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-										setShowTabs(ev.currentTarget.checked);
+								<Checkbox
+									onCheckedChange={(checked) => {
+										setShowTabs(checked as boolean);
 									}}
 									checked={showTabs}
-								></input>
+								></Checkbox>
 							</div>
 
 							{/* Background */}
@@ -259,14 +258,12 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-col'>
 								<div className='m-2 flex flex-row gap-2'>
 									<Label className='my-auto text-xs text-muted-foreground'>Show Line Numbers</Label>
-									<input
-										type='checkbox'
-										className='h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary'
-										onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-											setShowLineNumbers(ev.currentTarget.checked);
+									<Checkbox
+										onCheckedChange={(checked) => {
+											setShowLineNumbers(checked as boolean);
 										}}
 										checked={showLineNumbers}
-									></input>
+									></Checkbox>
 								</div>
 							</div>
 
@@ -274,14 +271,12 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-col'>
 								<div className='m-2 flex flex-row gap-2'>
 									<Label className='my-auto text-xs text-muted-foreground'>Wrap Lines</Label>
-									<input
-										type='checkbox'
-										className='h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary'
-										onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-											setWrapLines(ev.currentTarget.checked);
+									<Checkbox
+										onCheckedChange={(checked) => {
+											setWrapLines(checked as boolean);
 										}}
 										checked={wrapLines}
-									></input>
+									></Checkbox>
 								</div>
 							</div>
 						</CustomCollapse>

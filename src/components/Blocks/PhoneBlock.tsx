@@ -8,7 +8,8 @@ import {
 	IconWifi,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { Button, Checkbox, Modal } from 'react-daisyui';
+import { Button, Modal } from 'react-daisyui';
+import { Checkbox } from '../ui/checkbox';
 import karbonized from '../../assets/logo.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -270,9 +271,8 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 										<div className='flex flex-row gap-2'>
 											<p className='my-auto text-xs'>Drop</p>
 											<Checkbox
-												color='primary'
-												onChange={(ev) => {
-													setDrop(ev.currentTarget.checked);
+												onCheckedChange={(checked) => {
+													setDrop(checked as boolean);
 												}}
 												checked={drop}
 											></Checkbox>
