@@ -1,5 +1,5 @@
 import React, { type ReactNode, useEffect, useState } from 'react';
-import { Portal } from 'react-portal';
+import { createPortal } from 'react-dom';
 
 export const CustomPortal: React.FC<{ id: string; children: ReactNode }> = ({
 	id,
@@ -11,5 +11,5 @@ export const CustomPortal: React.FC<{ id: string; children: ReactNode }> = ({
 		setElement(document.getElementById(id));
 	}, []);
 
-	return <>{element && <Portal node={element}>{children}</Portal>}</>;
+	return <>{(element != null) && createPortal(children, element)}</>;
 };
