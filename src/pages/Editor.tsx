@@ -3,6 +3,9 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup,
 } from '@/components/ui/resizable';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Spinner } from '@/components/ui/spinner';
 import { IconBrush, IconZoomIn } from '@tabler/icons-react';
 import React, {
 	Suspense,
@@ -11,7 +14,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Range } from 'react-daisyui';
 import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { useScreenDirection } from '../hooks/useScreenDirection';
@@ -211,19 +213,19 @@ export const Editor: React.FC = () => {
 					{/* Draw Bar */}
 					{(canDraw || isErasing) && (
 						<div className=' absolute flex h-full w-full'>
-							<div className=' z-50 mb-12 ml-auto mr-4 mt-auto flex flex-row gap-1 rounded-2xl bg-base-100/90 px-2 py-0.5'>
+							<div className=' z-50 mb-12 ml-auto mr-4 mt-auto flex flex-row gap-1 rounded-2xl bg-card/90 px-2 py-0.5 backdrop-blur-sm'>
 								{/* Stroke Range */}
-								<IconBrush className='mx-1 my-auto dark:text-white'></IconBrush>
-								<Range
-									color='primary'
-									className='my-auto flex  flex-auto p-1'
+								<IconBrush className='mx-1 my-auto text-foreground'></IconBrush>
+								<Slider
+									className='my-auto flex flex-auto p-1'
 									min={0}
 									max={100}
-									onChange={(ev) => {
-										setLineWidth(parseInt(ev.currentTarget.value));
+									step={1}
+									value={[lineWidth]}
+									onValueChange={(value) => {
+										setLineWidth(value[0]);
 									}}
-									value={lineWidth}
-								></Range>
+								/>
 
 								<ColorPicker
 									isGradientEnable={false}
@@ -238,14 +240,15 @@ export const Editor: React.FC = () => {
 								<Tooltip className='hidden flex-auto ' message='Zoom In'>
 									<Button
 										className='flex flex-auto p-1'
-										color='ghost'
+										variant='ghost'
+										size='icon'
 										onClick={() => {
 											setZoom(zoom + 0.2);
 										}}
 									>
 										<IconZoomIn
 											size={15}
-											className='dark:text-white'
+											className='text-foreground'
 										></IconZoomIn>
 									</Button>
 								</Tooltip>
@@ -278,7 +281,9 @@ export const Editor: React.FC = () => {
 							>
 								<Suspense
 									fallback={
-										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+										<div className='flex items-center justify-center'>
+											<Spinner className='h-8 w-8' />
+										</div>
 									}
 								>
 									<Workspace reference={ref}></Workspace>

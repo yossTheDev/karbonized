@@ -54,7 +54,7 @@ export const StatusBar: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<div className='flex h-8 w-full items-center gap-2 bg-base-300 py-4 shadow-2xl shadow-base-200 dark:text-neutral-200'>
+		<div className='flex h-8 w-full items-center gap-2 border-t border-border bg-muted py-4 text-foreground shadow-2xl'>
 			{/* Layout Mode */}
 			<Button
 				className='ml-1 h-7 gap-2 px-2 py-1'

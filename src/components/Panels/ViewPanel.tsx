@@ -5,14 +5,12 @@ import { Button } from '../ui/button';
 import { useStoreActions, useStoreState } from '@/stores/Hooks';
 import { Focus, Lock, Moon, Sun, ZoomIn, ZoomOut } from 'lucide-react';
 import { IconZoomReset } from '@tabler/icons-react';
-import { useTheme } from '@/hooks/useTheme';
 
 export const ViewPanel: React.FC = () => {
-	const { viewerRef } = useContext(AppContext);
+	const { viewerRef, theme, toggleTheme } = useContext(AppContext);
 	const aspectRatio = useStoreState((state) => state.lockAspect);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
-	const [appTheme, toggleTheme] = useTheme();
 
 	const centerView = (): void => {
 		const width = parseFloat(currentWorkspace.workspaceWidth);
@@ -45,7 +43,7 @@ export const ViewPanel: React.FC = () => {
 								toggleTheme();
 							}}
 						>
-							{appTheme === 'light' ? (
+							{theme === 'light' ? (
 								<Moon size={22}></Moon>
 							) : (
 								<Sun size={22}></Sun>
@@ -58,7 +56,7 @@ export const ViewPanel: React.FC = () => {
 
 				{/* Lock Aspect Ratio */}
 				<Button
-					size='statusbar'
+					size='xs'
 					onClick={() => {
 						setAspectRatio(!aspectRatio);
 					}}

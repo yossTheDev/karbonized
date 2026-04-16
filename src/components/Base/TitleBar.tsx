@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useTheme } from '../../hooks/useTheme';
+import React, { useEffect, useState, useContext } from 'react';
+import { AppContext } from '../../AppContext';
 import './TitleBar.css';
 import { MenuBar } from './MenuBar';
 import { Moon, Sun } from 'lucide-react';
@@ -7,8 +7,7 @@ import { Button } from '../ui/button';
 
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(false);
-
-	const [appTheme, toggleTheme] = useTheme();
+	const { theme, toggleTheme } = useContext(AppContext);
 
 	useEffect(() => {
 		(window as any).electron.ipcRenderer.on(
@@ -25,7 +24,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable flex h-fit w-screen border-base-200 bg-transparent dark:shadow-base-200'
+			className='draggable flex h-fit w-screen border-border bg-transparent'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
@@ -33,7 +32,7 @@ export const TitleBar: React.FC = () => {
 			{/* Menu Bar */}
 			<div className='not-draggable flex max-w-[80%] items-center overflow-x-hidden'>
 				<svg
-					className='ml-3 mr-1 h-6 w-6 min-w-6  fill-primary'
+					className='ml-3 mr-1 h-6 w-6 min-w-6  text-primary'
 					viewBox='0 0 451.31622 451.31616'
 					version='1.1'
 					xmlns='http://www.w3.org/2000/svg'
@@ -67,26 +66,26 @@ export const TitleBar: React.FC = () => {
 				<Button
 					size={'icon'}
 					variant={'ghost'}
-					className='hover:bg-neutral ml-auto mr-2 rounded-full p-3 hover:cursor-pointer active:bg-base-100'
+					className='ml-auto mr-2 rounded-full p-3 hover:cursor-pointer hover:bg-accent active:bg-accent/70'
 					onClick={() => {
 						toggleTheme();
 					}}
 				>
-					{appTheme === 'light' ? (
-						<Moon className='ml-auto h-4 w-4 dark:text-white'></Moon>
+					{theme === 'light' ? (
+						<Moon className='ml-auto h-4 w-4 text-foreground'></Moon>
 					) : (
-						<Sun className='ml-auto h-4 w-4 dark:text-white'></Sun>
+						<Sun className='ml-auto h-4 w-4 text-foreground'></Sun>
 					)}
 				</Button>
 
 				<button
-					className='hover:bg-neutral cursor-pointer px-5 py-4 hover:bg-base-200 active:bg-base-200/70'
+					className='cursor-pointer px-5 py-4 hover:bg-accent active:bg-accent/70'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 					}
 				>
 					<svg
-						className='mx-auto my-auto h-3 w-3 fill-black dark:fill-white'
+						className='mx-auto my-auto h-3 w-3 text-foreground'
 						viewBox='0 0 412 41'
 						version='1.1'
 						xmlns='http://www.w3.org/2000/svg'
@@ -101,14 +100,14 @@ export const TitleBar: React.FC = () => {
 				</button>
 
 				<button
-					className='hover:bg-neutral cursor-pointer px-5 py-4  hover:bg-base-200 active:bg-base-200/70'
+					className='cursor-pointer px-5 py-4 hover:bg-accent active:bg-accent/70'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 					}
 				>
 					{maximized ? (
 						<svg
-							className='mx-auto my-auto h-3 w-3 fill-black dark:fill-white'
+							className='mx-auto my-auto h-3 w-3 text-foreground'
 							width='412px'
 							viewBox='0 0 412 416'
 							version='1.1'
@@ -123,7 +122,7 @@ export const TitleBar: React.FC = () => {
 						</svg>
 					) : (
 						<svg
-							className='mx-auto my-auto h-3 w-3 fill-black dark:fill-white'
+							className='mx-auto my-auto h-3 w-3 text-foreground'
 							viewBox='0 0 412 412.5'
 							version='1.1'
 							xmlns='http://www.w3.org/2000/svg'
@@ -139,13 +138,13 @@ export const TitleBar: React.FC = () => {
 				</button>
 
 				<button
-					className='hover:bg-neutral group cursor-pointer px-5 py-4  hover:bg-red-600 active:bg-base-200/70'
+					className='group cursor-pointer px-5 py-4 hover:bg-destructive active:bg-destructive/70'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('closeApp')
 					}
 				>
 					<svg
-						className='mx-auto my-auto h-3 w-3 fill-black group-hover:fill-white dark:fill-white'
+						className='mx-auto my-auto h-3 w-3 text-foreground group-hover:text-destructive-foreground'
 						viewBox='0 0 411.34656 402.79956'
 						version='1.1'
 						xmlns='http://www.w3.org/2000/svg'

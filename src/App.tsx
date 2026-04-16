@@ -5,6 +5,7 @@ import { useScreenDirection } from './hooks/useScreenDirection';
 import { useTheme } from './hooks/useTheme';
 import './utils.css';
 import { isElectron } from './utils/isElectron';
+import { Spinner } from '@/components/ui/spinner';
 
 const Editor = React.lazy(async () => await import('./pages/Editor'));
 const TitleBar = React.lazy(
@@ -15,7 +16,7 @@ const MenuBar = React.lazy(
 );
 
 const App: React.FC = () => {
-	useTheme();
+	const [theme, toggleTheme] = useTheme();
 	const isHorizontal = useScreenDirection();
 	const viewerRef = useRef(null);
 	const [showWizard, setShowWizard] = useState(true);
@@ -26,13 +27,15 @@ const App: React.FC = () => {
 				viewerRef,
 				showWizard,
 				setShowWizard,
+				theme,
+				toggleTheme,
 			}}
 		>
 			<div
 				onContextMenu={(event) => {
 					event.preventDefault();
 				}}
-				className='grid-background text-base-content flex h-screen w-screen flex-auto flex-col overflow-hidden bg-base-300 text-neutral-800 transition-all ease-in-out dark:text-neutral-50'
+				className='grid-background flex h-screen w-screen flex-auto flex-col overflow-hidden bg-background text-foreground transition-all ease-in-out'
 			>
 				{/* Noise Background */}
 				<svg
@@ -142,7 +145,9 @@ const App: React.FC = () => {
 							<div className={`flex h-full w-full flex-auto`}>
 								<Suspense
 									fallback={
-										<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+										<div className='flex items-center justify-center'>
+											<Spinner className='h-8 w-8' />
+										</div>
 									}
 								>
 									<Editor></Editor>

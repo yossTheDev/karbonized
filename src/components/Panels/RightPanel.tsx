@@ -147,9 +147,8 @@ export const RightPanel: React.FC = () => {
 
 				{/* Tab Panels */}
 				<div
-					className={`relative ${
-						showMenu ? 'flex' : 'hidden'
-					} w-96 flex-auto flex-col overflow-hidden`}
+					className={`relative ${showMenu ? 'flex' : 'hidden'
+						} w-96 flex-auto flex-col overflow-hidden`}
 				>
 					{/* Controls */}
 					<AnimatePresence>
@@ -165,7 +164,7 @@ export const RightPanel: React.FC = () => {
 								<div className='overflow-auto' id='menu'></div>
 								{currentID === '' && (
 									<div className='flex h-96 flex-auto'>
-										<p className='text-base-content/70 mx-auto my-auto select-none text-center text-xs'>
+										<p className='text-muted-foreground mx-auto my-auto select-none text-center text-xs'>
 											Select a control to start editing it
 										</p>
 									</div>

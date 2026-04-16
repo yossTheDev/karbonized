@@ -38,9 +38,9 @@ import {
 	Sticker,
 	Type,
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { useTheme } from '../../hooks/useTheme';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
@@ -67,7 +67,7 @@ export const LeftPanel: React.FC = () => {
 
 	/* Component State */
 	const isHorizontal = useScreenDirection();
-	const [appTheme, toggleTheme] = useTheme();
+	const { theme, toggleTheme } = useContext(AppContext);
 
 	const [showMenu, setShowMenu] = useState(!isHorizontal);
 	const [tab, setTab] = useState('hierarchy');
@@ -141,9 +141,9 @@ export const LeftPanel: React.FC = () => {
 	};
 
 	return (
-		<div className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden bg-base-300 p-2 text-neutral-950 dark:text-neutral-100 dark:shadow-base-200 md:w-fit md:max-w-40'>
+		<div className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden bg-muted p-2 text-foreground md:w-fit md:max-w-40'>
 			{/* Controls */}
-			<div className='flex h-full w-10 flex-col items-center gap-2  dark:text-white'>
+			<div className='flex h-full w-10 flex-col items-center gap-2 text-foreground'>
 				<Button
 					onClick={() => {
 						setEditing(true);
@@ -230,7 +230,7 @@ export const LeftPanel: React.FC = () => {
 					<Eraser size={18}></Eraser>
 				</Button>
 
-				<div className='mx-auto my-4 hidden h-1 w-1 rounded bg-base-200/80 p-1 md:flex '></div>
+				<div className='mx-auto my-4 hidden h-1 w-1 rounded bg-border p-1 md:flex '></div>
 
 				{/* Code Control */}
 				<Button
@@ -283,7 +283,7 @@ export const LeftPanel: React.FC = () => {
 						});
 					}}
 				>
-					<Sticker size={18} className='dark:text-white'></Sticker>
+					<Sticker size={18} className='text-foreground'></Sticker>
 				</Button>
 
 				{/* Text Control */}
@@ -300,8 +300,9 @@ export const LeftPanel: React.FC = () => {
 							isVisible: true,
 						});
 					}}
+					className='btn'
 				>
-					<Type size={18} className='dark:text-white'></Type>
+					<Type size={18} className='text-base-content'></Type>
 				</Button>
 
 				{/* Shape Control */}
@@ -318,6 +319,7 @@ export const LeftPanel: React.FC = () => {
 							isVisible: true,
 						});
 					}}
+					className='btn'
 				>
 					<Circle size={18}></Circle>
 				</Button>
@@ -342,7 +344,7 @@ export const LeftPanel: React.FC = () => {
 
 				<DropdownMenu>
 					<DropdownMenuTrigger>
-						<Button size={'icon'} variant={'ghost'}>
+						<Button size={'icon'} variant={'ghost'} className='btn'>
 							<Ellipsis size={20}></Ellipsis>
 						</Button>
 					</DropdownMenuTrigger>
@@ -420,46 +422,50 @@ export const LeftPanel: React.FC = () => {
 			{/* Tabs */}
 			<div className='hidden flex-auto overflow-y-auto'>
 				{/* Selectors */}
-				<div className='text-base-content flex flex-auto flex-col gap-2'>
+				<div className='flex flex-auto flex-col gap-2 text-foreground'>
 					{/* Theme Button */}
 					{!isHorizontal && (
-						<button
-							className='btn btn-circle btn-sm  mx-auto mb-2'
+						<Button
+							className='mx-auto mb-2'
+							size='icon'
+							variant='ghost'
 							onClick={() => {
 								toggleTheme();
 							}}
 						>
-							{appTheme === 'light' ? (
-								<IconMoon size={16} className=' dark:text-white'></IconMoon>
+							{theme === 'light' ? (
+								<IconMoon size={16} className='text-foreground'></IconMoon>
 							) : (
-								<IconSun size={16} className=' dark:text-white'></IconSun>
+								<IconSun size={16} className='text-foreground'></IconSun>
 							)}
-						</button>
+						</Button>
 					)}
 
 					{/* Hierarchy */}
 					<Tooltip message='Hierarchy'>
-						<button
+						<Button
+							variant={tab === 'hierarchy' && showMenu ? 'default' : 'ghost'}
+							size='icon'
 							onClick={() => {
 								setWorkspaceMode('custom');
 								setTab('hierarchy');
 								setShowMenu(true);
 							}}
-							className={`btn btn-ghost md:btn-sm rounded-2xl md:rounded-xl ${
-								tab === 'hierarchy' && showMenu && 'bg-base-200 md:bg-base-300'
-							}`}
+							className='rounded-2xl md:rounded-xl btn'
 						>
 							<IconCircleSquare
 								className='mx-auto'
 								size={16}
 							></IconCircleSquare>
-						</button>
+						</Button>
 					</Tooltip>
 
 					{/* Extensions */}
 					{isElectron() && (
 						<Tooltip message='Extensions'>
-							<button
+							<Button
+								variant={tab === 'extensions' && showMenu ? 'default' : 'ghost'}
+								size='icon'
 								onClick={() => {
 									setWorkspaceMode('custom');
 									setTab('extensions');
@@ -472,27 +478,25 @@ export const LeftPanel: React.FC = () => {
 
 									setShowMenu(true);
 								}}
-								className={`btn btn-ghost btn-sm rounded-xl ${
-									tab === 'extensions' &&
-									showMenu &&
-									'bg-base-100 md:bg-base-300'
-								}`}
+								className='rounded-xl btn'
 							>
 								<IconPuzzle className='mx-auto' size={16}></IconPuzzle>
-							</button>
+							</Button>
 						</Tooltip>
 					)}
 
 					{/* Show/Close Menu */}
 					{isHorizontal && (
 						<Tooltip message='Show/Close Menu (Ctrl+B)'>
-							<button
+							<Button
+								variant='ghost'
+								size='icon'
 								onClick={() => {
 									setWorkspaceMode('custom');
 									setTab('hierarchy');
 									setShowMenu(!showMenu);
 								}}
-								className={`btn btn-ghost md:btn-sm rounded-2xl md:rounded-xl`}
+								className='rounded-2xl md:rounded-xl'
 							>
 								{showMenu ? (
 									<IconChevronLeft size={16}></IconChevronLeft>
@@ -502,44 +506,44 @@ export const LeftPanel: React.FC = () => {
 										size={16}
 									></IconChevronRight>
 								)}
-							</button>
+							</Button>
 						</Tooltip>
 					)}
 
 					{/* Edit */}
 					{!isHorizontal && (
 						<Tooltip message='Edit'>
-							<button
+							<Button
+								variant={tab === 'control' && showMenu ? 'default' : 'ghost'}
+								size='icon'
 								onClick={() => {
 									setTab('control');
 									setWorkspaceMode('custom');
 									setShowMenu(true);
 								}}
-								className={`btn btn-ghost rounded-2xl  ${
-									tab === 'control' && showMenu && 'bg-base-200'
-								}`}
+								className='rounded-2xl'
 							>
 								<IconEdit className='mx-auto' size={16}></IconEdit>
-							</button>
+							</Button>
 						</Tooltip>
 					)}
 
 					{/* Workspace */}
 					{!isHorizontal && (
 						<Tooltip message='Workspace'>
-							<button
+							<Button
+								variant={tab === 'workspace' && showMenu ? 'default' : 'ghost'}
+								size='icon'
 								onClick={() => {
 									setTab('workspace');
 									setWorkspaceMode('custom');
 									setWorkspaceTab('workspace');
 									setShowMenu(true);
 								}}
-								className={`btn btn-ghost rounded-2xl ${
-									tab === 'workspace' && showMenu && 'bg-base-200'
-								}`}
+								className='rounded-2xl'
 							>
 								<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
-							</button>
+							</Button>
 						</Tooltip>
 					)}
 				</div>
