@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { usePanelRef } from 'react-resizable-panels';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -16,6 +15,7 @@ import { Label } from '../ui/label';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 import { HierarchyPanel } from './HierarchyPanel';
+import { Tooltip } from '../CustomControls/Tooltip';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
@@ -74,121 +74,117 @@ export const RightPanel: React.FC = () => {
 
 	return (
 		<ResizablePanel
-			className={'w-14 min-w-14 max-w-120'}
+			className={'min-w-16'}
 			collapsible
-			collapsedSize={64}
-			defaultSize={500}
-			maxSize={500}
-			minSize={2}
+			collapsedSize={54}
+			defaultSize={400}
+			maxSize={600}
+			minSize={60}
 			panelRef={panel}
 		>
 			<div
-				className={`pointer-events-auto mr-auto flex h-full w-full gap-4 overflow-hidden rounded-tl-sm bg-muted p-2 text-foreground shadow-sm `}
+				className={`pointer-events-auto mr-auto flex h-full w-full gap-2 overflow-hidden rounded-tl-sm bg-muted p-2 text-foreground shadow-sm transition-all`}
 			>
 				{/* Selectors */}
-				<div className='flex flex-col gap-2'>
+				<div className='flex flex-col gap-1 shrink-0'>
 					{/* Show/Close Menu */}
-					<Button
-						size={'icon'}
-						variant={'ghost'}
-						onClick={() => {
-							setShowMenu(!showMenu);
-							setWorkspaceMode('custom');
-						}}
-					>
-						{showMenu ? (
-							<ChevronRight size={16}></ChevronRight>
-						) : (
-							<ChevronLeft size={16}></ChevronLeft>
-						)}
-					</Button>
+					<Tooltip message={showMenu ? 'Collapse Panel' : 'Expand Panel'}>
+						<Button
+							size={'icon'}
+							variant={'ghost'}
+							onClick={() => {
+								setShowMenu(!showMenu);
+								setWorkspaceMode('custom');
+							}}
+							className='shrink-0'
+						>
+							{showMenu ? (
+								<ChevronRight size={16}></ChevronRight>
+							) : (
+								<ChevronLeft size={16}></ChevronLeft>
+							)}
+						</Button>
+					</Tooltip>
 
 					{/* Layers */}
-					<Button
-						variant={'ghost'}
-						size={'icon'}
-						onClick={() => {
-							setTab('hierarchy');
-							setWorkspaceMode('custom');
-							setShowMenu(true);
-						}}
-						className={`${tab === 'hierarchy' && showMenu && 'bg-primary'}`}
-					>
-						<Layers size={16}></Layers>
-					</Button>
+					<Tooltip message='Hierarchy'>
+						<Button
+							variant={tab === 'hierarchy' ? 'default' : 'ghost'}
+							size={'icon'}
+							onClick={() => {
+								setTab('hierarchy');
+								setWorkspaceMode('custom');
+								setShowMenu(true);
+							}}
+							className='shrink-0'
+						>
+							<Layers size={16}></Layers>
+						</Button>
+					</Tooltip>
 
 					{/* Edit */}
-					<Button
-						variant={'ghost'}
-						size={'icon'}
-						onClick={() => {
-							setTab('control');
-							setWorkspaceMode('custom');
-							setShowMenu(true);
-						}}
-						className={`${tab === 'control' && showMenu && 'bg-primary'}`}
-					>
-						<SquarePen size={16}></SquarePen>
-					</Button>
+					<Tooltip message='Edit Control'>
+						<Button
+							variant={tab === 'control' ? 'default' : 'ghost'}
+							size={'icon'}
+							onClick={() => {
+								setTab('control');
+								setWorkspaceMode('custom');
+								setShowMenu(true);
+							}}
+							className='shrink-0'
+						>
+							<SquarePen size={16}></SquarePen>
+						</Button>
+					</Tooltip>
 
 					{/* Workspace */}
-					<Button
-						variant={'ghost'}
-						size={'icon'}
-						onClick={() => {
-							setTab('workspace');
-							setWorkspaceMode('custom');
-							setWorkspaceTab('workspace');
-							setShowMenu(true);
-						}}
-						className={`${tab === 'workspace' && showMenu && 'bg-primary'}`}
-					>
-						<InspectionPanel className='mx-auto' size={16}></InspectionPanel>
-					</Button>
+					<Tooltip message='Workspace Settings'>
+						<Button
+							variant={tab === 'workspace' ? 'default' : 'ghost'}
+							size={'icon'}
+							onClick={() => {
+								setTab('workspace');
+								setWorkspaceMode('custom');
+								setWorkspaceTab('workspace');
+								setShowMenu(true);
+							}}
+							className='shrink-0'
+						>
+							<InspectionPanel size={16}></InspectionPanel>
+						</Button>
+					</Tooltip>
 				</div>
 
 				{/* Tab Panels */}
 				<div
-					className={`relative ${
-						showMenu ? 'flex' : 'hidden'
-					} w-96 flex-auto flex-col overflow-hidden`}
+					className={`relative flex-auto flex-col overflow-hidden ${!showMenu ? 'hidden' : 'flex'}`}
 				>
 					{/* Controls */}
-					<AnimatePresence>
-						<div
-							className={`flex-col overflow-hidden ${tab === 'control' ? 'flex' : 'hidden'}`}
-						>
-							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
+					{tab === 'control' && (
+						<div className='flex flex-col overflow-hidden'>
+							<Label className='mb-2 mt-2 select-none text-lg font-semibold'>
 								Control
 							</Label>
-
-							<Separator className='mb-4'></Separator>
-							<ScrollArea>
-								<div className='overflow-auto' id='menu'></div>
+							<Separator className='mb-3'></Separator>
+							<ScrollArea className='flex-auto'>
+								<div className='overflow-auto p-1' id='menu'></div>
 								{currentID === '' && (
-									<div className='flex h-96 flex-auto'>
-										<p className='text-muted-foreground mx-auto my-auto select-none text-center text-xs'>
+									<div className='flex h-64 flex-auto items-center justify-center'>
+										<p className='text-muted-foreground select-none text-center text-sm'>
 											Select a control to start editing it
 										</p>
 									</div>
 								)}
 							</ScrollArea>
 						</div>
-					</AnimatePresence>
+					)}
 
 					{/* Workspace */}
-					{tab === 'workspace' && (
-						<AnimatePresence>
-							{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
-						</AnimatePresence>
-					)}
+					{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
 
 					{/* Hierarchy */}
-					{tab === 'hierarchy' && (
-						<AnimatePresence>
-							{tab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
-						</AnimatePresence>
-					)}
+					{tab === 'hierarchy' && <HierarchyPanel></HierarchyPanel>}
 				</div>
 			</div>
 		</ResizablePanel>
