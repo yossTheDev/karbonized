@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import karbonized from '../../assets/logo.svg';
@@ -89,61 +90,66 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 						<img className='h-10' src={karbonized} alt='Karbonized' />
 						<DialogTitle className='text-2xl font-heading'>Export</DialogTitle>
 					</div>
+					<DialogDescription>
+						Preview and export your workspace as an image or JSON template
+					</DialogDescription>
 				</DialogHeader>
 
 				<div className='flex flex-auto select-none flex-col overflow-y-auto'>
-					<div className='mx-auto my-auto w-96 rounded-2xl bg-muted p-4 shadow-inner'>
+					<div className='mx-auto my-auto w-full max-w-lg rounded-2xl bg-muted p-6 shadow-inner'>
 						{previewImage !== '' ? (
 							<TransformWrapper>
 								<TransformComponent>
-									<img className='rounded' src={previewImage} alt='preview' />
+									<img className='rounded w-full' src={previewImage} alt='preview' />
 								</TransformComponent>
 							</TransformWrapper>
 						) : (
-							<div className='text-center'>
+							<div className='text-center py-12'>
 								<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
 							</div>
 						)}
 					</div>
 				</div>
 
-				<DialogFooter>
-					<Button className='mr-auto' onMouseDown={handleShare}>
+				<DialogFooter className='flex-col sm:flex-row gap-3'>
+					<Button
+						className='w-full sm:w-auto'
+						variant='outline'
+						onMouseDown={handleShare}
+					>
 						<Share2 className='mr-2' size={20} />
 						Share
 					</Button>
 
-					<p className='my-auto mr-3 select-none text-xs text-muted-foreground'>
-						Save as
-					</p>
-
-					<Button
-						variant='outline'
-						size='icon'
-						onMouseDown={() => {
-							exportImage(export_format.png);
-						}}
-					>
-						<FileImage size={20} />
-					</Button>
-					<Button
-						variant='outline'
-						size='icon'
-						onMouseDown={() => {
-							exportImage(export_format.jpeg);
-						}}
-					>
-						<FileImage size={20} />
-					</Button>
-					<Button
-						variant='outline'
-						size='icon'
-						onMouseDown={() => {
-							exportImage(export_format.svg);
-						}}
-					>
-						<FileJson size={20} />
-					</Button>
+					<div className='flex flex-wrap justify-center sm:justify-end gap-2 w-full sm:w-auto'>
+						<Button
+							variant='default'
+							onMouseDown={() => {
+								exportImage(export_format.png);
+							}}
+						>
+							<FileImage className='mr-2' size={20} />
+							PNG
+						</Button>
+						<Button
+							variant='default'
+							onMouseDown={() => {
+								exportImage(export_format.jpeg);
+							}}
+						>
+							<FileImage className='mr-2' size={20} />
+							JPG
+						</Button>
+						<Button
+							variant='default'
+							onMouseDown={() => {
+								exportImage(export_format.svg);
+							}}
+						>
+							<FileJson className='mr-2' size={20} />
+							SVG
+						</Button>
+					</div>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>

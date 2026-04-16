@@ -4,6 +4,7 @@ import React from 'react';
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
@@ -22,13 +23,12 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 			<DialogContent className='sm:max-w-md'>
 				<DialogHeader>
 					<DialogTitle>Donations</DialogTitle>
+					<DialogDescription>
+						Support the development of Karbonized by making a donation
+					</DialogDescription>
 				</DialogHeader>
 
 				<div className='flex flex-col items-center gap-4'>
-					<p className='text-center text-sm text-muted-foreground'>
-						Support the Project. Make a Donation 😃
-					</p>
-
 					{/* Donations */}
 					<div className='flex flex-wrap justify-center gap-2'>
 						<Button

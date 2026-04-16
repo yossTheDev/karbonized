@@ -3,6 +3,7 @@ import React from 'react';
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
@@ -309,6 +310,9 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 			<DialogContent className='sm:max-w-2xl max-h-[80vh] overflow-hidden'>
 				<DialogHeader>
 					<DialogTitle>Changelog</DialogTitle>
+					<DialogDescription>
+						View the history of changes and updates to Karbonized
+					</DialogDescription>
 				</DialogHeader>
 
 				<div className='flex max-h-96 flex-col overflow-auto font-mono text-sm'>

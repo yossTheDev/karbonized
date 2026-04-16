@@ -3,6 +3,7 @@ import React from 'react';
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
@@ -20,6 +21,9 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 			<DialogContent className='sm:max-w-md'>
 				<DialogHeader>
 					<DialogTitle className='text-center'>About</DialogTitle>
+					<DialogDescription className='text-center'>
+						Learn more about Karbonized and the team behind it
+					</DialogDescription>
 				</DialogHeader>
 
 				<div className='flex flex-col items-center gap-4'>
