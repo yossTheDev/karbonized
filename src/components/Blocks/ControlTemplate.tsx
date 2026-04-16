@@ -1,22 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import {
-	ContextMenu,
-	ContextMenuContent,
-	ContextMenuItem,
-	ContextMenuSeparator,
-	ContextMenuSubContent,
-	ContextMenuSubTrigger,
-	ContextMenuTrigger,
-} from '@/components/ui/context-menu';
-import { Slider } from '@/components/ui/slider';
-import { ContextMenuSub } from '@radix-ui/react-context-menu';
-import { IconEye } from '@tabler/icons-react';
+import { ContextMenuTrigger } from '@/components/ui/context-menu';
 import { AnimatePresence, motion } from 'framer-motion';
 import { toJpeg, toPng, toSvg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { useControlState } from '../../hooks/useControlState';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { ControlContextMenu } from './ControlContextMenu';
 import { ControlMenu } from './ControlMenu';
 
 interface ControlProps {
@@ -312,7 +302,16 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 		<>
 			<AnimatePresence>
 				{visibility && (
-					<ContextMenu>
+					<ControlContextMenu
+						opacity={opacity}
+						setOpacity={setOpacity}
+						exportAsPng={exportAsPng}
+						exportAsJpeg={exportAsJpeg}
+						exportAsSvg={exportAsSvg}
+						contextMenu={contextMenu}
+						setID={setID}
+						setVisibility={setVisibility}
+					>
 						<ContextMenuTrigger>
 							<motion.div
 								id={id}
@@ -410,67 +409,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 								</div>
 							</motion.div>
 						</ContextMenuTrigger>
-						<ContextMenuContent className='w-48'>
-							<div className='flex gap-2 px-1 py-2'>
-								<IconEye className='my-auto ml-2' size={22}></IconEye>
-								<Slider
-									color='primary'
-									className='my-auto'
-									min={0}
-									max={100}
-									onValueChange={(value) => {
-										setOpacity(value[0]);
-									}}
-									value={[opacity]}
-								></Slider>
-							</div>
-
-							<ContextMenuSub>
-								<ContextMenuSubTrigger>Export as</ContextMenuSubTrigger>
-								<ContextMenuSubContent className='w-48'>
-									<ContextMenuItem
-										onClick={async () => {
-											await exportAsPng();
-										}}
-									>
-										Export as PNG
-									</ContextMenuItem>
-									<ContextMenuItem
-										onClick={async () => {
-											await exportAsJpeg();
-										}}
-									>
-										Export as JPEG
-									</ContextMenuItem>
-									<ContextMenuItem
-										onClick={async () => {
-											await exportAsSvg();
-										}}
-									>
-										Export as SVG
-									</ContextMenuItem>
-								</ContextMenuSubContent>
-							</ContextMenuSub>
-
-							{contextMenu !== undefined && (
-								<>
-									<ContextMenuSeparator></ContextMenuSeparator>
-									{contextMenu}
-								</>
-							)}
-
-							<ContextMenuSeparator></ContextMenuSeparator>
-
-							<ContextMenuItem
-								onClick={() => {
-									setID('');
-									setVisibility(false);
-								}}
-							>
-								Remove
-							</ContextMenuItem>
-						</ContextMenuContent>
-					</ContextMenu>
+					</ControlContextMenu>
 				)}
 
 				{/* Menu */}
