@@ -15,15 +15,17 @@ import { Checkbox } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { motion } from 'framer-motion';
 import {
-	IconBorderStyle,
-	IconColorFilter,
-	IconFlipHorizontal,
-	IconFlipVertical,
-	IconMask,
-	IconReload,
-	IconShadow,
-} from '@tabler/icons-react';
+	Palette,
+	Droplets,
+	Square,
+	Box,
+} from 'lucide-react';
 import { Move3D, Trash2 } from 'lucide-react';
+import {
+	IconFlipVertical,
+	IconFlipHorizontal,
+	IconReload,
+} from '@tabler/icons-react';
 import React, { type ReactNode } from 'react';
 
 interface ControlMenuProps {
@@ -164,47 +166,50 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 					<motion.div
 						initial={{ marginTop: '25px' }}
 						animate={{ marginTop: '5px' }}
-						className='flex flex-col gap-2'
+						className='flex flex-col gap-3 bg-background border border-border shadow-md rounded-lg p-3'
 					>
 						{/* Position */}
 						<CustomCollapse
 							menu={
-								<div className='flex items-center gap-2'>
-									<Move3D size={22}></Move3D>
-									<Label>Position</Label>
+								<div className='flex items-center gap-2 text-foreground'>
+									<Move3D size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Position</Label>
 								</div>
 							}
 						>
 							<div className='flex flex-col gap-4'>
 								{/* Flip Options */}
-								<div className='flex flex-auto gap-2'>
+								<div className='flex gap-2'>
 									<Button
-										color='neutral'
-										className='text-base-content flex flex-auto'
+										variant={flipX ? 'default' : 'outline'}
+										size='icon'
+										className='flex-1 transition-all duration-200 hover:scale-105'
 										onClick={() => {
 											setFlipX(!flipX);
 										}}
 									>
-										<IconFlipVertical></IconFlipVertical>
+										<IconFlipVertical size={16} />
 									</Button>
 									<Button
-										color='neutral'
-										className='text-base-content flex flex-auto'
+										variant={flipY ? 'default' : 'outline'}
+										size='icon'
+										className='flex-1 transition-all duration-200 hover:scale-105'
 										onClick={() => {
 											setFlipY(!flipY);
 										}}
 									>
-										<IconFlipHorizontal></IconFlipHorizontal>
+										<IconFlipHorizontal size={16} />
 									</Button>
 								</div>
 
 								{/* Position */}
-								<div className='flex gap-2'>
+								<div className='grid grid-cols-3 gap-2'>
 									{/* Position X */}
 									<div className='flex items-center gap-2'>
-										<p className='my-auto p-2'>X:</p>
+										<Label className='text-xs text-muted-foreground w-4'>X</Label>
 										<Input
 											type={'number'}
+											className='h-8 text-sm'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -236,9 +241,10 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Position Y */}
 									<div className='flex items-center gap-2'>
-										<Label>Y:</Label>
+										<Label className='text-xs text-muted-foreground w-4'>Y</Label>
 										<Input
 											type={'number'}
+											className='h-8 text-sm'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -271,9 +277,10 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Position Z */}
 									<div className='flex items-center gap-2'>
-										<Label>Z:</Label>
+										<Label className='text-xs text-muted-foreground w-4'>Z</Label>
 										<Input
 											type={'number'}
+											className='h-8 text-sm'
 											onChange={(ev) => {
 												setzIndex(ev.currentTarget.value);
 											}}
@@ -283,11 +290,12 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								</div>
 
 								{/* Size */}
-								<div className='flex flex-row gap-2'>
+								<div className='grid grid-cols-2 gap-2'>
 									<div className='flex items-center gap-2'>
-										<Label>W:</Label>
+										<Label className='text-xs text-muted-foreground w-4'>W</Label>
 										<Input
 											type={'number'}
+											className='h-8 text-sm'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -319,9 +327,10 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									</div>
 
 									<div className='flex items-center gap-2'>
-										<Label>H:</Label>
+										<Label className='text-xs text-muted-foreground w-4'>H</Label>
 										<Input
 											type={'number'}
+											className='h-8 text-sm'
 											onChange={(ev) => {
 												setPastHistory([
 													...pastHistory,
@@ -354,14 +363,14 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								</div>
 
 								{/* Rotation */}
-								<Label>Rotation</Label>
+								<Label className='text-sm font-semibold text-foreground'>Rotation</Label>
 
-								<div className='flex gap-2'>
+								<div className='flex gap-2 items-center'>
 									{/* Rotation X */}
-									<div className='flex w-1/3 gap-2 text-xs'>
-										<p className='my-auto p-2'>X:</p>
+									<div className='flex flex-1 gap-2 items-center'>
+										<Label className='text-xs text-muted-foreground w-4'>X</Label>
 										<Slider
-											color='primary'
+											className='flex-1'
 											min={-180}
 											max={180}
 											onValueChange={(ev) => {
@@ -372,10 +381,10 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									</div>
 
 									{/* Rotation Y */}
-									<div className='flex w-1/3 gap-2 text-xs'>
-										<p className='my-auto p-2'>Y:</p>
+									<div className='flex flex-1 gap-2 items-center'>
+										<Label className='text-xs text-muted-foreground w-4'>Y</Label>
 										<Slider
-											color='primary'
+											className='flex-1'
 											min={-180}
 											max={180}
 											onValueChange={(ev) => {
@@ -386,15 +395,15 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									</div>
 
 									<Button
-										size={'icon'}
-										color='neutral'
+										size='icon'
+										variant='outline'
 										onClick={() => {
 											setRotateX(0);
 											setRotateY(0);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 							</div>
@@ -404,20 +413,21 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 						{shadowEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row items-center gap-2'>
-										<IconShadow size={22}></IconShadow>
-										<Label>Shadow</Label>
+									<div className='flex items-center gap-2 text-foreground'>
+										<Droplets size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>Shadow</Label>
 									</div>
 								}
 							>
-								<div className='flex flex-col gap-4'>
+								<div className='flex flex-col gap-3'>
 									{/* Position */}
-									<div className='flex gap-2'>
+									<div className='grid grid-cols-2 gap-2'>
 										{/* Shadow X */}
 										<div className='flex items-center gap-2'>
-											<Label>X:</Label>
+											<Label className='text-xs text-muted-foreground w-4'>X</Label>
 											<Input
 												type={'number'}
+												className='h-8 text-sm'
 												onChange={(ev) => {
 													setShadowX(parseFloat(ev.currentTarget.value));
 												}}
@@ -425,10 +435,11 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 											></Input>
 										</div>
 										{/* Shadow Y */}
-										<div className='flex  items-center gap-2'>
-											<Label>Y:</Label>
+										<div className='flex items-center gap-2'>
+											<Label className='text-xs text-muted-foreground w-4'>Y</Label>
 											<Input
 												type={'number'}
+												className='h-8 text-sm'
 												onChange={(ev) => {
 													setShadowY(parseFloat(ev.currentTarget.value));
 												}}
@@ -439,10 +450,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Shadow Blur */}
 									<div className='flex items-center gap-2'>
-										<Label>Blur</Label>
+										<Label className='text-xs text-muted-foreground w-12'>Blur</Label>
 										<Slider
-											className='my-auto'
-											color='primary'
+											className='flex-1'
 											onValueChange={(ev) => {
 												setShadowBlur(ev[0]);
 											}}
@@ -470,15 +480,16 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 						{borderEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex items-center gap-2'>
-										<IconBorderStyle size={22}></IconBorderStyle>
-										<Label>Border</Label>
+									<div className='flex items-center gap-2 text-foreground'>
+										<Square size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>Border</Label>
 									</div>
 								}
 							>
-								<div className='flex gap-2'>
-									<Label>Radius:</Label>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-12'>Radius</Label>
 									<Slider
+										className='flex-1'
 										onValueChange={(ev) => {
 											setBorderRadius(ev[0]);
 										}}
@@ -493,9 +504,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 						{maskEditable && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
-										<IconMask size={22}></IconMask>
-										<p className='my-auto font-bold'>Mask</p>
+									<div className='flex items-center gap-2 text-foreground'>
+										<Box size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>Mask</Label>
 									</div>
 								}
 							>
@@ -541,19 +552,18 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 						{/* Filters */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconColorFilter size={22}></IconColorFilter>
-									<p className='my-auto font-bold'>Filters</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<Palette size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Filters</Label>
 								</div>
 							}
 						>
-							<div className='flex flex-col flex-wrap gap-2 text-xs'>
+							<div className='flex flex-col gap-2'>
 								{/* Blur Options */}
-								<div className='flex flex-auto flex-row gap-2 '>
-									<p className='my-auto p-2'>Blur:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Blur</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={-1}
 										max={100}
 										onValueChange={(ev) => {
@@ -562,22 +572,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[blur]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setBlur(-1 * 1);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Brightness Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Brightness:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Brightness</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={1}
 										max={200}
 										onValueChange={(ev) => {
@@ -586,22 +596,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[brightness]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onClick={() => {
 											setBrightness(100);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Contrast Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Contrast:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Contrast</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={100}
 										max={300}
 										onValueChange={(ev) => {
@@ -610,22 +620,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[contrast]}
 									></Slider>
 									<Button
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setContrast(100);
 										}}
-										color='neutral'
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Grayscale Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Grayscale:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Grayscale</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={0}
 										max={100}
 										onValueChange={(ev) => {
@@ -634,22 +644,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[grayscale]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setGrayscale(0);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Hue Rotate Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Hue Rotate:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Hue Rotate</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={0}
 										max={359}
 										onValueChange={(ev) => {
@@ -658,22 +668,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[huerotate]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setHueRotate(0);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Invert Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Invert:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Invert</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={0}
 										max={100}
 										onValueChange={(ev) => {
@@ -682,22 +692,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[invert]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setInvert(0);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Saturate Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Saturate:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Saturate</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={0}
 										max={200}
 										onValueChange={(ev) => {
@@ -706,22 +716,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[saturate]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setSaturate(100);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Sepia Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Sepia:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Sepia</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={0}
 										max={100}
 										onValueChange={(ev) => {
@@ -730,22 +740,22 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[sepia]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setSepia(0);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 
 								{/* Opacity Options */}
-								<div className='flex flex-auto flex-row gap-2'>
-									<p className='my-auto p-2'>Opacity:</p>
+								<div className='flex items-center gap-2'>
+									<Label className='text-xs text-muted-foreground w-16'>Opacity</Label>
 									<Slider
-										color='primary'
-										className='my-auto'
+										className='flex-1'
 										min={0}
 										max={100}
 										onValueChange={(ev) => {
@@ -754,13 +764,14 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										value={[opacity]}
 									></Slider>
 									<Button
-										color='neutral'
+										variant='outline'
+										size='icon'
 										onMouseDown={() => {
 											setOpacity(100);
 										}}
-										className='text-base-content my-auto flex flex-auto p-1'
+										className='transition-all duration-200 hover:scale-105'
 									>
-										<IconReload size={18}></IconReload>
+										<IconReload size={16} />
 									</Button>
 								</div>
 							</div>
@@ -773,7 +784,8 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 						{/* Delete */}
 						<Button
-							variant={'destructive'}
+							variant='destructive'
+							className='w-full transition-all duration-200 hover:scale-105'
 							onClick={() => {
 								setID('');
 								if (currentWorkspace !== undefined)
@@ -784,7 +796,7 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									);
 							}}
 						>
-							<Trash2 className='mr-2' size={18}></Trash2>
+							<Trash2 className='mr-2' size={16}></Trash2>
 							Delete Component
 						</Button>
 					</motion.div>
