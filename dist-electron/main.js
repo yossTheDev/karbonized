@@ -32,7 +32,7 @@ app.whenReady().then(() => {
 		frame: process.platform === "darwin",
 		titleBarStyle: "hidden",
 		webPreferences: {
-			preload: join(__dirname, "preload.js"),
+			preload: join(__dirname, "preload.cjs"),
 			sandbox: false
 		}
 	});

@@ -2,31 +2,51 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import electron from 'vite-plugin-electron';
 import path from "path"
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		react(),
-		electron({
-			entry: 'src-electron/main.ts',
-
-			vite: {
-				publicDir: 'src-electron/assets/',
-				build: {
-					rollupOptions: {
-						input: {
-							main: 'src-electron/main.ts',
-							preload: 'src-electron/preload.ts',
+		tailwindcss(),
+		electron([
+			{
+				entry: 'src-electron/main.ts',
+				vite: {
+					publicDir: 'src-electron/assets/',
+					build: {
+						outDir: 'dist-electron',
+					},
+				},
+			},
+			{
+				entry: 'src-electron/preload.ts',
+				onstart(args) {
+					args.reload();
+				},
+				vite: {
+					build: {
+						outDir: 'dist-electron',
+						lib: {
+							entry: 'src-electron/preload.ts',
+							formats: ['cjs'],
+							fileName: () => 'preload.cjs',
 						},
 					},
 				},
 			},
-		}),
+		]),
 	],
-
+	
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),
+		},
+	},
+	
+	server: {
+		watch: {
+			usePolling: true,
 		},
 	},
 });
