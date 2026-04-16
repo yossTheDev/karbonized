@@ -43,8 +43,8 @@
 	--color-dark-base-300: #161616;
 	--radius: 0.625rem;
 
-	--font-sans: 'Geist Variable', sans-serif;
-	--font-heading: var(--font-sans);
+	--font-sans: 'Noto Sans Variable', sans-serif;
+	--font-heading: 'Outfit Variable', sans-serif;
 
 	--animate-accordion-down: accordion-down 0.2s ease-out;
 	--animate-accordion-up: accordion-up 0.2s ease-out;

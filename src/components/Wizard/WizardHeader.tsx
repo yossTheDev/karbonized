@@ -1,14 +1,11 @@
-import { Sparkles } from 'lucide-react';
-
 export const WizardHeader: React.FC = () => {
 	return (
 		<div className='flex h-fit w-full items-center justify-between border-b border-border p-4'>
 			<div className='flex items-center gap-2'>
-				<Sparkles size={20} className='text-foreground'></Sparkles>
-				<p className='borel-font text-lg text-foreground'>Templates</p>
+				<p className='text-lg text-foreground'>New Project</p>
 			</div>
 
-			<div className='flex items-center gap-2 rounded-full border-2 border-border px-3 py-0.5 shadow-sm'>
+			<div className='flex items-center gap-2 rounded-full border-2 border-border px-3 py-2 shadow-sm'>
 				<svg
 					className='fill-foreground h-6 w-6 dark:fill-white'
 					viewBox='0 0 451.31622 451.31616'
@@ -19,6 +16,7 @@ export const WizardHeader: React.FC = () => {
 						<path
 							d='M251.114 10.5456C237.053 -3.5152 214.263 -3.5152 200.202 10.5456L10.5456 200.202C-3.51519 214.263 -3.51519 237.053 10.5456 251.114L200.202 440.771C214.263 454.831 237.053 454.831 251.114 440.771L440.771 251.114C454.831 237.053 454.831 214.263 440.771 200.202L251.114 10.5456ZM251.151 18.1452C237.091 4.08441 214.3 4.08443 200.24 18.1452L18.2403 200.145C4.17954 214.205 4.17954 236.995 18.2403 251.056L200.24 433.056C214.3 447.116 237.091 447.116 251.151 433.056L433.151 251.056C447.212 236.995 447.212 214.205 433.151 200.145L251.151 18.1452Z'
 							id='path_1'
+							fill='currentColor'
 						/>
 					</defs>
 					<g id='Group-3'>
@@ -32,10 +30,12 @@ export const WizardHeader: React.FC = () => {
 							id='Vector'
 							fillRule='evenodd'
 							stroke='none'
+							fill='currentColor'
+
 						/>
 					</g>
 				</svg>
-				<p className='borel-font text-base text-foreground'>Karbonized</p>
+				<p className='font-sans text-base text-foreground'>Karbonized</p>
 			</div>
 		</div>
 	);
