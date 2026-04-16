@@ -10,37 +10,14 @@ import {
 } from '@/components/ui/context-menu';
 import { Slider } from '@/components/ui/slider';
 import { ContextMenuSub } from '@radix-ui/react-context-menu';
-import {
-	IconBorderStyle,
-	IconColorFilter,
-	IconEye,
-	IconFlipHorizontal,
-	IconFlipVertical,
-	IconMask,
-	IconReload,
-	IconShadow,
-} from '@tabler/icons-react';
+import { IconEye } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { toJpeg, toPng, toSvg } from 'html-to-image';
-import { Move3D, Trash2 } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, type ReactNode } from 'react';
-import { Checkbox } from 'react-daisyui';
-import { Portal } from 'react-portal';
 import { useControlState } from '../../hooks/useControlState';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { ColorPicker } from '../CustomControls/ColorPicker';
-import { CustomCollapse } from '../CustomControls/CustomCollapse';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '../ui/select';
+import { ControlMenu } from './ControlMenu';
 
 interface ControlProps {
 	id: string;
@@ -497,642 +474,68 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				)}
 
 				{/* Menu */}
-				{controlID === id && (
-					// @ts-ignore
-					<Portal
-						key={id + '_control_menu'}
-						node={document.getElementById('menu')}
-					>
-						<motion.div
-							initial={{ marginTop: '25px' }}
-							animate={{ marginTop: '5px' }}
-							className='flex flex-col gap-2'
-						>
-							{/* Position */}
-							<CustomCollapse
-								menu={
-									<div className='flex items-center gap-2'>
-										<Move3D size={22}></Move3D>
-										<Label>Position</Label>
-									</div>
-								}
-							>
-								<div className='flex flex-col gap-4'>
-									{/* Flip Options */}
-									<div className='flex flex-auto gap-2'>
-										<Button
-											color='neutral'
-											className='text-base-content flex flex-auto'
-											onClick={() => {
-												setFlipX(!flipX);
-											}}
-										>
-											<IconFlipVertical></IconFlipVertical>
-										</Button>
-										<Button
-											color='neutral'
-											className='text-base-content flex flex-auto'
-											onClick={() => {
-												setFlipY(!flipY);
-											}}
-										>
-											<IconFlipHorizontal></IconFlipHorizontal>
-										</Button>
-									</div>
-
-									{/* Position */}
-									<div className='flex gap-2'>
-										{/* Position X */}
-										<div className='flex items-center gap-2'>
-											<p className='my-auto p-2'>X:</p>
-											<Input
-												type={'number'}
-												onChange={(ev) => {
-													setPastHistory([
-														...pastHistory,
-														{
-															id: `${id}-pos`,
-															value: {
-																x: controlPos?.x as unknown as number,
-																y: controlPos?.y as unknown as number,
-															},
-														},
-													]);
-													setControlState({
-														id: `${id}-pos`,
-														value: {
-															x: parseFloat(ev.target.value),
-															y: controlPos?.y as unknown as number,
-														},
-													});
-													setControlPos({
-														x: parseFloat(ev.target.value),
-														y: controlPos?.y as unknown as number,
-													});
-
-													setFutureHistory([]);
-												}}
-												value={controlPos?.x}
-											></Input>
-										</div>
-
-										{/* Position Y */}
-										<div className='flex items-center gap-2'>
-											<Label>Y:</Label>
-											<Input
-												type={'number'}
-												onChange={(ev) => {
-													setPastHistory([
-														...pastHistory,
-														{
-															id: `${id}-pos`,
-															value: {
-																x: controlPos?.x as unknown as number,
-																y: controlPos?.y as unknown as number,
-															},
-														},
-													]);
-													setControlState({
-														id: `${id}-pos`,
-														value: {
-															y: parseFloat(ev.target.value),
-															x: controlPos?.y as unknown as number,
-														},
-													});
-
-													setControlPos({
-														y: parseFloat(ev.target.value),
-														x: controlPos?.x as unknown as number,
-													});
-
-													setFutureHistory([]);
-												}}
-												value={controlPos?.y}
-											></Input>
-										</div>
-
-										{/* Position Z */}
-										<div className='flex items-center gap-2'>
-											<Label>Z:</Label>
-											<Input
-												type={'number'}
-												onChange={(ev) => {
-													setzIndex(ev.currentTarget.value);
-												}}
-												value={parseInt(zIndex)}
-											></Input>
-										</div>
-									</div>
-
-									{/* Size */}
-									<div className='flex flex-row gap-2'>
-										<div className='flex items-center gap-2'>
-											<Label>W:</Label>
-											<Input
-												type={'number'}
-												onChange={(ev) => {
-													setPastHistory([
-														...pastHistory,
-														{
-															id: `${id}-control_size`,
-															value: {
-																w: controlSize?.w as unknown as number,
-																h: controlSize?.h as unknown as number,
-															},
-														},
-													]);
-													setControlState({
-														id: `${id}-control_size`,
-														value: {
-															w: parseFloat(ev.target.value),
-															h: controlSize?.h as unknown as number,
-														},
-													});
-
-													setControlSize({
-														w: parseFloat(ev.target.value),
-														h: controlSize?.h as unknown as number,
-													});
-
-													setFutureHistory([]);
-												}}
-												value={controlSize?.w}
-											></Input>
-										</div>
-
-										<div className='flex items-center gap-2'>
-											<Label>H:</Label>
-											<Input
-												type={'number'}
-												onChange={(ev) => {
-													setPastHistory([
-														...pastHistory,
-														{
-															id: `${id}-control_size`,
-															value: {
-																w: controlSize?.w as unknown as number,
-																h: controlSize?.h as unknown as number,
-															},
-														},
-													]);
-													setControlState({
-														id: `${id}-control_size`,
-														value: {
-															h: parseFloat(ev.target.value),
-															w: controlSize?.w as unknown as number,
-														},
-													});
-
-													setControlSize({
-														w: controlSize?.w as unknown as number,
-														h: parseFloat(ev.target.value),
-													});
-
-													setFutureHistory([]);
-												}}
-												value={controlSize?.h}
-											></Input>
-										</div>
-									</div>
-
-									{/* Rotation */}
-									<Label>Rotation</Label>
-
-									<div className='flex gap-2'>
-										{/* Rotation X */}
-										<div className='flex w-1/3 gap-2 text-xs'>
-											<p className='my-auto p-2'>X:</p>
-											<Slider
-												color='primary'
-												min={-180}
-												max={180}
-												onValueChange={(ev) => {
-													setRotateX(ev[0]);
-												}}
-												value={[rotateX]}
-											></Slider>
-										</div>
-
-										{/* Rotation Y */}
-										<div className='flex w-1/3 gap-2 text-xs'>
-											<p className='my-auto p-2'>Y:</p>
-											<Slider
-												color='primary'
-												min={-180}
-												max={180}
-												onValueChange={(ev) => {
-													setRotateY(ev[0]);
-												}}
-												value={[rotateY]}
-											></Slider>
-										</div>
-
-										<Button
-											size={'icon'}
-											color='neutral'
-											onClick={() => {
-												setRotateX(0);
-												setRotateY(0);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-								</div>
-							</CustomCollapse>
-
-							{/* Shadow Config */}
-							{shadowEditable && (
-								<CustomCollapse
-									menu={
-										<div className='flex flex-row items-center gap-2'>
-											<IconShadow size={22}></IconShadow>
-											<Label>Shadow</Label>
-										</div>
-									}
-								>
-									<div className='flex flex-col gap-4'>
-										{/* Position */}
-										<div className='flex gap-2'>
-											{/* Shadow X */}
-											<div className='flex items-center gap-2'>
-												<Label>X:</Label>
-												<Input
-													type={'number'}
-													onChange={(ev) => {
-														setShadowX(parseFloat(ev.currentTarget.value));
-													}}
-													value={shadowX}
-												></Input>
-											</div>
-											{/* Shadow Y */}
-											<div className='flex  items-center gap-2'>
-												<Label>Y:</Label>
-												<Input
-													type={'number'}
-													onChange={(ev) => {
-														setShadowY(parseFloat(ev.currentTarget.value));
-													}}
-													value={shadowY}
-												></Input>
-											</div>
-										</div>
-
-										{/* Shadow Blur */}
-										<div className='flex items-center gap-2'>
-											<Label>Blur</Label>
-											<Slider
-												className='my-auto'
-												color='primary'
-												onValueChange={(ev) => {
-													setShadowBlur(ev[0]);
-												}}
-												value={[shadowBlur]}
-												max={100}
-											></Slider>
-										</div>
-
-										{/* Shadow Color */}
-										<div className='flex flex-col'>
-											<ColorPicker
-												type='HexAlpha'
-												label='Shadow Color'
-												color={shadowColor}
-												onColorChange={(color) => {
-													setShadowColor(color);
-												}}
-											></ColorPicker>
-										</div>
-									</div>
-								</CustomCollapse>
-							)}
-
-							{/* Border  */}
-							{borderEditable && (
-								<CustomCollapse
-									menu={
-										<div className='flex items-center gap-2'>
-											<IconBorderStyle size={22}></IconBorderStyle>
-											<Label>Border</Label>
-										</div>
-									}
-								>
-									<div className='flex gap-2'>
-										<Label>Radius:</Label>
-										<Slider
-											onValueChange={(ev) => {
-												setBorderRadius(ev[0]);
-											}}
-											value={[borderRadius]}
-											max={22}
-										></Slider>
-									</div>
-								</CustomCollapse>
-							)}
-
-							{/* Mask */}
-							{maskEditable && (
-								<CustomCollapse
-									menu={
-										<div className='flex flex-row gap-2'>
-											<IconMask size={22}></IconMask>
-											<p className='my-auto font-bold'>Mask</p>
-										</div>
-									}
-								>
-									<div className='flex'>
-										{/* Select Mask */}
-										<div className='flex flex-auto p-2 '>
-											<Select
-												value={mask}
-												onValueChange={(e: string) => {
-													setMask(e);
-													// FIX Mask is not Working
-												}}
-											>
-												<SelectTrigger>
-													<SelectValue placeholder='Mask Shape' />
-												</SelectTrigger>
-												<SelectContent>
-													{Masks.map((i) => {
-														return (
-															<SelectItem key={i} value={i}>
-																{i.replace('mask-', '').replace('-', ' ')}
-															</SelectItem>
-														);
-													})}
-												</SelectContent>
-											</Select>
-										</div>
-
-										<div className='m-2 flex flex-row gap-2'>
-											<p className='my-auto text-xs'>Mask Repeat</p>
-											<Checkbox
-												color='primary'
-												onChange={(ev) => {
-													setMaskRepeat(ev.currentTarget.checked);
-												}}
-												checked={maskRepeat}
-											></Checkbox>
-										</div>
-									</div>
-								</CustomCollapse>
-							)}
-
-							{/* Filters */}
-							<CustomCollapse
-								menu={
-									<div className='flex flex-row gap-2'>
-										<IconColorFilter size={22}></IconColorFilter>
-										<p className='my-auto font-bold'>Filters</p>
-									</div>
-								}
-							>
-								<div className='flex flex-col flex-wrap gap-2 text-xs'>
-									{/* Blur Options */}
-									<div className='flex flex-auto flex-row gap-2 '>
-										<p className='my-auto p-2'>Blur:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={-1}
-											max={100}
-											onValueChange={(ev) => {
-												setBlur(ev[0]);
-											}}
-											value={[blur]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setBlur(-1 * 1);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Brightness Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Brightness:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={1}
-											max={200}
-											onValueChange={(ev) => {
-												setBrightness(ev[0]);
-											}}
-											value={[brightness]}
-										></Slider>
-										<Button
-											color='neutral'
-											onClick={() => {
-												setBrightness(100);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Contrast Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Contrast:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={100}
-											max={300}
-											onValueChange={(ev) => {
-												setContrast(ev[0]);
-											}}
-											value={[contrast]}
-										></Slider>
-										<Button
-											onMouseDown={() => {
-												setContrast(100);
-											}}
-											color='neutral'
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Grayscale Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Grayscale:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={0}
-											max={100}
-											onValueChange={(ev) => {
-												setGrayscale(ev[0]);
-											}}
-											value={[grayscale]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setGrayscale(0);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Hue Rotate Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Hue Rotate:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={0}
-											max={359}
-											onValueChange={(ev) => {
-												setHueRotate(ev[0]);
-											}}
-											value={[huerotate]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setHueRotate(0);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Invert Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Invert:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={0}
-											max={100}
-											onValueChange={(ev) => {
-												setInvert(ev[0]);
-											}}
-											value={[invert]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setInvert(0);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Saturate Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Saturate:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={0}
-											max={200}
-											onValueChange={(ev) => {
-												setSaturate(ev[0]);
-											}}
-											value={[saturate]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setSaturate(100);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Sepia Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Sepia:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={0}
-											max={100}
-											onValueChange={(ev) => {
-												setSepia(ev[0]);
-											}}
-											value={[sepia]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setSepia(0);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-
-									{/* Opacity Options */}
-									<div className='flex flex-auto flex-row gap-2'>
-										<p className='my-auto p-2'>Opacity:</p>
-										<Slider
-											color='primary'
-											className='my-auto'
-											min={0}
-											max={100}
-											onValueChange={(ev) => {
-												setOpacity(ev[0]);
-											}}
-											value={[opacity]}
-										></Slider>
-										<Button
-											color='neutral'
-											onMouseDown={() => {
-												setOpacity(100);
-											}}
-											className='text-base-content my-auto flex flex-auto p-1'
-										>
-											<IconReload size={18}></IconReload>
-										</Button>
-									</div>
-								</div>
-							</CustomCollapse>
-
-							{menu}
-
-							{/* Custom Components Menu */}
-							<div id='custom_menu'></div>
-
-							{/* Delete */}
-							<Button
-								variant={'destructive'}
-								onClick={() => {
-									setID('');
-									setVisibility(false);
-									if (currentWorkspace !== undefined)
-										setWorkspaceControls(
-											currentWorkspace.controls.map((item) =>
-												item.id === id ? { ...item, isDeleted: true } : item,
-											),
-										);
-								}}
-							>
-								<Trash2 className='mr-2' size={18}></Trash2>
-								Delete Component
-							</Button>
-						</motion.div>
-					</Portal>
-				)}
+				<ControlMenu
+					id={id}
+					controlID={controlID}
+					menu={menu}
+					shadowEditable={shadowEditable}
+					maskEditable={maskEditable}
+					borderEditable={borderEditable}
+					Masks={Masks}
+					controlPos={controlPos}
+					controlSize={controlSize}
+					pastHistory={pastHistory}
+					setPastHistory={setPastHistory}
+					setFutureHistory={setFutureHistory}
+					setControlState={setControlState}
+					setControlPos={setControlPos}
+					setControlSize={setControlSize}
+					currentWorkspace={currentWorkspace}
+					setWorkspaceControls={setWorkspaceControls}
+					setID={setID}
+					flipX={flipX}
+					setFlipX={setFlipX}
+					flipY={flipY}
+					setFlipY={setFlipY}
+					zIndex={zIndex}
+					setzIndex={setzIndex}
+					rotateX={rotateX}
+					setRotateX={setRotateX}
+					rotateY={rotateY}
+					setRotateY={setRotateY}
+					shadowX={shadowX}
+					setShadowX={setShadowX}
+					shadowY={shadowY}
+					setShadowY={setShadowY}
+					shadowBlur={shadowBlur}
+					setShadowBlur={setShadowBlur}
+					shadowColor={shadowColor}
+					setShadowColor={setShadowColor}
+					borderRadius={borderRadius}
+					setBorderRadius={setBorderRadius}
+					mask={mask}
+					setMask={setMask}
+					maskRepeat={maskRepeat}
+					setMaskRepeat={setMaskRepeat}
+					blur={blur}
+					setBlur={setBlur}
+					brightness={brightness}
+					setBrightness={setBrightness}
+					contrast={contrast}
+					setContrast={setContrast}
+					grayscale={grayscale}
+					setGrayscale={setGrayscale}
+					huerotate={huerotate}
+					setHueRotate={setHueRotate}
+					invert={invert}
+					setInvert={setInvert}
+					saturate={saturate}
+					setSaturate={setSaturate}
+					opacity={opacity}
+					setOpacity={setOpacity}
+					sepia={sepia}
+					setSepia={setSepia}
+				/>
 			</AnimatePresence>
 		</>
 	);
