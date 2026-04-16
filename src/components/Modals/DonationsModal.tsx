@@ -1,5 +1,5 @@
 import { Clipboard } from '@capacitor/clipboard';
-import { Bitcoin, DollarSign, ExternalLink } from 'lucide-react';
+import { Bitcoin, DollarSign } from 'lucide-react';
 import React from 'react';
 import {
 	Dialog,
@@ -9,7 +9,6 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import karbonized from '../../assets/karbonized.svg';
 import qvapay from '../../assets/qvapay.svg';
 
 interface Props {
@@ -33,7 +32,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 					<div className='flex flex-wrap justify-center gap-2'>
 						<Button
 							variant='default'
-							className='bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white'
+							className='bg-linear-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white'
 							onClick={async () => {
 								await Clipboard.write({
 									string: 'bc1qwr6wltxvpvuqhx94lqjrdr090747yz9rw5mpec',
@@ -47,7 +46,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 
 						<Button
 							variant='default'
-							className='bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white'
+							className='bg-linear-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white'
 							onClick={async () => {
 								await Clipboard.write({
 									string: 'DFUAWcJLiqYKmZydxFsowdsEZio5ue9JYC',
@@ -61,7 +60,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 
 						<Button
 							variant='default'
-							className='bg-gradient-to-r from-blue-300 to-blue-400 hover:from-blue-400 hover:to-blue-500 text-white'
+							className='bg-linear-to-r from-blue-300 to-blue-400 hover:from-blue-400 hover:to-blue-500 text-white'
 							asChild
 						>
 							<a
