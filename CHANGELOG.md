@@ -1,22 +1,31 @@
 # Changelog
-
 ## v 2.0.0
 
 ### 🚀 Features
 - Migrate to Tailwind CSS v4 with new CSS-based configuration
 - Migrate to Vite 8 for improved build performance
 - Migrate to ESLint 9 with flat config system
+- Add new window styles to CodeBlock: Pixel, Konsole, GTK, GNOME, RETRO and Paper
+- Improve macOS window style with realistic traffic light buttons and proper spacing
+- Improve Windows 11 window style with accurate title bar and window controls
+- Enhance Paper window style with better textures, gradients, and paper tear effect
+- Add automatic color setting for Paper theme (#fbfaf7) and disable window color picker
+- Add rounded corners and shadows to various window styles for better realism
 
 ### 🐛 Fixes
 - Fix 800+ ESLint errors (formatting, unused variables, and other linting issues)
 - Fix TypeScript strict mode error in ProjectWizard.tsx (explicit comparison for any types)
 - Fix Editor component not displaying by default (showWizard state initialization)
 - Fix theme toggle not working by centralizing theme state in AppContext and updating CSS for class-based dark mode
-
+- Fix code duplication in new window styles by using common SyntaxHighlighter
+- Fix window color picker showing for Paper theme when it should be disabled
+- Fix TypeScript and ESLint formatting issues across codebase
 ### 🔄 Changes
 - Update TypeScript moduleResolution to "bundler" for better ESM support
 - Remove old ESLint config files (.eslintrc.js, .eslintrc.json)
 - Remove test message from App.tsx
+- Refactor CodeBlock to use common SyntaxHighlighter for all styles to prevent duplication and enable proper stretching
+- Update Tailwind CSS v4 gradient syntax (bg-linear-to-* instead of bg-gradient-to-*)
 
 ### 📦 Dependencies
 - Update vite: 5.1.5 → 8.0.0

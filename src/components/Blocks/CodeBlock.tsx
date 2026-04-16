@@ -12,6 +12,7 @@ import {
 	IconPlus,
 	IconSearch,
 	IconSquare,
+	IconTerminal,
 	IconX,
 } from '@tabler/icons-react';
 import React, { useEffect } from 'react';
@@ -227,7 +228,8 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 									<SelectItem value={'paper'}>Paper</SelectItem>
 									<SelectItem value={'GTK'}>GTK</SelectItem>
 									<SelectItem value={'gnome'}>GNOME</SelectItem>
-									<SelectItem value={'classic'}>Classic</SelectItem>
+									<SelectItem value={'pixel'}>Pixel</SelectItem>
+									<SelectItem value={'konsole'}>Konsole</SelectItem>
 								</SelectContent>
 							</Select>
 
@@ -343,112 +345,103 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 				>
 					{/* Title Bar */}
 					{windowStyle === 'mac' && (
-						<div className='flex max-h-12 flex-auto items-center p-3 pb-2'>
-							<div className='mr-3 flex gap-2'>
-								<div className='h-3 w-3 rounded-full bg-[#FF5F57] shadow-sm hover:opacity-80 transition-opacity cursor-pointer'></div>
-								<div className='h-3 w-3 rounded-full bg-[#FEBC2E] shadow-sm hover:opacity-80 transition-opacity cursor-pointer'></div>
-								<div className='h-3 w-3 rounded-full bg-[#28C840] shadow-sm hover:opacity-80 transition-opacity cursor-pointer'></div>
-							</div>
-							{!showTabs && (
-								<p
-									style={{ color: controlsColor }}
-									className='flex-1 text-center text-sm font-medium opacity-70'
-								>
-									{title}
-								</p>
-							)}
-							{showTabs && (
-								<div className='flex-1 flex items-center justify-center gap-2 rounded-lg bg-black/10 px-3 py-1.5'>
-									<LanguajeTabIcon languaje={language} />
-									<span
-										style={{ color: controlsColor }}
-										className='text-sm font-medium'
-									>
-										{title}
-									</span>
+						<div className='flex max-h-12 flex-auto items-center px-4 py-2 bg-[#2d2e2e] border-b border-black/20 rounded-t-lg select-none'>
+							{/* Left side: Window Traffic Lights */}
+							<div className='flex items-center gap-2 w-15'>
+								<div className='h-3 w-3 rounded-full bg-[#FF5F57] shadow-inner hover:bg-[#ff4b42] transition-colors cursor-pointer relative group'>
 									<IconX
-										style={{ color: controlsColor }}
-										className='opacity-50 hover:opacity-100 cursor-pointer'
-										size={14}
+										size={8}
+										className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black/50 opacity-0 group-hover:opacity-100'
 									/>
 								</div>
-							)}
+								<div className='h-3 w-3 rounded-full bg-[#FEBC2E] shadow-inner hover:bg-[#fdb000] transition-colors cursor-pointer relative group'>
+									<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-px bg-black/50 opacity-0 group-hover:opacity-100'></div>
+								</div>
+								<div className='h-3 w-3 rounded-full bg-[#28C840] shadow-inner hover:bg-[#23b138] transition-colors cursor-pointer relative group'>
+									<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 border border-black/50 opacity-0 group-hover:opacity-100'></div>
+								</div>
+							</div>
+
+							<div className='flex-1 flex justify-center'>
+								{!showTabs ? (
+									<p
+										style={{ color: controlsColor }}
+										className='text-[13px] font-sans font-medium text-gray-300 tracking-tight'
+									>
+										{title || 'zsh'}
+									</p>
+								) : (
+									<div className='flex items-center gap-2 bg-[#3c3d3d] px-6 py-1 rounded-md border border-white/5 shadow-sm'>
+										<LanguajeTabIcon languaje={language} />
+										<span
+											style={{ color: controlsColor }}
+											className='text-[12px] font-sans text-gray-200'
+										>
+											{title}
+										</span>
+										<IconX
+											size={12}
+											className='ml-2 opacity-40 hover:opacity-100 cursor-pointer text-gray-300'
+										/>
+									</div>
+								)}
+							</div>
+
+							<div className='w-[60px] flex justify-end'>
+								{showTabs && (
+									<button className='p-1 hover:bg-white/5 rounded transition-colors'>
+										<IconPlus size={14} className='text-gray-400' />
+									</button>
+								)}
+							</div>
 						</div>
 					)}
 
 					{windowStyle === 'windows' && (
-						<div className='flex max-h-12 flex-auto items-center px-4 py-2 border-b border-white/10'>
-							{!showTabs && (
-								<p
-									style={{ color: controlsColor }}
-									className='flex-1 text-sm font-medium pl-2 font-sans'
-								>
-									{title}
-								</p>
-							)}
-							{showTabs && (
-								<div className='flex-1 flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5 backdrop-blur-sm border border-white/10'>
-									<LanguajeTabIcon languaje={language} />
-									<span
+						<div className='flex max-h-10 flex-auto items-center bg-[#1c1c1c]/90 backdrop-blur-xl border-b border-white/5 select-none'>
+							<div className='flex-1 flex items-center h-full'>
+								{showTabs ? (
+									<div className='flex items-center h-full'>
+										<div className='flex items-center gap-2 px-3 h-[34px] bg-[#2d2d2d] border border-white/10 border-b-0 rounded-t-md ml-2 self-end'>
+											<LanguajeTabIcon languaje={language} />
+											<span
+												style={{ color: controlsColor }}
+												className='text-xs font-sans text-gray-200'
+											>
+												{title}
+											</span>
+											<IconX
+												style={{ color: controlsColor }}
+												className='opacity-60 hover:opacity-100 cursor-pointer rounded-sm hover:bg-white/10 transition-all'
+												size={12}
+											/>
+										</div>
+										<button className='p-1.5 ml-1 hover:bg-white/5 rounded-md text-gray-400 transition-colors'>
+											<IconPlus size={14} />
+										</button>
+										<button className='p-1.5 hover:bg-white/5 rounded-md text-gray-400 transition-colors'>
+											<IconChevronDown size={14} />
+										</button>
+									</div>
+								) : (
+									<p
 										style={{ color: controlsColor }}
-										className='text-sm font-sans'
+										className='flex-1 text-xs font-sans text-gray-400 pl-4'
 									>
 										{title}
-									</span>
-									<IconX
-										style={{ color: controlsColor }}
-										className='opacity-60 hover:opacity-100 cursor-pointer rounded p-0.5 hover:bg-white/10 transition-all'
-										size={14}
-									/>
-								</div>
-							)}
-							<div className='flex items-center gap-0.5 ml-2'>
-								<button className='p-2 hover:bg-white/10 transition-all duration-150 group'>
-									<svg
-										className='h-4 w-4 group-hover:scale-110 transition-transform'
-										style={{ fill: controlsColor }}
-										viewBox='0 0 16 16'
-									>
-										<path
-											d='M2 8h12'
-											stroke='currentColor'
-											strokeWidth='1.5'
-											strokeLinecap='round'
-										/>
-									</svg>
+									</p>
+								)}
+							</div>
+
+							<div className='flex items-center h-full'>
+								<button className='w-11 h-10 flex items-center justify-center hover:bg-white/10 text-gray-400 transition-colors'>
+									<IconMinus size={16} />
 								</button>
-								<button className='p-2 hover:bg-white/10 transition-all duration-150 group'>
-									<svg
-										className='h-4 w-4 group-hover:scale-110 transition-transform'
-										style={{ fill: controlsColor }}
-										viewBox='0 0 16 16'
-									>
-										<rect
-											x='3'
-											y='4'
-											width='10'
-											height='8'
-											rx='0.5'
-											stroke='currentColor'
-											strokeWidth='1.5'
-											fill='none'
-										/>
-									</svg>
+								<button className='w-11 h-10 flex items-center justify-center hover:bg-white/10 text-gray-400 transition-colors'>
+									<IconSquare size={14} />
 								</button>
-								<button className='p-2 hover:bg-red-500/20 transition-all duration-150 group rounded-tr-lg'>
-									<svg
-										className='h-4 w-4 group-hover:scale-110 group-hover:stroke-red-500 transition-all'
-										style={{ stroke: controlsColor }}
-										viewBox='0 0 16 16'
-										fill='none'
-									>
-										<path
-											d='M12 4L4 12M4 4l8 8'
-											strokeWidth='2'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										/>
-									</svg>
+								<button className='w-11 h-10 flex items-center justify-center hover:bg-[#e81123] hover:text-white text-gray-400 transition-colors'>
+									<IconX size={16} />
 								</button>
 							</div>
 						</div>
@@ -524,122 +517,69 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 					)}
 
 					{windowStyle === 'GTK' && (
-						<div className='flex max-h-12 flex-auto items-center px-4 py-2 bg-linear-to-b from-white/10 to-white/5 border-b border-white/10'>
-							{!showTabs && (
-								<p
-									style={{ color: controlsColor }}
-									className='flex-1 text-sm font-medium text-center font-sans'
-								>
-									{title}
-								</p>
-							)}
-							{showTabs && (
-								<div className='flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-t-lg bg-white/8 backdrop-blur-sm border border-white/10 border-b-0'>
-									<LanguajeTabIcon languaje={language} />
-									<span
+						<div className='flex max-h-12 flex-auto items-center px-2 py-1 bg-gradient-to-b from-[#3c3c3c] to-[#323232] border-b border-black shadow-inner rounded-t-lg select-none'>
+							<div className='flex-1'></div>
+
+							<div className='flex items-center justify-center'>
+								{!showTabs && (
+									<p
 										style={{ color: controlsColor }}
-										className='text-sm font-medium font-sans'
+										className='text-xs font-bold text-[#eeeeee] font-sans drop-shadow-sm'
 									>
-										{title}
-									</span>
+										{title || 'Terminal'}
+									</p>
+								)}
+								{showTabs && (
+									<div className='flex items-center gap-2 px-4 py-1.5 bg-[#2d2d2d] border border-black border-b-0 rounded-t-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]'>
+										<LanguajeTabIcon languaje={language} />
+										<span
+											style={{ color: controlsColor }}
+											className='text-xs font-semibold text-[#eeeeee] font-sans'
+										>
+											{title}
+										</span>
+										<IconX
+											style={{ color: controlsColor }}
+											className='opacity-70 hover:opacity-100 cursor-pointer rounded hover:bg-white/10 transition-all ml-1'
+											size={12}
+										/>
+									</div>
+								)}
+							</div>
+
+							<div className='flex-1 flex justify-end gap-1'>
+								<button className='w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors group'>
+									<div className='w-3 h-[2px] bg-white/70 group-hover:bg-white rounded-full'></div>
+								</button>
+								<button className='w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors group'>
+									<div className='w-3 h-3 border-2 border-white/70 group-hover:border-white rounded-sm'></div>
+								</button>
+								<button className='w-7 h-7 flex items-center justify-center rounded-full bg-gradient-to-b from-white/10 to-transparent border border-white/5 hover:bg-[#e01b24] group transition-all'>
 									<IconX
-										style={{ color: controlsColor }}
-										className='opacity-60 hover:opacity-100 cursor-pointer rounded-full p-0.5 hover:bg-white/10 transition-all'
 										size={14}
+										className='text-white/70 group-hover:text-white'
+										stroke={3}
 									/>
-								</div>
-							)}
-							<div className='flex gap-1 ml-2'>
-								<button className='p-1.5 hover:bg-white/10 rounded-lg transition-colors group'>
-									<svg
-										className='h-3.5 w-3.5 group-hover:scale-110 transition-transform'
-										style={{ fill: controlsColor }}
-										viewBox='0 0 16 16'
-									>
-										<path
-											d='M4 8h8M4 8l3-3M4 8l3 3'
-											stroke='currentColor'
-											strokeWidth='1.5'
-											fill='none'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										/>
-									</svg>
-								</button>
-								<button className='p-1.5 hover:bg-white/10 rounded-lg transition-colors group'>
-									<svg
-										className='h-3.5 w-3.5 group-hover:scale-110 transition-transform'
-										style={{ fill: controlsColor }}
-										viewBox='0 0 16 16'
-									>
-										<rect
-											x='3'
-											y='4'
-											width='10'
-											height='8'
-											rx='1'
-											stroke='currentColor'
-											strokeWidth='1.5'
-											fill='none'
-										/>
-									</svg>
-								</button>
-								<button className='p-1.5 hover:bg-red-500/20 rounded-lg transition-colors group'>
-									<svg
-										className='h-3.5 w-3.5 group-hover:scale-110 group-hover:stroke-red-500 transition-all'
-										style={{ stroke: controlsColor }}
-										viewBox='0 0 16 16'
-										fill='none'
-									>
-										<path
-											d='M12 4L4 12M4 4l8 8'
-											strokeWidth='2'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										/>
-									</svg>
 								</button>
 							</div>
 						</div>
 					)}
 
-					{windowStyle === 'classic' && (
-						<>
-							{/* Header */}
-							<div className='flex items-center px-4 py-2 bg-[#5C9DFF] border-b border-[#4A8CE6]'>
-								<div className='flex gap-2'>
-									<div className='w-3 h-3 rounded-full bg-[#FF5F57] border border-[#CC4A47] shadow-sm'></div>
-									<div className='w-3 h-3 rounded-full bg-[#FEBC2E] border border-[#CC9625] shadow-sm'></div>
-									<div className='w-3 h-3 rounded-full bg-[#28C840] border border-[#20A032] shadow-sm'></div>
-								</div>
-								{!showTabs && (
-									<p
-										style={{ color: controlsColor }}
-										className='flex-1 text-center text-sm font-medium text-white'
-									>
-										{title}
-									</p>
-								)}
-								{showTabs && (
-									<div className='flex-1 flex items-center justify-center gap-2 px-3 py-1 bg-white/10 rounded-full'>
-										<LanguajeTabIcon languaje={language} />
-										<span className='text-sm font-medium text-white'>
-											{title}
-										</span>
-										<IconX
-											className='opacity-70 hover:opacity-100 cursor-pointer text-white'
-											size={14}
-										/>
-									</div>
-								)}
-								<div className='flex gap-1.5'>
-									<button className='w-4 h-4 bg-white/20 rounded hover:bg-white/30 transition-colors'></button>
-									<button className='w-4 h-4 bg-white/20 rounded hover:bg-white/30 transition-colors'></button>
-								</div>
+					{windowStyle === 'pixel' && (
+						<div className='flex items-center justify-between h-10 px-3 bg-[#a2fbff] border-[3px] border-black select-none font-mono'>
+							<div className='flex gap-1.5'>
+								<div className='w-4 h-4 bg-[#ff5f57] border-[2px] border-black rounded-sm' />
+								<div className='w-4 h-4 bg-[#febc2e] border-[2px] border-black rounded-sm' />
+								<div className='w-4 h-4 bg-[#28c840] border-[2px] border-black rounded-sm' />
 							</div>
 
-							{/* Footer will be added after code */}
-						</>
+							<p
+								style={{ color: controlsColor }}
+								className='text-xs font-bold text-black uppercase tracking-widest'
+							>
+								{title || 'GENERATED LOCALES'}
+							</p>
+						</div>
 					)}
 
 					{windowStyle === 'gnome' && (
@@ -677,6 +617,55 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 									<IconX size={12} stroke={3} />
 								</button>
 							</div>
+						</div>
+					)}
+
+					{windowStyle === 'konsole' && (
+						<div className='flex flex-col w-full select-none'>
+							<div className='flex items-center justify-between h-9 px-3 bg-[#232629]/95 backdrop-blur-md border-b border-white/5'>
+								<div className='flex items-center gap-2'>
+									<IconTerminal size={14} className='text-[#3daee9]' />
+									<span
+										style={{ color: controlsColor }}
+										className='text-[13px] font-sans font-medium text-[#eff0f1]'
+									>
+										{title || 'Konsole'}
+									</span>
+								</div>
+
+								<div className='flex items-center h-full'>
+									<button className='w-10 h-full flex items-center justify-center hover:bg-white/10 text-[#eff0f1] transition-colors'>
+										<IconMinus size={16} stroke={1.5} />
+									</button>
+									<button className='w-10 h-full flex items-center justify-center hover:bg-white/10 text-[#eff0f1] transition-colors'>
+										<IconSquare size={14} stroke={1.5} />
+									</button>
+									<button className='w-10 h-full flex items-center justify-center hover:bg-[#da4453] text-[#eff0f1] transition-colors'>
+										<IconX size={16} stroke={1.5} />
+									</button>
+								</div>
+							</div>
+
+							{showTabs && (
+								<div className='flex items-center bg-[#31363b] h-8 px-1 gap-0.5 border-b border-black/20'>
+									<div className='flex items-center gap-2 px-3 h-7 bg-[#232629] border-t-2 border-t-[#3daee9] rounded-t-sm shadow-sm'>
+										<LanguajeTabIcon languaje={language} />
+										<span className='text-xs font-sans text-[#eff0f1]'>
+											{title}
+										</span>
+										<button className='ml-1 p-0.5 hover:bg-white/10 rounded-full text-gray-400'>
+											<IconX size={10} />
+										</button>
+									</div>
+									<button className='p-1.5 hover:bg-white/5 rounded text-gray-400 transition-colors'>
+										<IconPlus size={14} />
+									</button>
+									<div className='flex-1' /> {/* Spacer */}
+									<button className='p-1.5 hover:bg-white/5 rounded text-gray-400 transition-colors'>
+										<IconMenu2 size={14} />
+									</button>
+								</div>
+							)}
 						</div>
 					)}
 
