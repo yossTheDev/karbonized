@@ -10,6 +10,7 @@
 ### 🐛 Fixes
 - Fix TypeScript strict mode error in ProjectWizard.tsx (explicit comparison for any types)
 - Fix Editor component not displaying by default (showWizard state initialization)
+- Fix theme toggle not working by centralizing theme state in AppContext and updating CSS for class-based dark mode
 
 ### 🔄 Changes
 - Update TypeScript moduleResolution to "bundler" for better ESM support
