@@ -11,5 +11,5 @@ export const CustomPortal: React.FC<{ id: string; children: ReactNode }> = ({
 		setElement(document.getElementById(id));
 	}, []);
 
-	return <>{(element != null) && createPortal(children, element)}</>;
+	return <>{element != null && createPortal(children, element)}</>;
 };

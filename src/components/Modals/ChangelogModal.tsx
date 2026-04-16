@@ -319,10 +319,7 @@ export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 			</Modal.Body>
 
 			<Modal.Actions className='hidden'>
-				<Button
-					className='dark:text-white'
-					onClick={() => onClose?.()}
-				>
+				<Button className='dark:text-white' onClick={() => onClose?.()}>
 					OK
 				</Button>
 			</Modal.Actions>

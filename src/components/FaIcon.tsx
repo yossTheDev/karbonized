@@ -24,10 +24,5 @@ export const FaIcon: React.FC<IconProps> = ({ icon, style, className }) => {
 
 		getIcon();
 	}, [icon]);
-	return (
-		<>
-			{faIcon &&
-				createElement(faIcon.icon, { className, style })}
-		</>
-	);
+	return <>{faIcon && createElement(faIcon.icon, { className, style })}</>;
 };

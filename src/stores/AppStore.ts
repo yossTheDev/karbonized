@@ -1,4 +1,10 @@
-import { type Action, action, createStore, type Computed, computed } from 'easy-peasy';
+import {
+	type Action,
+	action,
+	createStore,
+	type Computed,
+	computed,
+} from 'easy-peasy';
 import { getRandomNumber } from '../utils/getRandom';
 
 export interface Item {
@@ -44,12 +50,12 @@ export interface AppStoreModel {
 	currentControlID: string;
 	readyToSave: boolean;
 	editing: boolean;
-	drag: boolean,
-	crop: boolean,
-	warp: boolean,
-	setDrag: Action<AppStoreModel, boolean>,
-	setCrop: Action<AppStoreModel, boolean>,
-	setWarp: Action<AppStoreModel, boolean>,
+	drag: boolean;
+	crop: boolean;
+	warp: boolean;
+	setDrag: Action<AppStoreModel, boolean>;
+	setCrop: Action<AppStoreModel, boolean>;
+	setWarp: Action<AppStoreModel, boolean>;
 	lockAspect: boolean;
 	setLockAspect: Action<AppStoreModel, boolean>;
 
@@ -226,10 +232,10 @@ export const AppStore = createStore<AppStoreModel>({
 							id: prop.id.replace(
 								prop.id,
 								prop.id.split('-')[0] +
-								'-' +
-								newID +
-								'-' +
-								prop.id.split('-')[2],
+									'-' +
+									newID +
+									'-' +
+									prop.id.split('-')[2],
 							),
 							value: prop.value,
 							workspace: wId.toString(),
@@ -256,10 +262,10 @@ export const AppStore = createStore<AppStoreModel>({
 							id: prop.id.replace(
 								prop.id,
 								prop.id.split('-')[0] +
-								'-' +
-								newID +
-								'-' +
-								prop.id.split('-')[2],
+									'-' +
+									newID +
+									'-' +
+									prop.id.split('-')[2],
 							),
 							value: prop.value,
 							workspace: wId.toString(),
@@ -295,23 +301,25 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	/* Workspace System */
-	workspaces: [{
-		id: "----",
-		controls: [],
-		workspaceColor: '#ffffff',
-		workspaceHeight: '512',
-		workspaceWidth: '512',
-		workspaceColorMode: 'Single',
-		workspaceName: 'Workspace 1',
-		workspaceType: 'color',
-		workspaceGradientSettings: {
-			color1: '#00B4DB',
-			color2: '#0083B0',
-			deg: 98,
+	workspaces: [
+		{
+			id: '----',
+			controls: [],
+			workspaceColor: '#ffffff',
+			workspaceHeight: '512',
+			workspaceWidth: '512',
+			workspaceColorMode: 'Single',
+			workspaceName: 'Workspace 1',
+			workspaceType: 'color',
+			workspaceGradientSettings: {
+				color1: '#00B4DB',
+				color2: '#0083B0',
+				deg: 98,
+			},
+			textureName: 'grayrate',
+			textureColors: { color1: '#409ccf', color2: '#136179' },
 		},
-		textureName: 'grayrate',
-		textureColors: { color1: '#409ccf', color2: '#136179' },
-	}],
+	],
 	currentWorkspaceID: '----',
 	addWorkspace: action((state, payload) => {
 		if (payload === '') {
@@ -429,10 +437,10 @@ export const AppStore = createStore<AppStoreModel>({
 			state.ControlProperties = state.ControlProperties.map((item) =>
 				item.id === payload.id
 					? {
-						id: payload.id,
-						value: payload.value,
-						workspace: state.currentWorkspaceID,
-					}
+							id: payload.id,
+							value: payload.value,
+							workspace: state.currentWorkspaceID,
+						}
 					: item,
 			);
 		}
@@ -473,7 +481,9 @@ export const AppStore = createStore<AppStoreModel>({
 	}),
 
 	visibleControls: computed((state) => {
-		return state.currentWorkspace?.controls?.filter((item) => !item.isDeleted) ?? [];
+		return (
+			state.currentWorkspace?.controls?.filter((item) => !item.isDeleted) ?? []
+		);
 	}),
 
 	/* History System */
@@ -669,10 +679,10 @@ export const AppStore = createStore<AppStoreModel>({
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? {
-					...item,
-					workspaceHeight: payload.height,
-					workspaceWidth: payload.width,
-				}
+						...item,
+						workspaceHeight: payload.height,
+						workspaceWidth: payload.width,
+					}
 				: item,
 		);
 	}),

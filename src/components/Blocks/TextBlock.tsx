@@ -51,7 +51,9 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 								<Button
 									color='neutral'
 									active={isBold}
-									onClick={() => { setIsBold(!isBold); }}
+									onClick={() => {
+										setIsBold(!isBold);
+									}}
 									className='flex flex-auto font-bold'
 								>
 									B
@@ -59,7 +61,9 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 								<Button
 									color='neutral'
 									active={isItalic}
-									onClick={() => { setIsItalic(!isItalic); }}
+									onClick={() => {
+										setIsItalic(!isItalic);
+									}}
 									className='flex flex-auto italic'
 								>
 									I
@@ -67,7 +71,9 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 								<Button
 									color='neutral'
 									active={isUnderline}
-									onClick={() => { setIsUnderline(!isUnderline); }}
+									onClick={() => {
+										setIsUnderline(!isUnderline);
+									}}
 									className='flex flex-auto underline'
 								>
 									U
@@ -79,7 +85,9 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 
 								<Input
 									className='ml-2 flex w-full  flex-auto '
-									onChange={(ev) => { setText(ev.target.value); }}
+									onChange={(ev) => {
+										setText(ev.target.value);
+									}}
 									value={text}
 								></Input>
 							</div>

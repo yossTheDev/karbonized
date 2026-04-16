@@ -193,42 +193,56 @@ export const ColorPicker: React.FC<Props> = ({
 								<div className='mx-auto flex flex-auto flex-row gap-x-0.5'>
 									<div
 										style={{ background: '#dc4040' }}
-										onClick={() => { onColorChange('#dc4040'); }}
+										onClick={() => {
+											onColorChange('#dc4040');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3 hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#db8f40' }}
-										onClick={() => { onColorChange('#db8f40'); }}
+										onClick={() => {
+											onColorChange('#db8f40');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#6ebb45' }}
-										onClick={() => { onColorChange('#6ebb45'); }}
+										onClick={() => {
+											onColorChange('#6ebb45');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#45ba97' }}
-										onClick={() => { onColorChange('#45ba97'); }}
+										onClick={() => {
+											onColorChange('#45ba97');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#4582ba' }}
-										onClick={() => { onColorChange('#4582ba'); }}
+										onClick={() => {
+											onColorChange('#4582ba');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 
 									<div
 										style={{ background: '#5545ba' }}
-										onClick={() => { onColorChange('#5545ba'); }}
+										onClick={() => {
+											onColorChange('#5545ba');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 									<div
 										style={{ background: '#cc63b5' }}
-										onClick={() => { onColorChange('#cc63b5'); }}
+										onClick={() => {
+											onColorChange('#cc63b5');
+										}}
 										className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 									></div>
 								</div>
@@ -241,7 +255,9 @@ export const ColorPicker: React.FC<Props> = ({
 									></div>
 									<Input
 										spellCheck={false}
-										onInput={(ev) => { onColorChange(ev.currentTarget.value); }}
+										onInput={(ev) => {
+											onColorChange(ev.currentTarget.value);
+										}}
 										className='my-auto ml-2 flex w-24 flex-auto'
 										value={color}
 									></Input>
@@ -514,43 +530,57 @@ export const ColorPicker: React.FC<Props> = ({
 									<div className='mx-auto flex flex-auto flex-row gap-x-0.5'>
 										<button
 											style={{ background: '#dc4040' }}
-											onClick={() => { onColorChange('#dc4040'); }}
+											onClick={() => {
+												onColorChange('#dc4040');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3 hover:border-gray-400'
 										></button>
 
 										<button
 											style={{ background: '#db8f40' }}
-											onClick={() => { onColorChange('#db8f40'); }}
+											onClick={() => {
+												onColorChange('#db8f40');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 										></button>
 
 										<button
 											style={{ background: '#6ebb45' }}
-											onClick={() => { onColorChange('#6ebb45'); }}
+											onClick={() => {
+												onColorChange('#6ebb45');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 										></button>
 
 										<button
 											style={{ background: '#45ba97' }}
-											onClick={() => { onColorChange('#45ba97'); }}
+											onClick={() => {
+												onColorChange('#45ba97');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 										></button>
 
 										<button
 											style={{ background: '#4582ba' }}
-											onClick={() => { onColorChange('#4582ba'); }}
+											onClick={() => {
+												onColorChange('#4582ba');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 										></button>
 
 										<button
 											style={{ background: '#5545ba' }}
-											onClick={() => { onColorChange('#5545ba'); }}
+											onClick={() => {
+												onColorChange('#5545ba');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 										></button>
 
 										<button
 											style={{ background: '#cc63b5' }}
-											onClick={() => { onColorChange('#cc63b5'); }}
+											onClick={() => {
+												onColorChange('#cc63b5');
+											}}
 											className='cursor-pointer rounded border-2 border-base-100 p-3  hover:border-gray-400'
 										></button>
 									</div>
@@ -563,7 +593,9 @@ export const ColorPicker: React.FC<Props> = ({
 										></div>
 										<Input
 											spellCheck={false}
-											onInput={(ev) => { onColorChange(ev.currentTarget.value); }}
+											onInput={(ev) => {
+												onColorChange(ev.currentTarget.value);
+											}}
 											className='my-auto ml-2 flex w-24 flex-auto'
 											value={color}
 										></Input>
@@ -726,7 +758,9 @@ export const ColorPicker: React.FC<Props> = ({
 						<Modal.Actions>
 							<Button
 								className='dark:text-white'
-								onClick={() => { setShowColor(false); }}
+								onClick={() => {
+									setShowColor(false);
+								}}
 							>
 								OK
 							</Button>

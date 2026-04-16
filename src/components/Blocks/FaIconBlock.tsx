@@ -60,7 +60,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								<p className='my-auto text-xs'>Select Icon</p>
 								<div
 									className='hover:bg-neutral ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
-									onMouseDown={() => { setShowIconPicker(true); }}
+									onMouseDown={() => {
+										setShowIconPicker(true);
+									}}
 								>
 									<FaIcon
 										className='mx-auto my-auto text-4xl'
@@ -75,7 +77,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								label='Icon Color'
 								color={iconColor}
 								isGradientEnable={false}
-								onColorChange={(color) => { setIconColor(color); }}
+								onColorChange={(color) => {
+									setIconColor(color);
+								}}
 							></ColorPicker>
 
 							{/* Text */}
@@ -110,7 +114,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-auto flex-row'>
 								<IconSearch className='my-auto mr-2 dark:text-white'></IconSearch>
 								<Input
-									onChange={(ev) => { setQuery(ev.currentTarget.value); }}
+									onChange={(ev) => {
+										setQuery(ev.currentTarget.value);
+									}}
 									value={query}
 									className='flex flex-auto text-neutral-400'
 								></Input>
@@ -123,7 +129,8 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 									<a
 										className='text-neutral-400'
 										href='https://fontawesome.com/'
-										target={'_blank'} rel="noreferrer"
+										target={'_blank'}
+										rel='noreferrer'
 									>
 										Font Awesome
 									</a>
@@ -133,7 +140,8 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 									<a
 										className='text-neutral-400'
 										href='https://creativecommons.org/licenses/by/4.0/'
-										target={'_blank'} rel="noreferrer"
+										target={'_blank'}
+										rel='noreferrer'
 									>
 										{' '}
 										CC BY 4.0 License
@@ -144,9 +152,8 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							{/* Icon List */}
 							<div className='mt-2 flex max-h-64 flex-auto flex-row flex-wrap gap-3 overflow-y-auto'>
 								{faIcons
-									?.filter(
-										(icon) =>
-											icon.label.toUpperCase().includes(query.toUpperCase()),
+									?.filter((icon) =>
+										icon.label.toUpperCase().includes(query.toUpperCase()),
 									)
 									.map((el, i) => (
 										<Suspense fallback={<></>}>
@@ -170,7 +177,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<Button
 								color='neutral'
 								className='dark:text-white'
-								onClick={() => { setShowIconPicker(false); }}
+								onClick={() => {
+									setShowIconPicker(false);
+								}}
 							>
 								Cancel
 							</Button>

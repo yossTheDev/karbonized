@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import default_logo from '../assets/logo.svg';
 
-
 export function useControlState<T>(
 	initialState: T,
 	id: string,
@@ -73,4 +72,4 @@ export function useControlState<T>(
 	};
 
 	return [state, set];
-};
+}

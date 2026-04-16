@@ -31,7 +31,10 @@ export const Tooltip: React.FC<Props> = ({
 	});
 
 	useEffect(() => {
-		if (showTooltip) setTimeout(() => { setShowTooltip(false); }, 1000);
+		if (showTooltip)
+			setTimeout(() => {
+				setShowTooltip(false);
+			}, 1000);
 	}, [showTooltip]);
 
 	return (

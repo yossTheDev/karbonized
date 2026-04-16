@@ -321,4 +321,3 @@ export function SolarCodeCircleBoldDuotone(props: SVGProps<SVGSVGElement>) {
 		</svg>
 	);
 }
-

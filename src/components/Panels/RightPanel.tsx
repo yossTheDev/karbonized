@@ -147,8 +147,9 @@ export const RightPanel: React.FC = () => {
 
 				{/* Tab Panels */}
 				<div
-					className={`relative ${showMenu ? 'flex' : 'hidden'
-						} w-96 flex-auto flex-col overflow-hidden`}
+					className={`relative ${
+						showMenu ? 'flex' : 'hidden'
+					} w-96 flex-auto flex-col overflow-hidden`}
 				>
 					{/* Controls */}
 					<AnimatePresence>

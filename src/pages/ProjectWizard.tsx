@@ -94,7 +94,9 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		load(); */
 	}, [templateType]);
 
-	const handleAddUserTemplate = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const handleAddUserTemplate = (
+		e: React.ChangeEvent<HTMLInputElement>,
+	): void => {
 		void localforage.setItem('user_templates_test', userTemplates);
 
 		if (e.target.files !== null && e.target.files.length > 0) {
@@ -103,21 +105,30 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 			reader.addEventListener('load', () => {
 				void (async () => {
 					if (typeof reader.result === 'string') {
-						const newTemplate = JSON.parse(reader.result) as Record<string, unknown>;
+						const newTemplate = JSON.parse(reader.result) as Record<
+							string,
+							unknown
+						>;
 						/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-						const isTemplateObject = newTemplate !== null && typeof newTemplate === 'object' && 'workspace' in newTemplate && 'properties' in newTemplate;
+						const isTemplateObject =
+							newTemplate !== null &&
+							typeof newTemplate === 'object' &&
+							'workspace' in newTemplate &&
+							'properties' in newTemplate;
 
 						if (isTemplateObject) {
 							if (
 								!userTemplates.find(
-									(item: any) => item.workspace.id === (newTemplate.workspace as { id: string }).id,
+									(item: any) =>
+										item.workspace.id ===
+										(newTemplate.workspace as { id: string }).id,
 								)
 							) {
 								/* eslint-enable @typescript-eslint/strict-boolean-expressions */
-								await localforage.setItem(
-									'user_templates_test',
-									[...userTemplates, newTemplate],
-								);
+								await localforage.setItem('user_templates_test', [
+									...userTemplates,
+									newTemplate,
+								]);
 
 								setUserTemplates([...userTemplates, newTemplate]);
 							} else {
@@ -144,7 +155,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 				(item: any) => item.workspace.id === template.workspace.id,
 			) === undefined
 		) {
-			void localforage.setItem('user_templates_test', [...userTemplates, template]);
+			void localforage.setItem('user_templates_test', [
+				...userTemplates,
+				template,
+			]);
 
 			setUserTemplates([...userTemplates, template]);
 			alert('Template installed in User Templates');
@@ -363,10 +377,11 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 															onClick={() => {
 																setCurrent(item);
 															}}
-															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${current?.workspace.id === item.workspace.id
-																? 'border-base-100 shadow-xl'
-																: 'border-base-300'
-																}`}
+															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${
+																current?.workspace.id === item.workspace.id
+																	? 'border-base-100 shadow-xl'
+																	: 'border-base-300'
+															}`}
 														>
 															<img
 																className='flex h-36 w-full rounded-2xl'
@@ -488,10 +503,11 @@ const Templates: React.FC<{
 										onClick={() => {
 											setCurrent(item.data);
 										}}
-										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${current?.workspace.id === item.data.workspace.id
-											? 'border-base-100 shadow-xl'
-											: 'border-base-300'
-											}`}
+										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${
+											current?.workspace.id === item.data.workspace.id
+												? 'border-base-100 shadow-xl'
+												: 'border-base-300'
+										}`}
 									>
 										<img
 											className='mx-auto flex h-20 w-full rounded-2xl md:h-36'

@@ -27,7 +27,8 @@
 		"build:linux": "npm run build:electron && electron-builder --linux --config -c.snap.publish=github",
 		"android:build": "yarn build && npx cap sync && cd android && gradle build && cd ..",
 		"android:icons": "npx capacitor-assets generate --android --iconBackgroundColor '#141313' --logoSplashScale '0.6'",
-		"lint": "eslint src --ext .ts,.tsx"
+		"lint": "eslint src --ext .ts,.tsx",
+		"format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
 	},
 	"dependencies": {
 		"@capacitor-community/electron": "^4.1.2",

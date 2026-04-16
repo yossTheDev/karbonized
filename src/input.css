@@ -1,9 +1,9 @@
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
-@import "tailwindcss";
-@import "@fontsource-variable/noto-sans";
-@import "@fontsource-variable/outfit";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/geist';
+@import 'tailwindcss';
+@import '@fontsource-variable/noto-sans';
+@import '@fontsource-variable/outfit';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -52,13 +52,21 @@
 	--animate-accordion-up: accordion-up 0.2s ease-out;
 
 	@keyframes accordion-down {
-		from { height: 0; }
-		to { height: var(--radix-accordion-content-height); }
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
 	}
 
 	@keyframes accordion-up {
-		from { height: var(--radix-accordion-content-height); }
-		to { height: 0; }
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
 	}
 }
 
@@ -248,13 +256,13 @@ html {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+	* {
+		@apply border-border outline-ring/50;
 	}
-  body {
-    @apply bg-background text-foreground;
+	body {
+		@apply bg-background text-foreground;
 	}
-  html {
-    @apply font-sans;
+	html {
+		@apply font-sans;
 	}
 }

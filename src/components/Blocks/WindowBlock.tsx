@@ -74,7 +74,9 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									defaultValue={'mac'}
 									tabIndex={0}
 									value={windowStyle}
-									onChange={(e) => { setWindowStyle(e.currentTarget.value); }}
+									onChange={(e) => {
+										setWindowStyle(e.currentTarget.value);
+									}}
 								>
 									<option value={'mac'}>mac</option>
 									<option value={'window'}>window</option>
@@ -85,7 +87,9 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									defaultValue={'normal'}
 									tabIndex={0}
 									value={windowType}
-									onChange={(e) => { setWindowType(e.currentTarget.value); }}
+									onChange={(e) => {
+										setWindowType(e.currentTarget.value);
+									}}
 								>
 									<option value={'normal'}>normal</option>
 									<option value={'browser'}>browser</option>
@@ -96,7 +100,9 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 								<p className='text-xs'>Title</p>
 								<Input
 									spellCheck={false}
-									onChange={(ev) => { setTitle(ev.target.value); }}
+									onChange={(ev) => {
+										setTitle(ev.target.value);
+									}}
 									value={title}
 									className='flex flex-auto'
 								></Input>
@@ -108,7 +114,9 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									<p className='text-xs'>Url</p>
 									<Input
 										spellCheck={false}
-										onChange={(ev) => { setUrl(ev.target.value); }}
+										onChange={(ev) => {
+											setUrl(ev.target.value);
+										}}
 										value={url}
 										className='flex flex-auto'
 									></Input>

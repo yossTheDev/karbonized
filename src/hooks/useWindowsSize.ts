@@ -24,7 +24,9 @@ export const useWindowsSize = () => {
 		handleResize();
 
 		// Remove event listener on Unmount
-		return () => { window.removeEventListener('resize', handleResize); };
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
 	}, []);
 
 	return windowSize;

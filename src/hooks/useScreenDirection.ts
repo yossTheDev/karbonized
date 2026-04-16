@@ -5,7 +5,7 @@ import { isElectron } from '../utils/isElectron';
 export const useScreenDirection = () => {
 	// Initialize state with undefines Height and Width
 	const [isHorizontal, setIsHorizontal] = useState(
-		isElectron() ? true : window.innerHeight < window.innerWidth
+		isElectron() ? true : window.innerHeight < window.innerWidth,
 	);
 
 	useEffect(() => {
@@ -21,7 +21,9 @@ export const useScreenDirection = () => {
 		handleResize();
 
 		// Remove event listener on Unmount
-		return () => { window.removeEventListener('resize', handleResize); };
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
 	}, []);
 
 	return isHorizontal;

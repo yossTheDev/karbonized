@@ -54,7 +54,8 @@ export const Home: React.FC = () => {
 							<a
 								href='https://twitter.com/karbonized_app'
 								target={'_blank'}
-								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-linear-to-bl dark:text-white  ' rel="noreferrer"
+								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-linear-to-bl dark:text-white  '
+								rel='noreferrer'
 							>
 								<div className='mx-auto my-auto flex flex-row'>
 									<IconBrandTwitter></IconBrandTwitter>
@@ -64,7 +65,8 @@ export const Home: React.FC = () => {
 							<a
 								href='https://t.me/yossthedev'
 								target={'_blank'}
-								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-linear-to-bl dark:text-white ' rel="noreferrer"
+								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-linear-to-bl dark:text-white '
+								rel='noreferrer'
 							>
 								<div className='mx-auto my-auto flex flex-row'>
 									<IconBrandTelegram></IconBrandTelegram>
@@ -74,7 +76,8 @@ export const Home: React.FC = () => {
 							<a
 								href='https://github.com/yossthedev'
 								target={'_blank'}
-								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral  hover:bg-linear-to-bl dark:text-white ' rel="noreferrer"
+								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral  hover:bg-linear-to-bl dark:text-white '
+								rel='noreferrer'
 							>
 								<div className='mx-auto my-auto flex flex-row'>
 									<IconBrandGithub></IconBrandGithub>

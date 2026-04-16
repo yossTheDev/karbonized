@@ -34,7 +34,9 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 			.then(async (blob) => {
 				return await new Promise((resolve, reject) => {
 					const reader = new FileReader();
-					reader.onloadend = () => { resolve(reader.result); };
+					reader.onloadend = () => {
+						resolve(reader.result);
+					};
 					reader.onerror = reject;
 					reader.readAsDataURL(blob);
 				});
@@ -104,12 +106,19 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 
 								<Input
 									className='ml-2 flex w-full flex-auto'
-									onChange={(ev) => { setUrl(ev.target.value); }}
+									onChange={(ev) => {
+										setUrl(ev.target.value);
+									}}
 									value={url}
 								></Input>
 							</div>
 
-							<Button color='neutral' onClick={async () => { await getTweetData(); }}>
+							<Button
+								color='neutral'
+								onClick={async () => {
+									await getTweetData();
+								}}
+							>
 								Update
 							</Button>
 						</CustomCollapse>

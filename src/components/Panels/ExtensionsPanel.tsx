@@ -25,11 +25,10 @@ export const ExtensionPanel: React.FC = () => {
 			});
 
 			setControls(
-				all.filter(
-					(item) =>
-						(item.properties.name as string)
-							.toUpperCase()
-							.includes(query.toUpperCase()),
+				all.filter((item) =>
+					(item.properties.name as string)
+						.toUpperCase()
+						.includes(query.toUpperCase()),
 				),
 			);
 		}
@@ -105,7 +104,9 @@ export const ExtensionPanel: React.FC = () => {
 				<IconSearch className='my-auto ml-2 h-full' size={18}></IconSearch>
 				<Input
 					className='my-auto mb-2 flex  h-full w-full'
-					onChange={(ev) => { setQuery(ev.target.value); }}
+					onChange={(ev) => {
+						setQuery(ev.target.value);
+					}}
 					value={query}
 				></Input>
 			</div>

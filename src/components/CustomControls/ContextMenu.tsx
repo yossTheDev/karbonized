@@ -32,8 +32,12 @@ export const ContextMenu: React.FC<Props> = ({
 		<>
 			<div
 				tabIndex={1}
-				onBlur={() => { setShow(false); }}
-				onMouseEnter={() => { setShow(true); }}
+				onBlur={() => {
+					setShow(false);
+				}}
+				onMouseEnter={() => {
+					setShow(true);
+				}}
 				ref={reference}
 			>
 				{children}
@@ -44,7 +48,9 @@ export const ContextMenu: React.FC<Props> = ({
 					<Portal>
 						<motion.div
 							tabIndex={1}
-							onBlur={() => { setShow(false); }}
+							onBlur={() => {
+								setShow(false);
+							}}
 							initial={{ scale: 0.5, opacity: 0.94 }}
 							animate={{ scale: 1, opacity: 1 }}
 							exit={{ scale: 0, opacity: 0 }}

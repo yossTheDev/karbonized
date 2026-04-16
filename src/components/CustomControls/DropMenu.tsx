@@ -5,7 +5,12 @@ import {
 	shift,
 	useFloating,
 } from '@floating-ui/react-dom';
-import React, { createContext, type ReactNode, useContext, useState } from 'react';
+import React, {
+	createContext,
+	type ReactNode,
+	useContext,
+	useState,
+} from 'react';
 import { Portal } from 'react-portal';
 
 interface Props {
@@ -62,8 +67,12 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 						id={id}
 						tabIndex={1}
 						onBlur={() => !isInside && setShow(false)}
-						onMouseEnter={() => { setIsInside(true); }}
-						onMouseLeave={() => { setIsInside(false); }}
+						onMouseEnter={() => {
+							setIsInside(true);
+						}}
+						onMouseLeave={() => {
+							setIsInside(false);
+						}}
 						className={`poppins-font-family-regular z-30 
 							 flex w-52 flex-auto flex-col gap-2 overflow-x-hidden rounded-xl border border-base-300 bg-base-200 px-1.5 py-2 text-base-content shadow-2xl`}
 						ref={floating}
