@@ -91,9 +91,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 				{workspaces.map((workspace: { id: string; controls: any[] }) => (
 					<div
-						className={`${
-							currentWorkspaceID === workspace.id ? 'block' : 'hidden'
-						}`}
+						className={`${currentWorkspaceID === workspace.id ? 'block' : 'hidden'
+							}`}
 						id={workspace.id}
 						key={workspace.id}
 					>

@@ -1,5 +1,5 @@
-import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { motion } from 'framer-motion';
+import { IconChevronDown } from '@tabler/icons-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState, type ReactNode } from 'react';
 
 interface Props {
@@ -21,32 +21,36 @@ export const CustomCollapse: React.FC<Props> = ({
 				onClick={() => {
 					setOpen(!open);
 				}}
-				className={`text-base-content my-auto flex h-12 max-h-12 w-full flex-auto cursor-pointer select-none items-center border-primary px-2 transition-all hover:bg-base-200/80 ${open && 'border-l-2'}`}
+				className={`my-auto flex h-12 max-h-12 w-full cursor-pointer select-none items-center rounded-lg border-2 px-3 transition-all duration-300 hover:shadow-md ${open
+					? 'border-primary bg-primary/10 text-primary'
+					: 'border-border bg-background text-foreground hover:bg-muted'
+					}`}
 			>
 				{menu}
 				<div className='ml-auto'>
-					{open ? (
-						<motion.div
-							initial={{ rotate: '0deg' }}
-							animate={{ rotate: '90deg' }}
-						>
-							<IconChevronUp></IconChevronUp>
-						</motion.div>
-					) : (
-						<motion.div
-							initial={{ rotate: '180deg' }}
-							animate={{ rotate: '0deg' }}
-						>
-							<IconChevronDown></IconChevronDown>
-						</motion.div>
-					)}
+					<motion.div
+						animate={{ rotate: open ? 90 : 0 }}
+						transition={{ duration: 0.3, ease: 'easeInOut' }}
+					>
+						<IconChevronDown size={18}></IconChevronDown>
+					</motion.div>
 				</div>
 			</button>
-			{open && (
-				<div className='mt-2 flex cursor-pointer select-none flex-col gap-4 p-2'>
-					{children}
-				</div>
-			)}
+			<AnimatePresence>
+				{open && (
+					<motion.div
+						initial={{ height: 0, opacity: 0 }}
+						animate={{ height: 'auto', opacity: 1 }}
+						exit={{ height: 0, opacity: 0 }}
+						transition={{ duration: 0.3, ease: 'easeInOut' }}
+						className='overflow-hidden'
+					>
+						<div className='mt-2 flex cursor-pointer select-none flex-col gap-4 p-2'>
+							{children}
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };

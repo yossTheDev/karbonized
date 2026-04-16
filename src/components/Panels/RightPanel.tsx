@@ -83,7 +83,7 @@ export const RightPanel: React.FC = () => {
 			panelRef={panel}
 		>
 			<div
-				className={`pointer-events-auto mr-auto flex h-full w-full gap-2 overflow-hidden rounded-lg bg-background p-2 text-foreground shadow-md border border-border transition-all`}
+				className={`pointer-events-auto z-50 mr-auto flex h-full w-full gap-2 overflow-hidden rounded-lg bg-background p-2 text-foreground shadow-md border border-border transition-all`}
 			>
 				{/* Selectors */}
 				<div className='flex flex-col gap-1 shrink-0'>
