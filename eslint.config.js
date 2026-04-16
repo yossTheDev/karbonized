@@ -6,7 +6,6 @@ import tseslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import react from 'eslint-plugin-react'
 import prettier from 'eslint-plugin-prettier'
-import prettierConfig from 'eslint-config-prettier'
 
 export default [
 	js.configs.recommended,
@@ -58,5 +57,6 @@ export default [
 			},
 		},
 	},
-	prettierConfig,
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
+	require('eslint-config-prettier'),
 ]
