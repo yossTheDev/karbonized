@@ -1,5 +1,37 @@
 # Changelog
 
+## v 2.0.0
+
+### 🚀 Features
+- Migrate to Tailwind CSS v4 with new CSS-based configuration
+- Migrate to Vite 8 for improved build performance
+- Migrate to ESLint 9 with flat config system
+
+### 🐛 Fixes
+- Fix TypeScript strict mode error in ProjectWizard.tsx (explicit comparison for any types)
+- Fix Editor component not displaying by default (showWizard state initialization)
+
+### 🔄 Changes
+- Update TypeScript moduleResolution to "bundler" for better ESM support
+- Remove old ESLint config files (.eslintrc.js, .eslintrc.json)
+- Remove test message from App.tsx
+
+### 📦 Dependencies
+- Update vite: 5.1.5 → 8.0.0
+- Update @vitejs/plugin-react: 4.2.1 → 6.0.0
+- Update vite-plugin-electron: 0.28.4 → 0.29.0
+- Update vite-plugin-pwa: 0.16.4 → 0.20.0
+- Update eslint: 8.57.0 → 9.15.0
+- Update eslint-plugin-react: 7.34.0 → 7.37.0
+- Update @typescript-eslint/eslint-plugin: 6.1.0 → 8.15.0
+- Add @typescript-eslint/parser: 8.15.0
+- Update eslint-config-prettier: 8.5.0 → 9.1.0
+
+### ⚙️ Configuration
+- Add @tailwindcss/vite plugin to vite.config.ts
+- Create eslint.config.js with flat config format
+- Update tsconfig.json moduleResolution to "bundler"
+
 ## v 1.12.0 - Release (August 24th, 2023)
 
 * feat: New Template System with Community-Generated Content
