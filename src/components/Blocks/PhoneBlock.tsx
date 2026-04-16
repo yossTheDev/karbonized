@@ -8,12 +8,15 @@ import {
 	IconWifi,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { Button, Checkbox, FileInput, Modal, Range } from 'react-daisyui';
+import { Button, Checkbox, Modal } from 'react-daisyui';
 import karbonized from '../../assets/logo.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Slider } from '../ui/slider';
 
 /* Devices Mockups */
 import iphoneX from '../../assets/device_mockups/iphonex.png';
@@ -125,38 +128,36 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						{template === 'adaptive' && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
-										<IconBorderStyle></IconBorderStyle>
-										<p className='my-auto'>Borders</p>
+									<div className='flex items-center gap-2 text-foreground'>
+										<IconBorderStyle size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>Borders</Label>
 									</div>
 								}
 							>
 								{/* Phone Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<p className='my-auto p-2'>Phone Radius:</p>
-									<Range
-										className='my-auto'
-										color='primary'
-										onChange={(ev) => {
-											setPhoneRadius(ev.target.value as unknown as number);
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>Phone Radius:</Label>
+									<Slider
+										className='my-auto flex-1'
+										onValueChange={(ev) => {
+											setPhoneRadius(ev[0]);
 										}}
-										value={phoneRadius}
-										max={'30'}
-									></Range>
+										value={[phoneRadius]}
+										max={30}
+									></Slider>
 								</div>
 
 								{/* Screen Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<p className='my-auto p-2'>Screen Radius:</p>
-									<Range
-										className='my-auto'
-										color='primary'
-										onChange={(ev) => {
-											setScreenRadius(ev.target.value as unknown as number);
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>Screen Radius:</Label>
+									<Slider
+										className='my-auto flex-1'
+										onValueChange={(ev) => {
+											setScreenRadius(ev[0]);
 										}}
-										value={screenRadius}
-										max={'30'}
-									></Range>
+										value={[screenRadius]}
+										max={30}
+									></Slider>
 								</div>
 							</CustomCollapse>
 						)}
@@ -165,9 +166,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						{template === 'adaptive' && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
-										<IconPalette size={22}></IconPalette>
-										<p className='my-auto font-bold'>Colors</p>
+									<div className='flex items-center gap-2 text-foreground'>
+										<IconPalette size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>Colors</Label>
 									</div>
 								}
 							>
@@ -201,9 +202,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconDeviceMobile></IconDeviceMobile>
-									<p className='my-auto'>Phone Mockup</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconDeviceMobile size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Phone Mockup</Label>
 								</div>
 							}
 						>
@@ -232,10 +233,12 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 
 							{/* Source */}
 							<>
-								<p>Image</p>
-								<FileInput
+								<Label className='text-xs text-muted-foreground'>Image</Label>
+								<Input
+									type='file'
 									accept='image/*'
-									onChange={(e) => {
+									className='h-8 text-sm'
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 										if (e.target.files && e.target.files.length > 0) {
 											const reader = new FileReader();
 											reader.addEventListener('load', () => {
@@ -244,24 +247,22 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 											reader.readAsDataURL(e.target.files[0]);
 										}
 									}}
-								></FileInput>
+								></Input>
 							</>
 
 							{template === 'adaptive' && (
 								<>
 									{/* Notch Witdh */}
 									<div className='flex flex-auto p-2 text-xs '>
-										<p className='my-auto p-2'>Notch Width:</p>
-										<Range
-											className='my-auto'
-											color='primary'
-											onChange={(ev) => {
-												setNotchWidth(ev.target.value as unknown as number);
+										<Label className='my-auto p-2 text-xs text-muted-foreground'>Notch Width:</Label>
+										<Slider
+											className='my-auto flex-1'
+											onValueChange={(ev) => {
+												setNotchWidth(ev[0]);
 											}}
-											value={notchWidth}
-											min={'20'}
-											max={'130'}
-										></Range>
+											value={[notchWidth]}
+											max={50}
+										></Slider>
 									</div>
 
 									{/* Drop Design */}

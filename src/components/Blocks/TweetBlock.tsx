@@ -1,10 +1,12 @@
 import { IconBrandTwitter } from '@tabler/icons-react';
 import React, { useId, useState } from 'react';
-import { Button, Input } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import './TweetBlock.css';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 interface Props {
 	id: string;
 }
@@ -95,18 +97,18 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconBrandTwitter></IconBrandTwitter>
-									<p className='my-auto'>Tweet</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconBrandTwitter size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Tweet</Label>
 								</div>
 							}
 						>
 							<div className='flex flex-auto flex-row text-xs'>
-								<p className='my-auto'>Tweet URL</p>
+								<Label className='my-auto text-xs text-muted-foreground'>Tweet URL</Label>
 
 								<Input
-									className='ml-2 flex w-full flex-auto'
-									onChange={(ev) => {
+									className='ml-2 h-8 flex w-full flex-auto text-sm'
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 										setUrl(ev.target.value);
 									}}
 									value={url}
@@ -114,7 +116,8 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 							</div>
 
 							<Button
-								color='neutral'
+								variant='outline'
+								className='w-full transition-all duration-200 hover:scale-105'
 								onClick={async () => {
 									await getTweetData();
 								}}

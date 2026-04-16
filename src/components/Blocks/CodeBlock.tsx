@@ -6,7 +6,6 @@ import {
 	IconX,
 } from '@tabler/icons-react';
 import React, { useEffect } from 'react';
-import { Checkbox, Input, Select, Textarea, Range } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -15,6 +14,16 @@ import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { LanguajeTabIcon } from './LanguajeTabIcon';
 import { useControlState } from '../../hooks/useControlState';
 import { themes } from '../../utils/PrismThemes';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/select';
+import { Slider } from '../ui/slider';
 
 interface Props {
 	id: string;
@@ -90,24 +99,23 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						{/* Border  */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconBorderStyle size={22}></IconBorderStyle>
-									<p className='my-auto font-bold'>Borders</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconBorderStyle size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Borders</Label>
 								</div>
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
 								<div className='flex flex-auto p-2'>
-									<p className='my-auto p-2'>Radius:</p>
-									<Range
-										className='my-auto'
-										color='primary'
-										onChange={(ev) => {
-											setBorder(ev.target.value as unknown as number);
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>Radius:</Label>
+									<Slider
+										className='my-auto flex-1'
+										onValueChange={(ev) => {
+											setBorder(ev[0]);
 										}}
-										value={border}
-										max={'22'}
-									></Range>
+										value={[border]}
+										max={22}
+									></Slider>
 								</div>
 							</div>
 						</CustomCollapse>
@@ -116,97 +124,95 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2 '>
-									<IconCode size={22}></IconCode>
-									<p className='my-auto font-bold'>Code</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconCode size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Code</Label>
 								</div>
 							}
 						>
-							<p>Language</p>
-							<Select
-								tabIndex={0}
-								value={language}
-								onChange={(e) => {
-									setLanguage(e.currentTarget.value);
-								}}
-							>
-								{SyntaxHighlighter.supportedLanguages.map((i) => {
-									return (
-										<option key={i} value={i}>
-											{i}
-										</option>
-									);
-								})}
+							<Label className='text-xs text-muted-foreground'>Language</Label>
+							<Select value={language} onValueChange={setLanguage}>
+								<SelectTrigger className='h-8 text-sm'>
+									<SelectValue placeholder='Select language' />
+								</SelectTrigger>
+								<SelectContent>
+									{SyntaxHighlighter.supportedLanguages.map((i) => {
+										return (
+											<SelectItem key={i} value={i}>
+												{i}
+											</SelectItem>
+										);
+									})}
+								</SelectContent>
 							</Select>
 
-							<p>Theme</p>
-							<Select
-								tabIndex={0}
-								value={theme.toString()}
-								onChange={(e) => {
-									setTheme(e.currentTarget.value);
-								}}
-							>
-								{themes.map((i) => {
-									return (
-										<option key={i.label} value={i.label}>
-											{i.label}
-										</option>
-									);
-								})}
+							<Label className='text-xs text-muted-foreground'>Theme</Label>
+							<Select value={theme.toString()} onValueChange={setTheme}>
+								<SelectTrigger className='h-8 text-sm'>
+									<SelectValue placeholder='Select theme' />
+								</SelectTrigger>
+								<SelectContent>
+									{themes.map((i) => {
+										return (
+											<SelectItem key={i.label} value={i.label}>
+												{i.label}
+											</SelectItem>
+										);
+									})}
+								</SelectContent>
 							</Select>
 
-							<p>Title</p>
+							<Label className='text-xs text-muted-foreground'>Title</Label>
 							<Input
+								className='h-8 text-sm'
 								value={title}
-								onChange={(ev) => {
+								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 									setTitle(ev.currentTarget.value);
 								}}
 							></Input>
 
-							<p>Code</p>
-							<Textarea
+							<Label className='text-xs text-muted-foreground'>Code</Label>
+							<textarea
 								spellCheck={false}
-								className=' flex h-32 flex-auto resize-none'
+								className='flex h-32 flex-auto resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
 								value={code}
-								onChange={(ev) => {
+								onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
 									setCode(ev.target.value);
 								}}
-							></Textarea>
+							></textarea>
 						</CustomCollapse>
 
 						{/* Window Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row gap-2 '>
-									<IconAppWindow size={22}></IconAppWindow>
-									<p className='my-auto font-bold'>Window</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconAppWindow size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Window</Label>
 								</div>
 							}
 						>
-							<p className='text-xs'>Window Style</p>
-							<Select
-								defaultValue={'mac'}
-								tabIndex={0}
-								value={windowStyle}
-								onChange={(e) => {
-									setWindowStyle(e.currentTarget.value);
-								}}
-							>
-								<option value={'mac'}>mac</option>
-								<option value={'window'}>window</option>
+							<Label className='text-xs text-muted-foreground'>Window Style</Label>
+							<Select value={windowStyle} onValueChange={setWindowStyle}>
+								<SelectTrigger className='h-8 text-sm'>
+									<SelectValue placeholder='Select window style' />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value={'mac'}>mac</SelectItem>
+									<SelectItem value={'window'}>window</SelectItem>
+								</SelectContent>
 							</Select>
 
 							{/* Show Tabs */}
 							<div className='m-2 flex flex-row gap-2'>
-								<p className='my-auto text-xs'>Show Tabs</p>
-								<Checkbox
-									color='primary'
-									onChange={(ev) => {
+								<Label className='my-auto text-xs text-muted-foreground'>Show Tabs</Label>
+								<input
+									type='checkbox'
+									className='h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary'
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 										setShowTabs(ev.currentTarget.checked);
 									}}
 									checked={showTabs}
-								></Checkbox>
+								></input>
 							</div>
 
 							{/* Background */}
@@ -243,37 +249,39 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 						{/* Other Options */}
 						<CustomCollapse
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconDots size={22}></IconDots>
-									<p className='my-auto font-bold'>Other Options</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconDots size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Other Options</Label>
 								</div>
 							}
 						>
 							{/* Show Line Numbers */}
 							<div className='flex flex-col'>
 								<div className='m-2 flex flex-row gap-2'>
-									<p className='my-auto text-xs'>Show Line Numbers</p>
-									<Checkbox
-										color='primary'
-										onChange={(ev) => {
+									<Label className='my-auto text-xs text-muted-foreground'>Show Line Numbers</Label>
+									<input
+										type='checkbox'
+										className='h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary'
+										onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 											setShowLineNumbers(ev.currentTarget.checked);
 										}}
 										checked={showLineNumbers}
-									></Checkbox>
+									></input>
 								</div>
 							</div>
 
 							{/* Wrap Lines */}
 							<div className='flex flex-col'>
 								<div className='m-2 flex flex-row gap-2'>
-									<p className='my-auto text-xs'> Wrap Lines</p>
-									<Checkbox
-										color='primary'
-										onChange={(ev) => {
+									<Label className='my-auto text-xs text-muted-foreground'>Wrap Lines</Label>
+									<input
+										type='checkbox'
+										className='h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary'
+										onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 											setWrapLines(ev.currentTarget.checked);
 										}}
 										checked={wrapLines}
-									></Checkbox>
+									></input>
 								</div>
 							</div>
 						</CustomCollapse>

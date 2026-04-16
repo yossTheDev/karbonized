@@ -3,11 +3,13 @@ import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { FaIcon } from '../FaIcon';
 import { type IconType } from '../../utils/FaIconList';
-import { Button, Input, Modal } from 'react-daisyui';
+import { Button, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { IconSearch, IconSticker } from '@tabler/icons-react';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 interface Props {
 	id: string;
@@ -49,15 +51,15 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconSticker className='text-xl dark:text-neutral-400'></IconSticker>
-									<p className='my-auto'>Icon</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconSticker size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Icon</Label>
 								</div>
 							}
 						>
 							{/* Select Icon */}
 							<div className='flex flex-auto flex-row'>
-								<p className='my-auto text-xs'>Select Icon</p>
+								<Label className='my-auto text-xs text-muted-foreground'>Select Icon</Label>
 								<div
 									className='hover:bg-neutral ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
 									onMouseDown={() => {
@@ -115,11 +117,11 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-auto flex-row'>
 								<IconSearch className='my-auto mr-2 dark:text-white'></IconSearch>
 								<Input
-									onChange={(ev) => {
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 										setQuery(ev.currentTarget.value);
 									}}
 									value={query}
-									className='flex flex-auto text-neutral-400'
+									className='flex flex-auto h-8 text-sm'
 								></Input>
 							</div>
 

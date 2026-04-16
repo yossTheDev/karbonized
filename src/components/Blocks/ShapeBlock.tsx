@@ -27,6 +27,8 @@ import { Portal } from 'react-portal';
 import { Button, Modal } from 'react-daisyui';
 import { useTheme } from '../../hooks/useTheme';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Hexagon } from 'lucide-react';
 
 interface Props {
 	id: string;
@@ -58,15 +60,15 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconHexagon></IconHexagon>
-									<p className='my-auto'>Shapes</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<Hexagon size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Shapes</Label>
 								</div>
 							}
 						>
 							{/* Select Shape */}
 							<div className='ml-2 flex flex-row gap-2'>
-								<label className='my-auto text-xs'>Shape</label>
+								<Label className='my-auto text-xs text-muted-foreground'>Shape</Label>
 								<div
 									onClick={() => {
 										setShowModal(true);

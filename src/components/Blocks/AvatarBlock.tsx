@@ -1,8 +1,9 @@
 import { IconLetterT, IconPhoto } from '@tabler/icons-react';
 import React, { useId, useState } from 'react';
-import { FileInput } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 import example from '../../assets/example-user.png';
 
 interface Props {
@@ -30,17 +31,19 @@ export const AvatarBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
-									<IconPhoto></IconPhoto>
-									<p className='my-auto'>Image</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconPhoto size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Image</Label>
 								</div>
 							}
 						>
 							{/* Source */}
-							<p>Source</p>
-							<FileInput
+							<Label className='text-xs text-muted-foreground'>Source</Label>
+							<Input
+								type='file'
 								accept='image/*'
-								onChange={(e) => {
+								className='h-8 text-sm'
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									if (e.target.files && e.target.files.length > 0) {
 										const reader = new FileReader();
 										reader.addEventListener('load', () => {
@@ -49,7 +52,7 @@ export const AvatarBlock: React.FC<Props> = ({ id }) => {
 										reader.readAsDataURL(e.target.files[0]);
 									}
 								}}
-							></FileInput>
+							></Input>
 						</CustomCollapse>
 					</>
 				}

@@ -10,23 +10,13 @@ import {
 } from '../ui/select';
 import { Slider } from '@/components/ui/slider';
 import { ColorPicker } from '../CustomControls/ColorPicker';
-import { CustomCollapse } from '../CustomControls/CustomCollapse';
-import { Checkbox } from 'react-daisyui';
-import { Portal } from 'react-portal';
-import { motion } from 'framer-motion';
-import {
-	Palette,
-	Droplets,
-	Square,
-	Box,
-} from 'lucide-react';
-import { Move3D, Trash2 } from 'lucide-react';
-import {
-	IconFlipVertical,
-	IconFlipHorizontal,
-	IconReload,
-} from '@tabler/icons-react';
 import React, { type ReactNode } from 'react';
+import { CustomCollapse } from '../CustomControls/CustomCollapse';
+import { Droplets, Square, Box, Palette, Trash2, Move } from 'lucide-react';
+import { IconFlipVertical, IconFlipHorizontal, IconReload } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
+import { Portal } from 'react-portal';
+import { Checkbox } from '../ui/checkbox';
 
 interface ControlMenuProps {
 	id: string;
@@ -172,7 +162,7 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 						<CustomCollapse
 							menu={
 								<div className='flex items-center gap-2 text-foreground'>
-									<Move3D size={18} className='text-muted-foreground' />
+									<Move size={18} className='text-muted-foreground' />
 									<Label className='text-sm font-semibold'>Position</Label>
 								</div>
 							}
@@ -538,9 +528,8 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									<div className='m-2 flex flex-row gap-2'>
 										<p className='my-auto text-xs'>Mask Repeat</p>
 										<Checkbox
-											color='primary'
-											onChange={(ev) => {
-												setMaskRepeat(ev.currentTarget.checked);
+											onCheckedChange={(checked) => {
+												setMaskRepeat(checked as boolean);
 											}}
 											checked={maskRepeat}
 										></Checkbox>

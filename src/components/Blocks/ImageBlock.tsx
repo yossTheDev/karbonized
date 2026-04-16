@@ -8,6 +8,7 @@ import { ContextMenuItem } from '../ui/context-menu';
 import { Input } from '../ui/input';
 import { Slider } from '../ui/slider';
 import { ControlTemplate } from './ControlTemplate';
+import { Label } from '../ui/label';
 
 interface Props {
 	id: string;
@@ -90,17 +91,17 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						{/* Border Settings */}
 						<CustomCollapse
 							menu={
-								<div className='flex items-center gap-2'>
-									<IconBorderStyle size={22}></IconBorderStyle>
-									<p className=' font-bold'>Borders</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconBorderStyle size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Borders</Label>
 								</div>
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
 								<div className='flex flex-auto  p-2'>
-									<p className='my-auto p-2'>Radius:</p>
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>Radius:</Label>
 									<Slider
-										color='primary'
+										className='flex-1'
 										onValueChange={(ev) => {
 											setBorderRadius(ev[0]);
 										}}
@@ -115,18 +116,19 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex items-center gap-2'>
-									<IconPhoto></IconPhoto>
-									<p>Image</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconPhoto size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Image</Label>
 								</div>
 							}
 						>
 							{/* Source */}
-							<p>Source</p>
+							<Label className='text-xs text-muted-foreground'>Source</Label>
 							<Input
 								type='file'
 								accept='image/*'
-								onChange={(e) => {
+								className='h-8 text-sm'
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									if (e.target.files != null && e.target.files.length > 0) {
 										const reader = new FileReader();
 										reader.addEventListener('load', () => {

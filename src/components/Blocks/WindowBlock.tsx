@@ -12,13 +12,21 @@ import {
 	IconX,
 } from '@tabler/icons-react';
 import React from 'react';
-import { FileInput, Input, Select } from 'react-daisyui';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/logo.svg';
 import { CloseSvg, MinimizeSvg } from '../Misc/Icons';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/select';
 
 interface Props {
 	id: string;
@@ -62,73 +70,67 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconAppWindow></IconAppWindow>
-									<p className='my-auto'>Window</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconAppWindow size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Window</Label>
 								</div>
 							}
 						>
 							<>
-								<p className='text-xs'>Window Style</p>
+								<Label className='text-xs text-muted-foreground'>Window Style</Label>
 								<Select
-									defaultValue={'mac'}
-									tabIndex={0}
 									value={windowStyle}
-									onChange={(e) => {
-										setWindowStyle(e.currentTarget.value);
-									}}
+									onValueChange={setWindowStyle}
 								>
-									<option value={'mac'}>mac</option>
-									<option value={'window'}>window</option>
+									<SelectItem value={'mac'}>mac</SelectItem>
+									<SelectItem value={'window'}>window</SelectItem>
 								</Select>
 
-								<p className='text-xs'>Window Type</p>
+								<Label className='text-xs text-muted-foreground'>Window Type</Label>
 								<Select
-									defaultValue={'normal'}
-									tabIndex={0}
 									value={windowType}
-									onChange={(e) => {
-										setWindowType(e.currentTarget.value);
-									}}
+									onValueChange={setWindowType}
 								>
-									<option value={'normal'}>normal</option>
-									<option value={'browser'}>browser</option>
+									<SelectItem value={'normal'}>normal</SelectItem>
+									<SelectItem value={'browser'}>browser</SelectItem>
 								</Select>
 							</>
 							{/* Title */}
 							<>
-								<p className='text-xs'>Title</p>
+								<Label className='text-xs text-muted-foreground'>Title</Label>
 								<Input
 									spellCheck={false}
-									onChange={(ev) => {
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 										setTitle(ev.target.value);
 									}}
 									value={title}
-									className='flex flex-auto'
+									className='h-8 text-sm'
 								></Input>
 							</>
 
 							{/* Url */}
 							{windowType === 'browser' && (
 								<>
-									<p className='text-xs'>Url</p>
+									<Label className='text-xs text-muted-foreground'>Url</Label>
 									<Input
 										spellCheck={false}
-										onChange={(ev) => {
+										onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
 											setUrl(ev.target.value);
 										}}
 										value={url}
-										className='flex flex-auto'
+										className='h-8 text-sm'
 									></Input>
 								</>
 							)}
 
 							<>
 								{/* Source */}
-								<p className='text-xs'>Source</p>
-								<FileInput
+								<Label className='text-xs text-muted-foreground'>Source</Label>
+								<Input
+									type='file'
 									accept='image/*'
-									onChange={(e) => {
+									className='h-8 text-sm'
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 										if (e.target.files && e.target.files.length > 0) {
 											const reader = new FileReader();
 											reader.addEventListener('load', () => {
@@ -137,11 +139,11 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 											reader.readAsDataURL(e.target.files[0]);
 										}
 									}}
-								></FileInput>
+								></Input>
 							</>
 
 							{/* Colors */}
-							<p className='text-xs'>Colors</p>
+							<Label className='text-xs text-muted-foreground'>Colors</Label>
 							<>
 								<ColorPicker
 									color={color}
