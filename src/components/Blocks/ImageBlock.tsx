@@ -92,14 +92,19 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							menu={
 								<div className='flex items-center gap-2 text-foreground'>
-									<IconBorderStyle size={18} className='text-muted-foreground' />
+									<IconBorderStyle
+										size={18}
+										className='text-muted-foreground'
+									/>
 									<Label className='text-sm font-semibold'>Borders</Label>
 								</div>
 							}
 						>
 							<div className='flex flex-row flex-wrap text-xs'>
 								<div className='flex flex-auto  p-2'>
-									<Label className='my-auto p-2 text-xs text-muted-foreground'>Radius:</Label>
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>
+										Radius:
+									</Label>
 									<Slider
 										className='flex-1'
 										onValueChange={(ev) => {

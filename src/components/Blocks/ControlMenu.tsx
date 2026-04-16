@@ -13,7 +13,11 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 import React, { type ReactNode } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { Droplets, Square, Box, Palette, Trash2, Move } from 'lucide-react';
-import { IconFlipVertical, IconFlipHorizontal, IconReload } from '@tabler/icons-react';
+import {
+	IconFlipVertical,
+	IconFlipHorizontal,
+	IconReload,
+} from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { Portal } from 'react-portal';
 import { Checkbox } from '../ui/checkbox';
@@ -152,7 +156,10 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 		<>
 			{controlID === id && (
 				// @ts-ignore
-				<Portal key={id + '_control_menu'} node={document.getElementById('menu')}>
+				<Portal
+					key={id + '_control_menu'}
+					node={document.getElementById('menu')}
+				>
 					<motion.div
 						initial={{ marginTop: '25px' }}
 						animate={{ marginTop: '5px' }}
@@ -196,7 +203,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								<div className='grid grid-cols-3 gap-2'>
 									{/* Position X */}
 									<div className='flex items-center gap-2'>
-										<Label className='text-xs text-muted-foreground w-4'>X</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											X
+										</Label>
 										<Input
 											type={'number'}
 											className='h-8 text-sm'
@@ -231,7 +240,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Position Y */}
 									<div className='flex items-center gap-2'>
-										<Label className='text-xs text-muted-foreground w-4'>Y</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											Y
+										</Label>
 										<Input
 											type={'number'}
 											className='h-8 text-sm'
@@ -267,7 +278,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Position Z */}
 									<div className='flex items-center gap-2'>
-										<Label className='text-xs text-muted-foreground w-4'>Z</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											Z
+										</Label>
 										<Input
 											type={'number'}
 											className='h-8 text-sm'
@@ -282,7 +295,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								{/* Size */}
 								<div className='grid grid-cols-2 gap-2'>
 									<div className='flex items-center gap-2'>
-										<Label className='text-xs text-muted-foreground w-4'>W</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											W
+										</Label>
 										<Input
 											type={'number'}
 											className='h-8 text-sm'
@@ -317,7 +332,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									</div>
 
 									<div className='flex items-center gap-2'>
-										<Label className='text-xs text-muted-foreground w-4'>H</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											H
+										</Label>
 										<Input
 											type={'number'}
 											className='h-8 text-sm'
@@ -353,12 +370,16 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								</div>
 
 								{/* Rotation */}
-								<Label className='text-sm font-semibold text-foreground'>Rotation</Label>
+								<Label className='text-sm font-semibold text-foreground'>
+									Rotation
+								</Label>
 
 								<div className='flex gap-2 items-center'>
 									{/* Rotation X */}
 									<div className='flex flex-1 gap-2 items-center'>
-										<Label className='text-xs text-muted-foreground w-4'>X</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											X
+										</Label>
 										<Slider
 											className='flex-1'
 											min={-180}
@@ -372,7 +393,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Rotation Y */}
 									<div className='flex flex-1 gap-2 items-center'>
-										<Label className='text-xs text-muted-foreground w-4'>Y</Label>
+										<Label className='text-xs text-muted-foreground w-4'>
+											Y
+										</Label>
 										<Slider
 											className='flex-1'
 											min={-180}
@@ -414,7 +437,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 									<div className='grid grid-cols-2 gap-2'>
 										{/* Shadow X */}
 										<div className='flex items-center gap-2'>
-											<Label className='text-xs text-muted-foreground w-4'>X</Label>
+											<Label className='text-xs text-muted-foreground w-4'>
+												X
+											</Label>
 											<Input
 												type={'number'}
 												className='h-8 text-sm'
@@ -426,7 +451,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 										</div>
 										{/* Shadow Y */}
 										<div className='flex items-center gap-2'>
-											<Label className='text-xs text-muted-foreground w-4'>Y</Label>
+											<Label className='text-xs text-muted-foreground w-4'>
+												Y
+											</Label>
 											<Input
 												type={'number'}
 												className='h-8 text-sm'
@@ -440,7 +467,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 									{/* Shadow Blur */}
 									<div className='flex items-center gap-2'>
-										<Label className='text-xs text-muted-foreground w-12'>Blur</Label>
+										<Label className='text-xs text-muted-foreground w-12'>
+											Blur
+										</Label>
 										<Slider
 											className='flex-1'
 											onValueChange={(ev) => {
@@ -477,7 +506,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								}
 							>
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-12'>Radius</Label>
+									<Label className='text-xs text-muted-foreground w-12'>
+										Radius
+									</Label>
 									<Slider
 										className='flex-1'
 										onValueChange={(ev) => {
@@ -550,7 +581,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 							<div className='flex flex-col gap-2'>
 								{/* Blur Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Blur</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Blur
+									</Label>
 									<Slider
 										className='flex-1'
 										min={-1}
@@ -574,7 +607,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Brightness Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Brightness</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Brightness
+									</Label>
 									<Slider
 										className='flex-1'
 										min={1}
@@ -598,7 +633,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Contrast Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Contrast</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Contrast
+									</Label>
 									<Slider
 										className='flex-1'
 										min={100}
@@ -622,7 +659,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Grayscale Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Grayscale</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Grayscale
+									</Label>
 									<Slider
 										className='flex-1'
 										min={0}
@@ -646,7 +685,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Hue Rotate Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Hue Rotate</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Hue Rotate
+									</Label>
 									<Slider
 										className='flex-1'
 										min={0}
@@ -670,7 +711,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Invert Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Invert</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Invert
+									</Label>
 									<Slider
 										className='flex-1'
 										min={0}
@@ -694,7 +737,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Saturate Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Saturate</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Saturate
+									</Label>
 									<Slider
 										className='flex-1'
 										min={0}
@@ -718,7 +763,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Sepia Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Sepia</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Sepia
+									</Label>
 									<Slider
 										className='flex-1'
 										min={0}
@@ -742,7 +789,9 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 
 								{/* Opacity Options */}
 								<div className='flex items-center gap-2'>
-									<Label className='text-xs text-muted-foreground w-16'>Opacity</Label>
+									<Label className='text-xs text-muted-foreground w-16'>
+										Opacity
+									</Label>
 									<Slider
 										className='flex-1'
 										min={0}
@@ -779,7 +828,7 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 								setID('');
 								if (currentWorkspace !== undefined)
 									setWorkspaceControls(
-										currentWorkspace.controls.map((item: { id: string; }) =>
+										currentWorkspace.controls.map((item: { id: string }) =>
 											item.id === id ? { ...item, isDeleted: true } : item,
 										),
 									);

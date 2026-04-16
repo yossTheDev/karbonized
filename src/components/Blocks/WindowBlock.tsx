@@ -77,20 +77,18 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 							}
 						>
 							<>
-								<Label className='text-xs text-muted-foreground'>Window Style</Label>
-								<Select
-									value={windowStyle}
-									onValueChange={setWindowStyle}
-								>
+								<Label className='text-xs text-muted-foreground'>
+									Window Style
+								</Label>
+								<Select value={windowStyle} onValueChange={setWindowStyle}>
 									<SelectItem value={'mac'}>mac</SelectItem>
 									<SelectItem value={'window'}>window</SelectItem>
 								</Select>
 
-								<Label className='text-xs text-muted-foreground'>Window Type</Label>
-								<Select
-									value={windowType}
-									onValueChange={setWindowType}
-								>
+								<Label className='text-xs text-muted-foreground'>
+									Window Type
+								</Label>
+								<Select value={windowType} onValueChange={setWindowType}>
 									<SelectItem value={'normal'}>normal</SelectItem>
 									<SelectItem value={'browser'}>browser</SelectItem>
 								</Select>

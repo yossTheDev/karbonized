@@ -17,7 +17,9 @@ interface CommunityTemplatesSectionProps {
 	handleDownloadTemplate: (template: any) => void;
 }
 
-export const CommunityTemplatesSection: React.FC<CommunityTemplatesSectionProps> = ({
+export const CommunityTemplatesSection: React.FC<
+	CommunityTemplatesSectionProps
+> = ({
 	communityTemplates,
 	communityTemplateType,
 	setCommunityTemplateType,
@@ -81,8 +83,8 @@ export const CommunityTemplatesSection: React.FC<CommunityTemplatesSectionProps>
 				</>
 			) : (
 				<p className='text-muted-foreground mx-6 my-auto text-center text-xs md:mx-auto'>
-					No templates available go online to get new templates
-					created by the community
+					No templates available go online to get new templates created by the
+					community
 				</p>
 			)}
 		</div>

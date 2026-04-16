@@ -100,7 +100,11 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 						{previewImage !== '' ? (
 							<TransformWrapper>
 								<TransformComponent>
-									<img className='rounded w-full' src={previewImage} alt='preview' />
+									<img
+										className='rounded w-full'
+										src={previewImage}
+										alt='preview'
+									/>
 								</TransformComponent>
 							</TransformWrapper>
 						) : (

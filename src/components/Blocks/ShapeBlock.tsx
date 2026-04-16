@@ -68,7 +68,9 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 						>
 							{/* Select Shape */}
 							<div className='ml-2 flex flex-row gap-2'>
-								<Label className='my-auto text-xs text-muted-foreground'>Shape</Label>
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Shape
+								</Label>
 								<div
 									onClick={() => {
 										setShowModal(true);
@@ -99,8 +101,8 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 			</ControlTemplate>
 
 			{showModal && (
-			// @ts-ignore
-			<Portal>
+				// @ts-ignore
+				<Portal>
 					<Modal.Legacy
 						open
 						onClickBackdrop={() => {

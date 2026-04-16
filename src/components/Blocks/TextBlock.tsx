@@ -48,7 +48,9 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 								</div>
 							}
 						>
-							<Label className='text-xs text-muted-foreground'>Text Style</Label>
+							<Label className='text-xs text-muted-foreground'>
+								Text Style
+							</Label>
 							{/* Text */}
 							<div className='mx-auto flex w-full gap-2'>
 								<Button
@@ -84,7 +86,9 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 							</div>
 
 							<div className='flex flex-auto flex-row text-xs'>
-								<Label className='my-auto text-xs text-muted-foreground'>Text</Label>
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Text
+								</Label>
 								<Input
 									className='ml-2 h-8 flex w-full flex-auto text-sm'
 									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,14 +99,18 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 							</div>
 
 							<div className='flex flex-auto flex-row text-xs'>
-								<Label className='my-auto text-xs text-muted-foreground'>Font Size</Label>
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Font Size
+								</Label>
 								<NumberInput
 									onChange={(number) => {
 										setTextSize(number.toString());
 									}}
 									number={parseInt(textSize)}
 								></NumberInput>
-								<Label className='my-auto ml-2 text-xs text-muted-foreground'>px</Label>
+								<Label className='my-auto ml-2 text-xs text-muted-foreground'>
+									px
+								</Label>
 							</div>
 
 							<ColorPicker

@@ -176,8 +176,8 @@ export const SettingsButton: React.FC = () => {
 			</Dropdown>
 
 			{showWizard && (
-			// @ts-ignore
-			<Portal>
+				// @ts-ignore
+				<Portal>
 					<Suspense>
 						<ProjectWizard open={showWizard}></ProjectWizard>
 					</Suspense>

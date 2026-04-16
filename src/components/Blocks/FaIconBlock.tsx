@@ -59,7 +59,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 						>
 							{/* Select Icon */}
 							<div className='flex flex-auto flex-row'>
-								<Label className='my-auto text-xs text-muted-foreground'>Select Icon</Label>
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Select Icon
+								</Label>
 								<div
 									className='hover:bg-neutral ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
 									onMouseDown={() => {

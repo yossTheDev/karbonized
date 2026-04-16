@@ -68,11 +68,7 @@ export const DonationsModal: React.FC<Props> = ({ open, onClose }) => {
 								target='_blank'
 								rel='noreferrer'
 							>
-								<img
-									className='mr-2 h-5'
-									src={qvapay}
-									alt='QVAPAY'
-								/>
+								<img className='mr-2 h-5' src={qvapay} alt='QVAPAY' />
 								QVAPAY
 							</a>
 						</Button>

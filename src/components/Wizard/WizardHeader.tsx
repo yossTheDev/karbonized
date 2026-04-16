@@ -31,7 +31,6 @@ export const WizardHeader: React.FC = () => {
 							fillRule='evenodd'
 							stroke='none'
 							fill='currentColor'
-
 						/>
 					</g>
 				</svg>

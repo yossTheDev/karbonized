@@ -130,14 +130,19 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<CustomCollapse
 								menu={
 									<div className='flex items-center gap-2 text-foreground'>
-										<IconBorderStyle size={18} className='text-muted-foreground' />
+										<IconBorderStyle
+											size={18}
+											className='text-muted-foreground'
+										/>
 										<Label className='text-sm font-semibold'>Borders</Label>
 									</div>
 								}
 							>
 								{/* Phone Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<Label className='my-auto p-2 text-xs text-muted-foreground'>Phone Radius:</Label>
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>
+										Phone Radius:
+									</Label>
 									<Slider
 										className='my-auto flex-1'
 										onValueChange={(ev) => {
@@ -150,7 +155,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 
 								{/* Screen Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<Label className='my-auto p-2 text-xs text-muted-foreground'>Screen Radius:</Label>
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>
+										Screen Radius:
+									</Label>
 									<Slider
 										className='my-auto flex-1'
 										onValueChange={(ev) => {
@@ -204,7 +211,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							isOpen
 							menu={
 								<div className='flex items-center gap-2 text-foreground'>
-									<IconDeviceMobile size={18} className='text-muted-foreground' />
+									<IconDeviceMobile
+										size={18}
+										className='text-muted-foreground'
+									/>
 									<Label className='text-sm font-semibold'>Phone Mockup</Label>
 								</div>
 							}
@@ -255,7 +265,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 								<>
 									{/* Notch Witdh */}
 									<div className='flex flex-auto p-2 text-xs '>
-										<Label className='my-auto p-2 text-xs text-muted-foreground'>Notch Width:</Label>
+										<Label className='my-auto p-2 text-xs text-muted-foreground'>
+											Notch Width:
+										</Label>
 										<Slider
 											className='my-auto flex-1'
 											onValueChange={(ev) => {
@@ -506,8 +518,8 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 			</ControlTemplate>
 
 			{showModal && (
-			// @ts-ignore
-			<Portal>
+				// @ts-ignore
+				<Portal>
 					<Modal.Legacy
 						open
 						onClickBackdrop={() => {

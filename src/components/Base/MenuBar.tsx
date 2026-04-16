@@ -15,12 +15,7 @@ import {
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
 import { toBlob, toPng } from 'html-to-image';
-import React, {
-	Suspense,
-	useContext,
-	useEffect,
-	useState,
-} from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { type Project } from '../../stores/AppStore';
@@ -128,7 +123,8 @@ export const MenuBar: React.FC = () => {
 
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace?.controls?.filter((item) => item.type === type).length ?? 0 + 1
+			currentWorkspace?.controls?.filter((item) => item.type === type).length ??
+			0 + 1
 		);
 	};
 
@@ -154,8 +150,8 @@ export const MenuBar: React.FC = () => {
 		/* Add Control To Workspace */
 		addControl({
 			type:
-				currentWorkspace?.controls?.find((item) => item.id === controlID)?.type ??
-				newControlID.split('-')[0],
+				currentWorkspace?.controls?.find((item) => item.id === controlID)
+					?.type ?? newControlID.split('-')[0],
 			id: newControlID,
 			isSelectable: true,
 			isDeleted: false,
@@ -241,7 +237,10 @@ export const MenuBar: React.FC = () => {
 				},
 			);
 
-			FileSaver.saveAs(blob, currentWorkspace?.workspaceName ?? 'workspace' + '.kproject');
+			FileSaver.saveAs(
+				blob,
+				currentWorkspace?.workspaceName ?? 'workspace' + '.kproject',
+			);
 		}
 	};
 
@@ -259,7 +258,10 @@ export const MenuBar: React.FC = () => {
 				type: 'text/plain;charset=utf-8',
 			});
 
-			FileSaver.saveAs(blob, currentWorkspace?.workspaceName ?? 'workspace' + '.json');
+			FileSaver.saveAs(
+				blob,
+				currentWorkspace?.workspaceName ?? 'workspace' + '.json',
+			);
 		}
 	};
 
@@ -488,7 +490,9 @@ export const MenuBar: React.FC = () => {
 								Changelog
 							</MenubarItem>
 
-							<MenubarItem onClick={() => setShowAbout(true)}>About</MenubarItem>
+							<MenubarItem onClick={() => setShowAbout(true)}>
+								About
+							</MenubarItem>
 						</MenubarContent>
 					</MenubarMenu>
 				</Menubar>

@@ -183,7 +183,8 @@ const ItemsList = ({ data }: { data: any }) => {
 	);
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace?.controls?.filter((item) => item.type === type).length ?? 0 + 1
+			currentWorkspace?.controls?.filter((item) => item.type === type).length ??
+			0 + 1
 		);
 	};
 

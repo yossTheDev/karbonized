@@ -28,7 +28,11 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 
 				<div className='flex flex-col items-center gap-4'>
 					<div className='rounded-2xl bg-muted p-4 shadow-xl'>
-						<img className='h-28 rounded-full' src={karbonized} alt='Karbonized' />
+						<img
+							className='h-28 rounded-full'
+							src={karbonized}
+							alt='Karbonized'
+						/>
 					</div>
 
 					<h2 className='text-center text-2xl font-bold text-foreground'>
@@ -56,11 +60,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 
 					{/* Social Networks */}
 					<div className='flex gap-2'>
-						<Button
-							variant='outline'
-							size='icon'
-							asChild
-						>
+						<Button variant='outline' size='icon' asChild>
 							<a
 								target='_blank'
 								href='https://twitter.com/karbonized_app'
@@ -70,11 +70,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 							</a>
 						</Button>
 
-						<Button
-							variant='outline'
-							size='icon'
-							asChild
-						>
+						<Button variant='outline' size='icon' asChild>
 							<a
 								target='_blank'
 								href='https://t.me/karbonized'
@@ -84,11 +80,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 							</a>
 						</Button>
 
-						<Button
-							variant='outline'
-							size='icon'
-							asChild
-						>
+						<Button variant='outline' size='icon' asChild>
 							<a
 								target='_blank'
 								href='https://github.com/yossthedev/karbonized'

@@ -98,13 +98,18 @@ export const TweetBlock: React.FC<Props> = ({ id }) => {
 							isOpen
 							menu={
 								<div className='flex items-center gap-2 text-foreground'>
-									<IconBrandTwitter size={18} className='text-muted-foreground' />
+									<IconBrandTwitter
+										size={18}
+										className='text-muted-foreground'
+									/>
 									<Label className='text-sm font-semibold'>Tweet</Label>
 								</div>
 							}
 						>
 							<div className='flex flex-auto flex-row text-xs'>
-								<Label className='my-auto text-xs text-muted-foreground'>Tweet URL</Label>
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Tweet URL
+								</Label>
 
 								<Input
 									className='ml-2 h-8 flex w-full flex-auto text-sm'
