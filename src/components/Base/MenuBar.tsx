@@ -19,7 +19,6 @@ import React, {
 	Suspense,
 	useContext,
 	useEffect,
-	useRef,
 	useState,
 } from 'react';
 import { AppContext } from '../../AppContext';
@@ -29,7 +28,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { PROJECT_KEY } from '../../utils/secrets';
-import { Edit, File as FileIcon, Info, Plus, Square, View } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import TabBar from './TabBar';
 import { Button } from '@/components/ui/button';
 
@@ -52,7 +51,6 @@ export const MenuBar: React.FC = () => {
 	const { showWizard, setShowWizard } = useContext(AppContext);
 
 	/* Panels */
-	const about = useRef<HTMLDialogElement>(null);
 	const { viewerRef } = useContext(AppContext);
 	const isHorizontal = useScreenDirection();
 
@@ -307,9 +305,7 @@ export const MenuBar: React.FC = () => {
 				<Menubar>
 					{/* File */}
 					<MenubarMenu>
-						<MenubarTrigger>
-							<FileIcon size={16}></FileIcon>
-						</MenubarTrigger>
+						<MenubarTrigger>File</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem onClick={() => setShowWizard(true)}>
 								New Project <MenubarShortcut>⌘N</MenubarShortcut>
@@ -391,9 +387,7 @@ export const MenuBar: React.FC = () => {
 
 					{/* Edit */}
 					<MenubarMenu>
-						<MenubarTrigger>
-							<Edit size={16}></Edit>
-						</MenubarTrigger>
+						<MenubarTrigger>Edit</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
 								onClick={() => {
@@ -425,9 +419,7 @@ export const MenuBar: React.FC = () => {
 
 					{/* Workspace */}
 					<MenubarMenu>
-						<MenubarTrigger>
-							<Square size={16}></Square>
-						</MenubarTrigger>
+						<MenubarTrigger>Workspace</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
 								onClick={() => {
@@ -449,9 +441,7 @@ export const MenuBar: React.FC = () => {
 
 					{/* View */}
 					<MenubarMenu>
-						<MenubarTrigger>
-							<View size={16}></View>
-						</MenubarTrigger>
+						<MenubarTrigger>View</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
 								onClick={() =>
@@ -488,15 +478,17 @@ export const MenuBar: React.FC = () => {
 
 					{/* About */}
 					<MenubarMenu>
-						<MenubarTrigger>
-							<Info size={16}></Info>
-						</MenubarTrigger>
+						<MenubarTrigger>About</MenubarTrigger>
 						<MenubarContent>
-							<MenubarItem>Donations</MenubarItem>
+							<MenubarItem onClick={() => setShowDonations(true)}>
+								Donations
+							</MenubarItem>
 
-							<MenubarItem>Changelog</MenubarItem>
+							<MenubarItem onClick={() => setShowChangelog(true)}>
+								Changelog
+							</MenubarItem>
 
-							<MenubarItem>About</MenubarItem>
+							<MenubarItem onClick={() => setShowAbout(true)}>About</MenubarItem>
 						</MenubarContent>
 					</MenubarMenu>
 				</Menubar>
@@ -525,8 +517,7 @@ export const MenuBar: React.FC = () => {
 			{showAbout && (
 				<Suspense>
 					<AboutModal
-						ref={about}
-						open
+						open={showAbout}
 						onClose={() => {
 							setShowAbout(false);
 						}}

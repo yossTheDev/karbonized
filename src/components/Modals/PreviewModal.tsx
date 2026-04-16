@@ -1,21 +1,22 @@
-import {
-	IconCircleDashed,
-	IconFileTypeJpg,
-	IconFileTypePng,
-	IconFileTypeSvg,
-	IconShare,
-	IconX,
-} from '@tabler/icons-react';
+import { FileImage, FileJson, Share2, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Progress } from 'react-daisyui';
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogFooter,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import karbonized from '../../assets/logo.svg';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { toBlob, toJpeg } from 'html-to-image';
 import { useStoreState } from '../../stores/Hooks';
+
 interface Props {
 	open: boolean;
-	onClose?: Function;
+	onClose?: () => void;
 }
 
 export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
@@ -33,6 +34,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			type,
 		);
 	};
+
 	const showPreviewImage = async () => {
 		const element = document.getElementById('workspace');
 
@@ -50,6 +52,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 				console.log(err);
 			});
 	};
+
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
 		if (element) {
@@ -79,84 +82,71 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	}, []);
 
 	return (
-		<Modal.Legacy
-			open={open}
-			onClickBackdrop={() => {
-				onClose?.();
-			}}
-			className='max-h-fit overflow-hidden'
-		>
-			<Modal.Header className='flex flex-row font-bold dark:text-white'>
-				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-300/75 px-3 py-2'>
-					<img className='h-10' src={karbonized}></img>
-					<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
-						Export
+		<Dialog open={open} onOpenChange={onClose}>
+			<DialogContent className='sm:max-w-4xl max-h-[90vh] overflow-hidden'>
+				<DialogHeader>
+					<div className='flex items-center gap-2 rounded-xl bg-muted px-3 py-2 w-fit'>
+						<img className='h-10' src={karbonized} alt='Karbonized' />
+						<DialogTitle className='text-2xl font-heading'>Export</DialogTitle>
+					</div>
+				</DialogHeader>
+
+				<div className='flex flex-auto select-none flex-col overflow-y-auto'>
+					<div className='mx-auto my-auto w-96 rounded-2xl bg-muted p-4 shadow-inner'>
+						{previewImage !== '' ? (
+							<TransformWrapper>
+								<TransformComponent>
+									<img className='rounded' src={previewImage} alt='preview' />
+								</TransformComponent>
+							</TransformWrapper>
+						) : (
+							<div className='text-center'>
+								<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+							</div>
+						)}
+					</div>
+				</div>
+
+				<DialogFooter>
+					<Button className='mr-auto' onMouseDown={handleShare}>
+						<Share2 className='mr-2' size={20} />
+						Share
+					</Button>
+
+					<p className='my-auto mr-3 select-none text-xs text-muted-foreground'>
+						Save as
 					</p>
-				</div>
 
-				<Button
-					shape='circle'
-					onClick={() => {
-						onClose?.();
-					}}
-					className='ml-auto bg-base-300/75'
-				>
-					<IconX></IconX>
-				</Button>
-			</Modal.Header>
-
-			<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-				<div className='mx-auto my-auto w-96  rounded-2xl bg-base-300/75 p-4 shadow-inner'>
-					{previewImage !== '' ? (
-						<TransformWrapper>
-							<TransformComponent>
-								<img className='rounded' src={previewImage} alt='preview'></img>
-							</TransformComponent>
-						</TransformWrapper>
-					) : (
-						<div className='text-center'>
-							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
-						</div>
-					)}
-				</div>
-			</Modal.Body>
-
-			<Modal.Actions>
-				<Button className='mr-auto rounded-2xl' onMouseDown={handleShare}>
-					<IconShare></IconShare>
-					<p className='my-auto cursor-pointer'>Share</p>
-				</Button>
-
-				<p className='my-auto ml-auto mr-3 select-none text-xs text-base-content/70'>
-					Save as
-				</p>
-
-				<Button
-					className='rounded-2xl'
-					onMouseDown={() => {
-						exportImage(export_format.png);
-					}}
-				>
-					<IconFileTypePng className='mx-auto'></IconFileTypePng>
-				</Button>
-				<Button
-					className='rounded-2xl'
-					onMouseDown={() => {
-						exportImage(export_format.jpeg);
-					}}
-				>
-					<IconFileTypeJpg className='mx-auto'></IconFileTypeJpg>
-				</Button>
-				<Button
-					className='rounded-2xl'
-					onMouseDown={() => {
-						exportImage(export_format.svg);
-					}}
-				>
-					<IconFileTypeSvg className='mx-auto'></IconFileTypeSvg>
-				</Button>
-			</Modal.Actions>
-		</Modal.Legacy>
+					<Button
+						variant='outline'
+						size='icon'
+						onMouseDown={() => {
+							exportImage(export_format.png);
+						}}
+					>
+						<FileImage size={20} />
+					</Button>
+					<Button
+						variant='outline'
+						size='icon'
+						onMouseDown={() => {
+							exportImage(export_format.jpeg);
+						}}
+					>
+						<FileImage size={20} />
+					</Button>
+					<Button
+						variant='outline'
+						size='icon'
+						onMouseDown={() => {
+							exportImage(export_format.svg);
+						}}
+					>
+						<FileJson size={20} />
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 };
 
