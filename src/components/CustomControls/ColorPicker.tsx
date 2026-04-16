@@ -119,6 +119,7 @@ export const ColorPicker: React.FC<Props> = ({
 
 			{/* Menu */}
 			{showColor && isHorizontal && (
+				// @ts-ignore
 				<Portal>
 					<div
 						tabIndex={0}
@@ -463,6 +464,7 @@ export const ColorPicker: React.FC<Props> = ({
 
 			{/* Modal */}
 			{!isHorizontal && (
+				// @ts-ignore
 				<Portal>
 					<Modal
 						open={showColor && !isHorizontal}

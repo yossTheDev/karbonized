@@ -498,6 +498,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 
 				{/* Menu */}
 				{controlID === id && (
+					// @ts-ignore
 					<Portal
 						key={id + '_control_menu'}
 						node={document.getElementById('menu')}

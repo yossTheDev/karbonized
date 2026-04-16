@@ -57,6 +57,7 @@ export const Tooltip: React.FC<Props> = ({
 				{/* Tooltip */}
 				<AnimatePresence>
 					{showTooltip && (
+						// @ts-ignore
 						<Portal>
 							<motion.div
 								initial={{ scale: 0.8, opacity: 0 }}

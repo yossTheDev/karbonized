@@ -45,6 +45,7 @@ export const ContextMenu: React.FC<Props> = ({
 
 			<AnimatePresence>
 				{show && (
+					// @ts-ignore
 					<Portal>
 						<motion.div
 							tabIndex={1}

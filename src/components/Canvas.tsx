@@ -62,8 +62,8 @@ export const Canvas: React.FC = ({}) => {
 		<>
 			<canvas
 				ref={canvasRef}
-				width={currentWorkspace.workspaceWidth}
-				height={currentWorkspace.workspaceHeight}
+				width={currentWorkspace?.workspaceWidth ?? 1280}
+				height={currentWorkspace?.workspaceHeight ?? 720}
 				className={`${
 					canDraw || isErasing ? '' : 'pointer-events-none'
 				} absolute z-50`}

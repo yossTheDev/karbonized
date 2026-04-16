@@ -95,6 +95,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 			</ControlTemplate>
 
 			{showIconPicker && (
+				// @ts-ignore
 				<Portal>
 					<Modal.Legacy
 						onClickBackdrop={() => {

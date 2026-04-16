@@ -28,7 +28,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	/* Actions */
 	const exportImage = (type: export_format) => {
 		ExportImage(
-			currentWorkspace.workspaceName,
+			currentWorkspace?.workspaceName ?? 'workspace',
 			document.getElementById('workspace'),
 			type,
 		);

@@ -39,7 +39,7 @@ export function useControlState<T>(
 				(prop === '/src/assets/logo.svg' ||
 					prop === '/src/assets/karbonized.svg')
 			) {
-				setState(default_logo);
+				setState(default_logo as T);
 			} else {
 				setState(prop);
 			}

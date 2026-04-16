@@ -16,9 +16,10 @@ export const isElectron = (): boolean => {
 
 	// Main process
 	if (
-		typeof process !== 'undefined' &&
-		typeof process.versions === 'object' &&
-		process.versions.electron !== undefined
+		typeof window !== 'undefined' &&
+		typeof window.process !== 'undefined' &&
+		typeof window.process.versions === 'object' &&
+		window.process.versions.electron !== undefined
 	) {
 		return true;
 	}

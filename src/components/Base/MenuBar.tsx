@@ -122,7 +122,7 @@ export const MenuBar: React.FC = () => {
 
 	const exportImage = (type: export_format) => {
 		ExportImage(
-			currentWorkspace.workspaceName,
+			currentWorkspace?.workspaceName ?? 'workspace',
 			document.getElementById('workspace'),
 			type,
 		);
@@ -130,7 +130,7 @@ export const MenuBar: React.FC = () => {
 
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+			currentWorkspace?.controls?.filter((item) => item.type === type).length ?? 0 + 1
 		);
 	};
 
@@ -156,7 +156,7 @@ export const MenuBar: React.FC = () => {
 		/* Add Control To Workspace */
 		addControl({
 			type:
-				currentWorkspace.controls.find((item) => item.id === controlID)?.type ??
+				currentWorkspace?.controls?.find((item) => item.id === controlID)?.type ??
 				newControlID.split('-')[0],
 			id: newControlID,
 			isSelectable: true,
@@ -198,8 +198,9 @@ export const MenuBar: React.FC = () => {
 		input.type = 'file';
 		input.accept = '.kproject';
 		input.addEventListener('change', (ev: any) => {
-			if (event.target.files.length > 0) {
-				if ((event.target.files[0].name as string).endsWith('.kproject')) {
+			const target = ev.target as HTMLInputElement;
+			if (target.files && target.files.length > 0) {
+				if ((target.files[0].name as string).endsWith('.kproject')) {
 					const reader = new FileReader();
 					reader.addEventListener('load', () => {
 						try {
@@ -218,7 +219,7 @@ export const MenuBar: React.FC = () => {
 							alert('Invalid Project File');
 						}
 					});
-					reader.readAsText(event.target?.files[0]);
+					reader.readAsText(target.files[0]);
 				} else {
 					alert('Only Karbonized Projects are allowed');
 				}
@@ -242,7 +243,7 @@ export const MenuBar: React.FC = () => {
 				},
 			);
 
-			FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.kproject');
+			FileSaver.saveAs(blob, currentWorkspace?.workspaceName ?? 'workspace' + '.kproject');
 		}
 	};
 
@@ -260,7 +261,7 @@ export const MenuBar: React.FC = () => {
 				type: 'text/plain;charset=utf-8',
 			});
 
-			FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.json');
+			FileSaver.saveAs(blob, currentWorkspace?.workspaceName ?? 'workspace' + '.json');
 		}
 	};
 
@@ -273,7 +274,7 @@ export const MenuBar: React.FC = () => {
 	};
 
 	const centerView = () => {
-		const width = parseFloat(currentWorkspace.workspaceWidth);
+		const width = parseFloat(currentWorkspace?.workspaceWidth ?? '1280');
 
 		if (isHorizontal) {
 			if (width < 1280) {

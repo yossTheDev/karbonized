@@ -8,6 +8,7 @@
 - Migrate to ESLint 9 with flat config system
 
 ### 🐛 Fixes
+- Fix 800+ ESLint errors (formatting, unused variables, and other linting issues)
 - Fix TypeScript strict mode error in ProjectWizard.tsx (explicit comparison for any types)
 - Fix Editor component not displaying by default (showWizard state initialization)
 - Fix theme toggle not working by centralizing theme state in AppContext and updating CSS for class-based dark mode

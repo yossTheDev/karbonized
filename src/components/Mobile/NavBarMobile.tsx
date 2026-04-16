@@ -44,7 +44,8 @@ export const NavBarMobile: React.FC = () => {
 			</Navbar>
 
 			{showNews && (
-				<Portal>
+			// @ts-ignore
+			<Portal>
 					<Modal.Legacy
 						className='h-96 overflow-hidden p-1'
 						open

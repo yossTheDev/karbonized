@@ -97,7 +97,8 @@ export const ShapeBlock: React.FC<Props> = ({ id }) => {
 			</ControlTemplate>
 
 			{showModal && (
-				<Portal>
+			// @ts-ignore
+			<Portal>
 					<Modal.Legacy
 						open
 						onClickBackdrop={() => {

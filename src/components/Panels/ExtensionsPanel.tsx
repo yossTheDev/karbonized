@@ -183,7 +183,7 @@ const ItemsList = ({ data }: { data: any }) => {
 	);
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+			currentWorkspace?.controls?.filter((item) => item.type === type).length ?? 0 + 1
 		);
 	};
 
@@ -232,6 +232,7 @@ const ItemsList = ({ data }: { data: any }) => {
 	return (
 		<AutoSizer>
 			{({ height, width }: { height: number; width: number }) => (
+				// @ts-ignore
 				<FixedSizeList
 					height={height}
 					width={width}

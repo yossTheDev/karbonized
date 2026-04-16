@@ -415,6 +415,7 @@ const CodeControl: React.FC<Props> = ({ id }) => {
 
 					{/* Code */}
 					<div className='flex flex-auto '>
+						{/* @ts-ignore */}
 						<SyntaxHighlighter
 							customStyle={{
 								cursor: 'default',

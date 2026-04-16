@@ -62,6 +62,7 @@ export const DropMenu: React.FC<Props> = ({ id, position, label, menu }) => {
 			</button>
 
 			{show && (
+				// @ts-ignore
 				<Portal>
 					<div
 						id={id}
