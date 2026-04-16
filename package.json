@@ -2,6 +2,7 @@
 	"name": "karbonized",
 	"private": true,
 	"version": "2.0.0",
+	"type": "module",
 	"main": "dist-electron/main.js",
 	"author": {
 		"name": "Yoannis Sánchez Soto",
@@ -136,8 +137,7 @@
 		"eslint-plugin-react-hooks": "^7.0.1",
 		"eslint-plugin-react-refresh": "^0.5.2",
 		"postcss": "^8.5.10",
-		"prettier": "^3.2.5",
-		"prettier-plugin-tailwindcss": "^0.7.2",
+		"prettier": "^3.4.2",
 		"react-router-dom": "^6.4.3",
 		"tailwindcss": "^4.2.2",
 		"typescript": "*",
