@@ -55,7 +55,7 @@ export const AboutModal: React.FC<Props> = ({ open, onClose }) => {
 					</span>
 
 					<div className='select-none rounded-full bg-muted px-4 py-2 text-foreground'>
-						<span>v1.12.0</span>
+						<span>v2.0.0</span>
 					</div>
 
 					{/* Social Networks */}
