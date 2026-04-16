@@ -149,249 +149,239 @@ export const WorkspacePanel: React.FC = () => {
 	}
 
 	return (
-		<>
-			<Label className='mb-1 mt-4 select-none text-xl font-bold'>
-				Workspace
-			</Label>
+		<div className='flex flex-col gap-2'>
+			{/* Background Settings */}
+			<CustomCollapse
+				menu={
+					<div className='flex items-center gap-2'>
+						<Settings></Settings>
+						<Label>Settings</Label>
+					</div>
+				}
+			>
+				{/* Workspace Name */}
+				<>
+					<Label htmlFor='workspace-name'>Workspace Name</Label>
+					<Input
+						id='workspace-name'
+						spellCheck={false}
+						onChange={(ev) => {
+							setWorkspaceName(ev.target.value);
+						}}
+						value={currentWorkspace.workspaceName}
+					></Input>
+				</>
 
-			<Separator className='mb-4'></Separator>
+				{/* Size */}
+				<>
+					<Label>Size</Label>
 
-			<ScrollArea>
-				<div className='flex flex-col gap-2'>
-					{/* Background Settings */}
-					<CustomCollapse
-						menu={
-							<div className='flex items-center gap-2'>
-								<Settings></Settings>
-								<Label>Settings</Label>
-							</div>
-						}
+					{/* Predefined Sizes */}
+					<Select
+						onValueChange={(e) => {
+							const size = getSize(e);
+							size != null &&
+								setWorkspaceSize({
+									width: size?.width.toString(),
+									height: size?.height.toString(),
+								});
+						}}
 					>
-						{/* Workspace Name */}
-						<>
-							<Label htmlFor='workspace-name'>Workspace Name</Label>
+						<SelectTrigger>
+							<SelectValue placeholder='Workspace Size' />
+						</SelectTrigger>
+						<SelectContent>
+							{Sizes.map((i) => {
+								return (
+									<SelectItem key={i.label} value={i.label}>
+										{i.label}
+									</SelectItem>
+								);
+							})}
+						</SelectContent>
+					</Select>
+
+					<div className='flex flex-auto select-none'>
+						{/* Size W */}
+						<div className='flex flex-auto flex-row items-center gap-2'>
+							<Label>W:</Label>
 							<Input
-								id='workspace-name'
-								spellCheck={false}
+								type={'number'}
+								placeholder='Width'
 								onChange={(ev) => {
-									setWorkspaceName(ev.target.value);
+									setWorkspaceSize({
+										width: ev.currentTarget.value,
+										height: currentWorkspace.workspaceHeight,
+									});
 								}}
-								value={currentWorkspace.workspaceName}
+								value={currentWorkspace.workspaceWidth}
 							></Input>
-						</>
+						</div>
 
-						{/* Size */}
-						<>
-							<Label>Size</Label>
+						{/* Size H */}
+						<div className='ml-2 flex flex-auto select-none flex-row items-center gap-2'>
+							<Label>H:</Label>
 
-							{/* Predefined Sizes */}
-							<Select
-								onValueChange={(e) => {
-									const size = getSize(e);
-									size != null &&
-										setWorkspaceSize({
-											width: size?.width.toString(),
-											height: size?.height.toString(),
-										});
+							<Input
+								type={'number'}
+								placeholder='Height'
+								onChange={(ev) => {
+									setWorkspaceSize({
+										height: ev.currentTarget.value,
+										width: currentWorkspace.workspaceWidth,
+									});
 								}}
-							>
-								<SelectTrigger>
-									<SelectValue placeholder='Workspace Size' />
-								</SelectTrigger>
-								<SelectContent>
-									{Sizes.map((i) => {
-										return (
-											<SelectItem key={i.label} value={i.label}>
-												{i.label}
-											</SelectItem>
-										);
-									})}
-								</SelectContent>
-							</Select>
+								value={currentWorkspace.workspaceHeight}
+							></Input>
+						</div>
+					</div>
+				</>
+			</CustomCollapse>
 
-							<div className='flex flex-auto select-none'>
-								{/* Size W */}
-								<div className='flex flex-auto flex-row items-center gap-2'>
-									<Label>W:</Label>
-									<Input
-										type={'number'}
-										placeholder='Width'
-										onChange={(ev) => {
-											setWorkspaceSize({
-												width: ev.currentTarget.value,
-												height: currentWorkspace.workspaceHeight,
-											});
+			{/* Background Type */}
+			<CustomCollapse
+				isOpen
+				menu={
+					<div className='flex items-center gap-2'>
+						<Palette></Palette>
+						<Label>Background</Label>
+					</div>
+				}
+			>
+				<Tabs
+					value={currentWorkspace.workspaceType}
+					onValueChange={(e: string) => {
+						setWorkspaceType(e);
+					}}
+				>
+					<TabsList className='mx-auto mb-4 flex w-fit'>
+						<TabsTrigger value='color'>Color</TabsTrigger>
+						<TabsTrigger value='texture'>Texture</TabsTrigger>
+						<TabsTrigger value='image'>Image</TabsTrigger>
+					</TabsList>
+					<TabsContent value='color'>
+						<>
+							<div className='flex flex-wrap items-center justify-between gap-2'>
+								{Gradients.map((item) => (
+									<button
+										key={item.c1 + item.c2}
+										className={`h-16 w-16 overflow-hidden rounded-lg transition-all hover:shadow-md active:scale-90 ${currentWorkspace.workspaceGradientSettings.color1 ===
+											item.c1
+											? 'border-2 border-primary shadow-md'
+											: 'border border-border'
+											}`}
+										style={{
+											background: `linear-gradient(${item.c1},${item.c2})`,
 										}}
-										value={currentWorkspace.workspaceWidth}
-									></Input>
-								</div>
-
-								{/* Size H */}
-								<div className='ml-2 flex flex-auto select-none flex-row items-center gap-2'>
-									<Label>H:</Label>
-
-									<Input
-										type={'number'}
-										placeholder='Height'
-										onChange={(ev) => {
-											setWorkspaceSize({
-												height: ev.currentTarget.value,
-												width: currentWorkspace.workspaceWidth,
-											});
-										}}
-										value={currentWorkspace.workspaceHeight}
-									></Input>
-								</div>
-							</div>
-						</>
-					</CustomCollapse>
-
-					{/* Background Type */}
-					<CustomCollapse
-						isOpen
-						menu={
-							<div className='flex items-center gap-2'>
-								<Palette></Palette>
-								<Label>Background</Label>
-							</div>
-						}
-					>
-						<Tabs
-							value={currentWorkspace.workspaceType}
-							onValueChange={(e: string) => {
-								setWorkspaceType(e);
-							}}
-						>
-							<TabsList className='mx-auto mb-4 flex w-fit'>
-								<TabsTrigger value='color'>Color</TabsTrigger>
-								<TabsTrigger value='texture'>Texture</TabsTrigger>
-								<TabsTrigger value='image'>Image</TabsTrigger>
-							</TabsList>
-							<TabsContent value='color'>
-								<>
-									<div className='flex flex-wrap items-center justify-between gap-2'>
-										{Gradients.map((item) => (
-											<button
-												key={item.c1 + item.c2}
-												className={`h-16 w-16 overflow-hidden rounded-lg transition-all hover:shadow-md active:scale-90 ${currentWorkspace.workspaceGradientSettings.color1 ===
-													item.c1
-													? 'border-2 border-primary shadow-md'
-													: 'border border-border'
-													}`}
-												style={{
-													background: `linear-gradient(${item.c1},${item.c2})`,
-												}}
-												onClick={() => {
-													setWorkspaceColorMode('Gradient');
-													setWorkspaceGradient({
-														color1: item.c1,
-														color2: item.c2,
-														deg: currentWorkspace.workspaceGradientSettings.deg,
-													});
-												}}
-											>
-												{currentWorkspace.workspaceGradientSettings.color1 ===
-													item.c1 &&
-													currentWorkspace.workspaceGradientSettings.color2 ===
-													item.c2 && <Check></Check>}
-											</button>
-										))}
-									</div>
-
-									<ColorPicker
-										type='HexAlpha'
-										colorGradient1={
-											currentWorkspace.workspaceGradientSettings.color1
-										}
-										colorGradient2={
-											currentWorkspace.workspaceGradientSettings.color2
-										}
-										gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
-										onGradientChange={(color: any, color2: any) => {
+										onClick={() => {
+											setWorkspaceColorMode('Gradient');
 											setWorkspaceGradient({
-												color1: color,
-												color2,
+												color1: item.c1,
+												color2: item.c2,
 												deg: currentWorkspace.workspaceGradientSettings.deg,
 											});
 										}}
-										onGradientDegChange={(deg) => {
-											setWorkspaceGradient({
-												color1:
-													currentWorkspace.workspaceGradientSettings.color1,
-												color2:
-													currentWorkspace.workspaceGradientSettings.color2,
-												deg,
-											});
-										}}
-										onModeChange={(mode) => {
-											setWorkspaceColorMode(mode);
-										}}
-										mode={currentWorkspace.workspaceColorMode}
-										color={currentWorkspace.workspaceColor}
-										onColorChange={setWorkspaceColor}
-									></ColorPicker>
-								</>
-							</TabsContent>
-							<TabsContent value='texture'>
-								<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
-									{textures.map((texture) => (
-										<div
-											key={texture.name}
-											className={`size-16 cursor-pointer rounded-lg border-2 bg-background p-2 hover:border-border active:scale-95 transition-all ${currentWorkspace.textureName === texture.name
-												? 'border-primary shadow-md'
-												: 'border-border'
-												}`}
-											onClick={() => {
-												setTexture(texture.name);
-											}}
-										>
-											<Suspense>
-												<texture.component className='flex h-full w-full flex-auto rounded-lg'></texture.component>
-											</Suspense>
-										</div>
-									))}
-								</div>
-								<ColorPicker
-									type='HexAlpha'
-									colorGradient1={currentWorkspace.textureColors.color1}
-									colorGradient2={currentWorkspace.textureColors.color2}
-									onGradientChange={(color: any, color2: any) => {
-										setTextureColors({
-											color1: color,
-											color2,
-										});
+									>
+										{currentWorkspace.workspaceGradientSettings.color1 ===
+											item.c1 &&
+											currentWorkspace.workspaceGradientSettings.color2 ===
+											item.c2 && <Check></Check>}
+									</button>
+								))}
+							</div>
+
+							<ColorPicker
+								type='HexAlpha'
+								colorGradient1={
+									currentWorkspace.workspaceGradientSettings.color1
+								}
+								colorGradient2={
+									currentWorkspace.workspaceGradientSettings.color2
+								}
+								gradientDeg={currentWorkspace.workspaceGradientSettings.deg}
+								onGradientChange={(color: any, color2: any) => {
+									setWorkspaceGradient({
+										color1: color,
+										color2,
+										deg: currentWorkspace.workspaceGradientSettings.deg,
+									});
+								}}
+								onGradientDegChange={(deg) => {
+									setWorkspaceGradient({
+										color1:
+											currentWorkspace.workspaceGradientSettings.color1,
+										color2:
+											currentWorkspace.workspaceGradientSettings.color2,
+										deg,
+									});
+								}}
+								onModeChange={(mode) => {
+									setWorkspaceColorMode(mode);
+								}}
+								mode={currentWorkspace.workspaceColorMode}
+								color={currentWorkspace.workspaceColor}
+								onColorChange={setWorkspaceColor}
+							></ColorPicker>
+						</>
+					</TabsContent>
+					<TabsContent value='texture'>
+						<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
+							{textures.map((texture) => (
+								<div
+									key={texture.name}
+									className={`size-16 cursor-pointer rounded-lg border-2 bg-background p-2 hover:border-border active:scale-95 transition-all ${currentWorkspace.textureName === texture.name
+										? 'border-primary shadow-md'
+										: 'border-border'
+										}`}
+									onClick={() => {
+										setTexture(texture.name);
 									}}
-									color={currentWorkspace.workspaceColor}
-									mode={'Gradient'}
-									onColorChange={() => { }}
-								></ColorPicker>
-							</TabsContent>
-							<TabsContent value='image'>
-								<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
-									{Wallpapers.map((item) => (
-										<button
-											key={item.id}
-											className={`h-16 w-16 overflow-hidden rounded-lg border-2 bg-background transition-all hover:shadow-md active:scale-90 ${currentWorkspace.textureName === item.id
-												? 'border-primary shadow-md'
-												: 'border-border'
-												}`}
-											onClick={() => {
-												setTexture(item.id);
-											}}
-										>
-											<img
-												className='flex h-full w-full flex-auto'
-												src={item.thumb}
-											></img>
-										</button>
-									))}
+								>
+									<Suspense>
+										<texture.component className='flex h-full w-full flex-auto rounded-lg'></texture.component>
+									</Suspense>
 								</div>
-							</TabsContent>
-						</Tabs>
-					</CustomCollapse>
-				</div>
-			</ScrollArea>
-		</>
+							))}
+						</div>
+						<ColorPicker
+							type='HexAlpha'
+							colorGradient1={currentWorkspace.textureColors.color1}
+							colorGradient2={currentWorkspace.textureColors.color2}
+							onGradientChange={(color: any, color2: any) => {
+								setTextureColors({
+									color1: color,
+									color2,
+								});
+							}}
+							color={currentWorkspace.workspaceColor}
+							mode={'Gradient'}
+							onColorChange={() => { }}
+						></ColorPicker>
+					</TabsContent>
+					<TabsContent value='image'>
+						<div className='flex flex-auto flex-row flex-wrap gap-2 overflow-auto'>
+							{Wallpapers.map((item) => (
+								<button
+									key={item.id}
+									className={`h-16 w-16 overflow-hidden rounded-lg border-2 bg-background transition-all hover:shadow-md active:scale-90 ${currentWorkspace.textureName === item.id
+										? 'border-primary shadow-md'
+										: 'border-border'
+										}`}
+									onClick={() => {
+										setTexture(item.id);
+									}}
+								>
+									<img
+										className='flex h-full w-full flex-auto'
+										src={item.thumb}
+									></img>
+								</button>
+							))}
+						</div>
+					</TabsContent>
+				</Tabs>
+			</CustomCollapse>
+		</div>
 	);
 };
 

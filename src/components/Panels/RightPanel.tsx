@@ -158,17 +158,17 @@ export const RightPanel: React.FC = () => {
 
 				{/* Tab Panels */}
 				<div
-					className={`relative flex-auto flex-col overflow-auto ${!showMenu ? 'hidden' : 'flex'}`}
+					className={`relative flex-auto flex-col min-h-0 overflow-hidden ${!showMenu ? 'hidden' : 'flex'}`}
 				>
 					{/* Controls */}
 					{tab === 'control' && (
-						<div className='flex flex-col overflow-hidden'>
-							<Label className='mb-2 mt-2 select-none text-lg font-semibold'>
+						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
+							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
 								Control
 							</Label>
-							<Separator className='mb-3'></Separator>
-							<ScrollArea className='flex-auto'>
-								<div className='overflow-auto p-1' id='menu'></div>
+							<Separator className='mb-4'></Separator>
+							<ScrollArea className='flex-1 h-full'>
+								<div className='p-1' id='menu'></div>
 								{currentID === '' && (
 									<div className='flex h-64 flex-auto items-center justify-center'>
 										<p className='text-muted-foreground select-none text-center text-sm'>
@@ -181,13 +181,29 @@ export const RightPanel: React.FC = () => {
 					)}
 
 					{/* Workspace */}
-					{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
+					{tab === 'workspace' && (
+						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
+							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
+								Workspace
+							</Label>
+							<Separator className='mb-4'></Separator>
+							<ScrollArea className='flex-1 h-full'>
+								<WorkspacePanel></WorkspacePanel>
+							</ScrollArea>
+						</div>
+					)}
 
 					{/* Hierarchy */}
 					{tab === 'hierarchy' && (
-						<ScrollArea className='flex-auto'>
-							<HierarchyPanel></HierarchyPanel>
-						</ScrollArea>
+						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
+							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
+								Hierarchy
+							</Label>
+							<Separator className='mb-4'></Separator>
+							<ScrollArea className='flex-1 h-full'>
+								<HierarchyPanel></HierarchyPanel>
+							</ScrollArea>
+						</div>
 					)}
 				</div>
 			</div>
