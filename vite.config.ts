@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
 	plugins: [
 		react(),
+		tailwindcss(),
 		VitePWA({
 			workbox: {
 				globPatterns: ['**/*.{js,css,html,ico,png,svg,ttf}'],
