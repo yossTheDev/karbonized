@@ -10,14 +10,23 @@ import {
 } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as localforage from 'localforage';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Input, Select } from 'react-daisyui';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Portal } from 'react-portal';
-import { AppContext } from '../AppContext';
+import { AppContext } from '@/AppContext';
 import { NewsPanel } from '../components/Panels/NewsPanel';
 import { CustomPortal } from '../components/Portal';
 import { useScreenDirection } from '../hooks/useScreenDirection';
-import { useStoreActions, useStoreState } from '../stores/Hooks';
+import { useStoreActions } from '../stores/Hooks';
 import { getRandomNumber } from '../utils/getRandom';
 
 const TEMPLATE_SYSTEM_ROOT = 'https://karbon-apps.github.io/templates/';
@@ -28,12 +37,10 @@ const NavBarMobile = React.lazy(
 
 interface Props {
 	open: boolean;
-	onClose?: Function;
+	onClose?: () => void;
 }
 
 export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
-	const ref = useRef<any>(null);
-
 	/* App Context */
 	const { setShowWizard } = useContext(AppContext);
 
@@ -43,24 +50,15 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	);
 
 	const [userTemplates, setUserTemplates] = useState<any>([]);
-	const [loadingUserTemplates, setLoadingUserTemplates] = useState(true);
-	const [communityTemplates, setCommunityTemplates] = useState<any>(null);
+	const [loadingUserTemplates] = useState(false);
+	const [communityTemplates] = useState<any>(null);
 	const [communityTemplateType, setCommunityTemplateType] = useState('code');
 
 	const [current, setCurrent] = useState<any>(null);
 	const isHorizontal = useScreenDirection();
 
 	/* App Store */
-	const addControl = useStoreActions((state) => state.addControl);
-	const addInitialProperty = useStoreActions(
-		(state) => state.addInitialProperty,
-	);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-
-	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
 	const loadProject = useStoreActions((state) => state.loadProject);
-	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
-	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
 	const addWorkspace = useStoreActions((state) => state.addWorkspace);
 	const setCurrentWorkspace = useStoreActions(
 		(state) => state.setCurrentWorkspace,
@@ -96,51 +94,57 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		load(); */
 	}, [templateType]);
 
-	const handleAddUserTemplate = (e: React.ChangeEvent<HTMLInputElement>) => {
-		localforage.setItem('user_templates_test', userTemplates);
+	const handleAddUserTemplate = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		void localforage.setItem('user_templates_test', userTemplates);
 
-		if (e.target?.files && e.target?.files?.length > 0) {
+		if (e.target.files !== null && e.target.files.length > 0) {
 			const reader = new FileReader();
 
 			reader.addEventListener('load', () => {
-				if (reader.result) {
-					const newTemplate = JSON.parse(reader.result?.toString());
+				void (async () => {
+					if (typeof reader.result === 'string') {
+						const newTemplate = JSON.parse(reader.result) as Record<string, unknown>;
+						/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+						const isTemplateObject = newTemplate !== null && typeof newTemplate === 'object' && 'workspace' in newTemplate && 'properties' in newTemplate;
 
-					if (newTemplate.workspace && newTemplate.properties) {
-						if (
-							!userTemplates.find(
-								(item: any) => item.workspace.id === newTemplate.workspace.id,
-							)
-						) {
-							localforage.setItem('user_templates_test', [
-								...userTemplates,
-								newTemplate,
-							]);
+						if (isTemplateObject) {
+							if (
+								!userTemplates.find(
+									(item: any) => item.workspace.id === (newTemplate.workspace as { id: string }).id,
+								)
+							) {
+								/* eslint-enable @typescript-eslint/strict-boolean-expressions */
+								await localforage.setItem(
+									'user_templates_test',
+									[...userTemplates, newTemplate],
+								);
 
-							setUserTemplates([...userTemplates, newTemplate]);
-						} else {
-							alert('You already have this template installed');
+								setUserTemplates([...userTemplates, newTemplate]);
+							} else {
+								alert('You already have this template installed');
+							}
 						}
 					}
-				}
+				})();
 			});
 			reader.readAsText(e.target.files[0]);
 		}
 	};
 
-	const handleDeleteUserTemplate = (id: string) => {
+	const handleDeleteUserTemplate = (id: string): void => {
 		const copy = userTemplates.filter((item: any) => item.workspace.id !== id);
 		setUserTemplates(copy);
-		localforage.setItem('user_templates_test', copy);
+		void localforage.setItem('user_templates_test', copy);
 	};
 
-	const handleDownloadTemplate = (template: any) => {
+	const handleDownloadTemplate = (template: any): void => {
 		if (
+			template?.workspace?.id &&
 			!userTemplates.find(
 				(item: any) => item.workspace.id === template.workspace.id,
 			)
 		) {
-			localforage.setItem('user_templates_test', [...userTemplates, template]);
+			void localforage.setItem('user_templates_test', [...userTemplates, template]);
 
 			setUserTemplates([...userTemplates, template]);
 			alert('Template installed in User Templates');
@@ -151,20 +155,21 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 		setCurrent(null);
 	};
 
-	const handleCreateNewProject = () => {
+	const handleCreateNewProject = (): void => {
 		const num = getRandomNumber().toString();
 		addWorkspace(num);
 		setCurrentWorkspace(num);
 		setShowWizard(false);
 	};
 
-	const handleCreateFromTemplate = () => {
-		if (current) loadProject(current);
+	const handleCreateFromTemplate = (): void => {
+		if (current !== null) loadProject(current);
 
 		setShowWizard(false);
 	};
 
 	return (
+		// @ts-expect-error Portal type compatibility issue
 		<Portal node={document.getElementById('body')}>
 			<div className=' absolute z-30 flex h-full w-full flex-auto flex-col bg-neutral-50 dark:bg-neutral-900'>
 				{!isHorizontal && <NavBarMobile></NavBarMobile>}
@@ -223,15 +228,15 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 						<div className='flex flex-auto  flex-col gap-3 overflow-hidden bg-base-100 p-4'>
 							{/* Actions */}
 							<div className='flex w-full gap-4 '>
-								<button
+								<Button
 									onClick={handleCreateNewProject}
-									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
+									variant='outline'
+									size='lg'
+									className='h-28 flex-col gap-2 rounded-2xl'
 								>
-									<div>
-										<IconPlus size={28} className='mx-auto my-auto'></IconPlus>
-										<p className='mt-2 text-xs'>New Project</p>
-									</div>
-								</button>
+									<IconPlus size={28} />
+									<span className='text-xs'>New Project</span>
+								</Button>
 
 								<input
 									onInput={handleAddUserTemplate}
@@ -242,61 +247,47 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									type='file'
 								/>
 
-								<label
-									htmlFor='input'
-									className='btn btn-lg h-28 rounded-2xl bg-base-300 p-4'
-								>
-									<div className='mx-auto my-auto'>
-										<IconFileImport
-											className='mx-auto my-auto'
-											size={28}
-										></IconFileImport>
-										<p className='mt-2 text-xs'>Import Template</p>
-									</div>
+								<label htmlFor='input'>
+									<Button
+										variant='outline'
+										size='lg'
+										className='h-28 flex-col gap-2 rounded-2xl'
+										asChild
+									>
+										<div>
+											<IconFileImport size={28} />
+											<span className='text-xs'>Import Template</span>
+										</div>
+									</Button>
 								</label>
 							</div>
 
 							<div className='mx-auto w-4/5 rounded-full bg-base-300/20 p-0.5'></div>
 
 							{/* Template Type Selector */}
-							<div className='flex h-fit flex-row gap-3 rounded-2xl bg-base-300/60 p-3 lg:mx-56'>
-								<button
-									onClick={() => {
-										setTemplateType('user');
-									}}
-									className={`hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100 p-2 transition-all hover:cursor-pointer active:scale-90 ${
-										templateType === 'user' && 'bg-base-300'
-									}`}
-								>
-									<div className='mx-auto flex gap-2'>
-										<IconUser></IconUser>
-										<label className='mx-auto my-auto cursor-pointer'>
-											User
-										</label>
-									</div>
-								</button>
-
-								<button
-									className={`hover:bg-neutral flex h-full w-8 grow cursor-pointer flex-col rounded-xl bg-base-100  p-2 transition-all hover:cursor-pointer active:scale-90 ${
-										templateType === 'community' && 'bg-base-300'
-									}`}
-									onClick={() => {
-										setTemplateType('community');
-									}}
-								>
-									<div className='mx-auto flex gap-2'>
-										<IconUsersGroup></IconUsersGroup>
-										<label className='mx-auto my-auto cursor-pointer'>
-											Community
-										</label>
-									</div>
-								</button>
-							</div>
+							<Tabs
+								value={templateType}
+								onValueChange={(value) => {
+									setTemplateType(value as 'user' | 'community');
+								}}
+								className='w-full'
+							>
+								<TabsList className='grid w-full grid-cols-2 bg-muted'>
+									<TabsTrigger value='user' className='gap-2'>
+										<IconUser size={16} />
+										User
+									</TabsTrigger>
+									<TabsTrigger value='community' className='gap-2'>
+										<IconUsersGroup size={16} />
+										Community
+									</TabsTrigger>
+								</TabsList>
+							</Tabs>
 
 							{/* Community Templates */}
 							{templateType === 'community' && (
 								<div className='flex h-full w-full flex-col gap-4 overflow-hidden'>
-									{communityTemplates ? (
+									{communityTemplates !== null ? (
 										<>
 											{/* Header */}
 											<div className='mt-1 flex w-full flex-auto flex-row gap-2 p-1'>
@@ -307,16 +298,19 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 												<p className='my-auto text-xs'>Type</p>
 												<Select
-													defaultValue={'code'}
-													tabIndex={0}
 													value={communityTemplateType}
-													onChange={(e) => {
-														setCommunityTemplateType(e.currentTarget.value);
+													onValueChange={(value) => {
+														setCommunityTemplateType(value);
 													}}
 												>
-													<option value={'code'}>Code</option>
-													<option value={'devices'}>Devices</option>
-													<option value={'window'}>Window</option>
+													<SelectTrigger className='w-32'>
+														<SelectValue placeholder='Type' />
+													</SelectTrigger>
+													<SelectContent>
+														<SelectItem value='code'>Code</SelectItem>
+														<SelectItem value='devices'>Devices</SelectItem>
+														<SelectItem value='window'>Window</SelectItem>
+													</SelectContent>
 												</Select>
 											</div>
 
@@ -369,11 +363,10 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 															onClick={() => {
 																setCurrent(item);
 															}}
-															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${
-																current?.workspace.id === item.workspace.id
-																	? 'border-base-100 shadow-xl'
-																	: 'border-base-300'
-															}`}
+															className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300 p-2 transition-all active:scale-90 ${current?.workspace.id === item.workspace.id
+																? 'border-base-100 shadow-xl'
+																: 'border-base-300'
+																}`}
 														>
 															<img
 																className='flex h-36 w-full rounded-2xl'
@@ -381,21 +374,23 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 															></img>
 
 															{current?.workspace.id === item.workspace.id && (
-																<label
+																<Button
+																	size='icon'
+																	variant='outline'
+																	className='absolute -left-1 -top-1 h-8 w-8 rounded-full border-none bg-base-300'
 																	onClick={() => {
 																		handleDeleteUserTemplate(item.workspace.id);
 																	}}
-																	className='btn btn-circle hover:bg-neutral absolute -ml-1  -mt-1 border-none bg-base-300'
 																>
-																	<IconX></IconX>
-																</label>
+																	<IconX size={16} />
+																</Button>
 															)}
 														</button>
 													</>
 												))
 											) : (
 												<p className='text-base-content/70 mx-auto my-auto text-center text-xs'>
-													You haven't saved any template yet
+													You haven&apos;t saved any template yet
 												</p>
 											)}
 										</div>
@@ -408,7 +403,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 
 						{/* Actions */}
 						<AnimatePresence>
-							{current && (
+							{current !== null && (
 								<motion.div
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
@@ -416,12 +411,12 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 									className='pointer-events-none absolute flex h-full w-full'
 								>
 									<div className='mt-auto flex h-fit w-full flex-auto gap-2 bg-linear-to-t from-base-300 to-transparent p-4'>
-										<button
-											className='btn pointer-events-auto my-auto ml-auto rounded-3xl border-none bg-base-300 shadow hover:bg-primary hover:text-white'
+										<Button
+											className='pointer-events-auto ml-auto rounded-3xl'
 											onClick={handleCreateFromTemplate}
 										>
 											Create
-										</button>
+										</Button>
 									</div>
 								</motion.div>
 							)}
@@ -454,7 +449,7 @@ const Templates: React.FC<{
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const load = async () => {
+		const load = async (): Promise<void> => {
 			setLoading(true);
 			const copy = [];
 
@@ -470,7 +465,7 @@ const Templates: React.FC<{
 			setLoading(false);
 		};
 
-		load();
+		void load();
 	}, []);
 
 	useEffect(() => {
@@ -493,11 +488,10 @@ const Templates: React.FC<{
 										onClick={() => {
 											setCurrent(item.data);
 										}}
-										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${
-											current?.workspace.id === item.data.workspace.id
-												? 'border-base-100 shadow-xl'
-												: 'border-base-300'
-										}`}
+										className={`relative flex h-fit w-fit min-w-fit flex-col rounded-2xl border-2 bg-base-300  p-2 transition-all active:scale-90 ${current?.workspace.id === item.data.workspace.id
+											? 'border-base-100 shadow-xl'
+											: 'border-base-300'
+											}`}
 									>
 										<img
 											className='mx-auto flex h-20 w-full rounded-2xl md:h-36'
@@ -510,14 +504,16 @@ const Templates: React.FC<{
 										<p className='text-xs'>{item.user}</p>
 
 										{current?.workspace.id === item.data.workspace.id && (
-											<label
+											<Button
+												size='icon'
+												variant='outline'
+												className='absolute -left-1 -top-1 h-8 w-8 rounded-full border-none bg-base-300'
 												onClick={() => {
 													handleDownloadTemplate(item.data);
 												}}
-												className='btn btn-circle hover:bg-neutral absolute -ml-1  -mt-1 border-none bg-base-300'
 											>
-												<IconDownload></IconDownload>
-											</label>
+												<IconDownload size={16} />
+											</Button>
 										)}
 									</button>
 								))}
@@ -539,7 +535,8 @@ const Templates: React.FC<{
 						setQuery(ev.currentTarget.value);
 					}}
 					value={query}
-					className='flex w-full flex-auto text-neutral-400'
+					placeholder='Search templates...'
+					className='flex w-full flex-auto'
 				></Input>
 			</CustomPortal>
 		</div>
