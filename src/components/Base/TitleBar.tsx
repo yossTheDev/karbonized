@@ -80,7 +80,7 @@ export const TitleBar: React.FC = () => {
 				</Button>
 
 				<button
-					className='cursor-pointer px-5 py-4 hover:bg-accent active:bg-accent/70'
+					className='cursor-pointer px-5 py-4 hover:bg-foreground/10 active:bg-foreground/20'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('minimizeApp')
 					}
@@ -102,7 +102,7 @@ export const TitleBar: React.FC = () => {
 				</button>
 
 				<button
-					className='cursor-pointer px-5 py-4 hover:bg-accent active:bg-accent/70'
+					className='cursor-pointer px-5 py-4 hover:bg-foreground/10 active:bg-foreground/20'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('maximizeApp')
 					}
