@@ -86,7 +86,7 @@ export const RightPanel: React.FC = () => {
 				className={`pointer-events-auto mr-auto flex h-full w-full gap-2 overflow-hidden bg-popover p-2 text-foreground shadow-md transition-all`}
 			>
 				{/* Selectors */}
-				<div className='flex flex-col gap-1 shrink-0'>
+				<div className='flex flex-col gap-4 shrink-0'>
 					{/* Show/Close Menu */}
 					<Tooltip message={showMenu ? 'Collapse Panel' : 'Expand Panel'}>
 						<Button
@@ -163,10 +163,9 @@ export const RightPanel: React.FC = () => {
 					{/* Controls */}
 					{tab === 'control' && (
 						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
-							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
+							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
 								Control
 							</Label>
-							<Separator className='mb-4'></Separator>
 							<ScrollArea className='flex-1 h-full'>
 								<div className='p-1' id='menu'></div>
 								{currentID === '' && (
@@ -183,10 +182,9 @@ export const RightPanel: React.FC = () => {
 					{/* Workspace */}
 					{tab === 'workspace' && (
 						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
-							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
+							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
 								Workspace
 							</Label>
-							<Separator className='mb-4'></Separator>
 							<ScrollArea className='flex-1 h-full'>
 								<WorkspacePanel></WorkspacePanel>
 							</ScrollArea>
@@ -196,10 +194,9 @@ export const RightPanel: React.FC = () => {
 					{/* Hierarchy */}
 					{tab === 'hierarchy' && (
 						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
-							<Label className='mb-1 mt-4 select-none text-xl font-bold'>
+							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
 								Hierarchy
 							</Label>
-							<Separator className='mb-4'></Separator>
 							<ScrollArea className='flex-1 h-full'>
 								<HierarchyPanel></HierarchyPanel>
 							</ScrollArea>

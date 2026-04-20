@@ -21,11 +21,7 @@ export const CustomCollapse: React.FC<Props> = ({
 				onClick={() => {
 					setOpen(!open);
 				}}
-				className={`my-auto font-heading flex h-12 max-h-12 w-full cursor-pointer select-none items-center rounded-lg border-2 px-3 transition-all duration-300 hover:shadow-md ${
-					open
-						? 'border-primary bg-primary/10 text-primary'
-						: 'border-border bg-background text-foreground hover:bg-muted'
-				}`}
+				className='my-auto border-b text-muted-foreground font-heading flex h-12 max-h-12 w-full cursor-pointer select-none items-center px-3'
 			>
 				{menu}
 				<div className='ml-auto'>
@@ -33,7 +29,7 @@ export const CustomCollapse: React.FC<Props> = ({
 						animate={{ rotate: open ? 90 : 0 }}
 						transition={{ duration: 0.3, ease: 'easeInOut' }}
 					>
-						<IconChevronDown size={18}></IconChevronDown>
+						<IconChevronDown size={12}></IconChevronDown>
 					</motion.div>
 				</div>
 			</button>
