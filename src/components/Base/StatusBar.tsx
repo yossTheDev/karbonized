@@ -59,6 +59,8 @@ export const StatusBar: React.FC = () => {
 
 	return (
 		<div className='flex h-9 w-full items-center gap-3 border-t border-border bg-background px-3 text-xs text-muted-foreground shadow-sm'>
+			<>;)</>
+			
 			{/* Layout Mode */}
 			<Button
 				className='h-7 gap-1.5 px-2.5 font-medium text-xs'
