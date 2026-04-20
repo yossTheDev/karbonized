@@ -41,7 +41,7 @@ export const HierarchyPanel: React.FC = () => {
 				/>
 			) : (
 				<div className='flex flex-auto items-center justify-center'>
-					<p className='text-base-content/70 mx-auto my-auto select-none text-center text-xs'>
+					<p className='text-muted-foreground mx-auto my-auto select-none text-center text-sm'>
 						Start adding controls to the scene
 					</p>
 				</div>

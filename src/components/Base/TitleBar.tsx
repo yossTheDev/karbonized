@@ -24,7 +24,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable flex h-fit w-screen border-border bg-sidebar'
+			className='draggable border-b flex h-fit w-screen border-border bg-sidebar'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}

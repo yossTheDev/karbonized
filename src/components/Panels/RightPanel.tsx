@@ -185,7 +185,7 @@ export const RightPanel: React.FC = () => {
 							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
 								Workspace
 							</Label>
-							<ScrollArea className='flex-1 h-full'>
+							<ScrollArea className='flex-1 p-1 h-full'>
 								<WorkspacePanel></WorkspacePanel>
 							</ScrollArea>
 						</div>

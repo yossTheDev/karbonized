@@ -73,17 +73,17 @@ export const MenuItem: React.FC<Item> = ({
 				onMouseDown={() => {
 					if (isVisible) setCurrentControlID(id);
 				}}
-				className={`z-50 flex list-none items-center gap-2 rounded-xl px-4 py-2 hover:bg-base-200/60 dark:text-neutral-400 ${
+				className={`z-50 flex list-none items-center gap-2 rounded-xl px-4 py-2 hover:bg-muted text-muted-foreground ${
 					!isDragged && 'hover:cursor-pointer'
 				} ${isDragged && 'cursor-grabbing'} ${
-					controlID === id && 'bg-base-300'
+					controlID === id && 'bg-muted'
 				}`}
 				{...props}
 			>
 				<MenuIcon type={type}></MenuIcon>
 
 				{/* Image */}
-				<div className='flex h-12 w-12 items-center  justify-center rounded bg-base-200 px-3 py-2 shadow'>
+				<div className='flex h-12 w-12 items-center justify-center rounded bg-muted border px-3 py-2 shadow'>
 					{src !== 'data:,' && <img src={src}></img>}
 				</div>
 
@@ -107,7 +107,7 @@ export const MenuItem: React.FC<Item> = ({
 								),
 							);
 					}}
-					className='pointer-events-auto ml-auto rounded p-2 hover:bg-base-200'
+					className='pointer-events-auto ml-auto rounded p-2 hover:bg-muted'
 				>
 					{isVisible ? (
 						<IconEye size={16}></IconEye>
@@ -152,7 +152,7 @@ export const MenuIcon: React.FC<{ type: string }> = ({ type }) => {
 
 		case 'badge':
 			return (
-				<div className='my-auto h-2  w-4 rounded-full border-2 border-black dark:border-gray-400'></div>
+				<div className='my-auto h-2  w-4 rounded-full border-2 border-border'></div>
 			);
 
 		case 'custom':

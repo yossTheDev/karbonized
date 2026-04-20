@@ -149,13 +149,13 @@ export const WorkspacePanel: React.FC = () => {
 	}
 
 	return (
-		<div className='flex flex-col gap-2'>
+		<div className='flex flex-col mt-1 gap-3 bg-background border border-border shadow-md rounded-lg p-3'>
 			{/* Background Settings */}
 			<CustomCollapse
 				menu={
 					<div className='flex items-center gap-2'>
-						<Settings></Settings>
-						<Label>Settings</Label>
+						<Settings size={18}></Settings>
+						<Label className='text-foreground text-sm font-semibold'>Settings</Label>
 					</div>
 				}
 			>
@@ -243,8 +243,8 @@ export const WorkspacePanel: React.FC = () => {
 				isOpen
 				menu={
 					<div className='flex items-center gap-2'>
-						<Palette></Palette>
-						<Label>Background</Label>
+						<Palette size={16}></Palette>
+						<Label className='text-foreground text-sm font-semibold'>Background</Label>
 					</div>
 				}
 			>
