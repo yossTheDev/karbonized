@@ -19,7 +19,6 @@ import {
 	Image,
 	MousePointer2,
 	QrCode,
-	Settings,
 	Smartphone,
 	Sticker,
 	Type,
@@ -311,9 +310,8 @@ export const LeftPanel: React.FC = () => {
 				const containerHeight = containerRef.current.clientHeight;
 				const itemHeight = 44; // Button height + gap
 				const separatorHeight = 20;
-				const settingsHeight = 44;
 				const availableHeight =
-					containerHeight - separatorHeight - settingsHeight;
+					containerHeight - separatorHeight;
 				const maxVisible = Math.floor(availableHeight / itemHeight);
 				setVisibleCount(Math.max(3, maxVisible)); // Minimum 3 visible items
 			}
@@ -379,11 +377,11 @@ export const LeftPanel: React.FC = () => {
 
 	return (
 		<div
-			className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col gap-1 overflow-hidden p-2 text-foreground md:w-fit md:max-w-40'
+			className='pointer-events-auto z-30 mr-auto flex h-full w-5/6 grow-0 flex-col justify-center gap-1 overflow-hidden p-2 py-4 text-foreground md:w-fit md:max-w-40'
 			ref={containerRef}
 		>
 			{/* Controls */}
-			<div className='flex h-full w-10 flex-col items-center gap-2 text-foreground bg-background shadow-md rounded-lg border border-border px-6 py-3'>
+			<div className='flex w-10 flex-col items-center gap-2 text-foreground bg-background shadow-md rounded-lg border border-border px-6 py-3'>
 				{visibleTools.map((tool, index) => (
 					<React.Fragment key={tool.id}>
 						<Tooltip
@@ -442,9 +440,6 @@ export const LeftPanel: React.FC = () => {
 					</>
 				)}
 
-				<Button className='mt-auto' size={'icon'} variant={'ghost'}>
-					<Settings size={20}></Settings>
-				</Button>
 			</div>
 
 			{/* Tabs */}
