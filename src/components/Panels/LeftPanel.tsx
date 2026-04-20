@@ -389,7 +389,7 @@ export const LeftPanel: React.FC = () => {
 						>
 							<Button
 								onClick={tool.action}
-								variant={tool.isActive ? 'default' : 'ghost'}
+								variant={tool.isActive ? 'accent' : 'ghost'}
 								size={'icon'}
 								className='relative transition-all duration-200 hover:scale-110'
 								onMouseEnter={() => setHoveredIndex(index)}

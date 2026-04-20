@@ -109,7 +109,7 @@ export const RightPanel: React.FC = () => {
 					{/* Layers */}
 					<Tooltip message='Hierarchy'>
 						<Button
-							variant={tab === 'hierarchy' ? 'default' : 'ghost'}
+							variant={tab === 'hierarchy' ? 'accent' : 'ghost'}
 							size={'icon'}
 							onClick={() => {
 								setTab('hierarchy');
@@ -125,7 +125,7 @@ export const RightPanel: React.FC = () => {
 					{/* Edit */}
 					<Tooltip message='Edit Control'>
 						<Button
-							variant={tab === 'control' ? 'default' : 'ghost'}
+							variant={tab === 'control' ? 'accent' : 'ghost'}
 							size={'icon'}
 							onClick={() => {
 								setTab('control');
@@ -141,7 +141,7 @@ export const RightPanel: React.FC = () => {
 					{/* Workspace */}
 					<Tooltip message='Workspace Settings'>
 						<Button
-							variant={tab === 'workspace' ? 'default' : 'ghost'}
+							variant={tab === 'workspace' ? 'accent' : 'ghost'}
 							size={'icon'}
 							onClick={() => {
 								setTab('workspace');
