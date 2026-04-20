@@ -20,6 +20,7 @@
 - Fix code duplication in new window styles by using common SyntaxHighlighter
 - Fix window color picker showing for Paper theme when it should be disabled
 - Fix TypeScript and ESLint formatting issues across codebase
+- Fix InfiniteViewer zoom being too aggressive when using Ctrl + mouse wheel scroll (added wheelScale and maxPinchWheel parameters)
 ### 🔄 Changes
 - Update TypeScript moduleResolution to "bundler" for better ESM support
 - Remove old ESLint config files (.eslintrc.js, .eslintrc.json)

@@ -271,6 +271,8 @@ export const Editor: React.FC = () => {
 							useWheelScroll
 							useWheelPinch
 							useTransform
+							wheelScale={0.002}
+							maxPinchWheel={50}
 						>
 							<div
 								style={{
