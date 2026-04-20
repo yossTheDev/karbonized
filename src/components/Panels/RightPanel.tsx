@@ -161,23 +161,24 @@ export const RightPanel: React.FC = () => {
 					className={`relative flex-auto flex-col min-h-0 overflow-hidden ${!showMenu ? 'hidden' : 'flex'}`}
 				>
 					{/* Controls */}
-					{tab === 'control' && (
-						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
-							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
-								Control
-							</Label>
-							<ScrollArea className='flex-1 h-full'>
-								<div className='p-1' id='menu'></div>
-								{currentID === '' && (
-									<div className='flex h-64 flex-auto items-center justify-center'>
-										<p className='text-muted-foreground select-none text-center text-sm'>
-											Select a control to start editing it
-										</p>
-									</div>
-								)}
-							</ScrollArea>
-						</div>
-					)}
+					<div
+						className={`flex h-full min-h-0 flex-col overflow-hidden ${tab === 'control' ? 'flex' : 'hidden'}`}
+					>
+						<Label className='mb-1 mt-4 select-none text-sm font-bold'>
+							Control
+						</Label>
+						<ScrollArea className='flex-1 h-full'>
+							{/* Menu Portal Container - always in DOM when control tab is active */}
+							<div className='p-1' id='menu'></div>
+							{currentID === '' && (
+								<div className='flex h-64 flex-auto items-center justify-center'>
+									<p className='text-muted-foreground select-none text-center text-sm'>
+										Select a control to start editing it
+									</p>
+								</div>
+							)}
+						</ScrollArea>
+					</div>
 
 					{/* Workspace */}
 					{tab === 'workspace' && (
