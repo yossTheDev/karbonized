@@ -402,7 +402,7 @@ export const LeftPanel: React.FC = () => {
 									}`}
 								/>
 								{tool.shortcut && (
-									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-bold text-primary-foreground'>
+									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-sans font-bold text-primary-foreground'>
 										{tool.shortcut.split('+')[1]}
 									</span>
 								)}
