@@ -41,7 +41,7 @@ export const TabBar: React.FC = () => {
 				event.preventDefault();
 			}}
 		>
-			<div className='flex w-[70%]   gap-1 p-1'>
+			<div className='flex w-[70%] p-1 gap-2'>
 				{workspaces.map((item) => (
 					<button
 						key={item.id}
@@ -49,16 +49,17 @@ export const TabBar: React.FC = () => {
 						onClick={() => {
 							setCurrentWorkspace(item.id);
 						}}
-						className={`flex items-center rounded-sm bg-base-200 px-3 ${
-							currentWorkspaceID === item.id &&
-							'poppins-font-family btn-neutral border-b-2 border-primary shadow'
+						className={`group relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-200 ${
+							currentWorkspaceID === item.id
+								? 'bg-card shadow-lg shadow-black/10 ring-1 ring-border'
+								: 'bg-muted/50 hover:bg-muted hover:shadow-md'
 						}`}
 					>
 						<IconSquareRotated
-							className='my-auto ml-2'
+							className='text-foreground/70'
 							size={16}
 						></IconSquareRotated>
-						<label className='mr-4 select-none text-clip whitespace-nowrap p-2 text-xs hover:cursor-pointer'>
+						<label className='select-none text-clip whitespace-nowrap text-xs font-medium text-foreground hover:cursor-pointer'>
 							{item.workspaceName}
 						</label>
 
@@ -67,9 +68,9 @@ export const TabBar: React.FC = () => {
 								ev.stopPropagation();
 								deleteWorkspace(item.id);
 							}}
-							className='btn btn-circle btn-ghost btn-xs text-base-content'
+							className='ml-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:bg-accent hover:text-foreground group-hover:opacity-100'
 						>
-							<IconX size={16}></IconX>
+							<IconX size={14}></IconX>
 						</div>
 					</button>
 				))}

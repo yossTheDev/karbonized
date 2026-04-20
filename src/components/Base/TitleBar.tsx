@@ -24,7 +24,7 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable flex h-fit w-screen border-border bg-background'
+			className='draggable flex h-fit w-screen border-border bg-sidebar'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
@@ -142,7 +142,7 @@ export const TitleBar: React.FC = () => {
 				</button>
 
 				<button
-					className='group cursor-pointer px-5 py-4 hover:bg-destructive active:bg-destructive/70'
+					className='group cursor-pointer px-5 py-4 hover:bg-red-700 active:bg-red-800'
 					onClick={() =>
 						(window as any).electron.ipcRenderer.sendMessage('closeApp')
 					}
