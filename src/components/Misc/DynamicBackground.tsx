@@ -24,11 +24,12 @@ const generatePositions = (seed: number, count: number) => {
 		const progress = 1 - i / (count - 1 || 1);
 		const baseSize = 50 + progress * 30;
 		const baseOpacity = 0.95 - i * 0.15;
+		const randomSizeOffset = random(3) * 40 - 20;
 		positions.push({
-			x: random(1) * 100 - 50,
-			y: random(2) * 100 - 50,
-			size: baseSize + random(3) * 15,
-			opacity: Math.max(0.3, baseOpacity),
+			x: random(1) * 120 - 60,
+			y: random(2) * 120 - 60,
+			size: Math.max(30, Math.min(120, baseSize + randomSizeOffset)),
+			opacity: Math.max(0.2, Math.min(1, baseOpacity + random(4) * 0.2 - 0.1)),
 		});
 	}
 	return positions;
