@@ -271,67 +271,8 @@ export const WorkspacePanel: React.FC = () => {
 						<TabsTrigger value='dynamic'>Dynamic</TabsTrigger>
 					</TabsList>
 
-					<div>
-						<Label className='text-xs text-muted-foreground'>
-							Blur: {currentWorkspace.workspaceBlur}px
-						</Label>
-						<Slider
-							value={[currentWorkspace.workspaceBlur]}
-							min={0}
-							max={150}
-							onValueChange={(value) => {
-								setWorkspaceBlur(value[0]);
-							}}
-							className='mt-1'
-						/>
-					</div>
-
-					<div>
-						<Label className='text-xs text-muted-foreground'>
-							Noise: {currentWorkspace.workspaceNoise}%
-						</Label>
-						<Slider
-							value={[currentWorkspace.workspaceNoise]}
-							min={0}
-							max={100}
-							onValueChange={(value) => {
-								setWorkspaceNoise(value[0]);
-							}}
-							className='mt-1'
-						/>
-					</div>
-
 					<TabsContent value='color'>
 						<>
-							<div className='flex flex-wrap items-center justify-between gap-2'>
-								{Gradients.map((item) => (
-									<button
-										key={item.c1 + item.c2}
-										className={`h-16 w-16 overflow-hidden rounded-lg transition-all hover:shadow-md active:scale-90 ${
-											currentWorkspace.workspaceGradientSettings.color1 ===
-											item.c1
-												? 'border-2 border-primary shadow-md'
-												: 'border border-border'
-										}`}
-										style={{
-											background: `linear-gradient(${item.c1},${item.c2})`,
-										}}
-										onClick={() => {
-											setWorkspaceColorMode('Gradient');
-											setWorkspaceGradient({
-												color1: item.c1,
-												color2: item.c2,
-												deg: currentWorkspace.workspaceGradientSettings.deg,
-											});
-										}}
-									>
-										{currentWorkspace.workspaceGradientSettings.color1 ===
-											item.c1 &&
-											currentWorkspace.workspaceGradientSettings.color2 ===
-												item.c2 && <Check></Check>}
-									</button>
-								))}
-							</div>
 							<div className='flex flex-wrap items-center justify-between gap-2'>
 								{Gradients.map((item) => (
 									<button
@@ -536,6 +477,37 @@ export const WorkspacePanel: React.FC = () => {
 						</div>
 					</TabsContent>
 				</Tabs>
+				<Separator className='my-4' />
+
+				<div>
+					<Label className='text-xs text-muted-foreground'>
+						Blur: {Math.round((currentWorkspace.workspaceBlur / 25) * 100)}%
+					</Label>
+					<Slider
+						value={[currentWorkspace.workspaceBlur]}
+						min={0}
+						max={25}
+						onValueChange={(value) => {
+							setWorkspaceBlur(value[0]);
+						}}
+						className='mt-1'
+					/>
+				</div>
+
+				<div>
+					<Label className='text-xs text-muted-foreground'>
+						Noise: {Math.round((currentWorkspace.workspaceNoise / 45) * 100)}%
+					</Label>
+					<Slider
+						value={[currentWorkspace.workspaceNoise]}
+						min={0}
+						max={45}
+						onValueChange={(value) => {
+							setWorkspaceNoise(value[0]);
+						}}
+						className='mt-1'
+					/>
+				</div>
 			</CustomCollapse>
 		</div>
 	);
