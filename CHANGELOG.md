@@ -13,6 +13,9 @@
 - Enhance Paper window style with better textures, gradients, and paper tear effect
 - Add automatic color setting for Paper theme (#fbfaf7) and disable window color picker
 - Add rounded corners and shadows to various window styles for better realism
+- Add blur effect for workspace backgrounds
+- Add noise texture overlay for workspace backgrounds
+- New Dynamic Background Effect
 
 ### 🐛 Fixes
 
