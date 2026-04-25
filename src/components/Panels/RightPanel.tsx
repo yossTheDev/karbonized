@@ -16,6 +16,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 import { HierarchyPanel } from './HierarchyPanel';
 import { Tooltip } from '../CustomControls/Tooltip';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
@@ -87,73 +88,82 @@ export const RightPanel: React.FC = () => {
 			>
 				{/* Selectors */}
 				<div className='flex flex-col gap-4 shrink-0'>
-					{/* Show/Close Menu */}
 					<Tooltip message={showMenu ? 'Collapse Panel' : 'Expand Panel'}>
-						<Button
-							size={'icon'}
-							variant={'ghost'}
+						<button
 							onClick={() => {
 								setShowMenu(!showMenu);
 								setWorkspaceMode('custom');
 							}}
-							className='shrink-0'
+							className='shrink-0 inline-flex items-center justify-center size-9 rounded-4xl border border-transparent bg-clip-padding text-sm font-medium transition-all outline-none select-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:translate-y-px disabled:pointer-events-none disabled:opacity-50 dark:hover:bg-muted/50'
 						>
 							{showMenu ? (
-								<ChevronRight size={16}></ChevronRight>
+								<ChevronRight size={16} />
 							) : (
-								<ChevronLeft size={16}></ChevronLeft>
+								<ChevronLeft size={16} />
 							)}
-						</Button>
+						</button>
 					</Tooltip>
 
-					{/* Layers */}
-					<Tooltip message='Hierarchy'>
-						<Button
-							variant={tab === 'hierarchy' ? 'accent' : 'ghost'}
-							size={'icon'}
-							onClick={() => {
-								setTab('hierarchy');
-								setWorkspaceMode('custom');
-								setShowMenu(true);
-							}}
-							className='shrink-0'
-						>
-							<Layers size={16}></Layers>
-						</Button>
-					</Tooltip>
+					{[
+						{ id: 'hierarchy', icon: <Layers size={16} />, label: 'Hierarchy' },
+						{ id: 'control', icon: <SquarePen size={16} />, label: 'Control' },
+						{
+							id: 'workspace',
+							icon: <InspectionPanel size={16} />,
+							label: 'Workspace',
+						},
+					].map((item) => {
+						const isActive = tab === item.id;
 
-					{/* Edit */}
-					<Tooltip message='Edit Control'>
-						<Button
-							variant={tab === 'control' ? 'accent' : 'ghost'}
-							size={'icon'}
-							onClick={() => {
-								setTab('control');
-								setWorkspaceMode('custom');
-								setShowMenu(true);
-							}}
-							className='shrink-0'
-						>
-							<SquarePen size={16}></SquarePen>
-						</Button>
-					</Tooltip>
+						return (
+							<Tooltip key={item.id} message={`${item.label} Settings`}>
+								<motion.button
+									onClick={() => {
+										setTab(item.id as any);
+										setWorkspaceMode('custom');
+										setShowMenu(true);
+										if (item.id === 'workspace') setWorkspaceTab('workspace');
+									}}
+									className={`shrink-0 flex flex-col items-center w-9 rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:translate-y-px overflow-hidden ${
+										isActive
+											? 'bg-accent text-accent-foreground'
+											: 'text-muted-foreground hover:bg-muted hover:text-foreground'
+									}`}
+									initial={false}
+									animate={{
+										height: isActive ? 120 : 36,
+									}}
+									transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+								>
+									<div className='shrink-0 flex items-center justify-center size-9'>
+										{item.icon}
+									</div>
 
-					{/* Workspace */}
-					<Tooltip message='Workspace Settings'>
-						<Button
-							variant={tab === 'workspace' ? 'accent' : 'ghost'}
-							size={'icon'}
-							onClick={() => {
-								setTab('workspace');
-								setWorkspaceMode('custom');
-								setWorkspaceTab('workspace');
-								setShowMenu(true);
-							}}
-							className='shrink-0'
-						>
-							<InspectionPanel size={16}></InspectionPanel>
-						</Button>
-					</Tooltip>
+									<AnimatePresence>
+										{isActive && (
+											<motion.div
+												initial={{ opacity: 0 }}
+												animate={{ opacity: 1 }}
+												exit={{ opacity: 0 }}
+												transition={{ duration: 0.15 }}
+												className='flex flex-col items-center justify-start pb-4'
+											>
+												<span
+													className='text-[10px] h-16 font-bold uppercase tracking-widest'
+													style={{
+														writingMode: 'vertical-rl',
+														textOrientation: 'mixed',
+													}}
+												>
+													{item.label}
+												</span>
+											</motion.div>
+										)}
+									</AnimatePresence>
+								</motion.button>
+							</Tooltip>
+						);
+					})}
 				</div>
 
 				{/* Tab Panels */}
