@@ -402,22 +402,23 @@ export const WorkspacePanel: React.FC = () => {
 									{currentWorkspace.workspaceDynamicSettings.colors.map(
 										(color, index) => (
 											<div key={index} className='flex items-center gap-1'>
-												<input
-													type='color'
-													value={color}
-													onChange={(e) => {
+												<ColorPicker
+													type='Hex'
+													color={color}
+													isGradientEnable={false}
+													showLabel={false}
+													onColorChange={(newColor) => {
 														const newColors = [
 															...currentWorkspace.workspaceDynamicSettings
 																.colors,
 														];
-														newColors[index] = e.target.value;
+														newColors[index] = newColor;
 														setWorkspaceDynamic({
 															colors: newColors,
 															seed: currentWorkspace.workspaceDynamicSettings
 																.seed,
 														});
 													}}
-													className='h-10 w-10 cursor-pointer rounded border border-border bg-transparent'
 												/>
 												{currentWorkspace.workspaceDynamicSettings.colors
 													.length > 2 && (
