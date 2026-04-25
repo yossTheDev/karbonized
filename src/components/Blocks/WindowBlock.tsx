@@ -20,7 +20,13 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useControlState } from '../../hooks/useControlState';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
-import { Select, SelectItem } from '../ui/select';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/select';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 
@@ -108,16 +114,26 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 									Window Style
 								</Label>
 								<Select value={windowStyle} onValueChange={setWindowStyle}>
-									<SelectItem value={'mac'}>mac</SelectItem>
-									<SelectItem value={'window'}>window</SelectItem>
+									<SelectTrigger className='w-full'>
+										<SelectValue placeholder='Select style' />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value={'mac'}>mac</SelectItem>
+										<SelectItem value={'window'}>window</SelectItem>
+									</SelectContent>
 								</Select>
 
 								<Label className='text-xs text-muted-foreground'>
 									Window Type
 								</Label>
 								<Select value={windowType} onValueChange={setWindowType}>
-									<SelectItem value={'normal'}>normal</SelectItem>
-									<SelectItem value={'browser'}>browser</SelectItem>
+									<SelectTrigger className='w-full'>
+										<SelectValue placeholder='Select type' />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value={'normal'}>normal</SelectItem>
+										<SelectItem value={'browser'}>browser</SelectItem>
+									</SelectContent>
 								</Select>
 							</>
 							{/* Title */}
