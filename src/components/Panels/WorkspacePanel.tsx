@@ -1,5 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 import {
 	Select,
 	SelectContent,
@@ -139,6 +140,9 @@ export const WorkspacePanel: React.FC = () => {
 	const setWorkspaceGradient = useStoreActions(
 		(state) => state.setWorkspaceGradient,
 	);
+	const setWorkspaceDynamic = useStoreActions(
+		(state) => state.setWorkspaceDynamic,
+	);
 	const setTextureColors = useStoreActions((state) => state.setTextureColors);
 	const setWorkspaceColorMode = useStoreActions(
 		(state) => state.setWorkspaceColorMode,
@@ -155,7 +159,9 @@ export const WorkspacePanel: React.FC = () => {
 				menu={
 					<div className='flex items-center gap-2'>
 						<Settings size={18}></Settings>
-						<Label className='text-foreground text-sm font-semibold'>Settings</Label>
+						<Label className='text-foreground text-sm font-semibold'>
+							Settings
+						</Label>
 					</div>
 				}
 			>
@@ -244,7 +250,9 @@ export const WorkspacePanel: React.FC = () => {
 				menu={
 					<div className='flex items-center gap-2'>
 						<Palette size={16}></Palette>
-						<Label className='text-foreground text-sm font-semibold'>Background</Label>
+						<Label className='text-foreground text-sm font-semibold'>
+							Background
+						</Label>
 					</div>
 				}
 			>
@@ -258,7 +266,48 @@ export const WorkspacePanel: React.FC = () => {
 						<TabsTrigger value='color'>Color</TabsTrigger>
 						<TabsTrigger value='texture'>Texture</TabsTrigger>
 						<TabsTrigger value='image'>Image</TabsTrigger>
+						<TabsTrigger value='dynamic'>Dynamic</TabsTrigger>
 					</TabsList>
+
+					<div>
+						<Label className='text-xs text-muted-foreground'>
+							Blur: {currentWorkspace.workspaceDynamicSettings.blur}px
+						</Label>
+						<Slider
+							value={[currentWorkspace.workspaceDynamicSettings.blur]}
+							min={0}
+							max={150}
+							onValueChange={(value) => {
+								setWorkspaceDynamic({
+									colors: currentWorkspace.workspaceDynamicSettings.colors,
+									blur: value[0],
+									seed: currentWorkspace.workspaceDynamicSettings.seed,
+									noise: currentWorkspace.workspaceDynamicSettings.noise,
+								});
+							}}
+							className='mt-1'
+						/>
+					</div>
+
+					<div>
+						<Label className='text-xs text-muted-foreground'>
+							Noise: {currentWorkspace.workspaceDynamicSettings.noise}%
+						</Label>
+						<Slider
+							value={[currentWorkspace.workspaceDynamicSettings.noise]}
+							min={0}
+							max={100}
+							onValueChange={(value) => {
+								setWorkspaceDynamic({
+									colors: currentWorkspace.workspaceDynamicSettings.colors,
+									blur: currentWorkspace.workspaceDynamicSettings.blur,
+									seed: currentWorkspace.workspaceDynamicSettings.seed,
+									noise: value[0],
+								});
+							}}
+							className='mt-1'
+						/>
+					</div>
 					<TabsContent value='color'>
 						<>
 							<div className='flex flex-wrap items-center justify-between gap-2'>
@@ -378,6 +427,99 @@ export const WorkspacePanel: React.FC = () => {
 									></img>
 								</button>
 							))}
+						</div>
+					</TabsContent>
+					<TabsContent value='dynamic'>
+						<div className='flex flex-col gap-4'>
+							<div>
+								<Label className='text-xs text-muted-foreground'>
+									Colors (add up to 5)
+								</Label>
+								<div className='mt-2 flex flex-wrap gap-2'>
+									{currentWorkspace.workspaceDynamicSettings.colors.map(
+										(color, index) => (
+											<div key={index} className='flex items-center gap-1'>
+												<input
+													type='color'
+													value={color}
+													onChange={(e) => {
+														const newColors = [
+															...currentWorkspace.workspaceDynamicSettings
+																.colors,
+														];
+														newColors[index] = e.target.value;
+														setWorkspaceDynamic({
+															colors: newColors,
+															blur: currentWorkspace.workspaceDynamicSettings
+																.blur,
+															seed: currentWorkspace.workspaceDynamicSettings
+																.seed,
+															noise: currentWorkspace.workspaceDynamicSettings.noise,
+														});
+													}}
+													className='h-10 w-10 cursor-pointer rounded border border-border bg-transparent'
+												/>
+												{currentWorkspace.workspaceDynamicSettings.colors
+													.length > 2 && (
+													<button
+														onClick={() => {
+															const newColors =
+																currentWorkspace.workspaceDynamicSettings.colors.filter(
+																	(_, i) => i !== index,
+																);
+															setWorkspaceDynamic({
+																colors: newColors,
+																blur: currentWorkspace.workspaceDynamicSettings
+																	.blur,
+																seed: currentWorkspace.workspaceDynamicSettings
+																	.seed,
+																noise: currentWorkspace.workspaceDynamicSettings.noise,
+															});
+														}}
+														className='text-muted-foreground hover:text-foreground'
+													>
+														×
+													</button>
+												)}
+											</div>
+										),
+									)}
+									{currentWorkspace.workspaceDynamicSettings.colors.length <
+										5 && (
+										<button
+											onClick={() => {
+												const newColors = [
+													...currentWorkspace.workspaceDynamicSettings.colors,
+													'#888888',
+												];
+												setWorkspaceDynamic({
+													colors: newColors,
+													blur: currentWorkspace.workspaceDynamicSettings.blur,
+													seed: currentWorkspace.workspaceDynamicSettings.seed,
+													noise: currentWorkspace.workspaceDynamicSettings.noise,
+												});
+											}}
+											className='flex h-10 w-10 items-center justify-center rounded border border-border text-2xl hover:bg-base-200'
+										>
+											+
+										</button>
+									)}
+								</div>
+							</div>
+
+							<button
+								onClick={() => {
+									const newSeed = Math.floor(Math.random() * 10000);
+									setWorkspaceDynamic({
+										colors: currentWorkspace.workspaceDynamicSettings.colors,
+										blur: currentWorkspace.workspaceDynamicSettings.blur,
+										seed: newSeed,
+									});
+								}}
+								className='w-full rounded-md bg-primary py-2 text-primary-foreground hover:bg-primary/90'
+							>
+								Regenerate Positions
+							</button>
 						</div>
 					</TabsContent>
 				</Tabs>

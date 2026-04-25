@@ -38,6 +38,7 @@ interface Workspace {
 	workspaceWidth: string;
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
+	workspaceDynamicSettings: { colors: string[]; blur: number; seed: number; noise: number };
 	textureName: string;
 	textureColors: { color1: string; color2: string };
 }
@@ -135,10 +136,16 @@ export interface AppStoreModel {
 	workspaceWidth: string;
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
+	workspaceDynamicSettings: { colors: string[]; blur: number; seed: number; noise: number };
 	setWorkspaceGradient: Action<
 		AppStoreModel,
 		{ color1: string; color2: string; deg: number }
 	>;
+	setWorkspaceDynamic: Action<
+		AppStoreModel,
+		{ colors: string[]; blur: number; seed: number; noise: number }
+	>;
+	generateDynamicSeed: Action<AppStoreModel, void>;
 	textureName: string;
 	textureColors: { color1: string; color2: string };
 	setTextureName: Action<AppStoreModel, string>;
@@ -175,6 +182,12 @@ export const AppStore = createStore<AppStoreModel>({
 		state.drag = payload;
 	}),
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
+	workspaceDynamicSettings: {
+		colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
+		blur: 80,
+		seed: 1234,
+		noise: 0,
+	},
 
 	/* Project System */
 	saveProject: computed((state) => {
@@ -316,6 +329,12 @@ export const AppStore = createStore<AppStoreModel>({
 				color2: '#0083B0',
 				deg: 98,
 			},
+			workspaceDynamicSettings: {
+				colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
+				blur: 80,
+				seed: 1234,
+				noise: 0,
+			},
 			textureName: 'grayrate',
 			textureColors: { color1: '#409ccf', color2: '#136179' },
 		},
@@ -339,6 +358,12 @@ export const AppStore = createStore<AppStoreModel>({
 						color2: '#0083B0',
 						deg: 98,
 					},
+					workspaceDynamicSettings: {
+						colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
+						blur: 80,
+						seed: 1234,
+						noise: 0,
+					},
 					textureName: 'grayrate',
 					textureColors: { color1: '#409ccf', color2: '#136179' },
 				},
@@ -359,6 +384,12 @@ export const AppStore = createStore<AppStoreModel>({
 						color1: '#00B4DB',
 						color2: '#0083B0',
 						deg: 98,
+					},
+					workspaceDynamicSettings: {
+						colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
+						blur: 80,
+						seed: 1234,
+						noise: 0,
 					},
 					textureName: 'grayrate',
 					textureColors: { color1: '#409ccf', color2: '#136179' },
@@ -626,6 +657,29 @@ export const AppStore = createStore<AppStoreModel>({
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? { ...item, workspaceGradientSettings: payload }
+				: item,
+		);
+	}),
+
+	setWorkspaceDynamic: action((state, payload) => {
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceDynamicSettings: payload }
+				: item,
+		);
+	}),
+
+	generateDynamicSeed: action((state) => {
+		const newSeed = Math.floor(Math.random() * 10000);
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? {
+						...item,
+						workspaceDynamicSettings: {
+							...item.workspaceDynamicSettings,
+							seed: newSeed,
+						},
+					}
 				: item,
 		);
 	}),

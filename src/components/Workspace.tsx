@@ -2,6 +2,7 @@
 import React, { type RefObject, Suspense } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
+import { DynamicBackground } from './Misc/DynamicBackground';
 import Moveable, {
 	type OnDrag,
 	type OnResize,
@@ -18,6 +19,7 @@ import Moveable, {
 import WorkspaceTexture from './WorkspaceTexture';
 import { Canvas } from './Canvas';
 import { Wallpapers } from '../utils/wallpapers';
+import noiseTexture from '../assets/noisy.png';
 
 interface Props {
 	reference: RefObject<HTMLDivElement>;
@@ -46,40 +48,49 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const blurAmount = currentWorkspace?.workspaceDynamicSettings.blur ?? 0;
+	const noiseAmount = currentWorkspace?.workspaceDynamicSettings.noise ?? 0;
+	const blurSpread = Math.max(blurAmount * 2, 0);
 
-	return (
-		<>
-			<div
-				ref={reference}
-				id='workspace'
-				className='shadow-2xl transition-all'
-				style={{
-					background:
-						currentWorkspace?.workspaceColorMode === 'Single'
-							? currentWorkspace?.workspaceColor
-							: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`,
+	const renderWorkspaceBackground = (useBlurCompensation = false) => {
+		const sizeStyle = useBlurCompensation
+			? {
+					height: `calc(100% + ${blurSpread * 2}px)`,
+					width: `calc(100% + ${blurSpread * 2}px)`,
+					left: `-${blurSpread}px`,
+					top: `-${blurSpread}px`,
+				}
+			: {
 					height: currentWorkspace?.workspaceHeight + 'px',
 					width: currentWorkspace?.workspaceWidth + 'px',
-				}}
-			>
+				};
+
+		return (
+			<>
+				<div
+					className='absolute inset-0'
+					style={{
+						background:
+							currentWorkspace?.workspaceColorMode === 'Single'
+								? currentWorkspace?.workspaceColor
+								: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`,
+					}}
+				/>
+
 				{currentWorkspace?.workspaceType === 'texture' && (
-					<Suspense fallback={<></>}>
-						<WorkspaceTexture
-							texture={currentWorkspace?.textureName}
-						></WorkspaceTexture>
-					</Suspense>
+					<div className='absolute overflow-hidden' style={sizeStyle}>
+						<Suspense fallback={<></>}>
+							<WorkspaceTexture
+								texture={currentWorkspace?.textureName}
+							></WorkspaceTexture>
+						</Suspense>
+					</div>
 				)}
 
 				{currentWorkspace?.workspaceType === 'image' && (
-					<div
-						style={{
-							height: currentWorkspace?.workspaceHeight + 'px',
-							width: currentWorkspace?.workspaceWidth + 'px',
-						}}
-						className='overflow-hidden transition-all'
-					>
+					<div className='absolute overflow-hidden transition-all' style={sizeStyle}>
 						<img
-							className='flex h-full w-full select-none'
+							className='flex h-full w-full select-none object-cover'
 							src={
 								Wallpapers.find(
 									(item) => item.id === currentWorkspace?.textureName,
@@ -89,26 +100,93 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					</div>
 				)}
 
-				{workspaces.map((workspace: { id: string; controls: any[] }) => (
-					<div
-						className={`${
-							currentWorkspaceID === workspace.id ? 'block' : 'hidden'
-						}`}
-						id={workspace.id}
-						key={workspace.id}
-					>
-						{workspace.controls.map((item) => (
-							<ControlHandler
-								id={item.id}
-								key={item.id}
-								type={item.type}
-								isVisible={item.isVisible}
-							></ControlHandler>
-						))}
+				{currentWorkspace?.workspaceType === 'dynamic' && (
+					<div className='absolute overflow-hidden' style={sizeStyle}>
+						<DynamicBackground
+							colors={currentWorkspace?.workspaceDynamicSettings.colors}
+							blur={currentWorkspace?.workspaceDynamicSettings.blur}
+							seed={currentWorkspace?.workspaceDynamicSettings.seed}
+							width={
+								parseInt(currentWorkspace?.workspaceWidth || '512') +
+								blurSpread * 2
+							}
+							height={
+								parseInt(currentWorkspace?.workspaceHeight || '512') +
+								blurSpread * 2
+							}
+						/>
 					</div>
-				))}
+				)}
+			</>
+		);
+	};
 
-				<Canvas></Canvas>
+	return (
+		<div ref={reference} id='workspace'>
+			<div
+				className='relative overflow-hidden shadow-2xl transition-all'
+				style={{
+					height: currentWorkspace?.workspaceHeight + 'px',
+					width: currentWorkspace?.workspaceWidth + 'px',
+				}}
+			>
+				<div className='absolute inset-0 overflow-hidden'>
+					{renderWorkspaceBackground()}
+				</div>
+
+				{blurAmount > 0 && (
+					<div className='absolute inset-0 overflow-hidden pointer-events-none'>
+						<div
+							className='absolute inset-0'
+							style={{
+								filter: `blur(${blurAmount}px)`,
+							}}
+						>
+							{renderWorkspaceBackground(true)}
+						</div>
+					</div>
+				)}
+
+				{noiseAmount > 0 && (
+					<div
+						className='absolute inset-0 pointer-events-none'
+						style={{
+							opacity: noiseAmount / 100,
+							backgroundImage: `url("${noiseTexture}")`,
+							backgroundRepeat: 'repeat',
+							backgroundSize: '160px 160px',
+						}}
+					></div>
+				)}
+
+				<div
+					className='relative z-10'
+					style={{
+						height: currentWorkspace?.workspaceHeight + 'px',
+						width: currentWorkspace?.workspaceWidth + 'px',
+					}}
+				>
+					{workspaces.map((workspace: { id: string; controls: any[] }) => (
+						<div
+							className={`${
+								currentWorkspaceID === workspace.id ? 'block' : 'hidden'
+							}`}
+							id={workspace.id}
+							key={workspace.id}
+						>
+							{workspace.controls.map((item) => (
+								<ControlHandler
+									id={item.id}
+									key={item.id}
+									type={item.type}
+									isVisible={item.isVisible}
+								></ControlHandler>
+							))}
+						</div>
+					))}
+
+					<Canvas></Canvas>
+				</div>
 			</div>
 
 			{editing && (
@@ -390,7 +468,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					renderDirections={['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se']}
 				/>
 			)}
-		</>
+		</div>
 	);
 };
 
