@@ -33,6 +33,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const crop = useStoreState((state) => state.crop);
 	const warp = useStoreState((state) => state.warp);
 	const lockAspect = useStoreState((state) => state.lockAspect);
+	const isExporting = useStoreState((state) => state.isExporting);
 
 	const workspaces = useStoreState((state) => state.workspaces);
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
@@ -192,7 +193,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				</div>
 			</div>
 
-			{editing && (
+			{editing && !isExporting && (
 				<Moveable
 					useResizeObserver
 					target={document.getElementById(controlID)}

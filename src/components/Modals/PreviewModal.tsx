@@ -13,7 +13,7 @@ import karbonized from '../../assets/logo.svg';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { toBlob, toJpeg } from 'html-to-image';
-import { useStoreState } from '../../stores/Hooks';
+import { useStoreActions, useStoreState } from '../../stores/Hooks';
 
 interface Props {
 	open: boolean;
@@ -26,14 +26,18 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 
 	/* App Store */
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const setIsExporting = useStoreActions((state) => state.setIsExporting);
 
 	/* Actions */
-	const exportImage = (type: export_format) => {
+	const exportImage = async (type: export_format) => {
+		setIsExporting(true);
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		ExportImage(
 			currentWorkspace?.workspaceName ?? 'workspace',
 			document.getElementById('workspace'),
 			type,
 		);
+		setTimeout(() => setIsExporting(false), 500);
 	};
 
 	const showPreviewImage = async () => {
@@ -43,21 +47,29 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			return;
 		}
 
+		setIsExporting(true);
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
 		toJpeg(element, {
 			cacheBust: true,
 		})
 			.then((dataUrl) => {
 				setPreviewImage(dataUrl);
+				setIsExporting(false);
 			})
 			.catch((err) => {
 				console.log(err);
+				setIsExporting(false);
 			});
 	};
 
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
 		if (element) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const newFile = await toBlob(element);
+			setIsExporting(false);
 			if (newFile) {
 				const data = {
 					files: [

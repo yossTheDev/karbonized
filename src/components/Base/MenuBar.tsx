@@ -75,6 +75,7 @@ export const MenuBar: React.FC = () => {
 	);
 	const addWorkspace = useStoreActions((state) => state.addWorkspace);
 	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+	const setIsExporting = useStoreActions((state) => state.setIsExporting);
 
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 	const controlID = useStoreState((state) => state.currentControlID);
@@ -113,12 +114,15 @@ export const MenuBar: React.FC = () => {
 		};
 	}, [workspaces]);
 
-	const exportImage = (type: export_format) => {
+	const exportImage = async (type: export_format) => {
+		setIsExporting(true);
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		ExportImage(
 			currentWorkspace?.workspaceName ?? 'workspace',
 			document.getElementById('workspace'),
 			type,
 		);
+		setTimeout(() => setIsExporting(false), 500);
 	};
 
 	const getElementsByType = (type: string) => {
@@ -166,7 +170,10 @@ export const MenuBar: React.FC = () => {
 		const element = document.getElementById('workspace');
 		console.log('share');
 		if (element != null) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const newFile = await toBlob(element);
+			setIsExporting(false);
 			if (newFile != null) {
 				const data = {
 					files: [
@@ -226,7 +233,10 @@ export const MenuBar: React.FC = () => {
 		const element = document.getElementById('workspace');
 
 		if (element != null) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const data = await toPng(element);
+			setIsExporting(false);
 
 			const project = { ...saveProject, thumb: data };
 
@@ -248,7 +258,10 @@ export const MenuBar: React.FC = () => {
 		const element = document.getElementById('workspace');
 
 		if (element) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const data = await toPng(element);
+			setIsExporting(false);
 
 			const project = { ...saveProject, thumb: data };
 

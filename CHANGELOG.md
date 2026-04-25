@@ -29,7 +29,7 @@
 - Fix InfiniteViewer zoom being too aggressive when using Ctrl + mouse wheel scroll (added wheelScale and maxPinchWheel parameters)
 - Fix ControlMenu Portal not rendering when RightPanel hasn't mounted yet (added useEffect to wait for #menu element)
 - Fix ControlMenu disappearing when switching tabs in RightPanel (Portal container now persists within tab)
-- 
+- Fix Moveable component appearing in exported images (added isExporting state to hide Moveable during export)
 ### 🔄 Changes
 
 - Update TypeScript moduleResolution to "bundler" for better ESM support

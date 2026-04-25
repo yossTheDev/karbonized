@@ -56,9 +56,11 @@ export interface AppStoreModel {
 	drag: boolean;
 	crop: boolean;
 	warp: boolean;
+	isExporting: boolean;
 	setDrag: Action<AppStoreModel, boolean>;
 	setCrop: Action<AppStoreModel, boolean>;
 	setWarp: Action<AppStoreModel, boolean>;
+	setIsExporting: Action<AppStoreModel, boolean>;
 	lockAspect: boolean;
 	setLockAspect: Action<AppStoreModel, boolean>;
 
@@ -176,8 +178,12 @@ export const AppStore = createStore<AppStoreModel>({
 	editing: true,
 	lockAspect: false,
 	warp: false,
+	isExporting: false,
 	setWarp: action((state, payload) => {
 		state.warp = payload;
+	}),
+	setIsExporting: action((state, payload) => {
+		state.isExporting = payload;
 	}),
 	crop: false,
 	setCrop: action((state, payload) => {
