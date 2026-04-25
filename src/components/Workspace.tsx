@@ -48,8 +48,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const setPastHistory = useStoreActions((state) => state.setPast);
 	const setFutureHistory = useStoreActions((state) => state.setFuture);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const blurAmount = currentWorkspace?.workspaceDynamicSettings.blur ?? 0;
-	const noiseAmount = currentWorkspace?.workspaceDynamicSettings.noise ?? 0;
+	const blurAmount = currentWorkspace?.workspaceBlur ?? 0;
+	const noiseAmount = currentWorkspace?.workspaceNoise ?? 0;
 	const blurSpread = Math.max(blurAmount * 2, 0);
 
 	const renderWorkspaceBackground = (useBlurCompensation = false) => {
@@ -88,7 +88,10 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				)}
 
 				{currentWorkspace?.workspaceType === 'image' && (
-					<div className='absolute overflow-hidden transition-all' style={sizeStyle}>
+					<div
+						className='absolute overflow-hidden transition-all'
+						style={sizeStyle}
+					>
 						<img
 							className='flex h-full w-full select-none object-cover'
 							src={
@@ -104,7 +107,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					<div className='absolute overflow-hidden' style={sizeStyle}>
 						<DynamicBackground
 							colors={currentWorkspace?.workspaceDynamicSettings.colors}
-							blur={currentWorkspace?.workspaceDynamicSettings.blur}
+							blur={currentWorkspace?.workspaceBlur}
 							seed={currentWorkspace?.workspaceDynamicSettings.seed}
 							width={
 								parseInt(currentWorkspace?.workspaceWidth || '512') +

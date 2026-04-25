@@ -38,7 +38,9 @@ interface Workspace {
 	workspaceWidth: string;
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
-	workspaceDynamicSettings: { colors: string[]; blur: number; seed: number; noise: number };
+	workspaceDynamicSettings: { colors: string[]; seed: number };
+	workspaceBlur: number;
+	workspaceNoise: number;
 	textureName: string;
 	textureColors: { color1: string; color2: string };
 }
@@ -136,15 +138,19 @@ export interface AppStoreModel {
 	workspaceWidth: string;
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
-	workspaceDynamicSettings: { colors: string[]; blur: number; seed: number; noise: number };
+	workspaceDynamicSettings: { colors: string[]; seed: number };
+	workspaceBlur: number;
+	workspaceNoise: number;
 	setWorkspaceGradient: Action<
 		AppStoreModel,
 		{ color1: string; color2: string; deg: number }
 	>;
 	setWorkspaceDynamic: Action<
 		AppStoreModel,
-		{ colors: string[]; blur: number; seed: number; noise: number }
+		{ colors: string[]; seed: number }
 	>;
+	setWorkspaceBlur: Action<AppStoreModel, number>;
+	setWorkspaceNoise: Action<AppStoreModel, number>;
 	generateDynamicSeed: Action<AppStoreModel, void>;
 	textureName: string;
 	textureColors: { color1: string; color2: string };
@@ -184,10 +190,10 @@ export const AppStore = createStore<AppStoreModel>({
 	workspaceGradientSettings: { color1: '#00B4DB', color2: '#0083B0', deg: 98 },
 	workspaceDynamicSettings: {
 		colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
-		blur: 80,
 		seed: 1234,
-		noise: 0,
 	},
+	workspaceBlur: 0,
+	workspaceNoise: 0,
 
 	/* Project System */
 	saveProject: computed((state) => {
@@ -331,10 +337,10 @@ export const AppStore = createStore<AppStoreModel>({
 			},
 			workspaceDynamicSettings: {
 				colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
-				blur: 80,
 				seed: 1234,
-				noise: 0,
 			},
+			workspaceBlur: 0,
+			workspaceNoise: 0,
 			textureName: 'grayrate',
 			textureColors: { color1: '#409ccf', color2: '#136179' },
 		},
@@ -360,10 +366,10 @@ export const AppStore = createStore<AppStoreModel>({
 					},
 					workspaceDynamicSettings: {
 						colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
-						blur: 80,
 						seed: 1234,
-						noise: 0,
 					},
+					workspaceBlur: 0,
+					workspaceNoise: 0,
 					textureName: 'grayrate',
 					textureColors: { color1: '#409ccf', color2: '#136179' },
 				},
@@ -387,10 +393,10 @@ export const AppStore = createStore<AppStoreModel>({
 					},
 					workspaceDynamicSettings: {
 						colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
-						blur: 80,
 						seed: 1234,
-						noise: 0,
 					},
+					workspaceBlur: 0,
+					workspaceNoise: 0,
 					textureName: 'grayrate',
 					textureColors: { color1: '#409ccf', color2: '#136179' },
 				},
@@ -665,6 +671,22 @@ export const AppStore = createStore<AppStoreModel>({
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? { ...item, workspaceDynamicSettings: payload }
+				: item,
+		);
+	}),
+
+	setWorkspaceBlur: action((state, payload) => {
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceBlur: payload }
+				: item,
+		);
+	}),
+
+	setWorkspaceNoise: action((state, payload) => {
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceNoise: payload }
 				: item,
 		);
 	}),

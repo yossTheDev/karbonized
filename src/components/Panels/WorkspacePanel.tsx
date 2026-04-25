@@ -143,6 +143,8 @@ export const WorkspacePanel: React.FC = () => {
 	const setWorkspaceDynamic = useStoreActions(
 		(state) => state.setWorkspaceDynamic,
 	);
+	const setWorkspaceBlur = useStoreActions((state) => state.setWorkspaceBlur);
+	const setWorkspaceNoise = useStoreActions((state) => state.setWorkspaceNoise);
 	const setTextureColors = useStoreActions((state) => state.setTextureColors);
 	const setWorkspaceColorMode = useStoreActions(
 		(state) => state.setWorkspaceColorMode,
@@ -271,19 +273,14 @@ export const WorkspacePanel: React.FC = () => {
 
 					<div>
 						<Label className='text-xs text-muted-foreground'>
-							Blur: {currentWorkspace.workspaceDynamicSettings.blur}px
+							Blur: {currentWorkspace.workspaceBlur}px
 						</Label>
 						<Slider
-							value={[currentWorkspace.workspaceDynamicSettings.blur]}
+							value={[currentWorkspace.workspaceBlur]}
 							min={0}
 							max={150}
 							onValueChange={(value) => {
-								setWorkspaceDynamic({
-									colors: currentWorkspace.workspaceDynamicSettings.colors,
-									blur: value[0],
-									seed: currentWorkspace.workspaceDynamicSettings.seed,
-									noise: currentWorkspace.workspaceDynamicSettings.noise,
-								});
+								setWorkspaceBlur(value[0]);
 							}}
 							className='mt-1'
 						/>
@@ -291,25 +288,50 @@ export const WorkspacePanel: React.FC = () => {
 
 					<div>
 						<Label className='text-xs text-muted-foreground'>
-							Noise: {currentWorkspace.workspaceDynamicSettings.noise}%
+							Noise: {currentWorkspace.workspaceNoise}%
 						</Label>
 						<Slider
-							value={[currentWorkspace.workspaceDynamicSettings.noise]}
+							value={[currentWorkspace.workspaceNoise]}
 							min={0}
 							max={100}
 							onValueChange={(value) => {
-								setWorkspaceDynamic({
-									colors: currentWorkspace.workspaceDynamicSettings.colors,
-									blur: currentWorkspace.workspaceDynamicSettings.blur,
-									seed: currentWorkspace.workspaceDynamicSettings.seed,
-									noise: value[0],
-								});
+								setWorkspaceNoise(value[0]);
 							}}
 							className='mt-1'
 						/>
 					</div>
+
 					<TabsContent value='color'>
 						<>
+							<div className='flex flex-wrap items-center justify-between gap-2'>
+								{Gradients.map((item) => (
+									<button
+										key={item.c1 + item.c2}
+										className={`h-16 w-16 overflow-hidden rounded-lg transition-all hover:shadow-md active:scale-90 ${
+											currentWorkspace.workspaceGradientSettings.color1 ===
+											item.c1
+												? 'border-2 border-primary shadow-md'
+												: 'border border-border'
+										}`}
+										style={{
+											background: `linear-gradient(${item.c1},${item.c2})`,
+										}}
+										onClick={() => {
+											setWorkspaceColorMode('Gradient');
+											setWorkspaceGradient({
+												color1: item.c1,
+												color2: item.c2,
+												deg: currentWorkspace.workspaceGradientSettings.deg,
+											});
+										}}
+									>
+										{currentWorkspace.workspaceGradientSettings.color1 ===
+											item.c1 &&
+											currentWorkspace.workspaceGradientSettings.color2 ===
+												item.c2 && <Check></Check>}
+									</button>
+								))}
+							</div>
 							<div className='flex flex-wrap items-center justify-between gap-2'>
 								{Gradients.map((item) => (
 									<button
@@ -450,11 +472,8 @@ export const WorkspacePanel: React.FC = () => {
 														newColors[index] = e.target.value;
 														setWorkspaceDynamic({
 															colors: newColors,
-															blur: currentWorkspace.workspaceDynamicSettings
-																.blur,
 															seed: currentWorkspace.workspaceDynamicSettings
 																.seed,
-															noise: currentWorkspace.workspaceDynamicSettings.noise,
 														});
 													}}
 													className='h-10 w-10 cursor-pointer rounded border border-border bg-transparent'
@@ -469,11 +488,8 @@ export const WorkspacePanel: React.FC = () => {
 																);
 															setWorkspaceDynamic({
 																colors: newColors,
-																blur: currentWorkspace.workspaceDynamicSettings
-																	.blur,
 																seed: currentWorkspace.workspaceDynamicSettings
 																	.seed,
-																noise: currentWorkspace.workspaceDynamicSettings.noise,
 															});
 														}}
 														className='text-muted-foreground hover:text-foreground'
@@ -494,9 +510,7 @@ export const WorkspacePanel: React.FC = () => {
 												];
 												setWorkspaceDynamic({
 													colors: newColors,
-													blur: currentWorkspace.workspaceDynamicSettings.blur,
 													seed: currentWorkspace.workspaceDynamicSettings.seed,
-													noise: currentWorkspace.workspaceDynamicSettings.noise,
 												});
 											}}
 											className='flex h-10 w-10 items-center justify-center rounded border border-border text-2xl hover:bg-base-200'
@@ -512,7 +526,6 @@ export const WorkspacePanel: React.FC = () => {
 									const newSeed = Math.floor(Math.random() * 10000);
 									setWorkspaceDynamic({
 										colors: currentWorkspace.workspaceDynamicSettings.colors,
-										blur: currentWorkspace.workspaceDynamicSettings.blur,
 										seed: newSeed,
 									});
 								}}
