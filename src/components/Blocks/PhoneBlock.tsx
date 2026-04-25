@@ -7,7 +7,7 @@ import {
 	IconSignal4g,
 	IconWifi,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Modal } from 'react-daisyui';
 import { Checkbox } from '../ui/checkbox';
 import karbonized from '../../assets/logo.svg';
@@ -18,6 +18,8 @@ import { useControlState } from '../../hooks/useControlState';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Slider } from '../ui/slider';
+import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 
 /* Devices Mockups */
 import iphoneX from '../../assets/device_mockups/iphonex.png';
@@ -80,6 +82,7 @@ type models =
 export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
 	const [showModal, setShowModal] = useState(false);
+	const contentImageRef = useRef<HTMLImageElement>(null);
 
 	const [template, setTemplate] = useControlState(
 		'iPhone X',
@@ -110,6 +113,35 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	);
 
 	const [drop, setDrop] = useControlState(false, `${id}-drop`);
+	const setWorkspaceDynamic = useStoreActions(
+		(state) => state.setWorkspaceDynamic,
+	);
+	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+
+	const handleCreateDynamicBackground = async (): Promise<void> => {
+		if (contentImageRef.current == null || currentWorkspace == null) {
+			return;
+		}
+
+		try {
+			const colors = await buildDynamicBackgroundColors(
+				contentImageRef.current,
+			);
+			const seed = Math.floor(Math.random() * 10000);
+
+			setWorkspaceDynamic({
+				colors,
+				seed,
+			});
+			setWorkspaceType('dynamic');
+		} catch (error) {
+			console.error(
+				'Failed to create dynamic background from phone mockup image',
+				error,
+			);
+		}
+	};
 
 	return (
 		<>
@@ -123,6 +155,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 				maxHeight={template === 'adaptive' ? '2000px' : '618px'}
 				defaultHeight={'620px'}
 				defaultWidth={'320px'}
+				onCreateDynamicBackground={handleCreateDynamicBackground}
 				menu={
 					<>
 						{/* Border Settings */}
@@ -346,6 +379,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 
 									{/* Image */}
 									<img
+										ref={contentImageRef}
 										style={{
 											marginTop: '-8px',
 											borderBottomLeftRadius: screenRadius + 'px',
@@ -353,6 +387,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 										}}
 										className='flex h-56 max-h-full max-w-full flex-auto select-none bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 
 									{/* Notch */}
@@ -393,8 +428,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='absolute flex h-full w-full px-7 pb-6 pt-10'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mx-auto my-auto h-full w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -409,8 +446,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='absolute flex h-full w-full px-8 pb-11 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto h-full w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -425,8 +464,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-8 pb-28 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mx-auto my-auto flex h-134 max-h-full w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -441,8 +482,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-10 pb-16 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto flex h-126 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -457,8 +500,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-12'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto flex h-144 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -473,8 +518,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-7'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto flex h-148 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -489,8 +536,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-9 pb-7 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto flex h-140 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -505,8 +554,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-5 pb-6 pt-6'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto flex h-142 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>

@@ -28,6 +28,7 @@ interface ControlProps {
 	minWidth?: string;
 
 	onClick?: () => void;
+	onCreateDynamicBackground?: () => Promise<void> | void;
 }
 
 export const ControlTemplate: React.FC<ControlProps> = ({
@@ -46,6 +47,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	minWidth = '300px',
 	defaultHeight = '50px',
 	defaultWidth = '80px',
+	onCreateDynamicBackground,
 }) => {
 	// App Store
 	const controlID = useStoreState((state) => state.currentControlID);
@@ -308,6 +310,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						exportAsPng={exportAsPng}
 						exportAsJpeg={exportAsJpeg}
 						exportAsSvg={exportAsSvg}
+						onCreateDynamicBackground={onCreateDynamicBackground}
 						contextMenu={contextMenu}
 						setID={setID}
 						setVisibility={setVisibility}

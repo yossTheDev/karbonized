@@ -17,6 +17,7 @@ interface ControlContextMenuProps {
 	exportAsPng: () => Promise<void>;
 	exportAsJpeg: () => Promise<void>;
 	exportAsSvg: () => Promise<void>;
+	onCreateDynamicBackground?: () => Promise<void> | void;
 	contextMenu?: ReactNode;
 	setID: (value: string) => void;
 	setVisibility: (value: boolean) => void;
@@ -29,6 +30,7 @@ export const ControlContextMenu: React.FC<ControlContextMenuProps> = ({
 	exportAsPng,
 	exportAsJpeg,
 	exportAsSvg,
+	onCreateDynamicBackground,
 	contextMenu,
 	setID,
 	setVisibility,
@@ -78,6 +80,19 @@ export const ControlContextMenu: React.FC<ControlContextMenuProps> = ({
 						</ContextMenuItem>
 					</ContextMenuSubContent>
 				</ContextMenuSub>
+
+				{onCreateDynamicBackground !== undefined && (
+					<>
+						<ContextMenuSeparator></ContextMenuSeparator>
+						<ContextMenuItem
+							onClick={async () => {
+								await onCreateDynamicBackground();
+							}}
+						>
+							Create Dynamic Background
+						</ContextMenuItem>
+					</>
+				)}
 
 				{contextMenu !== undefined && (
 					<>

@@ -3,6 +3,7 @@ import { IconBorderStyle, IconPhoto } from '@tabler/icons-react';
 import React, { useRef } from 'react';
 import karbonized from '../../assets/logo.svg';
 import { useControlState } from '../../hooks/useControlState';
+import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ContextMenuItem } from '../ui/context-menu';
 import { Input } from '../ui/input';
@@ -25,7 +26,12 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlState = useStoreActions((state) => state.setControlState);
+	const setWorkspaceDynamic = useStoreActions(
+		(state) => state.setWorkspaceDynamic,
+	);
+	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
 	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
 
 	// Handle Load Image
 	const handleLoadImage = (): void => {
@@ -43,6 +49,26 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 		});
 		input.click();
 	};
+
+	const handleCreateDynamicBackground = async (): Promise<void> => {
+		if (imgRef.current == null || currentWorkspace == null) {
+			return;
+		}
+
+		try {
+			const colors = await buildDynamicBackgroundColors(imgRef.current);
+			const seed = Math.floor(Math.random() * 10000);
+
+			setWorkspaceDynamic({
+				colors,
+				seed,
+			});
+			setWorkspaceType('dynamic');
+		} catch (error) {
+			console.error('Failed to create dynamic background from image', error);
+		}
+	};
+
 	return (
 		<>
 			<ControlTemplate
@@ -55,6 +81,7 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 				maxHeight={'5000px'}
 				defaultHeight={'100px'}
 				defaultWidth={'100px'}
+				onCreateDynamicBackground={handleCreateDynamicBackground}
 				contextMenu={
 					<>
 						<ContextMenuItem
@@ -152,6 +179,7 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 					style={{ borderRadius: borderRadius + 'px' }}
 					className={`flex h-full w-full flex-auto select-none rounded-3xl `}
 					src={src}
+					crossOrigin='anonymous'
 				></img>
 			</ControlTemplate>
 		</>

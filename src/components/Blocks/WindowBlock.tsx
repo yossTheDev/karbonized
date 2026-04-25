@@ -11,7 +11,7 @@ import {
 	IconStar,
 	IconX,
 } from '@tabler/icons-react';
-import React from 'react';
+import React, { useRef } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import karbonized from '../../assets/logo.svg';
@@ -20,13 +20,9 @@ import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useControlState } from '../../hooks/useControlState';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '../ui/select';
+import { Select, SelectItem } from '../ui/select';
+import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 
 interface Props {
 	id: string;
@@ -34,6 +30,7 @@ interface Props {
 
 export const WindowBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
+	const contentImageRef = useRef<HTMLImageElement>(null);
 	const [title, setTitle] = useControlState('Karbonized', `${id}-title`);
 	const [url, setUrl] = useControlState('karbonized.onrender.com', `${id}-url`);
 	const [color, setColor] = useControlState('#ffffff', `${id}-color`);
@@ -52,6 +49,35 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 	);
 
 	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
+	const setWorkspaceDynamic = useStoreActions(
+		(state) => state.setWorkspaceDynamic,
+	);
+	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
+	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+
+	const handleCreateDynamicBackground = async (): Promise<void> => {
+		if (contentImageRef.current == null || currentWorkspace == null) {
+			return;
+		}
+
+		try {
+			const colors = await buildDynamicBackgroundColors(
+				contentImageRef.current,
+			);
+			const seed = Math.floor(Math.random() * 10000);
+
+			setWorkspaceDynamic({
+				colors,
+				seed,
+			});
+			setWorkspaceType('dynamic');
+		} catch (error) {
+			console.error(
+				'Failed to create dynamic background from window image',
+				error,
+			);
+		}
+	};
 
 	return (
 		<>
@@ -65,6 +91,7 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 				defaultHeight={'200px'}
 				defaultWidth={'400px'}
 				color={color}
+				onCreateDynamicBackground={handleCreateDynamicBackground}
 				menu={
 					<>
 						<CustomCollapse
@@ -284,8 +311,10 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 					{/* Content */}
 					<div className='flex flex-auto'>
 						<img
+							ref={contentImageRef}
 							className='flex aspect-auto h-full w-full flex-auto'
 							src={src}
+							crossOrigin='anonymous'
 						></img>
 					</div>
 				</div>

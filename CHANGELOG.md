@@ -15,7 +15,8 @@
 - Add rounded corners and shadows to various window styles for better realism
 - Add blur effect for workspace backgrounds
 - Add noise texture overlay for workspace backgrounds
-- New Dynamic Background Effect
+- New Mesh Gradient Dynamic Background Effect
+- Add "Create Dynamic Background" from Image, Phone, and Window block context menus using extracted image colors
 
 ### 🐛 Fixes
 
@@ -30,6 +31,7 @@
 - Fix ControlMenu Portal not rendering when RightPanel hasn't mounted yet (added useEffect to wait for #menu element)
 - Fix ControlMenu disappearing when switching tabs in RightPanel (Portal container now persists within tab)
 - Fix Moveable component appearing in exported images (added isExporting state to hide Moveable during export)
+
 ### 🔄 Changes
 
 - Update TypeScript moduleResolution to "bundler" for better ESM support

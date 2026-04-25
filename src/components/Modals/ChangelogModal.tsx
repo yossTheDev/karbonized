@@ -14,6 +14,10 @@ interface Props {
 }
 
 const changelog = `
+## v 2.0.0
+
+* feat: Create Dynamic Background from Image, Phone, and Window block context menus
+
 ## v 1.12.0 - Release (August 24th, 2023)
 
 * feat: New Template System with Community-Generated Content

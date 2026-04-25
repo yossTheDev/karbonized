@@ -52,6 +52,16 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const blurAmount = currentWorkspace?.workspaceBlur ?? 0;
 	const noiseAmount = currentWorkspace?.workspaceNoise ?? 0;
 	const blurSpread = Math.max(blurAmount * 2, 0);
+	const dynamicColors = currentWorkspace?.workspaceDynamicSettings.colors ?? [];
+
+	const workspaceBaseBackground =
+		currentWorkspace?.workspaceType === 'dynamic' && dynamicColors.length > 0
+			? `linear-gradient(135deg, ${dynamicColors[0]}, ${
+					dynamicColors[1] ?? dynamicColors[0]
+				}, ${dynamicColors[2] ?? dynamicColors[1] ?? dynamicColors[0]})`
+			: currentWorkspace?.workspaceColorMode === 'Single'
+				? currentWorkspace?.workspaceColor
+				: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`;
 
 	const renderWorkspaceBackground = (useBlurCompensation = false) => {
 		const sizeStyle = useBlurCompensation
@@ -71,10 +81,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 				<div
 					className='absolute inset-0'
 					style={{
-						background:
-							currentWorkspace?.workspaceColorMode === 'Single'
-								? currentWorkspace?.workspaceColor
-								: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`,
+						background: workspaceBaseBackground,
 					}}
 				/>
 
