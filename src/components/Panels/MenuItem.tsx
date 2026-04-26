@@ -1,163 +1,322 @@
+import { Button } from '@/components/ui/button';
 import {
-	IconAppWindow,
-	IconBrandTwitter,
-	IconCircle,
-	IconCode,
-	IconDeviceMobile,
-	IconEye,
-	IconEyeClosed,
-	IconLetterT,
-	IconPhoto,
-	IconPuzzle,
-	IconQrcode,
-	IconSticker,
-} from '@tabler/icons-react';
-import { toPng } from 'html-to-image';
-import React, { useEffect, useState } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import {
+	ArrowDown,
+	ArrowUp,
+	Boxes,
+	ChevronDown,
+	ChevronRight,
+	Circle,
+	Code2,
+	EllipsisVertical,
+	Eye,
+	EyeOff,
+	Folder,
+	FolderInput,
+	Image,
+	Lock,
+	LockOpen,
+	Monitor,
+	Copy,
+	PenLine,
+	QrCode,
+	SendToBack,
+	Shapes,
+	SquareCode,
+	Sticker,
+	TextCursorInput,
+	Trash2,
+	Users,
+} from 'lucide-react';
+import React from 'react';
+import type { Item } from '../../stores/AppStore';
 
-export interface Item {
-	id: string;
-	type: string;
-	name: string;
-	isSelectable: boolean;
-	isDeleted: boolean;
-	isDragged: boolean;
-	isVisible: boolean;
-	props: any;
+type LayerDropPosition = 'before' | 'after' | 'inside';
+
+interface MenuItemProps {
+	item: Item;
+	depth: number;
+	isSelected: boolean;
+	isFocused: boolean;
+	isRenaming: boolean;
+	dropPosition?: LayerDropPosition | null;
+	childCount: number;
+	onSelect: (item: Item) => void;
+	onRenameStart: (item: Item) => void;
+	onRenameCommit: (value: string) => void;
+	onRenameCancel: () => void;
+	onToggleVisibility: (id: string) => void;
+	onToggleLock: (id: string) => void;
+	onDelete: (id: string) => void;
+	onDuplicate: (id: string) => void;
+	onGroup: (id: string) => void;
+	onUngroup: (id: string) => void;
+	onMoveStep: (id: string, direction: 'backward' | 'forward') => void;
+	onMoveEdge: (id: string, position: 'back' | 'front') => void;
+	onToggleCollapsed: (id: string) => void;
+	onDragStart: (id: string) => void;
+	onDragOver: (event: React.DragEvent<HTMLDivElement>, item: Item) => void;
+	onDrop: (event: React.DragEvent<HTMLDivElement>, item: Item) => void;
+	onDragEnd: () => void;
+	renameValue: string;
+	setRenameValue: (value: string) => void;
 }
 
-export const MenuItem: React.FC<Item> = ({
-	id,
-	isVisible,
-	isDragged,
-	name,
-	type,
-	props,
+export const MenuItem: React.FC<MenuItemProps> = ({
+	item,
+	depth,
+	isSelected,
+	isFocused,
+	isRenaming,
+	dropPosition,
+	childCount,
+	onSelect,
+	onRenameStart,
+	onRenameCommit,
+	onRenameCancel,
+	onToggleVisibility,
+	onToggleLock,
+	onDelete,
+	onDuplicate,
+	onGroup,
+	onUngroup,
+	onMoveStep,
+	onMoveEdge,
+	onToggleCollapsed,
+	onDragStart,
+	onDragOver,
+	onDrop,
+	onDragEnd,
+	renameValue,
+	setRenameValue,
 }) => {
-	const controlID = useStoreState((state) => state.currentControlID);
-	const setCurrentControlID = useStoreActions(
-		(state) => state.setcurrentControlID,
-	);
-	const setWorkspaceControls = useStoreActions(
-		(state) => state.setWorkspaceControls,
-	);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const controlProperties = useStoreState((state) => state.ControlProperties);
-	const [src, setSrc] = useState('');
-
-	useEffect(() => {
-		const item = document.getElementById('control-' + id);
-
-		if (item !== null && isVisible)
-			toPng(item, {
-				cacheBust: true,
-			})
-				.then((dataUrl) => {
-					setSrc(dataUrl);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-	}, [currentWorkspace, controlProperties]);
-
-	useEffect(() => {
-		if (controlID === id && !isVisible) {
-			setCurrentControlID('');
-		}
-	}, [controlID, isVisible]);
+	const isGroup = item.type === 'group';
 
 	return (
-		<>
+		<div className='relative'>
+			{dropPosition === 'before' && (
+				<div className='absolute -top-1 left-3 right-3 h-0.5 rounded-full bg-primary/80' />
+			)}
+
 			<div
-				onMouseDown={() => {
-					if (isVisible) setCurrentControlID(id);
-				}}
-				className={`z-50 flex list-none items-center gap-2 rounded-xl px-4 py-2 hover:bg-muted text-muted-foreground ${
-					!isDragged && 'hover:cursor-pointer'
-				} ${isDragged && 'cursor-grabbing'} ${
-					controlID === id && 'bg-muted'
+				draggable
+				onDragStart={() => onDragStart(item.id)}
+				onDragOver={(event) => onDragOver(event, item)}
+				onDrop={(event) => onDrop(event, item)}
+				onDragEnd={onDragEnd}
+				onClick={() => onSelect(item)}
+				onDoubleClick={() => onRenameStart(item)}
+				className={`group relative flex items-center gap-2 rounded-2xl border px-2 py-2 transition-all ${
+					isSelected
+						? 'border-primary/40 bg-primary/10 text-foreground shadow-sm'
+						: isFocused
+							? 'border-border/80 bg-muted/60 text-foreground'
+							: 'border-transparent bg-background/60 text-muted-foreground hover:border-border/70 hover:bg-muted/60 hover:text-foreground'
 				}`}
-				{...props}
+				style={{ marginLeft: depth * 14 }}
 			>
-				<MenuIcon type={type}></MenuIcon>
+				{dropPosition === 'inside' && (
+					<div className='absolute inset-0 rounded-2xl border border-dashed border-primary/70 bg-primary/5' />
+				)}
 
-				{/* Image */}
-				<div className='flex h-12 w-12 items-center justify-center rounded bg-muted border px-3 py-2 shadow'>
-					{src !== 'data:,' && <img src={src}></img>}
-				</div>
+				{isGroup ? (
+					<Button
+						type='button'
+						variant='ghost'
+						size='icon-xs'
+						className='relative z-10'
+						onClick={(event) => {
+							event.stopPropagation();
+							onToggleCollapsed(item.id);
+						}}
+					>
+						{item.collapsed ? <ChevronRight /> : <ChevronDown />}
+					</Button>
+				) : (
+					<div className='size-6 shrink-0' />
+				)}
 
-				<p
-					className={`${isDragged && 'cursor-grabbing'} ${
-						!isDragged && 'hover:cursor-pointer'
+				<div
+					className={`relative z-10 flex size-9 shrink-0 items-center justify-center rounded-2xl border ${
+						isGroup
+							? 'border-amber-300/60 bg-amber-100/80 text-amber-700'
+							: 'border-border/80 bg-card text-foreground'
 					}`}
 				>
-					{name}
-				</p>
+					<MenuIcon type={item.type} />
+				</div>
 
-				{/* Set Visibility */}
-				<div
-					onMouseDown={() => {
-						if (currentWorkspace !== undefined)
-							setWorkspaceControls(
-								currentWorkspace.controls.map((item) =>
-									item.id === id
-										? { ...item, isVisible: !item.isVisible }
-										: item,
-								),
-							);
-					}}
-					className='pointer-events-auto ml-auto rounded p-2 hover:bg-muted'
-				>
-					{isVisible ? (
-						<IconEye size={16}></IconEye>
+				<div className='relative z-10 min-w-0 flex-1'>
+					{isRenaming ? (
+						<Input
+							autoFocus
+							value={renameValue}
+							onChange={(event) => setRenameValue(event.target.value)}
+							onClick={(event) => event.stopPropagation()}
+							onKeyDown={(event) => {
+								if (event.key === 'Enter') {
+									onRenameCommit(renameValue);
+								} else if (event.key === 'Escape') {
+									onRenameCancel();
+								}
+							}}
+							onBlur={() => onRenameCommit(renameValue)}
+							className='h-8 bg-background'
+						/>
 					) : (
-						<IconEyeClosed size={16}></IconEyeClosed>
+						<>
+							<p className='truncate text-sm font-medium'>{item.name}</p>
+							<div className='flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/90'>
+								<span>{isGroup ? 'Group' : item.type.replace('_', ' ')}</span>
+								{isGroup && <span>{childCount} items</span>}
+								{item.locked && <span>Locked</span>}
+								{!item.isVisible && <span>Hidden</span>}
+							</div>
+						</>
 					)}
 				</div>
+
+				<div className='relative z-10 flex items-center gap-1 opacity-100 md:opacity-0 md:transition-opacity md:group-hover:opacity-100 md:group-focus-within:opacity-100'>
+					<Button
+						type='button'
+						variant='ghost'
+						size='icon-xs'
+						onClick={(event) => {
+							event.stopPropagation();
+							onToggleVisibility(item.id);
+						}}
+					>
+						{item.isVisible ? <Eye /> : <EyeOff />}
+					</Button>
+
+					<Button
+						type='button'
+						variant='ghost'
+						size='icon-xs'
+						onClick={(event) => {
+							event.stopPropagation();
+							onToggleLock(item.id);
+						}}
+					>
+						{item.locked ? <Lock /> : <LockOpen />}
+					</Button>
+
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								type='button'
+								variant='ghost'
+								size='icon-xs'
+								onClick={(event) => event.stopPropagation()}
+							>
+								<EllipsisVertical />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end' className='w-52'>
+							<DropdownMenuItem
+								onClick={(event) => {
+									event.stopPropagation();
+									onRenameStart(item);
+								}}
+							>
+								<PenLine className='mr-2 size-4' />
+								Rename layer
+							</DropdownMenuItem>
+							{!isGroup && (
+								<DropdownMenuItem onClick={() => onGroup(item.id)}>
+									<FolderInput className='mr-2 size-4' />
+									Create group from layer
+								</DropdownMenuItem>
+							)}
+							{isGroup && (
+								<DropdownMenuItem onClick={() => onUngroup(item.id)}>
+									<Users className='mr-2 size-4' />
+									Ungroup
+								</DropdownMenuItem>
+							)}
+							<DropdownMenuItem onClick={() => onDuplicate(item.id)}>
+								<Copy className='mr-2 size-4' />
+								Duplicate
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem onClick={() => onMoveStep(item.id, 'backward')}>
+								<ChevronUpIcon />
+								Move backward
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => onMoveStep(item.id, 'forward')}>
+								<ChevronDownIcon />
+								Move forward
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => onMoveEdge(item.id, 'front')}>
+								<BringToFrontIcon />
+								Bring to front
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => onMoveEdge(item.id, 'back')}>
+								<SendToBack className='mr-2 size-4' />
+								Send to back
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem
+								onClick={() => onDelete(item.id)}
+								className='text-destructive focus:text-destructive'
+							>
+								<Trash2 className='mr-2 size-4' />
+								Delete
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
-		</>
+
+			{dropPosition === 'after' && (
+				<div className='absolute -bottom-1 left-3 right-3 h-0.5 rounded-full bg-primary/80' />
+			)}
+		</div>
 	);
 };
 
+const ChevronUpIcon = () => <ArrowUp className='mr-2 size-4' />;
+const ChevronDownIcon = () => <ArrowDown className='mr-2 size-4' />;
+const BringToFrontIcon = () => <Boxes className='mr-2 size-4' />;
+
 export const MenuIcon: React.FC<{ type: string }> = ({ type }) => {
-	// Store Actions
 	switch (type) {
 		case 'code':
-			return <IconCode className='my-auto' size={18}></IconCode>;
+			return <Code2 className='size-4' />;
 		case 'text':
-			return <IconLetterT className='my-auto' size={18}></IconLetterT>;
+			return <TextCursorInput className='size-4' />;
 		case 'qr':
-			return <IconQrcode className='my-auto' size={18}></IconQrcode>;
+			return <QrCode className='size-4' />;
 		case 'image':
-			return <IconPhoto className='my-auto' size={18}></IconPhoto>;
+			return <Image className='size-4' />;
 		case 'window':
-			return <IconAppWindow className='my-auto' size={18}></IconAppWindow>;
+			return <SquareCode className='size-4' />;
 		case 'avatar':
-			return <></>;
-
+			return <Users className='size-4' />;
 		case 'shape':
-			return <IconCircle className='my-auto' size={18}></IconCircle>;
+			return <Circle className='size-4' />;
 		case 'phone_mockup':
-			return (
-				<IconDeviceMobile className='my-auto' size={18}></IconDeviceMobile>
-			);
+			return <Monitor className='size-4' />;
 		case 'icon':
-			return <IconSticker className='my-auto' size={18}></IconSticker>;
-
+			return <Sticker className='size-4' />;
 		case 'tweet':
-			return (
-				<IconBrandTwitter className='my-auto' size={18}></IconBrandTwitter>
-			);
-
+			return <TextCursorInput className='size-4' />;
 		case 'badge':
-			return (
-				<div className='my-auto h-2  w-4 rounded-full border-2 border-border'></div>
-			);
-
+			return <Shapes className='size-4' />;
 		case 'custom':
-			return <IconPuzzle className='my-auto' size={18}></IconPuzzle>;
+			return <PuzzleLikeIcon />;
+		case 'group':
+			return <Folder className='size-4' />;
 		default:
-			return <></>;
+			return <Boxes className='size-4' />;
 	}
 };
+
+const PuzzleLikeIcon = () => <Sticker className='size-4' />;

@@ -14,6 +14,9 @@ export interface Item {
 	isSelectable: boolean;
 	isVisible: boolean;
 	isDeleted: boolean;
+	locked?: boolean;
+	parentId?: string | null;
+	collapsed?: boolean;
 }
 
 export interface Project {
@@ -44,6 +47,196 @@ interface Workspace {
 	textureName: string;
 	textureColors: { color1: string; color2: string };
 }
+
+interface LayerSnapshot {
+	controls: Item[];
+	currentControlID: string;
+}
+
+type LayerMovePosition = 'before' | 'after' | 'inside';
+type LayerStepDirection = 'forward' | 'backward';
+type LayerEdgePosition = 'front' | 'back';
+
+const cloneControls = (controls: Item[]): Item[] =>
+	controls.map((item) => ({ ...item }));
+
+const normalizeParentId = (value?: string | null): string | null => value ?? null;
+
+const getWorkspaceHistoryId = (workspaceId: string): string =>
+	`workspace-structure-${workspaceId}`;
+
+const getChildren = (controls: Item[], parentId?: string | null): Item[] =>
+	controls.filter(
+		(item) => normalizeParentId(item.parentId) === normalizeParentId(parentId),
+	);
+
+const getSubtreeIds = (controls: Item[], rootId: string): string[] => {
+	const children = getChildren(controls, rootId);
+	return [
+		rootId,
+		...children.flatMap((child) => getSubtreeIds(controls, child.id)),
+	];
+};
+
+const moveItemBlock = (
+	controls: Item[],
+	draggedId: string,
+	targetId: string,
+	position: LayerMovePosition,
+): Item[] => {
+	if (draggedId === targetId) return controls;
+
+	const draggedIds = new Set(getSubtreeIds(controls, draggedId));
+	if (draggedIds.has(targetId)) return controls;
+
+	const draggedBlock = controls.filter((item) => draggedIds.has(item.id));
+	const remaining = controls.filter((item) => !draggedIds.has(item.id));
+	const target = remaining.find((item) => item.id === targetId);
+
+	if (draggedBlock.length === 0 || target === undefined) return controls;
+
+	const nextParentId =
+		position === 'inside'
+			? target.id
+			: normalizeParentId(target.parentId);
+
+	const updatedBlock = draggedBlock.map((item) =>
+		item.id === draggedId ? { ...item, parentId: nextParentId } : item,
+	);
+
+	let insertAt = remaining.length;
+
+	if (position === 'before') {
+		insertAt = remaining.findIndex((item) => item.id === targetId);
+	} else {
+		const targetSubtreeIds = new Set(getSubtreeIds(remaining, targetId));
+		const lastIndex = remaining.reduce(
+			(acc, item, index) => (targetSubtreeIds.has(item.id) ? index : acc),
+			-1,
+		);
+		insertAt = lastIndex + 1;
+	}
+
+	if (insertAt < 0) return controls;
+
+	return [
+		...remaining.slice(0, insertAt),
+		...updatedBlock,
+		...remaining.slice(insertAt),
+	];
+};
+
+const reorderAmongSiblings = (
+	controls: Item[],
+	controlId: string,
+	direction: LayerStepDirection,
+): Item[] => {
+	const current = controls.find((item) => item.id === controlId);
+	if (current === undefined) return controls;
+
+	const siblings = controls.filter(
+		(item) =>
+			!item.isDeleted &&
+			normalizeParentId(item.parentId) === normalizeParentId(current.parentId) &&
+			item.id !== controlId,
+	);
+	const currentSiblings = controls.filter(
+		(item) =>
+			!item.isDeleted &&
+			normalizeParentId(item.parentId) === normalizeParentId(current.parentId),
+	);
+	const index = currentSiblings.findIndex((item) => item.id === controlId);
+
+	if (index === -1) return controls;
+	if (direction === 'backward' && index === 0) return controls;
+	if (direction === 'forward' && index === currentSiblings.length - 1)
+		return controls;
+
+	const target =
+		direction === 'backward'
+			? currentSiblings[index - 1]
+			: currentSiblings[index + 1];
+
+	if (target === undefined) return controls;
+
+	return moveItemBlock(
+		controls,
+		controlId,
+		target.id,
+		direction === 'backward' ? 'before' : 'after',
+	);
+};
+
+const moveToSiblingEdge = (
+	controls: Item[],
+	controlId: string,
+	position: LayerEdgePosition,
+): Item[] => {
+	const current = controls.find((item) => item.id === controlId);
+	if (current === undefined) return controls;
+
+	const siblings = controls.filter(
+		(item) =>
+			!item.isDeleted &&
+			normalizeParentId(item.parentId) === normalizeParentId(current.parentId),
+	);
+	if (siblings.length < 2) return controls;
+
+	const target =
+		position === 'back' ? siblings[0] : siblings[siblings.length - 1];
+
+	if (target.id === controlId) return controls;
+
+	return moveItemBlock(
+		controls,
+		controlId,
+		target.id,
+		position === 'back' ? 'before' : 'after',
+	);
+};
+
+const createLayerSnapshot = (state: any): LayerSnapshot => {
+	const workspace = state.workspaces.find(
+		(item: Workspace) => item.id === state.currentWorkspaceID,
+	);
+
+	return {
+		controls: cloneControls(workspace?.controls ?? []),
+		currentControlID: state.currentControlID,
+	};
+};
+
+const applyLayerSnapshot = (
+	state: any,
+	workspaceId: string,
+	snapshot: LayerSnapshot,
+): void => {
+	state.workspaces = state.workspaces.map((item: Workspace) =>
+		item.id === workspaceId
+			? { ...item, controls: cloneControls(snapshot.controls) }
+			: item,
+	);
+	state.currentControlID = snapshot.currentControlID;
+};
+
+const commitLayerMutation = (
+	state: any,
+	nextControls: Item[],
+	nextSelection: string = state.currentControlID,
+): void => {
+	const historyId = getWorkspaceHistoryId(state.currentWorkspaceID);
+	const previous = createLayerSnapshot(state);
+	const nextSnapshot: LayerSnapshot = {
+		controls: cloneControls(nextControls),
+		currentControlID: nextSelection,
+	};
+
+	state.pastHistory = [...state.pastHistory, { id: historyId, value: previous }];
+	state.futureHistory = [];
+	state.controlState = { id: historyId, value: nextSnapshot };
+	applyLayerSnapshot(state, state.currentWorkspaceID, nextSnapshot);
+	state.readyToSave = true;
+};
 
 export interface AppStoreModel {
 	/* App States and Actions */
@@ -76,11 +269,36 @@ export interface AppStoreModel {
 	workspaces: Workspace[];
 	addWorkspace: Action<AppStoreModel, string>;
 	setWorkspaceControls: Action<AppStoreModel, Item[]>;
+	toggleControlVisibility: Action<AppStoreModel, string>;
+	toggleControlLock: Action<AppStoreModel, string>;
+	renameControl: Action<AppStoreModel, { id: string; name: string }>;
+	deleteControl: Action<AppStoreModel, string>;
+	duplicateControl: Action<AppStoreModel, string>;
+	addGroup: Action<
+		AppStoreModel,
+		{ name?: string; parentId?: string | null; childIds?: string[] } | undefined
+	>;
+	groupControl: Action<AppStoreModel, string>;
+	ungroupControl: Action<AppStoreModel, string>;
+	toggleGroupCollapsed: Action<AppStoreModel, string>;
+	moveControlLayer: Action<
+		AppStoreModel,
+		{ draggedId: string; targetId: string; position: LayerMovePosition }
+	>;
+	moveControlByStep: Action<
+		AppStoreModel,
+		{ id: string; direction: LayerStepDirection }
+	>;
+	moveControlToEdge: Action<
+		AppStoreModel,
+		{ id: string; position: LayerEdgePosition }
+	>;
 
 	/* Controls System */
 	initialProperties: History[];
 	ControlProperties: History[];
 	currentControlProperties: Computed<AppStoreModel, History[]>;
+	currentControl: Computed<AppStoreModel, Item | undefined>;
 	setControlProperties: Action<AppStoreModel, History[]>;
 	addControlProperty: Action<AppStoreModel, History>;
 	addInitialProperty: Action<AppStoreModel, History>;
@@ -466,6 +684,11 @@ export const AppStore = createStore<AppStoreModel>({
 			item.id.includes(state.currentControlID),
 		);
 	}),
+	currentControl: computed((state) => {
+		return state.currentWorkspace?.controls.find(
+			(item) => item.id === state.currentControlID,
+		);
+	}),
 	addControlProperty: action((state, payload) => {
 		const element = state.ControlProperties.filter(
 			(item) => item.id === payload.id,
@@ -511,6 +734,282 @@ export const AppStore = createStore<AppStoreModel>({
 				? { ...item, controls: items }
 				: item,
 		);
+		state.readyToSave = true;
+	}),
+	toggleControlVisibility: action((state, controlId) => {
+		const currentWorkspace = state.currentWorkspace;
+		const target = currentWorkspace?.controls.find((item) => item.id === controlId);
+
+		if (currentWorkspace === undefined || target === undefined) return;
+
+		const subtreeIds = new Set(getSubtreeIds(currentWorkspace.controls, controlId));
+		const nextVisibility = !target.isVisible;
+		const nextControls = currentWorkspace.controls.map((item) =>
+			subtreeIds.has(item.id) ? { ...item, isVisible: nextVisibility } : item,
+		);
+		const nextSelection =
+			!nextVisibility && subtreeIds.has(state.currentControlID)
+				? ''
+				: state.currentControlID;
+
+		commitLayerMutation(state, nextControls, nextSelection);
+	}),
+	toggleControlLock: action((state, controlId) => {
+		const currentWorkspace = state.currentWorkspace;
+		const target = currentWorkspace?.controls.find((item) => item.id === controlId);
+
+		if (currentWorkspace === undefined || target === undefined) return;
+
+		const subtreeIds = new Set(getSubtreeIds(currentWorkspace.controls, controlId));
+		const nextLocked = !target.locked;
+		const nextControls = currentWorkspace.controls.map((item) =>
+			subtreeIds.has(item.id) ? { ...item, locked: nextLocked } : item,
+		);
+
+		commitLayerMutation(state, nextControls);
+	}),
+	renameControl: action((state, payload) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const nextName = payload.name.trim();
+		if (nextName === '') return;
+
+		const nextControls = currentWorkspace.controls.map((item) =>
+			item.id === payload.id ? { ...item, name: nextName } : item,
+		);
+
+		commitLayerMutation(state, nextControls);
+	}),
+	deleteControl: action((state, controlId) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const subtreeIds = new Set(getSubtreeIds(currentWorkspace.controls, controlId));
+		const nextControls = currentWorkspace.controls.map((item) =>
+			subtreeIds.has(item.id)
+				? { ...item, isDeleted: true, isVisible: false }
+				: item,
+		);
+		const nextSelection = subtreeIds.has(state.currentControlID)
+			? ''
+			: state.currentControlID;
+
+		commitLayerMutation(state, nextControls, nextSelection);
+	}),
+	duplicateControl: action((state, controlId) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const subtreeIds = getSubtreeIds(currentWorkspace.controls, controlId);
+		const subtreeItems = currentWorkspace.controls.filter((item) =>
+			subtreeIds.includes(item.id),
+		);
+		if (subtreeItems.length === 0) return;
+
+		const idMap = new Map<string, string>();
+		subtreeItems.forEach((item) => {
+			idMap.set(item.id, `${item.type}-${getRandomNumber()}`);
+		});
+
+		const duplicatedItems = subtreeItems.map((item) => {
+			const nextId = idMap.get(item.id) ?? item.id;
+			const isRoot = item.id === controlId;
+			const mappedParentId = item.parentId ? idMap.get(item.parentId) : null;
+
+			return {
+				...item,
+				id: nextId,
+				name: isRoot ? `${item.name} copy` : item.name,
+				parentId: mappedParentId ?? item.parentId ?? null,
+				collapsed: item.type === 'group' ? false : item.collapsed,
+			};
+		});
+
+		const subtreeIdSet = new Set(subtreeIds);
+		const targetIndex =
+			currentWorkspace.controls.reduce(
+				(acc, item, index) => (subtreeIdSet.has(item.id) ? index : acc),
+				-1,
+			) + 1;
+		const nextControls = [
+			...currentWorkspace.controls.slice(0, targetIndex),
+			...duplicatedItems,
+			...currentWorkspace.controls.slice(targetIndex),
+		];
+
+		state.ControlProperties = [
+			...state.ControlProperties,
+			...state.ControlProperties.flatMap((property) => {
+				const [type, originalId, propName] = property.id.split('-');
+				const originalControlId = `${type}-${originalId}`;
+				const nextControlId = idMap.get(originalControlId);
+
+				if (nextControlId === undefined || propName === undefined) return [];
+
+				return [
+					{
+						...property,
+						id: `${nextControlId}-${propName}`,
+						workspace: state.currentWorkspaceID,
+					},
+				];
+			}),
+		];
+
+		commitLayerMutation(
+			state,
+			nextControls,
+			idMap.get(controlId) ?? state.currentControlID,
+		);
+	}),
+	addGroup: action((state, payload) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const children = payload?.childIds ?? [];
+		const groupId = `group-${getRandomNumber()}`;
+		const firstChildId = children[0];
+		const firstChildIndex = currentWorkspace.controls.findIndex(
+			(item) => item.id === firstChildId,
+		);
+		const group: Item = {
+			id: groupId,
+			type: 'group',
+			name: payload?.name?.trim() || `Group ${getRandomNumber()}`,
+			isSelectable: false,
+			isVisible: true,
+			isDeleted: false,
+			locked: false,
+			parentId: payload?.parentId ?? null,
+			collapsed: false,
+		};
+
+		let nextControls = cloneControls(currentWorkspace.controls);
+
+		if (children.length > 0) {
+			nextControls = nextControls.map((item) =>
+				children.includes(item.id) ? { ...item, parentId: groupId } : item,
+			);
+		}
+
+		if (firstChildIndex >= 0) {
+			nextControls = [
+				...nextControls.slice(0, firstChildIndex),
+				group,
+				...nextControls.slice(firstChildIndex),
+			];
+		} else {
+			nextControls = [...nextControls, group];
+		}
+
+		commitLayerMutation(state, nextControls, groupId);
+	}),
+	groupControl: action((state, controlId) => {
+		const currentWorkspace = state.currentWorkspace;
+		const target = currentWorkspace?.controls.find((item) => item.id === controlId);
+		if (currentWorkspace === undefined || target === undefined) return;
+
+		const groupId = `group-${getRandomNumber()}`;
+		const targetIndex = currentWorkspace.controls.findIndex(
+			(item) => item.id === controlId,
+		);
+		const group: Item = {
+			id: groupId,
+			type: 'group',
+			name: `${target.name} group`,
+			isSelectable: false,
+			isVisible: true,
+			isDeleted: false,
+			locked: false,
+			parentId: target.parentId ?? null,
+			collapsed: false,
+		};
+
+		const updatedControls = currentWorkspace.controls.map((item) =>
+			item.id === controlId ? { ...item, parentId: groupId } : item,
+		);
+		const nextControls = [
+			...updatedControls.slice(0, targetIndex),
+			group,
+			...updatedControls.slice(targetIndex),
+		];
+
+		commitLayerMutation(state, nextControls, groupId);
+	}),
+	ungroupControl: action((state, groupId) => {
+		const currentWorkspace = state.currentWorkspace;
+		const group = currentWorkspace?.controls.find((item) => item.id === groupId);
+		if (
+			currentWorkspace === undefined ||
+			group === undefined ||
+			group.type !== 'group'
+		)
+			return;
+
+		const nextControls = currentWorkspace.controls
+			.filter((item) => item.id !== groupId)
+			.map((item) =>
+				item.parentId === groupId ? { ...item, parentId: group.parentId ?? null } : item,
+			);
+		const nextSelection = state.currentControlID === groupId ? '' : state.currentControlID;
+
+		commitLayerMutation(state, nextControls, nextSelection);
+	}),
+	toggleGroupCollapsed: action((state, controlId) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const nextControls = currentWorkspace.controls.map((item) =>
+			item.id === controlId && item.type === 'group'
+				? { ...item, collapsed: !item.collapsed }
+				: item,
+		);
+
+		commitLayerMutation(state, nextControls, state.currentControlID);
+	}),
+	moveControlLayer: action((state, payload) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const nextControls = moveItemBlock(
+			currentWorkspace.controls,
+			payload.draggedId,
+			payload.targetId,
+			payload.position,
+		);
+
+		if (nextControls !== currentWorkspace.controls) {
+			commitLayerMutation(state, nextControls);
+		}
+	}),
+	moveControlByStep: action((state, payload) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const nextControls = reorderAmongSiblings(
+			currentWorkspace.controls,
+			payload.id,
+			payload.direction,
+		);
+
+		if (nextControls !== currentWorkspace.controls) {
+			commitLayerMutation(state, nextControls);
+		}
+	}),
+	moveControlToEdge: action((state, payload) => {
+		const currentWorkspace = state.currentWorkspace;
+		if (currentWorkspace === undefined) return;
+
+		const nextControls = moveToSiblingEdge(
+			currentWorkspace.controls,
+			payload.id,
+			payload.position,
+		);
+
+		if (nextControls !== currentWorkspace.controls) {
+			commitLayerMutation(state, nextControls);
+		}
 	}),
 	controlsClass: computed((state) => {
 		const controlsClass: string[] = [];
@@ -554,6 +1053,13 @@ export const AppStore = createStore<AppStoreModel>({
 			state.pastHistory = [...state.pastHistory, item];
 			state.futureHistory = newFuture;
 			state.controlState = next;
+			if (next.id === getWorkspaceHistoryId(state.currentWorkspaceID)) {
+				applyLayerSnapshot(
+					state,
+					state.currentWorkspaceID,
+					next.value as LayerSnapshot,
+				);
+			}
 			state.editing = true;
 		}
 	}),
@@ -592,6 +1098,13 @@ export const AppStore = createStore<AppStoreModel>({
 			};
 			state.futureHistory = [item, ...state.futureHistory];
 			state.controlState = previous;
+			if (previous.id === getWorkspaceHistoryId(state.currentWorkspaceID)) {
+				applyLayerSnapshot(
+					state,
+					state.currentWorkspaceID,
+					previous.value as LayerSnapshot,
+				);
+			}
 			state.editing = true;
 		}
 	}),
@@ -771,9 +1284,21 @@ export const AppStore = createStore<AppStoreModel>({
 	addControl: action((state, payload) => {
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
-				? { ...item, controls: [...item.controls, payload] }
+				? {
+						...item,
+						controls: [
+							...item.controls,
+							{
+								locked: false,
+								parentId: null,
+								collapsed: false,
+								...payload,
+							},
+						],
+				  }
 				: item,
 		);
+		state.readyToSave = true;
 	}),
 
 	cleanWorkspace: action((state, payload) => {

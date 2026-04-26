@@ -20,7 +20,7 @@ interface ControlContextMenuProps {
 	onCreateDynamicBackground?: () => Promise<void> | void;
 	contextMenu?: ReactNode;
 	setID: (value: string) => void;
-	setVisibility: (value: boolean) => void;
+	removeControl: () => void;
 	children: ReactNode;
 }
 
@@ -33,7 +33,7 @@ export const ControlContextMenu: React.FC<ControlContextMenuProps> = ({
 	onCreateDynamicBackground,
 	contextMenu,
 	setID,
-	setVisibility,
+	removeControl,
 	children,
 }) => {
 	return (
@@ -106,10 +106,10 @@ export const ControlContextMenu: React.FC<ControlContextMenuProps> = ({
 				<ContextMenuItem
 					onClick={() => {
 						setID('');
-						setVisibility(false);
+						removeControl();
 					}}
 				>
-					Remove
+					Delete Layer
 				</ContextMenuItem>
 			</ContextMenuContent>
 		</ContextMenu>

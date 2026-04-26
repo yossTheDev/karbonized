@@ -44,6 +44,7 @@ export const Editor: React.FC = () => {
 
 	/* App Store */
 	const addControl = useStoreActions((state) => state.addControl);
+	const duplicateControl = useStoreActions((state) => state.duplicateControl);
 	const drag = useStoreState((state) => state.drag);
 	const canDraw = useStoreState((state) => state.isDrawing);
 	const isErasing = useStoreState((state) => state.isErasing);
@@ -57,18 +58,6 @@ export const Editor: React.FC = () => {
 
 	/* Copy/Paste System */
 	const controlID = useStoreState((state) => state.currentControlID);
-	const currentControlProperties = useStoreState(
-		(state) => state.currentControlProperties,
-	);
-	const initialProperties = useStoreState((state) => state.initialProperties);
-	const ControlProperties = useStoreState((state) => state.ControlProperties);
-	const addInitialProperty = useStoreActions(
-		(state) => state.addInitialProperty,
-	);
-	const addControlProperty = useStoreActions(
-		(state) => state.addControlProperty,
-	);
-
 	const workspaceMode = useStoreState((state) => state.workspaceMode);
 
 	const redo = useStoreActions((state) => state.redo);
@@ -156,40 +145,9 @@ export const Editor: React.FC = () => {
 	/* Handle Duplicate Elements */
 	useEffect(() => {
 		const OnKeyDown = (event: KeyboardEvent): void => {
-			if (event.ctrlKey && event.key === 'd') {
+			if (event.ctrlKey && event.key === 'd' && controlID !== '') {
 				event.preventDefault();
-
-				/* Copy Control Properties */
-				const newControlID =
-					controlID.split('-')[0] + '-' + getRandomNumber().toString();
-
-				currentControlProperties.forEach((item) => {
-					const id = item.id.split('-');
-					const prop = id[id.length - 1];
-
-					addInitialProperty({
-						id: newControlID + '-' + prop,
-						value: item.value,
-					});
-					addControlProperty({
-						id: newControlID + '-' + prop,
-						value: item.value,
-					});
-				});
-
-				/* Add Control To Workspace */
-				addControl({
-					type:
-						currentWorkspace?.controls.find((item) => item.id === controlID)
-							?.type ?? newControlID.split('-')[0],
-					id: newControlID,
-					isSelectable: true,
-					isDeleted: false,
-					name: `${newControlID.split('-')[0]} ${getElementsByType(
-						newControlID.split('-')[0],
-					)}`,
-					isVisible: true,
-				});
+				duplicateControl(controlID);
 			}
 		};
 
@@ -198,7 +156,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', OnKeyDown);
 		};
-	}, [controlID, ControlProperties, initialProperties]);
+	}, [controlID, duplicateControl]);
 
 	return (
 		<div className='flex h-full w-full flex-col overflow-hidden'>

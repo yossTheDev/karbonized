@@ -68,6 +68,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const setWorkspaceControls = useStoreActions(
 		(state) => state.setWorkspaceControls,
 	);
+	const deleteControl = useStoreActions((state) => state.deleteControl);
 
 	const setID = useStoreActions((state) => state.setcurrentControlID);
 	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
@@ -141,17 +142,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const isPressed = useKeyPress('Delete');
 	useEffect(() => {
 		if (controlID === id) {
-			setVisibility(false);
-			setID('');
-
-			if (currentWorkspace !== undefined)
-				setWorkspaceControls(
-					currentWorkspace.controls.map((item) =>
-						item.id === id ? { ...item, isDeleted: true } : item,
-					),
-				);
+			deleteControl(id);
 		}
-	}, [isPressed]);
+	}, [deleteControl, id, isPressed]);
 
 	/* Manage Controls Visibility */
 	useEffect(() => {
@@ -313,7 +306,9 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						onCreateDynamicBackground={onCreateDynamicBackground}
 						contextMenu={contextMenu}
 						setID={setID}
-						setVisibility={setVisibility}
+						removeControl={() => {
+							deleteControl(id);
+						}}
 					>
 						<ContextMenuTrigger>
 							<motion.div

@@ -27,6 +27,7 @@ interface Props {
 export const Workspace: React.FC<Props> = ({ reference }) => {
 	/* App Store */
 	const controlID = useStoreState((state) => state.currentControlID);
+	const currentControl = useStoreState((state) => state.currentControl);
 	const controlsClass = useStoreState((state) => state.controlsClass);
 
 	const editing = useStoreState((state) => state.editing);
@@ -185,14 +186,16 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							id={workspace.id}
 							key={workspace.id}
 						>
-							{workspace.controls.map((item) => (
+							{workspace.controls
+								.filter((item) => !item.isDeleted && item.type !== 'group')
+								.map((item) => (
 								<ControlHandler
 									id={item.id}
 									key={item.id}
 									type={item.type}
 									isVisible={item.isVisible}
 								></ControlHandler>
-							))}
+								))}
 						</div>
 					))}
 
@@ -203,7 +206,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			{editing && !isExporting && (
 				<Moveable
 					useResizeObserver
-					target={document.getElementById(controlID)}
+					target={
+						currentControl?.locked ||
+						currentControl?.type === 'group' ||
+						currentControl?.isDeleted ||
+						!currentControl?.isVisible
+							? null
+							: document.getElementById(controlID)
+					}
 					origin={true}
 					/* Resize event edges */
 					edge={false}
