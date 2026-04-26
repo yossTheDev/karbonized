@@ -266,6 +266,9 @@ export interface AppStoreModel {
 	currentWorkspace: Computed<AppStoreModel, Workspace | undefined>;
 	setCurrentWorkspace: Action<AppStoreModel, string>;
 	deleteWorkspace: Action<AppStoreModel, string>;
+	closeOtherWorkspaces: Action<AppStoreModel, string>;
+	closeWorkspacesToRight: Action<AppStoreModel, string>;
+	closeWorkspacesToLeft: Action<AppStoreModel, string>;
 	workspaces: Workspace[];
 	addWorkspace: Action<AppStoreModel, string>;
 	setWorkspaceControls: Action<AppStoreModel, Item[]>;
@@ -656,6 +659,33 @@ export const AppStore = createStore<AppStoreModel>({
 			}
 		} else {
 			alert('You need at least one Workspace');
+		}
+	}),
+	closeOtherWorkspaces: action((state, payload) => {
+		if (state.workspaces.length > 1) {
+			state.currentControlID = '';
+			state.workspaces = state.workspaces.filter(
+				(item) => item.id === payload,
+			);
+			state.currentWorkspaceID = payload;
+		}
+	}),
+	closeWorkspacesToRight: action((state, payload) => {
+		const currentIndex = state.workspaces.findIndex(
+			(item) => item.id === payload,
+		);
+		if (currentIndex !== -1 && currentIndex < state.workspaces.length - 1) {
+			state.workspaces = state.workspaces.slice(0, currentIndex + 1);
+		}
+	}),
+	closeWorkspacesToLeft: action((state, payload) => {
+		const currentIndex = state.workspaces.findIndex(
+			(item) => item.id === payload,
+		);
+		if (currentIndex > 0) {
+			state.currentControlID = '';
+			state.workspaces = state.workspaces.slice(currentIndex);
+			state.currentWorkspaceID = payload;
 		}
 	}),
 

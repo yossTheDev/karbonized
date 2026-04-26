@@ -21,6 +21,9 @@
 - Add noise texture overlay for workspace backgrounds
 - New Mesh Gradient Dynamic Background Effect
 - Add "Create Dynamic Background" from Image, Phone, and Window block context menus using extracted image colors
+- New App Design with glassmorphism effects
+- Redesign TabBar with design guide styling
+- Add context menu to tabs with bulk closing options: Close, Close others, Close to the right, Close to the left
 
 ### 🐛 Fixes
 
