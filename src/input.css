@@ -154,181 +154,195 @@ html.dark {
 	}
 
 	.glass-surface {
-		background-color: color-mix(in oklab, var(--color-input) 76%, transparent);
-		backdrop-filter: blur(14px) saturate(118%) contrast(1.01);
-		-webkit-backdrop-filter: blur(14px) saturate(118%) contrast(1.01);
-		border: 1px solid rgb(255 255 255 / 8%);
+		background-color: color-mix(in oklab, var(--color-input) 72%, transparent);
+		backdrop-filter: blur(20px) saturate(135%) contrast(1.03) brightness(1.01);
+		-webkit-backdrop-filter: blur(20px) saturate(135%) contrast(1.03) brightness(1.01);
+		border: 1px solid rgb(255 255 255 / 12%);
 		background-image:
 			linear-gradient(
-				140deg,
-				color-mix(in oklab, white 6%, transparent) 0%,
-				color-mix(in oklab, white 3%, transparent) 20%,
-				transparent 62%,
-				color-mix(in oklab, white 2%, transparent) 100%
+				135deg,
+				color-mix(in oklab, white 8%, transparent) 0%,
+				color-mix(in oklab, white 5%, transparent) 25%,
+				transparent 55%,
+				color-mix(in oklab, white 3%, transparent) 100%
 			),
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
-		background-size: auto, 190px 190px;
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+		background-size: auto, 200px 200px;
 		background-position: center;
-		box-shadow: inset 0 1px 0 color-mix(in oklab, white 14%, transparent);
+		box-shadow:
+			inset 0 1px 0 color-mix(in oklab, white 18%, transparent),
+			inset 0 -1px 0 color-mix(in oklab, black 4%, transparent),
+			0 4px 24px rgb(0 0 0 / 6%);
 	}
 
 	.glass-popover {
-		background-color: color-mix(in oklab, var(--color-popover) 64%, transparent);
-		backdrop-filter: blur(32px) saturate(155%) contrast(1.06);
-		-webkit-backdrop-filter: blur(32px) saturate(155%) contrast(1.06);
-		border: 1px solid rgb(255 255 255 / 16%);
+		background-color: color-mix(in oklab, var(--color-popover) 68%, transparent);
+		backdrop-filter: blur(36px) saturate(165%) contrast(1.08) brightness(1.02);
+		-webkit-backdrop-filter: blur(36px) saturate(165%) contrast(1.08) brightness(1.02);
+		border: 1px solid rgb(255 255 255 / 18%);
 		background-image:
 			linear-gradient(
-				145deg,
-				color-mix(in oklab, white 8%, transparent) 0%,
-				color-mix(in oklab, white 6%, transparent) 14%,
-				color-mix(in oklab, white 4%, transparent) 32%,
-				color-mix(in oklab, white 2%, transparent) 46%,
-				transparent 60%,
-				color-mix(in oklab, white 2%, transparent) 82%,
-				color-mix(in oklab, white 5%, transparent) 100%
+				142deg,
+				color-mix(in oklab, white 10%, transparent) 0%,
+				color-mix(in oklab, white 7%, transparent) 15%,
+				color-mix(in oklab, white 5%, transparent) 30%,
+				color-mix(in oklab, white 3%, transparent) 45%,
+				transparent 58%,
+				color-mix(in oklab, white 3%, transparent) 80%,
+				color-mix(in oklab, white 6%, transparent) 100%
 			),
 			linear-gradient(
-				155deg,
-				rgb(255 92 124 / 3.5%) 0%,
-				transparent 24%,
-				transparent 72%,
-				rgb(80 196 255 / 4%) 100%
+				158deg,
+				rgb(255 92 124 / 4.5%) 0%,
+				transparent 22%,
+				transparent 70%,
+				rgb(80 196 255 / 5%) 100%
 			),
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='144' viewBox='0 0 144 144'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='144' height='144' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
-		background-size: auto, auto, 180px 180px;
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='144' viewBox='0 0 144 144'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='144' height='144' filter='url(%23n)' opacity='0.036'/%3E%3C/svg%3E");
+		background-size: auto, auto, 190px 190px;
 		background-position: center;
 		box-shadow:
-			inset 0 1px 0 rgb(255 255 255 / 30%),
-			inset 1px 0 0 rgb(255 255 255 / 12%),
-			inset -1px 0 0 rgb(255 255 255 / 7%),
-			inset 0 -1px 0 rgb(255 255 255 / 6%),
-			inset 1px 0 0 rgb(255 108 139 / 4%),
-			inset -1px 0 0 rgb(93 207 255 / 4%);
+			inset 0 1px 0 rgb(255 255 255 / 35%),
+			inset 1px 0 0 rgb(255 255 255 / 15%),
+			inset -1px 0 0 rgb(255 255 255 / 9%),
+			inset 0 -1px 0 rgb(255 255 255 / 8%),
+			inset 1px 0 0 rgb(255 108 139 / 5%),
+			inset -1px 0 0 rgb(93 207 255 / 5%),
+			0 8px 32px rgb(0 0 0 / 8%);
 	}
 
 	html.dark .glass-surface {
-		background-color: color-mix(in oklab, var(--color-dark-base-200) 82%, transparent);
-		backdrop-filter: blur(16px) saturate(124%) contrast(1.02);
-		-webkit-backdrop-filter: blur(16px) saturate(124%) contrast(1.02);
-		border-color: rgb(255 255 255 / 7%);
+		background-color: color-mix(in oklab, var(--color-dark-base-200) 80%, transparent);
+		backdrop-filter: blur(24px) saturate(140%) contrast(1.04) brightness(1.02);
+		-webkit-backdrop-filter: blur(24px) saturate(140%) contrast(1.04) brightness(1.02);
+		border-color: rgb(255 255 255 / 10%);
 		background-image:
 			linear-gradient(
-				145deg,
-				color-mix(in oklab, white 5%, transparent) 0%,
-				color-mix(in oklab, white 3%, transparent) 22%,
-				transparent 66%,
-				color-mix(in oklab, white 2%, transparent) 100%
+				142deg,
+				color-mix(in oklab, white 7%, transparent) 0%,
+				color-mix(in oklab, white 4%, transparent) 24%,
+				transparent 62%,
+				color-mix(in oklab, white 3%, transparent) 100%
 			),
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-		background-size: auto, 190px 190px;
-		box-shadow: inset 0 1px 0 color-mix(in oklab, white 11%, transparent);
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)' opacity='0.038'/%3E%3C/svg%3E");
+		background-size: auto, 200px 200px;
+		box-shadow:
+			inset 0 1px 0 color-mix(in oklab, white 14%, transparent),
+			inset 0 -1px 0 color-mix(in oklab, black 6%, transparent),
+			0 4px 28px rgb(0 0 0 / 12%);
 	}
 
 	html.dark .glass-popover {
-		background-color: color-mix(in oklab, var(--color-dark-base-300) 80%, transparent);
-		backdrop-filter: blur(38px) saturate(160%) contrast(1.09);
-		-webkit-backdrop-filter: blur(38px) saturate(160%) contrast(1.09);
-		border-color: rgb(255 255 255 / 13%);
+		background-color: color-mix(in oklab, var(--color-dark-base-300) 78%, transparent);
+		backdrop-filter: blur(42px) saturate(170%) contrast(1.11) brightness(1.03);
+		-webkit-backdrop-filter: blur(42px) saturate(170%) contrast(1.11) brightness(1.03);
+		border-color: rgb(255 255 255 / 15%);
 		background-image:
 			linear-gradient(
-				150deg,
-				color-mix(in oklab, white 7%, transparent) 0%,
-				color-mix(in oklab, white 5%, transparent) 14%,
-				color-mix(in oklab, white 3%, transparent) 28%,
-				color-mix(in oklab, white 2%, transparent) 42%,
-				transparent 64%,
-				color-mix(in oklab, white 2%, transparent) 84%,
-				color-mix(in oklab, white 4%, transparent) 100%
+				148deg,
+				color-mix(in oklab, white 9%, transparent) 0%,
+				color-mix(in oklab, white 6%, transparent) 16%,
+				color-mix(in oklab, white 4%, transparent) 30%,
+				color-mix(in oklab, white 3%, transparent) 44%,
+				transparent 62%,
+				color-mix(in oklab, white 3%, transparent) 82%,
+				color-mix(in oklab, white 5%, transparent) 100%
 			),
 			linear-gradient(
-				160deg,
-				rgb(255 96 132 / 3.8%) 0%,
-				transparent 24%,
-				transparent 72%,
-				rgb(82 196 255 / 4.2%) 100%
+				162deg,
+				rgb(255 96 132 / 5%) 0%,
+				transparent 22%,
+				transparent 70%,
+				rgb(82 196 255 / 5.5%) 100%
 			),
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='144' viewBox='0 0 144 144'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='144' height='144' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-		background-size: auto, auto, 180px 180px;
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='144' viewBox='0 0 144 144'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='144' height='144' filter='url(%23n)' opacity='0.042'/%3E%3C/svg%3E");
+		background-size: auto, auto, 190px 190px;
 		box-shadow:
-			inset 0 1px 0 rgb(255 255 255 / 22%),
-			inset 1px 0 0 rgb(255 255 255 / 10%),
-			inset -1px 0 0 rgb(255 255 255 / 6%),
-			inset 0 -1px 0 rgb(255 255 255 / 5%),
-			inset 1px 0 0 rgb(255 108 139 / 4.5%),
-			inset -1px 0 0 rgb(93 207 255 / 4.5%);
+			inset 0 1px 0 rgb(255 255 255 / 28%),
+			inset 1px 0 0 rgb(255 255 255 / 12%),
+			inset -1px 0 0 rgb(255 255 255 / 8%),
+			inset 0 -1px 0 rgb(255 255 255 / 7%),
+			inset 1px 0 0 rgb(255 108 139 / 5.5%),
+			inset -1px 0 0 rgb(93 207 255 / 5.5%),
+			0 8px 36px rgb(0 0 0 / 14%);
 	}
 
 	.glass-slider-track {
-		background-color: color-mix(in oklab, var(--color-input) 70%, transparent);
-		backdrop-filter: blur(18px) saturate(125%);
-		-webkit-backdrop-filter: blur(18px) saturate(125%);
-		border: 1px solid rgb(255 255 255 / 9%);
+		background-color: color-mix(in oklab, var(--color-input) 68%, transparent);
+		backdrop-filter: blur(22px) saturate(140%) contrast(1.02);
+		-webkit-backdrop-filter: blur(22px) saturate(140%) contrast(1.02);
+		border: 1px solid rgb(255 255 255 / 12%);
 		background-image:
 			linear-gradient(
-				130deg,
-				color-mix(in oklab, white 6%, transparent) 0%,
-				color-mix(in oklab, white 3%, transparent) 28%,
-				transparent 72%,
-				color-mix(in oklab, white 2%, transparent) 100%
+				128deg,
+				color-mix(in oklab, white 8%, transparent) 0%,
+				color-mix(in oklab, white 4%, transparent) 30%,
+				transparent 68%,
+				color-mix(in oklab, white 3%, transparent) 100%
 			),
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-		background-size: auto, 160px 160px;
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+		background-size: auto, 170px 170px;
+		box-shadow: inset 0 1px 0 color-mix(in oklab, white 12%, transparent);
 	}
 
 	.glass-slider-range {
 		background:
 			linear-gradient(
-				135deg,
-				color-mix(in oklab, var(--color-accent) 90%, transparent) 0%,
-				color-mix(in oklab, var(--color-accent) 98%, white 2%) 52%,
-				color-mix(in oklab, var(--color-accent) 88%, transparent) 100%
+				132deg,
+				color-mix(in oklab, var(--color-accent) 92%, transparent) 0%,
+				color-mix(in oklab, var(--color-accent) 98%, white 3%) 52%,
+				color-mix(in oklab, var(--color-accent) 90%, transparent) 100%
 			);
 		box-shadow:
-			inset 0 1px 0 color-mix(in oklab, white 22%, transparent),
-			0 0 0 1px color-mix(in oklab, var(--color-accent) 26%, transparent);
+			inset 0 1px 0 color-mix(in oklab, white 26%, transparent),
+			0 0 0 1px color-mix(in oklab, var(--color-accent) 30%, transparent),
+			0 2px 8px color-mix(in oklab, var(--color-accent) 20%, transparent);
 		transition: width 180ms ease-out, height 180ms ease-out, background 220ms ease;
 	}
 
 	.glass-slider-thumb {
 		background-color: color-mix(
 			in oklab,
-			var(--color-accent) 16%,
-			var(--color-background) 84%
+			var(--color-accent) 18%,
+			var(--color-background) 82%
 		);
-		backdrop-filter: blur(10px) saturate(120%);
-		-webkit-backdrop-filter: blur(10px) saturate(120%);
-		border: 1px solid color-mix(in oklab, var(--color-accent) 36%, white 18%);
+		backdrop-filter: blur(14px) saturate(130%) contrast(1.02);
+		-webkit-backdrop-filter: blur(14px) saturate(130%) contrast(1.02);
+		border: 1px solid color-mix(in oklab, var(--color-accent) 40%, white 20%);
 		box-shadow:
-			inset 0 1px 0 color-mix(in oklab, white 40%, transparent),
-			0 2px 10px color-mix(in oklab, var(--color-accent) 16%, black 84%);
+			inset 0 1px 0 color-mix(in oklab, white 45%, transparent),
+			0 2px 12px color-mix(in oklab, var(--color-accent) 18%, black 82%);
 	}
 
 	html.dark .glass-slider-track {
-		background-color: color-mix(in oklab, var(--color-dark-base-300) 84%, transparent);
-		backdrop-filter: blur(22px) saturate(135%);
-		-webkit-backdrop-filter: blur(22px) saturate(135%);
-		border-color: rgb(255 255 255 / 8%);
+		background-color: color-mix(in oklab, var(--color-dark-base-300) 82%, transparent);
+		backdrop-filter: blur(26px) saturate(150%) contrast(1.03);
+		-webkit-backdrop-filter: blur(26px) saturate(150%) contrast(1.03);
+		border-color: rgb(255 255 255 / 10%);
 		background-image:
 			linear-gradient(
-				135deg,
-				color-mix(in oklab, white 5%, transparent) 0%,
-				color-mix(in oklab, white 2%, transparent) 26%,
-				transparent 74%,
-				color-mix(in oklab, white 2%, transparent) 100%
+				132deg,
+				color-mix(in oklab, white 6%, transparent) 0%,
+				color-mix(in oklab, white 3%, transparent) 28%,
+				transparent 70%,
+				color-mix(in oklab, white 3%, transparent) 100%
 			),
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.026'/%3E%3C/svg%3E");
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+		background-size: auto, 170px 170px;
+		box-shadow: inset 0 1px 0 color-mix(in oklab, white 10%, transparent);
 	}
 
 	html.dark .glass-slider-thumb {
 		background-color: color-mix(
 			in oklab,
-			var(--color-dark-base-200) 78%,
-			var(--color-accent) 22%
+			var(--color-dark-base-200) 76%,
+			var(--color-accent) 24%
 		);
-		border-color: color-mix(in oklab, var(--color-accent) 42%, white 10%);
+		backdrop-filter: blur(16px) saturate(140%) contrast(1.03);
+		-webkit-backdrop-filter: blur(16px) saturate(140%) contrast(1.03);
+		border-color: color-mix(in oklab, var(--color-accent) 46%, white 12%);
 		box-shadow:
-			inset 0 1px 0 rgb(255 255 255 / 22%),
-			0 2px 12px color-mix(in oklab, var(--color-accent) 20%, black 80%);
+			inset 0 1px 0 rgb(255 255 255 / 26%),
+			0 2px 14px color-mix(in oklab, var(--color-accent) 22%, black 78%);
 	}
 }
