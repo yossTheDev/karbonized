@@ -94,7 +94,7 @@ export const RightPanel: React.FC = () => {
 								setShowMenu(!showMenu);
 								setWorkspaceMode('custom');
 							}}
-							className='shrink-0 inline-flex items-center justify-center size-9 rounded-4xl border border-transparent bg-clip-padding text-sm font-medium transition-all outline-none select-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:translate-y-px disabled:pointer-events-none disabled:opacity-50 dark:hover:bg-muted/50'
+							className='btn-ghost-flat liquid-motion shrink-0 inline-flex size-9 items-center justify-center rounded-4xl text-sm font-medium outline-none select-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 disabled:pointer-events-none disabled:opacity-50'
 						>
 							{showMenu ? (
 								<ChevronRight size={16} />
@@ -124,16 +124,22 @@ export const RightPanel: React.FC = () => {
 										setShowMenu(true);
 										if (item.id === 'workspace') setWorkspaceTab('workspace');
 									}}
-									className={`shrink-0 flex flex-col items-center w-9 rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:translate-y-px overflow-hidden ${
+									className={`liquid-motion shrink-0 flex w-9 flex-col items-center overflow-hidden rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 ${
 										isActive
-											? 'bg-accent text-accent-foreground'
-											: 'text-muted-foreground hover:bg-muted hover:text-foreground'
+											? 'bg-accent/90 text-accent-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]'
+											: 'btn-ghost-flat text-muted-foreground hover:text-foreground'
 									}`}
 									initial={false}
 									animate={{
 										height: isActive ? 120 : 36,
+										scale: isActive ? 1.02 : 1,
 									}}
-									transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+									transition={{
+										type: 'spring',
+										stiffness: 320,
+										damping: 28,
+										mass: 0.8,
+									}}
 								>
 									<div className='shrink-0 flex items-center justify-center size-9'>
 										{item.icon}
@@ -142,10 +148,10 @@ export const RightPanel: React.FC = () => {
 									<AnimatePresence>
 										{isActive && (
 											<motion.div
-												initial={{ opacity: 0 }}
-												animate={{ opacity: 1 }}
-												exit={{ opacity: 0 }}
-												transition={{ duration: 0.15 }}
+												initial={{ opacity: 0, y: 3, filter: 'blur(2px)' }}
+												animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+												exit={{ opacity: 0, y: 2, filter: 'blur(2px)' }}
+												transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
 												className='flex flex-col items-center justify-start pb-4'
 											>
 												<span
