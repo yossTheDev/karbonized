@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import React, { type RefObject, Suspense } from 'react';
+import React, { type RefObject, Suspense, useMemo } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
 import { DynamicBackground } from './Misc/DynamicBackground';
@@ -29,6 +29,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const controlID = useStoreState((state) => state.currentControlID);
 	const currentControl = useStoreState((state) => state.currentControl);
 	const controlsClass = useStoreState((state) => state.controlsClass);
+	const controlProperties = useStoreState((state) => state.ControlProperties);
 
 	const editing = useStoreState((state) => state.editing);
 	const crop = useStoreState((state) => state.crop);
@@ -44,6 +45,9 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	);
 	const setControlSize = useStoreActions((state) => state.setControlSize);
 	const setControlPos = useStoreActions((state) => state.setControlPosition);
+	const setControlProperties = useStoreActions(
+		(state) => state.setControlProperties,
+	);
 
 	const setControlState = useStoreActions((state) => state.setControlState);
 	const pastHistory = useStoreState((state) => state.pastHistory);
@@ -63,6 +67,93 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			: currentWorkspace?.workspaceColorMode === 'Single'
 				? currentWorkspace?.workspaceColor
 				: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`;
+
+	const getGroupDescendantIds = (
+		controls: Array<{
+			id: string;
+			parentId?: string | null;
+			type: string;
+			isDeleted?: boolean;
+			isVisible?: boolean;
+		}>,
+		groupId: string,
+	): string[] => {
+		const children = controls.filter(
+			(item) => (item.parentId ?? null) === groupId && !item.isDeleted,
+		);
+
+		return children.flatMap((child) =>
+			child.type === 'group'
+				? getGroupDescendantIds(controls, child.id)
+				: child.isVisible === false
+					? []
+					: [child.id],
+		);
+	};
+
+	const groupTargetIds = useMemo(() => {
+		if (currentControl?.type !== 'group' || currentWorkspace === undefined) return [];
+
+		return getGroupDescendantIds(currentWorkspace.controls, currentControl.id);
+	}, [currentControl, currentWorkspace]);
+
+	const moveableTarget = useMemo(() => {
+		if (
+			currentControl === undefined ||
+			currentControl.locked ||
+			currentControl.isDeleted ||
+			!currentControl.isVisible
+		) {
+			return null;
+		}
+
+		if (currentControl.type === 'group') {
+			const groupTargets = groupTargetIds
+				.map((id) => document.getElementById(id))
+				.filter((item): item is HTMLElement => item !== null);
+
+			return groupTargets.length > 0 ? groupTargets : null;
+		}
+
+		return document.getElementById(controlID);
+	}, [controlID, currentControl, groupTargetIds]);
+
+	const syncGroupTargetsToStore = (
+		targets: Array<HTMLElement | SVGAElement>,
+	): void => {
+		const nextProperties = [...controlProperties];
+
+		const upsertProperty = (id: string, value: unknown) => {
+			const index = nextProperties.findIndex((item) => item.id === id);
+			const property = {
+				id,
+				value,
+				workspace: currentWorkspaceID,
+			};
+
+			if (index === -1) {
+				nextProperties.push(property);
+			} else {
+				nextProperties[index] = property;
+			}
+		};
+
+		targets.forEach((target) => {
+			const targetId = target.id;
+
+			upsertProperty(`${targetId}-pos`, {
+				x: parseFloat(target.style.left.replace('px', '')),
+				y: parseFloat(target.style.top.replace('px', '')),
+			});
+			upsertProperty(`${targetId}-control_size`, {
+				w: parseFloat(target.style.width.replace('px', '')),
+				h: parseFloat(target.style.height.replace('px', '')),
+			});
+			upsertProperty(`${targetId}-transform`, target.style.transform);
+		});
+
+		setControlProperties(nextProperties);
+	};
 
 	const renderWorkspaceBackground = (useBlurCompensation = false) => {
 		const sizeStyle = useBlurCompensation
@@ -206,14 +297,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 			{editing && !isExporting && (
 				<Moveable
 					useResizeObserver
-					target={
-						currentControl?.locked ||
-						currentControl?.type === 'group' ||
-						currentControl?.isDeleted ||
-						!currentControl?.isVisible
-							? null
-							: document.getElementById(controlID)
-					}
+					target={moveableTarget}
 					origin={true}
 					/* Resize event edges */
 					edge={false}
@@ -265,18 +349,15 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							},
 						]);
 					}}
-					onDragGroup={({ targets, left, top }: OnDragGroup) => {
-						// console.log('onDrag left, top', left, top);
-						// target!.style.left = `${left}px`;
-						// target!.style.top = `${top}px`;
-						// console.log('onDrag translate', dist);
-						// currentTarget.controlGesto.move(delta, MouseEvent);
-						targets.map((el) => {
-							el.style.left = `${left}px`;
-							el.style.top = `${top}px`;
+					onDragGroup={({ events }: any) => {
+						events.forEach(({ target, left, top }: any) => {
+							target.style.left = `${left}px`;
+							target.style.top = `${top}px`;
 						});
-						// console.log('group drag');
-						// setPosition({ x: left, y: top });
+					}}
+					onDragGroupEnd={({ targets }: any) => {
+						syncGroupTargetsToStore(targets);
+						setFutureHistory([]);
 					}}
 					onDrag={({ target, left, top }: OnDrag) => {
 						// console.log('onDrag left, top', left, top);
@@ -325,17 +406,15 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							h: target.style.height.replace('px', '') as unknown as number,
 						});
 					}}
-					onResizeGroup={({ targets, width, height, delta }: OnResizeGroup) => {
-						targets.map((el) => {
-							delta[0] !== 0 && (el.style.width = `${width}px`);
-							delta[1] !== 0 && (el.style.height = `${height}px`);
+					onResizeGroup={({ events }: any) => {
+						events.forEach(({ target, width, height, delta }: any) => {
+							delta[0] !== 0 && (target.style.width = `${width}px`);
+							delta[1] !== 0 && (target.style.height = `${height}px`);
 						});
-
-						// console.log('height' + target!.style.height);
-						/* setSize({
-							w: target!.style.width.replace('px', '') as unknown as number,
-							h: target!.style.height.replace('px', '') as unknown as number,
-						}); */
+					}}
+					onResizeGroupEnd={({ targets }: any) => {
+						syncGroupTargetsToStore(targets);
+						setFutureHistory([]);
 					}}
 					onResizeEnd={({ target }) => {
 						// console.log('onResizeEnd', target, isDrag);
@@ -387,20 +466,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						target.style.transform = transform;
 						setControlTransform(transform);
 					}}
-					onRotateGroup={({ target, targets, transform }: OnRotateGroup) => {
-						// events.forEach(this.handleRotate);
-						targets.map((el) => {
-							// const frame = this.getFrame(target as HTMLElement | SVGAElement);
-							// const beforeTranslate = drag.beforeTranslate;
-
-							// el.style.rotate = `${beforeRotation}deg`;
-							el.style.transform = transform; // .set('transform', 'translateX', `${beforeTranslate[0]}px`);
-							// frame.set('transform', 'translateY', `${beforeTranslate[1]}px`);
-							// target.style.cssText += frame.toCSS();
+					onRotateGroup={({ events }: any) => {
+						events.forEach(({ target, transform }: any) => {
+							target.style.transform = transform;
 						});
-
-						// console.log('onRotate', dist);
-						target.style.transform = transform;
+					}}
+					onRotateGroupEnd={({ targets }: any) => {
+						syncGroupTargetsToStore(targets);
+						setFutureHistory([]);
 					}}
 					onRotateEnd={({ target }) => {
 						setControlState({

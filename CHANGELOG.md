@@ -4,6 +4,10 @@
 
 ### 🚀 Features
 
+- Add a redesigned hierarchy panel with searchable layers, filters, contextual layer actions, and cleaner workspace-oriented UI
+- Add layer groups/folders with nested hierarchy, collapse state, visibility/lock controls, duplication, rename, and drag-and-drop reordering
+- Add grouped Moveable editing so hierarchy groups can be transformed together directly on the canvas
+- Add hierarchy multi-selection with standard click, Shift range selection, and additive Alt/Ctrl/Cmd selection for batch layer actions
 - Migrate to Tailwind CSS v4 with new CSS-based configuration
 - Migrate to Vite 8 for improved build performance
 - Migrate to ESLint 9 with flat config system
@@ -20,6 +24,8 @@
 
 ### 🐛 Fixes
 
+- Fix grouped Moveable crashes caused by invalid multi-target configuration in hierarchy-driven group selection
+- Fix control position feedback loops caused by store-to-local property synchronization while dragging active controls
 - Fix 800+ ESLint errors (formatting, unused variables, and other linting issues)
 - Fix TypeScript strict mode error in ProjectWizard.tsx (explicit comparison for any types)
 - Fix Editor component not displaying by default (showWizard state initialization)
@@ -34,6 +40,7 @@
 
 ### 🔄 Changes
 
+- Refactor hierarchy actions into the central store so layer visibility, lock, delete, duplicate, grouping, and structural reorder flow through shared editor logic
 - Update TypeScript moduleResolution to "bundler" for better ESM support
 - Remove old ESLint config files (.eslintrc.js, .eslintrc.json)
 - Remove test message from App.tsx

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Layers, Lock, Plus, RefreshCcw, Search, Shapes } from 'lucide-react';
+import { Plus, RefreshCcw, Search } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { Item } from '../../stores/AppStore';
 import { useStoreActions, useStoreState } from '../../stores/Hooks';
@@ -14,7 +14,8 @@ interface LayerNode {
 	children: LayerNode[];
 }
 
-const normalizeParentId = (value?: string | null): string | null => value ?? null;
+const normalizeParentId = (value?: string | null): string | null =>
+	value ?? null;
 
 const buildLayerTree = (
 	controls: Item[],
@@ -54,7 +55,11 @@ const filterTree = (
 
 	return nodes
 		.map((node) => {
-			const filteredChildren = filterTree(node.children, normalizedQuery, filter);
+			const filteredChildren = filterTree(
+				node.children,
+				normalizedQuery,
+				filter,
+			);
 			const queryMatch =
 				normalizedQuery === '' ||
 				node.item.name.toLowerCase().includes(normalizedQuery) ||
@@ -72,6 +77,14 @@ const filterTree = (
 
 const getChildCount = (node: LayerNode): number =>
 	node.children.reduce((acc, child) => acc + 1 + getChildCount(child), 0);
+
+const flattenVisibleTree = (nodes: LayerNode[]): Item[] =>
+	nodes.flatMap((node) => [
+		node.item,
+		...(node.item.type === 'group' && node.item.collapsed
+			? []
+			: flattenVisibleTree(node.children)),
+	]);
 
 export const HierarchyPanel: React.FC = () => {
 	const visibleControls = useStoreState((state) => state.visibleControls);
@@ -99,6 +112,8 @@ export const HierarchyPanel: React.FC = () => {
 	const [query, setQuery] = useState('');
 	const [filter, setFilter] = useState<LayerFilter>('all');
 	const [focusedLayerID, setFocusedLayerID] = useState<string>('');
+	const [selectedLayerIDs, setSelectedLayerIDs] = useState<string[]>([]);
+	const [selectionAnchorID, setSelectionAnchorID] = useState<string>('');
 	const [renamingID, setRenamingID] = useState<string>('');
 	const [renameValue, setRenameValue] = useState('');
 	const [draggedId, setDraggedId] = useState('');
@@ -110,10 +125,28 @@ export const HierarchyPanel: React.FC = () => {
 	useEffect(() => {
 		if (currentControlID !== '') {
 			setFocusedLayerID(currentControlID);
+			setSelectedLayerIDs((current) =>
+				current.includes(currentControlID) ? current : [currentControlID],
+			);
+			setSelectionAnchorID(currentControlID);
 		}
 	}, [currentControlID]);
 
-	const tree = useMemo(() => buildLayerTree(visibleControls), [visibleControls]);
+	useEffect(() => {
+		const validIds = new Set(visibleControls.map((item) => item.id));
+		setSelectedLayerIDs((current) => current.filter((id) => validIds.has(id)));
+		if (selectionAnchorID !== '' && !validIds.has(selectionAnchorID)) {
+			setSelectionAnchorID('');
+		}
+		if (focusedLayerID !== '' && !validIds.has(focusedLayerID)) {
+			setFocusedLayerID('');
+		}
+	}, [focusedLayerID, selectionAnchorID, visibleControls]);
+
+	const tree = useMemo(
+		() => buildLayerTree(visibleControls),
+		[visibleControls],
+	);
 	const filteredTree = useMemo(
 		() => filterTree(tree, query, filter),
 		[filter, query, tree],
@@ -125,9 +158,43 @@ export const HierarchyPanel: React.FC = () => {
 			),
 		[currentControlID, focusedLayerID, visibleControls],
 	);
+	const flattenedVisibleItems = useMemo(
+		() => flattenVisibleTree(filteredTree),
+		[filteredTree],
+	);
+	const selectedItems = useMemo(
+		() =>
+			selectedLayerIDs
+				.map((id) => visibleControls.find((item) => item.id === id))
+				.filter((item): item is Item => item !== undefined),
+		[selectedLayerIDs, visibleControls],
+	);
+	const selectedCount = selectedItems.length;
+
+	const getActionTargetIds = (clickedId: string): string[] =>
+		selectedLayerIDs.includes(clickedId) && selectedLayerIDs.length > 0
+			? selectedLayerIDs
+			: [clickedId];
+
+	const getSharedParentId = (items: Item[]): string | null => {
+		if (items.length === 0) return null;
+		const firstParent = items[0].parentId ?? null;
+		return items.every((item) => (item.parentId ?? null) === firstParent)
+			? firstParent
+			: null;
+	};
+
+	const applyToTargets = (
+		clickedId: string,
+		handler: (targetIds: string[]) => void,
+	): void => {
+		handler(getActionTargetIds(clickedId));
+	};
 
 	const handleRenameStart = (item: Item) => {
 		setFocusedLayerID(item.id);
+		setSelectedLayerIDs([item.id]);
+		setSelectionAnchorID(item.id);
 		setRenamingID(item.id);
 		setRenameValue(item.name);
 	};
@@ -155,6 +222,53 @@ export const HierarchyPanel: React.FC = () => {
 		return ratio < 0.5 ? 'before' : 'after';
 	};
 
+	const handleLayerSelection = (
+		item: Item,
+		event: React.MouseEvent<HTMLDivElement>,
+	): void => {
+		const additive = event.altKey || event.ctrlKey || event.metaKey;
+		const ranged = event.shiftKey;
+
+		setFocusedLayerID(item.id);
+		setCurrentControlID(item.id);
+
+		if (ranged && flattenedVisibleItems.length > 0) {
+			const anchorId = selectionAnchorID || selectedLayerIDs[0] || item.id;
+			const startIndex = flattenedVisibleItems.findIndex(
+				(entry) => entry.id === anchorId,
+			);
+			const endIndex = flattenedVisibleItems.findIndex(
+				(entry) => entry.id === item.id,
+			);
+
+			if (startIndex !== -1 && endIndex !== -1) {
+				const [from, to] =
+					startIndex < endIndex
+						? [startIndex, endIndex]
+						: [endIndex, startIndex];
+				const nextRange = flattenedVisibleItems
+					.slice(from, to + 1)
+					.map((entry) => entry.id);
+
+				setSelectedLayerIDs(nextRange);
+				return;
+			}
+		}
+
+		if (additive) {
+			setSelectedLayerIDs((current) =>
+				current.includes(item.id)
+					? current.filter((id) => id !== item.id)
+					: [...current, item.id],
+			);
+			setSelectionAnchorID(item.id);
+			return;
+		}
+
+		setSelectedLayerIDs([item.id]);
+		setSelectionAnchorID(item.id);
+	};
+
 	const renderNode = (node: LayerNode, depth = 0): React.ReactNode => {
 		const isCollapsed = node.item.type === 'group' && node.item.collapsed;
 		const activeId = focusedLayerID || currentControlID;
@@ -164,31 +278,71 @@ export const HierarchyPanel: React.FC = () => {
 				<MenuItem
 					item={node.item}
 					depth={depth}
-					isSelected={currentControlID === node.item.id}
+					isSelected={selectedLayerIDs.includes(node.item.id)}
 					isFocused={activeId === node.item.id}
 					isRenaming={renamingID === node.item.id}
 					dropPosition={
 						dropTarget?.id === node.item.id ? dropTarget.position : null
 					}
 					childCount={getChildCount(node)}
-					onSelect={(item) => {
-						setFocusedLayerID(item.id);
-						if (item.type !== 'group' && item.isVisible) {
-							setCurrentControlID(item.id);
-						}
-					}}
+					onSelect={handleLayerSelection}
 					onRenameStart={handleRenameStart}
 					onRenameCommit={handleRenameCommit}
 					onRenameCancel={() => {
 						setRenamingID('');
 						setRenameValue('');
 					}}
-					onToggleVisibility={toggleControlVisibility}
-					onToggleLock={toggleControlLock}
-					onDelete={deleteControl}
-					onDuplicate={duplicateControl}
-					onGroup={groupControl}
-					onUngroup={ungroupControl}
+					onToggleVisibility={(id) => {
+						applyToTargets(id, (targetIds) => {
+							targetIds.forEach((targetId) => {
+								toggleControlVisibility(targetId);
+							});
+						});
+					}}
+					onToggleLock={(id) => {
+						applyToTargets(id, (targetIds) => {
+							targetIds.forEach((targetId) => {
+								toggleControlLock(targetId);
+							});
+						});
+					}}
+					onDelete={(id) => {
+						applyToTargets(id, (targetIds) => {
+							targetIds.forEach((targetId) => {
+								deleteControl(targetId);
+							});
+						});
+					}}
+					onDuplicate={(id) => {
+						applyToTargets(id, (targetIds) => {
+							targetIds.forEach((targetId) => {
+								duplicateControl(targetId);
+							});
+						});
+					}}
+					onGroup={(id) => {
+						const targetIds = getActionTargetIds(id);
+						const targetItems = visibleControls.filter((item) =>
+							targetIds.includes(item.id),
+						);
+
+						if (targetIds.length > 1) {
+							addGroup({
+								childIds: targetIds,
+								parentId: getSharedParentId(targetItems),
+							});
+							return;
+						}
+
+						groupControl(id);
+					}}
+					onUngroup={(id) => {
+						applyToTargets(id, (targetIds) => {
+							targetIds.forEach((targetId) => {
+								ungroupControl(targetId);
+							});
+						});
+					}}
 					onMoveStep={(id, direction) => moveControlByStep({ id, direction })}
 					onMoveEdge={(id, position) => moveControlToEdge({ id, position })}
 					onToggleCollapsed={toggleGroupCollapsed}
@@ -196,6 +350,10 @@ export const HierarchyPanel: React.FC = () => {
 						setDraggedId(id);
 						setDropTarget(null);
 						setFocusedLayerID(id);
+						if (!selectedLayerIDs.includes(id)) {
+							setSelectedLayerIDs([id]);
+							setSelectionAnchorID(id);
+						}
 					}}
 					onDragOver={(event, item) => {
 						event.preventDefault();
@@ -234,72 +392,58 @@ export const HierarchyPanel: React.FC = () => {
 
 	return (
 		<div className='flex h-full flex-col gap-3 pb-2'>
-			<div className='rounded-3xl border border-border/70 bg-card/70 p-3 shadow-sm'>
-				<div className='flex items-start justify-between gap-3'>
-					<div>
-						<p className='text-sm font-semibold text-foreground'>Layer manager</p>
-						<p className='text-xs text-muted-foreground'>
-							Organize, group and reorder your scene without leaving the canvas.
-						</p>
+			<div className='flex flex-col gap-3'>
+				<div className='flex items-center gap-2'>
+					<div className='relative flex-1'>
+						<Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
+						<Input
+							value={query}
+							onChange={(event) => setQuery(event.target.value)}
+							placeholder='Search layers, groups, or types'
+							className='pl-9'
+						/>
 					</div>
 					<Button
 						variant='outline'
-						size='sm'
+						size='icon-sm'
 						onClick={() => {
+							if (selectedCount > 1) {
+								addGroup({
+									childIds: selectedLayerIDs,
+									parentId: getSharedParentId(selectedItems),
+								});
+								return;
+							}
+
 							addGroup({
 								parentId:
 									activeLayer?.type === 'group'
 										? activeLayer.id
-										: activeLayer?.parentId ?? null,
+										: (activeLayer?.parentId ?? null),
 							});
 						}}
+						title={
+							selectedCount > 1
+								? `Create group from ${selectedCount} layers`
+								: 'Create group'
+						}
 					>
-						<Plus className='mr-2 size-4' />
-						Group
+						<Plus className='size-4' />
+					</Button>
+					<Button
+						variant='ghost'
+						size='icon-sm'
+						onClick={() => {
+							setQuery('');
+							setFilter('all');
+						}}
+						title='Reset filters'
+					>
+						<RefreshCcw className='size-4' />
 					</Button>
 				</div>
 
-				<div className='mt-3 grid grid-cols-3 gap-2 text-xs'>
-					<div className='rounded-2xl border border-border/60 bg-background/70 px-3 py-2'>
-						<div className='flex items-center gap-2 text-muted-foreground'>
-							<Layers className='size-4' />
-							Layers
-						</div>
-						<p className='mt-1 text-lg font-semibold text-foreground'>
-							{visibleControls.length}
-						</p>
-					</div>
-					<div className='rounded-2xl border border-border/60 bg-background/70 px-3 py-2'>
-						<div className='flex items-center gap-2 text-muted-foreground'>
-							<Lock className='size-4' />
-							Locked
-						</div>
-						<p className='mt-1 text-lg font-semibold text-foreground'>
-							{visibleControls.filter((item) => item.locked).length}
-						</p>
-					</div>
-					<div className='rounded-2xl border border-border/60 bg-background/70 px-3 py-2'>
-						<div className='flex items-center gap-2 text-muted-foreground'>
-							<Shapes className='size-4' />
-							Groups
-						</div>
-						<p className='mt-1 text-lg font-semibold text-foreground'>
-							{visibleControls.filter((item) => item.type === 'group').length}
-						</p>
-					</div>
-				</div>
-
-				<div className='relative mt-3'>
-					<Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
-					<Input
-						value={query}
-						onChange={(event) => setQuery(event.target.value)}
-						placeholder='Search layers, groups, or types'
-						className='pl-9'
-					/>
-				</div>
-
-				<div className='mt-3 flex flex-wrap gap-2'>
+				<div className='flex flex-wrap gap-2'>
 					{[
 						{ id: 'all', label: 'All' },
 						{ id: 'visible', label: 'Visible' },
@@ -320,30 +464,11 @@ export const HierarchyPanel: React.FC = () => {
 			</div>
 
 			<div className='flex min-h-0 flex-1 flex-col gap-2'>
-				<div className='flex items-center justify-between px-1'>
-					<div>
-						<p className='text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground'>
-							Scene structure
-						</p>
-						{activeLayer !== undefined && (
-							<p className='text-xs text-muted-foreground'>
-								Focused: {activeLayer.name}
-							</p>
-						)}
-					</div>
-					<Button
-						variant='ghost'
-						size='icon-xs'
-						onClick={() => {
-							setQuery('');
-							setFilter('all');
-						}}
-						title='Reset filters'
-					>
-						<RefreshCcw className='size-4' />
-					</Button>
-				</div>
-
+				{selectedCount > 1 && (
+					<p className='px-1 text-xs text-muted-foreground'>
+						{selectedCount} layers selected
+					</p>
+				)}
 				{filteredTree.length > 0 ? (
 					<div className='flex flex-col gap-2 pb-4'>
 						{filteredTree.map((node) => renderNode(node))}
@@ -351,7 +476,8 @@ export const HierarchyPanel: React.FC = () => {
 				) : (
 					<div className='flex flex-1 items-center justify-center rounded-3xl border border-dashed border-border bg-card/40 p-6'>
 						<p className='max-w-52 text-center text-sm text-muted-foreground'>
-							No layers match the current search. Try a different keyword or reset the filters.
+							No layers match the current search. Try a different keyword or
+							reset the filters.
 						</p>
 					</div>
 				)}

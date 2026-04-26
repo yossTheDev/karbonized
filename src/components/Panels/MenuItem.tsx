@@ -1,5 +1,12 @@
 import { Button } from '@/components/ui/button';
 import {
+	ContextMenu,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuSeparator,
+	ContextMenuTrigger,
+} from '@/components/ui/context-menu';
+import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -48,7 +55,7 @@ interface MenuItemProps {
 	isRenaming: boolean;
 	dropPosition?: LayerDropPosition | null;
 	childCount: number;
-	onSelect: (item: Item) => void;
+	onSelect: (item: Item, event: React.MouseEvent<HTMLDivElement>) => void;
 	onRenameStart: (item: Item) => void;
 	onRenameCommit: (value: string) => void;
 	onRenameCancel: () => void;
@@ -99,186 +106,207 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 }) => {
 	const isGroup = item.type === 'group';
 
-	return (
-		<div className='relative'>
-			{dropPosition === 'before' && (
-				<div className='absolute -top-1 left-3 right-3 h-0.5 rounded-full bg-primary/80' />
-			)}
+	const renderActions = (mode: 'dropdown' | 'context') => {
+		const ItemComponent =
+			mode === 'dropdown' ? DropdownMenuItem : ContextMenuItem;
+		const SeparatorComponent =
+			mode === 'dropdown' ? DropdownMenuSeparator : ContextMenuSeparator;
 
-			<div
-				draggable
-				onDragStart={() => onDragStart(item.id)}
-				onDragOver={(event) => onDragOver(event, item)}
-				onDrop={(event) => onDrop(event, item)}
-				onDragEnd={onDragEnd}
-				onClick={() => onSelect(item)}
-				onDoubleClick={() => onRenameStart(item)}
-				className={`group relative flex items-center gap-2 rounded-2xl border px-2 py-2 transition-all ${
-					isSelected
-						? 'border-primary/40 bg-primary/10 text-foreground shadow-sm'
-						: isFocused
-							? 'border-border/80 bg-muted/60 text-foreground'
-							: 'border-transparent bg-background/60 text-muted-foreground hover:border-border/70 hover:bg-muted/60 hover:text-foreground'
-				}`}
-				style={{ marginLeft: depth * 14 }}
-			>
-				{dropPosition === 'inside' && (
-					<div className='absolute inset-0 rounded-2xl border border-dashed border-primary/70 bg-primary/5' />
-				)}
-
-				{isGroup ? (
-					<Button
-						type='button'
-						variant='ghost'
-						size='icon-xs'
-						className='relative z-10'
-						onClick={(event) => {
-							event.stopPropagation();
-							onToggleCollapsed(item.id);
-						}}
-					>
-						{item.collapsed ? <ChevronRight /> : <ChevronDown />}
-					</Button>
-				) : (
-					<div className='size-6 shrink-0' />
-				)}
-
-				<div
-					className={`relative z-10 flex size-9 shrink-0 items-center justify-center rounded-2xl border ${
-						isGroup
-							? 'border-amber-300/60 bg-amber-100/80 text-amber-700'
-							: 'border-border/80 bg-card text-foreground'
-					}`}
+		return (
+			<>
+				<ItemComponent
+					onClick={(event: any) => {
+						event.stopPropagation();
+						onRenameStart(item);
+					}}
 				>
-					<MenuIcon type={item.type} />
-				</div>
+					<PenLine className='mr-2 size-4' />
+					Rename layer
+				</ItemComponent>
+				{!isGroup && (
+					<ItemComponent onClick={() => onGroup(item.id)}>
+						<FolderInput className='mr-2 size-4' />
+						Create group from layer
+					</ItemComponent>
+				)}
+				{isGroup && (
+					<ItemComponent onClick={() => onUngroup(item.id)}>
+						<Users className='mr-2 size-4' />
+						Ungroup
+					</ItemComponent>
+				)}
+				<ItemComponent onClick={() => onDuplicate(item.id)}>
+					<Copy className='mr-2 size-4' />
+					Duplicate
+				</ItemComponent>
+				<SeparatorComponent />
+				<ItemComponent onClick={() => onMoveStep(item.id, 'backward')}>
+					<ChevronUpIcon />
+					Move backward
+				</ItemComponent>
+				<ItemComponent onClick={() => onMoveStep(item.id, 'forward')}>
+					<ChevronDownIcon />
+					Move forward
+				</ItemComponent>
+				<ItemComponent onClick={() => onMoveEdge(item.id, 'front')}>
+					<BringToFrontIcon />
+					Bring to front
+				</ItemComponent>
+				<ItemComponent onClick={() => onMoveEdge(item.id, 'back')}>
+					<SendToBack className='mr-2 size-4' />
+					Send to back
+				</ItemComponent>
+				<SeparatorComponent />
+				<ItemComponent
+					onClick={() => onDelete(item.id)}
+					className='text-destructive focus:text-destructive'
+				>
+					<Trash2 className='mr-2 size-4' />
+					Delete
+				</ItemComponent>
+			</>
+		);
+	};
 
-				<div className='relative z-10 min-w-0 flex-1'>
-					{isRenaming ? (
-						<Input
-							autoFocus
-							value={renameValue}
-							onChange={(event) => setRenameValue(event.target.value)}
-							onClick={(event) => event.stopPropagation()}
-							onKeyDown={(event) => {
-								if (event.key === 'Enter') {
-									onRenameCommit(renameValue);
-								} else if (event.key === 'Escape') {
-									onRenameCancel();
-								}
-							}}
-							onBlur={() => onRenameCommit(renameValue)}
-							className='h-8 bg-background'
-						/>
-					) : (
-						<>
-							<p className='truncate text-sm font-medium'>{item.name}</p>
-							<div className='flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/90'>
-								<span>{isGroup ? 'Group' : item.type.replace('_', ' ')}</span>
-								{isGroup && <span>{childCount} items</span>}
-								{item.locked && <span>Locked</span>}
-								{!item.isVisible && <span>Hidden</span>}
-							</div>
-						</>
+	return (
+		<ContextMenu>
+			<ContextMenuTrigger asChild>
+				<div className='relative'>
+					{dropPosition === 'before' && (
+						<div className='absolute -top-1 left-3 right-3 h-0.5 rounded-full bg-primary/80' />
 					)}
-				</div>
 
-				<div className='relative z-10 flex items-center gap-1 opacity-100 md:opacity-0 md:transition-opacity md:group-hover:opacity-100 md:group-focus-within:opacity-100'>
-					<Button
-						type='button'
-						variant='ghost'
-						size='icon-xs'
-						onClick={(event) => {
-							event.stopPropagation();
-							onToggleVisibility(item.id);
-						}}
+					<div
+						draggable
+						onDragStart={() => onDragStart(item.id)}
+						onDragOver={(event) => onDragOver(event, item)}
+						onDrop={(event) => onDrop(event, item)}
+						onDragEnd={onDragEnd}
+						onClick={(event) => onSelect(item, event)}
+						onDoubleClick={() => onRenameStart(item)}
+						className={`group relative flex items-center gap-2 rounded-2xl border px-2 py-2 transition-all ${
+							isSelected
+								? 'border-primary/40 bg-primary/10 text-foreground shadow-sm'
+								: isFocused
+									? 'border-border/80 bg-muted/60 text-foreground'
+									: 'border-transparent bg-background/60 text-muted-foreground hover:border-border/70 hover:bg-muted/60 hover:text-foreground'
+						}`}
+						style={{ marginLeft: depth * 14 }}
 					>
-						{item.isVisible ? <Eye /> : <EyeOff />}
-					</Button>
+						{dropPosition === 'inside' && (
+							<div className='absolute inset-0 rounded-2xl border border-dashed border-primary/70 bg-primary/5' />
+						)}
 
-					<Button
-						type='button'
-						variant='ghost'
-						size='icon-xs'
-						onClick={(event) => {
-							event.stopPropagation();
-							onToggleLock(item.id);
-						}}
-					>
-						{item.locked ? <Lock /> : <LockOpen />}
-					</Button>
-
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
+						{isGroup ? (
 							<Button
 								type='button'
 								variant='ghost'
 								size='icon-xs'
-								onClick={(event) => event.stopPropagation()}
-							>
-								<EllipsisVertical />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align='end' className='w-52'>
-							<DropdownMenuItem
+								className='relative z-10'
 								onClick={(event) => {
 									event.stopPropagation();
-									onRenameStart(item);
+									onToggleCollapsed(item.id);
 								}}
 							>
-								<PenLine className='mr-2 size-4' />
-								Rename layer
-							</DropdownMenuItem>
-							{!isGroup && (
-								<DropdownMenuItem onClick={() => onGroup(item.id)}>
-									<FolderInput className='mr-2 size-4' />
-									Create group from layer
-								</DropdownMenuItem>
-							)}
-							{isGroup && (
-								<DropdownMenuItem onClick={() => onUngroup(item.id)}>
-									<Users className='mr-2 size-4' />
-									Ungroup
-								</DropdownMenuItem>
-							)}
-							<DropdownMenuItem onClick={() => onDuplicate(item.id)}>
-								<Copy className='mr-2 size-4' />
-								Duplicate
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem onClick={() => onMoveStep(item.id, 'backward')}>
-								<ChevronUpIcon />
-								Move backward
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => onMoveStep(item.id, 'forward')}>
-								<ChevronDownIcon />
-								Move forward
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => onMoveEdge(item.id, 'front')}>
-								<BringToFrontIcon />
-								Bring to front
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => onMoveEdge(item.id, 'back')}>
-								<SendToBack className='mr-2 size-4' />
-								Send to back
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem
-								onClick={() => onDelete(item.id)}
-								className='text-destructive focus:text-destructive'
-							>
-								<Trash2 className='mr-2 size-4' />
-								Delete
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
-			</div>
+								{item.collapsed ? <ChevronRight /> : <ChevronDown />}
+							</Button>
+						) : (
+							<div className='size-6 shrink-0' />
+						)}
 
-			{dropPosition === 'after' && (
-				<div className='absolute -bottom-1 left-3 right-3 h-0.5 rounded-full bg-primary/80' />
-			)}
-		</div>
+						<div
+							className={`relative z-10 flex size-9 shrink-0 items-center justify-center rounded-2xl border ${
+								isGroup
+									? 'border-amber-300/60 bg-amber-100/80 text-amber-700'
+									: 'border-border/80 bg-card text-foreground'
+							}`}
+						>
+							<MenuIcon type={item.type} />
+						</div>
+
+						<div className='relative z-10 min-w-0 flex-1'>
+							{isRenaming ? (
+								<Input
+									autoFocus
+									value={renameValue}
+									onChange={(event) => setRenameValue(event.target.value)}
+									onClick={(event) => event.stopPropagation()}
+									onKeyDown={(event) => {
+										if (event.key === 'Enter') {
+											onRenameCommit(renameValue);
+										} else if (event.key === 'Escape') {
+											onRenameCancel();
+										}
+									}}
+									onBlur={() => onRenameCommit(renameValue)}
+									className='h-8 bg-background'
+								/>
+							) : (
+								<>
+									<p className='truncate text-sm font-medium'>{item.name}</p>
+									<div className='flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/90'>
+										<span>{isGroup ? 'Group' : item.type.replace('_', ' ')}</span>
+										{isGroup && <span>{childCount} items</span>}
+										{item.locked && <span>Locked</span>}
+										{!item.isVisible && <span>Hidden</span>}
+									</div>
+								</>
+							)}
+						</div>
+
+						<div className='relative z-10 flex items-center gap-1 opacity-100 md:opacity-0 md:transition-opacity md:group-hover:opacity-100 md:group-focus-within:opacity-100'>
+							<Button
+								type='button'
+								variant='ghost'
+								size='icon-xs'
+								onClick={(event) => {
+									event.stopPropagation();
+									onToggleVisibility(item.id);
+								}}
+							>
+								{item.isVisible ? <Eye /> : <EyeOff />}
+							</Button>
+
+							<Button
+								type='button'
+								variant='ghost'
+								size='icon-xs'
+								onClick={(event) => {
+									event.stopPropagation();
+									onToggleLock(item.id);
+								}}
+							>
+								{item.locked ? <Lock /> : <LockOpen />}
+							</Button>
+
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button
+										type='button'
+										variant='ghost'
+										size='icon-xs'
+										onClick={(event) => event.stopPropagation()}
+									>
+										<EllipsisVertical />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align='end' className='w-52'>
+									{renderActions('dropdown')}
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</div>
+					</div>
+
+					{dropPosition === 'after' && (
+						<div className='absolute -bottom-1 left-3 right-3 h-0.5 rounded-full bg-primary/80' />
+					)}
+				</div>
+			</ContextMenuTrigger>
+
+			<ContextMenuContent className='w-52'>
+				{renderActions('context')}
+			</ContextMenuContent>
+		</ContextMenu>
 	);
 };
 

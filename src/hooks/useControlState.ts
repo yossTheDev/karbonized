@@ -10,6 +10,7 @@ export function useControlState<T>(
 	const controlState = useStoreState((state) => state.controlState);
 	const ControlProperties = useStoreState((state) => state.ControlProperties);
 	const initialProperties = useStoreState((state) => state.initialProperties);
+	const currentControlID = useStoreState((state) => state.currentControlID);
 	const removeInitialProperty = useStoreActions(
 		(state) => state.removeInitialProperty,
 	);
@@ -27,6 +28,13 @@ export function useControlState<T>(
 		}
 		return null;
 	};
+
+	const serialize = (value: unknown): string => {
+		if (typeof value === 'string') return value;
+		return JSON.stringify(value);
+	};
+
+	const controlRef = id.split('-').slice(0, 2).join('-');
 
 	const [state, setState] = useState(initialState);
 
@@ -54,6 +62,17 @@ export function useControlState<T>(
 			setState(controlState.value);
 		}
 	}, [controlState]);
+
+	useEffect(() => {
+		const storedProperty = ControlProperties.find((item) => item.id === id);
+		if (
+			currentControlID !== controlRef &&
+			storedProperty !== undefined &&
+			serialize(storedProperty.value) !== serialize(state)
+		) {
+			setState(storedProperty.value);
+		}
+	}, [ControlProperties, controlRef, currentControlID, id, state]);
 
 	/* Save Control Property in Store */
 	useEffect(() => {
