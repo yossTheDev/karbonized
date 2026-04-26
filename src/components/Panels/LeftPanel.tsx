@@ -310,8 +310,7 @@ export const LeftPanel: React.FC = () => {
 				const containerHeight = containerRef.current.clientHeight;
 				const itemHeight = 44; // Button height + gap
 				const separatorHeight = 20;
-				const availableHeight =
-					containerHeight - separatorHeight;
+				const availableHeight = containerHeight - separatorHeight;
 				const maxVisible = Math.floor(availableHeight / itemHeight);
 				setVisibleCount(Math.max(3, maxVisible)); // Minimum 3 visible items
 			}
@@ -381,7 +380,7 @@ export const LeftPanel: React.FC = () => {
 			ref={containerRef}
 		>
 			{/* Controls */}
-			<div className='flex w-10 flex-col items-center gap-2 text-foreground bg-background shadow-md rounded-lg border border-border px-6 py-3'>
+			<div className='glass-surface flex w-10 flex-col items-center gap-2 text-foreground rounded-2xl px-6 py-3'>
 				{visibleTools.map((tool, index) => (
 					<React.Fragment key={tool.id}>
 						<Tooltip
@@ -391,18 +390,18 @@ export const LeftPanel: React.FC = () => {
 								onClick={tool.action}
 								variant={tool.isActive ? 'accent' : 'ghost'}
 								size={'icon'}
-								className='relative transition-all duration-200 hover:scale-110'
+								className='liquid-motion relative'
 								onMouseEnter={() => setHoveredIndex(index)}
 								onMouseLeave={() => setHoveredIndex(null)}
 							>
 								<tool.icon
-									size={18}
-									className={`transition-transform duration-200 ${
-										hoveredIndex === index ? 'scale-125' : 'scale-100'
+									size={16}
+									className={`liquid-motion ${
+										hoveredIndex === index ? 'scale-110' : 'scale-100'
 									}`}
 								/>
 								{tool.shortcut && (
-									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded bg-primary text-[8px] font-sans font-bold text-primary-foreground'>
+									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded-xl bg-primary text-[8px] font-sans font-bold text-primary-foreground'>
 										{tool.shortcut.split('+')[1]}
 									</span>
 								)}
@@ -411,7 +410,7 @@ export const LeftPanel: React.FC = () => {
 						{index === 3 && (
 							<Separator
 								orientation='horizontal'
-								className='my-2 border w-16 px-3'
+								className='-mx-1.5 my-1.5 h-px bg-border/50'
 							/>
 						)}
 					</React.Fragment>
@@ -419,19 +418,22 @@ export const LeftPanel: React.FC = () => {
 
 				{overflowTools.length > 0 && (
 					<>
-						<Separator orientation='horizontal' className='my-2 w-8' />
+						<Separator
+							orientation='horizontal'
+							className='-mx-1.5 my-1.5 h-px bg-border/50'
+						/>
 						<DropdownMenu>
-							<DropdownMenuTrigger>
-								<Button size={'icon'} variant={'ghost'} className='btn'>
-									<Ellipsis size={20}></Ellipsis>
+							<DropdownMenuTrigger asChild>
+								<Button size={'icon'} variant={'ghost'} className='rounded-xl'>
+									<Ellipsis size={16}></Ellipsis>
 								</Button>
 							</DropdownMenuTrigger>
-							<DropdownMenuContent side='right'>
+							<DropdownMenuContent side='right' className='glass-popover'>
 								<DropdownMenuLabel>More Controls</DropdownMenuLabel>
 								<DropdownMenuSeparator />
 								{overflowTools.map((tool) => (
 									<DropdownMenuItem key={tool.id} onClick={tool.action}>
-										<tool.icon className='mr-2' size={18} />
+										<tool.icon className='mr-2 size-4 shrink-0' />
 										{tool.label}
 									</DropdownMenuItem>
 								))}
@@ -439,7 +441,6 @@ export const LeftPanel: React.FC = () => {
 						</DropdownMenu>
 					</>
 				)}
-
 			</div>
 
 			{/* Tabs */}
@@ -449,7 +450,7 @@ export const LeftPanel: React.FC = () => {
 					{/* Theme Button */}
 					{!isHorizontal && (
 						<Button
-							className='mx-auto mb-2'
+							className='mx-auto mb-2 rounded-xl'
 							size='icon'
 							variant='ghost'
 							onClick={() => {
@@ -457,9 +458,9 @@ export const LeftPanel: React.FC = () => {
 							}}
 						>
 							{theme === 'light' ? (
-								<Moon size={16} className='text-foreground'></Moon>
+								<Moon className='size-4 text-foreground'></Moon>
 							) : (
-								<Sun size={16} className='text-foreground'></Sun>
+								<Sun className='size-4 text-foreground'></Sun>
 							)}
 						</Button>
 					)}
@@ -474,9 +475,9 @@ export const LeftPanel: React.FC = () => {
 								setTab('hierarchy');
 								setShowMenu(true);
 							}}
-							className='rounded-2xl md:rounded-xl btn'
+							className='rounded-xl'
 						>
-							<Square className='mx-auto' size={16}></Square>
+							<Square className='mx-auto size-4'></Square>
 						</Button>
 					</Tooltip>
 
@@ -498,9 +499,9 @@ export const LeftPanel: React.FC = () => {
 
 									setShowMenu(true);
 								}}
-								className='rounded-xl btn'
+								className='rounded-xl'
 							>
-								<Puzzle className='mx-auto' size={16}></Puzzle>
+								<Puzzle className='mx-auto size-4'></Puzzle>
 							</Button>
 						</Tooltip>
 					)}
@@ -516,12 +517,12 @@ export const LeftPanel: React.FC = () => {
 									setTab('hierarchy');
 									setShowMenu(!showMenu);
 								}}
-								className='rounded-2xl md:rounded-xl'
+								className='rounded-xl'
 							>
 								{showMenu ? (
-									<ChevronLeft size={16}></ChevronLeft>
+									<ChevronLeft className='size-4'></ChevronLeft>
 								) : (
-									<ChevronRight className='mx-auto' size={16}></ChevronRight>
+									<ChevronRight className='mx-auto size-4'></ChevronRight>
 								)}
 							</Button>
 						</Tooltip>
@@ -538,9 +539,9 @@ export const LeftPanel: React.FC = () => {
 									setWorkspaceMode('custom');
 									setShowMenu(true);
 								}}
-								className='rounded-2xl'
+								className='rounded-xl'
 							>
-								<PenTool className='mx-auto' size={16}></PenTool>
+								<PenTool className='mx-auto size-4'></PenTool>
 							</Button>
 						</Tooltip>
 					)}
@@ -557,9 +558,9 @@ export const LeftPanel: React.FC = () => {
 									setWorkspaceTab('workspace');
 									setShowMenu(true);
 								}}
-								className='rounded-2xl'
+								className='rounded-xl'
 							>
-								<LayoutTemplate className='mx-auto' size={16}></LayoutTemplate>
+								<LayoutTemplate className='mx-auto size-4'></LayoutTemplate>
 							</Button>
 						</Tooltip>
 					)}
