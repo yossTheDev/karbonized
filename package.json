@@ -64,7 +64,6 @@
 		"clsx": "^2.1.1",
 		"colorthief": "^3.3.1",
 		"crypto-js": "^4.1.1",
-		"daisyui": "latest",
 		"easy-peasy": "^6.0.1",
 		"electron-is": "^3.0.0",
 		"file-saver": "^2.0.5",
@@ -141,7 +140,7 @@
 		"react-router-dom": "^6.4.3",
 		"tailwindcss": "^4.2.2",
 		"typescript": "*",
-		"vite": "^8.0.0",
+		"vite": "^7.3.0",
 		"vite-plugin-electron": "^0.29.0",
 		"vite-plugin-pwa": "^1.2.0"
 	},
