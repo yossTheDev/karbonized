@@ -42,7 +42,7 @@ interface Workspace {
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
 	workspaceDynamicSettings: { colors: string[]; seed: number };
-	workspaceDynamicType: 'mesh' | 'lava'; // Type of dynamic background
+	workspaceDynamicType: 'mesh' | 'lava' | 'starfield' | 'galaxy'; // Type of dynamic background
 	workspaceBlur: number;
 	workspaceNoise: number;
 	textureName: string;
@@ -363,7 +363,7 @@ export interface AppStoreModel {
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
 	workspaceDynamicSettings: { colors: string[]; seed: number };
-	workspaceDynamicType: 'mesh' | 'lava';
+	workspaceDynamicType: 'mesh' | 'lava' | 'starfield' | 'galaxy';
 	workspaceBlur: number;
 	workspaceNoise: number;
 	setWorkspaceGradient: Action<
@@ -374,7 +374,7 @@ export interface AppStoreModel {
 		AppStoreModel,
 		{ colors: string[]; seed: number }
 	>;
-	setWorkspaceDynamicType: Action<AppStoreModel, 'mesh' | 'lava'>;
+	setWorkspaceDynamicType: Action<AppStoreModel, 'mesh' | 'lava' | 'starfield' | 'galaxy'>;
 	setWorkspaceBlur: Action<AppStoreModel, number>;
 	setWorkspaceNoise: Action<AppStoreModel, number>;
 	generateDynamicSeed: Action<AppStoreModel, void>;

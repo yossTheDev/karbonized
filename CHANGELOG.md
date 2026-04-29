@@ -21,6 +21,7 @@
 - Add noise texture overlay for workspace backgrounds
 - New Mesh Gradient Dynamic Background Effect
 - New Lava Lamp Background Effect
+- New Galaxy and Starfield Background Effect
 - Add "Create Dynamic Background" from Image, Phone, and Window block context menus using extracted image colors
 - New App Design with glassmorphism effects
 - Redesign TabBar with design guide styling

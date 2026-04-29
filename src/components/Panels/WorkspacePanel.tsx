@@ -56,6 +56,13 @@ const LavaLampBackground = React.lazy(
 	async () => await import('../Misc/LavaLampBackground'),
 );
 
+const StarfieldBackground = React.lazy(
+	async () => await import('../Misc/StarfieldBackground'),
+);
+const GalaxyBackground = React.lazy(
+	async () => await import('../Misc/GalaxyBackground'),
+);
+
 const textures = [
 	{ name: 'grayrate', component: Grayrate },
 	{ name: 'coil', component: Coil },
@@ -410,7 +417,9 @@ export const WorkspacePanel: React.FC = () => {
 								</Label>
 								<Select
 									value={currentWorkspace.workspaceDynamicType}
-									onValueChange={(value: 'mesh' | 'lava') => {
+									onValueChange={(
+										value: 'mesh' | 'lava' | 'starfield' | 'galaxy',
+									) => {
 										setWorkspaceDynamicType(value);
 									}}
 								>
@@ -420,6 +429,8 @@ export const WorkspacePanel: React.FC = () => {
 									<SelectContent>
 										<SelectItem value='mesh'>Mesh Gradient</SelectItem>
 										<SelectItem value='lava'>Lava Lamp</SelectItem>
+										<SelectItem value='starfield'>Starfield</SelectItem>
+										<SelectItem value='galaxy'>Galaxy</SelectItem>
 									</SelectContent>
 								</Select>
 							</div>
