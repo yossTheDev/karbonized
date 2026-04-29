@@ -390,23 +390,20 @@ html.dark {
 	}
 
 	html.dark .glass-control-accent {
-		background-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
-		backdrop-filter: blur(26px) saturate(155%) contrast(1.07) brightness(1.03);
-		-webkit-backdrop-filter: blur(26px) saturate(155%) contrast(1.07) brightness(1.03);
 		border-color: color-mix(in oklab, var(--color-accent) 55%, white 10%);
 		background-image:
 			linear-gradient(
 				138deg,
-				color-mix(in oklab, var(--color-accent) 60%, transparent) 0%,
-				color-mix(in oklab, var(--color-accent) 55%, transparent) 12%,
-				color-mix(in oklab, var(--color-accent) 48%, transparent) 24%,
-				color-mix(in oklab, var(--color-accent) 42%, transparent) 36%,
-				color-mix(in oklab, var(--color-accent) 36%, transparent) 48%,
-				color-mix(in oklab, var(--color-accent) 32%, transparent) 60%,
-				color-mix(in oklab, var(--color-accent) 28%, transparent) 72%,
-				color-mix(in oklab, var(--color-accent) 32%, transparent) 84%,
-				color-mix(in oklab, var(--color-accent) 38%, transparent) 92%,
-				color-mix(in oklab, var(--color-accent) 40%, transparent) 100%
+				color-mix(in oklab, var(--color-accent) 90%, transparent) 0%,
+				color-mix(in oklab, var(--color-accent) 85%, transparent) 12%,
+				color-mix(in oklab, var(--color-accent) 80%, transparent) 24%,
+				color-mix(in oklab, var(--color-accent) 75%, transparent) 36%,
+				color-mix(in oklab, var(--color-accent) 70%, transparent) 48%,
+				color-mix(in oklab, var(--color-accent) 65%, transparent) 60%,
+				color-mix(in oklab, var(--color-accent) 60%, transparent) 72%,
+				color-mix(in oklab, var(--color-accent) 65%, transparent) 84%,
+				color-mix(in oklab, var(--color-accent) 70%, transparent) 92%,
+				color-mix(in oklab, var(--color-accent) 75%, transparent) 100%
 			),
 			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3Cfilter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.014'/%3E%3C/svg%3E");
 		background-size: auto, 160px 160px;
