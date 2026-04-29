@@ -11,15 +11,15 @@ const buttonVariants = cva(
 			variant: {
 				default: 'bg-primary text-primary-foreground hover:bg-primary/80',
 				outline:
-					'border-border glass-surface hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-transparent dark:hover:bg-input/30',
+					'border-border/60 glass-control hover:bg-muted hover:text-foreground hover:border-border/80 aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-transparent dark:hover:bg-input/30',
 				secondary:
-					'glass-surface text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
+					'border-border/50 glass-control text-secondary-foreground hover:bg-secondary/80 hover:border-border/70 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
 				ghost:
 					'bg-transparent hover:border-white/10 hover:bg-input/55 hover:backdrop-blur-md hover:text-foreground aria-expanded:border-white/10 aria-expanded:bg-input/60 aria-expanded:backdrop-blur-md aria-expanded:text-foreground dark:hover:border-white/10 dark:hover:bg-input/35 dark:aria-expanded:border-white/10 dark:aria-expanded:bg-input/40',
 				destructive:
 					'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
 				link: 'text-primary underline-offset-4 hover:underline',
-				accent: 'bg-accent text-accent-foreground hover:bg-accent/80',
+				accent: 'glass-control-accent text-accent-foreground hover:opacity-90',
 			},
 			size: {
 				default:

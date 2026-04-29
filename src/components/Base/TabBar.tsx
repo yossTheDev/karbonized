@@ -84,7 +84,7 @@ export const TabBar: React.FC = () => {
 									setCurrentWorkspace(item.id);
 								}}
 								onContextMenu={() => setContextMenuWorkspaceId(item.id)}
-								className={`group relative flex items-center gap-2.5 rounded-2xl px-3 py-2 text-sm font-medium outline-hidden select-none liquid-motion ${
+								className={`group relative flex items-center gap-2.5 rounded px-3 py-2 text-sm font-medium outline-hidden select-none liquid-motion ${
 									currentWorkspaceID === item.id
 										? 'bg-card shadow-lg shadow-black/10 ring-1 ring-border'
 										: 'bg-muted/50 hover:bg-muted hover:shadow-md'

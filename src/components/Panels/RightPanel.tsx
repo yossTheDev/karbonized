@@ -126,7 +126,7 @@ export const RightPanel: React.FC = () => {
 									}}
 									className={`liquid-motion shrink-0 flex w-9 flex-col items-center overflow-hidden rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 ${
 										isActive
-											? 'bg-accent/90 text-accent-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]'
+											? 'glass-control-accent text-accent-foreground'
 											: 'btn-ghost-flat text-muted-foreground hover:text-foreground'
 									}`}
 									initial={false}
@@ -151,7 +151,10 @@ export const RightPanel: React.FC = () => {
 												initial={{ opacity: 0, y: 3, filter: 'blur(2px)' }}
 												animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
 												exit={{ opacity: 0, y: 2, filter: 'blur(2px)' }}
-												transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+												transition={{
+													duration: 0.22,
+													ease: [0.22, 1, 0.36, 1],
+												}}
 												className='flex flex-col items-center justify-start pb-4'
 											>
 												<span
