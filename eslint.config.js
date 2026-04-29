@@ -1,11 +1,12 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
-import react from 'eslint-plugin-react'
-import prettier from 'eslint-plugin-prettier'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
+import prettier from 'eslint-plugin-prettier';
+import love from 'eslint-config-love';
 
 export default [
 	js.configs.recommended,
@@ -32,6 +33,7 @@ export default [
 		},
 		plugins: {
 			'@typescript-eslint': tseslint,
+			love,
 			react,
 			'react-hooks': reactHooks,
 			'react-refresh': reactRefresh,
@@ -49,7 +51,10 @@ export default [
 			'@typescript-eslint/no-explicit-any': 'warn',
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
-			'@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{ argsIgnorePattern: '^_' },
+			],
 		},
 		settings: {
 			react: {
@@ -59,4 +64,4 @@ export default [
 	},
 	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	require('eslint-config-prettier'),
-]
+];
