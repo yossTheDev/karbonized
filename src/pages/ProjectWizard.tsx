@@ -160,7 +160,7 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	};
 
 	return (
-		// @ts-expect-error Portal type compatibility issue
+		// @ts-ignore
 		<Portal node={document.getElementById('body')}>
 			<AnimatePresence>
 				{open && (
