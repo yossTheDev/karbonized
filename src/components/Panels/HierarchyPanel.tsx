@@ -394,7 +394,7 @@ export const HierarchyPanel: React.FC = () => {
 		<div className='flex h-full flex-col gap-3 pb-2'>
 			<div className='flex flex-col gap-3'>
 				<div className='flex items-center gap-2'>
-					<div className='relative flex-1'>
+					<div className='relative flex-1 p-2'>
 						<Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
 						<Input
 							value={query}
