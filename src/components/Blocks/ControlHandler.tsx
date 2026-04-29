@@ -13,6 +13,7 @@ const ImageBlock = React.lazy(async () => await import('./ImageBlock'));
 const AvatarBlock = React.lazy(async () => await import('./AvatarBlock'));
 const ShapeBlock = React.lazy(async () => await import('./ShapeBlock'));
 const WindowBlock = React.lazy(async () => await import('./WindowBlock'));
+const HTMLBlock = React.lazy(async () => await import('./HTMLBlock'));
 
 interface Props {
 	id: string;
@@ -119,6 +120,14 @@ export const ControlHandler: React.FC<Props> = ({ type, id, isVisible }) => {
 				<Suspense fallback={<BlockLoader></BlockLoader>}>
 					<div className={`${!isVisible && 'hidden'}`}>
 						<CustomBlock id={id}></CustomBlock>
+					</div>
+				</Suspense>
+			);
+		case 'html':
+			return (
+				<Suspense fallback={<BlockLoader></BlockLoader>}>
+					<div className={`${!isVisible && 'hidden'}`}>
+						<HTMLBlock id={id}></HTMLBlock>
 					</div>
 				</Suspense>
 			);

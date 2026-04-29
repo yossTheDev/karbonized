@@ -32,6 +32,7 @@ import {
 	LayoutTemplate,
 	BoxSelect,
 	X,
+	Globe,
 } from 'lucide-react';
 import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
 import { AppContext } from '../../AppContext';
@@ -284,6 +285,22 @@ export const LeftPanel: React.FC = () => {
 						isSelectable: true,
 						isDeleted: false,
 						name: `window ${getElementsByType('window')}`,
+						isVisible: true,
+					});
+				},
+				isActive: false,
+			},
+			{
+				id: 'html',
+				icon: Globe,
+				label: 'HTML',
+				action: () => {
+					addControl({
+						type: 'html',
+						id: `html-${getRandomNumber()}`,
+						isSelectable: true,
+						isDeleted: false,
+						name: `html ${getElementsByType('html')}`,
 						isVisible: true,
 					});
 				},
