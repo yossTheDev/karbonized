@@ -380,7 +380,7 @@ export const LeftPanel: React.FC = () => {
 			ref={containerRef}
 		>
 			{/* Controls */}
-			<div className='glass-surface flex w-10 flex-col items-center gap-2 text-foreground rounded-2xl px-6 py-3'>
+			<div className='bg-white dark:bg-dark-base-200 border border-neutral-200 dark:border-dark-base-100 flex w-10 flex-col items-center gap-2 text-foreground rounded-2xl px-6 py-3'>
 				{visibleTools.map((tool, index) => (
 					<React.Fragment key={tool.id}>
 						<Tooltip
@@ -388,7 +388,7 @@ export const LeftPanel: React.FC = () => {
 						>
 							<Button
 								onClick={tool.action}
-								variant={tool.isActive ? 'accent' : 'ghost'}
+								variant={tool.isActive ? 'default' : 'ghost'}
 								size={'icon'}
 								className='liquid-motion relative'
 								onMouseEnter={() => setHoveredIndex(index)}
@@ -401,7 +401,7 @@ export const LeftPanel: React.FC = () => {
 									}`}
 								/>
 								{tool.shortcut && (
-									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded-xl bg-primary text-[8px] font-sans font-bold text-primary-foreground'>
+									<span className='absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded-xl dark:bg-white dark:text-black bg-neutral-950 text-[8px] font-sans font-bold text-primary-foreground'>
 										{tool.shortcut.split('+')[1]}
 									</span>
 								)}

@@ -16,7 +16,7 @@
     "components": "@/components",
     "utils": "@/lib/utils"
   },
-  "menuColor": "default-translucent",
+  "menuColor": "default",
   "menuAccent": "subtle",
   "registries": {}
 }

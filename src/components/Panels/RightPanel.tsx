@@ -89,19 +89,21 @@ export const RightPanel: React.FC = () => {
 				{/* Selectors */}
 				<div className='flex flex-col gap-4 shrink-0'>
 					<Tooltip message={showMenu ? 'Collapse Panel' : 'Expand Panel'}>
-						<button
+						<Button
+							variant={'ghost'}
+							size={'icon'}
 							onClick={() => {
 								setShowMenu(!showMenu);
 								setWorkspaceMode('custom');
 							}}
-							className='btn-ghost-flat liquid-motion shrink-0 inline-flex size-9 items-center justify-center rounded-4xl text-sm font-medium outline-none select-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 disabled:pointer-events-none disabled:opacity-50'
+							className='shrink-0 inline-flex size-9 items-center justify-center rounded-4xl text-sm font-medium outline-none select-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 disabled:pointer-events-none disabled:opacity-50'
 						>
 							{showMenu ? (
 								<ChevronRight size={16} />
 							) : (
 								<ChevronLeft size={16} />
 							)}
-						</button>
+						</Button>
 					</Tooltip>
 
 					{[
@@ -124,10 +126,10 @@ export const RightPanel: React.FC = () => {
 										setShowMenu(true);
 										if (item.id === 'workspace') setWorkspaceTab('workspace');
 									}}
-									className={`liquid-motion shrink-0 flex w-9 flex-col items-center overflow-hidden rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 ${
+									className={`shrink-0 transition-colors flex w-9 flex-col items-center overflow-hidden rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 ${
 										isActive
-											? 'glass-control-accent text-accent-foreground'
-											: 'btn-ghost-flat text-muted-foreground hover:text-foreground'
+											? 'bg-primary text-white'
+											: 'bg-transparent text-muted-foreground hover:text-foreground'
 									}`}
 									initial={false}
 									animate={{
