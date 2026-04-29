@@ -542,10 +542,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					</>
 				}
 			>
-				<div className='w-full h-full bg-white border rounded'>
+				<div className='w-full h-full bg-white border rounded pointer-events-none'>
 					<iframe
 						ref={iframeRef}
-						className='w-full h-full border-0'
+						className='w-full h-full border-0 pointer-events-none'
 						sandbox={
 							sandboxMode
 								? 'allow-scripts allow-same-origin allow-forms'
