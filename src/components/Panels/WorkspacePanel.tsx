@@ -49,6 +49,13 @@ const Vortex = React.lazy(
 	async () => await import('../Misc/SvgBackgrounds/Vortex'),
 );
 
+const MeshGradient = React.lazy(
+	async () => await import('../Misc/MeshGradient'),
+);
+const LavaLampBackground = React.lazy(
+	async () => await import('../Misc/LavaLampBackground'),
+);
+
 const textures = [
 	{ name: 'grayrate', component: Grayrate },
 	{ name: 'coil', component: Coil },
@@ -148,6 +155,9 @@ export const WorkspacePanel: React.FC = () => {
 	const setTextureColors = useStoreActions((state) => state.setTextureColors);
 	const setWorkspaceColorMode = useStoreActions(
 		(state) => state.setWorkspaceColorMode,
+	);
+	const setWorkspaceDynamicType = useStoreActions(
+		(state) => state.setWorkspaceDynamicType,
 	);
 
 	if (currentWorkspace == null) {
@@ -394,6 +404,26 @@ export const WorkspacePanel: React.FC = () => {
 					</TabsContent>
 					<TabsContent value='dynamic'>
 						<div className='flex flex-col gap-4'>
+							<div>
+								<Label className='text-xs text-muted-foreground mb-2 block'>
+									Dynamic Type
+								</Label>
+								<Select
+									value={currentWorkspace.workspaceDynamicType}
+									onValueChange={(value: 'mesh' | 'lava') => {
+										setWorkspaceDynamicType(value);
+									}}
+								>
+									<SelectTrigger>
+										<SelectValue placeholder='Select dynamic type' />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value='mesh'>Mesh Gradient</SelectItem>
+										<SelectItem value='lava'>Lava Lamp</SelectItem>
+									</SelectContent>
+								</Select>
+							</div>
+
 							<div>
 								<Label className='text-xs text-muted-foreground'>
 									Colors (add up to 5)

@@ -2,7 +2,8 @@
 import React, { type RefObject, Suspense, useMemo } from 'react';
 import { useStoreActions, useStoreState } from '../stores/Hooks';
 import { ControlHandler } from './Blocks/ControlHandler';
-import { DynamicBackground } from './Misc/DynamicBackground';
+import { MeshGradient } from './Misc/MeshGradient';
+import { LavaLampBackground } from './Misc/LavaLampBackground';
 import Moveable, {
 	type OnDrag,
 	type OnResize,
@@ -92,7 +93,8 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	};
 
 	const groupTargetIds = useMemo(() => {
-		if (currentControl?.type !== 'group' || currentWorkspace === undefined) return [];
+		if (currentControl?.type !== 'group' || currentWorkspace === undefined)
+			return [];
 
 		return getGroupDescendantIds(currentWorkspace.controls, currentControl.id);
 	}, [currentControl, currentWorkspace]);
@@ -205,19 +207,37 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 
 				{currentWorkspace?.workspaceType === 'dynamic' && (
 					<div className='absolute overflow-hidden' style={sizeStyle}>
-						<DynamicBackground
-							colors={currentWorkspace?.workspaceDynamicSettings.colors}
-							blur={currentWorkspace?.workspaceBlur}
-							seed={currentWorkspace?.workspaceDynamicSettings.seed}
-							width={
-								parseInt(currentWorkspace?.workspaceWidth || '512') +
-								blurSpread * 2
-							}
-							height={
-								parseInt(currentWorkspace?.workspaceHeight || '512') +
-								blurSpread * 2
-							}
-						/>
+						<Suspense fallback={<div />}>
+							{currentWorkspace?.workspaceDynamicType === 'mesh' ? (
+								<MeshGradient
+									colors={currentWorkspace?.workspaceDynamicSettings.colors}
+									blur={currentWorkspace?.workspaceBlur}
+									seed={currentWorkspace?.workspaceDynamicSettings.seed}
+									width={
+										parseInt(currentWorkspace?.workspaceWidth || '512') +
+										blurSpread * 2
+									}
+									height={
+										parseInt(currentWorkspace?.workspaceHeight || '512') +
+										blurSpread * 2
+									}
+								/>
+							) : (
+								<LavaLampBackground
+									colors={currentWorkspace?.workspaceDynamicSettings.colors}
+									blur={currentWorkspace?.workspaceBlur}
+									seed={currentWorkspace?.workspaceDynamicSettings.seed}
+									width={
+										parseInt(currentWorkspace?.workspaceWidth || '512') +
+										blurSpread * 2
+									}
+									height={
+										parseInt(currentWorkspace?.workspaceHeight || '512') +
+										blurSpread * 2
+									}
+								/>
+							)}
+						</Suspense>
 					</div>
 				)}
 			</>
@@ -280,12 +300,12 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							{workspace.controls
 								.filter((item) => !item.isDeleted && item.type !== 'group')
 								.map((item) => (
-								<ControlHandler
-									id={item.id}
-									key={item.id}
-									type={item.type}
-									isVisible={item.isVisible}
-								></ControlHandler>
+									<ControlHandler
+										id={item.id}
+										key={item.id}
+										type={item.type}
+										isVisible={item.isVisible}
+									></ControlHandler>
 								))}
 						</div>
 					))}

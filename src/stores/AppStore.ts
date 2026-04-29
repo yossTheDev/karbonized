@@ -42,6 +42,7 @@ interface Workspace {
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
 	workspaceDynamicSettings: { colors: string[]; seed: number };
+	workspaceDynamicType: 'mesh' | 'lava'; // Type of dynamic background
 	workspaceBlur: number;
 	workspaceNoise: number;
 	textureName: string;
@@ -362,6 +363,7 @@ export interface AppStoreModel {
 	workspaceHeight: string;
 	workspaceGradientSettings: { color1: string; color2: string; deg: number };
 	workspaceDynamicSettings: { colors: string[]; seed: number };
+	workspaceDynamicType: 'mesh' | 'lava';
 	workspaceBlur: number;
 	workspaceNoise: number;
 	setWorkspaceGradient: Action<
@@ -372,6 +374,7 @@ export interface AppStoreModel {
 		AppStoreModel,
 		{ colors: string[]; seed: number }
 	>;
+	setWorkspaceDynamicType: Action<AppStoreModel, 'mesh' | 'lava'>;
 	setWorkspaceBlur: Action<AppStoreModel, number>;
 	setWorkspaceNoise: Action<AppStoreModel, number>;
 	generateDynamicSeed: Action<AppStoreModel, void>;
@@ -419,6 +422,7 @@ export const AppStore = createStore<AppStoreModel>({
 		colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
 		seed: 1234,
 	},
+	workspaceDynamicType: 'mesh',
 	workspaceBlur: 0,
 	workspaceNoise: 0,
 
@@ -566,6 +570,7 @@ export const AppStore = createStore<AppStoreModel>({
 				colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
 				seed: 1234,
 			},
+			workspaceDynamicType: 'mesh',
 			workspaceBlur: 0,
 			workspaceNoise: 0,
 			textureName: 'grayrate',
@@ -595,6 +600,7 @@ export const AppStore = createStore<AppStoreModel>({
 						colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
 						seed: 1234,
 					},
+					workspaceDynamicType: 'mesh',
 					workspaceBlur: 0,
 					workspaceNoise: 0,
 					textureName: 'grayrate',
@@ -622,6 +628,7 @@ export const AppStore = createStore<AppStoreModel>({
 						colors: ['#FF6B6B', '#4ECDC4', '#45B7D1'],
 						seed: 1234,
 					},
+					workspaceDynamicType: 'mesh',
 					workspaceBlur: 0,
 					workspaceNoise: 0,
 					textureName: 'grayrate',
@@ -1220,6 +1227,14 @@ export const AppStore = createStore<AppStoreModel>({
 		state.workspaces = state.workspaces.map((item) =>
 			item.id === state.currentWorkspaceID
 				? { ...item, workspaceDynamicSettings: payload }
+				: item,
+		);
+	}),
+
+	setWorkspaceDynamicType: action((state, payload) => {
+		state.workspaces = state.workspaces.map((item) =>
+			item.id === state.currentWorkspaceID
+				? { ...item, workspaceDynamicType: payload }
 				: item,
 		);
 	}),
