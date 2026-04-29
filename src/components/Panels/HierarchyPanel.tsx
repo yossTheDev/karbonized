@@ -453,7 +453,7 @@ export const HierarchyPanel: React.FC = () => {
 					].map((option) => (
 						<Button
 							key={option.id}
-							variant={filter === option.id ? 'accent' : 'ghost'}
+							variant={filter === option.id ? 'default' : 'ghost'}
 							size='xs'
 							onClick={() => setFilter(option.id as LayerFilter)}
 						>

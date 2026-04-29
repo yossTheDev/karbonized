@@ -184,7 +184,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 						onDragEnd={onDragEnd}
 						onClick={(event) => onSelect(item, event)}
 						onDoubleClick={() => onRenameStart(item)}
-						className={`group relative flex items-center gap-2 rounded-2xl border px-2 py-2 transition-all ${
+						className={`group relative flex items-center gap-2 rounded border px-2 py-2 transition-all ${
 							isSelected
 								? 'border-primary/40 bg-primary/10 text-foreground shadow-sm'
 								: isFocused
@@ -245,7 +245,9 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 								<>
 									<p className='truncate text-sm font-medium'>{item.name}</p>
 									<div className='flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/90'>
-										<span>{isGroup ? 'Group' : item.type.replace('_', ' ')}</span>
+										<span>
+											{isGroup ? 'Group' : item.type.replace('_', ' ')}
+										</span>
 										{isGroup && <span>{childCount} items</span>}
 										{item.locked && <span>Locked</span>}
 										{!item.isVisible && <span>Hidden</span>}

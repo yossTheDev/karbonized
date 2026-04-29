@@ -428,7 +428,7 @@ export const LeftPanel: React.FC = () => {
 									<Ellipsis size={16}></Ellipsis>
 								</Button>
 							</DropdownMenuTrigger>
-							<DropdownMenuContent side='right' className='glass-popover'>
+							<DropdownMenuContent side='right'>
 								<DropdownMenuLabel>More Controls</DropdownMenuLabel>
 								<DropdownMenuSeparator />
 								{overflowTools.map((tool) => (

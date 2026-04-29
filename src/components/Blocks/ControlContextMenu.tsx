@@ -39,7 +39,7 @@ export const ControlContextMenu: React.FC<ControlContextMenuProps> = ({
 	return (
 		<ContextMenu>
 			{children}
-			<ContextMenuContent className='w-48'>
+			<ContextMenuContent className='bg-popover'>
 				<div className='flex gap-2 px-1 py-2'>
 					<IconEye className='my-auto ml-2' size={22}></IconEye>
 					<Slider
