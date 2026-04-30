@@ -45,9 +45,20 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 
 	// Component States
 	const [htmlContent, setHTMLContent] = useControlState(
-		`<div class="container">
-  <h1>Hello World!</h1>
-  <p>Edit this content in the HTML tab</p>
+		`<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">Static Card Demo</h2>
+    <div class="badge" id="counter">0</div>
+  </div>
+  <div class="card-body">
+    <p class="card-text">This card demonstrates HTML Block features for static images:</p>
+    <ul class="feature-list">
+      <li>✨ CSS Variables with live controls</li>
+      <li>🎨 Dynamic color theming</li>
+      <li>📱 Static design for images</li>
+      <li>🔧 Customizable styling</li>
+    </ul>
+  </div>
 </div>`,
 		`${id}-html`,
 	);
@@ -55,37 +66,169 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	const [cssContent, setCSSContent] = useControlState(
 		`:root {
   --primary-color: #3b82f6;
-  --text-size: 16px;
+  --secondary-color: #64748b;
+  --accent-color: #f59e0b;
+  --background-color: #ffffff;
+  --text-color: #1f2937;
+  --card-padding: 24px;
+  --border-radius: 16px;
+  --shadow-size: 8px;
+  --show-shadow: true;
   --show-border: true;
-  --spacing: 20px;
+  --spacing: 16px;
 }
 
-.container {
-  padding: var(--spacing);
+.card {
+  background: var(--background-color);
   border: var(--show-border) ? 2px solid var(--primary-color) : none;
-  text-align: center;
+  border-radius: var(--border-radius);
+  box-shadow: var(--show-shadow) ? 0 var(--shadow-size) var(--shadow-size) rgba(0, 0, 0, 0.1) : none;
+  overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-h1 {
-  color: var(--primary-color);
-  font-size: var(--text-size);
-}`,
+.card-header {
+  background: var(--primary-color);
+  color: white;
+  padding: var(--card-padding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.badge {
+  background: var(--accent-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.card-body {
+  padding: var(--card-padding);
+}
+
+.card-text {
+  color: var(--text-color);
+  margin-bottom: var(--spacing);
+  line-height: 1.6;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing) 0;
+}
+
+.feature-list li {
+  color: var(--text-color);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.feature-list li:last-child {
+  border-bottom: none;
+}
+
+`,
 		`${id}-css`,
 	);
 
 	const [jsContent, setJSContent] = useControlState(
-		`// Custom JavaScript code
-console.log('HTML Block loaded');
+		`// Interactive Card Demo - HTML Block Features
+let clickCounter = 0;
 
-// Example: Add click handler
+// Initialize counter display
 document.addEventListener('DOMContentLoaded', function() {
-  const container = document.querySelector('.container');
-  if (container) {
-    container.addEventListener('click', function() {
-      this.style.backgroundColor = '#f0f0f0';
-    });
+  updateCounter();
+  console.log('HTML Block loaded successfully!');
+});
+
+// Update counter display
+function updateCounter() {
+  const counter = document.getElementById('counter');
+  if (counter) {
+    counter.textContent = clickCounter;
   }
-});`,
+}
+
+// Animate card function (disabled for static image app)
+function animateCard() {
+  // No animations for static image app
+  console.log('Animations disabled for static image app');
+}
+
+// Custom Actions - These will appear as buttons in the control panel
+
+// @action:Randomize Theme
+const themes = [
+  { primary: '#3b82f6', secondary: '#64748b', accent: '#f59e0b' },
+  { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171' },
+  { primary: '#10b981', secondary: '#059669', accent: '#34d399' },
+  { primary: '#8b5cf6', secondary: '#7c3aed', accent: '#a78bfa' },
+  { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24' }
+];
+const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+document.documentElement.style.setProperty('--primary-color', randomTheme.primary);
+document.documentElement.style.setProperty('--secondary-color', randomTheme.secondary);
+document.documentElement.style.setProperty('--accent-color', randomTheme.accent);
+
+// @action:Increment Counter
+clickCounter++;
+updateCounter();
+
+// @action:Reset Counter
+clickCounter = 0;
+updateCounter();
+
+// @action:Toggle Shadow
+const currentShadow = getComputedStyle(document.documentElement).getPropertyValue('--show-shadow').trim();
+document.documentElement.style.setProperty('--show-shadow', currentShadow === 'true' ? 'false' : 'true');
+
+// @action:Toggle Border
+const currentBorder = getComputedStyle(document.documentElement).getPropertyValue('--show-border').trim();
+document.documentElement.style.setProperty('--show-border', currentBorder === 'true' ? 'false' : 'true');
+
+// @action:Change Background
+const backgrounds = ['#ffffff', '#f8fafc', '#fef3c7', '#dbeafe', '#ede9fe'];
+const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+document.documentElement.style.setProperty('--background-color', randomBg);
+
+// @action:Pulse Animation (disabled for static image app)
+console.log('Animations disabled for static image app');
+
+// @action:Grow Card
+const currentPadding = getComputedStyle(document.documentElement).getPropertyValue('--card-padding').trim();
+const newPadding = parseInt(currentPadding) + 4;
+document.documentElement.style.setProperty('--card-padding', Math.min(newPadding, 48) + 'px');
+
+// @action:Shrink Card
+const currentPaddingShrink = getComputedStyle(document.documentElement).getPropertyValue('--card-padding').trim();
+const newPaddingShrink = parseInt(currentPaddingShrink) - 4;
+document.documentElement.style.setProperty('--card-padding', Math.max(newPaddingShrink, 8) + 'px');
+
+// @action:Reset All
+document.documentElement.style.setProperty('--primary-color', '#3b82f6');
+document.documentElement.style.setProperty('--secondary-color', '#64748b');
+document.documentElement.style.setProperty('--accent-color', '#f59e0b');
+document.documentElement.style.setProperty('--background-color', '#ffffff');
+document.documentElement.style.setProperty('--text-color', '#1f2937');
+document.documentElement.style.setProperty('--card-padding', '24px');
+document.documentElement.style.setProperty('--border-radius', '16px');
+document.documentElement.style.setProperty('--shadow-size', '8px');
+document.documentElement.style.setProperty('--show-shadow', 'true');
+document.documentElement.style.setProperty('--show-border', 'true');
+document.documentElement.style.setProperty('--spacing', '16px');
+clickCounter = 0;
+updateCounter();`,
 		`${id}-js`,
 	);
 
