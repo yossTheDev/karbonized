@@ -171,18 +171,16 @@ document.getElementById('myForm').reset();
 
 ## Complete Examples
 
-### Example 1: Interactive Card Component
+### Example 1: Static Card Component
 
 ```html
 <div class="card">
 	<div class="card-header">
-		<h2 class="card-title">Interactive Card</h2>
+		<h2 class="card-title">Sample Card</h2>
 	</div>
 	<div class="card-body">
-		<p class="card-text">This is an interactive card component.</p>
-		<button class="card-button" onclick="this.classList.toggle('active')">
-			Toggle Active
-		</button>
+		<p class="card-text">This is a sample card component for visual design.</p>
+		<div class="card-button">Sample Button</div>
 	</div>
 </div>
 ```
@@ -263,7 +261,7 @@ document.documentElement.style.setProperty(
 document.querySelector('.card').style.border = '3px solid #3b82f6';
 
 // @action:Reset Border
-document.querySelector('.card').style.border = '2px solid #3b82f6';
+document.querySelector('.card').style.border = '2px solid #e5e7eb';
 ```
 
 ### Example 2: Data Dashboard Widget
