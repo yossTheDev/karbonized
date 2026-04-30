@@ -191,58 +191,70 @@ document.getElementById('myForm').reset();
 
 ```css
 :root {
-  --card-bg: #ffffff;
-  --card-border: #e5e7eb;
-  --primary-color: #3b82f6;
-  --text-color: #1f2937;
-  --border-radius: 12px;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --show-shadow: true;
+	/* @type:color */
+	--card-bg: #ffffff;
+	/* @type:color */
+	--card-border: #e5e7eb;
+	/* @type:color */
+	--primary-color: #3b82f6;
+	/* @type:color */
+	--text-color: #1f2937;
+	/* @type:number min:0 max:50 step:1 unit:px */
+	--border-radius: 12px;
+	/* @type:shadow */
+	--shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	/* @type:boolean */
+	--show-shadow: true;
 }
 
 .card {
-  background: var(--card-bg);
-  border: 2px solid var(--card-border);
-  border-radius: var(--border-radius);
-  box-shadow: var(--show-shadow) ? var(--shadow) : none;
-  overflow: hidden;
+	background: var(--card-bg);
+	border: 2px solid var(--card-border);
+	border-radius: var(--border-radius);
+	box-shadow: var(--shadow);
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+.card.no-shadow {
+	box-shadow: none;
 }
 
 .card-header {
-  background: var(--primary-color);
-  color: white;
-  padding: 1rem;
+	background: var(--primary-color);
+	color: white;
+	padding: 1rem;
 }
 
 .card-title {
-  margin: 0;
-  font-size: 1.25rem;
+	margin: 0;
+	font-size: 1.25rem;
 }
 
 .card-body {
-  padding: 1.5rem;
+	padding: 1.5rem;
 }
 
 .card-text {
-  color: var(--text-color);
-  margin-bottom: 1rem;
+	color: var(--text-color);
+	margin-bottom: 1rem;
 }
 
 .card-button {
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
+	background: var(--primary-color);
+	color: white;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	cursor: pointer;
 }
 
 .card-button:hover {
-  opacity: 0.9;
+	opacity: 0.9;
 }
 
 .card-button.active {
-  background: var(--text-color);
+	background: var(--text-color);
 }
 ```
 
@@ -256,10 +268,14 @@ document.documentElement.style.setProperty('--primary-color', randomColor);
 const currentShadow = getComputedStyle(document.documentElement)
 	.getPropertyValue('--show-shadow')
 	.trim();
-document.documentElement.style.setProperty(
-	'--show-shadow',
-	currentShadow === 'true' ? 'false' : 'true',
-);
+const card = document.querySelector('.card');
+if (currentShadow === 'true') {
+	card.classList.add('no-shadow');
+	document.documentElement.style.setProperty('--show-shadow', 'false');
+} else {
+	card.classList.remove('no-shadow');
+	document.documentElement.style.setProperty('--show-shadow', 'true');
+}
 
 // @action:Highlight Card
 document.querySelector('.card').style.border = '3px solid #3b82f6';

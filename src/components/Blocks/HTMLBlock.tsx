@@ -774,8 +774,10 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 										<Info className='h-4 w-4' />
 										<AlertDescription className='text-xs'>
 											Use CSS variables with --prefix to auto-generate controls.
-											Variables ending with "color" become color pickers, "size"
-											numbers, "show" booleans.
+											Add explicit type annotations with comments: /*
+											@type:color */ /* @type:number min:0 max:100 step:1
+											unit:px */ /* @type:boolean */ /* @type:shadow */ /*
+											@type:string */
 										</AlertDescription>
 									</Alert>
 								</TabsContent>

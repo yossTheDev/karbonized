@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -67,6 +67,11 @@ const formatShadow = (shadows: ShadowValue[]): string => {
 
 export const ShadowEditor: React.FC<Props> = ({ value, onChange, label }) => {
 	const [shadows, setShadows] = useState<ShadowValue[]>(parseShadow(value));
+
+	// Sync shadows when value prop changes
+	useEffect(() => {
+		setShadows(parseShadow(value));
+	}, [value]);
 
 	const updateShadows = (newShadows: ShadowValue[]) => {
 		setShadows(newShadows);
