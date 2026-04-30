@@ -19,7 +19,14 @@ export const ExportImage = (
 		return;
 	}
 
-	switch (type) {
+	// Trigger export start event for HTML blocks
+	window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-start' }));
+
+	console.log("render")
+
+	// Small delay to allow HTML blocks to switch to export mode
+	setTimeout(() => {
+		switch (type) {
 		case export_format.png:
 			toPng(ref, {
 				cacheBust: true,
@@ -58,6 +65,10 @@ export const ExportImage = (
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					// Trigger export end event for HTML blocks
+					window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-end' }));
 				});
 			break;
 
@@ -99,6 +110,10 @@ export const ExportImage = (
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					// Trigger export end event for HTML blocks
+					window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-end' }));
 				});
 			break;
 
@@ -140,7 +155,12 @@ export const ExportImage = (
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					// Trigger export end event for HTML blocks
+					window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-end' }));
 				});
 			break;
-	}
+		}
+	}, 200); // 200ms delay for HTML blocks to switch mode
 };

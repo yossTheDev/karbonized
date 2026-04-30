@@ -38,7 +38,8 @@ interface Props {
 }
 
 export const HTMLBlock: React.FC<Props> = ({ id }) => {
-	const iframeRef = useRef<HTMLIFrameElement>(null);
+	const shadowHostRef = useRef<HTMLDivElement>(null);
+	const shadowRootRef = useRef<ShadowRoot | null>(null);
 	const [cssVariables, setCSSVariables] = useState<CSSVariable[]>([]);
 	const [customActions, setCustomActions] = useState<CustomAction[]>([]);
 
@@ -205,64 +206,80 @@ document.addEventListener('DOMContentLoaded', function() {
 		setCSSContent(newCSS);
 	};
 
-	// Generate iframe content
-	const generateIframeContent = () => {
-		const processedCSS = cssContent;
-		const processedJS = `
-      // CSS Variables injection
-      const style = document.createElement('style');
-      style.textContent = \`${processedCSS}\`;
-      document.head.appendChild(style);
-      
-      // Custom actions API
-      window.htmlBlockAPI = {
-        refresh: () => {
-          console.log('Refresh requested from parent');
-        },
-        log: (message) => {
-          console.log('HTML Block:', message);
-          if (window.parent !== window) {
-            window.parent.postMessage({ type: 'html-block-log', message }, '*');
-          }
-        }
-      };
-      
-      ${jsContent}
-    `;
+	// Generate ShadowDOM content
+	const generateShadowDOMContent = () => {
+		const scopedCSS = scopeCSS(cssContent, ':host');
+		const processedCSS = `
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+		:host {
+			display: block;
+			font-family:'Noto Sans', sans-serif;
+			font-weight: 400;
+			all: initial;
+			font-family: 'Noto Sans', sans-serif;
+		}
+		:host * { box-sizing: border-box; }
+		${scopedCSS}
+		`;
 
-		return `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HTML Block</title>
-        <style>
-          * { box-sizing: border-box; }
-          body { margin: 0; padding: 16px; font-family: Arial, sans-serif; }
-        </style>
-      </head>
-      <body>
-        ${htmlContent}
-        <script>${processedJS}</script>
-      </body>
-      </html>
-    `;
+		const processedJS = `
+		// Custom actions API
+		window.htmlBlockAPI = {
+			refresh: () => {
+				console.log('Refresh requested from parent');
+			},
+			log: (message) => {
+				console.log('HTML Block:', message);
+				if (window.parent !== window) {
+					window.parent.postMessage({ type: 'html-block-log', message }, '*');
+				}
+			}
+		};
+		
+		${jsContent}
+		`;
+
+		return { processedCSS, processedJS };
 	};
 
-	// Refresh iframe
-	const refreshIframe = () => {
-		if (iframeRef.current) {
-			const content = generateIframeContent();
-			iframeRef.current.srcdoc = content;
+	// Refresh ShadowDOM
+	const refreshShadowDOM = () => {
+		if (shadowHostRef.current) {
+			// Create or get shadow root
+			if (!shadowRootRef.current) {
+				shadowRootRef.current = shadowHostRef.current.attachShadow({
+					mode: 'open',
+				});
+			}
+
+			const shadowRoot = shadowRootRef.current;
+			const { processedCSS, processedJS } = generateShadowDOMContent();
+
+			// Clear existing content
+			shadowRoot.innerHTML = '';
+
+			// Add styles
+			const styleElement = document.createElement('style');
+			styleElement.textContent = processedCSS;
+			shadowRoot.appendChild(styleElement);
+
+			// Add HTML content
+			const container = document.createElement('div');
+			container.innerHTML = htmlContent;
+			shadowRoot.appendChild(container);
+
+			// Execute JavaScript
+			const scriptElement = document.createElement('script');
+			scriptElement.textContent = processedJS;
+			shadowRoot.appendChild(scriptElement);
 		}
 	};
 
 	// Auto-refresh when content changes
 	useEffect(() => {
-		if (autoRefresh && iframeRef.current) {
+		if (autoRefresh && shadowHostRef.current) {
 			const timeoutId = setTimeout(() => {
-				refreshIframe();
+				refreshShadowDOM();
 			}, 500); // Debounce refresh
 			return () => clearTimeout(timeoutId);
 		}
@@ -270,14 +287,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Initial load
 	useEffect(() => {
-		refreshIframe();
+		refreshShadowDOM();
 	}, []);
 
 	// Execute custom action
 	const executeCustomAction = (action: CustomAction) => {
-		if (iframeRef.current && iframeRef.current.contentWindow) {
+		if (shadowRootRef.current) {
 			try {
-				(iframeRef.current.contentWindow as any).eval(action.action);
+				// Execute the action in the ShadowDOM context
+				const script = document.createElement('script');
+				script.textContent = action.action;
+				shadowRootRef.current.appendChild(script);
+				// Remove the script after execution
+				shadowRootRef.current.removeChild(script);
 			} catch (error) {
 				console.error('Error executing custom action:', error);
 			}
@@ -358,6 +380,17 @@ document.addEventListener('DOMContentLoaded', function() {
 					</div>
 				);
 		}
+	};
+
+	const scopeCSS = (css: string, scopeSelector: string) => {
+		return css
+			.replace(/([^\r\n,{}]+)(?=[^{}]*{)/g, (match) => {
+				const trimmed = match.trim();
+				if (trimmed.startsWith('@') || trimmed.startsWith(':root'))
+					return match;
+				return `${scopeSelector} ${trimmed}`;
+			})
+			.replace(/:root/g, scopeSelector);
 	};
 
 	return (
@@ -531,7 +564,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								<Button
 									variant='outline'
 									size='sm'
-									onClick={refreshIframe}
+									onClick={refreshShadowDOM}
 									className='w-full'
 								>
 									<RefreshCw className='h-4 w-4 mr-2' />
@@ -542,18 +575,12 @@ document.addEventListener('DOMContentLoaded', function() {
 					</>
 				}
 			>
-				<div className='w-full h-full bg-white border rounded pointer-events-none'>
-					<iframe
-						ref={iframeRef}
-						className='w-full h-full border-0 pointer-events-none'
-						sandbox={
-							sandboxMode
-								? 'allow-scripts allow-same-origin allow-forms'
-								: undefined
-						}
-						title='HTML Block Content'
+				<>
+					<div
+						ref={shadowHostRef}
+						className='w-full h-full pointer-events-none'
 					/>
-				</div>
+				</>
 			</ControlTemplate>
 		</>
 	);

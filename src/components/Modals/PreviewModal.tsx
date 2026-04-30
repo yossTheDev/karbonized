@@ -31,6 +31,7 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	/* Actions */
 	const exportImage = async (type: export_format) => {
 		setIsExporting(true);
+		console.log('EXPORTING');
 		await new Promise((resolve) => setTimeout(resolve, 100));
 		ExportImage(
 			currentWorkspace?.workspaceName ?? 'workspace',
@@ -47,6 +48,11 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			return;
 		}
 
+		// Trigger export start event for HTML blocks
+		window.dispatchEvent(
+			new CustomEvent('html-block-export', { detail: 'export-start' }),
+		);
+
 		setIsExporting(true);
 		await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -56,6 +62,10 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			.then((dataUrl) => {
 				setPreviewImage(dataUrl);
 				setIsExporting(false);
+
+				window.dispatchEvent(
+					new CustomEvent('html-block-export', { detail: 'export-end' }),
+				);
 			})
 			.catch((err) => {
 				console.log(err);
