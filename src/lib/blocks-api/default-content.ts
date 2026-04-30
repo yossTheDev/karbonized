@@ -21,6 +21,7 @@ export const defaultCSSContent = `:root {
   padding: var(--spacing);
   border: var(--show-border) ? 2px solid var(--primary-color) : none;
   text-align: center;
+  background-color: #f8f9fa;
 }
 
 h1 {
@@ -37,21 +38,29 @@ export const defaultJSContent = `// Custom JavaScript code
 
 // @action:Change Container Background
 const container = htmlBlockAPI.safeDOM.querySelector('.container');
+log('Container found: ' + (container ? 'yes' : 'no'));
 if (container) {
   try {
-    htmlBlockAPI.safeDOM.setStyle(container, 'backgroundColor', '#' + Math.floor(Math.random()*16777215).toString(16));
-    console.log('Background color changed successfully');
+    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+    log('Attempting to change background to: ' + randomColor);
+    
+    if (container.style) {
+      container.style.backgroundColor = randomColor;
+      log('Direct style assignment completed');
+    }
+  
+    log('Background color change attempt completed');
   } catch (error) {
-    console.error('Error changing background:', error);
+    error('Error changing background: ' + error);
   }
 } else {
-  console.warn('Container element not found');
+  warn('Container element not found');
 }
 
 // @action:Add Random Element
 const containerEl = htmlBlockAPI.safeDOM.querySelector('.container');
-console.log('root:', root);
-console.log('containerEl:', containerEl); 
+log('root: ' + (root ? 'found' : 'not found'));
+log('containerEl: ' + (containerEl ? 'found' : 'not found')); 
  
 if (containerEl) {
     try {
@@ -66,36 +75,40 @@ if (containerEl) {
             // Use the safe API to append child
             if (root) {
                 htmlBlockAPI.safeDOM.appendChild(root, newElement);
+                log('Element added to root successfully');
             } else {
                 htmlBlockAPI.safeDOM.appendChild(containerEl, newElement);
+                log('Element added to container successfully');
             }
-            console.log('Element added successfully');
         }
     } catch (error) {
-        console.error('Error adding element:', error);
+        error('Error adding element: ' + error);
     }
 } else {
-    console.warn('Container element not found for adding element');
+    warn('Container element not found for adding element');
 }
 
 // @action:Modify CSS Variables
 try {
   const rootElement = document.documentElement || host;
-  rootElement.style.setProperty('--primary-color', '#' + Math.floor(Math.random()*16777215).toString(16));
-  rootElement.style.setProperty('--text-size', (Math.floor(Math.random() * 20) + 12) + 'px');
-  console.log('CSS variables modified successfully');
+  const newColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+  const newSize = (Math.floor(Math.random() * 20) + 12) + 'px';
+  rootElement.style.setProperty('--primary-color', newColor);
+  rootElement.style.setProperty('--text-size', newSize);
+  log('CSS variables modified - Color: ' + newColor + ', Size: ' + newSize);
 } catch (error) {
-  console.error('Error modifying CSS variables:', error);
+  error('Error modifying CSS variables: ' + error);
 }
 
 // @action:Toggle Border Visibility
 try {
   const rootElement = document.documentElement || host;
   const currentBorder = getComputedStyle(rootElement).getPropertyValue('--show-border').trim();
-  rootElement.style.setProperty('--show-border', currentBorder === 'true' ? 'false' : 'true');
-  console.log('Border visibility toggled successfully');
+  const newBorder = currentBorder === 'true' ? 'false' : 'true';
+  rootElement.style.setProperty('--show-border', newBorder);
+  log('Border visibility toggled to: ' + newBorder);
 } catch (error) {
-  console.error('Error toggling border:', error);
+  error('Error toggling border: ' + error);
 }
 
 // @action:Clear All Added Elements
@@ -103,33 +116,36 @@ const containerClear = htmlBlockAPI.safeDOM.querySelector('.container');
 if (containerClear) {
   try {
     const elements = htmlBlockAPI.safeDOM.querySelectorAll('div[style*="background-color"]');
+    let clearedCount = 0;
     // Convert NodeList to array and remove each element
     Array.from(elements).forEach(el => {
       if (el && el.parentNode) {
         htmlBlockAPI.safeDOM.removeChild(el.parentNode, el);
+        clearedCount++;
       }
     });
-    console.log('Elements cleared successfully');
+    log('Elements cleared successfully: ' + clearedCount + ' elements removed');
   } catch (error) {
-    console.error('Error clearing elements:', error);
+    error('Error clearing elements: ' + error);
   }
 } else {
-  console.warn('Container element not found for clearing');
+  warn('Container element not found for clearing');
 }
 
 // @action:Log DOM Info
 try {
   const containerInfo = htmlBlockAPI.safeDOM.querySelector('.container');
-  console.log('Container element:', containerInfo);
+  log('Container element: ' + (containerInfo ? 'found' : 'not found'));
   const rootElement = document.documentElement || host;
-  console.log('Current CSS variables:', {
+  const cssVars = {
     primaryColor: getComputedStyle(rootElement).getPropertyValue('--primary-color'),
     textSize: getComputedStyle(rootElement).getPropertyValue('--text-size'),
     showBorder: getComputedStyle(rootElement).getPropertyValue('--show-border')
-  });
-  alert('Check console for DOM information!');
+  };
+  log('Current CSS variables: ' + JSON.stringify(cssVars));
+  log('DOM information logged - check DevTools console for details!');
 } catch (error) {
-  console.error('Error logging DOM info:', error);
+  error('Error logging DOM info: ' + error);
 }`;
 
 export const defaultAutoRefresh = true;
