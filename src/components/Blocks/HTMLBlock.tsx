@@ -24,6 +24,7 @@ interface CSSVariable {
 	max?: number;
 	step?: number;
 	description?: string;
+	unit?: string; // CSS unit like 'px', 'em', 'rem', '%', etc.
 }
 
 interface CustomAction {
@@ -202,9 +203,6 @@ const backgrounds = ['#ffffff', '#f8fafc', '#fef3c7', '#dbeafe', '#ede9fe'];
 const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
 document.documentElement.style.setProperty('--background-color', randomBg);
 
-// @action:Pulse Animation (disabled for static image app)
-console.log('Animations disabled for static image app');
-
 // @action:Grow Card
 const currentPadding = getComputedStyle(document.documentElement).getPropertyValue('--card-padding').trim();
 const newPadding = parseInt(currentPadding) + 4;
@@ -245,6 +243,21 @@ updateCounter();`,
 		`${id}-allow-scripts`,
 	);
 
+	// Helper function to parse numeric values with units
+	const parseNumericValue = (value: string) => {
+		const numericRegex =
+			/^(-?\d*\.?\d+)(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|in|cm|mm|pt|pc)?$/;
+		const match = value.match(numericRegex);
+
+		if (match) {
+			const number = parseFloat(match[1]);
+			const unit = match[2] || 'px'; // Default to px if no unit specified
+			return { number, unit, originalValue: value };
+		}
+
+		return null;
+	};
+
 	// Parse CSS variables from CSS content
 	const parseCSSVariables = (css: string): CSSVariable[] => {
 		const variables: CSSVariable[] = [];
@@ -276,13 +289,29 @@ updateCounter();`,
 					name.includes('size') ||
 					name.includes('width') ||
 					name.includes('height') ||
-					name.includes('spacing')
+					name.includes('spacing') ||
+					name.includes('padding') ||
+					name.includes('margin') ||
+					name.includes('radius')
 				) {
-					type = 'number';
-					parsedValue = parseInt(value) || 0;
-					min = 0;
-					max = 200;
-					step = 1;
+					const numericParse = parseNumericValue(value);
+					if (numericParse) {
+						type = 'number';
+						parsedValue = numericParse.number;
+						min = 0;
+						max =
+							numericParse.unit === '%'
+								? 100
+								: numericParse.unit === 'em' || numericParse.unit === 'rem'
+									? 10
+									: 200;
+						step =
+							numericParse.unit === '%'
+								? 1
+								: numericParse.unit === 'em' || numericParse.unit === 'rem'
+									? 0.1
+									: 1;
+					}
 				} else if (
 					name.includes('show') ||
 					name.includes('enable') ||
@@ -290,12 +319,33 @@ updateCounter();`,
 				) {
 					type = 'boolean';
 					parsedValue = value === 'true';
-				} else if (!isNaN(parseInt(value))) {
-					type = 'number';
-					parsedValue = parseInt(value);
-					min = 0;
-					max = 1000;
-					step = 1;
+				} else {
+					// Try to parse as numeric with units for any remaining numeric values
+					const numericParse = parseNumericValue(value);
+					if (numericParse) {
+						type = 'number';
+						parsedValue = numericParse.number;
+						min = 0;
+						max =
+							numericParse.unit === '%'
+								? 100
+								: numericParse.unit === 'em' || numericParse.unit === 'rem'
+									? 10
+									: 1000;
+						step =
+							numericParse.unit === '%'
+								? 1
+								: numericParse.unit === 'em' || numericParse.unit === 'rem'
+									? 0.1
+									: 1;
+					}
+				}
+
+				// Add unit information for numeric variables
+				let unit;
+				if (type === 'number') {
+					const numericParse = parseNumericValue(value);
+					unit = numericParse ? numericParse.unit : 'px';
 				}
 
 				variables.push({
@@ -305,6 +355,7 @@ updateCounter();`,
 					min,
 					max,
 					step,
+					unit,
 					description: `CSS variable --${name}`,
 				});
 			}
@@ -347,8 +398,22 @@ updateCounter();`,
 		varName: string,
 		newValue: string | number | boolean,
 	) => {
+		// Find the variable to get its unit information
+		const variable = cssVariables.find((v) => v.name === varName);
+		let valueWithUnit = newValue;
+
+		// Add unit back for numeric variables
+		if (
+			variable &&
+			variable.type === 'number' &&
+			variable.unit &&
+			typeof newValue === 'number'
+		) {
+			valueWithUnit = `${newValue}${variable.unit}`;
+		}
+
 		const varRegex = new RegExp(`(--${varName}\\s*:\\s*)([^;]+);`);
-		const newCSS = cssContent.replace(varRegex, `$1${newValue};`);
+		const newCSS = cssContent.replace(varRegex, `$1${valueWithUnit};`);
 		setCSSContent(newCSS);
 	};
 
