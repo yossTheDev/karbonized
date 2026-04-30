@@ -41,6 +41,7 @@ import { useStoreActions, useStoreState } from '../../stores/Hooks';
 import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { Separator } from '../ui/separator';
+import { IconBrandHtml5, IconBrandX, IconHtml } from '@tabler/icons-react';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
@@ -260,7 +261,7 @@ export const LeftPanel: React.FC = () => {
 			},
 			{
 				id: 'tweet',
-				icon: X,
+				icon: IconBrandX,
 				label: 'Tweet',
 				action: () => {
 					addControl({
@@ -292,7 +293,7 @@ export const LeftPanel: React.FC = () => {
 			},
 			{
 				id: 'html',
-				icon: Globe,
+				icon: IconBrandHtml5,
 				label: 'HTML',
 				action: () => {
 					addControl({
