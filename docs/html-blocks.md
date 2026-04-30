@@ -26,13 +26,14 @@ The HTML Block automatically detects CSS variables and creates corresponding con
 
 ### Variable Naming Conventions
 
-| Pattern                                      | Type    | Control      | Example                    |
-| -------------------------------------------- | ------- | ------------ | -------------------------- |
-| `*color*`                                    | Color   | Color Picker | `--primary-color: #3b82f6` |
-| `*size*`, `*width*`, `*height*`, `*spacing*` | Number  | Slider       | `--text-size: 16px`        |
-| `*show*`, `*enable*`, `*visible*`            | Boolean | Switch       | `--show-border: true`      |
-| Hex values                                   | Color   | Color Picker | `--accent: #ff5733`        |
-| Numbers                                      | Number  | Slider       | `--padding: 20`            |
+| Pattern                                      | Type    | Control       | Example                                    |
+| -------------------------------------------- | ------- | ------------- | ------------------------------------------ |
+| `*color*`                                    | Color   | Color Picker  | `--primary-color: #3b82f6`                 |
+| `*size*`, `*width*`, `*height*`, `*spacing*` | Number  | Slider        | `--text-size: 16px`                        |
+| `*show*`, `*enable*`, `*visible*`            | Boolean | Switch        | `--show-border: true`                      |
+| `*shadow*`, `*drop-shadow*`, `*box-shadow*`  | Shadow  | Shadow Editor | `--card-shadow: 0 2px 4px rgba(0,0,0,0.1)` |
+| Hex values                                   | Color   | Color Picker  | `--accent: #ff5733`                        |
+| Numbers                                      | Number  | Slider        | `--padding: 20`                            |
 
 ### CSS Variable Example
 
@@ -43,12 +44,14 @@ The HTML Block automatically detects CSS variables and creates corresponding con
   --show-border: true;
   --spacing: 20px;
   --border-radius: 8px;
+  --card-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .container {
   padding: var(--spacing);
   border: var(--show-border) ? 2px solid var(--primary-color) : none;
   border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
 }
 
 .title {
@@ -63,6 +66,7 @@ This will automatically generate:
 - Slider for `--text-size` and `--spacing`
 - Switch for `--show-border`
 - Slider for `--border-radius`
+- Shadow Editor for `--card-shadow`
 
 ## JavaScript Variables System
 

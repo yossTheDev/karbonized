@@ -16,6 +16,7 @@ import { Alert, AlertDescription } from '../ui/alert';
 import { Info, Play, RefreshCw } from 'lucide-react';
 import { ArrayEditor } from '../CustomControls/ArrayEditor';
 import { ObjectEditor } from '../CustomControls/ObjectEditor';
+import { ShadowEditor } from '../CustomControls/ShadowEditor';
 import {
 	CSSVariable,
 	CustomAction,
@@ -678,6 +679,19 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 							onCheckedChange={(checked: boolean) =>
 								handleUpdateCSSVariable(variable.name, checked)
 							}
+						/>
+					</div>
+				);
+
+			case 'shadow':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<ShadowEditor
+							value={variable.value as string}
+							onChange={(value) =>
+								handleUpdateCSSVariable(variable.name, value)
+							}
+							label={variable.name}
 						/>
 					</div>
 				);

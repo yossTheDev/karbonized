@@ -5,7 +5,7 @@
 
 export interface CSSVariable {
 	name: string;
-	type: 'color' | 'number' | 'boolean' | 'string';
+	type: 'color' | 'number' | 'boolean' | 'string' | 'shadow';
 	value: string | number | boolean;
 	min?: number;
 	max?: number;
@@ -13,6 +13,13 @@ export interface CSSVariable {
 	description?: string;
 	unit?: string; // CSS unit like 'px', 'em', 'rem', '%', etc.
 }
+
+// Helper function to parse shadow values
+const isShadowValue = (value: string): boolean => {
+	// Check if value looks like a CSS shadow
+	const shadowPattern = /^(inset\s+)?([a-f0-9#]+|rgba?\([^)]+\)|\w+)\s+(-?\d+px)\s+(-?\d+px)\s+(\d+px)\s+(\d+px)$/i;
+	return shadowPattern.test(value) || value === 'none';
+};
 
 // Helper function to parse numeric values with units
 const parseNumericValue = (value: string) => {
@@ -82,6 +89,14 @@ export const parseCSSVariables = (css: string): CSSVariable[] => {
 								? 0.1
 								: 1;
 				}
+			} else if (
+				name.includes('shadow') ||
+				name.includes('drop-shadow') ||
+				name.includes('box-shadow') ||
+				name.includes('text-shadow')
+			) {
+				type = 'shadow';
+				parsedValue = value;
 			} else if (
 				name.includes('show') ||
 				name.includes('enable') ||
