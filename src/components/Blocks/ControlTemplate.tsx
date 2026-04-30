@@ -298,6 +298,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			<AnimatePresence>
 				{visibility && (
 					<ControlContextMenu
+						key={`animate-${id}`}
 						opacity={opacity}
 						setOpacity={setOpacity}
 						exportAsPng={exportAsPng}
