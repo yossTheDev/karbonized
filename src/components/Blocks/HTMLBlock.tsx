@@ -14,9 +14,12 @@ import { Switch } from '../ui/switch';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Info, Play, RefreshCw } from 'lucide-react';
+import { ArrayEditor } from '../CustomControls/ArrayEditor';
+import { ObjectEditor } from '../CustomControls/ObjectEditor';
 import {
 	CSSVariable,
 	CustomAction,
+	JSVariable,
 	ParsedJavaScript,
 	parseCSSVariables,
 	parseJavaScript,
@@ -24,6 +27,7 @@ import {
 	generateCompiledSource,
 	escapeJavaScriptString,
 	updateCSSVariable,
+	updateJSVariable,
 	scopeCSS,
 	createSafeDOM,
 	SafeDOMAPI,
@@ -43,6 +47,7 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	const shadowRootRef = useRef<ShadowRoot | null>(null);
 	const actionHandlersRef = useRef<Map<string, () => void>>(new Map());
 	const [cssVariables, setCSSVariables] = useState<CSSVariable[]>([]);
+	const [jsVariables, setJSVariables] = useState<JSVariable[]>([]);
 	const [customActions, setCustomActions] = useState<CustomAction[]>([]);
 	const [devLogs, setDevLogs] = useState<
 		Array<{ timestamp: Date; type: 'log' | 'warn' | 'error'; message: string }>
@@ -124,6 +129,7 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	useEffect(() => {
 		setCSSVariables(parseCSSVariables(cssContent));
 		const parsedJavaScript = parseJavaScript(jsContent);
+		setJSVariables(parsedJavaScript.variables);
 		setCustomActions(
 			parsedJavaScript.actions.map((action) => ({
 				id: action.id,
@@ -145,6 +151,12 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 			cssVariables,
 		);
 		setCSSContent(newCSS);
+	};
+
+	// Update JS content when variables change
+	const handleUpdateJSVariable = (varName: string, newValue: any) => {
+		const newJS = updateJSVariable(jsContent, varName, newValue, jsVariables);
+		setJSContent(newJS);
 	};
 
 	// Generate ShadowDOM content
@@ -434,6 +446,180 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 		}
 	};
 
+	// Render control for JS variable
+	const renderJSVariableControl = (variable: JSVariable) => {
+		switch (variable.type) {
+			case 'color':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<Label className='text-xs text-muted-foreground'>
+							{variable.name}
+						</Label>
+						<ColorPicker
+							isGradientEnable={false}
+							color={variable.value as string}
+							onColorChange={(color) =>
+								handleUpdateJSVariable(variable.name, color)
+							}
+							label=''
+						/>
+					</div>
+				);
+
+			case 'gradient':
+				// Parse gradient string to extract colors and angle
+				const gradientValue = variable.value as string;
+				let color1 = '#667eea';
+				let color2 = '#764ba2';
+				let angle = 45;
+
+				// Try to parse gradient string like "linear-gradient(45deg, #667eea, #764ba2)"
+				const gradientMatch = gradientValue.match(
+					/linear-gradient\((\d+)deg,\s*([^,]+),\s*([^)]+)\)/,
+				);
+				if (gradientMatch) {
+					angle = parseInt(gradientMatch[1]);
+					color1 = gradientMatch[2].trim();
+					color2 = gradientMatch[3].trim();
+				}
+
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<Label className='text-xs text-muted-foreground'>
+							{variable.name}
+						</Label>
+						<ColorPicker
+							isGradientEnable={true}
+							mode='Gradient'
+							colorGradient1={color1}
+							colorGradient2={color2}
+							gradientDeg={angle}
+							color={color1} // Required prop but not used in gradient mode
+							onColorChange={(color) => {
+								// Not used in gradient mode but required by prop types
+							}}
+							onGradientChange={(newColor1, newColor2) => {
+								const newGradient = `linear-gradient(${angle}deg, ${newColor1}, ${newColor2})`;
+								handleUpdateJSVariable(variable.name, newGradient);
+							}}
+							onGradientDegChange={(newAngle) => {
+								const newGradient = `linear-gradient(${newAngle}deg, ${color1}, ${color2})`;
+								handleUpdateJSVariable(variable.name, newGradient);
+							}}
+							label=''
+						/>
+					</div>
+				);
+
+			case 'number':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<Label className='text-xs text-muted-foreground'>
+							{variable.name}
+						</Label>
+						<div className='flex items-center gap-2'>
+							<Slider
+								className='flex-1'
+								onValueChange={(value) =>
+									handleUpdateJSVariable(variable.name, value[0])
+								}
+								value={[variable.value as number]}
+								min={variable.min || 0}
+								max={variable.max || 100}
+								step={variable.step || 1}
+							/>
+							<span className='text-xs text-muted-foreground w-12 text-right'>
+								{variable.value as any}
+							</span>
+						</div>
+					</div>
+				);
+
+			case 'boolean':
+				return (
+					<div
+						key={variable.name}
+						className='flex items-center justify-between'
+					>
+						<Label className='text-xs text-muted-foreground'>
+							{variable.name}
+						</Label>
+						<Switch
+							checked={variable.value as boolean}
+							onCheckedChange={(checked: boolean) =>
+								handleUpdateJSVariable(variable.name, checked)
+							}
+						/>
+					</div>
+				);
+
+			case 'url':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<Label className='text-xs text-muted-foreground'>
+							{variable.name}
+						</Label>
+						<Input
+							value={variable.value as string}
+							onChange={(e) =>
+								handleUpdateJSVariable(variable.name, e.target.value)
+							}
+							placeholder='https://example.com'
+							className='h-8 text-sm'
+						/>
+					</div>
+				);
+
+			case 'object':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<ObjectEditor
+							value={
+								typeof variable.value === 'object' &&
+								!Array.isArray(variable.value)
+									? variable.value
+									: {}
+							}
+							onChange={(newValue) =>
+								handleUpdateJSVariable(variable.name, newValue)
+							}
+							label={variable.name}
+						/>
+					</div>
+				);
+
+			case 'array':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<ArrayEditor
+							value={Array.isArray(variable.value) ? variable.value : []}
+							onChange={(newValue) =>
+								handleUpdateJSVariable(variable.name, newValue)
+							}
+							label={variable.name}
+							placeholder='Add items...'
+						/>
+					</div>
+				);
+
+			default: // string
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<Label className='text-xs text-muted-foreground'>
+							{variable.name}
+						</Label>
+						<Input
+							value={variable.value as string}
+							onChange={(e) =>
+								handleUpdateJSVariable(variable.name, e.target.value)
+							}
+							className='h-8 text-sm'
+						/>
+					</div>
+				);
+		}
+	};
+
 	// Render control for CSS variable
 	const renderVariableControl = (variable: CSSVariable) => {
 		switch (variable.type) {
@@ -596,7 +782,9 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 										<Info className='h-4 w-4' />
 										<AlertDescription className='text-xs'>
 											Add custom actions with // @action:Button Name followed by
-											the code to execute.
+											the code to execute. Define JS variables with // @var
+											name:type = value. Types: string, number, boolean, color,
+											gradient, url, object, array.
 										</AlertDescription>
 									</Alert>
 								</TabsContent>
@@ -609,7 +797,9 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 								menu={
 									<div className='flex items-center gap-2 text-foreground'>
 										<IconWorld size={18} className='text-muted-foreground' />
-										<Label className='text-sm font-semibold'>Variables</Label>
+										<Label className='text-sm font-semibold'>
+											CSS Variables
+										</Label>
 										<Badge variant='secondary' className='text-xs'>
 											{cssVariables.length}
 										</Badge>
@@ -618,6 +808,27 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 							>
 								<div className='space-y-4'>
 									{cssVariables.map(renderVariableControl)}
+								</div>
+							</CustomCollapse>
+						)}
+
+						{/* JS Variables Controls */}
+						{jsVariables.length > 0 && (
+							<CustomCollapse
+								menu={
+									<div className='flex items-center gap-2 text-foreground'>
+										<IconCode size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>
+											JS Variables
+										</Label>
+										<Badge variant='secondary' className='text-xs'>
+											{jsVariables.length}
+										</Badge>
+									</div>
+								}
+							>
+								<div className='space-y-4'>
+									{jsVariables.map(renderJSVariableControl)}
 								</div>
 							</CustomCollapse>
 						)}

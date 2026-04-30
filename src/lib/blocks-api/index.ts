@@ -5,7 +5,7 @@
 
 // Export types and interfaces
 export type { CSSVariable } from './css-parser';
-export type { JavaScriptAction, ParsedJavaScript } from './javascript-parser';
+export type { JavaScriptAction, ParsedJavaScript, JSVariable } from './javascript-parser';
 export type { SafeDOMAPI } from './safe-dom';
 
 // Define CustomAction interface since it's used in HTMLBlock
@@ -28,6 +28,7 @@ export {
 	generateActionRegistrations,
 	generateCompiledSource,
 	escapeJavaScriptString,
+	updateJSVariable,
 } from './javascript-parser';
 
 // Export Safe DOM utilities

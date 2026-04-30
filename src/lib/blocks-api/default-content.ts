@@ -5,13 +5,14 @@
 
 export const defaultHTMLContent = `<div class="container">
   <h1>Hello World!</h1>
+  <p id="counter-display">Counter: 0</p>
   <p>Edit this content in the HTML tab</p>
   <p>Use CSS variables in the :root selector to create dynamic controls.</p>
   <p>Add custom actions using // @action:Name syntax in JavaScript.</p>
+  <p>Define JS variables using // @var name:type = value syntax.</p>
 </div>`;
 
 export const defaultCSSContent = `:root {
-  --primary-color: #3b82f6;
   --text-size: 16px;
   --show-border: true;
   --spacing: 20px;
@@ -19,13 +20,13 @@ export const defaultCSSContent = `:root {
 
 .container {
   padding: var(--spacing);
-  border: var(--show-border) ? 2px solid var(--primary-color) : none;
+  border: var(--show-border) ? 2px solid var(--js-accent-color) : none;
   text-align: center;
   background-color: #f8f9fa;
 }
 
 h1 {
-  color: var(--primary-color);
+  color: var(--js-accent-color);
   font-size: var(--text-size);
 }
 
@@ -33,120 +34,132 @@ p {
   margin-bottom: var(--spacing);
 }`;
 
-export const defaultJSContent = `// Custom JavaScript code
-// This demonstrates the power of HTML Block with arbitrary code execution
+export const defaultJSContent = `// JavaScript Variables Demo
+// Define variables using // @var syntax: // @var name:type = value
 
-// @action:Change Container Background
-const container = htmlBlockAPI.safeDOM.querySelector('.container');
-log('Container found: ' + (container ? 'yes' : 'no'));
-if (container) {
-  try {
-    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-    log('Attempting to change background to: ' + randomColor);
+// @var message:string = "Hello from JS Variables!"
+// @var counter:number = 0
+// @var isEnabled:boolean = true
+// @var accentColor:color = #ff6b6b
+// @var bgGradient:gradient = linear-gradient(45deg, #667eea, #764ba2)
+// @var imageUrl:url = https://picsum.photos/200
+// @var config:object = {"theme": "dark", "animations": true}
+// @var tags:array = ["react", "javascript", "html"]
+
+// Set CSS custom property from JS variable
+function updateCSSFromJS() {
+  const rootElement = document.documentElement || host;
+  rootElement.style.setProperty('--js-accent-color', accentColor);
+}
+
+// Example function that uses JS variables
+function updateDisplay() {
+  const container = htmlBlockAPI.safeDOM.querySelector('.container');
+  if (container) {
+    // Update CSS custom property first
+    updateCSSFromJS();
     
-    if (container.style) {
-      container.style.backgroundColor = randomColor;
-      log('Direct style assignment completed');
+    // Use the message variable
+    const h1 = htmlBlockAPI.safeDOM.querySelector('h1');
+    if (h1) {
+      h1.textContent = message;
     }
-  
-    log('Background color change attempt completed');
-  } catch (error) {
-    error('Error changing background: ' + error);
+    
+    // Update counter display
+    const counterDisplay = htmlBlockAPI.safeDOM.querySelector('#counter-display');
+    if (counterDisplay) {
+      counterDisplay.textContent = 'Counter: ' + counter;
+    }
+    
+    // Apply gradient background if enabled
+    if (isEnabled) {
+      container.style.background = bgGradient;
+      container.style.color = 'white';
+    } else {
+      container.style.background = '#f8f9fa';
+      container.style.color = 'black';
+    }
+    
+    log('Display updated with JS variables');
   }
-} else {
-  warn('Container element not found');
 }
 
-// @action:Add Random Element
-const containerEl = htmlBlockAPI.safeDOM.querySelector('.container');
-log('root: ' + (root ? 'found' : 'not found'));
-log('containerEl: ' + (containerEl ? 'found' : 'not found')); 
- 
-if (containerEl) {
-    try {
-        const newElement = htmlBlockAPI.safeDOM.createElement('div');
-        if (newElement) {
-            newElement.textContent = 'Dynamic element ' + Date.now();
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'padding', '10px');
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'margin', '5px');
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'backgroundColor', '#f0f0f0');
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'border', '1px solid #ccc');
-            
-            // Use the safe API to append child
-            if (root) {
-                htmlBlockAPI.safeDOM.appendChild(root, newElement);
-                log('Element added to root successfully');
-            } else {
-                htmlBlockAPI.safeDOM.appendChild(containerEl, newElement);
-                log('Element added to container successfully');
-            }
-        }
-    } catch (error) {
-        error('Error adding element: ' + error);
-    }
-} else {
-    warn('Container element not found for adding element');
-}
-
-// @action:Modify CSS Variables
-try {
-  const rootElement = document.documentElement || host;
-  const newColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-  const newSize = (Math.floor(Math.random() * 20) + 12) + 'px';
-  rootElement.style.setProperty('--primary-color', newColor);
-  rootElement.style.setProperty('--text-size', newSize);
-  log('CSS variables modified - Color: ' + newColor + ', Size: ' + newSize);
-} catch (error) {
-  error('Error modifying CSS variables: ' + error);
-}
-
-// @action:Toggle Border Visibility
-try {
-  const rootElement = document.documentElement || host;
-  const currentBorder = getComputedStyle(rootElement).getPropertyValue('--show-border').trim();
-  const newBorder = currentBorder === 'true' ? 'false' : 'true';
-  rootElement.style.setProperty('--show-border', newBorder);
-  log('Border visibility toggled to: ' + newBorder);
-} catch (error) {
-  error('Error toggling border: ' + error);
-}
-
-// @action:Clear All Added Elements
-const containerClear = htmlBlockAPI.safeDOM.querySelector('.container');
-if (containerClear) {
-  try {
-    const elements = htmlBlockAPI.safeDOM.querySelectorAll('div[style*="background-color"]');
-    let clearedCount = 0;
-    // Convert NodeList to array and remove each element
-    Array.from(elements).forEach(el => {
-      if (el && el.parentNode) {
-        htmlBlockAPI.safeDOM.removeChild(el.parentNode, el);
-        clearedCount++;
-      }
+// Function to demonstrate array usage
+function displayTags() {
+  const container = htmlBlockAPI.safeDOM.querySelector('.container');
+  if (container && tags.length > 0) {
+    // Remove existing tags
+    const existingTags = htmlBlockAPI.safeDOM.querySelectorAll('.tag');
+    existingTags.forEach(tag => tag.remove());
+    
+    // Add new tags
+    tags.forEach(tagText => {
+      const tagElement = htmlBlockAPI.safeDOM.createElement('span');
+      tagElement.textContent = tagText;
+      tagElement.className = 'tag';
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'display', 'inline-block');
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'padding', '4px 8px');
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'margin', '2px');
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'background', accentColor);
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'color', 'white');
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'border-radius', '4px');
+      htmlBlockAPI.safeDOM.setStyle(tagElement, 'font-size', '12px');
+      htmlBlockAPI.safeDOM.appendChild(container, tagElement);
     });
-    log('Elements cleared successfully: ' + clearedCount + ' elements removed');
-  } catch (error) {
-    error('Error clearing elements: ' + error);
+    
+    log('Tags displayed: ' + tags.join(', '));
   }
-} else {
-  warn('Container element not found for clearing');
 }
 
-// @action:Log DOM Info
-try {
-  const containerInfo = htmlBlockAPI.safeDOM.querySelector('.container');
-  log('Container element: ' + (containerInfo ? 'found' : 'not found'));
-  const rootElement = document.documentElement || host;
-  const cssVars = {
-    primaryColor: getComputedStyle(rootElement).getPropertyValue('--primary-color'),
-    textSize: getComputedStyle(rootElement).getPropertyValue('--text-size'),
-    showBorder: getComputedStyle(rootElement).getPropertyValue('--show-border')
-  };
-  log('Current CSS variables: ' + JSON.stringify(cssVars));
-  log('DOM information logged - check DevTools console for details!');
-} catch (error) {
-  error('Error logging DOM info: ' + error);
-}`;
+// Initialize display on load
+updateCSSFromJS();
+updateDisplay();
+displayTags();
+
+// @action:Increment Counter
+counter += 1;
+updateDisplay();
+log('Counter incremented to: ' + counter);
+
+// @action:Toggle Enable State
+isEnabled = !isEnabled;
+updateDisplay();
+log('Enable state toggled to: ' + isEnabled);
+
+// @action:Random Color
+accentColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+updateCSSFromJS();
+updateDisplay();
+displayTags();
+log('Color changed to: ' + accentColor);
+
+// @action:Add Tag
+const newTag = 'tag' + (tags.length + 1);
+tags.push(newTag);
+displayTags();
+log('Added tag: ' + newTag);
+
+// @action:Reset Counter
+counter = 0;
+updateDisplay();
+log('Counter reset to: ' + counter);
+
+// @action:Update Message
+message = "Updated at " + new Date().toLocaleTimeString();
+updateDisplay();
+log('Message updated: ' + message);
+
+// @action:Log All Variables
+log('=== JS Variables Status ===');
+log('Message: ' + message);
+log('Counter: ' + counter);
+log('Enabled: ' + isEnabled);
+log('Color: ' + accentColor);
+log('Gradient: ' + bgGradient);
+log('Image URL: ' + imageUrl);
+log('Config: ' + JSON.stringify(config));
+log('Tags: ' + JSON.stringify(tags));
+log('==========================');`;
 
 export const defaultAutoRefresh = true;
 export const defaultShowDevTools = false;

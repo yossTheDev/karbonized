@@ -9,20 +9,80 @@ export interface JavaScriptAction {
 	code: string;
 }
 
+export interface JSVariable {
+	id: string;
+	name: string;
+	type: 'string' | 'number' | 'boolean' | 'color' | 'gradient' | 'url' | 'object' | 'array';
+	value: string | number | boolean | object;
+	defaultValue?: string | number | boolean | object;
+	description?: string;
+	min?: number;
+	max?: number;
+	step?: number;
+	options?: string[]; // for select-like variables
+}
+
 export interface ParsedJavaScript {
 	setupCode: string;
 	actions: JavaScriptAction[];
+	variables: JSVariable[];
+	functions: string[]; // function names that can be called
 }
+
+// Regex patterns for JS variable detection
+const jsVariableRegex = /\/\/\s*@var\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*(string|number|boolean|color|gradient|url|object|array)(?:\s*=\s*([^\n]+))?/g;
+const jsFunctionRegex = /(?:const|let|var|function)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(?:function\s*)?\([^)]*\)\s*=>|function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
 
 export const parseJavaScript = (js: string): ParsedJavaScript => {
 	const lines = js.split(/\r?\n/);
 	const setupLines: string[] = [];
 	const actions: JavaScriptAction[] = [];
+	const variables: JSVariable[] = [];
+	const functions: string[] = [];
 	const actionMarkerRegex = /^\s*\/\/\s*@action:(.+?)\s*$/;
 
 	let currentAction: JavaScriptAction | null = null;
 	let actionIndex = 0;
 
+	// First pass: extract variables and functions
+	for (const line of lines) {
+		// Extract JS variables
+		jsVariableRegex.lastIndex = 0;
+		const varMatch = jsVariableRegex.exec(line);
+		if (varMatch) {
+			const name = varMatch[1];
+			const type = varMatch[2] as JSVariable['type'];
+			const defaultValue = varMatch[3]?.trim();
+			
+			let parsedValue: any = defaultValue || getDefaultValueForType(type);
+			
+			// Parse the default value based on type
+			if (defaultValue) {
+				parsedValue = parseJSValue(defaultValue, type);
+			}
+
+			variables.push({
+				id: `jsvar_${name}`,
+				name,
+				type,
+				value: parsedValue,
+				defaultValue: parsedValue,
+				description: `JavaScript variable ${name}`,
+			});
+		}
+
+		// Extract function names
+		jsFunctionRegex.lastIndex = 0;
+		const funcMatch = jsFunctionRegex.exec(line);
+		if (funcMatch) {
+			const funcName = funcMatch[1] || funcMatch[2];
+			if (funcName && !functions.includes(funcName)) {
+				functions.push(funcName);
+			}
+		}
+	}
+
+	// Second pass: extract actions (existing logic)
 	for (const line of lines) {
 		const actionMatch = line.match(actionMarkerRegex);
 
@@ -62,6 +122,8 @@ export const parseJavaScript = (js: string): ParsedJavaScript => {
 	return {
 		setupCode: setupLines.join('\n').trim(),
 		actions,
+		variables,
+		functions,
 	};
 };
 
@@ -78,6 +140,54 @@ ${action.code}
 		.join('\n');
 };
 
+// Helper function to get default value for a type
+const getDefaultValueForType = (type: JSVariable['type']) => {
+	switch (type) {
+		case 'string':
+			return '';
+		case 'number':
+			return 0;
+		case 'boolean':
+			return false;
+		case 'color':
+			return '#000000';
+		case 'gradient':
+			return 'linear-gradient(45deg, #000, #fff)';
+		case 'url':
+			return '';
+		case 'object':
+			return {};
+		case 'array':
+			return [];
+		default:
+			return null;
+	}
+};
+
+// Helper function to parse JavaScript values based on type
+const parseJSValue = (value: string, type: JSVariable['type']) => {
+	try {
+		switch (type) {
+			case 'number':
+				const num = parseFloat(value);
+				return isNaN(num) ? 0 : num;
+			case 'boolean':
+				return value.toLowerCase() === 'true';
+			case 'object':
+			case 'array':
+				return JSON.parse(value);
+			case 'color':
+			case 'gradient':
+			case 'url':
+			case 'string':
+			default:
+				return value.replace(/^['"]|['"]$/g, ''); // Remove quotes
+		}
+	} catch {
+		return getDefaultValueForType(type);
+	}
+};
+
 // Helper function to escape JavaScript strings
 export const escapeJavaScriptString = (value: string): string =>
 	JSON.stringify(value).slice(1, -1);
@@ -86,6 +196,14 @@ export const generateCompiledSource = (
 	parsedJavaScript: ParsedJavaScript,
 	actionRegistrations: string
 ): string => {
+	// Generate variable declarations
+	const variableDeclarations = parsedJavaScript.variables
+		.map((variable) => {
+			const value = formatJSValue(variable.value, variable.type);
+			return `let ${variable.name} = ${value};`;
+		})
+		.join('\n');
+
 	return `
 const htmlBlockAPI = window.htmlBlockAPI;
 const registerAction = htmlBlockAPI.registerAction;
@@ -101,8 +219,47 @@ const log = htmlBlockAPI.log;
 const warn = htmlBlockAPI.warn;
 const error = htmlBlockAPI.error;
 
+// JavaScript Variables
+${variableDeclarations}
+
 ${parsedJavaScript.setupCode}
 
 ${actionRegistrations}
 `;
+};
+
+// Helper function to format JavaScript values
+const formatJSValue = (value: any, type: JSVariable['type']): string => {
+	switch (type) {
+		case 'string':
+		case 'color':
+		case 'gradient':
+		case 'url':
+			return `"${value}"`;
+		case 'number':
+			return String(value);
+		case 'boolean':
+			return String(value);
+		case 'object':
+		case 'array':
+			return JSON.stringify(value);
+		default:
+			return `"${value}"`;
+	}
+};
+
+// Function to update JS variable in the code
+export const updateJSVariable = (
+	jsContent: string,
+	varName: string,
+	newValue: any,
+	variables: JSVariable[]
+): string => {
+	const variable = variables.find((v) => v.name === varName);
+	if (!variable) return jsContent;
+
+	const formattedValue = formatJSValue(newValue, variable.type);
+	const varRegex = new RegExp(`(\\/\\/\\s*@var\\s+${varName}\\s*:\\s*${variable.type})(?:\\s*=\\s*[^\\n]+)?`, 'g');
+	
+	return jsContent.replace(varRegex, `$1 = ${formattedValue}`);
 };
