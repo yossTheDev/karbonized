@@ -96,6 +96,11 @@ const host = htmlBlockAPI.host;
 const shadowRoot = htmlBlockAPI.shadowRoot;
 const safeQuerySelector = window.safeQuerySelector;
 
+// Enhanced logging functions
+const log = htmlBlockAPI.log;
+const warn = htmlBlockAPI.warn;
+const error = htmlBlockAPI.error;
+
 ${parsedJavaScript.setupCode}
 
 ${actionRegistrations}

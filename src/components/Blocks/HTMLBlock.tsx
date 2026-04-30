@@ -44,6 +44,9 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	const actionHandlersRef = useRef<Map<string, () => void>>(new Map());
 	const [cssVariables, setCSSVariables] = useState<CSSVariable[]>([]);
 	const [customActions, setCustomActions] = useState<CustomAction[]>([]);
+	const [devLogs, setDevLogs] = useState<
+		Array<{ timestamp: Date; type: 'log' | 'warn' | 'error'; message: string }>
+	>([]);
 
 	// Component States
 	const [htmlContent, setHTMLContent] = useControlState(
@@ -70,6 +73,16 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 		false,
 		`${id}-allow-scripts`,
 	);
+
+	// Function to add dev logs
+	const addDevLog = (type: 'log' | 'warn' | 'error', message: string) => {
+		setDevLogs((prev) => [...prev, { timestamp: new Date(), type, message }]);
+	};
+
+	// Clear dev logs
+	const clearDevLogs = () => {
+		setDevLogs([]);
+	};
 
 	const createScopedDocument = (
 		shadowRoot: ShadowRoot,
@@ -218,13 +231,25 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 					const htmlBlockAPI = {
 						refresh: refreshShadowDOM,
 						log: (message: unknown) => {
+							const messageStr = String(message);
 							console.log('HTML Block:', message);
+							addDevLog('log', messageStr);
 							if (window.parent !== window) {
 								window.parent.postMessage(
 									{ type: 'html-block-log', message },
 									'*',
 								);
 							}
+						},
+						warn: (message: unknown) => {
+							const messageStr = String(message);
+							console.warn('HTML Block:', message);
+							addDevLog('warn', messageStr);
+						},
+						error: (message: unknown) => {
+							const messageStr = String(message);
+							console.error('HTML Block:', message);
+							addDevLog('error', messageStr);
 						},
 						host,
 						root: container,
@@ -233,6 +258,7 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 						globalDocument: window.document,
 						registerAction: (actionId: string, handler: () => void) => {
 							console.log(`Registering action handler: ${actionId}`);
+							addDevLog('log', `Action registered: ${actionId}`);
 							actionHandlersRef.current.set(actionId, handler);
 							console.log(
 								`Total registered actions: ${actionHandlersRef.current.size}`,
@@ -626,6 +652,141 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 							</CustomCollapse>
 						)}
 
+						{/* DevTools */}
+						{showDevTools && (
+							<CustomCollapse
+								isOpen
+								menu={
+									<div className='flex items-center gap-2 text-foreground'>
+										<IconCode size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>DevTools</Label>
+										<Badge variant='secondary' className='text-xs'>
+											{devLogs.length}
+										</Badge>
+									</div>
+								}
+							>
+								<div className='space-y-4'>
+									{/* Console Logs */}
+									<div className='space-y-2'>
+										<div className='flex items-center justify-between'>
+											<Label className='text-xs text-muted-foreground'>
+												Console Logs
+											</Label>
+											<Button
+												variant='outline'
+												size='sm'
+												onClick={clearDevLogs}
+												className='h-6 px-2 text-xs'
+											>
+												Clear
+											</Button>
+										</div>
+										<div className='bg-black/50 border border-border rounded-md p-2 h-32 overflow-y-auto font-mono text-xs'>
+											{devLogs.length === 0 ? (
+												<div className='text-muted-foreground'>
+													No logs yet...
+												</div>
+											) : (
+												devLogs.map((log, index) => (
+													<div key={index} className='mb-1'>
+														<span className='text-muted-foreground'>
+															[{log.timestamp.toLocaleTimeString()}]
+														</span>{' '}
+														<span
+															className={
+																log.type === 'error'
+																	? 'text-red-400'
+																	: log.type === 'warn'
+																		? 'text-yellow-400'
+																		: 'text-green-400'
+															}
+														>
+															{log.type.toUpperCase()}:
+														</span>{' '}
+														<span className='text-foreground'>
+															{log.message}
+														</span>
+													</div>
+												))
+											)}
+										</div>
+									</div>
+
+									{/* Dev Utilities */}
+									<div className='space-y-2'>
+										<Label className='text-xs text-muted-foreground'>
+											Utilities
+										</Label>
+										<div className='grid grid-cols-2 gap-2'>
+											<Button
+												variant='outline'
+												size='sm'
+												onClick={() => {
+													addDevLog(
+														'log',
+														'DOM Elements: ' +
+															String(
+																shadowRootRef.current?.children.length || 0,
+															),
+													);
+													addDevLog(
+														'log',
+														'CSS Variables: ' + String(cssVariables.length),
+													);
+													addDevLog(
+														'log',
+														'Custom Actions: ' + String(customActions.length),
+													);
+												}}
+												className='text-xs'
+											>
+												Inspect State
+											</Button>
+											<Button
+												variant='outline'
+												size='sm'
+												onClick={() => {
+													const vars = cssVariables
+														.map((v) => `${v.name}: ${v.value}`)
+														.join(', ');
+													addDevLog('log', `CSS Variables: ${vars}`);
+												}}
+												className='text-xs'
+											>
+												Log Variables
+											</Button>
+											<Button
+												variant='outline'
+												size='sm'
+												onClick={() => {
+													addDevLog(
+														'log',
+														'Actions available: ' +
+															customActions.map((a) => a.label).join(', '),
+													);
+												}}
+												className='text-xs'
+											>
+												List Actions
+											</Button>
+											<Button
+												variant='outline'
+												size='sm'
+												onClick={() => {
+													refreshShadowDOM();
+													addDevLog('log', 'Shadow DOM refreshed manually');
+												}}
+												className='text-xs'
+											>
+												Force Refresh
+											</Button>
+										</div>
+									</div>
+								</div>
+							</CustomCollapse>
+						)}
+
 						{/* Settings */}
 						<CustomCollapse
 							menu={
@@ -653,6 +814,16 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 									<Switch
 										checked={allowScriptExecution}
 										onCheckedChange={setAllowScriptExecution}
+									/>
+								</div>
+
+								<div className='flex items-center justify-between'>
+									<Label className='text-xs text-muted-foreground'>
+										Show DevTools
+									</Label>
+									<Switch
+										checked={showDevTools}
+										onCheckedChange={setShowDevTools}
 									/>
 								</div>
 
