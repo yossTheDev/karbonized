@@ -27,22 +27,66 @@ const parseShadow = (shadowStr: string): ShadowValue[] => {
 	if (!shadowStr || shadowStr === 'none') return [];
 
 	const shadows: ShadowValue[] = [];
-	const parts = shadowStr.split(',').map((s) => s.trim());
+
+	// Split by commas but preserve rgba/rgb functions
+	const parts = [];
+	let start = 0;
+	let depth = 0;
+
+	for (let i = 0; i < shadowStr.length; i++) {
+		const char = shadowStr[i];
+		if (char === '(') depth++;
+		if (char === ')') depth--;
+		if (char === ',' && depth === 0) {
+			parts.push(shadowStr.substring(start, i).trim());
+			start = i + 1;
+		}
+	}
+	parts.push(shadowStr.substring(start).trim());
 
 	parts.forEach((part) => {
-		const shadowPattern =
-			/^(inset\s+)?([a-f0-9#]+|rgba?\([^)]+\)|\w+)\s+(-?\d+px)\s+(-?\d+px)\s+(\d+px)\s+(\d+px)$/i;
-		const match = part.match(shadowPattern);
-		if (match) {
-			shadows.push({
-				inset: !!match[1],
-				color: match[2],
-				x: parseInt(match[3]),
-				y: parseInt(match[4]),
-				blur: parseInt(match[5]),
-				spread: parseInt(match[6]),
-			});
+		// Handle both color-first and color-last formats
+		let inset = false;
+		let color = '#000000';
+		let x = 0;
+		let y = 0;
+		let blur = 0;
+		let spread = 0;
+
+		if (part.startsWith('inset')) {
+			inset = true;
+			part = part.replace(/^inset\s+/, '').trim();
 		}
+
+		// Find rgba/rgb color first (most complex case)
+		const rgbaMatch = part.match(/(rgba?\([^)]+)\s*/);
+		if (rgbaMatch) {
+			color = rgbaMatch[1];
+			part = part.replace(rgbaMatch[1], '').trim();
+		} else {
+			// Find hex or named color
+			const colorMatch = part.match(/(#[a-f0-9]+|[a-z]+)\s*/i);
+			if (colorMatch) {
+				color = colorMatch[1];
+				part = part.replace(colorMatch[1], '').trim();
+			}
+		}
+
+		// Parse remaining numeric values
+		const numericValues = part.split(/\s+/).filter((v) => v.trim());
+		x = parseInt(numericValues[0]) || 0;
+		y = parseInt(numericValues[1]) || 0;
+		blur = parseInt(numericValues[2]) || 0;
+		spread = parseInt(numericValues[3]) || 0;
+
+		shadows.push({
+			inset,
+			color,
+			x,
+			y,
+			blur,
+			spread,
+		});
 	});
 
 	return shadows;

@@ -202,7 +202,7 @@ document.getElementById('myForm').reset();
 	/* @type:number min:0 max:50 step:1 unit:px */
 	--border-radius: 12px;
 	/* @type:shadow */
-	--shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	--shadow: 0px 2px 4px #000000;
 	/* @type:boolean */
 	--show-shadow: true;
 }
