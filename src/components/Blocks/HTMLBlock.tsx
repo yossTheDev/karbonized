@@ -97,7 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		false,
 		`${id}-devtools`,
 	);
-	const [sandboxMode, setSandboxMode] = useControlState(true, `${id}-sandbox`);
+	const [allowScriptExecution, setAllowScriptExecution] = useControlState(
+		false,
+		`${id}-allow-scripts`,
+	);
 
 	// Parse CSS variables from CSS content
 	const parseCSSVariables = (css: string): CSSVariable[] => {
@@ -268,10 +271,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			container.innerHTML = htmlContent;
 			shadowRoot.appendChild(container);
 
-			// Execute JavaScript
-			const scriptElement = document.createElement('script');
-			scriptElement.textContent = processedJS;
-			shadowRoot.appendChild(scriptElement);
+			// Execute JavaScript only if allowed
+			if (allowScriptExecution) {
+				const scriptElement = document.createElement('script');
+				scriptElement.textContent = processedJS;
+				shadowRoot.appendChild(scriptElement);
+			}
 		}
 	};
 
@@ -292,6 +297,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Execute custom action
 	const executeCustomAction = (action: CustomAction) => {
+		if (!allowScriptExecution) {
+			console.warn(
+				'Script execution is disabled. Enable "Allow Script Execution" to run custom actions.',
+			);
+			return;
+		}
+
 		if (shadowRootRef.current) {
 			try {
 				// Execute the action in the ShadowDOM context
@@ -553,11 +565,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 								<div className='flex items-center justify-between'>
 									<Label className='text-xs text-muted-foreground'>
-										Sandbox Mode
+										Allow Script Execution
 									</Label>
 									<Switch
-										checked={sandboxMode}
-										onCheckedChange={setSandboxMode}
+										checked={allowScriptExecution}
+										onCheckedChange={setAllowScriptExecution}
 									/>
 								</div>
 
