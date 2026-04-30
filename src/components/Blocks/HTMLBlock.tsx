@@ -11,36 +11,28 @@ import { Textarea } from '../ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Slider } from '../ui/slider';
 import { Switch } from '../ui/switch';
-import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Info, Play, RefreshCw } from 'lucide-react';
-
-interface CSSVariable {
-	name: string;
-	type: 'color' | 'number' | 'boolean' | 'string';
-	value: string | number | boolean;
-	min?: number;
-	max?: number;
-	step?: number;
-	description?: string;
-	unit?: string; // CSS unit like 'px', 'em', 'rem', '%', etc.
-}
-
-interface CustomAction {
-	id: string;
-	label: string;
-	icon?: string;
-}
-
-interface ParsedJavaScript {
-	setupCode: string;
-	actions: Array<{
-		id: string;
-		label: string;
-		code: string;
-	}>;
-}
+import {
+	CSSVariable,
+	CustomAction,
+	ParsedJavaScript,
+	parseCSSVariables,
+	parseJavaScript,
+	generateActionRegistrations,
+	generateCompiledSource,
+	escapeJavaScriptString,
+	updateCSSVariable,
+	scopeCSS,
+	createSafeDOM,
+	SafeDOMAPI,
+} from '../../lib/blocks-api';
+import {
+	defaultHTMLContent,
+	defaultCSSContent,
+	defaultJSContent,
+} from '../../lib/blocks-api/default-content';
 
 interface Props {
 	id: string;
@@ -55,148 +47,20 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 
 	// Component States
 	const [htmlContent, setHTMLContent] = useControlState(
-		`<div class="container">
-  <h1>Hello World!</h1>
-  <p>Edit this content in the HTML tab</p>
-  <p>Use CSS variables in the :root selector to create dynamic controls.</p>
-  <p>Add custom actions using // @action:Name syntax in JavaScript.</p>
-</div>`,
+		defaultHTMLContent,
 		`${id}-html`,
 	);
-
 	const [cssContent, setCSSContent] = useControlState(
-		`:root {
-  --primary-color: #3b82f6;
-  --text-size: 16px;
-  --show-border: true;
-  --spacing: 20px;
-}
-
-.container {
-  padding: var(--spacing);
-  border: var(--show-border) ? 2px solid var(--primary-color) : none;
-  text-align: center;
-}
-
-h1 {
-  color: var(--primary-color);
-  font-size: var(--text-size);
-}
-
-p {
-  margin-bottom: var(--spacing);
-}`,
+		defaultCSSContent,
 		`${id}-css`,
 	);
-
 	const [jsContent, setJSContent] = useControlState(
-		`// Custom JavaScript code
-// This demonstrates the power of HTML Block with arbitrary code execution
-
-// Helper function to safely get elements (available globally)
-window.safeQuerySelector = function(selector) {
-  try {
-    return document.querySelector(selector);
-  } catch (error) {
-    console.error('Error selecting element:', selector, error);
-    return null;
-  }
-};
-
-// @action:Change Container Background
-const container = safeQuerySelector('.container');
-if (container) {
-  try {
-    container.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-    console.log('Background color changed successfully');
-  } catch (error) {
-    console.error('Error changing background:', error);
-  }
-} else {
-  console.warn('Container element not found');
-}
-
-// @action:Add Random Element
-const containerEl = htmlBlockAPI.safeDOM.querySelector('.container');
-console.log('root:', root);
-console.log('containerEl:', containerEl); 
- 
-if (containerEl) {
-    try {
-        const newElement = htmlBlockAPI.safeDOM.createElement('div');
-        if (newElement) {
-            newElement.textContent = 'Dynamic element ' + Date.now();
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'padding', '10px');
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'margin', '5px');
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'backgroundColor', '#f0f0f0');
-            htmlBlockAPI.safeDOM.setStyle(newElement, 'border', '1px solid #ccc');
-            
-            // Usar la API segura para appendChild
-            if (root) {
-                htmlBlockAPI.safeDOM.appendChild(root, newElement);
-            } else {
-                htmlBlockAPI.safeDOM.appendChild(containerEl, newElement);
-            }
-            console.log('Element added successfully');
-        }
-    } catch (error) {
-        console.error('Error adding element:', error);
-    }
-} else {
-    console.warn('Container element not found for adding element');
-}
-
-// @action:Modify CSS Variables
-try {
-  document.documentElement.style.setProperty('--primary-color', '#' + Math.floor(Math.random()*16777215).toString(16));
-  document.documentElement.style.setProperty('--text-size', (Math.floor(Math.random() * 20) + 12) + 'px');
-  console.log('CSS variables modified successfully');
-} catch (error) {
-  console.error('Error modifying CSS variables:', error);
-}
-
-// @action:Toggle Border Visibility
-try {
-  const currentBorder = getComputedStyle(document.documentElement).getPropertyValue('--show-border').trim();
-  document.documentElement.style.setProperty('--show-border', currentBorder === 'true' ? 'false' : 'true');
-  console.log('Border visibility toggled successfully');
-} catch (error) {
-  console.error('Error toggling border:', error);
-}
-
-// @action:Clear All Added Elements
-const containerClear = safeQuerySelector('.container');
-if (containerClear) {
-  try {
-    const elements = containerClear.querySelectorAll('div[style*="background-color"]');
-    elements.forEach(el => el.remove());
-    console.log('Elements cleared successfully');
-  } catch (error) {
-    console.error('Error clearing elements:', error);
-  }
-} else {
-  console.warn('Container element not found for clearing');
-}
-
-// @action:Log DOM Info
-try {
-  const containerInfo = safeQuerySelector('.container');
-  console.log('Container element:', containerInfo);
-  console.log('Current CSS variables:', {
-    primaryColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color'),
-    textSize: getComputedStyle(document.documentElement).getPropertyValue('--text-size'),
-    showBorder: getComputedStyle(document.documentElement).getPropertyValue('--show-border')
-  });
-  alert('Check console for DOM information!');
-} catch (error) {
-  console.error('Error logging DOM info:', error);
-}`,
+		defaultJSContent,
 		`${id}-js`,
 	);
-
 	const [autoRefresh, setAutoRefresh] = useControlState(
 		true,
-		`${id}-autorefresh`,
+		`${id}-auto-refresh`,
 	);
 	const [showDevTools, setShowDevTools] = useControlState(
 		false,
@@ -206,179 +70,6 @@ try {
 		false,
 		`${id}-allow-scripts`,
 	);
-
-	// Helper function to parse numeric values with units
-	const parseNumericValue = (value: string) => {
-		const numericRegex =
-			/^(-?\d*\.?\d+)(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|in|cm|mm|pt|pc)?$/;
-		const match = value.match(numericRegex);
-
-		if (match) {
-			const number = parseFloat(match[1]);
-			const unit = match[2] || 'px'; // Default to px if no unit specified
-			return { number, unit, originalValue: value };
-		}
-
-		return null;
-	};
-
-	// Parse CSS variables from CSS content
-	const parseCSSVariables = (css: string): CSSVariable[] => {
-		const variables: CSSVariable[] = [];
-		const rootRegex = /:root\s*{([^}]*)}/g;
-		const match = rootRegex.exec(css);
-
-		if (match) {
-			const varsContent = match[1];
-			const varRegex = /--([a-zA-Z0-9-]+)\s*:\s*([^;]+);/g;
-			let varMatch;
-
-			while ((varMatch = varRegex.exec(varsContent)) !== null) {
-				const name = varMatch[1];
-				const value = varMatch[2].trim();
-
-				// Detect variable type based on naming conventions and values
-				let type: CSSVariable['type'] = 'string';
-				let parsedValue: string | number | boolean = value;
-				let min, max, step;
-
-				if (
-					name.includes('color') ||
-					/^#[0-9a-fA-F]{6}$/.test(value) ||
-					/^#[0-9a-fA-F]{3}$/.test(value)
-				) {
-					type = 'color';
-					parsedValue = value.startsWith('#') ? value : `#${value}`;
-				} else if (
-					name.includes('size') ||
-					name.includes('width') ||
-					name.includes('height') ||
-					name.includes('spacing') ||
-					name.includes('padding') ||
-					name.includes('margin') ||
-					name.includes('radius')
-				) {
-					const numericParse = parseNumericValue(value);
-					if (numericParse) {
-						type = 'number';
-						parsedValue = numericParse.number;
-						min = 0;
-						max =
-							numericParse.unit === '%'
-								? 100
-								: numericParse.unit === 'em' || numericParse.unit === 'rem'
-									? 10
-									: 200;
-						step =
-							numericParse.unit === '%'
-								? 1
-								: numericParse.unit === 'em' || numericParse.unit === 'rem'
-									? 0.1
-									: 1;
-					}
-				} else if (
-					name.includes('show') ||
-					name.includes('enable') ||
-					name.includes('visible')
-				) {
-					type = 'boolean';
-					parsedValue = value === 'true';
-				} else {
-					// Try to parse as numeric with units for any remaining numeric values
-					const numericParse = parseNumericValue(value);
-					if (numericParse) {
-						type = 'number';
-						parsedValue = numericParse.number;
-						min = 0;
-						max =
-							numericParse.unit === '%'
-								? 100
-								: numericParse.unit === 'em' || numericParse.unit === 'rem'
-									? 10
-									: 1000;
-						step =
-							numericParse.unit === '%'
-								? 1
-								: numericParse.unit === 'em' || numericParse.unit === 'rem'
-									? 0.1
-									: 1;
-					}
-				}
-
-				// Add unit information for numeric variables
-				let unit;
-				if (type === 'number') {
-					const numericParse = parseNumericValue(value);
-					unit = numericParse ? numericParse.unit : 'px';
-				}
-
-				variables.push({
-					name,
-					type,
-					value: parsedValue,
-					min,
-					max,
-					step,
-					unit,
-					description: `CSS variable --${name}`,
-				});
-			}
-		}
-
-		return variables;
-	};
-
-	// Parse custom actions from JS content
-	const parseJavaScript = (js: string): ParsedJavaScript => {
-		const lines = js.split(/\r?\n/);
-		const setupLines: string[] = [];
-		const actions: ParsedJavaScript['actions'] = [];
-		const actionMarkerRegex = /^\s*\/\/\s*@action:(.+?)\s*$/;
-
-		let currentAction: ParsedJavaScript['actions'][number] | null = null;
-		let actionIndex = 0;
-
-		for (const line of lines) {
-			const actionMatch = line.match(actionMarkerRegex);
-
-			if (actionMatch) {
-				if (currentAction) {
-					currentAction.code = currentAction.code.trim();
-					actions.push(currentAction);
-				}
-
-				const label = actionMatch[1].trim();
-				currentAction = {
-					id: `action_${actionIndex}_${
-						label
-							.toLowerCase()
-							.replace(/[^a-z0-9]+/g, '-')
-							.replace(/(^-|-$)/g, '') || 'custom'
-					}`,
-					label,
-					code: '',
-				};
-				actionIndex += 1;
-				continue;
-			}
-
-			if (currentAction) {
-				currentAction.code += `${line}\n`;
-			} else {
-				setupLines.push(line);
-			}
-		}
-
-		if (currentAction) {
-			currentAction.code = currentAction.code.trim();
-			actions.push(currentAction);
-		}
-
-		return {
-			setupCode: setupLines.join('\n').trim(),
-			actions,
-		};
-	};
 
 	const createScopedDocument = (
 		shadowRoot: ShadowRoot,
@@ -416,9 +107,6 @@ try {
 		}) as Document & ShadowRoot;
 	};
 
-	const escapeJavaScriptString = (value: string) =>
-		JSON.stringify(value).slice(1, -1);
-
 	// Update CSS variables and custom actions when content changes
 	useEffect(() => {
 		setCSSVariables(parseCSSVariables(cssContent));
@@ -433,26 +121,16 @@ try {
 	}, [cssContent, jsContent]);
 
 	// Update CSS content when variables change
-	const updateCSSVariable = (
+	const handleUpdateCSSVariable = (
 		varName: string,
 		newValue: string | number | boolean,
 	) => {
-		// Find the variable to get its unit information
-		const variable = cssVariables.find((v) => v.name === varName);
-		let valueWithUnit = newValue;
-
-		// Add unit back for numeric variables
-		if (
-			variable &&
-			variable.type === 'number' &&
-			variable.unit &&
-			typeof newValue === 'number'
-		) {
-			valueWithUnit = `${newValue}${variable.unit}`;
-		}
-
-		const varRegex = new RegExp(`(--${varName}\\s*:\\s*)([^;]+);`);
-		const newCSS = cssContent.replace(varRegex, `$1${valueWithUnit};`);
+		const newCSS = updateCSSVariable(
+			cssContent,
+			varName,
+			newValue,
+			cssVariables,
+		);
 		setCSSContent(newCSS);
 	};
 
@@ -536,6 +214,7 @@ try {
 						}
 					};
 
+					const safeDOM = createSafeDOM(shadowRoot);
 					const htmlBlockAPI = {
 						refresh: refreshShadowDOM,
 						log: (message: unknown) => {
@@ -559,50 +238,7 @@ try {
 								`Total registered actions: ${actionHandlersRef.current.size}`,
 							);
 						},
-						safeDOM: {
-							querySelector: (selector: string) => {
-								try {
-									return shadowRoot.querySelector(selector);
-								} catch (error) {
-									console.error(
-										'Error in safeDOM.querySelector:',
-										selector,
-										error,
-									);
-									return null;
-								}
-							},
-							createElement: (tagName: string) => {
-								try {
-									return document.createElement(tagName);
-								} catch (error) {
-									console.error(
-										'Error in safeDOM.createElement:',
-										tagName,
-										error,
-									);
-									return null;
-								}
-							},
-							appendChild: (parent: Element, child: Element) => {
-								try {
-									Element.prototype.appendChild.call(parent, child);
-									return true;
-								} catch (error) {
-									console.error('Error in safeDOM.appendChild:', error);
-									return false;
-								}
-							},
-							setStyle: (element: Element, property: string, value: string) => {
-								try {
-									(element as HTMLElement).style.setProperty(property, value);
-									return true;
-								} catch (error) {
-									console.error('Error in safeDOM.setStyle:', error);
-									return false;
-								}
-							},
-						},
+						safeDOM,
 					};
 
 					(
@@ -618,31 +254,13 @@ try {
 						}
 					).safeQuerySelector = safeQuerySelector;
 
-					const actionRegistrations = parsedJavaScript.actions
-						.map(
-							(action) => `
-console.log('Registering action: ${action.label} (ID: ${action.id})');
-registerAction("${escapeJavaScriptString(action.id)}", () => {
-	console.log('Executing action: ${action.label}');
-${action.code}
-});`,
-						)
-						.join('\n');
-
-					const compiledSource = `
-const htmlBlockAPI = window.htmlBlockAPI;
-const registerAction = htmlBlockAPI.registerAction;
-const document = htmlBlockAPI.document;
-const globalDocument = htmlBlockAPI.globalDocument;
-const root = htmlBlockAPI.root;
-const host = htmlBlockAPI.host;
-const shadowRoot = htmlBlockAPI.shadowRoot;
-const safeQuerySelector = window.safeQuerySelector;
-
-${parsedJavaScript.setupCode}
-
-${actionRegistrations}
-`;
+					const actionRegistrations = generateActionRegistrations(
+						parsedJavaScript.actions,
+					);
+					const compiledSource = generateCompiledSource(
+						parsedJavaScript,
+						actionRegistrations,
+					);
 
 					const executeUserCode = new Function(
 						'window',
@@ -740,30 +358,13 @@ ${actionRegistrations}
 								},
 							};
 
-							const actionRegistrations = parsedJavaScript.actions
-								.map(
-									(action) => `
-registerAction("${escapeJavaScriptString(action.id)}", () => {
-	console.log('Executing action: ${action.label}');
-${action.code}
-});`,
-								)
-								.join('\n');
-
-							const compiledSource = `
-const htmlBlockAPI = window.htmlBlockAPI;
-const registerAction = htmlBlockAPI.registerAction;
-const document = htmlBlockAPI.document;
-const globalDocument = htmlBlockAPI.globalDocument;
-const root = htmlBlockAPI.root;
-const host = htmlBlockAPI.host;
-const shadowRoot = htmlBlockAPI.shadowRoot;
-const safeQuerySelector = window.safeQuerySelector;
-
-${parsedJavaScript.setupCode}
-
-${actionRegistrations}
-`;
+							const actionRegistrations = generateActionRegistrations(
+								parsedJavaScript.actions,
+							);
+							const compiledSource = generateCompiledSource(
+								parsedJavaScript,
+								actionRegistrations,
+							);
 
 							const executeUserCode = new Function(
 								'window',
@@ -819,7 +420,9 @@ ${actionRegistrations}
 						<ColorPicker
 							isGradientEnable={false}
 							color={variable.value as string}
-							onColorChange={(color) => updateCSSVariable(variable.name, color)}
+							onColorChange={(color) =>
+								handleUpdateCSSVariable(variable.name, color)
+							}
 							label=''
 						/>
 					</div>
@@ -835,7 +438,7 @@ ${actionRegistrations}
 							<Slider
 								className='flex-1'
 								onValueChange={(value) =>
-									updateCSSVariable(variable.name, value[0])
+									handleUpdateCSSVariable(variable.name, value[0])
 								}
 								value={[variable.value as number]}
 								min={variable.min || 0}
@@ -861,7 +464,7 @@ ${actionRegistrations}
 						<Switch
 							checked={variable.value as boolean}
 							onCheckedChange={(checked: boolean) =>
-								updateCSSVariable(variable.name, checked)
+								handleUpdateCSSVariable(variable.name, checked)
 							}
 						/>
 					</div>
@@ -875,23 +478,14 @@ ${actionRegistrations}
 						</Label>
 						<Input
 							value={variable.value as string}
-							onChange={(e) => updateCSSVariable(variable.name, e.target.value)}
+							onChange={(e) =>
+								handleUpdateCSSVariable(variable.name, e.target.value)
+							}
 							className='h-8 text-sm'
 						/>
 					</div>
 				);
 		}
-	};
-
-	const scopeCSS = (css: string, scopeSelector: string) => {
-		return css
-			.replace(/([^\r\n,{}]+)(?=[^{}]*{)/g, (match) => {
-				const trimmed = match.trim();
-				if (trimmed.startsWith('@') || trimmed.startsWith(':root'))
-					return match;
-				return `${scopeSelector} ${trimmed}`;
-			})
-			.replace(/:root/g, scopeSelector);
 	};
 
 	return (
