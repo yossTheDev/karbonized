@@ -4,6 +4,17 @@
 
 ### 🚀 Features
 
+- **NEW HTML Block Component** with comprehensive capabilities
+  - **Shadow DOM Architecture** for secure encapsulation and CSS scoping
+  - **Live HTML/CSS/JavaScript Editor** with real-time preview
+  - **CSS Variables System** with automatic control generation (color pickers, sliders, switches)
+  - **JavaScript Variables System** with 8 typed controls (string, number, boolean, color, gradient, url, object, array)
+  - **Custom Actions System** with button generation from JavaScript comments
+  - **SafeDOM API** for secure DOM manipulation preventing "Illegal invocation" errors
+  - **Custom Components for Data Editing**: ArrayEditor and ObjectEditor with intuitive UI
+  - **Real-time Variable Updates** with automatic UI refresh
+  - **Integration with Export System** for static image generation
+
 - Add a redesigned hierarchy panel with searchable layers, filters, contextual layer actions, and cleaner workspace-oriented UI
 - Add layer groups/folders with nested hierarchy, collapse state, visibility/lock controls, duplication, rename, and drag-and-drop reordering
 - Add grouped Moveable editing so hierarchy groups can be transformed together directly on the canvas

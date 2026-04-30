@@ -9,6 +9,7 @@ HTML Blocks in Karbonized allow you to create custom interactive components usin
 - **Secure iframe sandbox** execution
 - **Live HTML/CSS/JavaScript editing** with syntax highlighting
 - **Automatic CSS variable controls** generation
+- **JavaScript variable controls** with typed inputs
 - **Custom action buttons** for interactive functionality
 - **Real-time preview** with auto-refresh
 - **Responsive design** with resize capabilities
@@ -25,13 +26,13 @@ The HTML Block automatically detects CSS variables and creates corresponding con
 
 ### Variable Naming Conventions
 
-| Pattern | Type | Control | Example |
-|---------|------|---------|---------|
-| `*color*` | Color | Color Picker | `--primary-color: #3b82f6` |
-| `*size*`, `*width*`, `*height*`, `*spacing*` | Number | Slider | `--text-size: 16px` |
-| `*show*`, `*enable*`, `*visible*` | Boolean | Switch | `--show-border: true` |
-| Hex values | Color | Color Picker | `--accent: #ff5733` |
-| Numbers | Number | Slider | `--padding: 20` |
+| Pattern                                      | Type    | Control      | Example                    |
+| -------------------------------------------- | ------- | ------------ | -------------------------- |
+| `*color*`                                    | Color   | Color Picker | `--primary-color: #3b82f6` |
+| `*size*`, `*width*`, `*height*`, `*spacing*` | Number  | Slider       | `--text-size: 16px`        |
+| `*show*`, `*enable*`, `*visible*`            | Boolean | Switch       | `--show-border: true`      |
+| Hex values                                   | Color   | Color Picker | `--accent: #ff5733`        |
+| Numbers                                      | Number  | Slider       | `--padding: 20`            |
 
 ### CSS Variable Example
 
@@ -57,10 +58,82 @@ The HTML Block automatically detects CSS variables and creates corresponding con
 ```
 
 This will automatically generate:
+
 - Color picker for `--primary-color`
 - Slider for `--text-size` and `--spacing`
 - Switch for `--show-border`
 - Slider for `--border-radius`
+
+## JavaScript Variables System
+
+The HTML Block also supports JavaScript variables with automatic control generation. These variables are defined using special comment syntax and provide typed editing interfaces.
+
+### JavaScript Variable Syntax
+
+```javascript
+// @var variableName:type = value
+```
+
+### Supported Variable Types
+
+| Type       | Control         | Example                                                                  | Description                   |
+| ---------- | --------------- | ------------------------------------------------------------------------ | ----------------------------- |
+| `string`   | Text input      | `// @var message:string = "Hello"`                                       | Basic text input field        |
+| `number`   | Number slider   | `// @var count:number = 0`                                               | Slider with min/max/step      |
+| `boolean`  | Toggle switch   | `// @var enabled:boolean = true`                                         | On/off switch                 |
+| `color`    | Color picker    | `// @var accentColor:color = #ff6b6b`                                    | Color selection interface     |
+| `gradient` | Gradient picker | `// @var bgGradient:gradient = linear-gradient(45deg, #667eea, #764ba2)` | Two-color gradient with angle |
+| `url`      | URL input       | `// @var imageUrl:url = https://example.com`                             | Text input for URLs           |
+| `object`   | Object editor   | `// @var config:object = {"theme": "dark"}`                              | Key-value pair editor         |
+| `array`    | Array editor    | `// @var tags:array = ["react", "js"]`                                   | List items with badges        |
+
+### JavaScript Variable Example
+
+```javascript
+// @var message:string = "Hello from JS Variables!"
+// @var counter:number = 0
+// @var isEnabled:boolean = true
+// @var accentColor:color = #ff6b6b
+// @var bgGradient:gradient = linear-gradient(45deg, #667eea, #764ba2)
+// @var imageUrl:url = https://picsum.photos/200
+// @var config:object = {"theme": "dark", "animations": true}
+// @var tags:array = ["react", "javascript", "html"]
+
+function updateDisplay() {
+	const container = document.querySelector('.container');
+	if (container) {
+		container.style.background = isEnabled ? bgGradient : '#f8f9fa';
+		container.style.color = isEnabled ? 'white' : 'black';
+	}
+}
+
+// Initialize
+updateDisplay();
+```
+
+### Integration with CSS
+
+JavaScript variables can update CSS custom properties:
+
+```javascript
+// @var accentColor:color = #3b82f6
+
+function updateCSSFromJS() {
+	const rootElement = document.documentElement;
+	rootElement.style.setProperty('--js-accent-color', accentColor);
+}
+
+// Call this function whenever accentColor changes
+updateCSSFromJS();
+```
+
+Then in CSS:
+
+```css
+h1 {
+	color: var(--js-accent-color);
+}
+```
 
 ## Custom Actions
 
@@ -77,19 +150,20 @@ Create interactive buttons by defining actions in your JavaScript code using the
 
 ```javascript
 // @action:Change Background Color
-document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+document.body.style.backgroundColor =
+	'#' + Math.floor(Math.random() * 16777215).toString(16);
 
 // @action:Show Alert
 alert('Hello from HTML Block!');
 
 // @action:Fetch Data
 fetch('https://api.example.com/data')
-  .then(response => response.json())
-  .then(data => {
-    console.log('Data fetched:', data);
-    document.getElementById('result').textContent = JSON.stringify(data);
-  })
-  .catch(error => console.error('Error:', error));
+	.then((response) => response.json())
+	.then((data) => {
+		console.log('Data fetched:', data);
+		document.getElementById('result').textContent = JSON.stringify(data);
+	})
+	.catch((error) => console.error('Error:', error));
 
 // @action:Reset Form
 document.getElementById('myForm').reset();
@@ -101,15 +175,15 @@ document.getElementById('myForm').reset();
 
 ```html
 <div class="card">
-  <div class="card-header">
-    <h2 class="card-title">Interactive Card</h2>
-  </div>
-  <div class="card-body">
-    <p class="card-text">This is an interactive card component.</p>
-    <button class="card-button" onclick="this.classList.toggle('active')">
-      Toggle Active
-    </button>
-  </div>
+	<div class="card-header">
+		<h2 class="card-title">Interactive Card</h2>
+	</div>
+	<div class="card-body">
+		<p class="card-text">This is an interactive card component.</p>
+		<button class="card-button" onclick="this.classList.toggle('active')">
+			Toggle Active
+		</button>
+	</div>
 </div>
 ```
 
@@ -130,7 +204,6 @@ document.getElementById('myForm').reset();
   border-radius: var(--border-radius);
   box-shadow: var(--show-shadow) ? var(--shadow) : none;
   overflow: hidden;
-  transition: all 0.3s ease;
 }
 
 .card-header {
@@ -160,7 +233,6 @@ document.getElementById('myForm').reset();
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .card-button:hover {
@@ -179,33 +251,38 @@ const randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.documentElement.style.setProperty('--primary-color', randomColor);
 
 // @action:Toggle Shadow
-const currentShadow = getComputedStyle(document.documentElement).getPropertyValue('--show-shadow').trim();
-document.documentElement.style.setProperty('--show-shadow', currentShadow === 'true' ? 'false' : 'true');
+const currentShadow = getComputedStyle(document.documentElement)
+	.getPropertyValue('--show-shadow')
+	.trim();
+document.documentElement.style.setProperty(
+	'--show-shadow',
+	currentShadow === 'true' ? 'false' : 'true',
+);
 
-// @action:Animate Card
-document.querySelector('.card').style.transform = 'scale(1.05)';
-setTimeout(() => {
-  document.querySelector('.card').style.transform = 'scale(1)';
-}, 300);
+// @action:Highlight Card
+document.querySelector('.card').style.border = '3px solid #3b82f6';
+
+// @action:Reset Border
+document.querySelector('.card').style.border = '2px solid #3b82f6';
 ```
 
 ### Example 2: Data Dashboard Widget
 
 ```html
 <div class="dashboard">
-  <div class="dashboard-header">
-    <h3>Live Dashboard</h3>
-    <div class="metric" id="metric1">0</div>
-  </div>
-  <div class="dashboard-content">
-    <div class="chart-container">
-      <div class="chart-bar" style="height: 20%"></div>
-      <div class="chart-bar" style="height: 40%"></div>
-      <div class="chart-bar" style="height: 60%"></div>
-      <div class="chart-bar" style="height: 80%"></div>
-      <div class="chart-bar" style="height: 100%"></div>
-    </div>
-  </div>
+	<div class="dashboard-header">
+		<h3>Live Dashboard</h3>
+		<div class="metric" id="metric1">0</div>
+	</div>
+	<div class="dashboard-content">
+		<div class="chart-container">
+			<div class="chart-bar" style="height: 20%"></div>
+			<div class="chart-bar" style="height: 40%"></div>
+			<div class="chart-bar" style="height: 60%"></div>
+			<div class="chart-bar" style="height: 80%"></div>
+			<div class="chart-bar" style="height: 100%"></div>
+		</div>
+	</div>
 </div>
 ```
 
@@ -260,22 +337,21 @@ setTimeout(() => {
   background: var(--chart-color);
   flex: 1;
   border-radius: 4px 4px 0 0;
-  transition: height var(--animation-speed) ease;
 }
 ```
 
 ```javascript
 let counter = 0;
 setInterval(() => {
-  counter++;
-  document.getElementById('metric1').textContent = counter;
+	counter++;
+	document.getElementById('metric1').textContent = counter;
 }, 1000);
 
 // @action:Randomize Chart
 const bars = document.querySelectorAll('.chart-bar');
-bars.forEach(bar => {
-  const randomHeight = Math.floor(Math.random() * 80) + 20;
-  bar.style.height = randomHeight + '%';
+bars.forEach((bar) => {
+	const randomHeight = Math.floor(Math.random() * 80) + 20;
+	bar.style.height = randomHeight + '%';
 });
 
 // @action:Change Chart Color
@@ -288,128 +364,133 @@ counter = 0;
 document.getElementById('metric1').textContent = counter;
 
 // @action:Toggle Grid
-const currentGrid = getComputedStyle(document.documentElement).getPropertyValue('--show-grid').trim();
-document.documentElement.style.setProperty('--show-grid', currentGrid === 'true' ? 'false' : 'true');
+const currentGrid = getComputedStyle(document.documentElement)
+	.getPropertyValue('--show-grid')
+	.trim();
+document.documentElement.style.setProperty(
+	'--show-grid',
+	currentGrid === 'true' ? 'false' : 'true',
+);
 ```
 
 ### Example 3: Form Component
 
 ```html
 <div class="form-container">
-  <form id="contactForm">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="4"></textarea>
-    </div>
-    <button type="submit" class="submit-btn">Send Message</button>
-  </form>
-  <div id="formResult" class="form-result"></div>
+	<form id="contactForm">
+		<div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required />
+		</div>
+		<div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" required />
+		</div>
+		<div class="form-group">
+			<label for="message">Message:</label>
+			<textarea id="message" name="message" rows="4"></textarea>
+		</div>
+		<button type="submit" class="submit-btn">Send Message</button>
+	</form>
+	<div id="formResult" class="form-result"></div>
 </div>
 ```
 
 ```css
 :root {
-  --form-bg: #ffffff;
-  --primary-color: #3b82f6;
-  --text-color: #1f2937;
-  --border-color: #d1d5db;
-  --success-color: #10b981;
-  --error-color: #ef4444;
-  --border-radius: 8px;
-  --form-padding: 2rem;
+	--form-bg: #ffffff;
+	--primary-color: #3b82f6;
+	--text-color: #1f2937;
+	--border-color: #d1d5db;
+	--success-color: #10b981;
+	--error-color: #ef4444;
+	--border-radius: 8px;
+	--form-padding: 2rem;
 }
 
 .form-container {
-  background: var(--form-bg);
-  border-radius: var(--border-radius);
-  padding: var(--form-padding);
-  border: 1px solid var(--border-color);
+	background: var(--form-bg);
+	border-radius: var(--border-radius);
+	padding: var(--form-padding);
+	border: 1px solid var(--border-color);
 }
 
 .form-group {
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
-  font-weight: 500;
+	display: block;
+	margin-bottom: 0.5rem;
+	color: var(--text-color);
+	font-weight: 500;
 }
 
 .form-group input,
 .form-group textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 1rem;
+	width: 100%;
+	padding: 0.75rem;
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	font-size: 1rem;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary-color);
+	outline: none;
+	border-color: var(--primary-color);
 }
 
 .submit-btn {
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  width: 100%;
+	background: var(--primary-color);
+	color: white;
+	border: none;
+	padding: 0.75rem 1.5rem;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 1rem;
+	width: 100%;
 }
 
 .submit-btn:hover {
-  opacity: 0.9;
+	opacity: 0.9;
 }
 
 .form-result {
-  margin-top: 1rem;
-  padding: 1rem;
-  border-radius: 4px;
-  display: none;
+	margin-top: 1rem;
+	padding: 1rem;
+	border-radius: 4px;
+	display: none;
 }
 
 .form-result.success {
-  background: var(--success-color);
-  color: white;
-  display: block;
+	background: var(--success-color);
+	color: white;
+	display: block;
 }
 
 .form-result.error {
-  background: var(--error-color);
-  color: white;
-  display: block;
+	background: var(--error-color);
+	color: white;
+	display: block;
 }
 ```
 
 ```javascript
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const formData = new FormData(this);
-  const data = Object.fromEntries(formData);
-  
-  // Simulate form submission
-  const resultDiv = document.getElementById('formResult');
-  resultDiv.textContent = `Form submitted! Name: ${data.name}, Email: ${data.email}`;
-  resultDiv.className = 'form-result success';
-  
-  setTimeout(() => {
-    resultDiv.className = 'form-result';
-  }, 3000);
+document.getElementById('contactForm').addEventListener('submit', function (e) {
+	e.preventDefault();
+
+	const formData = new FormData(this);
+	const data = Object.fromEntries(formData);
+
+	// Simulate form submission
+	const resultDiv = document.getElementById('formResult');
+	resultDiv.textContent = `Form submitted! Name: ${data.name}, Email: ${data.email}`;
+	resultDiv.className = 'form-result success';
+
+	setTimeout(() => {
+		resultDiv.className = 'form-result';
+	}, 3000);
 });
 
 // @action:Fill Sample Data
@@ -424,18 +505,20 @@ document.getElementById('formResult').className = 'form-result';
 // @action:Validate Form
 const form = document.getElementById('contactForm');
 if (form.checkValidity()) {
-  alert('Form is valid!');
+	alert('Form is valid!');
 } else {
-  alert('Please fill in all required fields.');
+	alert('Please fill in all required fields.');
 }
 ```
 
 ## Security Considerations
 
-- HTML Blocks run in a secure iframe sandbox
-- By default, only `allow-scripts`, `allow-same-origin`, and `allow-forms` are permitted
-- External resource loading may be restricted depending on sandbox settings
+- HTML Blocks run in a secure Shadow DOM environment
+- Shadow DOM provides encapsulation from the main document
+- CSS and JavaScript are scoped to prevent conflicts with the parent page
+- External resource loading follows standard browser security policies
 - Always validate user inputs in your JavaScript code
+- DOM access is limited to the Shadow DOM scope for safety
 
 ## Best Practices
 
@@ -465,36 +548,40 @@ if (form.checkValidity()) {
    - Check if variables are properly referenced
    - Ensure CSS specificity is correct
 
-4. **Iframe not loading**
-   - Check if sandbox mode is enabled/disabled appropriately
+4. **Shadow DOM not loading**
+   - Check if Shadow DOM is properly initialized
    - Verify HTML syntax is valid
-   - Check browser console for security restrictions
+   - Check browser console for Shadow DOM errors
 
 ## API Reference
 
-### HTML Block API
+For complete API documentation, see [HTML Block API Reference](html-block-api.md).
 
-The HTML Block provides a global API object `window.htmlBlockAPI` for advanced functionality:
+### Variable Types Summary
 
-```javascript
-// Log messages to parent console
-window.htmlBlockAPI.log('Debug message');
+#### CSS Variables
 
-// Request refresh from parent
-window.htmlBlockAPI.refresh();
-```
+| Type    | Control      | Input Range                        |
+| ------- | ------------ | ---------------------------------- |
+| Color   | Color Picker | Any valid CSS color                |
+| Number  | Slider       | Any numeric value (default 0-1000) |
+| Boolean | Switch       | true/false                         |
+| String  | Text Input   | Any text                           |
 
-### CSS Variable Types
+#### JavaScript Variables
 
-| Type | Input Range | Default Range |
-|------|-------------|---------------|
-| Color | Any valid CSS color | N/A |
-| Number | Any numeric value | 0-1000 (configurable) |
-| Boolean | true/false | N/A |
-| String | Any text | N/A |
+| Type       | Control         | Features                     |
+| ---------- | --------------- | ---------------------------- |
+| `string`   | Text Input      | Basic text field             |
+| `number`   | Slider          | Min/max/step configuration   |
+| `boolean`  | Switch          | On/off toggle                |
+| `color`    | Color Picker    | Color selection              |
+| `gradient` | Gradient Picker | Two colors + angle           |
+| `url`      | Text Input      | URL validation               |
+| `object`   | Object Editor   | Key-value pairs + JSON mode  |
+| `array`    | Array Editor    | Item badges + inline editing |
 
 ## Conclusion
 
 HTML Blocks provide a powerful way to create custom interactive components in Karbonized. By leveraging CSS variables and custom actions, you can build sophisticated user interfaces with real-time editing capabilities.
-
 For more examples and advanced usage patterns, refer to the example blocks included in the documentation or explore the community templates.
