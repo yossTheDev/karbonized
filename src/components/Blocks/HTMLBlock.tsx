@@ -30,8 +30,16 @@ interface CSSVariable {
 interface CustomAction {
 	id: string;
 	label: string;
-	action: string; // JavaScript code to execute
 	icon?: string;
+}
+
+interface ParsedJavaScript {
+	setupCode: string;
+	actions: Array<{
+		id: string;
+		label: string;
+		code: string;
+	}>;
 }
 
 interface Props {
@@ -41,25 +49,17 @@ interface Props {
 export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	const shadowHostRef = useRef<HTMLDivElement>(null);
 	const shadowRootRef = useRef<ShadowRoot | null>(null);
+	const actionHandlersRef = useRef<Map<string, () => void>>(new Map());
 	const [cssVariables, setCSSVariables] = useState<CSSVariable[]>([]);
 	const [customActions, setCustomActions] = useState<CustomAction[]>([]);
 
 	// Component States
 	const [htmlContent, setHTMLContent] = useControlState(
-		`<div class="card">
-  <div class="card-header">
-    <h2 class="card-title">Static Card Demo</h2>
-    <div class="badge" id="counter">0</div>
-  </div>
-  <div class="card-body">
-    <p class="card-text">This card demonstrates HTML Block features for static images:</p>
-    <ul class="feature-list">
-      <li>✨ CSS Variables with live controls</li>
-      <li>🎨 Dynamic color theming</li>
-      <li>📱 Static design for images</li>
-      <li>🔧 Customizable styling</li>
-    </ul>
-  </div>
+		`<div class="container">
+  <h1>Hello World!</h1>
+  <p>Edit this content in the HTML tab</p>
+  <p>Use CSS variables in the :root selector to create dynamic controls.</p>
+  <p>Add custom actions using // @action:Name syntax in JavaScript.</p>
 </div>`,
 		`${id}-html`,
 	);
@@ -67,166 +67,119 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	const [cssContent, setCSSContent] = useControlState(
 		`:root {
   --primary-color: #3b82f6;
-  --secondary-color: #64748b;
-  --accent-color: #f59e0b;
-  --background-color: #ffffff;
-  --text-color: #1f2937;
-  --card-padding: 24px;
-  --border-radius: 16px;
-  --shadow-size: 8px;
-  --show-shadow: true;
+  --text-size: 16px;
   --show-border: true;
-  --spacing: 16px;
+  --spacing: 20px;
 }
 
-.card {
-  background: var(--background-color);
+.container {
+  padding: var(--spacing);
   border: var(--show-border) ? 2px solid var(--primary-color) : none;
-  border-radius: var(--border-radius);
-  box-shadow: var(--show-shadow) ? 0 var(--shadow-size) var(--shadow-size) rgba(0, 0, 0, 0.1) : none;
-  overflow: hidden;
-  max-width: 400px;
-  margin: 0 auto;
+  text-align: center;
 }
 
-.card-header {
-  background: var(--primary-color);
-  color: white;
-  padding: var(--card-padding);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+h1 {
+  color: var(--primary-color);
+  font-size: var(--text-size);
 }
 
-.card-title {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.badge {
-  background: var(--accent-color);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 0.875rem;
-}
-
-.card-body {
-  padding: var(--card-padding);
-}
-
-.card-text {
-  color: var(--text-color);
+p {
   margin-bottom: var(--spacing);
-  line-height: 1.6;
-}
-
-.feature-list {
-  list-style: none;
-  padding: 0;
-  margin: var(--spacing) 0;
-}
-
-.feature-list li {
-  color: var(--text-color);
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.feature-list li:last-child {
-  border-bottom: none;
-}
-
-`,
+}`,
 		`${id}-css`,
 	);
 
 	const [jsContent, setJSContent] = useControlState(
-		`// Interactive Card Demo - HTML Block Features
-let clickCounter = 0;
+		`// Custom JavaScript code
+// This demonstrates the power of HTML Block with arbitrary code execution
 
-// Initialize counter display
-document.addEventListener('DOMContentLoaded', function() {
-  updateCounter();
-  console.log('HTML Block loaded successfully!');
-});
-
-// Update counter display
-function updateCounter() {
-  const counter = document.getElementById('counter');
-  if (counter) {
-    counter.textContent = clickCounter;
+// Helper function to safely get elements (available globally)
+window.safeQuerySelector = function(selector) {
+  try {
+    return document.querySelector(selector);
+  } catch (error) {
+    console.error('Error selecting element:', selector, error);
+    return null;
   }
+};
+
+// @action:Change Container Background
+const container = safeQuerySelector('.container');
+if (container) {
+  try {
+    container.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+    console.log('Background color changed successfully');
+  } catch (error) {
+    console.error('Error changing background:', error);
+  }
+} else {
+  console.warn('Container element not found');
 }
 
-// Animate card function (disabled for static image app)
-function animateCard() {
-  // No animations for static image app
-  console.log('Animations disabled for static image app');
+// @action:Add Random Element
+const containerEl = safeQuerySelector('.container');
+if (containerEl) {
+  try {
+    const newElement = document.createElement('div');
+    newElement.textContent = 'Dynamic element ' + Date.now();
+    newElement.style.padding = '10px';
+    newElement.style.margin = '5px';
+    newElement.style.backgroundColor = '#f0f0f0';
+    newElement.style.border = '1px solid #ccc';
+    containerEl.appendChild(newElement);
+    console.log('Element added successfully');
+  } catch (error) {
+    console.error('Error adding element:', error);
+  }
+} else {
+  console.warn('Container element not found for adding element');
 }
 
-// Custom Actions - These will appear as buttons in the control panel
+// @action:Modify CSS Variables
+try {
+  document.documentElement.style.setProperty('--primary-color', '#' + Math.floor(Math.random()*16777215).toString(16));
+  document.documentElement.style.setProperty('--text-size', (Math.floor(Math.random() * 20) + 12) + 'px');
+  console.log('CSS variables modified successfully');
+} catch (error) {
+  console.error('Error modifying CSS variables:', error);
+}
 
-// @action:Randomize Theme
-const themes = [
-  { primary: '#3b82f6', secondary: '#64748b', accent: '#f59e0b' },
-  { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171' },
-  { primary: '#10b981', secondary: '#059669', accent: '#34d399' },
-  { primary: '#8b5cf6', secondary: '#7c3aed', accent: '#a78bfa' },
-  { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24' }
-];
-const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-document.documentElement.style.setProperty('--primary-color', randomTheme.primary);
-document.documentElement.style.setProperty('--secondary-color', randomTheme.secondary);
-document.documentElement.style.setProperty('--accent-color', randomTheme.accent);
+// @action:Toggle Border Visibility
+try {
+  const currentBorder = getComputedStyle(document.documentElement).getPropertyValue('--show-border').trim();
+  document.documentElement.style.setProperty('--show-border', currentBorder === 'true' ? 'false' : 'true');
+  console.log('Border visibility toggled successfully');
+} catch (error) {
+  console.error('Error toggling border:', error);
+}
 
-// @action:Increment Counter
-clickCounter++;
-updateCounter();
+// @action:Clear All Added Elements
+const containerClear = safeQuerySelector('.container');
+if (containerClear) {
+  try {
+    const elements = containerClear.querySelectorAll('div[style*="background-color"]');
+    elements.forEach(el => el.remove());
+    console.log('Elements cleared successfully');
+  } catch (error) {
+    console.error('Error clearing elements:', error);
+  }
+} else {
+  console.warn('Container element not found for clearing');
+}
 
-// @action:Reset Counter
-clickCounter = 0;
-updateCounter();
-
-// @action:Toggle Shadow
-const currentShadow = getComputedStyle(document.documentElement).getPropertyValue('--show-shadow').trim();
-document.documentElement.style.setProperty('--show-shadow', currentShadow === 'true' ? 'false' : 'true');
-
-// @action:Toggle Border
-const currentBorder = getComputedStyle(document.documentElement).getPropertyValue('--show-border').trim();
-document.documentElement.style.setProperty('--show-border', currentBorder === 'true' ? 'false' : 'true');
-
-// @action:Change Background
-const backgrounds = ['#ffffff', '#f8fafc', '#fef3c7', '#dbeafe', '#ede9fe'];
-const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-document.documentElement.style.setProperty('--background-color', randomBg);
-
-// @action:Grow Card
-const currentPadding = getComputedStyle(document.documentElement).getPropertyValue('--card-padding').trim();
-const newPadding = parseInt(currentPadding) + 4;
-document.documentElement.style.setProperty('--card-padding', Math.min(newPadding, 48) + 'px');
-
-// @action:Shrink Card
-const currentPaddingShrink = getComputedStyle(document.documentElement).getPropertyValue('--card-padding').trim();
-const newPaddingShrink = parseInt(currentPaddingShrink) - 4;
-document.documentElement.style.setProperty('--card-padding', Math.max(newPaddingShrink, 8) + 'px');
-
-// @action:Reset All
-document.documentElement.style.setProperty('--primary-color', '#3b82f6');
-document.documentElement.style.setProperty('--secondary-color', '#64748b');
-document.documentElement.style.setProperty('--accent-color', '#f59e0b');
-document.documentElement.style.setProperty('--background-color', '#ffffff');
-document.documentElement.style.setProperty('--text-color', '#1f2937');
-document.documentElement.style.setProperty('--card-padding', '24px');
-document.documentElement.style.setProperty('--border-radius', '16px');
-document.documentElement.style.setProperty('--shadow-size', '8px');
-document.documentElement.style.setProperty('--show-shadow', 'true');
-document.documentElement.style.setProperty('--show-border', 'true');
-document.documentElement.style.setProperty('--spacing', '16px');
-clickCounter = 0;
-updateCounter();`,
+// @action:Log DOM Info
+try {
+  const containerInfo = safeQuerySelector('.container');
+  console.log('Container element:', containerInfo);
+  console.log('Current CSS variables:', {
+    primaryColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color'),
+    textSize: getComputedStyle(document.documentElement).getPropertyValue('--text-size'),
+    showBorder: getComputedStyle(document.documentElement).getPropertyValue('--show-border')
+  });
+  alert('Check console for DOM information!');
+} catch (error) {
+  console.error('Error logging DOM info:', error);
+}`,
 		`${id}-js`,
 	);
 
@@ -365,32 +318,107 @@ updateCounter();`,
 	};
 
 	// Parse custom actions from JS content
-	const parseCustomActions = (js: string): CustomAction[] => {
-		const actions: CustomAction[] = [];
-		const actionRegex =
-			/\/\/ @action:(.+?)\n([\s\S]*?)(?=\n\/\/ @action:|\n\/\/|$)/g;
-		let match;
+	const parseJavaScript = (js: string): ParsedJavaScript => {
+		const lines = js.split(/\r?\n/);
+		const setupLines: string[] = [];
+		const actions: ParsedJavaScript['actions'] = [];
+		const actionMarkerRegex = /^\s*\/\/\s*@action:(.+?)\s*$/;
 
-		while ((match = actionRegex.exec(js)) !== null) {
-			const label = match[1].trim();
-			const action = match[2].trim();
-			const id = `action_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+		let currentAction: ParsedJavaScript['actions'][number] | null = null;
+		let actionIndex = 0;
 
-			actions.push({
-				id,
-				label,
-				action,
-				icon: 'Play',
-			});
+		for (const line of lines) {
+			const actionMatch = line.match(actionMarkerRegex);
+
+			if (actionMatch) {
+				if (currentAction) {
+					currentAction.code = currentAction.code.trim();
+					actions.push(currentAction);
+				}
+
+				const label = actionMatch[1].trim();
+				currentAction = {
+					id: `action_${actionIndex}_${
+						label
+							.toLowerCase()
+							.replace(/[^a-z0-9]+/g, '-')
+							.replace(/(^-|-$)/g, '') || 'custom'
+					}`,
+					label,
+					code: '',
+				};
+				actionIndex += 1;
+				continue;
+			}
+
+			if (currentAction) {
+				currentAction.code += `${line}\n`;
+			} else {
+				setupLines.push(line);
+			}
 		}
 
-		return actions;
+		if (currentAction) {
+			currentAction.code = currentAction.code.trim();
+			actions.push(currentAction);
+		}
+
+		return {
+			setupCode: setupLines.join('\n').trim(),
+			actions,
+		};
 	};
+
+	const createScopedDocument = (
+		shadowRoot: ShadowRoot,
+		host: HTMLDivElement,
+	): Document & ShadowRoot => {
+		const globalDocument = window.document;
+
+		return new Proxy(globalDocument, {
+			get(target, prop) {
+				switch (prop) {
+					case 'querySelector':
+						return shadowRoot.querySelector.bind(shadowRoot);
+					case 'querySelectorAll':
+						return shadowRoot.querySelectorAll.bind(shadowRoot);
+					case 'getElementById':
+						return shadowRoot.getElementById?.bind(shadowRoot);
+					case 'body':
+						return shadowRoot;
+					case 'head':
+						return shadowRoot;
+					case 'documentElement':
+						return host;
+					case 'activeElement':
+						return shadowRoot.activeElement;
+					case 'addEventListener':
+						return shadowRoot.addEventListener.bind(shadowRoot);
+					case 'removeEventListener':
+						return shadowRoot.removeEventListener.bind(shadowRoot);
+					case 'dispatchEvent':
+						return shadowRoot.dispatchEvent.bind(shadowRoot);
+					default:
+						return Reflect.get(target, prop, target);
+				}
+			},
+		}) as Document & ShadowRoot;
+	};
+
+	const escapeJavaScriptString = (value: string) =>
+		JSON.stringify(value).slice(1, -1);
 
 	// Update CSS variables and custom actions when content changes
 	useEffect(() => {
 		setCSSVariables(parseCSSVariables(cssContent));
-		setCustomActions(parseCustomActions(jsContent));
+		const parsedJavaScript = parseJavaScript(jsContent);
+		setCustomActions(
+			parsedJavaScript.actions.map((action) => ({
+				id: action.id,
+				label: action.label,
+				icon: 'Play',
+			})),
+		);
 	}, [cssContent, jsContent]);
 
 	// Update CSS content when variables change
@@ -433,38 +461,39 @@ updateCounter();`,
 		${scopedCSS}
 		`;
 
-		const processedJS = `
-		// Custom actions API
-		window.htmlBlockAPI = {
-			refresh: () => {
-				console.log('Refresh requested from parent');
-			},
-			log: (message) => {
-				console.log('HTML Block:', message);
-				if (window.parent !== window) {
-					window.parent.postMessage({ type: 'html-block-log', message }, '*');
-				}
-			}
-		};
-		
-		${jsContent}
-		`;
-
-		return { processedCSS, processedJS };
+		return { processedCSS };
 	};
 
 	// Refresh ShadowDOM
 	const refreshShadowDOM = () => {
+		console.log('Refreshing ShadowDOM...');
 		if (shadowHostRef.current) {
 			// Create or get shadow root
 			if (!shadowRootRef.current) {
+				console.log('Creating new shadow root');
 				shadowRootRef.current = shadowHostRef.current.attachShadow({
 					mode: 'open',
 				});
 			}
 
 			const shadowRoot = shadowRootRef.current;
-			const { processedCSS, processedJS } = generateShadowDOMContent();
+			const { processedCSS } = generateShadowDOMContent();
+			const parsedJavaScript = parseJavaScript(jsContent);
+			console.log(
+				`Parsed ${parsedJavaScript.actions.length} actions from JavaScript`,
+			);
+
+			// Only clear action handlers if we're going to re-register them
+			if (allowScriptExecution && parsedJavaScript.actions.length > 0) {
+				console.log(
+					`Clearing ${actionHandlersRef.current.size} existing action handlers for re-registration`,
+				);
+				actionHandlersRef.current.clear();
+			} else {
+				console.log(
+					'Skipping action handler clear - script execution disabled or no actions to register',
+				);
+			}
 
 			// Clear existing content
 			shadowRoot.innerHTML = '';
@@ -481,10 +510,104 @@ updateCounter();`,
 
 			// Execute JavaScript only if allowed
 			if (allowScriptExecution) {
-				const scriptElement = document.createElement('script');
-				scriptElement.textContent = processedJS;
-				shadowRoot.appendChild(scriptElement);
+				console.log('Script execution is allowed, processing JavaScript...');
+				try {
+					const host = shadowHostRef.current;
+					if (!host) return;
+
+					const scopedDocument = createScopedDocument(shadowRoot, host);
+					const safeQuerySelector = (selector: string) => {
+						try {
+							return shadowRoot.querySelector(selector);
+						} catch (error) {
+							console.error('Error selecting element:', selector, error);
+							return null;
+						}
+					};
+
+					const htmlBlockAPI = {
+						refresh: refreshShadowDOM,
+						log: (message: unknown) => {
+							console.log('HTML Block:', message);
+							if (window.parent !== window) {
+								window.parent.postMessage(
+									{ type: 'html-block-log', message },
+									'*',
+								);
+							}
+						},
+						host,
+						root: container,
+						shadowRoot,
+						document: scopedDocument,
+						globalDocument: window.document,
+						registerAction: (actionId: string, handler: () => void) => {
+							console.log(`Registering action handler: ${actionId}`);
+							actionHandlersRef.current.set(actionId, handler);
+							console.log(
+								`Total registered actions: ${actionHandlersRef.current.size}`,
+							);
+						},
+					};
+
+					(
+						window as Window & {
+							htmlBlockAPI?: typeof htmlBlockAPI;
+							safeQuerySelector?: typeof safeQuerySelector;
+						}
+					).htmlBlockAPI = htmlBlockAPI;
+					(
+						window as Window & {
+							htmlBlockAPI?: typeof htmlBlockAPI;
+							safeQuerySelector?: typeof safeQuerySelector;
+						}
+					).safeQuerySelector = safeQuerySelector;
+
+					const actionRegistrations = parsedJavaScript.actions
+						.map(
+							(action) => `
+console.log('Registering action: ${action.label} (ID: ${action.id})');
+registerAction("${escapeJavaScriptString(action.id)}", () => {
+	console.log('Executing action: ${action.label}');
+${action.code}
+});`,
+						)
+						.join('\n');
+
+					const compiledSource = `
+const htmlBlockAPI = window.htmlBlockAPI;
+const registerAction = htmlBlockAPI.registerAction;
+const document = htmlBlockAPI.document;
+const globalDocument = htmlBlockAPI.globalDocument;
+const root = htmlBlockAPI.root;
+const host = htmlBlockAPI.host;
+const shadowRoot = htmlBlockAPI.shadowRoot;
+const safeQuerySelector = window.safeQuerySelector;
+
+${parsedJavaScript.setupCode}
+
+${actionRegistrations}
+`;
+
+					const executeUserCode = new Function(
+						'window',
+						'console',
+						'alert',
+						compiledSource,
+					);
+
+					executeUserCode(window, console, window.alert.bind(window));
+					console.log('JavaScript execution completed successfully');
+				} catch (error) {
+					console.error('Error executing HTML block script:', error);
+				}
+			} else {
+				console.log(
+					'Script execution is disabled, skipping JavaScript execution',
+				);
 			}
+		} else {
+			console.log('Shadow host is not available');
 		}
 	};
 
@@ -496,12 +619,12 @@ updateCounter();`,
 			}, 500); // Debounce refresh
 			return () => clearTimeout(timeoutId);
 		}
-	}, [htmlContent, cssContent, jsContent, autoRefresh]);
+	}, [htmlContent, cssContent, jsContent, autoRefresh, allowScriptExecution]);
 
 	// Initial load
 	useEffect(() => {
 		refreshShadowDOM();
-	}, []);
+	}, [allowScriptExecution]);
 
 	// Execute custom action
 	const executeCustomAction = (action: CustomAction) => {
@@ -512,17 +635,120 @@ updateCounter();`,
 			return;
 		}
 
-		if (shadowRootRef.current) {
-			try {
-				// Execute the action in the ShadowDOM context
-				const script = document.createElement('script');
-				script.textContent = action.action;
-				shadowRootRef.current.appendChild(script);
-				// Remove the script after execution
-				shadowRootRef.current.removeChild(script);
-			} catch (error) {
-				console.error('Error executing custom action:', error);
+		if (!shadowRootRef.current) {
+			console.warn(
+				'Shadow DOM is not initialized. Cannot execute custom action.',
+			);
+			return;
+		}
+
+		try {
+			const actionHandler = actionHandlersRef.current.get(action.id);
+			if (!actionHandler) {
+				console.warn(
+					`Custom action "${action.label}" (ID: ${action.id}) is not registered. Available handlers: [${Array.from(actionHandlersRef.current.keys()).join(', ')}]`,
+				);
+
+				// Try to re-register actions by re-executing the JavaScript
+				console.log('Attempting to re-register actions...');
+				try {
+					const parsedJavaScript = parseJavaScript(jsContent);
+					if (parsedJavaScript.actions.length > 0) {
+						console.log('Re-executing JavaScript to re-register actions...');
+
+						const host = shadowHostRef.current;
+						if (host) {
+							const shadowRoot = shadowRootRef.current;
+							const scopedDocument = createScopedDocument(shadowRoot, host);
+							const safeQuerySelector = (selector: string) => {
+								try {
+									return shadowRoot.querySelector(selector);
+								} catch (error) {
+									console.error('Error selecting element:', selector, error);
+									return null;
+								}
+							};
+
+							const htmlBlockAPI = {
+								refresh: refreshShadowDOM,
+								log: (message: unknown) => {
+									console.log('HTML Block:', message);
+								},
+								host,
+								root: shadowRoot.querySelector('div'),
+								shadowRoot,
+								document: scopedDocument,
+								globalDocument: window.document,
+								registerAction: (actionId: string, handler: () => void) => {
+									console.log(`Re-registering action handler: ${actionId}`);
+									actionHandlersRef.current.set(actionId, handler);
+								},
+							};
+
+							const actionRegistrations = parsedJavaScript.actions
+								.map(
+									(action) => `
+registerAction("${escapeJavaScriptString(action.id)}", () => {
+	console.log('Executing action: ${action.label}');
+${action.code}
+});`,
+								)
+								.join('\n');
+
+							const compiledSource = `
+const htmlBlockAPI = window.htmlBlockAPI;
+const registerAction = htmlBlockAPI.registerAction;
+const document = htmlBlockAPI.document;
+const globalDocument = htmlBlockAPI.globalDocument;
+const root = htmlBlockAPI.root;
+const host = htmlBlockAPI.host;
+const shadowRoot = htmlBlockAPI.shadowRoot;
+const safeQuerySelector = window.safeQuerySelector;
+
+${parsedJavaScript.setupCode}
+
+${actionRegistrations}
+`;
+
+							const executeUserCode = new Function(
+								'window',
+								'console',
+								'alert',
+								compiledSource,
+							);
+
+							// Set up global objects for the execution context
+							(window as any).htmlBlockAPI = htmlBlockAPI;
+							(window as any).safeQuerySelector = safeQuerySelector;
+
+							executeUserCode(window, console, window.alert.bind(window));
+
+							// Now try to execute the action again
+							const reRegisteredHandler = actionHandlersRef.current.get(
+								action.id,
+							);
+							if (reRegisteredHandler) {
+								console.log(
+									`Successfully re-registered and executing action: ${action.label}`,
+								);
+								reRegisteredHandler();
+							} else {
+								console.error(`Failed to re-register action: ${action.label}`);
+							}
+						}
+					}
+				} catch (error) {
+					console.error('Error during action re-registration:', error);
+				}
+				return;
 			}
+
+			console.log(
+				`Executing custom action: ${action.label} (ID: ${action.id})`,
+			);
+			actionHandler();
+		} catch (error) {
+			console.error('Error executing custom action:', error);
 		}
 	};
 
@@ -796,10 +1022,7 @@ updateCounter();`,
 				}
 			>
 				<>
-					<div
-						ref={shadowHostRef}
-						className='w-full h-full pointer-events-none'
-					/>
+					<div ref={shadowHostRef} className='w-full h-full' />
 				</>
 			</ControlTemplate>
 		</>
