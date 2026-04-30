@@ -2,12 +2,12 @@
 
 ## Overview
 
-HTML Blocks in Karbonized allow you to create custom interactive components using HTML, CSS, and JavaScript. These blocks run in a secure iframe sandbox and provide powerful features like CSS variable controls and custom actions.
+HTML Blocks in Karbonized allow you to create custom components using HTML, CSS, and JavaScript. These blocks run in a secure Shadow DOM environment and provide powerful features like CSS variable controls and custom actions.
 
 ## Features
 
-- **Secure iframe sandbox** execution
-- **Live HTML/CSS/JavaScript editing** with syntax highlighting
+- **Secure Shadow DOM** execution
+- **Live HTML/CSS/JavaScript editing**
 - **Automatic CSS variable controls** generation
 - **JavaScript variable controls** with typed inputs
 - **Custom action buttons** for interactive functionality
