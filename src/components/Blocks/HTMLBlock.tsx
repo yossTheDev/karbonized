@@ -117,22 +117,33 @@ if (container) {
 }
 
 // @action:Add Random Element
-const containerEl = safeQuerySelector('.container');
+const containerEl = htmlBlockAPI.safeDOM.querySelector('.container');
+console.log('root:', root);
+console.log('containerEl:', containerEl); 
+ 
 if (containerEl) {
-  try {
-    const newElement = document.createElement('div');
-    newElement.textContent = 'Dynamic element ' + Date.now();
-    newElement.style.padding = '10px';
-    newElement.style.margin = '5px';
-    newElement.style.backgroundColor = '#f0f0f0';
-    newElement.style.border = '1px solid #ccc';
-    containerEl.appendChild(newElement);
-    console.log('Element added successfully');
-  } catch (error) {
-    console.error('Error adding element:', error);
-  }
+    try {
+        const newElement = htmlBlockAPI.safeDOM.createElement('div');
+        if (newElement) {
+            newElement.textContent = 'Dynamic element ' + Date.now();
+            htmlBlockAPI.safeDOM.setStyle(newElement, 'padding', '10px');
+            htmlBlockAPI.safeDOM.setStyle(newElement, 'margin', '5px');
+            htmlBlockAPI.safeDOM.setStyle(newElement, 'backgroundColor', '#f0f0f0');
+            htmlBlockAPI.safeDOM.setStyle(newElement, 'border', '1px solid #ccc');
+            
+            // Usar la API segura para appendChild
+            if (root) {
+                htmlBlockAPI.safeDOM.appendChild(root, newElement);
+            } else {
+                htmlBlockAPI.safeDOM.appendChild(containerEl, newElement);
+            }
+            console.log('Element added successfully');
+        }
+    } catch (error) {
+        console.error('Error adding element:', error);
+    }
 } else {
-  console.warn('Container element not found for adding element');
+    console.warn('Container element not found for adding element');
 }
 
 // @action:Modify CSS Variables
@@ -547,6 +558,50 @@ try {
 							console.log(
 								`Total registered actions: ${actionHandlersRef.current.size}`,
 							);
+						},
+						safeDOM: {
+							querySelector: (selector: string) => {
+								try {
+									return shadowRoot.querySelector(selector);
+								} catch (error) {
+									console.error(
+										'Error in safeDOM.querySelector:',
+										selector,
+										error,
+									);
+									return null;
+								}
+							},
+							createElement: (tagName: string) => {
+								try {
+									return document.createElement(tagName);
+								} catch (error) {
+									console.error(
+										'Error in safeDOM.createElement:',
+										tagName,
+										error,
+									);
+									return null;
+								}
+							},
+							appendChild: (parent: Element, child: Element) => {
+								try {
+									Element.prototype.appendChild.call(parent, child);
+									return true;
+								} catch (error) {
+									console.error('Error in safeDOM.appendChild:', error);
+									return false;
+								}
+							},
+							setStyle: (element: Element, property: string, value: string) => {
+								try {
+									(element as HTMLElement).style.setProperty(property, value);
+									return true;
+								} catch (error) {
+									console.error('Error in safeDOM.setStyle:', error);
+									return false;
+								}
+							},
 						},
 					};
 
