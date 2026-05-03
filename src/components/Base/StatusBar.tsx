@@ -9,7 +9,7 @@ import {
 	CircleDashed,
 } from 'lucide-react';
 import React, { useEffect } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useControlsStore, useUIStore } from '../../stores';
 import { Button } from '../ui/button';
 import { ViewPanel } from '../Panels/ViewPanel';
 import useMousePosition from '@/hooks/useMousePosition';
@@ -20,10 +20,10 @@ export const StatusBar: React.FC = () => {
 	const mousePosition = useMousePosition();
 
 	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const controlPosition = useStoreState((state) => state.controlPosition);
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
-	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const controlPosition = useControlsStore((state) => state.controlPosition);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
+	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
 
 	const handleChangeMode = (): void => {
 		const modes = ['design', 'edit', 'zen'];
@@ -60,7 +60,7 @@ export const StatusBar: React.FC = () => {
 	return (
 		<div className='flex h-9 w-full items-center gap-3 border-t border-border bg-background px-3 text-xs text-muted-foreground shadow-sm'>
 			<>;)</>
-			
+
 			{/* Layout Mode */}
 			<Button
 				className='h-7 gap-1.5 px-2.5 font-medium text-xs'

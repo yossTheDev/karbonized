@@ -18,8 +18,14 @@ import { toBlob, toPng } from 'html-to-image';
 import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { type Project } from '../../stores/AppStore';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { type Project } from '../../types';
+import {
+	useWorkspaceStore,
+	useControlsStore,
+	useHistoryStore,
+	useUIStore,
+	useProjectStore,
+} from '../../stores';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
 import { PROJECT_KEY } from '../../utils/secrets';
@@ -41,6 +47,17 @@ const ProjectWizard = React.lazy(
 	async () => await import('../../pages/ProjectWizard'),
 );
 
+const mergeHistoryById = <T extends { id: string }>(
+	current: T[],
+	incoming: T[],
+): T[] => {
+	const byId = new Map(current.map((item) => [item.id, item]));
+	incoming.forEach((item) => {
+		byId.set(item.id, item);
+	});
+	return Array.from(byId.values());
+};
+
 export const MenuBar: React.FC = () => {
 	/* App Context */
 	const { showWizard, setShowWizard } = useContext(AppContext);
@@ -55,31 +72,75 @@ export const MenuBar: React.FC = () => {
 	const [showDonations, setShowDonations] = useState(false);
 
 	/* Actions */
-	const redo = useStoreActions((state) => state.redo);
-	const undo = useStoreActions((state) => state.undo);
+	const redo = useHistoryStore((state) => state.redo);
+	const undo = useHistoryStore((state) => state.undo);
+	const controlState = useHistoryStore((state) => state.controlState);
 
 	/* App Store */
-	const currentControlProperties = useStoreState(
-		(state) => state.currentControlProperties,
+	const currentControlID = useControlsStore((state) => state.currentControlID);
+	const duplicateControl = useControlsStore((state) => state.duplicateControl);
+	const setCurrentControlID = useControlsStore(
+		(state) => state.setCurrentControlID,
 	);
-	const saveProject = useStoreState((state) => state.saveProject);
-	const loadProject = useStoreActions((state) => state.loadProject);
-
-	const addControl = useStoreActions((state) => state.addControl);
-
-	const addControlProperty = useStoreActions(
-		(state) => state.addControlProperty,
+	const setControlPos = useControlsStore((state) => state.setControlPosition);
+	const setControlSize = useControlsStore((state) => state.setControlSize);
+	const setControlTransform = useControlsStore(
+		(state) => state.setControlTransform,
 	);
-	const addInitialProperty = useStoreActions(
-		(state) => state.addInitialProperty,
-	);
-	const addWorkspace = useStoreActions((state) => state.addWorkspace);
-	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
-	const setIsExporting = useStoreActions((state) => state.setIsExporting);
+	const ControlProperties = useControlsStore((state) => state.ControlProperties);
+	const saveProject = useProjectStore((state) => state.saveProject);
+	const loadProject = useProjectStore((state) => state.loadProject);
 
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const controlID = useStoreState((state) => state.currentControlID);
-	const workspaces = useStoreState((state) => state.workspaces);
+	const addControl = useControlsStore((state) => state.addControl);
+
+	const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
+	const cleanWorkspace = useWorkspaceStore((state) => state.cleanWorkspace);
+	const setWorkspaceControls = useWorkspaceStore(
+		(state) => state.setWorkspaceControls,
+	);
+	const setIsExporting = useUIStore((state) => state.setIsExporting);
+
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const currentWorkspaceID = useWorkspaceStore(
+		(state) => state.currentWorkspaceID,
+	);
+	const workspaces = useWorkspaceStore((state) => state.workspaces);
+
+	const applyHistoryResult = (
+		result:
+			| {
+					type: 'workspace-update';
+					snapshot: { controls: any[]; currentControlID: string };
+					historyId: string;
+			  }
+			| {
+					type: 'control-update';
+					historyId: string;
+			  }
+			| undefined,
+	) => {
+		if (result?.type === 'workspace-update') {
+			setWorkspaceControls(result.snapshot.controls);
+			setCurrentControlID(result.snapshot.currentControlID);
+			return;
+		}
+
+		if (result?.type !== 'control-update' || controlState == null) return;
+
+		if (controlState.id.endsWith('-pos')) {
+			setControlPos(controlState.value);
+			return;
+		}
+
+		if (controlState.id.endsWith('-control_size')) {
+			setControlSize(controlState.value);
+			return;
+		}
+
+		if (controlState.id.endsWith('-transform')) {
+			setControlTransform(controlState.value);
+		}
+	};
 
 	/* Handle Key Shortcuts */
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -133,37 +194,13 @@ export const MenuBar: React.FC = () => {
 	};
 
 	const duplicate = (): void => {
-		/* Copy Control Properties */
-		const newControlID =
-			controlID.split('-')[0] + '-' + getRandomNumber().toString();
+		if (currentControlID === '') return;
 
-		currentControlProperties.forEach((item) => {
-			const id = item.id.split('-');
-			const prop = id[id.length - 1];
-
-			addInitialProperty({
-				id: newControlID + '-' + prop,
-				value: item.value,
-			});
-			addControlProperty({
-				id: newControlID + '-' + prop,
-				value: item.value,
-			});
-		});
-
-		/* Add Control To Workspace */
-		addControl({
-			type:
-				currentWorkspace?.controls?.find((item) => item.id === controlID)
-					?.type ?? newControlID.split('-')[0],
-			id: newControlID,
-			isSelectable: true,
-			isDeleted: false,
-			name: `${newControlID.split('-')[0]} ${getElementsByType(
-				newControlID.split('-')[0],
-			)}`,
-			isVisible: true,
-		});
+		duplicateControl(
+			currentControlID,
+			currentWorkspace,
+			currentWorkspace?.id || '',
+		);
 	};
 
 	const handleShare = async () => {
@@ -212,7 +249,23 @@ export const MenuBar: React.FC = () => {
 							const project = JSON.parse(text) as Project;
 
 							if (project.properties !== null && project.workspace !== null) {
-								loadProject(project);
+								const loadedProject = loadProject(project);
+
+								useWorkspaceStore.setState((state) => ({
+									...state,
+									workspaces: [...state.workspaces, loadedProject.newWorkspace],
+									currentWorkspaceID: loadedProject.workspaceId,
+									currentWorkspace: loadedProject.newWorkspace,
+								}));
+
+								useControlsStore.setState((state) => ({
+									...state,
+									ControlProperties: mergeHistoryById(
+										state.ControlProperties,
+										loadedProject.initialProperties,
+									),
+									currentControlID: '',
+								}));
 							} else {
 								alert('Please provide a valid Karbonized Project');
 							}
@@ -263,9 +316,15 @@ export const MenuBar: React.FC = () => {
 			const data = await toPng(element);
 			setIsExporting(false);
 
-			const project = { ...saveProject, thumb: data };
+			const project = saveProject({
+				currentWorkspace,
+				currentWorkspaceID,
+				controlProperties: ControlProperties,
+			});
 
-			project.workspace.id = getRandomNumber().toString();
+			if (project.workspace) {
+				project.workspace.id = getRandomNumber().toString();
+			}
 
 			const blob = new Blob([JSON.stringify(project)], {
 				type: 'text/plain;charset=utf-8',
@@ -406,7 +465,7 @@ export const MenuBar: React.FC = () => {
 						<MenubarContent>
 							<MenubarItem
 								onClick={() => {
-									undo();
+									applyHistoryResult(undo());
 								}}
 							>
 								Undo
@@ -414,7 +473,7 @@ export const MenuBar: React.FC = () => {
 							</MenubarItem>
 							<MenubarItem
 								onClick={() => {
-									redo();
+									applyHistoryResult(redo());
 								}}
 							>
 								Redo

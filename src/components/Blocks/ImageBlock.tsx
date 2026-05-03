@@ -1,4 +1,4 @@
-import { useStoreActions, useStoreState } from '@/stores/Hooks';
+import { useControlsStore, useWorkspaceStore, useHistoryStore } from '@/stores';
 import { IconBorderStyle, IconPhoto } from '@tabler/icons-react';
 import React, { useRef } from 'react';
 import karbonized from '../../assets/logo.svg';
@@ -24,14 +24,16 @@ export const ImageBlock: React.FC<Props> = ({ id }) => {
 		`${id}-borderRadius`,
 	);
 
-	const setControlSize = useStoreActions((state) => state.setControlSize);
-	const setControlState = useStoreActions((state) => state.setControlState);
-	const setWorkspaceDynamic = useStoreActions(
+	const setControlSize = useControlsStore((state) => state.setControlSize);
+	const setControlState = useHistoryStore((state) => state.setControlState);
+	const setWorkspaceDynamic = useWorkspaceStore(
 		(state) => state.setWorkspaceDynamic,
 	);
-	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
-	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const setWorkspaceType = useWorkspaceStore((state) => state.setWorkspaceType);
+	const currentWorkspaceID = useWorkspaceStore(
+		(state) => state.currentWorkspaceID,
+	);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
 	// Handle Load Image
 	const handleLoadImage = (): void => {

@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, RefreshCcw, Search } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { Item } from '../../stores/AppStore';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import type { Item } from '../../types';
+import { useWorkspaceStore, useControlsStore } from '../../stores';
 import { MenuItem } from './MenuItem';
 
 type LayerFilter = 'all' | 'visible' | 'hidden' | 'locked' | 'groups';
@@ -86,26 +86,40 @@ const flattenVisibleTree = (nodes: LayerNode[]): Item[] =>
 			: flattenVisibleTree(node.children)),
 	]);
 
+const areStringArraysEqual = (left: string[], right: string[]): boolean =>
+	left.length === right.length && left.every((value, index) => value === right[index]);
+
 export const HierarchyPanel: React.FC = () => {
-	const visibleControls = useStoreState((state) => state.visibleControls);
-	const currentControlID = useStoreState((state) => state.currentControlID);
-	const setCurrentControlID = useStoreActions(
-		(state) => state.setcurrentControlID,
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const visibleControls = useMemo(
+		() =>
+			currentWorkspace?.controls?.filter((item: Item) => !item.isDeleted) ?? [],
+		[currentWorkspace],
 	);
-	const toggleControlVisibility = useStoreActions(
+	const currentControlID = useControlsStore((state) => state.currentControlID);
+	const setCurrentControlID = useControlsStore(
+		(state) => state.setCurrentControlID,
+	);
+	const toggleControlVisibility = useControlsStore(
 		(state) => state.toggleControlVisibility,
 	);
-	const toggleControlLock = useStoreActions((state) => state.toggleControlLock);
-	const renameControl = useStoreActions((state) => state.renameControl);
-	const deleteControl = useStoreActions((state) => state.deleteControl);
-	const duplicateControl = useStoreActions((state) => state.duplicateControl);
-	const addGroup = useStoreActions((state) => state.addGroup);
-	const groupControl = useStoreActions((state) => state.groupControl);
-	const ungroupControl = useStoreActions((state) => state.ungroupControl);
-	const moveControlLayer = useStoreActions((state) => state.moveControlLayer);
-	const moveControlByStep = useStoreActions((state) => state.moveControlByStep);
-	const moveControlToEdge = useStoreActions((state) => state.moveControlToEdge);
-	const toggleGroupCollapsed = useStoreActions(
+	const toggleControlLock = useControlsStore(
+		(state) => state.toggleControlLock,
+	);
+	const renameControl = useControlsStore((state) => state.renameControl);
+	const deleteControl = useControlsStore((state) => state.deleteControl);
+	const duplicateControl = useControlsStore((state) => state.duplicateControl);
+	const addGroup = useControlsStore((state) => state.addGroup);
+	const groupControl = useControlsStore((state) => state.groupControl);
+	const ungroupControl = useControlsStore((state) => state.ungroupControl);
+	const moveControlLayer = useControlsStore((state) => state.moveControlLayer);
+	const moveControlByStep = useControlsStore(
+		(state) => state.moveControlByStep,
+	);
+	const moveControlToEdge = useControlsStore(
+		(state) => state.moveControlToEdge,
+	);
+	const toggleGroupCollapsed = useControlsStore(
 		(state) => state.toggleGroupCollapsed,
 	);
 
@@ -134,7 +148,10 @@ export const HierarchyPanel: React.FC = () => {
 
 	useEffect(() => {
 		const validIds = new Set(visibleControls.map((item) => item.id));
-		setSelectedLayerIDs((current) => current.filter((id) => validIds.has(id)));
+		setSelectedLayerIDs((current) => {
+			const nextSelected = current.filter((id) => validIds.has(id));
+			return areStringArraysEqual(current, nextSelected) ? current : nextSelected;
+		});
 		if (selectionAnchorID !== '' && !validIds.has(selectionAnchorID)) {
 			setSelectionAnchorID('');
 		}
@@ -201,7 +218,7 @@ export const HierarchyPanel: React.FC = () => {
 
 	const handleRenameCommit = (value: string) => {
 		if (renamingID !== '') {
-			renameControl({ id: renamingID, name: value });
+			renameControl({ id: renamingID, name: value }, currentWorkspace);
 		}
 
 		setRenamingID('');
@@ -295,28 +312,32 @@ export const HierarchyPanel: React.FC = () => {
 					onToggleVisibility={(id) => {
 						applyToTargets(id, (targetIds) => {
 							targetIds.forEach((targetId) => {
-								toggleControlVisibility(targetId);
+								toggleControlVisibility(targetId, currentWorkspace);
 							});
 						});
 					}}
 					onToggleLock={(id) => {
 						applyToTargets(id, (targetIds) => {
 							targetIds.forEach((targetId) => {
-								toggleControlLock(targetId);
+								toggleControlLock(targetId, currentWorkspace);
 							});
 						});
 					}}
 					onDelete={(id) => {
 						applyToTargets(id, (targetIds) => {
 							targetIds.forEach((targetId) => {
-								deleteControl(targetId);
+								deleteControl(targetId, currentWorkspace);
 							});
 						});
 					}}
 					onDuplicate={(id) => {
 						applyToTargets(id, (targetIds) => {
 							targetIds.forEach((targetId) => {
-								duplicateControl(targetId);
+								duplicateControl(
+									targetId,
+									currentWorkspace,
+									currentWorkspace?.id || '',
+								);
 							});
 						});
 					}}
@@ -327,25 +348,32 @@ export const HierarchyPanel: React.FC = () => {
 						);
 
 						if (targetIds.length > 1) {
-							addGroup({
-								childIds: targetIds,
-								parentId: getSharedParentId(targetItems),
-							});
+							addGroup(
+								{
+									childIds: targetIds,
+									parentId: getSharedParentId(targetItems),
+								},
+								currentWorkspace,
+							);
 							return;
 						}
 
-						groupControl(id);
+						groupControl(id, currentWorkspace);
 					}}
 					onUngroup={(id) => {
 						applyToTargets(id, (targetIds) => {
 							targetIds.forEach((targetId) => {
-								ungroupControl(targetId);
+								ungroupControl(targetId, currentWorkspace);
 							});
 						});
 					}}
-					onMoveStep={(id, direction) => moveControlByStep({ id, direction })}
-					onMoveEdge={(id, position) => moveControlToEdge({ id, position })}
-					onToggleCollapsed={toggleGroupCollapsed}
+					onMoveStep={(id, direction) =>
+						moveControlByStep({ id, direction }, currentWorkspace)
+					}
+					onMoveEdge={(id, position) =>
+						moveControlToEdge({ id, position }, currentWorkspace)
+					}
+					onToggleCollapsed={(id) => toggleGroupCollapsed(id, currentWorkspace)}
 					onDragStart={(id) => {
 						setDraggedId(id);
 						setDropTarget(null);
@@ -368,11 +396,14 @@ export const HierarchyPanel: React.FC = () => {
 						if (draggedId === '') return;
 
 						const position = handleDropPosition(event, item);
-						moveControlLayer({
-							draggedId,
-							targetId: item.id,
-							position,
-						});
+						moveControlLayer(
+							{
+								draggedId,
+								targetId: item.id,
+								position,
+							},
+							currentWorkspace,
+						);
 						setDraggedId('');
 						setDropTarget(null);
 					}}
@@ -408,19 +439,25 @@ export const HierarchyPanel: React.FC = () => {
 						size='icon-sm'
 						onClick={() => {
 							if (selectedCount > 1) {
-								addGroup({
-									childIds: selectedLayerIDs,
-									parentId: getSharedParentId(selectedItems),
-								});
+								addGroup(
+									{
+										childIds: selectedLayerIDs,
+										parentId: getSharedParentId(selectedItems),
+									},
+									currentWorkspace,
+								);
 								return;
 							}
 
-							addGroup({
-								parentId:
-									activeLayer?.type === 'group'
-										? activeLayer.id
-										: (activeLayer?.parentId ?? null),
-							});
+							addGroup(
+								{
+									parentId:
+										activeLayer?.type === 'group'
+											? activeLayer.id
+											: (activeLayer?.parentId ?? null),
+								},
+								currentWorkspace,
+							);
 						}}
 						title={
 							selectedCount > 1

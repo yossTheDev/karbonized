@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { useStoreState } from '../stores/Hooks';
+import { useWorkspaceStore } from '../stores';
 
 /* Svg Textures */
 const Coil = React.lazy(async () => await import('./Misc/SvgBackgrounds/Coil'));
@@ -31,7 +31,7 @@ const Flux = React.lazy(async () => await import('./Misc/SvgBackgrounds/Flux'));
 export const WorkspaceTexture: React.FC<{
 	texture: string;
 }> = ({ texture }) => {
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
 	if (currentWorkspace == null) {
 		return <></>;

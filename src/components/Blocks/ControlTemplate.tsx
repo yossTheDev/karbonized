@@ -5,7 +5,12 @@ import { toJpeg, toPng, toSvg } from 'html-to-image';
 import React, { useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { useControlState } from '../../hooks/useControlState';
 import { useKeyPress } from '../../hooks/useKeyPress';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import {
+	useWorkspaceStore,
+	useControlsStore,
+	useUIStore,
+	useHistoryStore,
+} from '../../stores';
 import { ControlContextMenu } from './ControlContextMenu';
 import { ControlMenu } from './ControlMenu';
 
@@ -50,30 +55,29 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	onCreateDynamicBackground,
 }) => {
 	// App Store
-	const controlID = useStoreState((state) => state.currentControlID);
-	const workspaceName = useStoreState((state) => state.workspaceName);
-
-	const controls = useStoreState((state) => state.ControlsTree);
-	const controlSize = useStoreState((state) => state.controlSize);
-	const controlTransform = useStoreState((state) => state.controlTransform);
-	const setControlSize = useStoreActions((state) => state.setControlSize);
-	const controlPos = useStoreState((state) => state.controlPosition);
-	const setControlPos = useStoreActions((state) => state.setControlPosition);
-	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
-	const pastHistory = useStoreState((state) => state.pastHistory);
-	const setPastHistory = useStoreActions((state) => state.setPast);
-	const setFutureHistory = useStoreActions((state) => state.setFuture);
-	const setControlState = useStoreActions((state) => state.setControlState);
-	const setControls = useStoreActions((state) => state.setControls);
-	const setWorkspaceControls = useStoreActions(
-		(state) => state.setWorkspaceControls,
+	const controlID = useControlsStore((state) => state.currentControlID);
+	const workspaceName = useWorkspaceStore(
+		(state) => state.currentWorkspace?.workspaceName || '',
 	);
-	const deleteControl = useStoreActions((state) => state.deleteControl);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const controlSize = useControlsStore((state) => state.controlSize);
+	const controlTransform = useControlsStore((state) => state.controlTransform);
+	const setControlSize = useControlsStore((state) => state.setControlSize);
+	const controlPos = useControlsStore((state) => state.controlPosition);
+	const setControlPos = useControlsStore((state) => state.setControlPosition);
+	const setControlTransform = useControlsStore(
+		(state) => state.setControlTransform,
+	);
+	const setWorkspaceTab = useUIStore((state) => state.setSelectedTab);
+	const pastHistory = useHistoryStore((state) => state.pastHistory);
+	const setPastHistory = useHistoryStore((state) => state.setPast);
+	const setFutureHistory = useHistoryStore((state) => state.setFuture);
+	const setControlState = useHistoryStore((state) => state.setControlState);
+	const deleteControl = useControlsStore((state) => state.deleteControl);
 
-	const setID = useStoreActions((state) => state.setcurrentControlID);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
-	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
+	const setID = useControlsStore((state) => state.setCurrentControlID);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
+	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
 
 	// Component States
 	const [zIndex, setzIndex] = useControlState('0', `${id}-zindex`);
@@ -141,36 +145,25 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	/* Delete Element when Delete Key is pressed */
 	const isPressed = useKeyPress('Delete');
 	useEffect(() => {
-		if (controlID === id) {
-			deleteControl(id);
+		if (isPressed && controlID === id) {
+			deleteControl(id, currentWorkspace);
 		}
-	}, [deleteControl, id, isPressed]);
+	}, [controlID, currentWorkspace, deleteControl, id, isPressed]);
 
-	/* Manage Controls Visibility */
+	/* Sync the selected control with the shared editor state on selection */
 	useEffect(() => {
-		if (visibility) {
-			if (currentWorkspace !== undefined)
-				setWorkspaceControls(
-					currentWorkspace.controls.map((item) =>
-						item.id === id ? { ...item, isDeleted: false } : item,
-					),
-				);
-		}
+		if (id !== controlID) return;
 
-		if (!visibility) {
-			setControls(
-				controls.map((item) =>
-					item.id === id ? { ...item, isDeleted: true } : item,
-				),
-			);
-		} else {
-			setControls(
-				controls.map((item) =>
-					item.id === id ? { ...item, isDeleted: false } : item,
-				),
-			);
-		}
-	}, [visibility]);
+		setControlPos({
+			x: position.x,
+			y: position.y,
+		});
+		setControlSize({
+			w: size.w,
+			h: size.h,
+		});
+		setControlTransform(transform);
+	}, [controlID, id, setControlPos, setControlSize, setControlTransform]);
 
 	const Masks = [
 		'default',
@@ -197,38 +190,42 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (id === controlID) {
+		if (
+			id === controlID &&
+			controlPos !== undefined &&
+			Number.isFinite(controlPos.x) &&
+			Number.isFinite(controlPos.y)
+		) {
 			setPosition({
 				x: controlPos?.x as unknown as number,
 				y: controlPos?.y as unknown as number,
 			});
 		}
-	}, [controlPos]);
+	}, [controlPos, id, controlID]);
 
 	useEffect(() => {
-		if (id === controlID) {
+		if (
+			id === controlID &&
+			controlSize !== undefined &&
+			Number.isFinite(controlSize.w) &&
+			Number.isFinite(controlSize.h)
+		) {
 			setSize({
 				w: controlSize?.w as unknown as number,
 				h: controlSize?.h as unknown as number,
 			});
 		}
-	}, [controlSize]);
+	}, [controlSize, id, controlID]);
 
 	useEffect(() => {
 		if (id === controlID) {
 			if (controlTransform !== undefined) setTransform(controlTransform);
 		}
-	}, [controlTransform]);
-
-	useEffect(() => {
-		console.log('actualizado');
-	}, [transform]);
+	}, [controlTransform, id, controlID]);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {
 		if (ref.current === null) {
-			console.log('NULL');
-
 			return;
 		}
 
@@ -240,18 +237,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				link.download = workspaceName + '.png';
 				link.href = dataUrl;
 				link.click();
-				console.log('SAVED');
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	}, [ref, workspaceName]);
 
 	// Save Image as SVG
 	const exportAsSvg = useCallback(async () => {
 		if (ref.current === null) {
-			console.log('NULL');
-
 			return;
 		}
 
@@ -263,18 +257,15 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				link.download = workspaceName + '.svg';
 				link.href = dataUrl;
 				link.click();
-				console.log('SAVED');
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	}, [ref, workspaceName]);
 
 	// Save Image as JPEG
 	const exportAsJpeg = useCallback(async () => {
 		if (ref.current === null) {
-			console.log('NULL');
-
 			return;
 		}
 
@@ -286,12 +277,38 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				link.download = workspaceName + '.jpeg';
 				link.href = dataUrl;
 				link.click();
-				console.log('SAVED');
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	}, [ref, workspaceName]);
+
+	const syncSelectionState = useCallback(() => {
+		if (controlID === id) return;
+
+		setID(id);
+		setControlPos({
+			x: position.x,
+			y: position.y,
+		});
+		setControlSize({
+			w: size.w,
+			h: size.h,
+		});
+		setControlTransform(transform);
+	}, [
+		controlID,
+		id,
+		position.x,
+		position.y,
+		setControlPos,
+		setControlSize,
+		setControlTransform,
+		setID,
+		size.h,
+		size.w,
+		transform,
+	]);
 
 	return (
 		<>
@@ -308,16 +325,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 						contextMenu={contextMenu}
 						setID={setID}
 						removeControl={() => {
-							deleteControl(id);
+							deleteControl(id, currentWorkspace);
 						}}
 					>
 						<ContextMenuTrigger>
 							<motion.div
 								id={id}
 								key={id}
-								onMouseEnter={() => {
-									console.log(id);
-								}}
 								className={`absolute flex flex-auto select-none block-${id} ${
 									!maskRepeat && 'mask'
 								}  ${mask}`}
@@ -341,28 +355,8 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 							>
 								<div
 									className='flex flex-auto'
-									onClick={() => {
-										setID(id);
-										setControlPos({
-											x: position.x,
-											y: position.y,
-										});
-										setControlSize({
-											w: size.w,
-											h: size.h,
-										});
-									}}
-									onTouchStart={() => {
-										setID(id);
-										setControlPos({
-											x: position.x,
-											y: position.y,
-										});
-										setControlSize({
-											w: size.w,
-											h: size.h,
-										});
-									}}
+									onMouseDown={syncSelectionState}
+									onTouchStart={syncSelectionState}
 									onDoubleClick={() => {
 										setWorkspaceTab('control');
 
@@ -429,8 +423,11 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 					setControlPos={setControlPos}
 					setControlSize={setControlSize}
 					currentWorkspace={currentWorkspace}
-					setWorkspaceControls={setWorkspaceControls}
+					setWorkspaceControls={() => {}}
 					setID={setID}
+					onDeleteControl={() => {
+						deleteControl(id, currentWorkspace);
+					}}
 					flipX={flipX}
 					setFlipX={setFlipX}
 					flipY={flipY}

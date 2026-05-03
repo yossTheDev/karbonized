@@ -18,7 +18,11 @@ import { useControlState } from '../../hooks/useControlState';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Slider } from '../ui/slider';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import {
+	useControlsStore,
+	useWorkspaceStore,
+	useHistoryStore,
+} from '../../stores';
 import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 
 /* Devices Mockups */
@@ -113,11 +117,11 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	);
 
 	const [drop, setDrop] = useControlState(false, `${id}-drop`);
-	const setWorkspaceDynamic = useStoreActions(
+	const setWorkspaceDynamic = useWorkspaceStore(
 		(state) => state.setWorkspaceDynamic,
 	);
-	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const setWorkspaceType = useWorkspaceStore((state) => state.setWorkspaceType);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
 	const handleCreateDynamicBackground = async (): Promise<void> => {
 		if (contentImageRef.current == null || currentWorkspace == null) {

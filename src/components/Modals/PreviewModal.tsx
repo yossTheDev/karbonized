@@ -13,7 +13,7 @@ import karbonized from '../../assets/logo.svg';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { toBlob, toJpeg } from 'html-to-image';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useUIStore } from '../../stores';
 
 interface Props {
 	open: boolean;
@@ -25,8 +25,8 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	const [previewImage, setPreviewImage] = useState('');
 
 	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const setIsExporting = useStoreActions((state) => state.setIsExporting);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const setIsExporting = useUIStore((state) => state.setIsExporting);
 
 	/* Actions */
 	const exportImage = async (type: export_format) => {

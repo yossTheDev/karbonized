@@ -4,7 +4,7 @@ import { Input } from 'react-daisyui';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
 import { type Extension } from '../../models/Extension';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useControlsStore } from '../../stores';
 import { getRandomNumber } from '../../utils/getRandom';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
@@ -176,9 +176,9 @@ export const ExtensionPanel: React.FC = () => {
 };
 
 const ItemsList = ({ data }: { data: any }) => {
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const addControl = useStoreActions((state) => state.addControl);
-	const addInitialProperty = useStoreActions(
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const addControl = useControlsStore((state) => state.addControl);
+	const addInitialProperty = useControlsStore(
 		(state) => state.addInitialProperty,
 	);
 	const getElementsByType = (type: string) => {
@@ -191,16 +191,22 @@ const ItemsList = ({ data }: { data: any }) => {
 	const handleAddItem = (code: string, name: string) => {
 		const num = getRandomNumber();
 
-		addInitialProperty({ id: `${name}-${num}-code`, value: code });
+		addInitialProperty(
+			{ id: `${name}-${num}-code`, value: code },
+			currentWorkspace?.id || '',
+		);
 
-		addControl({
-			type: 'custom',
-			id: `${name}-${num}`,
-			isSelectable: true,
-			isDeleted: false,
-			name: `${name} ${getElementsByType(name)}`,
-			isVisible: true,
-		});
+		addControl(
+			{
+				type: 'custom',
+				id: `${name}-${num}`,
+				isSelectable: true,
+				isDeleted: false,
+				name: `${name} ${getElementsByType(name)}`,
+				isVisible: true,
+			},
+			currentWorkspace?.id || '',
+		);
 	};
 	const Row = ({ index, style }: { index: number; style: any }) => {
 		return (

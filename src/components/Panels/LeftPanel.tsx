@@ -37,7 +37,7 @@ import {
 import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useControlsStore, useUIStore } from '../../stores';
 import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { Separator } from '../ui/separator';
@@ -45,19 +45,22 @@ import { IconBrandHtml5, IconBrandX, IconHtml } from '@tabler/icons-react';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
-	const addControl = useStoreActions((state) => state.addControl);
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
-	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
-	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
-	const setEditing = useStoreActions((state) => state.setEditing);
-	const editing = useStoreState((state) => state.editing);
-	const drag = useStoreState((state) => state.drag);
-	const setDrag = useStoreActions((state) => state.setDrag);
-	const crop = useStoreState((state) => state.crop);
-	const setCrop = useStoreActions((state) => state.setCrop);
-	const warp = useStoreState((state) => state.warp);
-	const setWarp = useStoreActions((state) => state.setWarp);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const addControl = useControlsStore((state) => state.addControl);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
+	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
+	const setWorkspaceTab = useUIStore((state) => state.setSelectedTab);
+	const setEditing = useUIStore((state) => state.setEditing);
+	const editing = useUIStore((state) => state.editing);
+	const drag = useUIStore((state) => state.drag);
+	const setDrag = useUIStore((state) => state.setDrag);
+	const crop = useUIStore((state) => state.crop);
+	const setCrop = useUIStore((state) => state.setCrop);
+	const warp = useUIStore((state) => state.warp);
+	const setWarp = useUIStore((state) => state.setWarp);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const currentWorkspaceID = useWorkspaceStore(
+		(state) => state.currentWorkspaceID,
+	);
 
 	/* Component State */
 	const isHorizontal = useScreenDirection();
@@ -136,14 +139,17 @@ export const LeftPanel: React.FC = () => {
 				icon: CodeSquare,
 				label: 'Code',
 				action: () => {
-					addControl({
-						type: 'code',
-						id: `code-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `code ${getElementsByType('code')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'code',
+							id: `code-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `code ${getElementsByType('code')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -152,14 +158,17 @@ export const LeftPanel: React.FC = () => {
 				icon: Image,
 				label: 'Image',
 				action: () => {
-					addControl({
-						type: 'image',
-						id: `image-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `image ${getElementsByType('image')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'image',
+							id: `image-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `image ${getElementsByType('image')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -168,14 +177,17 @@ export const LeftPanel: React.FC = () => {
 				icon: Sticker,
 				label: 'Icon',
 				action: () => {
-					addControl({
-						type: 'icon',
-						id: `icon-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `icon ${getElementsByType('icon')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'icon',
+							id: `icon-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `icon ${getElementsByType('icon')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -184,14 +196,17 @@ export const LeftPanel: React.FC = () => {
 				icon: Type,
 				label: 'Text',
 				action: () => {
-					addControl({
-						type: 'text',
-						id: `text-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `text ${getElementsByType('text')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'text',
+							id: `text-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `text ${getElementsByType('text')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -200,14 +215,17 @@ export const LeftPanel: React.FC = () => {
 				icon: Circle,
 				label: 'Shape',
 				action: () => {
-					addControl({
-						type: 'shape',
-						id: `shape-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `shape ${getElementsByType('shape')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'shape',
+							id: `shape-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `shape ${getElementsByType('shape')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -216,14 +234,17 @@ export const LeftPanel: React.FC = () => {
 				icon: Smartphone,
 				label: 'Phone',
 				action: () => {
-					addControl({
-						type: 'phone_mockup',
-						id: `phone_mockup-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `phone mockup ${getElementsByType('phone_mockup')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'phone_mockup',
+							id: `phone_mockup-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `phone mockup ${getElementsByType('phone_mockup')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -232,14 +253,17 @@ export const LeftPanel: React.FC = () => {
 				icon: QrCode,
 				label: 'QR Code',
 				action: () => {
-					addControl({
-						type: 'qr',
-						id: `qr-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `qr ${getElementsByType('qr')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'qr',
+							id: `qr-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `qr ${getElementsByType('qr')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -248,14 +272,17 @@ export const LeftPanel: React.FC = () => {
 				icon: Badge,
 				label: 'Badge',
 				action: () => {
-					addControl({
-						type: 'badge',
-						id: `badge-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `badge ${getElementsByType('badge')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'badge',
+							id: `badge-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `badge ${getElementsByType('badge')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -264,14 +291,17 @@ export const LeftPanel: React.FC = () => {
 				icon: IconBrandX,
 				label: 'Tweet',
 				action: () => {
-					addControl({
-						type: 'tweet',
-						id: `tweet-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `tweet ${getElementsByType('tweet')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'tweet',
+							id: `tweet-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `tweet ${getElementsByType('tweet')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -280,14 +310,17 @@ export const LeftPanel: React.FC = () => {
 				icon: AppWindow,
 				label: 'Window',
 				action: () => {
-					addControl({
-						type: 'window',
-						id: `window-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `window ${getElementsByType('window')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'window',
+							id: `window-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `window ${getElementsByType('window')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},
@@ -296,14 +329,17 @@ export const LeftPanel: React.FC = () => {
 				icon: IconBrandHtml5,
 				label: 'HTML',
 				action: () => {
-					addControl({
-						type: 'html',
-						id: `html-${getRandomNumber()}`,
-						isSelectable: true,
-						isDeleted: false,
-						name: `html ${getElementsByType('html')}`,
-						isVisible: true,
-					});
+					addControl(
+						{
+							type: 'html',
+							id: `html-${getRandomNumber()}`,
+							isSelectable: true,
+							isDeleted: false,
+							name: `html ${getElementsByType('html')}`,
+							isVisible: true,
+						},
+						currentWorkspaceID,
+					);
 				},
 				isActive: false,
 			},

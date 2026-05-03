@@ -27,7 +27,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '../ui/select';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useControlsStore } from '../../stores';
 import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 
 interface Props {
@@ -55,11 +55,11 @@ export const WindowBlock: React.FC<Props> = ({ id }) => {
 	);
 
 	const [src, setSrc] = useControlState(karbonized, `${id}-src`);
-	const setWorkspaceDynamic = useStoreActions(
+	const setWorkspaceDynamic = useWorkspaceStore(
 		(state) => state.setWorkspaceDynamic,
 	);
-	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const setWorkspaceType = useWorkspaceStore((state) => state.setWorkspaceType);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
 	const handleCreateDynamicBackground = async (): Promise<void> => {
 		if (contentImageRef.current == null || currentWorkspace == null) {

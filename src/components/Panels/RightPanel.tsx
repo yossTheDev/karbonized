@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { usePanelRef } from 'react-resizable-panels';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useControlsStore, useUIStore } from '../../stores';
 import { WorkspacePanel } from './WorkspacePanel';
 import { ResizablePanel } from '../ui/resizable';
 import { Button } from '../ui/button';
@@ -20,9 +20,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
-	const currentID = useStoreState((state) => state.currentControlID);
-	const workspaceTab = useStoreState((state) => state.selectedTab);
-	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
+	const currentID = useControlsStore((state) => state.currentControlID);
+	const workspaceTab = useUIStore((state) => state.selectedTab);
+	const setWorkspaceTab = useUIStore((state) => state.setSelectedTab);
 
 	/* Component State */
 	const panel = usePanelRef();
@@ -31,8 +31,8 @@ export const RightPanel: React.FC = () => {
 		'control',
 	);
 
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
-	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
+	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
 
 	/* Show/Close Menu KeyShortcut */
 	const onKeyDown = (event: KeyboardEvent): void => {

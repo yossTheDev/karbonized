@@ -17,7 +17,13 @@ import React, {
 import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { useScreenDirection } from '../hooks/useScreenDirection';
-import { useStoreActions, useStoreState } from '../stores/Hooks';
+import {
+	useWorkspaceStore,
+	useControlsStore,
+	useHistoryStore,
+	useUIStore,
+	useDrawingStore,
+} from '../stores';
 import { getRandomNumber } from '../utils/getRandom';
 
 const Workspace = React.lazy(
@@ -43,25 +49,36 @@ export const Editor: React.FC = () => {
 	const { viewerRef } = useContext(AppContext);
 
 	/* App Store */
-	const addControl = useStoreActions((state) => state.addControl);
-	const duplicateControl = useStoreActions((state) => state.duplicateControl);
-	const drag = useStoreState((state) => state.drag);
-	const canDraw = useStoreState((state) => state.isDrawing);
-	const isErasing = useStoreState((state) => state.isErasing);
-	const lineWidth = useStoreState((state) => state.lineWidth);
-	const strokeColor = useStoreState((state) => state.strokeColor);
-	const setStrokeColor = useStoreActions((state) => state.setStrokeColor);
-	const setLineWidth = useStoreActions((state) => state.setLineWidth);
-	const aspectRatio = useStoreState((state) => state.lockAspect);
-	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const duplicateControl = useControlsStore((state) => state.duplicateControl);
+	const setCurrentControlID = useControlsStore(
+		(state) => state.setCurrentControlID,
+	);
+	const setControlPos = useControlsStore((state) => state.setControlPosition);
+	const setControlSize = useControlsStore((state) => state.setControlSize);
+	const setControlTransform = useControlsStore(
+		(state) => state.setControlTransform,
+	);
+	const drag = useUIStore((state) => state.drag);
+	const canDraw = useDrawingStore((state) => state.isDrawing);
+	const isErasing = useDrawingStore((state) => state.isErasing);
+	const lineWidth = useDrawingStore((state) => state.lineWidth);
+	const strokeColor = useDrawingStore((state) => state.strokeColor);
+	const setStrokeColor = useDrawingStore((state) => state.setStrokeColor);
+	const setLineWidth = useDrawingStore((state) => state.setLineWidth);
+	const aspectRatio = useUIStore((state) => state.lockAspect);
+	const setAspectRatio = useUIStore((state) => state.setLockAspect);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const setWorkspaceControls = useWorkspaceStore(
+		(state) => state.setWorkspaceControls,
+	);
 
 	/* Copy/Paste System */
-	const controlID = useStoreState((state) => state.currentControlID);
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
+	const controlID = useControlsStore((state) => state.currentControlID);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
 
-	const redo = useStoreActions((state) => state.redo);
-	const undo = useStoreActions((state) => state.undo);
+	const redo = useHistoryStore((state) => state.redo);
+	const undo = useHistoryStore((state) => state.undo);
+	const controlState = useHistoryStore((state) => state.controlState);
 
 	/* Component Store and Actions */
 	const isHorizontal = useScreenDirection();
@@ -72,12 +89,40 @@ export const Editor: React.FC = () => {
 
 	const [zoom, setZoom] = useState(isHorizontal ? 0.9 : 0.4);
 
-	const getElementsByType = (type: string): number | undefined => {
-		if (currentWorkspace !== undefined)
-			return (
-				currentWorkspace?.controls.filter((item) => item.type === type)
-					?.length + 1
-			);
+	const applyHistoryResult = (
+		result:
+			| {
+					type: 'workspace-update';
+					snapshot: { controls: any[]; currentControlID: string };
+					historyId: string;
+			  }
+			| {
+					type: 'control-update';
+					historyId: string;
+			  }
+			| undefined,
+	) => {
+		if (result?.type === 'workspace-update') {
+			setWorkspaceControls(result.snapshot.controls);
+			setCurrentControlID(result.snapshot.currentControlID);
+			return;
+		}
+
+		if (result?.type !== 'control-update' || controlState == null) return;
+
+		if (controlState.id.endsWith('-pos')) {
+			setControlPos(controlState.value);
+			return;
+		}
+
+		if (controlState.id.endsWith('-control_size')) {
+			setControlSize(controlState.value);
+			return;
+		}
+
+		if (controlState.id.endsWith('-transform')) {
+			setControlTransform(controlState.value);
+		}
 	};
 
 	const centerView = (): void => {
@@ -118,10 +163,10 @@ export const Editor: React.FC = () => {
 			event.preventDefault();
 		} else if (event.ctrlKey && event.key === 'z') {
 			event.preventDefault();
-			undo();
+			applyHistoryResult(undo());
 		} else if (event.ctrlKey && event.key === 'y') {
 			event.preventDefault();
-			redo();
+			applyHistoryResult(redo());
 		} else if (event.ctrlKey && event.key === ' ') {
 			event.preventDefault();
 			centerView();
@@ -147,7 +192,11 @@ export const Editor: React.FC = () => {
 		const OnKeyDown = (event: KeyboardEvent): void => {
 			if (event.ctrlKey && event.key === 'd' && controlID !== '') {
 				event.preventDefault();
-				duplicateControl(controlID);
+				duplicateControl(
+					controlID,
+					currentWorkspace,
+					currentWorkspace?.id || '',
+				);
 			}
 		};
 
@@ -156,7 +205,7 @@ export const Editor: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', OnKeyDown);
 		};
-	}, [controlID, duplicateControl]);
+	}, [controlID, currentWorkspace, duplicateControl]);
 
 	return (
 		<div className='flex h-full w-full flex-col overflow-hidden'>

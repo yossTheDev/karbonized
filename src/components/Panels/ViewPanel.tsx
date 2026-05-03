@@ -2,7 +2,7 @@ import { AppContext } from '@/AppContext';
 import { isElectron } from '@/utils/isElectron';
 import React, { useContext } from 'react';
 import { Button } from '../ui/button';
-import { useStoreActions, useStoreState } from '@/stores/Hooks';
+import { useWorkspaceStore, useUIStore } from '@/stores';
 import {
 	Focus,
 	Lock,
@@ -16,9 +16,9 @@ import { Separator } from '../ui/separator';
 
 export const ViewPanel: React.FC = () => {
 	const { viewerRef, theme, toggleTheme } = useContext(AppContext);
-	const aspectRatio = useStoreState((state) => state.lockAspect);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const setAspectRatio = useStoreActions((state) => state.setLockAspect);
+	const aspectRatio = useUIStore((state) => state.lockAspect);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const setAspectRatio = useUIStore((state) => state.setLockAspect);
 
 	const centerView = (): void => {
 		const width = parseFloat(currentWorkspace?.workspaceWidth || '0');

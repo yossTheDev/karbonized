@@ -1,6 +1,17 @@
 /* eslint-disable array-callback-return */
-import React, { type RefObject, Suspense, useMemo } from 'react';
-import { useStoreActions, useStoreState } from '../stores/Hooks';
+import React, {
+	type RefObject,
+	Suspense,
+	useLayoutEffect,
+	useMemo,
+	useState,
+} from 'react';
+import {
+	useWorkspaceStore,
+	useControlsStore,
+	useUIStore,
+	useHistoryStore,
+} from '../stores';
 import { ControlHandler } from './Blocks/ControlHandler';
 import { MeshGradient } from './Misc/MeshGradient';
 import { LavaLampBackground } from './Misc/LavaLampBackground';
@@ -29,47 +40,74 @@ interface Props {
 }
 export const Workspace: React.FC<Props> = ({ reference }) => {
 	/* App Store */
-	const controlID = useStoreState((state) => state.currentControlID);
-	const currentControl = useStoreState((state) => state.currentControl);
-	const controlsClass = useStoreState((state) => state.controlsClass);
-	const controlProperties = useStoreState((state) => state.ControlProperties);
+	const controlID = useControlsStore((state) => state.currentControlID);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const currentControls = currentWorkspace?.controls ?? [];
+	const currentControl = useMemo(() => {
+		return currentControls.find((item) => item.id === controlID);
+	}, [currentControls, controlID]);
 
-	const editing = useStoreState((state) => state.editing);
-	const crop = useStoreState((state) => state.crop);
-	const warp = useStoreState((state) => state.warp);
-	const lockAspect = useStoreState((state) => state.lockAspect);
-	const isExporting = useStoreState((state) => state.isExporting);
+	const controlsClass = useMemo(() => {
+		const controlsClass: string[] = [];
+		currentControls.forEach((item) => {
+			if (item.id !== controlID) {
+				controlsClass.push('.block-' + item.id);
+			}
+		});
+		return controlsClass;
+	}, [currentControls, controlID]);
+	const controlProperties = useControlsStore(
+		(state) => state.ControlProperties,
+	);
 
-	const workspaces = useStoreState((state) => state.workspaces);
-	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
+	const editing = useUIStore((state) => state.editing);
+	const crop = useUIStore((state) => state.crop);
+	const warp = useUIStore((state) => state.warp);
+	const lockAspect = useUIStore((state) => state.lockAspect);
+	const isExporting = useUIStore((state) => state.isExporting);
 
-	const setControlTransform = useStoreActions(
+	const workspaces = useWorkspaceStore((state) => state.workspaces);
+	const currentWorkspaceID = useWorkspaceStore(
+		(state) => state.currentWorkspaceID,
+	);
+
+	const setControlTransform = useControlsStore(
 		(state) => state.setControlTransform,
 	);
-	const setControlSize = useStoreActions((state) => state.setControlSize);
-	const setControlPos = useStoreActions((state) => state.setControlPosition);
-	const setControlProperties = useStoreActions(
+	const setControlSize = useControlsStore((state) => state.setControlSize);
+	const setControlPos = useControlsStore((state) => state.setControlPosition);
+	const setControlProperties = useControlsStore(
 		(state) => state.setControlProperties,
 	);
 
-	const setControlState = useStoreActions((state) => state.setControlState);
-	const pastHistory = useStoreState((state) => state.pastHistory);
-	const setPastHistory = useStoreActions((state) => state.setPast);
-	const setFutureHistory = useStoreActions((state) => state.setFuture);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const blurAmount = currentWorkspace?.workspaceBlur ?? 0;
-	const noiseAmount = currentWorkspace?.workspaceNoise ?? 0;
-	const blurSpread = Math.max(blurAmount * 2, 0);
-	const dynamicColors = currentWorkspace?.workspaceDynamicSettings.colors ?? [];
+	const setControlState = useHistoryStore((state) => state.setControlState);
+	const pastHistory = useHistoryStore((state) => state.pastHistory);
+	const setPastHistory = useHistoryStore((state) => state.setPast);
+	const setFutureHistory = useHistoryStore((state) => state.setFuture);
+	const blurAmount = useMemo(
+		() => currentWorkspace?.workspaceBlur ?? 0,
+		[currentWorkspace],
+	);
+	const noiseAmount = useMemo(
+		() => currentWorkspace?.workspaceNoise ?? 0,
+		[currentWorkspace],
+	);
+	const blurSpread = useMemo(() => Math.max(blurAmount * 2, 0), [blurAmount]);
+	const dynamicColors = useMemo(
+		() => currentWorkspace?.workspaceDynamicSettings.colors ?? [],
+		[currentWorkspace],
+	);
 
-	const workspaceBaseBackground =
-		currentWorkspace?.workspaceType === 'dynamic' && dynamicColors.length > 0
+	const workspaceBaseBackground = useMemo(() => {
+		return currentWorkspace?.workspaceType === 'dynamic' &&
+			dynamicColors.length > 0
 			? `linear-gradient(135deg, ${dynamicColors[0]}, ${
 					dynamicColors[1] ?? dynamicColors[0]
 				}, ${dynamicColors[2] ?? dynamicColors[1] ?? dynamicColors[0]})`
 			: currentWorkspace?.workspaceColorMode === 'Single'
 				? currentWorkspace?.workspaceColor
 				: `linear-gradient(${currentWorkspace?.workspaceGradientSettings.deg}deg, ${currentWorkspace?.workspaceGradientSettings.color1},${currentWorkspace?.workspaceGradientSettings.color2})`;
+	}, [currentWorkspace, dynamicColors]);
 
 	const getGroupDescendantIds = (
 		controls: Array<{
@@ -95,32 +133,86 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	};
 
 	const groupTargetIds = useMemo(() => {
-		if (currentControl?.type !== 'group' || currentWorkspace === undefined)
+		if (currentControl?.type !== 'group')
 			return [];
 
-		return getGroupDescendantIds(currentWorkspace.controls, currentControl.id);
-	}, [currentControl, currentWorkspace]);
+		return getGroupDescendantIds(currentControls, currentControl.id);
+	}, [currentControl, currentControls]);
 
-	const moveableTarget = useMemo(() => {
+	const [moveableTarget, setMoveableTarget] = useState<
+		HTMLElement | HTMLElement[] | null
+	>(null);
+
+	useLayoutEffect(() => {
 		if (
 			currentControl === undefined ||
 			currentControl.locked ||
 			currentControl.isDeleted ||
 			!currentControl.isVisible
 		) {
-			return null;
+			setMoveableTarget(null);
+			return;
 		}
 
 		if (currentControl.type === 'group') {
-			const groupTargets = groupTargetIds
-				.map((id) => document.getElementById(id))
-				.filter((item): item is HTMLElement => item !== null);
+			let frame = 0;
+			let cancelled = false;
+			let attempts = 0;
 
-			return groupTargets.length > 0 ? groupTargets : null;
+			const resolveGroupTargets = () => {
+				if (cancelled) return;
+
+				const groupTargets = groupTargetIds
+					.map((id) => document.getElementById(id))
+					.filter((item): item is HTMLElement => item !== null);
+
+				if (groupTargets.length > 0 || attempts >= 20) {
+					setMoveableTarget(groupTargets.length > 0 ? groupTargets : null);
+					return;
+				}
+
+				attempts += 1;
+				frame = window.requestAnimationFrame(resolveGroupTargets);
+			};
+
+			frame = window.requestAnimationFrame(resolveGroupTargets);
+
+			return () => {
+				cancelled = true;
+				window.cancelAnimationFrame(frame);
+			};
 		}
 
-		return document.getElementById(controlID);
-	}, [controlID, currentControl, groupTargetIds]);
+		let frame = 0;
+		let cancelled = false;
+		let attempts = 0;
+
+		const resolveTarget = () => {
+			if (cancelled) return;
+
+			const target = document.getElementById(controlID);
+			if (target !== null || attempts >= 20) {
+				setMoveableTarget(target);
+				return;
+			}
+
+			attempts += 1;
+			frame = window.requestAnimationFrame(resolveTarget);
+		};
+
+		frame = window.requestAnimationFrame(resolveTarget);
+
+		return () => {
+			cancelled = true;
+			window.cancelAnimationFrame(frame);
+		};
+	}, [
+		controlID,
+		currentControl,
+		groupTargetIds,
+		currentControls,
+		currentWorkspaceID,
+	]);
 
 	const syncGroupTargetsToStore = (
 		targets: Array<HTMLElement | SVGAElement>,
@@ -274,6 +366,11 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 		);
 	};
 
+	const readTargetPosition = (target: HTMLElement | SVGElement) => ({
+		x: parseFloat(target.style.left.replace('px', '')),
+		y: parseFloat(target.style.top.replace('px', '')),
+	});
+
 	return (
 		<div ref={reference} id='workspace'>
 			<div
@@ -327,7 +424,7 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 							id={workspace.id}
 							key={workspace.id}
 						>
-							{workspace.controls
+							{(workspace.controls ?? [])
 								.filter((item) => !item.isDeleted && item.type !== 'group')
 								.map((item) => (
 									<ControlHandler
@@ -413,17 +510,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// console.log('onDrag left, top', left, top);
 						target.style.left = `${left}px`;
 						target.style.top = `${top}px`;
-						// console.log('onDrag translate', dist);
-						// target!.style.transform = transform;
-						setControlPos({ x: left, y: top });
 					}}
 					onDragEnd={({ target }) => {
+						const nextPosition = readTargetPosition(target);
+
+						setControlPos(nextPosition);
 						setControlState({
 							id: `${controlID}-pos`,
-							value: {
-								x: parseFloat(target.style.left.replace('px', '')),
-								y: parseFloat(target.style.top.replace('px', '')),
-							},
+							value: nextPosition,
 						});
 
 						setFutureHistory([]);

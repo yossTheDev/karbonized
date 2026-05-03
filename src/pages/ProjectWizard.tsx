@@ -5,13 +5,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Portal } from 'react-portal';
 import { AppContext } from '@/AppContext';
-import { useStoreActions } from '../stores/Hooks';
+import { useWorkspaceStore, useProjectStore, useControlsStore } from '../stores';
 import { getRandomNumber } from '../utils/getRandom';
 import { WizardHeader } from '../components/Wizard/WizardHeader';
 import { WizardActions } from '../components/Wizard/WizardActions';
 import { UserTemplatesSection } from '../components/Wizard/UserTemplatesSection';
 import { CommunityTemplatesSection } from '../components/Wizard/CommunityTemplatesSection';
 import { CreateButtonOverlay } from '../components/Wizard/CreateButtonOverlay';
+
+const mergeHistoryById = <T extends { id: string }>(
+	current: T[],
+	incoming: T[],
+): T[] => {
+	const byId = new Map(current.map((item) => [item.id, item]));
+	incoming.forEach((item) => {
+		byId.set(item.id, item);
+	});
+	return Array.from(byId.values());
+};
 
 interface Props {
 	open: boolean;
@@ -35,10 +46,13 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	const [current, setCurrent] = useState<any>(null);
 
 	/* App Store */
-	const loadProject = useStoreActions((state) => state.loadProject);
-	const addWorkspace = useStoreActions((state) => state.addWorkspace);
-	const setCurrentWorkspace = useStoreActions(
+	const loadProject = useProjectStore((state) => state.loadProject);
+	const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
+	const setCurrentWorkspace = useWorkspaceStore(
 		(state) => state.setCurrentWorkspace,
+	);
+	const setCurrentControlID = useControlsStore(
+		(state) => state.setCurrentControlID,
 	);
 
 	useEffect(() => {
@@ -154,7 +168,26 @@ export const ProjectWizard: React.FC<Props> = ({ open, onClose }) => {
 	};
 
 	const handleCreateFromTemplate = (): void => {
-		if (current !== null) loadProject(current);
+		if (current !== null) {
+			const loadedProject = loadProject(current);
+
+			useWorkspaceStore.setState((state) => ({
+				...state,
+				workspaces: [...state.workspaces, loadedProject.newWorkspace],
+				currentWorkspaceID: loadedProject.workspaceId,
+				currentWorkspace: loadedProject.newWorkspace,
+			}));
+
+			useControlsStore.setState((state) => ({
+				...state,
+				ControlProperties: mergeHistoryById(
+					state.ControlProperties,
+					loadedProject.initialProperties,
+				),
+			}));
+
+			setCurrentControlID('');
+		}
 
 		setShowWizard(false);
 	};

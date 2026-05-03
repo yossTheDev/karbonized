@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Check, Palette, Settings } from 'lucide-react';
 import React, { Suspense } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useUIStore } from '../../stores';
 import { Wallpapers } from '../../utils/wallpapers';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
@@ -145,25 +145,29 @@ const getSize = (label: string): SizeItem | undefined => {
 
 export const WorkspacePanel: React.FC = () => {
 	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const setWorkspaceName = useStoreActions((state) => state.setWorkspaceName);
-	const setWorkspaceColor = useStoreActions((state) => state.setWorkspaceColor);
-	const setWorkspaceType = useStoreActions((state) => state.setWorkspaceType);
-	const setTexture = useStoreActions((state) => state.setTextureName);
-	const setWorkspaceSize = useStoreActions((state) => state.setWorkspaceSize);
-	const setWorkspaceGradient = useStoreActions(
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const setWorkspaceName = useWorkspaceStore((state) => state.setWorkspaceName);
+	const setWorkspaceColor = useWorkspaceStore(
+		(state) => state.setWorkspaceColor,
+	);
+	const setWorkspaceType = useWorkspaceStore((state) => state.setWorkspaceType);
+	const setTexture = useWorkspaceStore((state) => state.setTextureName);
+	const setWorkspaceSize = useWorkspaceStore((state) => state.setWorkspaceSize);
+	const setWorkspaceGradient = useWorkspaceStore(
 		(state) => state.setWorkspaceGradient,
 	);
-	const setWorkspaceDynamic = useStoreActions(
+	const setWorkspaceDynamic = useWorkspaceStore(
 		(state) => state.setWorkspaceDynamic,
 	);
-	const setWorkspaceBlur = useStoreActions((state) => state.setWorkspaceBlur);
-	const setWorkspaceNoise = useStoreActions((state) => state.setWorkspaceNoise);
-	const setTextureColors = useStoreActions((state) => state.setTextureColors);
-	const setWorkspaceColorMode = useStoreActions(
+	const setWorkspaceBlur = useWorkspaceStore((state) => state.setWorkspaceBlur);
+	const setWorkspaceNoise = useWorkspaceStore(
+		(state) => state.setWorkspaceNoise,
+	);
+	const setTextureColors = useWorkspaceStore((state) => state.setTextureColors);
+	const setWorkspaceColorMode = useWorkspaceStore(
 		(state) => state.setWorkspaceColorMode,
 	);
-	const setWorkspaceDynamicType = useStoreActions(
+	const setWorkspaceDynamicType = useWorkspaceStore(
 		(state) => state.setWorkspaceDynamicType,
 	);
 

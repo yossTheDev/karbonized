@@ -43,7 +43,7 @@ import {
 	Users,
 } from 'lucide-react';
 import React from 'react';
-import type { Item } from '../../stores/AppStore';
+import type { Item } from '../../types';
 
 type LayerDropPosition = 'before' | 'after' | 'inside';
 

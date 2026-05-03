@@ -41,6 +41,7 @@ interface ControlMenuProps {
 	currentWorkspace: any;
 	setWorkspaceControls: (value: any) => void;
 	setID: (value: string) => void;
+	onDeleteControl: () => void;
 	// Position state
 	flipX: boolean;
 	setFlipX: (value: boolean) => void;
@@ -109,6 +110,7 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 	currentWorkspace,
 	setWorkspaceControls,
 	setID,
+	onDeleteControl,
 	flipX,
 	setFlipX,
 	flipY,
@@ -264,7 +266,7 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 												id: `${id}-pos`,
 												value: {
 													y: parseFloat(ev.target.value),
-													x: controlPos?.y as unknown as number,
+													x: controlPos?.x as unknown as number,
 												},
 											});
 
@@ -819,12 +821,7 @@ export const ControlMenu: React.FC<ControlMenuProps> = ({
 						className='w-full transition-all duration-200 hover:scale-105'
 						onClick={() => {
 							setID('');
-							if (currentWorkspace !== undefined)
-								setWorkspaceControls(
-									currentWorkspace.controls.map((item: { id: string }) =>
-										item.id === id ? { ...item, isDeleted: true } : item,
-									),
-								);
+							onDeleteControl();
 						}}
 					>
 						<Trash2 className='mr-2' size={16}></Trash2>

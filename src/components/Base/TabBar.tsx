@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore } from '../../stores';
 import {
 	IconSquareRotated,
 	IconX,
@@ -17,20 +17,22 @@ import {
 } from '@/components/ui/context-menu';
 
 export const TabBar: React.FC = () => {
-	const workspaces = useStoreState((state) => state.workspaces);
-	const currentWorkspaceID = useStoreState((state) => state.currentWorkspaceID);
+	const workspaces = useWorkspaceStore((state) => state.workspaces);
+	const currentWorkspaceID = useWorkspaceStore(
+		(state) => state.currentWorkspaceID,
+	);
 
-	const deleteWorkspace = useStoreActions((state) => state.deleteWorkspace);
-	const setCurrentWorkspace = useStoreActions(
+	const deleteWorkspace = useWorkspaceStore((state) => state.deleteWorkspace);
+	const setCurrentWorkspace = useWorkspaceStore(
 		(state) => state.setCurrentWorkspace,
 	);
-	const closeOtherWorkspaces = useStoreActions(
+	const closeOtherWorkspaces = useWorkspaceStore(
 		(state) => state.closeOtherWorkspaces,
 	);
-	const closeWorkspacesToRight = useStoreActions(
+	const closeWorkspacesToRight = useWorkspaceStore(
 		(state) => state.closeWorkspacesToRight,
 	);
-	const closeWorkspacesToLeft = useStoreActions(
+	const closeWorkspacesToLeft = useWorkspaceStore(
 		(state) => state.closeWorkspacesToLeft,
 	);
 
