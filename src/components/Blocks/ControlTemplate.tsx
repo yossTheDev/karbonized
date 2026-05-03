@@ -163,7 +163,18 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 			h: size.h,
 		});
 		setControlTransform(transform);
-	}, [controlID, id, setControlPos, setControlSize, setControlTransform]);
+	}, [
+		controlID,
+		id,
+		position.x,
+		position.y,
+		setControlPos,
+		setControlSize,
+		setControlTransform,
+		size.h,
+		size.w,
+		transform,
+	]);
 
 	const Masks = [
 		'default',
@@ -201,7 +212,7 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				y: controlPos?.y as unknown as number,
 			});
 		}
-	}, [controlPos, id, controlID]);
+	}, [controlPos]);
 
 	useEffect(() => {
 		if (
@@ -215,13 +226,13 @@ export const ControlTemplate: React.FC<ControlProps> = ({
 				h: controlSize?.h as unknown as number,
 			});
 		}
-	}, [controlSize, id, controlID]);
+	}, [controlSize]);
 
 	useEffect(() => {
 		if (id === controlID) {
 			if (controlTransform !== undefined) setTransform(controlTransform);
 		}
-	}, [controlTransform, id, controlID]);
+	}, [controlTransform]);
 
 	// Save Image as PNG
 	const exportAsPng = useCallback(async () => {

@@ -379,6 +379,48 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 	const readTargetTransform = (target: HTMLElement | SVGElement) =>
 		target.style.transform;
 
+	const parseCssSize = (value: string): number | undefined => {
+		const parsed = parseFloat(value);
+		return Number.isFinite(parsed) ? parsed : undefined;
+	};
+
+	const clampResizeDimensions = (
+		target: HTMLElement | SVGElement,
+		width: number,
+		height: number,
+	) => {
+		const style = window.getComputedStyle(target as Element);
+		const minWidth = parseCssSize(style.minWidth);
+		const minHeight = parseCssSize(style.minHeight);
+		const maxWidth = parseCssSize(style.maxWidth);
+		const maxHeight = parseCssSize(style.maxHeight);
+
+		const nextWidth =
+			maxWidth !== undefined
+				? Math.min(
+						minWidth !== undefined ? Math.max(width, minWidth) : width,
+						maxWidth,
+					)
+				: minWidth !== undefined
+					? Math.max(width, minWidth)
+					: width;
+
+		const nextHeight =
+			maxHeight !== undefined
+				? Math.min(
+						minHeight !== undefined ? Math.max(height, minHeight) : height,
+						maxHeight,
+					)
+				: minHeight !== undefined
+					? Math.max(height, minHeight)
+					: height;
+
+		return {
+			width: nextWidth,
+			height: nextHeight,
+		};
+	};
+
 	return (
 		<div ref={reference} id='workspace'>
 			<div
@@ -550,13 +592,15 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					}}
 					onResize={({ target, width, height, delta }: OnResize) => {
 						// console.log('onResize', target);
-						delta[0] !== 0 && (target.style.width = `${width}px`);
-						delta[1] !== 0 && (target.style.height = `${height}px`);
+						const nextSize = clampResizeDimensions(target, width, height);
+						delta[0] !== 0 && (target.style.width = `${nextSize.width}px`);
+						delta[1] !== 0 && (target.style.height = `${nextSize.height}px`);
 					}}
 					onResizeGroup={({ events }: any) => {
 						events.forEach(({ target, width, height, delta }: any) => {
-							delta[0] !== 0 && (target.style.width = `${width}px`);
-							delta[1] !== 0 && (target.style.height = `${height}px`);
+							const nextSize = clampResizeDimensions(target, width, height);
+							delta[0] !== 0 && (target.style.width = `${nextSize.width}px`);
+							delta[1] !== 0 && (target.style.height = `${nextSize.height}px`);
 						});
 					}}
 					onResizeGroupEnd={({ targets }: any) => {
