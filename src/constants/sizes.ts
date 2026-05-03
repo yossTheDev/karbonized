@@ -1,5 +1,6 @@
 import React from 'react';
-import { Monitor, Smartphone, Tablet, FileImage, Tv, FileText, Play, Users, MessageCircle, Briefcase, Grid3X3 } from 'lucide-react';
+import { Monitor, Smartphone, Tablet, FileImage, Tv, FileText, Play, Users, MessageCircle, Briefcase, Grid3X3, Square } from 'lucide-react';
+import { IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin, IconBrandPinterest, IconBrandX, IconBrandYoutube } from '@tabler/icons-react';
 
 export interface SizeItem {
 	label: string;
@@ -14,7 +15,7 @@ export const Sizes: SizeItem[] = [
 		label: 'Default', 
 		width: 512, 
 		height: 512,
-		icon: React.createElement(Tv, { className: 'w-5 h-5' }),
+		icon: React.createElement(Square, { className: 'w-5 h-5' }),
 		description: 'Tamaño predeterminado'
 	},
 	{ 
@@ -98,42 +99,42 @@ export const Sizes: SizeItem[] = [
 		label: 'You Tube', 
 		width: 2560, 
 		height: 1440,
-		icon: React.createElement(Play, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandYoutube, { className: 'w-5 h-5' }),
 		description: 'YouTube thumbnail'
 	},
 	{ 
 		label: 'Facebook Cover', 
 		width: 820, 
 		height: 312,
-		icon: React.createElement(Users, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandFacebook, { className: 'w-5 h-5' }),
 		description: 'Portada Facebook'
 	},
 	{ 
 		label: 'Facebook Post', 
 		width: 1200, 
 		height: 630,
-		icon: React.createElement(Users, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandFacebook, { className: 'w-5 h-5' }),
 		description: 'Post Facebook'
 	},
 	{ 
-		label: 'Twitter Header', 
+		label: 'X (Twitter) Header', 
 		width: 1500, 
 		height: 500,
-		icon: React.createElement(MessageCircle, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandX, { className: 'w-5 h-5' }),
 		description: 'Cabecera Twitter'
 	},
 	{ 
-		label: 'Twitter Post', 
+		label: 'X (Twitter) Post', 
 		width: 1012, 
 		height: 506,
-		icon: React.createElement(MessageCircle, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandX, { className: 'w-5 h-5' }),
 		description: 'Post Twitter'
 	},
 	{ 
 		label: 'Social Media Square',
 		width: 1080,
 		height: 1080,
-		icon: React.createElement(FileImage, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandInstagram, { className: 'w-5 h-5' }),
 		description: 'Instagram post'
 	},
 	{ 
@@ -147,28 +148,28 @@ export const Sizes: SizeItem[] = [
 		label: 'Instagram Story', 
 		width: 1080, 
 		height: 1920,
-		icon: React.createElement(FileImage, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandInstagram, { className: 'w-5 h-5' }),
 		description: 'Instagram Story'
 	},
 	{ 
 		label: 'Instagram Post', 
 		width: 1080, 
 		height: 1080,
-		icon: React.createElement(FileImage, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandInstagram, { className: 'w-5 h-5' }),
 		description: 'Instagram Post'
 	},
 	{ 
 		label: 'LinkedIn Cover', 
 		width: 1584, 
 		height: 396,
-		icon: React.createElement(Briefcase, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandLinkedin, { className: 'w-5 h-5' }),
 		description: 'Portada LinkedIn'
 	},
 	{ 
 		label: 'Pinterest', 
 		width: 735, 
 		height: 1102,
-		icon: React.createElement(Grid3X3, { className: 'w-5 h-5' }),
+		icon: React.createElement(IconBrandPinterest, { className: 'w-5 h-5' }),
 		description: 'Pin Pinterest'
 	},
 ];
