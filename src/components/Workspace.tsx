@@ -371,6 +371,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 		y: parseFloat(target.style.top.replace('px', '')),
 	});
 
+	const readTargetSize = (target: HTMLElement | SVGElement) => ({
+		w: parseFloat(target.style.width.replace('px', '')),
+		h: parseFloat(target.style.height.replace('px', '')),
+	});
+
+	const readTargetTransform = (target: HTMLElement | SVGElement) =>
+		target.style.transform;
+
 	return (
 		<div ref={reference} id='workspace'>
 			<div
@@ -544,11 +552,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						// console.log('onResize', target);
 						delta[0] !== 0 && (target.style.width = `${width}px`);
 						delta[1] !== 0 && (target.style.height = `${height}px`);
-						// console.log('height' + target!.style.height);
-						setControlSize({
-							w: target.style.width.replace('px', '') as unknown as number,
-							h: target.style.height.replace('px', '') as unknown as number,
-						});
 					}}
 					onResizeGroup={({ events }: any) => {
 						events.forEach(({ target, width, height, delta }: any) => {
@@ -561,13 +564,13 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						setFutureHistory([]);
 					}}
 					onResizeEnd={({ target }) => {
+						const nextSize = readTargetSize(target);
+
+						setControlSize(nextSize);
 						// console.log('onResizeEnd', target, isDrag);
 						setControlState({
 							id: `${controlID}-control_size`,
-							value: {
-								w: parseFloat(target.style.width.replace('px', '')),
-								h: parseFloat(target.style.height.replace('px', '')),
-							},
+							value: nextSize,
 						});
 
 						setFutureHistory([]);
@@ -608,7 +611,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					onRotate={({ target, transform }: OnRotate) => {
 						// console.log('onRotate', dist);
 						target.style.transform = transform;
-						setControlTransform(transform);
 					}}
 					onRotateGroup={({ events }: any) => {
 						events.forEach(({ target, transform }: any) => {
@@ -620,9 +622,12 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 						setFutureHistory([]);
 					}}
 					onRotateEnd={({ target }) => {
+						const nextTransform = readTargetTransform(target);
+
+						setControlTransform(nextTransform);
 						setControlState({
 							id: `${controlID}-transform`,
-							value: target.style.transform,
+							value: nextTransform,
 						});
 
 						setFutureHistory([]);
@@ -653,12 +658,6 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					dragWithClip={false}
 					clipTargetBounds
 					onClip={(e) => {
-						setControlState({
-							id: `${controlID}-clip`,
-							value: e.clipStyle,
-							workspace: currentWorkspaceID,
-						});
-
 						e.target.style.clipPath = e.clipStyle;
 					}}
 					onClipStart={({ target }) => {
@@ -692,12 +691,14 @@ export const Workspace: React.FC<Props> = ({ reference }) => {
 					onWarp={({ target, transform }: OnWarp) => {
 						// console.log('onRotate', dist);
 						target.style.transform = transform;
-						setControlTransform(transform);
 					}}
 					onWarpEnd={({ target }) => {
+						const nextTransform = readTargetTransform(target);
+
+						setControlTransform(nextTransform);
 						setControlState({
 							id: `${controlID}-transform`,
-							value: target.style.transform,
+							value: nextTransform,
 						});
 
 						setFutureHistory([]);
