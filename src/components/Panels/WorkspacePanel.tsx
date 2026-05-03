@@ -17,131 +17,15 @@ import { Wallpapers } from '../../utils/wallpapers';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ScrollArea } from '../ui/scroll-area';
-
-const Coil = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Coil'),
-);
-const Circular = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Circular'),
-);
-const Horizon = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Horizon'),
-);
-const Grayrate = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Grayrate'),
-);
-const Hirl = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Hirl'),
-);
-const Neon = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Neon'),
-);
-const Undulate = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Undulate'),
-);
-const Chaos = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Chaos'),
-);
-const Oscilate = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Oscilate'),
-);
-const Vortex = React.lazy(
-	async () => await import('../Misc/SvgBackgrounds/Vortex'),
-);
-
-const MeshGradient = React.lazy(
-	async () => await import('../Misc/MeshGradient'),
-);
-const LavaLampBackground = React.lazy(
-	async () => await import('../Misc/LavaLampBackground'),
-);
-
-const StarfieldBackground = React.lazy(
-	async () => await import('../Misc/StarfieldBackground'),
-);
-const GalaxyBackground = React.lazy(
-	async () => await import('../Misc/GalaxyBackground'),
-);
-
-const textures = [
-	{ name: 'grayrate', component: Grayrate },
-	{ name: 'coil', component: Coil },
-	{ name: 'circular', component: Circular },
-	{ name: 'horizon', component: Horizon },
-	{ name: 'hirl', component: Hirl },
-	{ name: 'neon', component: Neon },
-	{ name: 'undulate', component: Undulate },
-	{ name: 'chaos', component: Chaos },
-	{ name: 'oscilate', component: Oscilate },
-	{ name: 'vortex', component: Vortex },
-];
-
-interface SizeItem {
-	label: string;
-	height: number;
-	width: number;
-}
-
-const Gradients = [
-	{ c1: '#ff9a9e', c2: '#fad0c4' },
-	{ c1: '#a18cd1', c2: '#fbc2eb' },
-	{ c1: '#fad0c4', c2: '#ffd1ff' },
-	{ c1: '#ffecd2', c2: '#fcb69f' },
-	{ c1: '#fe9698', c2: '#fecfef' },
-	{ c1: '#f6d365', c2: '#fda085' },
-	{ c1: '#fbc2eb', c2: '#a6c1ee' },
-	{ c1: '#a1c4fd', c2: '#c2e9fb' },
-	{ c1: '#d4fc79', c2: '#96a6a1' },
-	{ c1: '#84fab0', c2: '#8fd3f4' },
-	{ c1: '#a6c0fe', c2: '#f68084' },
-	{ c1: '#fccb90', c2: '#d57eeb' },
-	{ c1: '#e0c3fc', c2: '#8ec5fc' },
-	{ c1: '#f093fb', c2: '#f5576c' },
-	{ c1: '#43e97b', c2: '#38f9d8' },
-	{ c1: '#fa709a', c2: '#fee140' },
-	{ c1: '#30cfd0', c2: '#330867' },
-	{ c1: '#a8edea', c2: '#fed6e3' },
-	{ c1: '#5ee7df', c2: '#b490ca' },
-	{ c1: '#d299c2', c2: '#fef9d7' },
-	{ c1: '#667eea', c2: '#764ba2' },
-	{ c1: '#89f7fe', c2: '#66a6ff' },
-	{ c1: '#fddb92', c2: '#d1fdff' },
-	{ c1: '#9890e3', c2: '#b1f4cf' },
-	{ c1: '#96fbc4', c2: '#f9f586' },
-	{ c1: '#2af958', c2: '#009efd' },
-	{ c1: '#37ecba', c2: '#72afd3' },
-	{ c1: '#fff1eb', c2: '#ace0f9' },
-	{ c1: '#c471f5', c2: '#fa71cd' },
-	{ c1: '#0ba360', c2: '#3cba92' },
-	{ c1: '#0250c5', c2: '#d43f8d' },
-	{ c1: '#ff0844', c2: '#ffb199' },
-	{ c1: '#92fe9d', c2: '#00c9ff' },
-];
-
-const Sizes: SizeItem[] = [
-	{ label: 'Default', width: 512, height: 512 },
-	{ label: 'Ultra HD', width: 3840, height: 2160 },
-	{ label: 'Quad HD', width: 2560, height: 1440 },
-	{ label: 'Full HD', width: 1920, height: 1080 },
-	{ label: 'HD', width: 1280, height: 720 },
-	{ label: 'Iphone 13 Pro Max', width: 428, height: 926 },
-	{ label: 'Android', width: 360, height: 640 },
-	{ label: 'Legal', width: 612, height: 1008 },
-	{ label: 'Letter', width: 612, height: 792 },
-	{ label: 'You Tube', width: 2560, height: 1440 },
-	{ label: 'Facebook Cover', width: 820, height: 312 },
-	{ label: 'Facebook Post', width: 1200, height: 630 },
-	{ label: 'Twitter Header', width: 1500, height: 500 },
-	{ label: 'Twitter Post', width: 1012, height: 506 },
-	{ label: 'Instagram Story', width: 1080, height: 1920 },
-	{ label: 'Instagram Post', width: 1080, height: 1080 },
-	{ label: 'LinkedIn Cover', width: 1584, height: 396 },
-	{ label: 'Pinterest', width: 735, height: 1102 },
-];
-
-const getSize = (label: string): SizeItem | undefined => {
-	return Sizes.find((item) => label === item.label);
-};
+import {
+	textures,
+	MeshGradient,
+	LavaLampBackground,
+	StarfieldBackground,
+	GalaxyBackground,
+} from '../../constants/textures';
+import { Gradients } from '../../constants/gradients';
+import { SizeItem, Sizes, getSize } from '../../constants/sizes';
 
 export const WorkspacePanel: React.FC = () => {
 	/* App Store */

@@ -1,26 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-	FileImage,
-	Layers,
-	Download,
-	Plus,
-	ArrowLeft,
-	Monitor,
-	Smartphone,
-	Tablet,
-} from 'lucide-react';
+import { FileImage, Layers, Plus, ArrowLeft, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
 import {
 	Card,
 	CardContent,
@@ -30,59 +14,7 @@ import {
 } from '@/components/ui/card';
 import { useWorkspaceStore } from '@/stores';
 import { getRandomNumber } from '@/utils/getRandom';
-
-interface PresetSize {
-	name: string;
-	width: number;
-	height: number;
-	icon: React.ReactNode;
-	description: string;
-}
-
-const presetSizes: PresetSize[] = [
-	{
-		name: 'Desktop HD',
-		width: 1920,
-		height: 1080,
-		icon: <Monitor className='w-5 h-5' />,
-		description: 'Pantalla de escritorio estándar',
-	},
-	{
-		name: 'Desktop 4K',
-		width: 3840,
-		height: 2160,
-		icon: <Monitor className='w-5 h-5' />,
-		description: 'Ultra HD 4K',
-	},
-	{
-		name: 'Mobile',
-		width: 375,
-		height: 812,
-		icon: <Smartphone className='w-5 h-5' />,
-		description: 'iPhone X/11/12 dimensions',
-	},
-	{
-		name: 'Tablet',
-		width: 768,
-		height: 1024,
-		icon: <Tablet className='w-5 h-5' />,
-		description: 'iPad estándar',
-	},
-	{
-		name: 'Social Media Square',
-		width: 1080,
-		height: 1080,
-		icon: <FileImage className='w-5 h-5' />,
-		description: 'Instagram post',
-	},
-	{
-		name: 'Social Media Story',
-		width: 1080,
-		height: 1920,
-		icon: <FileImage className='w-5 h-5' />,
-		description: 'Instagram/Facebook story',
-	},
-];
+import { SizeItem, Sizes } from '@/constants/sizes';
 
 export const NewProject: React.FC = () => {
 	const navigate = useNavigate();
@@ -92,7 +24,7 @@ export const NewProject: React.FC = () => {
 	);
 
 	const [projectName, setProjectName] = useState('');
-	const [selectedPreset, setSelectedPreset] = useState<PresetSize | null>(null);
+	const [selectedPreset, setSelectedPreset] = useState<SizeItem | null>(null);
 	const [customWidth, setCustomWidth] = useState('1920');
 	const [customHeight, setCustomHeight] = useState('1080');
 	const [useCustomSize, setUseCustomSize] = useState(false);
@@ -135,7 +67,7 @@ export const NewProject: React.FC = () => {
 		navigate('/editor');
 	};
 
-	const handlePresetSelect = (preset: PresetSize) => {
+	const handlePresetSelect = (preset: SizeItem) => {
 		setSelectedPreset(preset);
 		setUseCustomSize(false);
 	};
@@ -146,12 +78,12 @@ export const NewProject: React.FC = () => {
 	};
 
 	return (
-		<div className='flex h-full w-full items-center justify-center bg-background'>
+		<div className='flex h-full w-full items-center justify-center bg-background p-4'>
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.3 }}
-				className='w-full max-w-4xl mx-auto p-6'
+				className='w-full max-w-6xl mx-auto'
 			>
 				{/* Header */}
 				<div className='mb-8 text-center'>
@@ -168,9 +100,9 @@ export const NewProject: React.FC = () => {
 					</p>
 				</div>
 
-				<div className='grid gap-6 md:grid-cols-2'>
+				<div className='grid gap-6 lg:grid-cols-3 xl:grid-cols-4'>
 					{/* Left Column - Project Info */}
-					<Card>
+					<Card className='lg:col-span-1 xl:col-span-2'>
 						<CardHeader>
 							<CardTitle className='flex items-center gap-2'>
 								<FileImage className='w-5 h-5' />
@@ -248,7 +180,7 @@ export const NewProject: React.FC = () => {
 					</Card>
 
 					{/* Right Column - Preset Sizes */}
-					<Card>
+					<Card className='lg:col-span-2 xl:col-span-2'>
 						<CardHeader>
 							<CardTitle className='flex items-center gap-2'>
 								<Monitor className='w-5 h-5' />
@@ -259,13 +191,13 @@ export const NewProject: React.FC = () => {
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<div className='grid gap-2 max-h-96 overflow-y-auto'>
-								{presetSizes.map((preset) => (
+							<div className='grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 max-h-96 overflow-y-auto'>
+								{Sizes.map((preset) => (
 									<div
-										key={preset.name}
+										key={preset.label}
 										onClick={() => handlePresetSelect(preset)}
 										className={`p-3 rounded-lg border cursor-pointer transition-all hover:bg-accent ${
-											selectedPreset?.name === preset.name && !useCustomSize
+											selectedPreset?.label === preset.label && !useCustomSize
 												? 'border-primary bg-primary/5'
 												: 'border-border'
 										}`}
@@ -273,7 +205,9 @@ export const NewProject: React.FC = () => {
 										<div className='flex items-center gap-3'>
 											<div className='text-muted-foreground'>{preset.icon}</div>
 											<div className='flex-1'>
-												<div className='font-medium text-sm'>{preset.name}</div>
+												<div className='font-medium text-sm'>
+													{preset.label}
+												</div>
 												<div className='text-xs text-muted-foreground'>
 													{preset.width} × {preset.height}px
 												</div>
@@ -290,11 +224,11 @@ export const NewProject: React.FC = () => {
 				</div>
 
 				{/* Action Buttons */}
-				<div className='mt-8 flex justify-between'>
+				<div className='mt-8 flex flex-col sm:flex-row justify-between gap-4'>
 					<Button
 						variant='outline'
 						onClick={() => navigate('/editor')}
-						className='flex items-center gap-2'
+						className='flex items-center gap-2 w-full sm:w-auto'
 					>
 						<ArrowLeft className='w-4 h-4' />
 						Volver al Editor
@@ -303,7 +237,7 @@ export const NewProject: React.FC = () => {
 					<Button
 						onClick={handleCreateProject}
 						size='lg'
-						className='flex items-center gap-2'
+						className='flex items-center gap-2 w-full sm:w-auto'
 					>
 						<Plus className='w-4 h-4' />
 						Crear Proyecto
