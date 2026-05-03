@@ -81,7 +81,7 @@ export const TabBar: React.FC = () => {
 				event.preventDefault();
 			}}
 		>
-			<div className='flex w-[70%] gap-2 p-1.5'>
+			<div className='flex w-[70%] gap-2 px-1.5'>
 				{workspaces.map((item) => (
 					<ContextMenu key={item.id}>
 						<ContextMenuTrigger asChild>

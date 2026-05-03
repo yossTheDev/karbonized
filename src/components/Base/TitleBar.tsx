@@ -25,14 +25,14 @@ export const TitleBar: React.FC = () => {
 	return (
 		<div
 			id='titlebar'
-			className='draggable border-b flex h-fit w-screen border-border bg-sidebar'
+			className='draggable h-12 min-h-12 border-b bg-sidebar flex w-screen border-border z-1000'
 			onContextMenu={(e) => {
 				e.preventDefault();
 			}}
 		>
 			{/* Menu Bar */}
-			<div className='not-draggable flex max-w-[80%] items-center overflow-x-hidden'>
-				<KarbonizedLogoFlat className='size-6 ml-4 mr-2' />
+			<div className='not-draggable flex max-w-[80% py-0 items-center overflow-x-hidden'>
+				<KarbonizedLogoFlat className='size-4 min-w-4 ml-4 mr-2' />
 
 				<MenuBar></MenuBar>
 			</div>
