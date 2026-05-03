@@ -22,6 +22,7 @@
 - Migrate to Tailwind CSS v4 with new CSS-based configuration
 - Migrate to Vite 8 for improved build performance
 - Migrate to ESLint 9 with flat config system
+- Migrate to Zustand from easy-peace and build a multistore system
 - Add new window styles to CodeBlock: Pixel, Konsole, GTK, GNOME, RETRO and Paper
 - Improve macOS window style with realistic traffic light buttons and proper spacing
 - Improve Windows 11 window style with accurate title bar and window controls
