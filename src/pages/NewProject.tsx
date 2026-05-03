@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileImage, Layers, Plus, ArrowLeft, Monitor } from 'lucide-react';
+import {
+	FileImage,
+	Layers,
+	Plus,
+	ArrowLeft,
+	Monitor,
+	Search,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,6 +35,7 @@ export const NewProject: React.FC = () => {
 	const [customWidth, setCustomWidth] = useState('1920');
 	const [customHeight, setCustomHeight] = useState('1080');
 	const [useCustomSize, setUseCustomSize] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
 
 	const handleCreateProject = () => {
 		const width = useCustomSize
@@ -38,12 +46,12 @@ export const NewProject: React.FC = () => {
 			: selectedPreset?.height || 1080;
 
 		if (!projectName.trim()) {
-			alert('Por favor ingresa un nombre para el proyecto');
+			alert('Please enter a project name');
 			return;
 		}
 
 		if (width <= 0 || height <= 0) {
-			alert('Por favor ingresa dimensiones válidas');
+			alert('Please enter valid dimensions');
 			return;
 		}
 
@@ -77,8 +85,14 @@ export const NewProject: React.FC = () => {
 		setSelectedPreset(null);
 	};
 
+	const filteredSizes = Sizes.filter(
+		(size) =>
+			size.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			size.description?.toLowerCase().includes(searchQuery.toLowerCase()),
+	);
+
 	return (
-		<div className='flex h-full w-full items-center justify-center bg-background p-4'>
+		<div className='flex h-full w-full bg-background p-4 overflow-y-auto'>
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
@@ -93,10 +107,10 @@ export const NewProject: React.FC = () => {
 						</div>
 					</div>
 					<h1 className='text-3xl font-bold text-foreground mb-2'>
-						Nuevo Proyecto
+						New Project
 					</h1>
 					<p className='text-muted-foreground'>
-						Crea un nuevo proyecto con las dimensiones que necesites
+						Create a new project with the dimensions you need
 					</p>
 				</div>
 
@@ -106,18 +120,18 @@ export const NewProject: React.FC = () => {
 						<CardHeader>
 							<CardTitle className='flex items-center gap-2'>
 								<FileImage className='w-5 h-5' />
-								Información del Proyecto
+								Project Information
 							</CardTitle>
 							<CardDescription>
-								Configura los detalles básicos de tu proyecto
+								Configure the basic details of your project
 							</CardDescription>
 						</CardHeader>
 						<CardContent className='space-y-4'>
 							<div>
-								<Label htmlFor='project-name'>Nombre del Proyecto</Label>
+								<Label htmlFor='project-name'>Project Name</Label>
 								<Input
 									id='project-name'
-									placeholder='Mi Proyecto'
+									placeholder='My Project'
 									value={projectName}
 									onChange={(e) => setProjectName(e.target.value)}
 									className='mt-1'
@@ -125,15 +139,15 @@ export const NewProject: React.FC = () => {
 							</div>
 
 							<div>
-								<Label>Dimensiones del Lienzo</Label>
+								<Label>Canvas Dimensions</Label>
 								<div className='mt-2 space-y-3'>
 									{!useCustomSize && (
 										<div className='grid grid-cols-2 gap-2'>
 											<div className='text-sm text-muted-foreground'>
-												Ancho: {selectedPreset?.width || 1920}px
+												Width: {selectedPreset?.width || 1920}px
 											</div>
 											<div className='text-sm text-muted-foreground'>
-												Alto: {selectedPreset?.height || 1080}px
+												Height: {selectedPreset?.height || 1080}px
 											</div>
 										</div>
 									)}
@@ -142,7 +156,7 @@ export const NewProject: React.FC = () => {
 										<div className='grid grid-cols-2 gap-2'>
 											<div>
 												<Label htmlFor='custom-width' className='text-xs'>
-													Ancho (px)
+													Width (px)
 												</Label>
 												<Input
 													id='custom-width'
@@ -154,7 +168,7 @@ export const NewProject: React.FC = () => {
 											</div>
 											<div>
 												<Label htmlFor='custom-height' className='text-xs'>
-													Alto (px)
+													Height (px)
 												</Label>
 												<Input
 													id='custom-height'
@@ -174,7 +188,7 @@ export const NewProject: React.FC = () => {
 								onClick={handleCustomSizeToggle}
 								className='w-full'
 							>
-								{useCustomSize ? 'Usar预设尺寸' : 'Dimensiones Personalizadas'}
+								{useCustomSize ? 'Use Preset Sizes' : 'Custom Dimensions'}
 							</Button>
 						</CardContent>
 					</Card>
@@ -184,15 +198,26 @@ export const NewProject: React.FC = () => {
 						<CardHeader>
 							<CardTitle className='flex items-center gap-2'>
 								<Monitor className='w-5 h-5' />
-								Tamaños Predefinidos
+								Predefined Sizes
 							</CardTitle>
 							<CardDescription>
-								Selecciona un tamaño predefinido para empezar rápidamente
+								Select a predefined size to start quickly
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
+							<div className='mb-4'>
+								<div className='relative'>
+									<Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4' />
+									<Input
+										placeholder='Search sizes...'
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										className='pl-10'
+									/>
+								</div>
+							</div>
 							<div className='grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 max-h-96 overflow-y-auto'>
-								{Sizes.map((preset) => (
+								{filteredSizes.map((preset) => (
 									<div
 										key={preset.label}
 										onClick={() => handlePresetSelect(preset)}
@@ -231,7 +256,7 @@ export const NewProject: React.FC = () => {
 						className='flex items-center gap-2 w-full sm:w-auto'
 					>
 						<ArrowLeft className='w-4 h-4' />
-						Volver al Editor
+						Back to Editor
 					</Button>
 
 					<Button
@@ -240,7 +265,7 @@ export const NewProject: React.FC = () => {
 						className='flex items-center gap-2 w-full sm:w-auto'
 					>
 						<Plus className='w-4 h-4' />
-						Crear Proyecto
+						Create Project
 					</Button>
 				</div>
 			</motion.div>
