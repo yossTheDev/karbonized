@@ -15,6 +15,24 @@
   - **Real-time Variable Updates** with automatic UI refresh
   - **Integration with Export System** for static image generation
 
+- **New Routing System** with React Router for better navigation and state management
+  - **Separated Routes**: `/new` for project creation and `/editor` for editing
+  - **Professional New Project Panel**: Photoshop-style interface without templates
+  - **Context-Aware UI**: Menu options and UI elements only appear when relevant
+  - **Smart Navigation**: Automatic redirection between routes based on application state
+
+- **Enhanced Project Management**
+  - **Custom Project Names**: Workspaces now use the exact project name entered by user
+  - **No Auto-Creation**: Eliminated automatic workspace creation on app startup
+  - **Smart TabBar**: Only appears when projects exist, hidden in new project view
+  - **Contextual Controls**: Editing options disabled outside editor context
+
+- **Improved User Experience**
+  - **Cleaner Interface**: TabBar and add tab button hidden in new project view
+  - **Logical Menu System**: File menu options disabled when no workspace is active
+  - **Professional Workflow**: Similar to professional design applications
+  - **Performance Optimization**: Editor components only loaded when needed
+
 - Add a redesigned hierarchy panel with searchable layers, filters, contextual layer actions, and cleaner workspace-oriented UI
 - Add layer groups/folders with nested hierarchy, collapse state, visibility/lock controls, duplication, rename, and drag-and-drop reordering
 - Add grouped Moveable editing so hierarchy groups can be transformed together directly on the canvas
@@ -54,6 +72,11 @@
 - Fix ControlMenu Portal not rendering when RightPanel hasn't mounted yet (added useEffect to wait for #menu element)
 - Fix ControlMenu disappearing when switching tabs in RightPanel (Portal container now persists within tab)
 - Fix Moveable component appearing in exported images (added isExporting state to hide Moveable during export)
+- Fix TypeScript errors in workspace store interface for addWorkspace function
+- Fix workspace name inheritance from project creation dialog
+- Fix TabBar rendering when no workspaces exist
+- Fix menu options appearing in inappropriate contexts
+- Fix automatic workspace creation on application startup
 
 ### 🔄 Changes
 
@@ -63,6 +86,11 @@
 - Remove test message from App.tsx
 - Refactor CodeBlock to use common SyntaxHighlighter for all styles to prevent duplication and enable proper stretching
 - Update Tailwind CSS v4 gradient syntax (bg-linear-to-_ instead of bg-gradient-to-_)
+- **Refactored App Architecture**: Moved from dialog-based to routing-based navigation
+- **Updated Workspace Store**: Modified addWorkspace to accept custom project names
+- **Enhanced MenuBar Logic**: Added route-based conditional rendering
+- **Improved TabBar Behavior**: Context-aware visibility based on workspace state
+- **Streamlined User Flow**: Clear separation between project creation and editing phases
 
 ### 📦 Dependencies
 
@@ -81,6 +109,11 @@
 - Add @tailwindcss/vite plugin to vite.config.ts
 - Create eslint.config.js with flat config format
 - Update tsconfig.json moduleResolution to "bundler"
+- Added React Router DOM for navigation management
+- Created new NewProject.tsx component with professional UI
+- Updated App.tsx with routing configuration
+- Modified MenuBar.tsx for context-aware menu options
+- Enhanced TabBar.tsx with conditional rendering logic
 
 ## v 1.12.0 - Release (August 24th, 2023)
 

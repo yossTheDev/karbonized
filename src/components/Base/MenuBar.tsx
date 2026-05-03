@@ -16,6 +16,7 @@ import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
 import { toBlob, toPng } from 'html-to-image';
 import React, { Suspense, useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { type Project } from '../../types';
@@ -43,9 +44,6 @@ const DonationsModal = React.lazy(
 const PreviewModal = React.lazy(
 	async () => await import('../Modals/PreviewModal'),
 );
-const ProjectWizard = React.lazy(
-	async () => await import('../../pages/ProjectWizard'),
-);
 
 const mergeHistoryById = <T extends { id: string }>(
 	current: T[],
@@ -60,11 +58,13 @@ const mergeHistoryById = <T extends { id: string }>(
 
 export const MenuBar: React.FC = () => {
 	/* App Context */
-	const { showWizard, setShowWizard } = useContext(AppContext);
-
-	/* Panels */
 	const { viewerRef } = useContext(AppContext);
+	const navigate = useNavigate();
+	const location = useLocation();
 	const isHorizontal = useScreenDirection();
+
+	// Check if we're in the editor
+	const isEditor = location.pathname === '/editor';
 
 	const [showAbout, setShowAbout] = useState(false);
 	const [showPreview, setShowPreview] = useState(false);
@@ -87,7 +87,9 @@ export const MenuBar: React.FC = () => {
 	const setControlTransform = useControlsStore(
 		(state) => state.setControlTransform,
 	);
-	const ControlProperties = useControlsStore((state) => state.ControlProperties);
+	const ControlProperties = useControlsStore(
+		(state) => state.ControlProperties,
+	);
 	const saveProject = useProjectStore((state) => state.saveProject);
 	const loadProject = useProjectStore((state) => state.loadProject);
 
@@ -146,7 +148,7 @@ export const MenuBar: React.FC = () => {
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'n') {
 			event.preventDefault();
-			setShowWizard(true);
+			navigate('/new');
 		} else if (event.ctrlKey && event.key === 'p') {
 			event.preventDefault();
 			setShowPreview(true);
@@ -155,10 +157,6 @@ export const MenuBar: React.FC = () => {
 			void handleSaveProject();
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
-
-			if (workspaces.length > 0) {
-				setShowWizard(false);
-			}
 
 			setShowAbout(false);
 			setShowPreview(false);
@@ -338,7 +336,7 @@ export const MenuBar: React.FC = () => {
 	};
 
 	const handleNewWorkspace = () => {
-		addWorkspace('');
+		navigate('/new');
 	};
 
 	const handleCleanWorkspace = () => {
@@ -381,7 +379,7 @@ export const MenuBar: React.FC = () => {
 					<MenubarMenu>
 						<MenubarTrigger>File</MenubarTrigger>
 						<MenubarContent>
-							<MenubarItem onClick={() => setShowWizard(true)}>
+							<MenubarItem onClick={() => navigate('/new')}>
 								New Project <MenubarShortcut>⌘N</MenubarShortcut>
 							</MenubarItem>
 
@@ -394,8 +392,9 @@ export const MenuBar: React.FC = () => {
 							</MenubarItem>
 
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={async () => {
-									await handleSaveProject();
+									if (isEditor) await handleSaveProject();
 								}}
 							>
 								Save Project
@@ -403,16 +402,18 @@ export const MenuBar: React.FC = () => {
 							</MenubarItem>
 
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={async () => {
-									await handleSaveAsJson();
+									if (isEditor) await handleSaveAsJson();
 								}}
 							>
 								Save Project as Template
 							</MenubarItem>
 
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={async () => {
-									setShowPreview(true);
+									if (isEditor) setShowPreview(true);
 								}}
 							>
 								Render
@@ -420,27 +421,32 @@ export const MenuBar: React.FC = () => {
 							</MenubarItem>
 
 							<MenubarSub>
-								<MenubarSubTrigger>Export as</MenubarSubTrigger>
+								<MenubarSubTrigger disabled={!isEditor}>
+									Export as
+								</MenubarSubTrigger>
 								<MenubarSubContent>
 									<MenubarItem
+										disabled={!isEditor}
 										onClick={() => {
-											exportImage(export_format.png);
+											if (isEditor) exportImage(export_format.png);
 										}}
 									>
 										Export as PNG
 									</MenubarItem>
 
 									<MenubarItem
+										disabled={!isEditor}
 										onClick={() => {
-											exportImage(export_format.jpeg);
+											if (isEditor) exportImage(export_format.jpeg);
 										}}
 									>
 										Export as JPEG
 									</MenubarItem>
 
 									<MenubarItem
+										disabled={!isEditor}
 										onClick={() => {
-											exportImage(export_format.svg);
+											if (isEditor) exportImage(export_format.svg);
 										}}
 									>
 										Export as SVG
@@ -450,8 +456,9 @@ export const MenuBar: React.FC = () => {
 
 							<MenubarSeparator />
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={async () => {
-									await handleShare();
+									if (isEditor) await handleShare();
 								}}
 							>
 								Share
@@ -461,19 +468,21 @@ export const MenuBar: React.FC = () => {
 
 					{/* Edit */}
 					<MenubarMenu>
-						<MenubarTrigger>Edit</MenubarTrigger>
+						<MenubarTrigger disabled={!isEditor}>Edit</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={() => {
-									applyHistoryResult(undo());
+									if (isEditor) applyHistoryResult(undo());
 								}}
 							>
 								Undo
 								<MenubarShortcut>⌘Z</MenubarShortcut>
 							</MenubarItem>
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={() => {
-									applyHistoryResult(redo());
+									if (isEditor) applyHistoryResult(redo());
 								}}
 							>
 								Redo
@@ -481,8 +490,9 @@ export const MenuBar: React.FC = () => {
 							</MenubarItem>
 
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={() => {
-									duplicate();
+									if (isEditor) duplicate();
 								}}
 							>
 								Duplicate
@@ -493,19 +503,21 @@ export const MenuBar: React.FC = () => {
 
 					{/* Workspace */}
 					<MenubarMenu>
-						<MenubarTrigger>Workspace</MenubarTrigger>
+						<MenubarTrigger disabled={!isEditor}>Workspace</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={() => {
-									handleNewWorkspace();
+									if (isEditor) handleNewWorkspace();
 								}}
 							>
 								New Workspace
 								<MenubarShortcut>⌘M</MenubarShortcut>
 							</MenubarItem>
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={() => {
-									handleCleanWorkspace();
+									if (isEditor) handleCleanWorkspace();
 								}}
 							>
 								Clean Workspace
@@ -515,33 +527,47 @@ export const MenuBar: React.FC = () => {
 
 					{/* View */}
 					<MenubarMenu>
-						<MenubarTrigger>View</MenubarTrigger>
+						<MenubarTrigger disabled={!isEditor}>View</MenubarTrigger>
 						<MenubarContent>
 							<MenubarItem
-								onClick={() =>
-									viewerRef.current?.setZoom(viewerRef.current?.getZoom() + 0.2)
-								}
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor)
+										viewerRef.current?.setZoom(
+											viewerRef.current?.getZoom() + 0.2,
+										);
+								}}
 							>
 								Zoom In
 							</MenubarItem>
 
 							<MenubarItem
-								onClick={() =>
-									viewerRef.current?.setZoom(viewerRef.current?.getZoom() - 0.2)
-								}
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor)
+										viewerRef.current?.setZoom(
+											viewerRef.current?.getZoom() - 0.2,
+										);
+								}}
 							>
 								Zoom Out
 							</MenubarItem>
 
-							<MenubarItem onClick={() => viewerRef.current?.setZoom(0.7)}>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) viewerRef.current?.setZoom(0.7);
+								}}
+							>
 								Zoom Reset
 							</MenubarItem>
 
 							<MenubarSeparator></MenubarSeparator>
 
 							<MenubarItem
+								disabled={!isEditor}
 								onClick={() => {
-									centerView();
+									if (isEditor) centerView();
 								}}
 							>
 								Center View
@@ -569,26 +595,19 @@ export const MenuBar: React.FC = () => {
 					</MenubarMenu>
 				</Menubar>
 
-				<TabBar></TabBar>
+				{isEditor && <TabBar></TabBar>}
 
-				<Button
-					className='h-8 w-8 px-2'
-					onClick={handleNewWorkspace}
-					size={'icon'}
-					variant={'ghost'}
-				>
-					<Plus size={16}></Plus>
-				</Button>
+				{isEditor && (
+					<Button
+						className='h-8 w-8 px-2'
+						onClick={handleNewWorkspace}
+						size={'icon'}
+						variant={'ghost'}
+					>
+						<Plus size={16}></Plus>
+					</Button>
+				)}
 			</div>
-
-			{showWizard && (
-				<Suspense>
-					<ProjectWizard
-						onClose={() => setShowWizard(false)}
-						open={showWizard}
-					></ProjectWizard>
-				</Suspense>
-			)}
 
 			{showAbout && (
 				<Suspense>

@@ -9,7 +9,7 @@ interface WorkspaceState {
 }
 
 interface WorkspaceActions {
-	addWorkspace: (id?: string) => void;
+	addWorkspace: (id?: string, name?: string) => void;
 	setCurrentWorkspace: (id: string) => void;
 	deleteWorkspace: (id: string) => void;
 	closeOtherWorkspaces: (id: string) => void;
@@ -71,13 +71,13 @@ const buildNextWorkspaceState = (
 
 export const useWorkspaceStore = create<WorkspaceStore>((set, get) => ({
 	...buildNextWorkspaceState(
-		[createDefaultWorkspace('----', 'Workspace 1')],
-		'----',
+		[],
+		'',
 	),
 
-	addWorkspace: (id) => {
+	addWorkspace: (id, name) => {
 		const newId = id || getRandomNumber().toString();
-		const workspaceName = `Workspace ${get().workspaces.length + 1}`;
+		const workspaceName = name || `Workspace ${get().workspaces.length + 1}`;
 		const newWorkspace = createDefaultWorkspace(newId, workspaceName);
 		
 		set(state =>

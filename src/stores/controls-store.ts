@@ -113,7 +113,13 @@ const commitControlsMutation = (
 		currentWorkspace,
 		onWorkspaceUpdate: (controls) =>
 			useWorkspaceStore.getState().setWorkspaceControls(controls),
-		onControlUpdate: (id) => setControlsState({ currentControlID: id }),
+		onControlUpdate: (id) =>
+			setControlsState({
+				currentControlID: id,
+				controlPosition: undefined,
+				controlSize: undefined,
+				controlTransform: undefined,
+			}),
 		onReadyToSave: () => setControlsState({ readyToSave: true }),
 		onEditingChange: () => {},
 	});
@@ -148,7 +154,12 @@ export const useControlsStore = create<ControlsStore>((set, get) => ({
 		currentWorkspace?.controls?.filter((item: Item) => !item.isDeleted) ?? [],
 
 	setCurrentControlID: (id) => {
-		set({ currentControlID: id });
+		set({
+			currentControlID: id,
+			controlPosition: undefined,
+			controlSize: undefined,
+			controlTransform: undefined,
+		});
 	},
 
 	setControlProperties: (properties) => {

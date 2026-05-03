@@ -14,6 +14,7 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { Tooltip } from '../components/CustomControls/Tooltip';
 import { useScreenDirection } from '../hooks/useScreenDirection';
@@ -47,6 +48,8 @@ const InfiniteViewer = React.lazy(
 
 export const Editor: React.FC = () => {
 	const { viewerRef } = useContext(AppContext);
+	const navigate = useNavigate();
+	const workspaces = useWorkspaceStore((state) => state.workspaces);
 
 	/* App Store */
 	const duplicateControl = useControlsStore((state) => state.duplicateControl);
@@ -175,6 +178,13 @@ export const Editor: React.FC = () => {
 			setShowAbout(false);
 		}
 	};
+
+	/* Redirect to /new if no workspaces exist */
+	useEffect(() => {
+		if (workspaces.length === 0) {
+			navigate('/new');
+		}
+	}, [workspaces, navigate]);
 
 	/* Handle Key Shortcuts and Center View on Change Some Workspace Properties */
 	useEffect(() => {

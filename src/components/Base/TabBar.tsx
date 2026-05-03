@@ -54,6 +54,11 @@ export const TabBar: React.FC = () => {
 		getWorkspaceIndex(contextMenuWorkspaceId || '') < workspaces.length - 1;
 	const canCloseLeft = getWorkspaceIndex(contextMenuWorkspaceId || '') > 0;
 
+	// Don't render TabBar if there are no workspaces
+	if (workspaces.length === 0) {
+		return null;
+	}
+
 	return (
 		<Scrollbars
 			ref={ref}
