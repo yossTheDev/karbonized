@@ -1,11 +1,12 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+
 const useMousePosition = (): {
 	x: number;
 	y: number;
 } => {
-	const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
+	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const workspace = document.getElementById('workspace');
 
 		const updateMousePosition = (ev: {
