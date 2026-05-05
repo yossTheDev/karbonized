@@ -506,6 +506,21 @@ export const MenuBar: React.FC = () => {
 						</MenubarContent>
 					</MenubarMenu>
 
+					{/* Components */}
+					<MenubarMenu>
+						<MenubarTrigger disabled={!isEditor}>Components</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) setShowImportComponents(true);
+								}}
+							>
+								Import Components
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
 					{/* Workspace */}
 					<MenubarMenu>
 						<MenubarTrigger disabled={!isEditor}>Workspace</MenubarTrigger>
@@ -595,21 +610,6 @@ export const MenuBar: React.FC = () => {
 
 							<MenubarItem onClick={() => setShowAbout(true)}>
 								About
-							</MenubarItem>
-						</MenubarContent>
-					</MenubarMenu>
-
-					{/* Components */}
-					<MenubarMenu>
-						<MenubarTrigger disabled={!isEditor}>Components</MenubarTrigger>
-						<MenubarContent>
-							<MenubarItem
-								disabled={!isEditor}
-								onClick={() => {
-									if (isEditor) setShowImportComponents(true);
-								}}
-							>
-								Import Components
 							</MenubarItem>
 						</MenubarContent>
 					</MenubarMenu>
