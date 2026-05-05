@@ -1069,7 +1069,10 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 				}
 			>
 				<>
-					<div ref={shadowHostRef} className='w-full h-full' />
+					<div
+						ref={shadowHostRef}
+						className='w-full h-full pointer-events-none'
+					/>
 				</>
 			</ControlTemplate>
 		</>

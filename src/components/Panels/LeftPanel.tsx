@@ -42,10 +42,17 @@ import { isElectron } from '../../utils/isElectron';
 import { Tooltip } from '../CustomControls/Tooltip';
 import { Separator } from '../ui/separator';
 import { IconBrandHtml5, IconBrandX, IconHtml } from '@tabler/icons-react';
+import { ComponentsGalleryDialog } from '../Modals/ComponentsGalleryDialog';
+import { useKComponentStore } from '../../stores/kcomponent-store';
+import { KComponent } from '../../models/KComponent';
+import { Package } from 'lucide-react';
 
 export const LeftPanel: React.FC = () => {
 	/* App Store */
 	const addControl = useControlsStore((state) => state.addControl);
+	const addInitialProperty = useControlsStore(
+		(state) => state.addInitialProperty,
+	);
 	const workspaceMode = useUIStore((state) => state.workspaceMode);
 	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
 	const setWorkspaceTab = useUIStore((state) => state.setSelectedTab);
@@ -62,6 +69,12 @@ export const LeftPanel: React.FC = () => {
 		(state) => state.currentWorkspaceID,
 	);
 
+	/* KComponent Store */
+	const { importedComponents } = useKComponentStore();
+
+	/* Component Gallery Dialog State */
+	const [showComponentsDialog, setShowComponentsDialog] = useState(false);
+
 	/* Component State */
 	const isHorizontal = useScreenDirection();
 	const { theme, toggleTheme } = useContext(AppContext);
@@ -72,6 +85,46 @@ export const LeftPanel: React.FC = () => {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
 	const containerRef = useRef<HTMLDivElement>(null);
+
+	// Handler to add imported component to canvas
+	const handleAddKComponentToCanvas = (component: KComponent) => {
+		const getElementsByType = (type: string) => {
+			if (currentWorkspace !== undefined)
+				return (
+					currentWorkspace?.controls.filter((item) => item.type === type)
+						?.length + 1
+				);
+		};
+
+		// Create an HTML block with the imported component's content
+		const controlId = `html-${getRandomNumber()}`;
+		addControl(
+			{
+				type: 'html',
+				id: controlId,
+				isSelectable: true,
+				isDeleted: false,
+				name: component.manifest.name || `html ${getElementsByType('html')}`,
+				isVisible: true,
+			},
+			currentWorkspaceID,
+		);
+
+		// Set the HTML, CSS, and JS content from the imported component
+		// using the store's initialProperties mechanism
+		addInitialProperty(
+			{ id: `${controlId}-html`, value: component.html },
+			currentWorkspaceID,
+		);
+		addInitialProperty(
+			{ id: `${controlId}-css`, value: component.css },
+			currentWorkspaceID,
+		);
+		addInitialProperty(
+			{ id: `${controlId}-js`, value: component.js },
+			currentWorkspaceID,
+		);
+	};
 
 	// Tool configuration
 	const tools = useMemo(() => {
@@ -340,6 +393,15 @@ export const LeftPanel: React.FC = () => {
 						},
 						currentWorkspaceID,
 					);
+				},
+				isActive: false,
+			},
+			{
+				id: 'components',
+				icon: Package,
+				label: 'Components',
+				action: () => {
+					setShowComponentsDialog(true);
 				},
 				isActive: false,
 			},
@@ -620,6 +682,13 @@ export const LeftPanel: React.FC = () => {
 					)}
 				</div>
 			</div>
+
+			{/* Components Gallery Dialog */}
+			<ComponentsGalleryDialog
+				open={showComponentsDialog}
+				onOpenChange={setShowComponentsDialog}
+				onAddToCanvas={handleAddKComponentToCanvas}
+			/>
 		</div>
 	);
 };

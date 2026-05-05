@@ -1,6 +1,56 @@
 # Changelog
 
-## v 2.0.0
+## v 2.0.0 - Beta 2
+
+### 🚀 Features
+
+- **NEW Custom Component System (.kcomponent)**
+  - **YAML-based component format** with manifest, HTML, CSS, and JavaScript sections
+  - **CSS Variables System** with type annotations for automatic UI control generation
+    - Color variables with color pickers
+    - Number variables with sliders (min, max, step, unit)
+    - Shadow variables with shadow editors
+    - Boolean variables with toggle switches
+  - **JavaScript Variables System** with typed controls
+  - **Custom Actions System** with button generation from JavaScript comments
+  - **Shadow DOM Integration** for secure encapsulation
+  - **Component validation** with error messages
+
+- **Component Import System**
+  - **MenuBar → Components → Import Components** menu option
+  - **File upload support** for .kcomponent files
+  - **Direct YAML paste** for quick import
+  - **Component preview** before import
+  - **Example component download** for reference
+  - **Automatic validation** with helpful error messages
+
+- **Component Gallery in Left Panel**
+  - **Components button** in main toolbar for quick access
+  - **Search functionality** filtering by name, author, description, category, and tags
+  - **Component cards** with metadata (name, author, description, category, tags)
+  - **Add to canvas** button for quick component insertion
+  - **Delete component** button for library management
+  - **Empty state** with helpful guidance
+  - **Persistent storage** using Zustand persist
+
+- **Documentation**
+  - **kcomponent-format.md**: Complete format specification with examples
+  - **kcomponent-guide.md**: Step-by-step guide for importing and producing components
+  - **CSS variable types documentation** with all supported annotations
+  - **JavaScript actions documentation** with HTML Block API reference
+  - **Best practices** and troubleshooting sections
+
+### 📦 Dependencies
+
+- Add js-yaml: ^4.1.0
+- Add @types/js-yaml: ^4.0.9
+
+### 📝 Documentation
+
+- Add docs/kcomponent-format.md
+- Add docs/kcomponent-guide.md
+
+## v 2.0.0 - Beta 1 (Internal testing)
 
 ### 🚀 Features
 

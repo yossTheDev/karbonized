@@ -44,6 +44,9 @@ const DonationsModal = React.lazy(
 const PreviewModal = React.lazy(
 	async () => await import('../Modals/PreviewModal'),
 );
+const ImportComponentsDialog = React.lazy(
+	async () => await import('../Modals/ImportComponentsDialog'),
+);
 
 const mergeHistoryById = <T extends { id: string }>(
 	current: T[],
@@ -70,6 +73,7 @@ export const MenuBar: React.FC = () => {
 	const [showPreview, setShowPreview] = useState(false);
 	const [showChangelog, setShowChangelog] = useState(false);
 	const [showDonations, setShowDonations] = useState(false);
+	const [showImportComponents, setShowImportComponents] = useState(false);
 
 	/* Actions */
 	const redo = useHistoryStore((state) => state.redo);
@@ -162,6 +166,7 @@ export const MenuBar: React.FC = () => {
 			setShowPreview(false);
 			setShowChangelog(false);
 			setShowDonations(false);
+			setShowImportComponents(false);
 		}
 	};
 
@@ -593,6 +598,21 @@ export const MenuBar: React.FC = () => {
 							</MenubarItem>
 						</MenubarContent>
 					</MenubarMenu>
+
+					{/* Components */}
+					<MenubarMenu>
+						<MenubarTrigger disabled={!isEditor}>Components</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) setShowImportComponents(true);
+								}}
+							>
+								Import Components
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
 				</Menubar>
 
 				{isEditor && <TabBar></TabBar>}
@@ -650,6 +670,16 @@ export const MenuBar: React.FC = () => {
 						}}
 						open={showDonations}
 					></DonationsModal>
+				</Suspense>
+			)}
+
+			{showImportComponents && (
+				<Suspense>
+					<ImportComponentsDialog
+						open={showImportComponents}
+						onOpenChange={setShowImportComponents}
+						onAddToCanvas={() => {}}
+					/>
 				</Suspense>
 			)}
 		</>
