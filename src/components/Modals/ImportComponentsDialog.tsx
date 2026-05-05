@@ -54,6 +54,9 @@ export const ImportComponentsDialog: React.FC<ImportComponentsDialogProps> = ({
 			setYamlContent(content);
 			validateAndParse(content);
 		};
+		reader.onerror = () => {
+			setParseError('Failed to read file');
+		};
 		reader.readAsText(file);
 	};
 
@@ -134,22 +137,27 @@ export const ImportComponentsDialog: React.FC<ImportComponentsDialogProps> = ({
 						<div className='space-y-2'>
 							<Label>Upload .kcomponent File</Label>
 							<div className='flex gap-2'>
+								<label htmlFor='kcomponent-file' className='flex-1'>
+									<Button
+										type='button'
+										variant='outline'
+										className='w-full'
+										asChild
+									>
+										<span>
+											<Upload className='mr-2 h-4 w-4' />
+											Choose File
+										</span>
+									</Button>
+								</label>
 								<Input
+									id='kcomponent-file'
 									ref={fileInputRef}
 									type='file'
 									accept='.kcomponent,.yaml,.yml'
 									onChange={handleFileUpload}
 									className='hidden'
 								/>
-								<Button
-									type='button'
-									variant='outline'
-									onClick={() => fileInputRef.current?.click()}
-									className='flex-1'
-								>
-									<Upload className='mr-2 h-4 w-4' />
-									Choose File
-								</Button>
 								<Button
 									type='button'
 									variant='ghost'
