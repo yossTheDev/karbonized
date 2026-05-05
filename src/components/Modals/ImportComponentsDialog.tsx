@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Upload, FileText, Trash2, Plus, Download, Info } from 'lucide-react';
+import { Upload, Plus, Download, Info } from 'lucide-react';
 import { useKComponentStore } from '@/stores/kcomponent-store';
 import {
 	parseKComponent,
@@ -21,7 +21,6 @@ import {
 } from '@/utils/kcomponentParser';
 import { KComponent } from '@/models/KComponent';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface ImportComponentsDialogProps {
 	open: boolean;
@@ -41,8 +40,7 @@ export const ImportComponentsDialog: React.FC<ImportComponentsDialogProps> = ({
 	);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
-	const { importedComponents, addImportedComponent, removeImportedComponent } =
-		useKComponentStore();
+	const { addImportedComponent, componentExists } = useKComponentStore();
 
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -87,19 +85,23 @@ export const ImportComponentsDialog: React.FC<ImportComponentsDialogProps> = ({
 	const handleImport = () => {
 		if (!parsedComponent) return;
 
+		// Check if component already exists
+		const exists = componentExists(
+			parsedComponent.manifest.name,
+			parsedComponent.manifest.author,
+		);
+
+		if (exists) {
+			setParseError(
+				`A component with the name "${parsedComponent.manifest.name}" by ${parsedComponent.manifest.author || 'unknown'} already exists.`,
+			);
+			return;
+		}
+
 		addImportedComponent(parsedComponent);
 		setYamlContent('');
 		setParsedComponent(null);
 		setParseError(null);
-	};
-
-	const handleAddToCanvas = (component: KComponent) => {
-		onAddToCanvas(component);
-		onOpenChange(false);
-	};
-
-	const handleDeleteImported = (id: string) => {
-		removeImportedComponent(id);
 	};
 
 	const handleDownloadExample = () => {
@@ -117,7 +119,7 @@ export const ImportComponentsDialog: React.FC<ImportComponentsDialogProps> = ({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className='max-w-2xl max-h-[80vh] overflow-y-auto'>
+			<DialogContent className='max-w-2xl'>
 				<DialogHeader>
 					<DialogTitle>Import Custom Components</DialogTitle>
 					<DialogDescription>
@@ -126,198 +128,115 @@ export const ImportComponentsDialog: React.FC<ImportComponentsDialogProps> = ({
 					</DialogDescription>
 				</DialogHeader>
 
-				<Tabs defaultValue='import' className='w-full'>
-					<TabsList className='grid w-full grid-cols-2'>
-						<TabsTrigger value='import'>Import New</TabsTrigger>
-						<TabsTrigger value='library'>Component Library</TabsTrigger>
-					</TabsList>
-
-					<TabsContent value='import' className='space-y-4'>
-						{/* File Upload */}
-						<div className='space-y-2'>
-							<Label>Upload .kcomponent File</Label>
-							<div className='flex gap-2'>
-								<label htmlFor='kcomponent-file' className='flex-1'>
-									<Button
-										type='button'
-										variant='outline'
-										className='w-full'
-										asChild
-									>
-										<span>
-											<Upload className='mr-2 h-4 w-4' />
-											Choose File
-										</span>
-									</Button>
-								</label>
-								<Input
-									id='kcomponent-file'
-									ref={fileInputRef}
-									type='file'
-									accept='.kcomponent,.yaml,.yml'
-									onChange={handleFileUpload}
-									className='hidden'
-								/>
+				<div className='space-y-4 max-h-[65vh] overflow-y-auto'>
+					{/* File Upload */}
+					<div className='space-y-2'>
+						<Label>Upload .kcomponent File</Label>
+						<div className='flex gap-2'>
+							<label htmlFor='kcomponent-file' className='flex-1'>
 								<Button
 									type='button'
-									variant='ghost'
-									onClick={handleDownloadExample}
+									variant='outline'
+									className='w-full'
+									asChild
 								>
-									<Download className='mr-2 h-4 w-4' />
-									Download Example
+									<span>
+										<Upload className='mr-2 h-4 w-4' />
+										Choose File
+									</span>
 								</Button>
-							</div>
-						</div>
-
-						{/* YAML Editor */}
-						<div className='space-y-2'>
-							<Label>Or Paste YAML Content</Label>
-							<Textarea
-								value={yamlContent}
-								onChange={(e) => handleYamlChange(e.target.value)}
-								placeholder='Paste your .kcomponent YAML content here...'
-								className='font-mono text-xs min-h-50'
+							</label>
+							<Input
+								id='kcomponent-file'
+								ref={fileInputRef}
+								type='file'
+								accept='.kcomponent,.yaml,.yml'
+								onChange={handleFileUpload}
+								className='hidden'
 							/>
+							<Button
+								type='button'
+								variant='ghost'
+								onClick={handleDownloadExample}
+							>
+								<Download className='mr-2 h-4 w-4' />
+								Download Example
+							</Button>
 						</div>
+					</div>
 
-						{/* Validation Status */}
-						{parseError && (
-							<Alert variant='destructive'>
-								<Info className='h-4 w-4' />
-								<AlertDescription>{parseError}</AlertDescription>
-							</Alert>
-						)}
+					{/* YAML Editor */}
+					<div className='space-y-2'>
+						<Label>Or Paste YAML Content</Label>
+						<Textarea
+							value={yamlContent}
+							onChange={(e) => handleYamlChange(e.target.value)}
+							placeholder='Paste your .kcomponent YAML content here...'
+							className='font-mono text-xs min-h-50'
+						/>
+					</div>
 
-						{parsedComponent && (
-							<Alert>
-								<Info className='h-4 w-4' />
-								<AlertDescription>
-									Valid component:{' '}
-									<strong>{parsedComponent.manifest.name}</strong>
-									{parsedComponent.manifest.description && (
-										<> - {parsedComponent.manifest.description}</>
-									)}
-								</AlertDescription>
-							</Alert>
-						)}
+					{/* Validation Status */}
+					{parseError && (
+						<Alert variant='destructive'>
+							<Info className='h-4 w-4' />
+							<AlertDescription>{parseError}</AlertDescription>
+						</Alert>
+					)}
 
-						{/* Preview */}
-						{parsedComponent && (
-							<div className='space-y-2'>
-								<Label>Preview</Label>
-								<div className='border rounded-lg p-4 bg-muted'>
-									<div className='space-y-1'>
-										<p className='font-semibold'>
-											{parsedComponent.manifest.name}
+					{parsedComponent && (
+						<Alert>
+							<Info className='h-4 w-4' />
+							<AlertDescription>
+								Valid component:{' '}
+								<strong>{parsedComponent.manifest.name}</strong>
+								{parsedComponent.manifest.description && (
+									<> - {parsedComponent.manifest.description}</>
+								)}
+							</AlertDescription>
+						</Alert>
+					)}
+
+					{/* Preview */}
+					{parsedComponent && (
+						<div className='space-y-2'>
+							<Label>Preview</Label>
+							<div className='border rounded-lg p-4 bg-muted'>
+								<div className='space-y-1'>
+									<p className='font-semibold'>
+										{parsedComponent.manifest.name}
+									</p>
+									{parsedComponent.manifest.author && (
+										<p className='text-sm text-muted-foreground'>
+											By {parsedComponent.manifest.author}
 										</p>
-										{parsedComponent.manifest.author && (
-											<p className='text-sm text-muted-foreground'>
-												By {parsedComponent.manifest.author}
-											</p>
-										)}
-										{parsedComponent.manifest.description && (
-											<p className='text-sm text-muted-foreground'>
-												{parsedComponent.manifest.description}
-											</p>
-										)}
-										{parsedComponent.manifest.category && (
-											<Badge variant='secondary'>
-												{parsedComponent.manifest.category}
-											</Badge>
-										)}
-									</div>
+									)}
+									{parsedComponent.manifest.description && (
+										<p className='text-sm text-muted-foreground'>
+											{parsedComponent.manifest.description}
+										</p>
+									)}
+									{parsedComponent.manifest.category && (
+										<Badge variant='secondary'>
+											{parsedComponent.manifest.category}
+										</Badge>
+									)}
 								</div>
 							</div>
-						)}
+						</div>
+					)}
 
-						<DialogFooter>
-							<Button
-								onClick={handleImport}
-								disabled={!parsedComponent || !!parseError}
-								className='w-full'
-							>
-								<Plus className='mr-2 h-4 w-4' />
-								Add to Library
-							</Button>
-						</DialogFooter>
-					</TabsContent>
-
-					<TabsContent value='library' className='space-y-4'>
-						{importedComponents.length === 0 ? (
-							<div className='text-center py-8 text-muted-foreground'>
-								<FileText className='h-12 w-12 mx-auto mb-4 opacity-50' />
-								<p>No components imported yet.</p>
-								<p className='text-sm'>
-									Import components from the "Import New" tab.
-								</p>
-							</div>
-						) : (
-							<div className='space-y-2 max-h-100 overflow-y-auto'>
-								{importedComponents.map((imported) => (
-									<div
-										key={imported.id}
-										className='border rounded-lg p-4 bg-card hover:bg-muted/50 transition-colors'
-									>
-										<div className='flex items-start justify-between gap-4'>
-											<div className='flex-1 space-y-1'>
-												<div className='flex items-center gap-2'>
-													<p className='font-semibold'>
-														{imported.component.manifest.name}
-													</p>
-													{imported.component.manifest.category && (
-														<Badge variant='secondary' className='text-xs'>
-															{imported.component.manifest.category}
-														</Badge>
-													)}
-												</div>
-												{imported.component.manifest.author && (
-													<p className='text-sm text-muted-foreground'>
-														By {imported.component.manifest.author}
-													</p>
-												)}
-												{imported.component.manifest.description && (
-													<p className='text-sm text-muted-foreground'>
-														{imported.component.manifest.description}
-													</p>
-												)}
-												{imported.component.manifest.tags &&
-													imported.component.manifest.tags.length > 0 && (
-														<div className='flex gap-1 flex-wrap mt-2'>
-															{imported.component.manifest.tags.map((tag) => (
-																<Badge
-																	key={tag}
-																	variant='outline'
-																	className='text-xs'
-																>
-																	{tag}
-																</Badge>
-															))}
-														</div>
-													)}
-											</div>
-											<div className='flex gap-2'>
-												<Button
-													size='sm'
-													onClick={() => handleAddToCanvas(imported.component)}
-												>
-													<Plus className='h-4 w-4 mr-1' />
-													Add
-												</Button>
-												<Button
-													size='sm'
-													variant='ghost'
-													onClick={() => handleDeleteImported(imported.id)}
-												>
-													<Trash2 className='h-4 w-4' />
-												</Button>
-											</div>
-										</div>
-									</div>
-								))}
-							</div>
-						)}
-					</TabsContent>
-				</Tabs>
+					<DialogFooter>
+						<Button
+							onClick={handleImport}
+							disabled={!parsedComponent || !!parseError}
+							className='w-full'
+						>
+							<Plus className='mr-2 h-4 w-4' />
+							Add to Library
+						</Button>
+					</DialogFooter>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

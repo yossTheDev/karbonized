@@ -9,6 +9,7 @@ interface KComponentState {
 
 interface KComponentActions {
 	addImportedComponent: (component: KComponent) => string;
+	componentExists: (name: string, author?: string) => boolean;
 	removeImportedComponent: (id: string) => void;
 	getImportedComponent: (id: string) => ImportedComponent | undefined;
 	setImportDialogOpen: (open: boolean) => void;
@@ -34,6 +35,14 @@ export const useKComponentStore = create<KComponentStore>()(
 					importedComponents: [...state.importedComponents, importedComponent],
 				}));
 				return id;
+			},
+
+			componentExists: (name, author) => {
+				return get().importedComponents.some(
+					(c) =>
+						c.component.manifest.name === name &&
+						c.component.manifest.author === author,
+				);
 			},
 
 			removeImportedComponent: (id) => {
