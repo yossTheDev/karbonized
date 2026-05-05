@@ -1,12 +1,23 @@
-import { Button, Modal } from 'react-daisyui';
 import ReactMarkdown from 'react-markdown';
+import React from 'react';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog';
 
 interface Props {
 	open: boolean;
-	onClose?: Function;
+	onClose?: () => void;
 }
 
 const changelog = `
+## v 2.0.0
+
+* feat: Create Dynamic Background from Image, Phone, and Window block context menus
+
 ## v 1.12.0 - Release (August 24th, 2023)
 
 * feat: New Template System with Community-Generated Content
@@ -299,34 +310,20 @@ Controls
 `;
 export const ChangelogModal: React.FC<Props> = ({ open, onClose }) => {
 	return (
-		<Modal.Legacy
-			open={open}
-			onClickBackdrop={() => {
-				onClose && onClose();
-			}}
-			className='overflow-hidden'
-		>
-			<Modal.Header className='font-bold dark:text-white'>
-				<p className='poppins-font-family text-center text-2xl md:text-left md:text-xl'>
-					Changelog
-				</p>
-			</Modal.Header>
+		<Dialog open={open} onOpenChange={onClose}>
+			<DialogContent className='sm:max-w-2xl max-h-[80vh] overflow-hidden'>
+				<DialogHeader>
+					<DialogTitle>Changelog</DialogTitle>
+					<DialogDescription>
+						View the history of changes and updates to Karbonized
+					</DialogDescription>
+				</DialogHeader>
 
-			<Modal.Body className='flex select-none flex-col dark:text-gray-300'>
-				<div className='flex max-h-96 flex-col overflow-auto font-mono'>
+				<div className='flex max-h-96 flex-col overflow-auto font-mono text-sm'>
 					<ReactMarkdown>{changelog}</ReactMarkdown>
 				</div>
-			</Modal.Body>
-
-			<Modal.Actions className='hidden'>
-				<Button
-					className='dark:text-white'
-					onClick={() => onClose && onClose()}
-				>
-					OK
-				</Button>
-			</Modal.Actions>
-		</Modal.Legacy>
+			</DialogContent>
+		</Dialog>
 	);
 };
 

@@ -8,16 +8,16 @@ export const useKeyPress = (keyToDown: string, func?: () => void) => {
 	// Key Down Handler
 	const downHandler = ({ key }: { key: string }) => {
 		setKey(key);
-		//console.log(key);
+		// console.log(key);
 		if (key === keyToDown) {
-			//func();
+			// func();
 			setIsPressed(true);
 		}
 	};
 
 	// Key Up Handler
 	const upHandler = ({ key }: { key: string }) => {
-		//console.log(key);
+		// console.log(key);
 		setIsPressed(false);
 	};
 

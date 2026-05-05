@@ -1,21 +1,24 @@
-/* Simple hook to change app theme*/
+/* Simple hook to change app theme */
 import { useEffect, useState } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
 export const useTheme = (): [string, () => void] => {
-	const [appTheme, setAppTheme] = useState(
-		localStorage.getItem('theme') || 'dark',
-	);
+	const [appTheme, setAppTheme] = useState<string>(() => {
+		const savedTheme = localStorage.getItem('theme');
+		return savedTheme === 'light' || savedTheme === 'dark'
+			? savedTheme
+			: 'dark';
+	});
 
 	const toggleTheme = () => {
-		appTheme === 'light' ? setAppTheme('dark') : setAppTheme('light');
+		setAppTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
 	};
 
 	useEffect(() => {
 		if (appTheme === 'dark') {
 			document.documentElement.classList.add('dark');
-			document.querySelector('html')?.setAttribute('data-theme', 'dark');
+			document.documentElement.setAttribute('data-theme', 'dark');
 
 			if (Capacitor.isNativePlatform()) {
 				StatusBar.setBackgroundColor({ color: '#242424' });
@@ -23,15 +26,15 @@ export const useTheme = (): [string, () => void] => {
 			}
 		} else {
 			document.documentElement.classList.remove('dark');
-			document.querySelector('html')?.setAttribute('data-theme', 'light');
+			document.documentElement.setAttribute('data-theme', 'light');
 			if (Capacitor.isNativePlatform()) {
 				StatusBar.setBackgroundColor({ color: '#FFFFFF' });
 				StatusBar.setStyle({ style: Style.Light });
 			}
 		}
 
-		localStorage.setItem('theme', appTheme as string);
+		localStorage.setItem('theme', appTheme);
 	}, [appTheme]);
 
-	return [appTheme as string, toggleTheme];
+	return [appTheme, toggleTheme];
 };

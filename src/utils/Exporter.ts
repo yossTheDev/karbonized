@@ -14,12 +14,19 @@ export const ExportImage = (
 	name: string,
 	ref: HTMLElement | null,
 	type: export_format,
-) => {
+): void => {
 	if (ref === null) {
 		return;
 	}
 
-	switch (type) {
+	// Trigger export start event for HTML blocks
+	window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-start' }));
+
+	console.log("render")
+
+	// Small delay to allow HTML blocks to switch to export mode
+	setTimeout(() => {
+		switch (type) {
 		case export_format.png:
 			toPng(ref, {
 				cacheBust: true,
@@ -48,7 +55,7 @@ export const ExportImage = (
 								],
 							});
 
-							if (filePath) {
+							if (filePath !== null) {
 								await writeBinaryFile(filePath, img);
 							}
 						} catch (err) {
@@ -58,6 +65,10 @@ export const ExportImage = (
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					// Trigger export end event for HTML blocks
+					window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-end' }));
 				});
 			break;
 
@@ -89,7 +100,7 @@ export const ExportImage = (
 								],
 							});
 
-							if (filePath) {
+							if (filePath !== null) {
 								await writeBinaryFile(filePath, img);
 							}
 						} catch (err) {
@@ -99,6 +110,10 @@ export const ExportImage = (
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					// Trigger export end event for HTML blocks
+					window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-end' }));
 				});
 			break;
 
@@ -116,7 +131,7 @@ export const ExportImage = (
 						link.click();
 					} else {
 						try {
-							const img = Base64Binary.decodeArrayBuffer(
+							Base64Binary.decodeArrayBuffer(
 								dataUrl.replace('data:image/svg+xml;charset=utf-8,', ''),
 							);
 
@@ -130,7 +145,7 @@ export const ExportImage = (
 								],
 							});
 
-							if (filePath) {
+							if (filePath !== null) {
 								await writeTextFile(filePath, dataUrl);
 							}
 						} catch (err) {
@@ -140,7 +155,12 @@ export const ExportImage = (
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					// Trigger export end event for HTML blocks
+					window.dispatchEvent(new CustomEvent('html-block-export', { detail: 'export-end' }));
 				});
 			break;
-	}
+		}
+	}, 200); // 200ms delay for HTML blocks to switch mode
 };

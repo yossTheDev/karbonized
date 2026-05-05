@@ -1,0 +1,40 @@
+export interface GradientItem {
+	c1: string;
+	c2: string;
+}
+
+export const Gradients: GradientItem[] = [
+	{ c1: '#ff9a9e', c2: '#fad0c4' },
+	{ c1: '#a18cd1', c2: '#fbc2eb' },
+	{ c1: '#fad0c4', c2: '#ffd1ff' },
+	{ c1: '#ffecd2', c2: '#fcb69f' },
+	{ c1: '#fe9698', c2: '#fecfef' },
+	{ c1: '#f6d365', c2: '#fda085' },
+	{ c1: '#fbc2eb', c2: '#a6c1ee' },
+	{ c1: '#a1c4fd', c2: '#c2e9fb' },
+	{ c1: '#d4fc79', c2: '#96a6a1' },
+	{ c1: '#84fab0', c2: '#8fd3f4' },
+	{ c1: '#a6c0fe', c2: '#f68084' },
+	{ c1: '#fccb90', c2: '#d57eeb' },
+	{ c1: '#e0c3fc', c2: '#8ec5fc' },
+	{ c1: '#f093fb', c2: '#f5576c' },
+	{ c1: '#43e97b', c2: '#38f9d8' },
+	{ c1: '#fa709a', c2: '#fee140' },
+	{ c1: '#30cfd0', c2: '#330867' },
+	{ c1: '#a8edea', c2: '#fed6e3' },
+	{ c1: '#5ee7df', c2: '#b490ca' },
+	{ c1: '#d299c2', c2: '#fef9d7' },
+	{ c1: '#667eea', c2: '#764ba2' },
+	{ c1: '#89f7fe', c2: '#66a6ff' },
+	{ c1: '#fddb92', c2: '#d1fdff' },
+	{ c1: '#9890e3', c2: '#b1f4cf' },
+	{ c1: '#96fbc4', c2: '#f9f586' },
+	{ c1: '#2af958', c2: '#00c9efd' },
+	{ c1: '#37ecba', c2: '#72afd3' },
+	{ c1: '#fff1eb', c2: '#ace0f9' },
+	{ c1: '#c471f5', c2: '#fa71cd' },
+	{ c1: '#0ba360', c2: '#3cba92' },
+	{ c1: '#0250c5', c2: '#d43f8d' },
+	{ c1: '#ff0844', c2: '#ffb199' },
+	{ c1: '#92fe9d', c2: '#00c9ff' },
+];

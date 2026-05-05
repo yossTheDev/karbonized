@@ -1,11 +1,13 @@
 import { IconPalette, IconQrcode } from '@tabler/icons-react';
 import React, { useId, useState } from 'react';
-import { Input } from 'react-daisyui';
+import karbonized from '../../assets/logo.svg';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
-import { QRCodeSVG } from 'qrcode.react';
-import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { HexAlphaColorPicker, HexColorPicker } from 'react-colorful';
+import { QRCodeSVG } from 'qrcode.react';
 import { useControlState } from '../../hooks/useControlState';
 
 interface Props {
@@ -38,50 +40,46 @@ export const QrControl: React.FC<Props> = ({ id }) => {
 				maxHeight={'100px'}
 				menu={
 					<>
-						{/* Colors Settings */}
 						<CustomCollapse
+							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconPalette size={22}></IconPalette>
-									<p className='my-auto font-bold'>Colors</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconPalette size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Colors</Label>
 								</div>
 							}
 						>
 							<ColorPicker
 								isGradientEnable={false}
-								type='HexAlpha'
-								color={backgroundColor}
-								onColorChange={setBackgroundColor}
-								label='Background Color'
-							></ColorPicker>
-
-							<ColorPicker
-								isGradientEnable={false}
-								type='HexAlpha'
 								color={foregroundColor}
 								onColorChange={setforegroundColor}
 								label='Foreground Color'
 							></ColorPicker>
+
+							<ColorPicker
+								isGradientEnable={false}
+								color={backgroundColor}
+								onColorChange={setBackgroundColor}
+								label='Background Color'
+							></ColorPicker>
 						</CustomCollapse>
 
-						{/* QR Settings */}
 						<CustomCollapse
-							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconQrcode></IconQrcode>
-									<p className='my-auto'>QR Settings</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconQrcode size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>QR Code</Label>
 								</div>
 							}
 						>
-							<div className='flex flex-auto flex-col gap-2 p-2'>
-								<p className='text-xs'>Value</p>
-								<Input
-									spellCheck={false}
-									onChange={(ev) => setText(ev.target.value)}
-									value={text}
-								></Input>
-							</div>
+							<Label className='text-xs text-muted-foreground'>Text</Label>
+							<Input
+								className='h-8 text-sm'
+								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+									setText(ev.target.value);
+								}}
+								value={text}
+							></Input>
 						</CustomCollapse>
 					</>
 				}

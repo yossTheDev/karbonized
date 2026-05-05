@@ -1,18 +1,25 @@
-export const isElectron = () => {
+declare global {
+	interface Window {
+		process?: any;
+	}
+}
+
+export const isElectron = (): boolean => {
 	// Renderer process
 	if (
 		typeof window !== 'undefined' &&
 		typeof window.process === 'object' &&
-		(window.process as any).type === 'renderer'
+		window.process.type === 'renderer'
 	) {
 		return true;
 	}
 
 	// Main process
 	if (
-		typeof process !== 'undefined' &&
-		typeof process.versions === 'object' &&
-		!!process.versions.electron
+		typeof window !== 'undefined' &&
+		typeof window.process !== 'undefined' &&
+		typeof window.process.versions === 'object' &&
+		window.process.versions.electron !== undefined
 	) {
 		return true;
 	}
@@ -21,7 +28,7 @@ export const isElectron = () => {
 	if (
 		typeof navigator === 'object' &&
 		typeof navigator.userAgent === 'string' &&
-		navigator.userAgent.indexOf('Electron') >= 0
+		navigator.userAgent.includes('Electron')
 	) {
 		return true;
 	}

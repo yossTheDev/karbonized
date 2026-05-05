@@ -1,10 +1,11 @@
 import React from 'react';
-import { FileInput, Input } from 'react-daisyui';
 import karbonized from '../../assets/karbonized.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 interface Props {
 	id: string;
@@ -32,9 +33,9 @@ export const BadgeBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<div className='my-auto h-2 w-4 rounded-full border-2 border-base-content'></div>
-									<p className='my-auto'>Badge</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<div className='h-2 w-4 rounded-full border-2 border-border'></div>
+									<Label className='text-sm font-semibold'>Badge</Label>
 								</div>
 							}
 						>
@@ -50,21 +51,24 @@ export const BadgeBlock: React.FC<Props> = ({ id }) => {
 
 							{/*  Badge Text */}
 							<>
-								<p className='my-auto'>Text</p>
-
+								<Label className='text-xs text-muted-foreground'>Text</Label>
 								<Input
-									className='ml-2 flex flex-auto'
-									onChange={(ev) => setText(ev.target.value)}
+									className='h-8 text-sm'
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+										setText(ev.target.value);
+									}}
 									value={text}
 								></Input>
 							</>
 
 							{/* Image */}
 							<>
-								<p>Image</p>
-								<FileInput
+								<Label className='text-xs text-muted-foreground'>Image</Label>
+								<Input
+									type='file'
 									accept='image/*'
-									onChange={(e) => {
+									className='h-8 text-sm'
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 										if (e.target.files && e.target.files.length > 0) {
 											const reader = new FileReader();
 											reader.addEventListener('load', () => {
@@ -73,7 +77,7 @@ export const BadgeBlock: React.FC<Props> = ({ id }) => {
 											reader.readAsDataURL(e.target.files[0]);
 										}
 									}}
-								></FileInput>
+								></Input>
 							</>
 						</CustomCollapse>
 					</>

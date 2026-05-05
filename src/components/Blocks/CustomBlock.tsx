@@ -1,11 +1,13 @@
 import React from 'react';
-import { Input } from 'react-daisyui';
 import { ControlTemplate } from './ControlTemplate';
 import { useControlState } from '../../hooks/useControlState';
 import { LivePreview, LiveProvider } from 'react-live';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { IconPalette } from '@tabler/icons-react';
 import { ColorPicker } from '../CustomControls/ColorPicker';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Palette } from 'lucide-react';
 
 interface Props {
 	id: string;
@@ -37,9 +39,9 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='m-2 flex flex-row gap-2'>
-									<IconPalette></IconPalette>
-									<p className='my-auto'>Colors</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<Palette size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Colors</Label>
 								</div>
 							}
 						>
@@ -63,7 +65,7 @@ export const CustomBlock: React.FC<Props> = ({ id }) => {
 				}
 			>
 				<LivePreview
-					style={{ color: color, background: bgcolor }}
+					style={{ color, background: bgcolor }}
 					className='mx-auto flex h-full w-full flex-auto select-none'
 					id={id}
 				></LivePreview>

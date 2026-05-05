@@ -1,25 +1,30 @@
 import { useEffect, useState } from 'react';
-import { useStoreActions, useStoreState } from '../stores/Hooks';
+import { 
+	useControlsStore, 
+	useHistoryStore,
+	useWorkspaceStore 
+} from '../stores';
 import default_logo from '../assets/logo.svg';
 
-export const useControlState = (
-	initialState: any,
+export function useControlState<T>(
+	initialState: T,
 	id: string,
 	manual: boolean = false,
-) => {
-	const controlState = useStoreState((state) => state.controlState);
-	const ControlProperties = useStoreState((state) => state.ControlProperties);
-	const initialProperties = useStoreState((state) => state.initialProperties);
-	const removeInitialProperty = useStoreActions(
+): [T, (newState: T) => void] {
+	const controlState = useHistoryStore((state) => state.controlState);
+	const ControlProperties = useControlsStore((state) => state.ControlProperties);
+	const initialProperties = useControlsStore((state) => state.initialProperties);
+	const currentControlID = useControlsStore((state) => state.currentControlID);
+	const removeInitialProperty = useControlsStore(
 		(state) => state.removeInitialProperty,
 	);
-	const pastHistory = useStoreState((state) => state.pastHistory);
-	const setControlState = useStoreActions((state) => state.setControlState);
-	const addControlProperty = useStoreActions(
+	const pastHistory = useHistoryStore((state) => state.pastHistory);
+	const setControlState = useHistoryStore((state) => state.setControlState);
+	const addControlProperty = useControlsStore(
 		(state) => state.addControlProperty,
 	);
-	const setPastHistory = useStoreActions((state) => state.setPast);
-	const setFutureHistory = useStoreActions((state) => state.setFuture);
+	const setPastHistory = useHistoryStore((state) => state.setPast);
+	const setFutureHistory = useHistoryStore((state) => state.setFuture);
 
 	const hasInitialProperty = (id: string) => {
 		for (const item of initialProperties) {
@@ -28,48 +33,94 @@ export const useControlState = (
 		return null;
 	};
 
+	const serialize = (value: unknown): string => {
+		if (typeof value === 'string') return value;
+		return JSON.stringify(value);
+	};
+
+	const controlRef = id.split('-').slice(0, 2).join('-');
+
 	const [state, setState] = useState(initialState);
 
 	/* Set Initial Properties */
 	useEffect(() => {
 		const prop = hasInitialProperty(id);
 		if (prop) {
+			const nextValue =
+				id.endsWith('-src') &&
+				(prop === '/src/assets/logo.svg' ||
+					prop === '/src/assets/karbonized.svg')
+					? (default_logo as T)
+					: (prop as T);
+
+			if (serialize(nextValue) === serialize(state)) {
+				removeInitialProperty(id);
+				return;
+			}
+
 			if (
 				id.endsWith('-src') &&
 				(prop === '/src/assets/logo.svg' ||
 					prop === '/src/assets/karbonized.svg')
 			) {
-				setState(default_logo);
+				setState(default_logo as T);
 			} else {
 				setState(prop);
 			}
 
 			removeInitialProperty(id);
 		}
-	}, [initialProperties]);
+	}, [id, initialProperties, removeInitialProperty, state]);
 
 	/* Look at Current Controls Properties for Changes */
 	useEffect(() => {
-		if (controlState?.id === id) {
+		if (
+			controlState?.id === id &&
+			serialize(controlState.value) !== serialize(state)
+		) {
 			setState(controlState.value);
 		}
-	}, [controlState]);
+	}, [controlState, id, state]);
+
+	useEffect(() => {
+		const storedProperty = ControlProperties.find((item) => item.id === id);
+		if (
+			currentControlID !== controlRef &&
+			storedProperty !== undefined &&
+			serialize(storedProperty.value) !== serialize(state)
+		) {
+			setState(storedProperty.value);
+		}
+	}, [ControlProperties, controlRef, currentControlID, id]);
 
 	/* Save Control Property in Store */
 	useEffect(() => {
-		addControlProperty({ id: id, value: state });
-	}, [state]);
+		const currentWorkspaceID = useWorkspaceStore.getState().currentWorkspaceID;
+		const storedProperty = ControlProperties.find((item) => item.id === id);
+		const currentValue = storedProperty ? serialize(storedProperty.value) : serialize(initialState);
+		const newValue = serialize(state);
+		
+		// Only update if the value has actually changed to prevent infinite loops
+		if (currentValue !== newValue) {
+			addControlProperty({ id, value: state }, currentWorkspaceID);
+		}
+	}, [state, id, initialState]);
 
 	const set = (newState: any) => {
-		if (!manual) {
-			setPastHistory([...pastHistory, { id: id, value: state }]);
-			setState(newState);
-			setControlState({ id: id, value: newState });
-
-			/* Clean Future */
-			setFutureHistory([]);
+		if (serialize(newState) === serialize(state)) {
+			return;
 		}
+
+		setState(newState);
+
+		if (manual) return;
+
+		setPastHistory([...pastHistory, { id, value: state }]);
+		setControlState({ id, value: newState });
+
+		/* Clean Future */
+		setFutureHistory([]);
 	};
 
 	return [state, set];
-};
+}

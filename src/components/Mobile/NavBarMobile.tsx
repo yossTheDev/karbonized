@@ -15,8 +15,10 @@ export const NavBarMobile: React.FC = () => {
 				<Navbar.Start className='z-20'>
 					<button className='btn btn-circle btn-ghost drawer-button active:bg-base-300 lg:hidden'>
 						<IconBell
-							onClick={() => setShowNews(true)}
-							className='mx-auto dark:text-gray-300'
+							onClick={() => {
+								setShowNews(true);
+							}}
+							className='mx-auto dark:text-neutral-300'
 							size={24}
 						></IconBell>
 					</button>
@@ -28,11 +30,13 @@ export const NavBarMobile: React.FC = () => {
 
 				<Navbar.End>
 					<button
-						onClick={() => setShowAbout(true)}
+						onClick={() => {
+							setShowAbout(true);
+						}}
 						className='btn btn-circle btn-ghost drawer-button active:bg-base-300 lg:hidden'
 					>
 						<IconInfoCircle
-							className='mx-auto dark:text-gray-300'
+							className='mx-auto dark:text-neutral-300'
 							size={24}
 						></IconInfoCircle>
 					</button>
@@ -40,11 +44,14 @@ export const NavBarMobile: React.FC = () => {
 			</Navbar>
 
 			{showNews && (
+				// @ts-ignore
 				<Portal>
 					<Modal.Legacy
 						className='h-96 overflow-hidden p-1'
 						open
-						onClickBackdrop={() => setShowNews(false)}
+						onClickBackdrop={() => {
+							setShowNews(false);
+						}}
 					>
 						<NewsPanel></NewsPanel>
 					</Modal.Legacy>
@@ -53,7 +60,9 @@ export const NavBarMobile: React.FC = () => {
 
 			{showAbout && (
 				<AboutModal
-					onClose={() => setShowAbout(false)}
+					onClose={() => {
+						setShowAbout(false);
+					}}
 					open={showAbout}
 				></AboutModal>
 			)}

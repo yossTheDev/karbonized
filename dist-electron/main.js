@@ -1,1 +1,100 @@
-"use strict";const i=require("electron"),c=require("fs"),l=require("node:fs/promises"),t=require("path");function m(a){const e=Object.create(null,{[Symbol.toStringTag]:{value:"Module"}});if(a){for(const n in a)if(n!=="default"){const o=Object.getOwnPropertyDescriptor(a,n);Object.defineProperty(e,n,o.get?o:{enumerable:!0,get:()=>a[n]})}}return e.default=a,Object.freeze(e)}const r=m(l),d=async a=>{c.mkdirSync(t.join(i.app.getPath("appData"),"karbonized","extensions"),{recursive:!0}),a.reply("loading_extensions",!0);const e=t.join(i.app.getPath("appData"),"karbonized","extensions"),n=(await r.readdir(e)).filter(s=>s.endsWith(".kext")),o=[];for(const s of n){const p=JSON.parse(await r.readFile(t.join(e,s),"utf-8"));o.push(p),a.reply("extension_loaded",p)}await r.writeFile(t.join(i.app.getPath("appData"),"karbonized","extensions_data.json"),JSON.stringify(o)),a.reply("extensions_loaded",o),a.reply("loading_extensions",!1)};i.app.whenReady().then(()=>{const a=i.nativeImage.createFromPath(t.join(__dirname,process.platform==="win32"?"icon.ico":"icon.png")),e=new i.BrowserWindow({title:"Karbonized",icon:a,width:800,height:600,minHeight:600,minWidth:900,useContentSize:!0,frame:process.platform==="darwin",titleBarStyle:"hidden",webPreferences:{preload:t.join(__dirname,"preload.js"),sandbox:!1}});process.env.VITE_DEV_SERVER_URL||(i.app.applicationMenu=new i.Menu),e.maximize(),process.env.VITE_DEV_SERVER_URL?e.loadURL(process.env.VITE_DEV_SERVER_URL):e.loadFile("dist/index.html"),i.ipcMain.on("maximizeApp",n=>{e.isMaximized()?(e.unmaximize(),n.reply("maximizedStatus",e.isMaximized())):(e.maximize(),n.reply("maximizedStatus",e.isMaximized()))}),i.ipcMain.on("minimizeApp",()=>{e.minimize()}),i.ipcMain.on("closeApp",()=>{e.close()}),i.ipcMain.on("getAppData",async n=>{await(async()=>{if(c.existsSync(t.join(i.app.getPath("appData"),"karbonized","extensions_data.json"))){const s=JSON.parse(await r.readFile(t.join(i.app.getPath("appData"),"karbonized","extensions_data.json"),"utf-8"));n.reply("extensions_loaded",s)}else await d(n)})()}),i.ipcMain.on("reloadExtensions",async n=>{await d(n)})});
+import { app, nativeImage, BrowserWindow, Menu, ipcMain } from "electron";
+import { existsSync, mkdirSync } from "fs";
+import * as fs from "node:fs/promises";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+const __filename$1 = fileURLToPath(import.meta.url);
+const __dirname$1 = dirname(__filename$1);
+const loadExtensions = async (event) => {
+  mkdirSync(join(app.getPath("appData"), "karbonized", "extensions"), {
+    recursive: true
+  });
+  event.reply("loading_extensions", true);
+  const extensionsPath = join(
+    app.getPath("appData"),
+    "karbonized",
+    "extensions"
+  );
+  const extensions = (await fs.readdir(extensionsPath)).filter(
+    (item) => item.endsWith(".kext")
+  );
+  const loadedExtensions = [];
+  for (const extension of extensions) {
+    const newExtension = JSON.parse(
+      await fs.readFile(join(extensionsPath, extension), "utf-8")
+    );
+    loadedExtensions.push(newExtension);
+    event.reply("extension_loaded", newExtension);
+  }
+  await fs.writeFile(
+    join(app.getPath("appData"), "karbonized", "extensions_data.json"),
+    JSON.stringify(loadedExtensions)
+  );
+  event.reply("extensions_loaded", loadedExtensions);
+  event.reply("loading_extensions", false);
+};
+app.whenReady().then(() => {
+  const icon = nativeImage.createFromPath(
+    join(__dirname$1, process.platform === "win32" ? "icon.ico" : "icon.png")
+  );
+  const win = new BrowserWindow({
+    title: "Karbonized",
+    icon,
+    width: 800,
+    height: 600,
+    minHeight: 600,
+    minWidth: 900,
+    useContentSize: true,
+    frame: process.platform === "darwin",
+    titleBarStyle: "hidden",
+    webPreferences: {
+      preload: join(__dirname$1, "preload.cjs"),
+      sandbox: false
+    }
+  });
+  if (!process.env.VITE_DEV_SERVER_URL) {
+    app.applicationMenu = new Menu();
+  }
+  win.maximize();
+  if (process.env.VITE_DEV_SERVER_URL) {
+    win.loadURL(process.env.VITE_DEV_SERVER_URL);
+  } else {
+    win.loadFile("dist/index.html");
+  }
+  ipcMain.on("maximizeApp", (event) => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+      event.reply("maximizedStatus", win.isMaximized());
+    } else {
+      win.maximize();
+      event.reply("maximizedStatus", win.isMaximized());
+    }
+  });
+  ipcMain.on("minimizeApp", () => {
+    win.minimize();
+  });
+  ipcMain.on("closeApp", () => {
+    win.close();
+  });
+  ipcMain.on("getAppData", async (event) => {
+    const load = async () => {
+      if (existsSync(
+        join(app.getPath("appData"), "karbonized", "extensions_data.json")
+      )) {
+        const data = JSON.parse(
+          await fs.readFile(
+            join(app.getPath("appData"), "karbonized", "extensions_data.json"),
+            "utf-8"
+          )
+        );
+        event.reply("extensions_loaded", data);
+      } else {
+        await loadExtensions(event);
+      }
+    };
+    await load();
+  });
+  ipcMain.on("reloadExtensions", async (event) => {
+    await loadExtensions(event);
+  });
+});

@@ -54,6 +54,6 @@
 	font-family: 'Poppins-Regular';
 }
 
-.draggable {
-	-webkit-app-region: drag;
+.grid-background {
+	background-image: url('./assets/grid-pattern2.svg');
 }

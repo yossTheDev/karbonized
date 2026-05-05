@@ -25,12 +25,3 @@
 img {
 	pointer-events: none;
 }
-
-p {
-	cursor: default;
-}
-
-label {
-	cursor: default;
-	user-select: none;
-}

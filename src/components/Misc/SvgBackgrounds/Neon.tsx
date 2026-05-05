@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './Backgrounds';
+import { type Props } from './Backgrounds';
 
 export const Neon: React.FC<Props> = ({
 	className,
@@ -17,8 +17,8 @@ export const Neon: React.FC<Props> = ({
 		>
 			<defs>
 				<linearGradient x1='50%' y1='0%' x2='50%' y2='100%' id='nnneon-grad'>
-					<stop stop-color={color1} stop-opacity='1' offset='0%'></stop>
-					<stop stop-color={color2} stop-opacity='1' offset='100%'></stop>
+					<stop stopColor={color1} stopOpacity='1' offset='0%'></stop>
+					<stop stopColor={color2} stopOpacity='1' offset='100%'></stop>
 				</linearGradient>
 				<filter
 					id='nnneon-filter'
@@ -28,7 +28,7 @@ export const Neon: React.FC<Props> = ({
 					height='400%'
 					filterUnits='objectBoundingBox'
 					primitiveUnits='userSpaceOnUse'
-					color-interpolation-filters='sRGB'
+					colorInterpolationFilters='sRGB'
 				>
 					<feGaussianBlur
 						stdDeviation='17 8'
@@ -49,7 +49,7 @@ export const Neon: React.FC<Props> = ({
 					height='400%'
 					filterUnits='objectBoundingBox'
 					primitiveUnits='userSpaceOnUse'
-					color-interpolation-filters='sRGB'
+					colorInterpolationFilters='sRGB'
 				>
 					<feGaussianBlur
 						stdDeviation='10 17'
@@ -63,7 +63,7 @@ export const Neon: React.FC<Props> = ({
 					></feGaussianBlur>
 				</filter>
 			</defs>
-			<g stroke-width='16' stroke='url(#nnneon-grad)' fill='none'>
+			<g strokeWidth='16' stroke='url(#nnneon-grad)' fill='none'>
 				<polygon
 					points='400,250 250,550 550,550'
 					filter='url(#nnneon-filter)'

@@ -39,7 +39,7 @@ export const StarSvg: React.FC<Props> = ({ className, style }) => {
 			<path
 				d='M256 0L331.236 152.446L499.47 176.891L377.735 295.554L406.473 463.108L256 384L105.528 463.109L134.265 295.555L12.5292 176.893L180.763 152.446L256 0Z'
 				id='Star'
-				fill-rule='evenodd'
+				fillRule='evenodd'
 				stroke='none'
 			/>
 		</svg>
@@ -60,7 +60,7 @@ export const PoligonSvg: React.FC<Props> = ({ className, style }) => {
 			<path
 				d='M256 0L499.47 176.891L406.473 463.108L105.528 463.109L12.5292 176.893L256 0Z'
 				id='Polygon'
-				fill-rule='evenodd'
+				fillRule='evenodd'
 				stroke='none'
 			/>
 		</svg>
@@ -81,7 +81,7 @@ export const Trianglevg: React.FC<Props> = ({ className, style }) => {
 			<path
 				d='M256 0L512 512L0 512L256 0Z'
 				id='Triangle'
-				fill-rule='evenodd'
+				fillRule='evenodd'
 				stroke='none'
 			/>
 		</svg>
@@ -103,9 +103,9 @@ export const LineSvg: React.FC<Props> = ({ className, style }) => {
 				d='M7.5 0L7.5 512'
 				id='Line'
 				fill='none'
-				fill-rule='evenodd'
-				stroke-width='13'
-				stroke-linecap='square'
+				fillRule='evenodd'
+				strokeWidth='13'
+				strokeLinecap='square'
 			/>
 		</svg>
 	);
@@ -123,9 +123,9 @@ export const Arrow2Svg: React.FC<Props> = ({ className, style }) => {
 			xmlns='http://www.w3.org/2000/svg'
 		>
 			<path
-				clip-rule='evenodd'
+				clipRule='evenodd'
 				d='m8.46967 5.46967c.29289-.29289.76776-.29289 1.06066 0 .29289.29289.29289.76777 0 1.06066l-2.60589 2.60589c-.60278.60277-1.02255 1.02338-1.32295 1.37728-.26948.3174-.40585.5396-.4796.7365h15.87811c.4142 0 .75.3358.75.75s-.3358.75-.75.75h-15.87811c.07375.1969.21012.4191.4796.7365.3004.3539.72017.7745 1.32295 1.3773l2.60589 2.6059c.29289.2929.29289.7677 0 1.0606-.2929.2929-.76777.2929-1.06066 0l-2.60589-2.6059-.02271-.0227h-.00002c-.57476-.5747-1.03834-1.0383-1.38307-1.4444-.35495-.4181-.62774-.8243-.7818-1.2985-.24472-.7531-.24472-1.5645 0-2.3176.15406-.4742.42685-.8804.7818-1.29852.34474-.40608.80833-.86967 1.3831-1.44443h.00001l.02269-.02269z'
-				fill-rule='evenodd'
+				fillRule='evenodd'
 			/>
 		</svg>
 	);
@@ -205,7 +205,7 @@ export const Arrow6Svg: React.FC<Props> = ({ className, style }) => {
 			width='800px'
 			height='800px'
 			viewBox='0 0 70 70'
-			enable-background='new 0 0 70 70'
+			enableBackground='new 0 0 70 70'
 		>
 			<g>
 				<path
@@ -248,7 +248,7 @@ export const RectangleSvg: React.FC<Props> = ({ className, style }) => {
 			<path
 				d='M0 0L512 0L512 512L0 512L0 0Z'
 				id='Rectangle'
-				fill-rule='evenodd'
+				fillRule='evenodd'
 				stroke='none'
 			/>
 		</svg>
@@ -269,7 +269,7 @@ export const OvalSvg: React.FC<Props> = ({ className, style }) => {
 			<path
 				d='M0 256C0 114.615 114.615 0 256 0C397.385 0 512 114.615 512 256C512 397.385 397.385 512 256 512C114.615 512 0 397.385 0 256Z'
 				id='Oval'
-				fill-rule='evenodd'
+				fillRule='evenodd'
 				stroke='none'
 			/>
 		</svg>
@@ -290,7 +290,7 @@ export const MinimizeSvg: React.FC<Props> = ({ className, style }) => {
 			<defs>
 				<rect width='256' height='256' id='artboard_1' />
 			</defs>
-			<g id='Artboard-15' clip-path='url(#clip_1)'>
+			<g id='Artboard-15' clipPath='url(#clip_1)'>
 				<path d='M22 216L234 216L234 226L22 226L22 216Z' id='Rectangle' />
 			</g>
 		</svg>
@@ -311,17 +311,17 @@ export const CloseSvg: React.FC<Props> = ({ className, style }) => {
 			<defs>
 				<rect width='256' height='256' id='artboard_1' />
 			</defs>
-			<g id='Artboard-17' clip-path='url(#clip_1)'>
+			<g id='Artboard-17' clipPath='url(#clip_1)'>
 				<path
 					d='M55.2231 50.7695L207.723 198.037L200.777 205.23L48.2766 57.9629L55.2231 50.7695Z'
 					id='Rectangle'
-					fill-rule='evenodd'
+					fillRule='evenodd'
 					stroke='none'
 				/>
 				<path
 					d='M201.053 51.2L48.5534 198.467L55.4999 205.661L208 58.3934L201.053 51.2Z'
 					id='Rectangle-2'
-					fill-rule='evenodd'
+					fillRule='evenodd'
 					stroke='none'
 				/>
 			</g>

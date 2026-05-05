@@ -13,10 +13,9 @@ export const useWindowsSize = () => {
 
 	useEffect(() => {
 		// Handler to call on Window Resize
-		const handleResize = () => {
+		const handleResize = (): void => {
 			// Set Window Size
 			setWindowSize({ height: window.innerHeight, width: window.innerWidth });
-			console.log('resize');
 		};
 
 		// Add event listener
@@ -24,8 +23,10 @@ export const useWindowsSize = () => {
 
 		handleResize();
 
-		//Remove event listener on Unmount
-		return () => window.removeEventListener('resize', handleResize);
+		// Remove event listener on Unmount
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
 	}, []);
 
 	return windowSize;

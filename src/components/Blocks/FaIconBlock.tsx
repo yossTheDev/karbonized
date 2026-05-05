@@ -2,12 +2,14 @@ import React, { Suspense, useEffect, useId, useState } from 'react';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { FaIcon } from '../FaIcon';
-import { IconType } from '../../utils/FaIconList';
-import { Button, Input, Modal } from 'react-daisyui';
+import { type IconType } from '../../utils/FaIconList';
+import { Button, Modal } from 'react-daisyui';
 import { Portal } from 'react-portal';
 import { IconSearch, IconSticker } from '@tabler/icons-react';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 interface Props {
 	id: string;
@@ -49,18 +51,22 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconSticker className='text-xl dark:text-gray-400'></IconSticker>
-									<p className='my-auto'>Icon</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconSticker size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Icon</Label>
 								</div>
 							}
 						>
 							{/* Select Icon */}
 							<div className='flex flex-auto flex-row'>
-								<p className='my-auto text-xs'>Select Icon</p>
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Select Icon
+								</Label>
 								<div
-									className='ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4 hover:bg-neutral'
-									onMouseDown={() => setShowIconPicker(true)}
+									className='hover:bg-neutral ml-2 flex w-20 cursor-pointer rounded-2xl bg-base-100 p-4'
+									onMouseDown={() => {
+										setShowIconPicker(true);
+									}}
 								>
 									<FaIcon
 										className='mx-auto my-auto text-4xl'
@@ -75,7 +81,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								label='Icon Color'
 								color={iconColor}
 								isGradientEnable={false}
-								onColorChange={(color) => setIconColor(color)}
+								onColorChange={(color) => {
+									setIconColor(color);
+								}}
 							></ColorPicker>
 
 							{/* Text */}
@@ -91,6 +99,7 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 			</ControlTemplate>
 
 			{showIconPicker && (
+				// @ts-ignore
 				<Portal>
 					<Modal.Legacy
 						onClickBackdrop={() => {
@@ -110,20 +119,23 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<div className='flex flex-auto flex-row'>
 								<IconSearch className='my-auto mr-2 dark:text-white'></IconSearch>
 								<Input
-									onChange={(ev) => setQuery(ev.currentTarget.value)}
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+										setQuery(ev.currentTarget.value);
+									}}
 									value={query}
-									className='flex flex-auto text-gray-400'
+									className='flex flex-auto h-8 text-sm'
 								></Input>
 							</div>
 
 							{/* Licence */}
-							<p className='my-2 text-xs text-gray-500'>
+							<p className='my-2 text-xs text-neutral-500'>
 								Icons From{' '}
 								<span>
 									<a
-										className='text-gray-400'
+										className='text-neutral-400'
 										href='https://fontawesome.com/'
 										target={'_blank'}
+										rel='noreferrer'
 									>
 										Font Awesome
 									</a>
@@ -131,9 +143,10 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 								<span> Licence:</span>
 								<span>
 									<a
-										className='text-gray-400'
+										className='text-neutral-400'
 										href='https://creativecommons.org/licenses/by/4.0/'
 										target={'_blank'}
+										rel='noreferrer'
 									>
 										{' '}
 										CC BY 4.0 License
@@ -144,15 +157,13 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							{/* Icon List */}
 							<div className='mt-2 flex max-h-64 flex-auto flex-row flex-wrap gap-3 overflow-y-auto'>
 								{faIcons
-									?.filter(
-										(icon) =>
-											icon.label.toUpperCase().indexOf(query.toUpperCase()) >
-											-1,
+									?.filter((icon) =>
+										icon.label.toUpperCase().includes(query.toUpperCase()),
 									)
 									.map((el, i) => (
 										<Suspense fallback={<></>}>
 											<div
-												className='inline-flex flex-auto cursor-pointer rounded-xl bg-base-100 p-2 text-3xl hover:bg-base-200 dark:text-gray-400'
+												className='inline-flex flex-auto cursor-pointer rounded-xl bg-base-100 p-2 text-3xl hover:bg-base-200 dark:text-neutral-400'
 												onMouseDown={() => {
 													setIcon(el.label);
 													setShowIconPicker(false);
@@ -171,7 +182,9 @@ const FaIconBlock: React.FC<Props> = ({ id }) => {
 							<Button
 								color='neutral'
 								className='dark:text-white'
-								onClick={() => setShowIconPicker(false)}
+								onClick={() => {
+									setShowIconPicker(false);
+								}}
 							>
 								Cancel
 							</Button>

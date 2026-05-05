@@ -1,30 +1,31 @@
 import {
-	IconBrandGithub,
-	IconCircleDashed,
-	IconCircleSquare,
-	IconHierarchy,
-	IconSquareRotatedForbid2,
-	IconTag,
-	IconTools,
-} from '@tabler/icons-react';
-import React, { useEffect, useState } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { Tooltip } from '../CustomControls/Tooltip';
-import { AboutModal } from '../Modals/AboutModal';
+	GitBranch,
+	Layers,
+	MousePointer2,
+	PencilRuler,
+	Square,
+	Tag,
+	Box,
+	CircleDashed,
+} from 'lucide-react';
+import React, { useEffect } from 'react';
+import { useWorkspaceStore, useControlsStore, useUIStore } from '../../stores';
+import { Button } from '../ui/button';
+import { ViewPanel } from '../Panels/ViewPanel';
+import useMousePosition from '@/hooks/useMousePosition';
+import { Separator } from '../ui/separator';
 
 export const StatusBar: React.FC = () => {
-	/* Component Store */
-	const [showAbout, setShowAbout] = useState(false);
+	/* Component State */
+	const mousePosition = useMousePosition();
 
 	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const controlPosition = useControlsStore((state) => state.controlPosition);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
+	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
 
-	const controlPosition = useStoreState((state) => state.controlPosition);
-
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
-	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
-
-	const handleChangeMode = () => {
+	const handleChangeMode = (): void => {
 		const modes = ['design', 'edit', 'zen'];
 
 		let i = modes.findIndex((mode) => mode === workspaceMode);
@@ -40,8 +41,8 @@ export const StatusBar: React.FC = () => {
 		console.log(modes[i]);
 	};
 
-	const onKeyDown = (event: KeyboardEvent) => {
-		if (event.key === 'Tab') {
+	const onKeyDown = (event: KeyboardEvent): void => {
+		if (event.ctrlKey && event.key === 'Tab') {
 			event.preventDefault();
 			handleChangeMode();
 		}
@@ -57,102 +58,103 @@ export const StatusBar: React.FC = () => {
 	}, [workspaceMode]);
 
 	return (
-		<div className='pointer-events-none absolute flex h-full w-full'>
-			<div className='pointer-events-auto relative mb-2 mt-auto hidden w-full flex-auto flex-row gap-2 px-4 md:flex'>
-				{/* Layout Mode */}
-				<Tooltip
-					placement='top'
-					className='my-auto'
-					message='Change Layout Mode (Tab)'
-				>
-					<button onClick={handleChangeMode} className='btn btn-xs'>
-						{workspaceMode === 'design' && (
-							<>
-								<IconCircleSquare
-									className='my-auto'
-									size={16}
-								></IconCircleSquare>
-								<p className='my-auto text-xs hover:cursor-pointer'>Design</p>
-							</>
-						)}
+		<div className='flex h-9 w-full items-center gap-3 border-t border-border bg-background px-3 text-xs text-muted-foreground shadow-sm'>
+			<>;)</>
 
-						{workspaceMode === 'zen' && (
-							<>
-								<IconCircleDashed
-									className='my-auto'
-									size={16}
-								></IconCircleDashed>
-								<p className='my-auto text-xs hover:cursor-pointer'>Zen</p>
-							</>
-						)}
+			{/* Layout Mode */}
+			<Button
+				className='h-7 gap-1.5 px-2.5 font-medium text-xs'
+				onClick={handleChangeMode}
+				variant={'ghost'}
+			>
+				{workspaceMode === 'design' && (
+					<>
+						<Box className='h-3.5 w-3.5' />
+						<span>Design</span>
+					</>
+				)}
 
-						{workspaceMode === 'edit' && (
-							<>
-								<IconTools className='my-auto' size={16}></IconTools>
-								<p className='my-auto text-xs hover:cursor-pointer'>Edit</p>
-							</>
-						)}
+				{workspaceMode === 'zen' && (
+					<>
+						<CircleDashed className='h-3.5 w-3.5' />
+						<span>Zen</span>
+					</>
+				)}
 
-						{workspaceMode === 'custom' && (
-							<>
-								<IconTools className='my-auto' size={16}></IconTools>
-								<p className='my-auto text-xs hover:cursor-pointer'>Custom</p>
-							</>
-						)}
-					</button>
-				</Tooltip>
+				{workspaceMode === 'edit' && (
+					<>
+						<PencilRuler className='h-3.5 w-3.5' />
+						<span>Edit</span>
+					</>
+				)}
 
-				{/* Control Position */}
-				<div className='flex flex-row'>
-					<IconHierarchy className='my-auto ml-1' size={16}></IconHierarchy>
+				{workspaceMode === 'custom' && (
+					<>
+						<PencilRuler className='h-3.5 w-3.5' />
+						<span>Custom</span>
+					</>
+				)}
+			</Button>
 
-					<p className='my-auto ml-2 text-center text-xs'>
-						Pos: x: {Math.round(controlPosition?.x as any)} y:{' '}
-						{Math.round(controlPosition?.y as any)}
-					</p>
-				</div>
+			<Separator orientation='vertical' className='h-4' />
 
-				{/* Workspace Name */}
-				<div className='flex flex-row'>
-					<IconTag className='my-auto ml-1' size={16}></IconTag>
+			{/* Mouse Position */}
+			<div className='flex items-center gap-2'>
+				<MousePointer2 className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-mono'>
+					x: {Math.round(mousePosition.x)} y: {Math.round(mousePosition.y)}
+				</span>
+			</div>
 
-					<p className='my-auto ml-2 text-center text-xs'>
-						{currentWorkspace.workspaceName}
-					</p>
-				</div>
+			{/* Control Position */}
+			<div className='flex items-center gap-2'>
+				<Layers className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-mono'>
+					x: {Math.round(controlPosition?.x as any)} y:{' '}
+					{Math.round(controlPosition?.y as any)}
+				</span>
+			</div>
 
-				{/* Workspace Settings  Size*/}
-				<div className='flex flex-row'>
-					<IconSquareRotatedForbid2
-						className='my-auto'
-						size={16}
-					></IconSquareRotatedForbid2>
+			<Separator orientation='vertical' className='h-4' />
 
-					<p className='my-auto ml-2 text-center text-xs'>
-						Size: {currentWorkspace.workspaceWidth} X{' '}
-						{currentWorkspace.workspaceHeight}
-					</p>
-				</div>
+			{/* Workspace Name */}
+			<div className='flex items-center gap-2'>
+				<Tag className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-medium'>{currentWorkspace?.workspaceName}</span>
+			</div>
 
-				{/* Source Code */}
+			{/* Workspace Settings Size */}
+			<div className='flex items-center gap-2'>
+				<Square className='h-3.5 w-3.5 text-muted-foreground' />
+				<span className='font-mono'>
+					{currentWorkspace?.workspaceWidth}
+					{' × '}
+					{currentWorkspace?.workspaceHeight}
+				</span>
+			</div>
+
+			<div className='flex-auto' />
+
+			<ViewPanel />
+
+			<Separator orientation='vertical' className='h-4' />
+
+			{/* Source Code */}
+			<Button
+				variant={'ghost'}
+				size={'sm'}
+				className='h-7 gap-1.5 text-xs'
+				asChild
+			>
 				<a
 					href='https://github.com/yossthedev/karbonized/'
 					target={'_blank'}
-					className='btn btn-xs ml-auto'
+					rel='noreferrer'
 				>
-					<IconBrandGithub
-						className='pointer-events-none my-auto'
-						size={16}
-					></IconBrandGithub>
-					<p className='pointer-events-none my-auto ml-1 text-xs hover:cursor-pointer'>
-						Source Code
-					</p>
+					<GitBranch className='h-3.5 w-3.5' />
+					<span>Source</span>
 				</a>
-			</div>
-
-			{showAbout && (
-				<AboutModal open onClose={() => setShowAbout(false)}></AboutModal>
-			)}
+			</Button>
 		</div>
 	);
 };

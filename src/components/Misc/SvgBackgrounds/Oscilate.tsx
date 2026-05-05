@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './Backgrounds';
+import { type Props } from './Backgrounds';
 
 export const Oscilate: React.FC<Props> = ({
 	className,
@@ -23,15 +23,15 @@ export const Oscilate: React.FC<Props> = ({
 					y2='100%'
 					id='oooscillate-grad'
 				>
-					<stop stop-color={color1} stop-opacity='1' offset='0%'></stop>
-					<stop stop-color={color2} stop-opacity='1' offset='100%'></stop>
+					<stop stopColor={color1} stopOpacity='1' offset='0%'></stop>
+					<stop stopColor={color2} stopOpacity='1' offset='100%'></stop>
 				</linearGradient>
 			</defs>
 			<g
-				stroke-width='2'
+				strokeWidth='2'
 				stroke='url(#oooscillate-grad)'
 				fill='none'
-				stroke-linecap='round'
+				strokeLinecap='round'
 			>
 				<path
 					d='M 0 572 Q 355.5 -100 711 400 Q 1066.5 900 1422 572'

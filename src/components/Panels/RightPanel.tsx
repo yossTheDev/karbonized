@@ -1,30 +1,41 @@
-import {
-	IconChevronLeft,
-	IconChevronRight,
-	IconEdit,
-	IconWallpaper,
-} from '@tabler/icons-react';
-import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
-import { Tooltip } from '../CustomControls/Tooltip';
+import { usePanelRef } from 'react-resizable-panels';
+import { useControlsStore, useUIStore } from '../../stores';
 import { WorkspacePanel } from './WorkspacePanel';
+import { ResizablePanel } from '../ui/resizable';
+import { Button } from '../ui/button';
+import {
+	ChevronLeft,
+	ChevronRight,
+	InspectionPanel,
+	Layers,
+	SquarePen,
+} from 'lucide-react';
+import { Label } from '../ui/label';
+import { ScrollArea } from '../ui/scroll-area';
+import { Separator } from '../ui/separator';
+import { HierarchyPanel } from './HierarchyPanel';
+import { Tooltip } from '../CustomControls/Tooltip';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const RightPanel: React.FC = () => {
 	/* App Store */
-	const currentID = useStoreState((state) => state.currentControlID);
-	const workspaceTab = useStoreState((state) => state.selectedTab);
-	const setWorkspaceTab = useStoreActions((state) => state.setSelectedTab);
+	const currentID = useControlsStore((state) => state.currentControlID);
+	const workspaceTab = useUIStore((state) => state.selectedTab);
+	const setWorkspaceTab = useUIStore((state) => state.setSelectedTab);
 
 	/* Component State */
-	const [showMenu, setShowMenu] = useState(false);
-	const [tab, setTab] = useState<'workspace' | 'control'>('control');
+	const panel = usePanelRef();
+	const [showMenu, setShowMenu] = useState(true);
+	const [tab, setTab] = useState<'workspace' | 'control' | 'hierarchy'>(
+		'control',
+	);
 
-	const workspaceMode = useStoreState((state) => state.workspaceMode);
-	const setWorkspaceMode = useStoreActions((state) => state.setWorkspaceMode);
+	const workspaceMode = useUIStore((state) => state.workspaceMode);
+	const setWorkspaceMode = useUIStore((state) => state.setWorkspaceMode);
 
 	/* Show/Close Menu KeyShortcut */
-	const onKeyDown = (event: KeyboardEvent) => {
+	const onKeyDown = (event: KeyboardEvent): void => {
 		if (event.ctrlKey && event.key === 'b') {
 			event.preventDefault();
 
@@ -38,6 +49,14 @@ export const RightPanel: React.FC = () => {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown);
 		};
+	}, [showMenu]);
+
+	useEffect(() => {
+		if (showMenu) {
+			panel.current?.expand();
+		} else {
+			panel.current?.collapse();
+		}
 	}, [showMenu]);
 
 	useEffect(() => {
@@ -55,98 +74,159 @@ export const RightPanel: React.FC = () => {
 	}, [workspaceTab]);
 
 	return (
-		<div className='pointer-events-auto my-2 hidden w-full max-w-[23rem] flex-row gap-1 overflow-y-auto overflow-x-hidden rounded-s-2xl bg-base-200 p-2 text-gray-950 dark:text-gray-400 md:flex'>
-			{/* Tab Panels */}
+		<ResizablePanel
+			className={'min-w-16'}
+			collapsible
+			collapsedSize={54}
+			defaultSize={500}
+			maxSize={600}
+			minSize={120}
+			panelRef={panel}
+		>
 			<div
-				className={`relative ${
-					showMenu ? 'flex' : 'hidden'
-				} w-96 flex-auto flex-col overflow-hidden`}
+				className={`pointer-events-auto mr-auto flex h-full w-full gap-2 overflow-hidden bg-popover p-2 text-foreground shadow-md transition-all`}
 			>
-				{/* Controls */}
-				<AnimatePresence>
+				{/* Selectors */}
+				<div className='flex flex-col gap-4 shrink-0'>
+					<Tooltip message={showMenu ? 'Collapse Panel' : 'Expand Panel'}>
+						<Button
+							variant={'ghost'}
+							size={'icon'}
+							onClick={() => {
+								setShowMenu(!showMenu);
+								setWorkspaceMode('custom');
+							}}
+							className='shrink-0 inline-flex size-9 items-center justify-center rounded-4xl text-sm font-medium outline-none select-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 disabled:pointer-events-none disabled:opacity-50'
+						>
+							{showMenu ? (
+								<ChevronRight size={16} />
+							) : (
+								<ChevronLeft size={16} />
+							)}
+						</Button>
+					</Tooltip>
+
+					{[
+						{ id: 'hierarchy', icon: <Layers size={16} />, label: 'Hierarchy' },
+						{ id: 'control', icon: <SquarePen size={16} />, label: 'Control' },
+						{
+							id: 'workspace',
+							icon: <InspectionPanel size={16} />,
+							label: 'Workspace',
+						},
+					].map((item) => {
+						const isActive = tab === item.id;
+
+						return (
+							<Tooltip key={item.id} message={`${item.label} Settings`}>
+								<motion.button
+									onClick={() => {
+										setTab(item.id as any);
+										setWorkspaceMode('custom');
+										setShowMenu(true);
+										if (item.id === 'workspace') setWorkspaceTab('workspace');
+									}}
+									className={`shrink-0 transition-colors flex w-9 flex-col items-center overflow-hidden rounded-4xl border border-transparent outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/30 active:scale-95 ${
+										isActive
+											? 'bg-primary text-white'
+											: 'bg-transparent text-muted-foreground hover:text-foreground'
+									}`}
+									initial={false}
+									animate={{
+										height: isActive ? 120 : 36,
+										scale: isActive ? 1.02 : 1,
+									}}
+									transition={{
+										type: 'spring',
+										stiffness: 320,
+										damping: 28,
+										mass: 0.8,
+									}}
+								>
+									<div className='shrink-0 flex items-center justify-center size-9'>
+										{item.icon}
+									</div>
+
+									<AnimatePresence>
+										{isActive && (
+											<motion.div
+												initial={{ opacity: 0, y: 3, filter: 'blur(2px)' }}
+												animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+												exit={{ opacity: 0, y: 2, filter: 'blur(2px)' }}
+												transition={{
+													duration: 0.22,
+													ease: [0.22, 1, 0.36, 1],
+												}}
+												className='flex flex-col items-center justify-start pb-4'
+											>
+												<span
+													className='text-[10px] h-16 font-bold uppercase tracking-widest'
+													style={{
+														writingMode: 'vertical-rl',
+														textOrientation: 'mixed',
+													}}
+												>
+													{item.label}
+												</span>
+											</motion.div>
+										)}
+									</AnimatePresence>
+								</motion.button>
+							</Tooltip>
+						);
+					})}
+				</div>
+
+				{/* Tab Panels */}
+				<div
+					className={`relative flex-auto flex-col min-h-0 overflow-hidden ${!showMenu ? 'hidden' : 'flex'}`}
+				>
+					{/* Controls */}
 					<div
-						className={` h-full min-h-full  flex-col overflow-hidden ${
-							tab === 'control' ? 'flex' : 'hidden'
-						}`}
+						className={`flex h-full min-h-0 flex-col overflow-hidden ${tab === 'control' ? 'flex' : 'hidden'}`}
 					>
-						<label className='mb-2 ml-3 mt-1 select-none text-xl font-bold'>
+						<Label className='mb-1 mt-4 select-none text-sm font-bold'>
 							Control
-						</label>
-						<div className='overflow-auto' id='menu'></div>
-						{currentID === '' && (
-							<div className='flex h-96 flex-auto'>
-								<p className='mx-auto my-auto select-none text-center text-xs text-base-content/70'>
-									Select a control to start editing it
-								</p>
-							</div>
-						)}
+						</Label>
+						<ScrollArea className='flex-1 h-full'>
+							{/* Menu Portal Container - always in DOM when control tab is active */}
+							<div className='p-1' id='menu'></div>
+							{currentID === '' && (
+								<div className='flex h-64 flex-auto items-center justify-center'>
+									<p className='text-muted-foreground select-none text-center text-sm'>
+										Select a control to start editing it
+									</p>
+								</div>
+							)}
+						</ScrollArea>
 					</div>
-				</AnimatePresence>
 
-				{/* Workspace */}
-				{tab === 'workspace' && (
-					<AnimatePresence>
-						{tab === 'workspace' && <WorkspacePanel></WorkspacePanel>}
-					</AnimatePresence>
-				)}
+					{/* Workspace */}
+					{tab === 'workspace' && (
+						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
+							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
+								Workspace
+							</Label>
+							<ScrollArea className='flex-1 p-1 h-full'>
+								<WorkspacePanel></WorkspacePanel>
+							</ScrollArea>
+						</div>
+					)}
+
+					{/* Hierarchy */}
+					{tab === 'hierarchy' && (
+						<div className='flex h-full min-h-0 flex-col overflow-hidden'>
+							<Label className='mb-1 mt-4 select-none text-sm font-bold'>
+								Hierarchy
+							</Label>
+							<ScrollArea className='flex-1 h-full'>
+								<HierarchyPanel></HierarchyPanel>
+							</ScrollArea>
+						</div>
+					)}
+				</div>
 			</div>
-
-			{/* Selectors */}
-			<div className='flex flex-auto flex-col gap-2 text-base-content'>
-				{/* Show/Close Menu */}
-				<Tooltip message='Show/Close Menu (Ctrl+B)'>
-					<button
-						onClick={() => {
-							setShowMenu(!showMenu);
-							setWorkspaceMode('custom');
-						}}
-						className={`btn btn-ghost btn-sm rounded-xl`}
-					>
-						{showMenu ? (
-							<IconChevronRight
-								className='mx-auto'
-								size={16}
-							></IconChevronRight>
-						) : (
-							<IconChevronLeft className='mx-auto' size={16}></IconChevronLeft>
-						)}
-					</button>
-				</Tooltip>
-
-				{/* Edit */}
-				<Tooltip message='Edit'>
-					<button
-						onClick={() => {
-							setTab('control');
-							setWorkspaceMode('custom');
-							setShowMenu(true);
-						}}
-						className={`btn btn-ghost btn-sm rounded-xl ${
-							tab === 'control' && showMenu && 'bg-base-200 md:bg-base-300'
-						}`}
-					>
-						<IconEdit className='mx-auto' size={16}></IconEdit>
-					</button>
-				</Tooltip>
-
-				{/* Workspace */}
-				<Tooltip message='Workspace'>
-					<button
-						onClick={() => {
-							setTab('workspace');
-							setWorkspaceMode('custom');
-							setWorkspaceTab('workspace');
-							setShowMenu(true);
-						}}
-						className={`btn btn-ghost btn-sm rounded-xl ${
-							tab === 'workspace' && showMenu && 'bg-base-200 md:bg-base-300'
-						}`}
-					>
-						<IconWallpaper className='mx-auto' size={16}></IconWallpaper>
-					</button>
-				</Tooltip>
-			</div>
-		</div>
+		</ResizablePanel>
 	);
 };
 

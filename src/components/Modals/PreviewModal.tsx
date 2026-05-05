@@ -1,21 +1,23 @@
-import {
-	IconCircleDashed,
-	IconFileTypeJpg,
-	IconFileTypePng,
-	IconFileTypeSvg,
-	IconShare,
-	IconX,
-} from '@tabler/icons-react';
+import { FileImage, FileJson, Share2, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Progress } from 'react-daisyui';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import karbonized from '../../assets/logo.svg';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { toBlob, toJpeg } from 'html-to-image';
-import { useStoreState } from '../../stores/Hooks';
+import { useWorkspaceStore, useUIStore } from '../../stores';
+
 interface Props {
 	open: boolean;
-	onClose?: Function;
+	onClose?: () => void;
 }
 
 export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
@@ -23,16 +25,22 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	const [previewImage, setPreviewImage] = useState('');
 
 	/* App Store */
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const setIsExporting = useUIStore((state) => state.setIsExporting);
 
 	/* Actions */
-	const exportImage = (type: export_format) => {
+	const exportImage = async (type: export_format) => {
+		setIsExporting(true);
+		console.log('EXPORTING');
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		ExportImage(
-			currentWorkspace.workspaceName,
+			currentWorkspace?.workspaceName ?? 'workspace',
 			document.getElementById('workspace'),
 			type,
 		);
+		setTimeout(() => setIsExporting(false), 500);
 	};
+
 	const showPreviewImage = async () => {
 		const element = document.getElementById('workspace');
 
@@ -40,20 +48,38 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 			return;
 		}
 
+		// Trigger export start event for HTML blocks
+		window.dispatchEvent(
+			new CustomEvent('html-block-export', { detail: 'export-start' }),
+		);
+
+		setIsExporting(true);
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
 		toJpeg(element, {
 			cacheBust: true,
 		})
 			.then((dataUrl) => {
 				setPreviewImage(dataUrl);
+				setIsExporting(false);
+
+				window.dispatchEvent(
+					new CustomEvent('html-block-export', { detail: 'export-end' }),
+				);
 			})
 			.catch((err) => {
 				console.log(err);
+				setIsExporting(false);
 			});
 	};
+
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
 		if (element) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const newFile = await toBlob(element);
+			setIsExporting(false);
 			if (newFile) {
 				const data = {
 					files: [
@@ -79,78 +105,80 @@ export const PreviewModal: React.FC<Props> = ({ open, onClose }) => {
 	}, []);
 
 	return (
-		<Modal.Legacy
-			open={open}
-			onClickBackdrop={() => {
-				onClose && onClose();
-			}}
-			className='max-h-fit overflow-hidden'
-		>
-			<Modal.Header className='flex flex-row font-bold dark:text-white'>
-				<div className='flex w-fit flex-row gap-1 rounded-xl bg-base-300/75 px-3 py-2'>
-					<img className='h-10' src={karbonized}></img>
-					<p className='poppins-font-family mx-2 my-auto text-2xl dark:text-white '>
-						Export
-					</p>
+		<Dialog open={open} onOpenChange={onClose}>
+			<DialogContent className='sm:max-w-4xl max-h-[90vh] overflow-hidden'>
+				<DialogHeader>
+					<div className='flex items-center gap-2 rounded-xl bg-muted px-3 py-2 w-fit'>
+						<img className='h-10' src={karbonized} alt='Karbonized' />
+						<DialogTitle className='text-2xl font-heading'>Export</DialogTitle>
+					</div>
+					<DialogDescription>
+						Preview and export your workspace as an image or JSON template
+					</DialogDescription>
+				</DialogHeader>
+
+				<div className='flex flex-auto select-none flex-col overflow-y-auto'>
+					<div className='mx-auto my-auto w-full max-w-lg rounded-2xl bg-muted p-6 shadow-inner'>
+						{previewImage !== '' ? (
+							<TransformWrapper>
+								<TransformComponent>
+									<img
+										className='rounded w-full'
+										src={previewImage}
+										alt='preview'
+									/>
+								</TransformComponent>
+							</TransformWrapper>
+						) : (
+							<div className='text-center py-12'>
+								<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
+							</div>
+						)}
+					</div>
 				</div>
 
-				<Button
-					shape='circle'
-					onClick={() => {
-						onClose && onClose();
-					}}
-					className='ml-auto bg-base-300/75'
-				>
-					<IconX></IconX>
-				</Button>
-			</Modal.Header>
+				<DialogFooter className='flex-col sm:flex-row gap-3'>
+					<Button
+						className='w-full sm:w-auto'
+						variant='outline'
+						onMouseDown={handleShare}
+					>
+						<Share2 className='mr-2' size={20} />
+						Share
+					</Button>
 
-			<Modal.Body className='flex max-h-96 flex-auto select-none flex-col overflow-y-scroll'>
-				<div className='mx-auto my-auto w-96  rounded-2xl bg-base-300/75 p-4 shadow-inner'>
-					{previewImage !== '' ? (
-						<TransformWrapper>
-							<TransformComponent>
-								<img className='rounded' src={previewImage} alt='preview'></img>
-							</TransformComponent>
-						</TransformWrapper>
-					) : (
-						<div className='text-center'>
-							<span className='loading loading-spinner loading-lg mx-auto my-auto text-center' />
-						</div>
-					)}
-				</div>
-			</Modal.Body>
-
-			<Modal.Actions>
-				<Button className='mr-auto rounded-2xl' onMouseDown={handleShare}>
-					<IconShare></IconShare>
-					<p className='my-auto cursor-pointer'>Share</p>
-				</Button>
-
-				<p className='my-auto ml-auto mr-3 select-none text-xs text-base-content/70'>
-					Save as
-				</p>
-
-				<Button
-					className='rounded-2xl'
-					onMouseDown={() => exportImage(export_format.png)}
-				>
-					<IconFileTypePng className='mx-auto'></IconFileTypePng>
-				</Button>
-				<Button
-					className='rounded-2xl'
-					onMouseDown={() => exportImage(export_format.jpeg)}
-				>
-					<IconFileTypeJpg className='mx-auto'></IconFileTypeJpg>
-				</Button>
-				<Button
-					className='rounded-2xl'
-					onMouseDown={() => exportImage(export_format.svg)}
-				>
-					<IconFileTypeSvg className='mx-auto'></IconFileTypeSvg>
-				</Button>
-			</Modal.Actions>
-		</Modal.Legacy>
+					<div className='flex flex-wrap justify-center sm:justify-end gap-2 w-full sm:w-auto'>
+						<Button
+							variant='default'
+							onMouseDown={() => {
+								exportImage(export_format.png);
+							}}
+						>
+							<FileImage className='mr-2' size={20} />
+							PNG
+						</Button>
+						<Button
+							variant='default'
+							onMouseDown={() => {
+								exportImage(export_format.jpeg);
+							}}
+						>
+							<FileImage className='mr-2' size={20} />
+							JPG
+						</Button>
+						<Button
+							variant='default'
+							onMouseDown={() => {
+								exportImage(export_format.svg);
+							}}
+						>
+							<FileJson className='mr-2' size={20} />
+							SVG
+						</Button>
+					</div>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 };
 

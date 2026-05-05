@@ -44,7 +44,7 @@ export const Home: React.FC = () => {
 						<p className='poppins-font-family mx-auto w-64 text-center text-3xl dark:text-white md:w-96 md:text-5xl'>
 							Awesome Image Generator for your{' '}
 							<span className='text-primary'>Code Snippets</span> and
-							<span className='mx-2 skew-x-3 skew-y-3 bg-gradient-to-br from-pink-500 to-primary p-1 text-white'>
+							<span className='mx-2 skew-x-3 skew-y-3 bg-linear-to-br from-pink-500 to-primary p-1 text-white'>
 								Screenshots
 							</span>
 						</p>
@@ -54,7 +54,8 @@ export const Home: React.FC = () => {
 							<a
 								href='https://twitter.com/karbonized_app'
 								target={'_blank'}
-								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-gradient-to-bl dark:text-white  '
+								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-linear-to-bl dark:text-white  '
+								rel='noreferrer'
 							>
 								<div className='mx-auto my-auto flex flex-row'>
 									<IconBrandTwitter></IconBrandTwitter>
@@ -64,7 +65,8 @@ export const Home: React.FC = () => {
 							<a
 								href='https://t.me/yossthedev'
 								target={'_blank'}
-								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-gradient-to-bl dark:text-white '
+								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral hover:bg-linear-to-bl dark:text-white '
+								rel='noreferrer'
 							>
 								<div className='mx-auto my-auto flex flex-row'>
 									<IconBrandTelegram></IconBrandTelegram>
@@ -74,7 +76,8 @@ export const Home: React.FC = () => {
 							<a
 								href='https://github.com/yossthedev'
 								target={'_blank'}
-								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral  hover:bg-gradient-to-bl dark:text-white '
+								className='flex flex-auto cursor-pointer select-none flex-row gap-1 rounded-3xl bg-base-200 p-3 hover:bg-neutral  hover:bg-linear-to-bl dark:text-white '
+								rel='noreferrer'
 							>
 								<div className='mx-auto my-auto flex flex-row'>
 									<IconBrandGithub></IconBrandGithub>

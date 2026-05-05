@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 
 interface Props {
 	isActive: boolean;
@@ -18,7 +18,7 @@ export const TabSelector: React.FC<Props> = ({
 			className={
 				isActive
 					? ' flex w-40 select-none rounded-xl bg-base-100/70 p-2 text-xs font-bold text-black dark:text-white md:max-h-full'
-					: ' flex w-40 select-none rounded-xl p-2 text-xs text-gray-500  md:max-h-full'
+					: ' flex w-40 select-none rounded-xl p-2 text-xs text-neutral-500  md:max-h-full'
 			}
 			onClick={onClick}
 			onDoubleClick={onDoubleClick && onDoubleClick}

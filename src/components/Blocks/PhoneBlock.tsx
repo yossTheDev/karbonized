@@ -7,13 +7,23 @@ import {
 	IconSignal4g,
 	IconWifi,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
-import { Button, Checkbox, FileInput, Modal, Range } from 'react-daisyui';
+import React, { useRef, useState } from 'react';
+import { Button, Modal } from 'react-daisyui';
+import { Checkbox } from '../ui/checkbox';
 import karbonized from '../../assets/logo.svg';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { ControlTemplate } from './ControlTemplate';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Slider } from '../ui/slider';
+import {
+	useControlsStore,
+	useWorkspaceStore,
+	useHistoryStore,
+} from '../../stores';
+import { buildDynamicBackgroundColors } from '../../utils/dynamicBackgroundColors';
 
 /* Devices Mockups */
 import iphoneX from '../../assets/device_mockups/iphonex.png';
@@ -76,6 +86,7 @@ type models =
 export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	/* Component States */
 	const [showModal, setShowModal] = useState(false);
+	const contentImageRef = useRef<HTMLImageElement>(null);
 
 	const [template, setTemplate] = useControlState(
 		'iPhone X',
@@ -106,6 +117,35 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 	);
 
 	const [drop, setDrop] = useControlState(false, `${id}-drop`);
+	const setWorkspaceDynamic = useWorkspaceStore(
+		(state) => state.setWorkspaceDynamic,
+	);
+	const setWorkspaceType = useWorkspaceStore((state) => state.setWorkspaceType);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+
+	const handleCreateDynamicBackground = async (): Promise<void> => {
+		if (contentImageRef.current == null || currentWorkspace == null) {
+			return;
+		}
+
+		try {
+			const colors = await buildDynamicBackgroundColors(
+				contentImageRef.current,
+			);
+			const seed = Math.floor(Math.random() * 10000);
+
+			setWorkspaceDynamic({
+				colors,
+				seed,
+			});
+			setWorkspaceType('dynamic');
+		} catch (error) {
+			console.error(
+				'Failed to create dynamic background from phone mockup image',
+				error,
+			);
+		}
+	};
 
 	return (
 		<>
@@ -119,44 +159,50 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 				maxHeight={template === 'adaptive' ? '2000px' : '618px'}
 				defaultHeight={'620px'}
 				defaultWidth={'320px'}
+				onCreateDynamicBackground={handleCreateDynamicBackground}
 				menu={
 					<>
 						{/* Border Settings */}
 						{template === 'adaptive' && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
-										<IconBorderStyle></IconBorderStyle>
-										<p className='my-auto'>Borders</p>
+									<div className='flex items-center gap-2 text-foreground'>
+										<IconBorderStyle
+											size={18}
+											className='text-muted-foreground'
+										/>
+										<Label className='text-sm font-semibold'>Borders</Label>
 									</div>
 								}
 							>
 								{/* Phone Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<p className='my-auto p-2'>Phone Radius:</p>
-									<Range
-										className='my-auto'
-										color='primary'
-										onChange={(ev) =>
-											setPhoneRadius(ev.target.value as unknown as number)
-										}
-										value={phoneRadius}
-										max={'30'}
-									></Range>
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>
+										Phone Radius:
+									</Label>
+									<Slider
+										className='my-auto flex-1'
+										onValueChange={(ev) => {
+											setPhoneRadius(ev[0]);
+										}}
+										value={[phoneRadius]}
+										max={30}
+									></Slider>
 								</div>
 
-								{/* Screen Radius*/}
+								{/* Screen Radius */}
 								<div className='flex flex-auto p-2 text-xs '>
-									<p className='my-auto p-2'>Screen Radius:</p>
-									<Range
-										className='my-auto'
-										color='primary'
-										onChange={(ev) =>
-											setScreenRadius(ev.target.value as unknown as number)
-										}
-										value={screenRadius}
-										max={'30'}
-									></Range>
+									<Label className='my-auto p-2 text-xs text-muted-foreground'>
+										Screen Radius:
+									</Label>
+									<Slider
+										className='my-auto flex-1'
+										onValueChange={(ev) => {
+											setScreenRadius(ev[0]);
+										}}
+										value={[screenRadius]}
+										max={30}
+									></Slider>
 								</div>
 							</CustomCollapse>
 						)}
@@ -165,9 +211,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						{template === 'adaptive' && (
 							<CustomCollapse
 								menu={
-									<div className='flex flex-row gap-2'>
-										<IconPalette size={22}></IconPalette>
-										<p className='my-auto font-bold'>Colors</p>
+									<div className='flex items-center gap-2 text-foreground'>
+										<IconPalette size={18} className='text-muted-foreground' />
+										<Label className='text-sm font-semibold'>Colors</Label>
 									</div>
 								}
 							>
@@ -201,9 +247,12 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconDeviceMobile></IconDeviceMobile>
-									<p className='my-auto'>Phone Mockup</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<IconDeviceMobile
+										size={18}
+										className='text-muted-foreground'
+									/>
+									<Label className='text-sm font-semibold'>Phone Mockup</Label>
 								</div>
 							}
 						>
@@ -232,10 +281,12 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 
 							{/* Source */}
 							<>
-								<p>Image</p>
-								<FileInput
+								<Label className='text-xs text-muted-foreground'>Image</Label>
+								<Input
+									type='file'
 									accept='image/*'
-									onChange={(e) => {
+									className='h-8 text-sm'
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 										if (e.target.files && e.target.files.length > 0) {
 											const reader = new FileReader();
 											reader.addEventListener('load', () => {
@@ -244,24 +295,24 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 											reader.readAsDataURL(e.target.files[0]);
 										}
 									}}
-								></FileInput>
+								></Input>
 							</>
 
 							{template === 'adaptive' && (
 								<>
 									{/* Notch Witdh */}
 									<div className='flex flex-auto p-2 text-xs '>
-										<p className='my-auto p-2'>Notch Width:</p>
-										<Range
-											className='my-auto'
-											color='primary'
-											onChange={(ev) =>
-												setNotchWidth(ev.target.value as unknown as number)
-											}
-											value={notchWidth}
-											min={'20'}
-											max={'130'}
-										></Range>
+										<Label className='my-auto p-2 text-xs text-muted-foreground'>
+											Notch Width:
+										</Label>
+										<Slider
+											className='my-auto flex-1'
+											onValueChange={(ev) => {
+												setNotchWidth(ev[0]);
+											}}
+											value={[notchWidth]}
+											max={50}
+										></Slider>
 									</div>
 
 									{/* Drop Design */}
@@ -269,8 +320,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 										<div className='flex flex-row gap-2'>
 											<p className='my-auto text-xs'>Drop</p>
 											<Checkbox
-												color='primary'
-												onChange={(ev) => setDrop(ev.currentTarget.checked)}
+												onCheckedChange={(checked) => {
+													setDrop(checked as boolean);
+												}}
 												checked={drop}
 											></Checkbox>
 										</div>
@@ -289,7 +341,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 								<div
 									style={{
 										borderRadius: phoneRadius + 'px',
-										borderColor: borderColor,
+										borderColor,
 									}}
 									className='flex flex-auto select-none flex-col border-4 bg-black p-3'
 								>
@@ -331,6 +383,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 
 									{/* Image */}
 									<img
+										ref={contentImageRef}
 										style={{
 											marginTop: '-8px',
 											borderBottomLeftRadius: screenRadius + 'px',
@@ -338,6 +391,7 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 										}}
 										className='flex h-56 max-h-full max-w-full flex-auto select-none bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 
 									{/* Notch */}
@@ -378,8 +432,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='absolute flex h-full w-full px-7 pb-6 pt-10'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mx-auto my-auto h-full w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -394,8 +450,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='absolute flex h-full w-full px-8 pb-11 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
+										ref={contentImageRef}
 										className='mask mx-auto my-auto h-full w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -410,8 +468,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-8 pb-28 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mx-auto my-auto flex h-[33.5rem] max-h-full w-full bg-white'
+										ref={contentImageRef}
+										className='mx-auto my-auto flex h-134 max-h-full w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -426,8 +486,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-10 pb-16 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[31.5rem] w-full bg-white'
+										ref={contentImageRef}
+										className='mask mx-auto my-auto flex h-126 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -442,8 +504,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-12'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[2rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[36rem] w-full bg-white'
+										ref={contentImageRef}
+										className='mask mx-auto my-auto flex h-144 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -458,8 +522,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-4 pb-0 pt-7'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[37rem] w-full bg-white'
+										ref={contentImageRef}
+										className='mask mx-auto my-auto flex h-148 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -474,8 +540,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-9 pb-7 pt-8'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[35rem] w-full bg-white'
+										ref={contentImageRef}
+										className='mask mx-auto my-auto flex h-140 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -490,8 +558,10 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 							<div className='h-full w-full px-5 pb-6 pt-6'>
 								<div className='mx-auto flex h-full w-full overflow-hidden rounded-[1rem]'>
 									<img
-										className='mask mx-auto my-auto flex h-[35.5rem] w-full bg-white'
+										ref={contentImageRef}
+										className='mask mx-auto my-auto flex h-142 w-full bg-white'
 										src={src}
+										crossOrigin='anonymous'
 									></img>
 								</div>
 							</div>
@@ -503,10 +573,13 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 			</ControlTemplate>
 
 			{showModal && (
+				// @ts-ignore
 				<Portal>
 					<Modal.Legacy
 						open
-						onClickBackdrop={() => setShowModal(false)}
+						onClickBackdrop={() => {
+							setShowModal(false);
+						}}
 						className='overflow-hidden bg-base-200'
 					>
 						<Modal.Header className='font-bold dark:text-white'>
@@ -521,7 +594,9 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 								{devices.map((item) => (
 									<div className='flex w-32 flex-auto flex-col'>
 										<button
-											onClick={() => setTemplate(item.name)}
+											onClick={() => {
+												setTemplate(item.name);
+											}}
 											className='btn h-28 rounded-2xl bg-base-300 p-3'
 										>
 											<img
@@ -536,7 +611,13 @@ export const PhoneBlock: React.FC<Props> = ({ id }) => {
 						</Modal.Body>
 
 						<Modal.Actions>
-							<Button onClick={() => setShowModal(false)}>Cancel</Button>
+							<Button
+								onClick={() => {
+									setShowModal(false);
+								}}
+							>
+								Cancel
+							</Button>
 						</Modal.Actions>
 					</Modal.Legacy>
 				</Portal>

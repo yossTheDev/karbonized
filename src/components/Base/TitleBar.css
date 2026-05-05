@@ -1,3 +1,11 @@
 .titlebar {
-    -webkit-app-region: drag;
+	-webkit-app-region: drag;
+}
+
+.draggable {
+	-webkit-app-region: drag;
+}
+
+.not-draggable {
+	-webkit-app-region: no-drag;
 }

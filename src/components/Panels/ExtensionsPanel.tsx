@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Input } from 'react-daisyui';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
-import { Extension } from '../../models/Extension';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { type Extension } from '../../models/Extension';
+import { useWorkspaceStore, useControlsStore } from '../../stores';
 import { getRandomNumber } from '../../utils/getRandom';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 
@@ -25,11 +25,10 @@ export const ExtensionPanel: React.FC = () => {
 			});
 
 			setControls(
-				all.filter(
-					(item) =>
-						(item.properties.name as string)
-							.toUpperCase()
-							.indexOf(query.toUpperCase()) > -1,
+				all.filter((item) =>
+					(item.properties.name as string)
+						.toUpperCase()
+						.includes(query.toUpperCase()),
 				),
 			);
 		}
@@ -75,7 +74,7 @@ export const ExtensionPanel: React.FC = () => {
 				</div>
 
 				<div
-					className='mb-1 ml-auto rounded-xl p-2 hover:cursor-pointer  hover:bg-neutral'
+					className='hover:bg-neutral mb-1 ml-auto rounded-xl p-2  hover:cursor-pointer'
 					onClick={() => {
 						setExtensions([]);
 
@@ -105,16 +104,18 @@ export const ExtensionPanel: React.FC = () => {
 				<IconSearch className='my-auto ml-2 h-full' size={18}></IconSearch>
 				<Input
 					className='my-auto mb-2 flex  h-full w-full'
-					onChange={(ev) => setQuery(ev.target.value)}
+					onChange={(ev) => {
+						setQuery(ev.target.value);
+					}}
 					value={query}
 				></Input>
 			</div>
 
 			{loading && extensions.length === 0 ? (
-				<div className=' my-auto  dark:text-gray-300'>
+				<div className=' my-auto  dark:text-neutral-300'>
 					<IconCircleDashed
 						size={56}
-						className='mx-auto my-auto animate-spin text-gray-600'
+						className='mx-auto my-auto animate-spin text-neutral-600'
 					></IconCircleDashed>
 				</div>
 			) : (
@@ -154,7 +155,7 @@ export const ExtensionPanel: React.FC = () => {
 						</>
 					) : (
 						<div className='flex flex-auto'>
-							<p className='mx-auto my-auto select-none text-center text-xs text-gray-700'>
+							<p className='mx-auto my-auto select-none text-center text-xs text-neutral-700'>
 								No extensions installed
 							</p>
 						</div>
@@ -163,10 +164,10 @@ export const ExtensionPanel: React.FC = () => {
 			)}
 
 			{loading && extensions.length > 0 && (
-				<div className='mt-2 dark:text-gray-300'>
+				<div className='mt-2 dark:text-neutral-300'>
 					<IconCircleDashed
 						size={26}
-						className='mx-auto my-auto animate-spin text-gray-600'
+						className='mx-auto my-auto animate-spin text-neutral-600'
 					></IconCircleDashed>
 				</div>
 			)}
@@ -175,30 +176,37 @@ export const ExtensionPanel: React.FC = () => {
 };
 
 const ItemsList = ({ data }: { data: any }) => {
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const addControl = useStoreActions((state) => state.addControl);
-	const addInitialProperty = useStoreActions(
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const addControl = useControlsStore((state) => state.addControl);
+	const addInitialProperty = useControlsStore(
 		(state) => state.addInitialProperty,
 	);
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+			currentWorkspace?.controls?.filter((item) => item.type === type).length ??
+			0 + 1
 		);
 	};
 
 	const handleAddItem = (code: string, name: string) => {
 		const num = getRandomNumber();
 
-		addInitialProperty({ id: `${name}-${num}-code`, value: code });
+		addInitialProperty(
+			{ id: `${name}-${num}-code`, value: code },
+			currentWorkspace?.id || '',
+		);
 
-		addControl({
-			type: 'custom',
-			id: `${name}-${num}`,
-			isSelectable: true,
-			isDeleted: false,
-			name: `${name} ${getElementsByType(name)}`,
-			isVisible: true,
-		});
+		addControl(
+			{
+				type: 'custom',
+				id: `${name}-${num}`,
+				isSelectable: true,
+				isDeleted: false,
+				name: `${name} ${getElementsByType(name)}`,
+				isVisible: true,
+			},
+			currentWorkspace?.id || '',
+		);
 	};
 	const Row = ({ index, style }: { index: number; style: any }) => {
 		return (
@@ -207,7 +215,7 @@ const ItemsList = ({ data }: { data: any }) => {
 					handleAddItem(data[index].code, data[index].properties.name);
 				}}
 				style={{ ...style, height: style.height - 5, top: style.top + 5 }}
-				className='flex-r my-2 flex flex-auto select-none rounded-xl  bg-base-100 hover:cursor-pointer hover:bg-neutral'
+				className='flex-r hover:bg-neutral my-2 flex flex-auto select-none  rounded-xl bg-base-100 hover:cursor-pointer'
 			>
 				{data[index].image.startsWith('data:image/') ? (
 					<img
@@ -231,6 +239,7 @@ const ItemsList = ({ data }: { data: any }) => {
 	return (
 		<AutoSizer>
 			{({ height, width }: { height: number; width: number }) => (
+				// @ts-ignore
 				<FixedSizeList
 					height={height}
 					width={width}

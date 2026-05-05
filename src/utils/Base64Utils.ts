@@ -3,11 +3,11 @@ Copyright (c) 2011, Daniel Guerrero
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
+	* Redistributions of source code must retain the above copyright
+	  notice, this list of conditions and the following disclaimer.
+	* Redistributions in binary form must reproduce the above copyright
+	  notice, this list of conditions and the following disclaimer in the
+	  documentation and/or other materials provided with the distribution.
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -36,41 +36,41 @@ export const Base64Binary = {
 
 	/* will return a  Uint8Array type */
 	decodeArrayBuffer: function (input: string | any[]) {
-		var bytes = (input.length / 4) * 3;
-		var ab = new ArrayBuffer(bytes);
+		const bytes = (input.length / 4) * 3;
+		const ab = new ArrayBuffer(bytes);
 		this.decode(input as unknown as any, ab);
 
 		return ab;
 	},
 
 	removePaddingChars: function (input: string) {
-		var lkey = this._keyStr.indexOf(input.charAt(input.length - 1));
-		if (lkey == 64) {
+		const lkey = this._keyStr.indexOf(input.charAt(input.length - 1));
+		if (lkey === 64) {
 			return input.substring(0, input.length - 1);
 		}
 		return input;
 	},
 
 	decode: function (input: string, arrayBuffer?: ArrayBuffer) {
-		//get last chars to see if are valid
+		// get last chars to see if are valid
 		input = this.removePaddingChars(input);
 		input = this.removePaddingChars(input);
 
-		var bytes = parseInt(((input.length / 4) * 3) as unknown as string, 10);
+		const bytes = parseInt(((input.length / 4) * 3) as unknown as string, 10);
 
-		var uarray;
-		var chr1, chr2, chr3;
-		var enc1, enc2, enc3, enc4;
-		var i = 0;
-		var j = 0;
+		let uarray;
+		let chr1, chr2, chr3;
+		let enc1, enc2, enc3, enc4;
+		let i = 0;
+		let j = 0;
 
-		if (arrayBuffer) uarray = new Uint8Array(arrayBuffer);
+		if (arrayBuffer !== undefined) uarray = new Uint8Array(arrayBuffer);
 		else uarray = new Uint8Array(bytes);
 
-		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
+		input = input.replace(/[^A-Za-z0-9+/=]/g, '');
 
 		for (i = 0; i < bytes; i += 3) {
-			//get the 3 octects in 4 ascii chars
+			// get the 3 octects in 4 ascii chars
 			enc1 = this._keyStr.indexOf(input.charAt(j++));
 			enc2 = this._keyStr.indexOf(input.charAt(j++));
 			enc3 = this._keyStr.indexOf(input.charAt(j++));
@@ -81,8 +81,8 @@ export const Base64Binary = {
 			chr3 = ((enc3 & 3) << 6) | enc4;
 
 			uarray[i] = chr1;
-			if (enc3 != 64) uarray[i + 1] = chr2;
-			if (enc4 != 64) uarray[i + 2] = chr3;
+			if (enc3 !== 64) uarray[i + 1] = chr2;
+			if (enc4 !== 64) uarray[i + 2] = chr3;
 		}
 
 		return uarray;

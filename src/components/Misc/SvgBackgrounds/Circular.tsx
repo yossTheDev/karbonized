@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './Backgrounds';
+import { type Props } from './Backgrounds';
 
 export const Circular: React.FC<Props> = ({
 	className,
@@ -17,13 +17,13 @@ export const Circular: React.FC<Props> = ({
 		>
 			<defs>
 				<radialGradient id='cccircular-grad' r='50%' cx='50%' cy='50%'>
-					<stop offset='15%' stop-color={color1} stop-opacity='0.5'></stop>
+					<stop offset='15%' stopColor={color1} stopOpacity='0.5'></stop>
 					<stop
 						offset='75%'
-						stop-color='hsl(341, 100%, 85%)'
-						stop-opacity='1'
+						stopColor='hsl(341, 100%, 85%)'
+						stopOpacity='1'
 					></stop>
-					<stop offset='100%' stop-color={color2} stop-opacity='1'></stop>
+					<stop offset='100%' stopColor={color2} stopOpacity='1'></stop>
 				</radialGradient>
 			</defs>
 			<g fill='url(#cccircular-grad)'>

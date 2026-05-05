@@ -1,11 +1,14 @@
 import { IconLetterT } from '@tabler/icons-react';
 import React from 'react';
-import { Button, ButtonGroup, Input } from 'react-daisyui';
 import { ColorPicker } from '../CustomControls/ColorPicker';
 import { CustomCollapse } from '../CustomControls/CustomCollapse';
 import { NumberInput } from '../CustomControls/NumberInput';
 import { ControlTemplate } from './ControlTemplate';
 import { useControlState } from '../../hooks/useControlState';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Type } from 'lucide-react';
 
 interface Props {
 	id: string;
@@ -39,62 +42,75 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 						<CustomCollapse
 							isOpen
 							menu={
-								<div className='flex flex-row gap-2'>
-									<IconLetterT></IconLetterT>
-									<p className='my-auto'>Text</p>
+								<div className='flex items-center gap-2 text-foreground'>
+									<Type size={18} className='text-muted-foreground' />
+									<Label className='text-sm font-semibold'>Text</Label>
 								</div>
 							}
 						>
-							<p>Text Style</p>
+							<Label className='text-xs text-muted-foreground'>
+								Text Style
+							</Label>
 							{/* Text */}
-							<ButtonGroup className='mx-auto flex w-full flex-auto'>
+							<div className='mx-auto flex w-full gap-2'>
 								<Button
-									color='neutral'
-									active={isBold}
-									onClick={() => setIsBold(!isBold)}
-									className='flex flex-auto font-bold'
+									variant={isBold ? 'default' : 'outline'}
+									size='icon'
+									className='flex-1 transition-all duration-200 hover:scale-105'
+									onClick={() => {
+										setIsBold(!isBold);
+									}}
 								>
 									B
 								</Button>
 								<Button
-									color='neutral'
-									active={isItalic}
-									onClick={() => setIsItalic(!isItalic)}
-									className='flex flex-auto italic'
+									variant={isItalic ? 'default' : 'outline'}
+									size='icon'
+									className='flex-1 transition-all duration-200 hover:scale-105'
+									onClick={() => {
+										setIsItalic(!isItalic);
+									}}
 								>
 									I
 								</Button>
 								<Button
-									color='neutral'
-									active={isUnderline}
-									onClick={() => setIsUnderline(!isUnderline)}
-									className='flex flex-auto underline'
+									variant={isUnderline ? 'default' : 'outline'}
+									size='icon'
+									className='flex-1 transition-all duration-200 hover:scale-105'
+									onClick={() => {
+										setIsUnderline(!isUnderline);
+									}}
 								>
 									U
 								</Button>
-							</ButtonGroup>
+							</div>
 
 							<div className='flex flex-auto flex-row text-xs'>
-								<p className='my-auto'>Text</p>
-
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Text
+								</Label>
 								<Input
-									className='ml-2 flex w-full  flex-auto '
-									onChange={(ev) => setText(ev.target.value)}
+									className='ml-2 h-8 flex w-full flex-auto text-sm'
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+										setText(ev.target.value);
+									}}
 									value={text}
 								></Input>
 							</div>
 
 							<div className='flex flex-auto flex-row text-xs'>
-								<p className='my-auto'>Font Size</p>
-
+								<Label className='my-auto text-xs text-muted-foreground'>
+									Font Size
+								</Label>
 								<NumberInput
 									onChange={(number) => {
 										setTextSize(number.toString());
 									}}
 									number={parseInt(textSize)}
 								></NumberInput>
-
-								<p className='my-auto ml-2'>px</p>
+								<Label className='my-auto ml-2 text-xs text-muted-foreground'>
+									px
+								</Label>
 							</div>
 
 							<ColorPicker
@@ -108,7 +124,7 @@ export const TextControl: React.FC<Props> = ({ id }) => {
 				}
 			>
 				<p
-					style={{ color: color, fontSize: textSize + 'px' }}
+					style={{ color, fontSize: textSize + 'px' }}
 					className={`my-auto flex flex-auto select-none overflow-hidden whitespace-pre-wrap hover:border hover:border-blue-500 ${
 						isBold && 'poppins-font-family font-bold'
 					} ${isItalic && 'italic'} ${isUnderline && 'underline'}`}

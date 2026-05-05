@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useStoreState } from '../stores/Hooks';
+import { useWorkspaceStore, useDrawingStore } from '../stores';
 
 export const Canvas: React.FC = ({}) => {
 	const [isDrawing, setIsDrawing] = useState(false);
@@ -7,12 +7,12 @@ export const Canvas: React.FC = ({}) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctxRef = useRef<any>(null);
 
-	const canDraw = useStoreState((state) => state.isDrawing);
-	const isErasing = useStoreState((state) => state.isErasing);
+	const canDraw = useDrawingStore((state) => state.isDrawing);
+	const isErasing = useDrawingStore((state) => state.isErasing);
 
-	const strokeColor = useStoreState((state) => state.strokeColor);
-	const lineWidth = useStoreState((state) => state.lineWidth);
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const strokeColor = useDrawingStore((state) => state.strokeColor);
+	const lineWidth = useDrawingStore((state) => state.lineWidth);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
 	const startDrawing = (e: any) => {
 		if (ctxRef) {
@@ -51,7 +51,7 @@ export const Canvas: React.FC = ({}) => {
 		if (ctx) {
 			ctx.lineCap = 'round';
 			ctx.lineJoin = 'round';
-			//ctx.globalAlpha = 0.1;
+			// ctx.globalAlpha = 0.1;
 			ctx.lineWidth = lineWidth;
 			ctx.strokeStyle = strokeColor;
 			ctxRef.current = ctx;
@@ -62,8 +62,8 @@ export const Canvas: React.FC = ({}) => {
 		<>
 			<canvas
 				ref={canvasRef}
-				width={currentWorkspace.workspaceWidth}
-				height={currentWorkspace.workspaceHeight}
+				width={currentWorkspace?.workspaceWidth ?? 1280}
+				height={currentWorkspace?.workspaceHeight ?? 720}
 				className={`${
 					canDraw || isErasing ? '' : 'pointer-events-none'
 				} absolute z-50`}

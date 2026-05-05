@@ -1,11 +1,11 @@
 import {
-	Placement,
+	type Placement,
 	flip,
 	offset,
 	shift,
 	useFloating,
 } from '@floating-ui/react-dom';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { type ReactNode, useEffect, useState } from 'react';
 import { Portal } from 'react-portal';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -27,11 +27,14 @@ export const Tooltip: React.FC<Props> = ({
 	const [showTooltip, setShowTooltip] = useState(false);
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(10), flip(), shift()],
-		placement: placement,
+		placement,
 	});
 
 	useEffect(() => {
-		if (showTooltip) setTimeout(() => setShowTooltip(false), 1000);
+		if (showTooltip)
+			setTimeout(() => {
+				setShowTooltip(false);
+			}, 1000);
 	}, [showTooltip]);
 
 	return (
@@ -54,6 +57,7 @@ export const Tooltip: React.FC<Props> = ({
 				{/* Tooltip */}
 				<AnimatePresence>
 					{showTooltip && (
+						// @ts-ignore
 						<Portal>
 							<motion.div
 								initial={{ scale: 0.8, opacity: 0 }}

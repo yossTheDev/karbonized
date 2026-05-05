@@ -1,58 +1,70 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
-	IconArrowBack,
-	IconArrowForward,
-	IconClock,
-	IconCopy,
-	IconFileDownload,
-	IconFileTypeJpg,
-	IconFileTypePng,
-	IconFileTypeSvg,
-	IconFileUpload,
-	IconFlask,
-	IconFocusCentered,
-	IconInfoHexagon,
-	IconJson,
-	IconPigMoney,
-	IconPlus,
-	IconSquareRotated,
-	IconTrash,
-	IconZoomIn,
-	IconZoomOut,
-	IconZoomReset,
-} from '@tabler/icons-react';
+	Menubar,
+	MenubarContent,
+	MenubarItem,
+	MenubarMenu,
+	MenubarSeparator,
+	MenubarShortcut,
+	MenubarSub,
+	MenubarSubContent,
+	MenubarSubTrigger,
+	MenubarTrigger,
+} from '@/components/ui/menubar';
 import CryptoJS from 'crypto-js';
 import FileSaver from 'file-saver';
 import { toBlob, toPng } from 'html-to-image';
-import React, {
-	Suspense,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from '../../AppContext';
 import { useScreenDirection } from '../../hooks/useScreenDirection';
-import { Project } from '../../stores/AppStore';
-import { useStoreActions, useStoreState } from '../../stores/Hooks';
+import { type Project } from '../../types';
+import {
+	useWorkspaceStore,
+	useControlsStore,
+	useHistoryStore,
+	useUIStore,
+	useProjectStore,
+} from '../../stores';
 import { ExportImage, export_format } from '../../utils/Exporter';
 import { getRandomNumber } from '../../utils/getRandom';
-import { DropMenu, MenuItem, MenuSeparator } from '../CustomControls/DropMenu';
 import { PROJECT_KEY } from '../../utils/secrets';
+import { Plus } from 'lucide-react';
+import TabBar from './TabBar';
+import { Button } from '@/components/ui/button';
 
-const AboutModal = React.lazy(() => import('../Modals/AboutModal'));
-const ChangelogModal = React.lazy(() => import('../Modals/ChangelogModal'));
-const DonationsModal = React.lazy(() => import('../Modals/DonationsModal'));
-const PreviewModal = React.lazy(() => import('../Modals/PreviewModal'));
-const ProjectWizard = React.lazy(() => import('../../pages/ProjectWizard'));
+const AboutModal = React.lazy(async () => await import('../Modals/AboutModal'));
+const ChangelogModal = React.lazy(
+	async () => await import('../Modals/ChangelogModal'),
+);
+const DonationsModal = React.lazy(
+	async () => await import('../Modals/DonationsModal'),
+);
+const PreviewModal = React.lazy(
+	async () => await import('../Modals/PreviewModal'),
+);
+
+const mergeHistoryById = <T extends { id: string }>(
+	current: T[],
+	incoming: T[],
+): T[] => {
+	const byId = new Map(current.map((item) => [item.id, item]));
+	incoming.forEach((item) => {
+		byId.set(item.id, item);
+	});
+	return Array.from(byId.values());
+};
 
 export const MenuBar: React.FC = () => {
 	/* App Context */
-	const { showWizard, setShowWizard } = useContext(AppContext);
-
-	/* Panels */
-	const about = useRef<HTMLDialogElement>(null);
 	const { viewerRef } = useContext(AppContext);
+	const navigate = useNavigate();
+	const location = useLocation();
 	const isHorizontal = useScreenDirection();
+
+	// Check if we're in the editor
+	const isEditor = location.pathname === '/editor';
 
 	const [showAbout, setShowAbout] = useState(false);
 	const [showPreview, setShowPreview] = useState(false);
@@ -60,48 +72,91 @@ export const MenuBar: React.FC = () => {
 	const [showDonations, setShowDonations] = useState(false);
 
 	/* Actions */
-	const redo = useStoreActions((state) => state.redo);
-	const undo = useStoreActions((state) => state.undo);
+	const redo = useHistoryStore((state) => state.redo);
+	const undo = useHistoryStore((state) => state.undo);
+	const controlState = useHistoryStore((state) => state.controlState);
 
 	/* App Store */
-	const currentControlProperties = useStoreState(
-		(state) => state.currentControlProperties,
+	const currentControlID = useControlsStore((state) => state.currentControlID);
+	const duplicateControl = useControlsStore((state) => state.duplicateControl);
+	const setCurrentControlID = useControlsStore(
+		(state) => state.setCurrentControlID,
 	);
-	const saveProject = useStoreState((state) => state.saveProject);
-	const loadProject = useStoreActions((state) => state.loadProject);
-
-	const addControl = useStoreActions((state) => state.addControl);
-
-	const addControlProperty = useStoreActions(
-		(state) => state.addControlProperty,
+	const setControlPos = useControlsStore((state) => state.setControlPosition);
+	const setControlSize = useControlsStore((state) => state.setControlSize);
+	const setControlTransform = useControlsStore(
+		(state) => state.setControlTransform,
 	);
-	const addInitialProperty = useStoreActions(
-		(state) => state.addInitialProperty,
+	const ControlProperties = useControlsStore(
+		(state) => state.ControlProperties,
 	);
-	const addWorkspace = useStoreActions((state) => state.addWorkspace);
-	const cleanWorkspace = useStoreActions((state) => state.cleanWorkspace);
+	const saveProject = useProjectStore((state) => state.saveProject);
+	const loadProject = useProjectStore((state) => state.loadProject);
 
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
-	const controlID = useStoreState((state) => state.currentControlID);
-	const workspaces = useStoreState((state) => state.workspaces);
+	const addControl = useControlsStore((state) => state.addControl);
+
+	const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
+	const cleanWorkspace = useWorkspaceStore((state) => state.cleanWorkspace);
+	const setWorkspaceControls = useWorkspaceStore(
+		(state) => state.setWorkspaceControls,
+	);
+	const setIsExporting = useUIStore((state) => state.setIsExporting);
+
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+	const currentWorkspaceID = useWorkspaceStore(
+		(state) => state.currentWorkspaceID,
+	);
+	const workspaces = useWorkspaceStore((state) => state.workspaces);
+
+	const applyHistoryResult = (
+		result:
+			| {
+					type: 'workspace-update';
+					snapshot: { controls: any[]; currentControlID: string };
+					historyId: string;
+			  }
+			| {
+					type: 'control-update';
+					historyId: string;
+			  }
+			| undefined,
+	) => {
+		if (result?.type === 'workspace-update') {
+			setWorkspaceControls(result.snapshot.controls);
+			setCurrentControlID(result.snapshot.currentControlID);
+			return;
+		}
+
+		if (result?.type !== 'control-update' || controlState == null) return;
+
+		if (controlState.id.endsWith('-pos')) {
+			setControlPos(controlState.value);
+			return;
+		}
+
+		if (controlState.id.endsWith('-control_size')) {
+			setControlSize(controlState.value);
+			return;
+		}
+
+		if (controlState.id.endsWith('-transform')) {
+			setControlTransform(controlState.value);
+		}
+	};
 
 	/* Handle Key Shortcuts */
 	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'n') {
 			event.preventDefault();
-			setShowWizard(true);
+			navigate('/new');
 		} else if (event.ctrlKey && event.key === 'p') {
 			event.preventDefault();
 			setShowPreview(true);
 		} else if (event.ctrlKey && event.key === 's') {
 			event.preventDefault();
-			handleSaveProject();
+			void handleSaveProject();
 		} else if (event.key === 'Escape') {
 			event.preventDefault();
-
-			if (workspaces.length > 0) {
-				setShowWizard(false);
-			}
 
 			setShowAbout(false);
 			setShowPreview(false);
@@ -118,59 +173,43 @@ export const MenuBar: React.FC = () => {
 		};
 	}, [workspaces]);
 
-	const exportImage = (type: export_format) => {
+	const exportImage = async (type: export_format) => {
+		setIsExporting(true);
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		ExportImage(
-			currentWorkspace.workspaceName,
+			currentWorkspace?.workspaceName ?? 'workspace',
 			document.getElementById('workspace'),
 			type,
 		);
+		setTimeout(() => setIsExporting(false), 500);
 	};
 
 	const getElementsByType = (type: string) => {
 		return (
-			currentWorkspace.controls.filter((item) => item.type === type).length + 1
+			currentWorkspace?.controls?.filter((item) => item.type === type).length ??
+			0 + 1
 		);
 	};
 
-	const duplicate = () => {
-		/* Copy Control Properties */
-		const newControlID =
-			controlID.split('-')[0] + '-' + getRandomNumber().toString();
+	const duplicate = (): void => {
+		if (currentControlID === '') return;
 
-		currentControlProperties.forEach((item) => {
-			const id = item.id.split('-');
-			const prop = id[id.length - 1];
-
-			addInitialProperty({
-				id: newControlID + '-' + prop,
-				value: item.value,
-			});
-			addControlProperty({
-				id: newControlID + '-' + prop,
-				value: item.value,
-			});
-		});
-
-		/* Add Control To Workspace */
-		addControl({
-			type:
-				currentWorkspace.controls.find((item) => item.id === controlID)?.type ??
-				newControlID.split('-')[0],
-			id: newControlID,
-			isSelectable: true,
-			isDeleted: false,
-			name: `${newControlID.split('-')[0]} ${getElementsByType(
-				newControlID.split('-')[0],
-			)}`,
-			isVisible: true,
-		});
+		duplicateControl(
+			currentControlID,
+			currentWorkspace,
+			currentWorkspace?.id || '',
+		);
 	};
 
 	const handleShare = async () => {
 		const element = document.getElementById('workspace');
-		if (element) {
+		console.log('share');
+		if (element != null) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const newFile = await toBlob(element);
-			if (newFile) {
+			setIsExporting(false);
+			if (newFile != null) {
 				const data = {
 					files: [
 						new File([newFile], 'image.png', {
@@ -190,52 +229,79 @@ export const MenuBar: React.FC = () => {
 		}
 	};
 
-	const handleLoadProject = (event: any) => {
-		event.preventDefault();
+	const handleLoadProject = () => {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = '.kproject';
+		input.addEventListener('change', (ev: any) => {
+			const target = ev.target as HTMLInputElement;
+			if (target.files && target.files.length > 0) {
+				if ((target.files[0].name as string).endsWith('.kproject')) {
+					const reader = new FileReader();
+					reader.addEventListener('load', () => {
+						try {
+							const text = CryptoJS.AES.decrypt(
+								reader.result as string,
+								PROJECT_KEY,
+							).toString(CryptoJS.enc.Utf8);
+							const project = JSON.parse(text) as Project;
 
-		if (event.target.files && event.target.files.length > 0) {
-			if ((event.target.files[0].name as string).endsWith('.kproject')) {
-				const reader = new FileReader();
-				reader.addEventListener('load', () => {
-					try {
-						let text = CryptoJS.AES.decrypt(
-							reader.result as string,
-							PROJECT_KEY,
-						).toString(CryptoJS.enc.Utf8);
-						const project = JSON.parse(text) as Project;
+							if (project.properties !== null && project.workspace !== null) {
+								const loadedProject = loadProject(project);
 
-						if (project.properties && project.workspace) {
-							loadProject(project);
-						} else {
-							alert('Please provide a valid Karbonized Project');
+								useWorkspaceStore.setState((state) => ({
+									...state,
+									workspaces: [...state.workspaces, loadedProject.newWorkspace],
+									currentWorkspaceID: loadedProject.workspaceId,
+									currentWorkspace: loadedProject.newWorkspace,
+								}));
+
+								useControlsStore.setState((state) => ({
+									...state,
+									ControlProperties: mergeHistoryById(
+										state.ControlProperties,
+										loadedProject.initialProperties,
+									),
+									currentControlID: '',
+								}));
+							} else {
+								alert('Please provide a valid Karbonized Project');
+							}
+						} catch (err) {
+							alert('Invalid Project File');
 						}
-					} catch (err) {
-						alert('Invalid Project File');
-					}
-				});
-				reader.readAsText(event.target?.files[0]);
-			} else {
-				alert('Only Karbonized Projects are allowed');
+					});
+					reader.readAsText(target.files[0]);
+				} else {
+					alert('Only Karbonized Projects are allowed');
+				}
 			}
-		}
+		});
+		input.click();
 	};
 
 	const handleSaveProject = async () => {
 		const element = document.getElementById('workspace');
 
-		if (element) {
+		if (element != null) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const data = await toPng(element);
+			setIsExporting(false);
 
 			const project = { ...saveProject, thumb: data };
 
-			var blob = new Blob(
+			const blob = new Blob(
 				[CryptoJS.AES.encrypt(JSON.stringify(project), PROJECT_KEY).toString()],
 				{
 					type: 'text/plain;charset=utf-8',
 				},
 			);
 
-			FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.kproject');
+			FileSaver.saveAs(
+				blob,
+				currentWorkspace?.workspaceName ?? 'workspace' + '.kproject',
+			);
 		}
 	};
 
@@ -243,22 +309,34 @@ export const MenuBar: React.FC = () => {
 		const element = document.getElementById('workspace');
 
 		if (element) {
+			setIsExporting(true);
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			const data = await toPng(element);
+			setIsExporting(false);
 
-			const project = { ...saveProject, thumb: data };
+			const project = saveProject({
+				currentWorkspace,
+				currentWorkspaceID,
+				controlProperties: ControlProperties,
+			});
 
-			project.workspace.id = getRandomNumber().toString();
+			if (project.workspace) {
+				project.workspace.id = getRandomNumber().toString();
+			}
 
-			var blob = new Blob([JSON.stringify(project)], {
+			const blob = new Blob([JSON.stringify(project)], {
 				type: 'text/plain;charset=utf-8',
 			});
 
-			FileSaver.saveAs(blob, currentWorkspace.workspaceName + '.json');
+			FileSaver.saveAs(
+				blob,
+				currentWorkspace?.workspaceName ?? 'workspace' + '.json',
+			);
 		}
 	};
 
 	const handleNewWorkspace = () => {
-		addWorkspace('');
+		navigate('/new');
 	};
 
 	const handleCleanWorkspace = () => {
@@ -266,7 +344,7 @@ export const MenuBar: React.FC = () => {
 	};
 
 	const centerView = () => {
-		const width = parseFloat(currentWorkspace.workspaceWidth);
+		const width = parseFloat(currentWorkspace?.workspaceWidth ?? '1280');
 
 		if (isHorizontal) {
 			if (width < 1280) {
@@ -295,238 +373,249 @@ export const MenuBar: React.FC = () => {
 
 	return (
 		<>
-			<div className='z-10 mx-2 my-auto flex h-fit gap-0.5 text-base-content'>
-				{!showWizard && (
-					<>
-						{/* File */}
-						<DropMenu
-							label='File'
-							id='filebar'
-							menu={
-								<>
-									<MenuItem
-										click={() => setShowWizard(true)}
-										icon={<IconPlus size={16}></IconPlus>}
-										label='New Project'
-										shortcut='Ctrl+N'
-									></MenuItem>
+			<div className='z-10 flex items-center gap-1 overflow-hidden text-foreground'>
+				<Menubar>
+					{/* File */}
+					<MenubarMenu>
+						<MenubarTrigger>File</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem onClick={() => navigate('/new')}>
+								New Project <MenubarShortcut>⌘N</MenubarShortcut>
+							</MenubarItem>
 
-									<label
-										htmlFor='file-input'
-										className='flex flex-auto cursor-pointer select-none rounded p-2 text-xs hover:cursor-pointer hover:bg-base-300 active:bg-base-300'
+							<MenubarItem
+								onClick={() => {
+									handleLoadProject();
+								}}
+							>
+								Load Project
+							</MenubarItem>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={async () => {
+									if (isEditor) await handleSaveProject();
+								}}
+							>
+								Save Project
+								<MenubarShortcut>⌘S</MenubarShortcut>
+							</MenubarItem>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={async () => {
+									if (isEditor) await handleSaveAsJson();
+								}}
+							>
+								Save Project as Template
+							</MenubarItem>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={async () => {
+									if (isEditor) setShowPreview(true);
+								}}
+							>
+								Render
+								<MenubarShortcut>⌘P</MenubarShortcut>
+							</MenubarItem>
+
+							<MenubarSub>
+								<MenubarSubTrigger disabled={!isEditor}>
+									Export as
+								</MenubarSubTrigger>
+								<MenubarSubContent>
+									<MenubarItem
+										disabled={!isEditor}
+										onClick={() => {
+											if (isEditor) exportImage(export_format.png);
+										}}
 									>
-										<IconFileUpload size={16}></IconFileUpload>
-										<p className='my-auto ml-2 hover:cursor-pointer'>
-											Load Project
-										</p>
-									</label>
+										Export as PNG
+									</MenubarItem>
 
-									<input
-										className='hidden'
-										accept='.kproject'
-										onInput={handleLoadProject}
-										type='file'
-										id='file-input'
-									></input>
-
-									<MenuItem
-										click={() => handleSaveProject()}
-										icon={<IconFileDownload size={16}></IconFileDownload>}
-										label='Save Project'
-										shortcut='Ctrl+S'
-									></MenuItem>
-
-									<MenuSeparator></MenuSeparator>
-
-									<MenuItem
-										click={() => setShowPreview(true)}
-										icon={<IconFlask size={16}></IconFlask>}
-										label='Render'
-										shortcut='Ctrl+P'
-									></MenuItem>
-
-									<MenuItem
-										click={() => handleSaveAsJson()}
-										icon={<IconJson size={16}></IconJson>}
-										label='Save as Template'
-									></MenuItem>
-
-									<MenuItem
-										click={() => exportImage(export_format.png)}
-										icon={<IconFileTypePng size={16}></IconFileTypePng>}
-										label='Export as PNG'
-									></MenuItem>
-
-									<MenuItem
-										click={() => exportImage(export_format.jpeg)}
-										icon={<IconFileTypeJpg size={16}></IconFileTypeJpg>}
-										label='Export as JPEG'
-									></MenuItem>
-
-									<MenuItem
-										click={() => exportImage(export_format.svg)}
-										icon={<IconFileTypeSvg size={16}></IconFileTypeSvg>}
-										label='Export as SVG'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-
-						{/* Edit */}
-						<DropMenu
-							label='Edit'
-							menu={
-								<>
-									<MenuItem
-										click={() => undo()}
-										icon={
-											<IconArrowBack
-												size={16}
-												className='-scale-y-[1]'
-											></IconArrowBack>
-										}
-										label='Undo'
-										shortcut='Ctrl+Z'
-									></MenuItem>
-
-									<MenuItem
-										click={() => redo()}
-										icon={
-											<IconArrowForward
-												size={16}
-												className='-scale-y-[1]'
-											></IconArrowForward>
-										}
-										label='Redo'
-										shortcut='Ctrl+Y'
-									></MenuItem>
-
-									<MenuItem
-										click={() => duplicate()}
-										icon={
-											<IconCopy size={16} className='-scale-y-[1]'></IconCopy>
-										}
-										label='Duplicate'
-										shortcut='Ctrl+D'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-
-						{/* Workspace */}
-						<DropMenu
-							label='Workspace'
-							menu={
-								<>
-									<MenuItem
-										click={handleNewWorkspace}
-										icon={<IconSquareRotated size={16}></IconSquareRotated>}
-										label='New Workspace'
-										shortcut='Ctrl+M'
-									></MenuItem>
-
-									<MenuItem
-										click={handleCleanWorkspace}
-										icon={<IconTrash size={16}></IconTrash>}
-										label='Clean Workspace'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-
-						{/* View */}
-						<DropMenu
-							label='View'
-							menu={
-								<>
-									<MenuItem
-										click={() =>
-											viewerRef.current?.setZoom(
-												viewerRef.current?.getZoom() + 0.2,
-											)
-										}
-										icon={<IconZoomIn size={16}></IconZoomIn>}
-										label='Zoom In'
-									></MenuItem>
-									<MenuItem
-										click={() =>
-											viewerRef.current?.setZoom(
-												viewerRef.current?.getZoom() - 0.2,
-											)
-										}
-										icon={<IconZoomOut size={16}></IconZoomOut>}
-										label='Zoom Out'
-									></MenuItem>
-
-									<MenuItem
-										click={() => viewerRef.current?.setZoom(0.7)}
-										icon={<IconZoomReset size={16}></IconZoomReset>}
-										label='Zoom Reset'
-									></MenuItem>
-
-									<MenuSeparator></MenuSeparator>
-
-									<MenuItem
-										click={() => centerView()}
-										icon={<IconFocusCentered size={16}></IconFocusCentered>}
-										label='Center View'
-										shortcut='Ctrl+Space'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-						{/* About */}
-
-						<DropMenu
-							label='About'
-							menu={
-								<>
-									<MenuItem
-										click={() => {
-											setShowDonations(true);
+									<MenubarItem
+										disabled={!isEditor}
+										onClick={() => {
+											if (isEditor) exportImage(export_format.jpeg);
 										}}
-										icon={<IconPigMoney size={16}></IconPigMoney>}
-										label='Donations'
-									></MenuItem>
+									>
+										Export as JPEG
+									</MenubarItem>
 
-									<MenuItem
-										click={() => {
-											setShowChangelog(true);
+									<MenubarItem
+										disabled={!isEditor}
+										onClick={() => {
+											if (isEditor) exportImage(export_format.svg);
 										}}
-										icon={<IconClock size={16}></IconClock>}
-										label='Changelog'
-									></MenuItem>
+									>
+										Export as SVG
+									</MenubarItem>
+								</MenubarSubContent>
+							</MenubarSub>
 
-									<MenuItem
-										click={() => {
-											setShowAbout(true);
-											about.current?.showModal();
-										}}
-										icon={<IconInfoHexagon size={16}></IconInfoHexagon>}
-										label='About'
-									></MenuItem>
-								</>
-							}
-						></DropMenu>
-					</>
+							<MenubarSeparator />
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={async () => {
+									if (isEditor) await handleShare();
+								}}
+							>
+								Share
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* Edit */}
+					<MenubarMenu>
+						<MenubarTrigger disabled={!isEditor}>Edit</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) applyHistoryResult(undo());
+								}}
+							>
+								Undo
+								<MenubarShortcut>⌘Z</MenubarShortcut>
+							</MenubarItem>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) applyHistoryResult(redo());
+								}}
+							>
+								Redo
+								<MenubarShortcut>⌘Y</MenubarShortcut>
+							</MenubarItem>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) duplicate();
+								}}
+							>
+								Duplicate
+								<MenubarShortcut>⌘D</MenubarShortcut>
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* Workspace */}
+					<MenubarMenu>
+						<MenubarTrigger disabled={!isEditor}>Workspace</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) handleNewWorkspace();
+								}}
+							>
+								New Workspace
+								<MenubarShortcut>⌘M</MenubarShortcut>
+							</MenubarItem>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) handleCleanWorkspace();
+								}}
+							>
+								Clean Workspace
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* View */}
+					<MenubarMenu>
+						<MenubarTrigger disabled={!isEditor}>View</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor)
+										viewerRef.current?.setZoom(
+											viewerRef.current?.getZoom() + 0.2,
+										);
+								}}
+							>
+								Zoom In
+							</MenubarItem>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor)
+										viewerRef.current?.setZoom(
+											viewerRef.current?.getZoom() - 0.2,
+										);
+								}}
+							>
+								Zoom Out
+							</MenubarItem>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) viewerRef.current?.setZoom(0.7);
+								}}
+							>
+								Zoom Reset
+							</MenubarItem>
+
+							<MenubarSeparator></MenubarSeparator>
+
+							<MenubarItem
+								disabled={!isEditor}
+								onClick={() => {
+									if (isEditor) centerView();
+								}}
+							>
+								Center View
+								<MenubarShortcut>⌘Space</MenubarShortcut>
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+
+					{/* About */}
+					<MenubarMenu>
+						<MenubarTrigger>About</MenubarTrigger>
+						<MenubarContent>
+							<MenubarItem onClick={() => setShowDonations(true)}>
+								Donations
+							</MenubarItem>
+
+							<MenubarItem onClick={() => setShowChangelog(true)}>
+								Changelog
+							</MenubarItem>
+
+							<MenubarItem onClick={() => setShowAbout(true)}>
+								About
+							</MenubarItem>
+						</MenubarContent>
+					</MenubarMenu>
+				</Menubar>
+
+				{isEditor && <TabBar></TabBar>}
+
+				{isEditor && (
+					<Button
+						className='h-8 w-8 px-2'
+						onClick={handleNewWorkspace}
+						size={'icon'}
+						variant={'ghost'}
+					>
+						<Plus size={16}></Plus>
+					</Button>
 				)}
 			</div>
-
-			{showWizard && (
-				<Suspense>
-					<ProjectWizard
-						onClose={() => setShowWizard(false)}
-						open={showWizard}
-					></ProjectWizard>
-				</Suspense>
-			)}
 
 			{showAbout && (
 				<Suspense>
 					<AboutModal
-						ref={about}
-						open
-						onClose={() => setShowAbout(false)}
+						open={showAbout}
+						onClose={() => {
+							setShowAbout(false);
+						}}
 					></AboutModal>
 				</Suspense>
 			)}
@@ -534,7 +623,9 @@ export const MenuBar: React.FC = () => {
 			{showPreview && (
 				<Suspense>
 					<PreviewModal
-						onClose={() => setShowPreview(false)}
+						onClose={() => {
+							setShowPreview(false);
+						}}
 						open={showPreview}
 					></PreviewModal>
 				</Suspense>
@@ -543,7 +634,9 @@ export const MenuBar: React.FC = () => {
 			{showChangelog && (
 				<Suspense>
 					<ChangelogModal
-						onClose={() => setShowChangelog(false)}
+						onClose={() => {
+							setShowChangelog(false);
+						}}
 						open={showChangelog}
 					></ChangelogModal>
 				</Suspense>
@@ -552,7 +645,9 @@ export const MenuBar: React.FC = () => {
 			{showDonations && (
 				<Suspense>
 					<DonationsModal
-						onClose={() => setShowDonations(false)}
+						onClose={() => {
+							setShowDonations(false);
+						}}
 						open={showDonations}
 					></DonationsModal>
 				</Suspense>

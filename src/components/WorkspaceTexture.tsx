@@ -1,23 +1,41 @@
 import React, { Suspense } from 'react';
-import { useStoreState } from '../stores/Hooks';
+import { useWorkspaceStore } from '../stores';
 
 /* Svg Textures */
-const Coil = React.lazy(() => import('./Misc/SvgBackgrounds/Coil'));
-const Circular = React.lazy(() => import('./Misc/SvgBackgrounds/Circular'));
-const Horizon = React.lazy(() => import('./Misc/SvgBackgrounds/Horizon'));
-const Grayrate = React.lazy(() => import('./Misc/SvgBackgrounds/Grayrate'));
-const Hirl = React.lazy(() => import('./Misc/SvgBackgrounds/Hirl'));
-const Neon = React.lazy(() => import('./Misc/SvgBackgrounds/Neon'));
-const Undulate = React.lazy(() => import('./Misc/SvgBackgrounds/Undulate'));
-const Chaos = React.lazy(() => import('./Misc/SvgBackgrounds/Chaos'));
-const Oscilate = React.lazy(() => import('./Misc/SvgBackgrounds/Oscilate'));
-const Vortex = React.lazy(() => import('./Misc/SvgBackgrounds/Vortex'));
-const Flux = React.lazy(() => import('./Misc/SvgBackgrounds/Flux'));
+const Coil = React.lazy(async () => await import('./Misc/SvgBackgrounds/Coil'));
+const Circular = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Circular'),
+);
+const Horizon = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Horizon'),
+);
+const Grayrate = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Grayrate'),
+);
+const Hirl = React.lazy(async () => await import('./Misc/SvgBackgrounds/Hirl'));
+const Neon = React.lazy(async () => await import('./Misc/SvgBackgrounds/Neon'));
+const Undulate = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Undulate'),
+);
+const Chaos = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Chaos'),
+);
+const Oscilate = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Oscilate'),
+);
+const Vortex = React.lazy(
+	async () => await import('./Misc/SvgBackgrounds/Vortex'),
+);
+const Flux = React.lazy(async () => await import('./Misc/SvgBackgrounds/Flux'));
 
 export const WorkspaceTexture: React.FC<{
 	texture: string;
 }> = ({ texture }) => {
-	const currentWorkspace = useStoreState((state) => state.currentWorkspace);
+	const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+
+	if (currentWorkspace == null) {
+		return <></>;
+	}
 
 	switch (texture) {
 		case 'flux':
