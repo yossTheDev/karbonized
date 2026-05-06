@@ -13,10 +13,11 @@ import { Slider } from '../ui/slider';
 import { Switch } from '../ui/switch';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
-import { Info, Play, RefreshCw } from 'lucide-react';
+import { Info, Play, RefreshCw, Edit } from 'lucide-react';
 import { ArrayEditor } from '../CustomControls/ArrayEditor';
 import { ObjectEditor } from '../CustomControls/ObjectEditor';
 import { ShadowEditor } from '../CustomControls/ShadowEditor';
+import { useNavigate } from 'react-router-dom';
 import {
 	CSSVariable,
 	CustomAction,
@@ -44,6 +45,7 @@ interface Props {
 }
 
 export const HTMLBlock: React.FC<Props> = ({ id }) => {
+	const navigate = useNavigate();
 	const shadowHostRef = useRef<HTMLDivElement>(null);
 	const shadowRootRef = useRef<ShadowRoot | null>(null);
 	const actionHandlersRef = useRef<Map<string, () => void>>(new Map());
@@ -337,6 +339,12 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 	useEffect(() => {
 		refreshShadowDOM();
 	}, [allowScriptExecution]);
+
+	// Open advanced editor
+	const openAdvancedEditor = () => {
+		// Navigate to the block editor with the block ID
+		navigate('/block-editor', { state: { blockId: id } });
+	};
 
 	// Execute custom action
 	const executeCustomAction = (action: CustomAction) => {
@@ -734,6 +742,15 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 								<div className='flex items-center gap-2 text-foreground'>
 									<IconCode size={18} className='text-muted-foreground' />
 									<Label className='text-sm font-semibold'>Content</Label>
+									<Button
+										variant='ghost'
+										size='sm'
+										onClick={openAdvancedEditor}
+										className='ml-auto h-6 px-2 text-xs'
+									>
+										<Edit className='h-3 w-3 mr-1' />
+										Advanced Editor
+									</Button>
 								</div>
 							}
 						>

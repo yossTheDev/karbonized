@@ -16,6 +16,7 @@ import { KarbonizedLogoFlat } from './components/Icons/Icons';
 
 const Editor = React.lazy(async () => await import('./pages/Editor'));
 const NewProject = React.lazy(async () => await import('./pages/NewProject'));
+const BlockEditor = React.lazy(async () => await import('./pages/BlockEditor'));
 const TitleBar = React.lazy(
 	async () => await import('./components/Base/TitleBar'),
 );
@@ -149,6 +150,20 @@ const App: React.FC = () => {
 												}
 											>
 												<Editor />
+											</Suspense>
+										}
+									/>
+									<Route
+										path='/block-editor'
+										element={
+											<Suspense
+												fallback={
+													<div className='flex items-center justify-center'>
+														<Spinner className='h-8 w-8' />
+													</div>
+												}
+											>
+												<BlockEditor />
 											</Suspense>
 										}
 									/>
