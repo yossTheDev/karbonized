@@ -466,7 +466,7 @@ const BlockEditor: React.FC = () => {
 				)}
 			</main>
 
-			<footer className='shrink-0 h-12 z-30'>
+			<footer className='shrink-0 h-20 z-30'>
 				<StatusBar />
 			</footer>
 		</div>
