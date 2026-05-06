@@ -85,7 +85,6 @@ export function useControlState<T>(
 	useEffect(() => {
 		const storedProperty = ControlProperties.find((item) => item.id === id);
 		if (
-			currentControlID !== controlRef &&
 			storedProperty !== undefined &&
 			serialize(storedProperty.value) !== serialize(state)
 		) {

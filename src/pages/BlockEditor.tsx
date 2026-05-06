@@ -34,7 +34,6 @@ import {
 } from '@/lib/blocks-api/default-content';
 import StatusBar from '@/components/Base/StatusBar';
 
-// Global Monaco Configuration to prevent theme loss on tab change
 loader.init().then((monaco) => {
 	const commonRules = [
 		{ token: 'comment', foreground: '6e7681', fontStyle: 'italic' },
@@ -110,12 +109,14 @@ const BlockEditor: React.FC = () => {
 			const findProp = (suffix: string) =>
 				ControlProperties.find((p) => p.id === `${blockId}-${suffix}`)?.value;
 
-			setEditorState({
+			const newState = {
 				htmlContent: findProp('html') || defaultHTMLContent,
 				cssContent: findProp('css') || defaultCSSContent,
 				jsContent: findProp('js') || defaultJSContent,
 				allowScriptExecution: findProp('allow-scripts') || false,
-			});
+			};
+
+			setEditorState(newState);
 			setTimeout(() => setIsDirty(false), 100);
 		}
 	}, [location.state?.blockId, ControlProperties]);
@@ -273,7 +274,18 @@ const BlockEditor: React.FC = () => {
 			});
 
 			setIsDirty(false);
-			navigate('/editor');
+
+			setTimeout(() => {
+				import('@/stores').then((m) => {
+					const { setControlState } = m.useHistoryStore.getState();
+
+					props.forEach((prop) => {
+						setControlState({ id: `${blockId}-${prop.id}`, value: prop.value });
+					});
+
+					navigate('/editor');
+				});
+			}, 100);
 		}
 	};
 
