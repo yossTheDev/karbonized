@@ -21,11 +21,17 @@ import {
 } from 'lucide-react';
 import { useControlsStore, useWorkspaceStore } from '@/stores';
 import {
+	scopeCSS,
+	createSafeDOM,
+	parseJavaScript,
+	generateActionRegistrations,
+	generateCompiledSource,
+} from '@/lib/blocks-api';
+import {
 	defaultHTMLContent,
 	defaultCSSContent,
 	defaultJSContent,
 } from '@/lib/blocks-api/default-content';
-import { scopeCSS } from '@/lib/blocks-api';
 import StatusBar from '@/components/Base/StatusBar';
 
 // Global Monaco Configuration to prevent theme loss on tab change
@@ -73,7 +79,8 @@ interface BlockEditorState {
 const BlockEditor: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const previewRef = useRef<HTMLIFrameElement>(null);
+	const shadowHostRef = useRef<HTMLDivElement>(null);
+	const shadowRootRef = useRef<ShadowRoot | null>(null);
 	const [theme] = useTheme();
 
 	const [editorState, setEditorState] = useState<BlockEditorState>({
@@ -113,37 +120,134 @@ const BlockEditor: React.FC = () => {
 		}
 	}, [location.state?.blockId, ControlProperties]);
 
-	const updatePreview = () => {
-		if (!previewRef.current) return;
-		const iframeDoc =
-			previewRef.current.contentDocument ||
-			previewRef.current.contentWindow?.document;
-		if (!iframeDoc) return;
+	const createScopedDocument = (
+		shadowRoot: ShadowRoot,
+		host: HTMLDivElement,
+	): Document & ShadowRoot => {
+		const globalDocument = window.document;
 
+		return new Proxy(globalDocument, {
+			get(target, prop) {
+				switch (prop) {
+					case 'querySelector':
+						return shadowRoot.querySelector.bind(shadowRoot);
+					case 'querySelectorAll':
+						return shadowRoot.querySelectorAll.bind(shadowRoot);
+					case 'getElementById':
+						return shadowRoot.getElementById?.bind(shadowRoot);
+					case 'body':
+						return shadowRoot;
+					case 'head':
+						return shadowRoot;
+					case 'documentElement':
+						return host;
+					case 'activeElement':
+						return shadowRoot.activeElement;
+					case 'addEventListener':
+						return shadowRoot.addEventListener.bind(shadowRoot);
+					case 'removeEventListener':
+						return shadowRoot.removeEventListener.bind(shadowRoot);
+					case 'dispatchEvent':
+						return shadowRoot.dispatchEvent.bind(shadowRoot);
+					default:
+						return Reflect.get(target, prop, target);
+				}
+			},
+		}) as Document & ShadowRoot;
+	};
+
+	const updatePreview = () => {
+		if (!shadowHostRef.current) return;
+
+		// Create or get shadow root
+		if (!shadowRootRef.current) {
+			shadowRootRef.current = shadowHostRef.current.attachShadow({
+				mode: 'open',
+			});
+		}
+
+		const shadowRoot = shadowRootRef.current;
 		const scopedCSS = scopeCSS(editorState.cssContent, ':host');
 		const processedCSS = `
-            :host { 
-                display: block; 
-                all: initial; 
-                font-family: 'Inter', system-ui, sans-serif;
-                color: ${theme === 'dark' ? '#fff' : '#000'};
-            }
-            ${scopedCSS}
-        `;
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+		:host {
+			display: block;
+			font-family:'Noto Sans', sans-serif;
+			font-weight: 400;
+			all: initial;
+			color: ${theme === 'dark' ? '#fff' : '#000'};
+		}
+		:host * { box-sizing: border-box; }
+		${scopedCSS}
+		`;
 
-		const html = `
-            <html>
-                <head><style>${processedCSS}</style></head>
-                <body style="margin:0; padding:1rem; overflow: auto;">
-                    ${editorState.htmlContent}
-                    ${editorState.allowScriptExecution ? `<script>${editorState.jsContent}<\/script>` : ''}
-                </body>
-            </html>
-        `;
+		// Clear existing content
+		shadowRoot.innerHTML = '';
 
-		iframeDoc.open();
-		iframeDoc.write(html);
-		iframeDoc.close();
+		// Add styles
+		const styleElement = document.createElement('style');
+		styleElement.textContent = processedCSS;
+		shadowRoot.appendChild(styleElement);
+
+		// Add HTML content
+		const container = document.createElement('div');
+		container.innerHTML = editorState.htmlContent;
+		shadowRoot.appendChild(container);
+
+		// Execute JavaScript only if allowed
+		if (editorState.allowScriptExecution && editorState.jsContent.trim()) {
+			try {
+				const host = shadowHostRef.current;
+				const scopedDocument = createScopedDocument(shadowRoot, host);
+
+				const htmlBlockAPI = {
+					refresh: updatePreview,
+					log: (message: unknown) => {
+						console.log('Block Editor:', message);
+					},
+					warn: (message: unknown) => {
+						console.warn('Block Editor:', message);
+					},
+					error: (message: unknown) => {
+						console.error('Block Editor:', message);
+					},
+					host,
+					root: container,
+					shadowRoot,
+					document: scopedDocument,
+					globalDocument: window.document,
+					registerAction: (actionId: string, handler: () => void) => {
+						console.log(`Action registered: ${actionId}`);
+					},
+				};
+
+				(
+					window as Window & {
+						htmlBlockAPI?: typeof htmlBlockAPI;
+					}
+				).htmlBlockAPI = htmlBlockAPI;
+
+				const parsedJavaScript = parseJavaScript(editorState.jsContent);
+				const actionRegistrations = generateActionRegistrations(
+					parsedJavaScript.actions,
+				);
+				const compiledSource = generateCompiledSource(
+					parsedJavaScript,
+					actionRegistrations,
+				);
+
+				const executeUserCode = new Function(
+					'window',
+					'console',
+					'alert',
+					compiledSource,
+				);
+
+				executeUserCode(window, console, window.alert.bind(window));
+			} catch (error) {
+				console.error('Error executing Block Editor script:', error);
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -190,7 +294,7 @@ const BlockEditor: React.FC = () => {
 
 	return (
 		<div className='flex flex-col h-screen w-screen bg-background overflow-hidden text-foreground selection:bg-primary/30'>
-			{/* Elegant Header */}
+			{/* Header */}
 			<header className='flex items-center justify-between px-5 h-14 border-b bg-card/30 backdrop-blur-xl z-20 shrink-0'>
 				<div className='flex items-center gap-4'>
 					<Button
@@ -236,12 +340,12 @@ const BlockEditor: React.FC = () => {
 						className='h-8 text-[11px] font-bold bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/20'
 					>
 						<Save className='h-3.5 w-3.5 mr-2' />
-						DEPLOY CHANGES
+						SAVE CHANGES
 					</Button>
 				</div>
 			</header>
 
-			<main className='flex flex-1 overflow-hidden min-h-0 relative'>
+			<main className='flex h-full overflow-hidden min-h-0 relative'>
 				{/* Editor Container */}
 				<div
 					className={`${showPreview ? 'w-3/5' : 'w-full'} flex flex-col transition-all duration-300 border-r border-border/50 bg-zinc-950`}
@@ -353,19 +457,16 @@ const BlockEditor: React.FC = () => {
 							</div>
 						</div>
 						<div className='flex-1 bg-white dark:bg-zinc-900 m-5 rounded-xl shadow-2xl shadow-black/20 overflow-hidden border border-border/50 relative group'>
-							<iframe
-								ref={previewRef}
+							<div
+								ref={shadowHostRef}
 								className='w-full h-full bg-transparent'
-								title='Preview'
-								sandbox='allow-scripts allow-same-origin'
 							/>
 						</div>
 					</div>
 				)}
 			</main>
 
-			{/* Footer / Status Bar - No Suspense needed as it is a local component */}
-			<footer className='shrink-0 z-30'>
+			<footer className='shrink-0 h-12 z-30'>
 				<StatusBar />
 			</footer>
 		</div>
