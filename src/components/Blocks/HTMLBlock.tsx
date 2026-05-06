@@ -222,6 +222,9 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 
 			// Add HTML content
 			const container = document.createElement('div');
+			container.style.display = 'flex';
+			container.style.width = '100%';
+			container.style.height = '100%';
 			container.innerHTML = htmlContent;
 			shadowRoot.appendChild(container);
 

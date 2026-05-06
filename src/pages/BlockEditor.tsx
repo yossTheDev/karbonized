@@ -192,6 +192,9 @@ const BlockEditor: React.FC = () => {
 
 		// Add HTML content
 		const container = document.createElement('div');
+		container.style.display = 'flex';
+		container.style.width = '100%';
+		container.style.height = '100%';
 		container.innerHTML = editorState.htmlContent;
 		shadowRoot.appendChild(container);
 
