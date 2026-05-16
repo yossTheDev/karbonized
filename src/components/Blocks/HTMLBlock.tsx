@@ -17,6 +17,7 @@ import { Info, Play, RefreshCw, Edit } from 'lucide-react';
 import { ArrayEditor } from '../CustomControls/ArrayEditor';
 import { ObjectEditor } from '../CustomControls/ObjectEditor';
 import { ShadowEditor } from '../CustomControls/ShadowEditor';
+import { FileInput, ImageInput } from '../CustomControls/FileInput';
 import { useNavigate } from 'react-router-dom';
 import {
 	CSSVariable,
@@ -33,6 +34,8 @@ import {
 	scopeCSS,
 	createSafeDOM,
 	SafeDOMAPI,
+	fileHandler,
+	fileUtils,
 } from '../../lib/blocks-api';
 import {
 	defaultHTMLContent,
@@ -283,6 +286,17 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 							);
 						},
 						safeDOM,
+						// File handling utilities
+						uploadFile: fileHandler.uploadFile,
+						removeFile: fileHandler.removeFile,
+						getFile: fileHandler.getFile,
+						getAllFiles: fileHandler.getAllFiles,
+						clearFiles: fileHandler.clearFiles,
+						validateFile: fileHandler.validateFile,
+						convertToDataUrl: fileHandler.convertToDataUrl,
+						optimizeImage: fileHandler.optimizeImage,
+						// File utilities
+						fileUtils,
 					};
 
 					(
@@ -610,6 +624,39 @@ export const HTMLBlock: React.FC<Props> = ({ id }) => {
 							}
 							label={variable.name}
 							placeholder='Add items...'
+						/>
+					</div>
+				);
+
+			case 'image':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<ImageInput
+							value={variable.value as string}
+							onChange={(newValue) =>
+								handleUpdateJSVariable(variable.name, newValue)
+							}
+							label={variable.name}
+							multiple={variable.multiple}
+							maxSize={variable.maxSize}
+							maxFiles={variable.multiple ? 10 : 1}
+						/>
+					</div>
+				);
+
+			case 'file':
+				return (
+					<div key={variable.name} className='space-y-2'>
+						<FileInput
+							value={variable.value as string}
+							onChange={(newValue) =>
+								handleUpdateJSVariable(variable.name, newValue)
+							}
+							label={variable.name}
+							accept={variable.accept}
+							multiple={variable.multiple}
+							maxSize={variable.maxSize}
+							maxFiles={variable.multiple ? 5 : 1}
 						/>
 					</div>
 				);

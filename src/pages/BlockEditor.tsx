@@ -26,6 +26,8 @@ import {
 	parseJavaScript,
 	generateActionRegistrations,
 	generateCompiledSource,
+	fileHandler,
+	fileUtils,
 } from '@/lib/blocks-api';
 import {
 	defaultHTMLContent,
@@ -223,6 +225,17 @@ const BlockEditor: React.FC = () => {
 					registerAction: (actionId: string, handler: () => void) => {
 						console.log(`Action registered: ${actionId}`);
 					},
+					// File handling utilities
+					uploadFile: fileHandler.uploadFile,
+					removeFile: fileHandler.removeFile,
+					getFile: fileHandler.getFile,
+					getAllFiles: fileHandler.getAllFiles,
+					clearFiles: fileHandler.clearFiles,
+					validateFile: fileHandler.validateFile,
+					convertToDataUrl: fileHandler.convertToDataUrl,
+					optimizeImage: fileHandler.optimizeImage,
+					// File utilities
+					fileUtils,
 				};
 
 				(
