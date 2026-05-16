@@ -12,7 +12,7 @@ export interface JavaScriptAction {
 export interface JSVariable {
 	id: string;
 	name: string;
-	type: 'string' | 'number' | 'boolean' | 'color' | 'gradient' | 'url' | 'object' | 'array';
+	type: 'string' | 'number' | 'boolean' | 'color' | 'gradient' | 'url' | 'object' | 'array' | 'image' | 'file';
 	value: string | number | boolean | object;
 	defaultValue?: string | number | boolean | object;
 	description?: string;
@@ -20,6 +20,9 @@ export interface JSVariable {
 	max?: number;
 	step?: number;
 	options?: string[]; // for select-like variables
+	accept?: string[]; // for file types: e.g., ['image/*', '.pdf', '.txt']
+	multiple?: boolean; // for multiple file selection
+	maxSize?: number; // max file size in bytes
 }
 
 export interface ParsedJavaScript {
@@ -30,7 +33,7 @@ export interface ParsedJavaScript {
 }
 
 // Regex patterns for JS variable detection
-const jsVariableRegex = /\/\/\s*@var\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*(string|number|boolean|color|gradient|url|object|array)(?:\s*=\s*([^\n]+))?/g;
+const jsVariableRegex = /\/\/\s*@var\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*(string|number|boolean|color|gradient|url|object|array|image|file)(?:\s*=\s*([^\n]+))?/g;
 const jsFunctionRegex = /(?:const|let|var|function)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(?:function\s*)?\([^)]*\)\s*=>|function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
 
 export const parseJavaScript = (js: string): ParsedJavaScript => {
@@ -135,9 +138,30 @@ console.log('Registering action: ${action.label} (ID: ${action.id})');
 registerAction("${escapeJavaScriptString(action.id)}", () => {
 	console.log('Executing action: ${action.label}');
 ${action.code}
+${generateActionInvocation(action.code)}
 });`,
 		)
 		.join('\n');
+};
+
+const generateActionInvocation = (code: string): string => {
+	const trimmedCode = code.trim();
+
+	const functionDeclarationMatch = trimmedCode.match(
+		/^(?:async\s+)?function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/,
+	);
+	if (functionDeclarationMatch) {
+		return `\nreturn ${functionDeclarationMatch[1]}();`;
+	}
+
+	const assignedFunctionMatch = trimmedCode.match(
+		/^(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(?:async\s*)?(?:function\s*\(|\([^)]*\)\s*=>|[a-zA-Z_$][a-zA-Z0-9_$]*\s*=>)/,
+	);
+	if (assignedFunctionMatch) {
+		return `\nreturn ${assignedFunctionMatch[1]}();`;
+	}
+
+	return '';
 };
 
 // Helper function to get default value for a type
@@ -159,6 +183,10 @@ const getDefaultValueForType = (type: JSVariable['type']) => {
 			return {};
 		case 'array':
 			return [];
+		case 'image':
+			return '';
+		case 'file':
+			return '';
 		default:
 			return null;
 	}
@@ -235,6 +263,8 @@ const formatJSValue = (value: any, type: JSVariable['type']): string => {
 		case 'color':
 		case 'gradient':
 		case 'url':
+		case 'image':
+		case 'file':
 			return `"${value}"`;
 		case 'number':
 			return String(value);

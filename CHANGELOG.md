@@ -1,5 +1,17 @@
 # Changelog
 
+## v 2.0.0 - Beta 3
+
+### 🐛 Fixes
+
+- Fix HTML Block custom actions declared as local functions so `// @action:...` handlers now invoke the declared function when triggered from the Actions panel
+- Fix Blocks API file picker behavior in embedded runtimes by mounting the temporary file input before opening the native selector
+- Fix `uploadFile` validation flow to reject when `maxFiles` is exceeded or when no selected files pass validation
+
+### 📝 Documentation
+
+- Update `docs/html-block-api.md` with the real `@action` execution model, `Allow Script Execution` requirement, and file upload error-handling notes
+
 ## v 2.0.0 - Beta 2
 
 ### 🚀 Features
