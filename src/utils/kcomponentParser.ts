@@ -138,3 +138,26 @@ js: |
   }
 `;
 }
+
+export function stringifyKComponent(component: KComponent): string {
+	return yaml.dump(
+		{
+			manifest: {
+				name: component.manifest.name,
+				author: component.manifest.author,
+				description: component.manifest.description,
+				version: component.manifest.version,
+				thumbnail: component.manifest.thumbnail,
+				category: component.manifest.category,
+				tags: component.manifest.tags,
+			},
+			html: component.html,
+			css: component.css,
+			js: component.js,
+		},
+		{
+			lineWidth: -1,
+			noRefs: true,
+		},
+	);
+}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AppContext } from '../../AppContext';
 import './TitleBar.css';
-import { MenuBar } from './MenuBar';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
 import { KarbonizedLogoFlat } from '../Icons/Icons';
+import { ContextualMenuBar } from './ContextualMenuBar';
 
 export const TitleBar: React.FC = () => {
 	const [maximized, setMaximized] = useState(false);
@@ -34,7 +34,7 @@ export const TitleBar: React.FC = () => {
 			<div className='not-draggable flex max-w-[80% py-0 items-center overflow-x-hidden'>
 				<KarbonizedLogoFlat className='size-4 min-w-4 ml-4 mr-2' />
 
-				<MenuBar></MenuBar>
+				<ContextualMenuBar></ContextualMenuBar>
 			</div>
 
 			{/* Actions */}
